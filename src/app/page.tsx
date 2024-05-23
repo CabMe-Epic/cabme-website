@@ -306,9 +306,33 @@ export default function Home() {
           />
         </div>
       </div>
+      {/*review section  */}
       <div className="my-20">
-        <h2 className="text-4xl font-semibold text-center mb-12">Customer <span className="text-red-500">reviews</span></h2>
+        <h2 className="text-4xl font-semibold text-center mb-12">
+          Customer <span className="text-red-500">reviews</span>
+        </h2>
         <ReviewCard />
+      </div>
+      {/* subscription section */}
+      <div className="max-w-[1250px] m-auto grid grid-cols-[1fr_2fr]">
+        <div className="bg-[#e4e4e4] p-6 bg-[url('/png/round.png')] bg-no-repeat">
+          <h3 className="text-4xl font-semibold">Save big with our</h3>
+          <p className="text-5xl font-bold my-2">CAR</p>
+          <p className="text-5xl font-bold text-red-500">RENTAL</p>
+          <ThemeButton text="FIND A CAR" className="mt-6" />
+        </div>
+        <div className="bg-[#626262] p-6 grid relative">
+          <h3 className="text-4xl text-white">MONTHLY SUBSCRIPTION</h3>
+          <div className="red-marker">
+            <ul className="list-disc grid gap-2 mt-4 ml-4">
+              <li className="text-white">Only ₹5,000  <span className="text-red-500">refundable deposit</span></li>
+              <li className="text-white">No loan liability,  <span className="text-red-500">zero down payment</span></li>
+              <li className="text-white">Insurance & maintained  <span className="text-red-500">included</span></li>
+            </ul>
+          </div>
+          <Image src={"/png/right-car.png"} alt="car" width={358} height={172} className="absolute right-0 bottom-0" />
+          <ThemeButton text="BOOK A CAR" className="w-fit mt-4" />
+        </div>
       </div>
     </>
   );
