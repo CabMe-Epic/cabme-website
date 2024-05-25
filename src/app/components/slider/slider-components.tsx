@@ -32,11 +32,13 @@ const FleetsSlider = () => {
          <div className="grid grid-cols-3 gap-6 my-12">
           {fleetsArray?.map((item, index) => {
             return (
-        <SwiperSlide>
+        <SwiperSlide 
+        key={index}
+        
+        >
 
               <div
                 className=" bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl"
-                key={index}
               >
                 <div className="flex justify-between">
                   <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">

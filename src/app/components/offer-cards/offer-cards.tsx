@@ -30,8 +30,10 @@ const OfferCards = () => {
     <div className="grid grid-cols-3 gap-6">
     {offerCardsArray?.map((item,index)=>{
         return(
-          <SwiperSlide>
-            <div className="w-[400px] grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]" key={index}>
+          <SwiperSlide 
+          key={index}
+          >
+            <div className="w-[400px] grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
             <div className="flex flex-col content-between bg-white">
               <div className="p-2">
                 <h3 className="font-bold text-5xl h-fit mb-2">
