@@ -3,6 +3,9 @@ import ThemeButton from "./components/theme-button/theme-button";
 import SliderManual from "./components/slider/slider-components";
 import OfferCards from "./components/offer-cards/offer-cards";
 import ReviewCard from "./components/review-card/review-card";
+import FaqSection from "./components/faq/faq";
+import Link from "next/link";
+import FleetsSlider from "./components/slider/slider-components";
 
 export default function Home() {
   return (
@@ -83,7 +86,7 @@ export default function Home() {
             Monthly Offers
           </div>
         </div>
-        {/* <SliderManual /> */}
+       
         <OfferCards />
       </div>
       <div className="max-w-[1250px] m-auto my-20">
@@ -115,79 +118,16 @@ export default function Home() {
         </div>
       </div>
       <div className="max-w-[1250px] m-auto">
-        <h2 className="text-center font-semibold text-4xl">
+        <h2 className="text-center font-semibold text-4xl mb-8">
           Fleets <span className="text-red-500">high</span> on demand{" "}
         </h2>
-        <div className="grid grid-cols-3 gap-6 my-12">
-          {fleetsArray?.map((item, index) => {
-            return (
-              <div
-                className=" bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl"
-                key={index}
-              >
-                <div className="flex justify-between">
-                  <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">
-                    {item?.badge}
-                  </span>
-                  <div className="flex gap-[3px]">
-                    <Image
-                      src={"/svg/rating-star.svg"}
-                      alt="rating"
-                      width={18}
-                      height={18}
-                    />
-                    <Image
-                      src={"/svg/rating-star.svg"}
-                      alt="rating"
-                      width={18}
-                      height={18}
-                    />
-                    <Image
-                      src={"/svg/rating-star.svg"}
-                      alt="rating"
-                      width={18}
-                      height={18}
-                    />
-                    <Image
-                      src={"/svg/rating-star.svg"}
-                      alt="rating"
-                      width={18}
-                      height={18}
-                    />
-                  </div>
-                </div>
-                <div className="h-[185px]">
-                  <Image
-                    src={item?.imageUrl}
-                    alt="car"
-                    width={400}
-                    height={185}
-                  />
-                </div>
-                <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-4">
-                  {item?.title}
-                </h3>
-                <div className="grid grid-cols-3 gap-6 mt-4">
-                  {item?.specification?.map((value, ind) => {
-                    return (
-                      <div key={ind} className="flex gap-4">
-                        <Image
-                          src={value?.iconUrl}
-                          alt="icons"
-                          width={18}
-                          height={18}
-                        />
-                        <span className="text-sm">{value?.speci}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-                <p className="text-xs my-4">{item?.desc}</p>
-                <ThemeButton className="w-full" text="Book Now" />
-              </div>
-            );
-          })}
-        </div>
+       
+
+
+<FleetsSlider />
+
+
+
       </div>
       <div className="max-w-[1250px] m-auto my-16">
         <h2 className="text-4xl font-semibold text-center">
@@ -307,7 +247,7 @@ export default function Home() {
         </div>
       </div>
       {/*review section  */}
-      <div className="my-20">
+      <div className="my-20 px-8">
         <h2 className="text-4xl font-semibold text-center mb-12">
           Customer <span className="text-red-500">reviews</span>
         </h2>
@@ -325,13 +265,175 @@ export default function Home() {
           <h3 className="text-4xl text-white">MONTHLY SUBSCRIPTION</h3>
           <div className="red-marker">
             <ul className="list-disc grid gap-2 mt-4 ml-4">
-              <li className="text-white">Only ₹5,000  <span className="text-red-500">refundable deposit</span></li>
-              <li className="text-white">No loan liability,  <span className="text-red-500">zero down payment</span></li>
-              <li className="text-white">Insurance & maintained  <span className="text-red-500">included</span></li>
+              <li className="text-white">
+                Only ₹5,000{" "}
+                <span className="text-red-500">refundable deposit</span>
+              </li>
+              <li className="text-white">
+                No loan liability,{" "}
+                <span className="text-red-500">zero down payment</span>
+              </li>
+              <li className="text-white">
+                Insurance & maintained{" "}
+                <span className="text-red-500">included</span>
+              </li>
             </ul>
           </div>
-          <Image src={"/png/right-car.png"} alt="car" width={358} height={172} className="absolute right-0 bottom-0" />
+          <Image
+            src={"/png/right-car.png"}
+            alt="car"
+            width={358}
+            height={172}
+            className="absolute right-0 bottom-0"
+          />
           <ThemeButton text="BOOK A CAR" className="w-fit mt-4" />
+        </div>
+      </div>
+      {/* faq section */}
+      <div className="grid grid-cols-[1.5fr_2fr] gap-8 p-8 my-12">
+        <div>
+          <div className="grid gap-4 max-w-[410px] m-auto">
+            <h2 className="text-4xl font-bold">
+              Any questions <br />
+              <span className="text-red-500"> WE GOT YOU</span>{" "}
+            </h2>
+            <p className="mb-6">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea{" "}
+            </p>
+          </div>
+          <Image src={"/png/car-red.png"} alt="car" width={628} height={340} />
+        </div>
+        <div>
+          {faqCollection?.map((item, index) => {
+            return <FaqSection key={index} ques={item?.ques} ans={item?.ans} />;
+          })}
+        </div>
+      </div>
+      {/* blogs section */}
+      <div className="grid grid-cols-2 relative">
+        <div
+          className="bg-[url('/png/blog-left.png')] bg-contain bg-no-repeat text-white p-12"
+          style={{ backgroundSize: "100% 100%" }}
+        >
+          <div className="max-w-[375px] relative left-[10%]">
+            <div className="text-sm">
+              <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
+            </div>
+            <h3 className="text-2xl font-semibold mt-2 mb-4">
+              The Best Fastest & Most Powerful Road Car
+            </h3>
+            <p className="mb-4">
+              Created firmament hath first very. Very doesn&apos;t face meat
+              rule life wherein him above beast also lesser very abundantly...
+            </p>
+            <Link href={"#"}>
+              {" "}
+              <span className="text-red-500"> READ ARTICLE</span>
+            </Link>
+            <div className="flex justify-between mt-4">
+              <button className="flex items-center gap-2">
+                <Image
+                  src={"/png/left-arrow.png"}
+                  alt="arrow"
+                  width={8}
+                  height={8}
+                />
+                <span>Prev</span>
+              </button>
+              <button className="flex items-center gap-1">
+                <span>Next</span>
+                <Image
+                  src={"/png/right-arrow.png"}
+                  alt="arrow"
+                  width={24}
+                  height={24}
+                  className="h-[26px] mt-1"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          className="bg-[url('/png/blog-right.png')] bg-contain bg-no-repeat text-white p-12 flex justify-end"
+          style={{ backgroundSize: "100% 100%" }}
+        >
+          <div className="max-w-[375px] relative right-[10%]">
+            <div className="text-sm">
+              <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
+            </div>
+            <h3 className="text-2xl font-semibold mt-2 mb-4">
+              The Best Fastest & Most Powerful Road Car
+            </h3>
+            <p className="mb-4">
+              Created firmament hath first very. Very doesn&apos;t face meat
+              rule life wherein him above beast also lesser very abundantly...
+            </p>
+            <Link href={"#"}>
+              {" "}
+              <span className="text-red-500"> READ ARTICLE</span>
+            </Link>
+            <div className="flex justify-between mt-4">
+              <button className="flex items-center gap-2">
+                <Image
+                  src={"/png/left-arrow.png"}
+                  alt="arrow"
+                  width={8}
+                  height={8}
+                />
+                <span>Prev</span>
+              </button>
+              <button className="flex items-center gap-1">
+                <span>Next</span>
+                <Image
+                  src={"/png/right-arrow.png"}
+                  alt="arrow"
+                  width={24}
+                  height={24}
+                  className="h-[26px] mt-1"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <Image
+          src={"/png/blog.png"}
+          alt="blog"
+          width={570}
+          height={350}
+          className="h-[400px] absolute top-0 left-0 right-0 m-auto"
+        />
+      </div>
+      {/* facts */}
+      <div className="my-12 bg-black p-10">
+        <h2 className="text-center font-bold text-4xl text-white">
+          Facts By The <span className="text-red-500"> Numbers</span>
+        </h2>
+        <p className="text-[#E5DADA] text-center my-2">
+          Lorem Ipsum has been the industry's standard <br /> dummy text ever
+          since the 1500s,
+        </p>
+        <div className="grid grid-cols-2 gap-10 p-8">
+          {factsArray?.map((item, index) => {
+            return (
+              <div className="flex gap-6 items-center bg-[url('/png/count-bg.png')] bg-no-repeat p-8 rounded-xl w-[94%] overflow-hidden">
+                <div>
+                  <Image
+                    src={item?.imageUrl}
+                    alt="image"
+                    width={174}
+                    height={174}
+                  />
+                </div>
+                <div className="font-bold text-4xl">
+                  <h3>{item?.count}</h3>
+                  <p>{item?.headline}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
@@ -428,104 +530,7 @@ const chooseArray = [
     desc: "Your safety is our priority, with a car that's sanitized for purity.",
   },
 ];
-const fleetsArray = [
-  {
-    badge: "Maruti",
-    imageUrl: "/cars/swift.png",
-    title: "Swift Dzire",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
-  {
-    badge: "Mahindra",
-    imageUrl: "/cars/xuv-mahindra.png",
-    title: "XUV 700 Mahindra",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
-  {
-    badge: "Honda",
-    imageUrl: "/cars/amaze.png",
-    title: "AMAZE VX",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
-];
+
 const rentCollection = [
   {
     steps: 1,
@@ -553,5 +558,49 @@ const rentCollection = [
     imageUrl: "/svg/ride.svg",
     title: "Enjoy Your Ride!",
     desc: "Enjoy your trip and our good services!",
+  },
+];
+const faqCollection = [
+  {
+    ques: "What are my liabilities in case of damage / accident ?",
+    ans: "Your car will be covered by comprehensive insurance, to take care of damage cases. On every case of damage, your liability would be limited to the difference between the costs incurred to repair the damage and the proceeds from insurance claim with maximum liability limited.",
+  },
+  {
+    ques: "Can I end my subscription early, or choose to keep the car longer?",
+    ans: "Will update you soon.",
+  },
+  {
+    ques: "Are there any restrictions on what can I use the car for?",
+    ans: "Will update you soon.",
+  },
+  {
+    ques: "What are the benefits of Subscriptions?",
+    ans: "Will update you soon.",
+  },
+  {
+    ques: "What will be the car registration type and whose name will it be registered in?",
+    ans: "Will update you soon.",
+  },
+];
+const factsArray = [
+  {
+    imageUrl: "/png/heart.png",
+    count: "100k+",
+    headline: "Happy Customer",
+  },
+  {
+    imageUrl: "/png/carr.png",
+    count: "15k+",
+    headline: "Counts of Cars",
+  },
+  {
+    imageUrl: "/png/refresh.png",
+    count: "5,0000k+",
+    headline: "Total Kms",
+  },
+  {
+    imageUrl: "/png/headphone.png",
+    count: "100k+",
+    headline: "Questions Solved",
   },
 ];
