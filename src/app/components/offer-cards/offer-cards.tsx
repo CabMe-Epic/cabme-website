@@ -35,21 +35,20 @@ const OfferCards = () => {
             <div className="flex flex-col content-between bg-white">
               <div className="p-2">
                 <h3 className="font-bold text-5xl h-fit mb-2">
-                  10% <span className="font-normal text-[22px]">OFF</span>
+                  {item?.percent} <span className="font-normal text-[22px]">OFF</span>
                 </h3> 
                 <strong className="text-[12px] font-normal h-fit">
                   TERMS & CONDITIONS*
                 </strong>
                 <p className="text-[8px]">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore{" "}
+                 {item?.desc}
                 </p>
               </div>
               <div className="bg-red-500 text-white h-full mt-1 text-center">NEW10</div>
             </div>
             <div className="w-full h-[160px]">
               <Image
-                src="/offer/01.png"
+                src={item?.imageURl}
                 alt="offer"
                 width={160}
                 height={121}

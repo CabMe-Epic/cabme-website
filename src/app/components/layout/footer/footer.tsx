@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="max-w-[330px] m-auto">
         <Image src={"/logo.svg"} alt="logo" width={178} height={48} />
         <p className="mt-6">
-          We are India's leading Car Rental Company with an innovative way of
+          We are India&apos;s leading Car Rental Company with an innovative way of
           servicing the requirements{" "}
         </p>
         <div className="flex gap-6 my-6">

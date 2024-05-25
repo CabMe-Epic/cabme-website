@@ -38,6 +38,7 @@ export default function Home() {
                     ? "bg-red-500 text-white font-semibold"
                     : "bg-[#EFF1FB]"
                 }`}
+                key={ind}
               >
                 {value?.tabsValue}
               </div>
@@ -412,13 +413,13 @@ export default function Home() {
           Facts By The <span className="text-red-500"> Numbers</span>
         </h2>
         <p className="text-[#E5DADA] text-center my-2">
-          Lorem Ipsum has been the industry's standard <br /> dummy text ever
+          Lorem Ipsum has been the industry&apos;s standard <br /> dummy text ever
           since the 1500s,
         </p>
         <div className="grid grid-cols-2 gap-10 p-8">
           {factsArray?.map((item, index) => {
             return (
-              <div className="flex gap-6 items-center bg-[url('/png/count-bg.png')] bg-no-repeat p-8 rounded-xl w-[94%] overflow-hidden">
+              <div key={index} className="flex gap-6 items-center bg-[url('/png/count-bg.png')] bg-no-repeat p-8 rounded-xl w-[94%] overflow-hidden">
                 <div>
                   <Image
                     src={item?.imageUrl}
