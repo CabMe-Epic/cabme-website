@@ -11,24 +11,24 @@ export default function Home() {
   return (
     <>
       <div
-        className="bg-[url('/home-banner.png')] h-[370px] bg-no-repeat bg-contain flex items-center"
+        className="bg-[url('/home-banner.png')] sm:h-[370px] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center"
         style={{ backgroundSize: "100% 100%" }}
       >
-        <div className="max-w-[1250px] w-full m-auto">
-          <h1 className="text-4xl font-semibold mt-8">
+        <div className="sm:max-w-[1250px] w-full sm:m-auto px-4">
+          <h1 className="sm:text-4xl text-[20px] font-semibold sm:mt-8 mt-2">
             Experience innovation on
           </h1>
-          <div className="mt-2">
-            <p>
+          <div className="sm:mt-2">
+            <p className="text-[12px]">
               <span>wheels with our</span>{" "}
-              <b className="text-red-500 text-xl">
+              <b className="text-red-500 sm:text-xl text-[12px]">
                 brand-new selection of cars.
               </b>
             </p>
           </div>
         </div>
       </div>
-      <div className="max-w-[1250px] m-auto my-20 shadow-xl border rounded-xl px-6 py-12 relative">
+      <div className="max-w-[1250px] sm:block hidden m-auto my-20 shadow-xl border rounded-xl px-6 py-12 relative">
         <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-md absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (

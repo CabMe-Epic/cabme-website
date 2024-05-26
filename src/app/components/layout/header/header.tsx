@@ -5,11 +5,11 @@ import ThemeButton from "../../theme-button/theme-button"
 const Header = () =>{
     return(
         <>
-        <div className="flex justify-between py-8 px-14 items-center shadow-xl">
+        <div className="flex justify-between sm:py-8 py-4 sm:px-14 px-8 items-center shadow-xl">
             <div className="cursor-pointer">
-                <Image src={"/logo.svg"} alt="logo" width={170} height={47} />
+                <Image src={"/logo.svg"} alt="logo" width={170} height={47} className="sm:w-full w-[130px]" />
             </div>
-            <ul className="flex gap-8">
+            <ul className="sm:flex hidden gap-8">
                 {headerMenu?.map((item,index)=>{
                     return(
 
@@ -19,9 +19,12 @@ const Header = () =>{
                     )
                 })}
             </ul>
-            <div className="flex items-center gap-6">
+            <div className="sm:flex hidden items-center gap-6">
                 <Link href={"tel:+18001216162"}> <span className="font-semibold text-sm"> +1800 121 6162 </span></Link>
                 <ThemeButton text="Sign In" />
+            </div>
+            <div className="sm:hidden block">
+                <Image src={"/svg/nav.svg"} alt="nav" width={32} height={32} />
             </div>
         </div>
         </>
