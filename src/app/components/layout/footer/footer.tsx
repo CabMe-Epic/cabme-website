@@ -5,14 +5,14 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <>
-    <div className="p-12 bg-[#FBFDFF] grid grid-cols-[1fr_2fr] gap-8">
-      <div className="max-w-[330px] m-auto">
-        <Image src={"/logo.svg"} alt="logo" width={178} height={48} />
+    <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8">
+      <div className="max-w-[330px] m-auto sm:text-left text-center">
+        <Image src={"/logo.svg"} alt="logo" width={178} height={48} className="sm:m-0 m-auto" />
         <p className="mt-6">
           We are India&apos;s leading Car Rental Company with an innovative way of
           servicing the requirements{" "}
         </p>
-        <div className="flex gap-6 my-6">
+        <div className="flex gap-6 my-6 justify-center">
           <Image
             src={"/svg/twitter.svg"}
             alt="twitter"
@@ -38,7 +38,7 @@ const Footer = () => {
             height={24}
           />
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-4 sm:block hidden">
           <Image
             src={"/png/play-store.png"}
             alt="play-store"
@@ -53,7 +53,7 @@ const Footer = () => {
           />
         </div>
       </div>
-      <div className="grid grid-cols-[1fr_1fr_1.2fr]">
+      <div className="grid sm:grid-cols-[1fr_1fr_1.2fr] grid-cols-2 mt-4">
         {footerCollection?.map((item, index) => {
           return (
             <div key={index}>
@@ -80,10 +80,10 @@ const Footer = () => {
             </div>
           );
         })}
-        <div>
+        <div className="sm:w-full sm:text-left text-center w-[80vw]">
           <h3 className="font-bold text-md mb-6">Reach Us</h3>
           <ul className="grid gap-4">
-            <li className="flex gap-2">
+            <li className="flex gap-2 justify-center">
               <div className="w-[18px] h-[18px] flex-none" style={{width:"18px !important"}}>
                 <Image
                   src={"/png/locate.png"}
@@ -98,7 +98,7 @@ const Footer = () => {
                 Vidyadhar Nagar, Jaipur-302039
               </p>
             </li>
-            <li className="flex gap-2 items-center">
+            <li className="flex gap-2 justify-center items-center">
               <div className="h-fit">
                 <Image
                   src={"/png/mail.png"}
@@ -109,7 +109,7 @@ const Footer = () => {
               </div>
               <Link href={"mailto:support@cabme.in"} className="text-sm">support@cabme.in</Link>
             </li>
-            <li className="flex gap-2">
+            <li className="flex gap-2 justify-center">
               <Image src={"/png/call.png"} alt="call" width={18} height={18} />
               <div className="flex gap-2 text-sm">
                 <Link href={"tel:18001216162"}>
@@ -121,6 +121,20 @@ const Footer = () => {
               </div>
             </li>
           </ul>
+          <div className="flex gap-4 sm:hidden block justify-center mt-8">
+          <Image
+            src={"/png/play-store.png"}
+            alt="play-store"
+            width={97}
+            height={39}
+          />
+          <Image
+            src={"/png/apple.png"}
+            alt="play-store"
+            width={97}
+            height={39}
+          />
+        </div>
         </div>
       </div>
     </div>

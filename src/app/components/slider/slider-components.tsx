@@ -10,14 +10,31 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import ThemeButton from '../theme-button/theme-button';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const FleetsSlider = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 576);
+      };
+  
+      handleResize();
+  
+      window.addEventListener("resize", handleResize);
+  
+      // Cleanup
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
   return (
     <>
       <Swiper
         modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
-        slidesPerView={3}
+        slidesPerView={isMobile ? 1 : 3}
        
         navigation
         pagination={{ clickable: true }}
@@ -38,7 +55,7 @@ const FleetsSlider = () => {
         >
 
               <div
-                className=" bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl"
+                className="m-auto bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl"
               >
                 <div className="flex justify-between">
                   <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">

@@ -9,13 +9,30 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import { useEffect, useState } from "react";
 
 const OfferCards = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 576);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <Swiper
     modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
     spaceBetween={50}
-    slidesPerView={3}
+    slidesPerView={isMobile ? 1 : 3}
    
     navigation
     pagination={{ clickable: true }}
@@ -24,8 +41,7 @@ const OfferCards = () => {
         delay: 2000,
         disableOnInteraction: false
     }}
-    onSwiper={(swiper) => console.log(swiper)}
-    onSlideChange={() => console.log('slide change')}
+  
   >
     <div className="grid grid-cols-3 gap-6">
     {offerCardsArray?.map((item,index)=>{
@@ -33,7 +49,7 @@ const OfferCards = () => {
           <SwiperSlide 
           key={index}
           >
-            <div className="w-[400px] grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+            <div className="w-[400px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
             <div className="flex flex-col content-between bg-white">
               <div className="p-2">
                 <h3 className="font-bold text-5xl h-fit mb-2">

@@ -14,14 +14,31 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { useEffect, useState } from "react";
 
 const ReviewCard = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 576);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
-    <div className="review-slider">
+    <div className="review-slider m-2">
       <Swiper
         modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
-        slidesPerView={3}
+        slidesPerView={isMobile ? 1 : 3}
         navigation
         pagination={{ clickable: true }}
         loop={true}
@@ -35,7 +52,7 @@ const ReviewCard = () => {
         {reviewArray?.map((item,index)=>{
           return(
             <SwiperSlide key={index}>
-            <div className="max-w-[550px] border p-12 pb-8 m-auto rounded-xl bg-white">
+            <div className="max-w-[550px] border sm:p-12 p-8 pb-8 m-auto rounded-xl bg-white">
               <div>
                 <p className="relative text-center text-[#607D8B]">
                  {item?.content}

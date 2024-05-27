@@ -14,7 +14,7 @@ export default function Home() {
         className="bg-[url('/home-banner.png')] sm:h-[370px] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center"
         style={{ backgroundSize: "100% 100%" }}
       >
-        <div className="sm:max-w-[1250px] w-full sm:m-auto px-4">
+        <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
           <h1 className="sm:text-4xl text-[20px] font-semibold sm:mt-8 mt-2">
             Experience innovation on
           </h1>
@@ -94,7 +94,7 @@ export default function Home() {
         <h2 className="text-center text-4xl font-semibold">
           <span className="text-red-500"> Why</span> choose us
         </h2>
-        <div className="grid grid-cols-4 mt-10">
+        <div className="grid sm:grid-cols-4 grid-cols-2 mt-10">
           {chooseArray?.map((value, ind) => {
             return (
               <>
@@ -119,22 +119,22 @@ export default function Home() {
         </div>
       </div>
       <div className="max-w-[1250px] m-auto">
-        <h2 className="text-center font-semibold text-4xl mb-8">
+        <h2 className="text-center font-semibold sm:text-4xl text-2xl p-4 sm:mb-8">
           Fleets <span className="text-red-500">high</span> on demand{" "}
         </h2>
        
 
-
-<FleetsSlider />
-
+<div className="m-4">
+            <FleetsSlider />
+            </div>
 
 
       </div>
       <div className="max-w-[1250px] m-auto my-16">
-        <h2 className="text-4xl font-semibold text-center">
+        <h2 className="sm:text-4xl text-2xl font-semibold text-center">
           Make <span className="text-red-500"> 4 steps</span> to rent a car
         </h2>
-        <div className="grid grid-cols-4 gap-8 mt-12">
+        <div className="grid sm:grid-cols-4 gap-8 mt-12">
           {rentCollection?.map((item, index) => {
             return (
               <div key={index} className="p-6 relative">
@@ -162,7 +162,7 @@ export default function Home() {
                     alt="arrow"
                     width={140}
                     height={30}
-                    className="absolute top-[35%] right-[-30%]"
+                    className="absolute top-[35%] right-[-30%] sm:block hidden"
                   />
                 ) : (
                   ""
@@ -172,17 +172,17 @@ export default function Home() {
           })}
         </div>
       </div>
-      <div className="flex justify-between bg-[#F9F9F9]">
-        <div className="grid grid-cols-2 justify-center w-full">
+      <div className="flex justify-between bg-[#F9F9F9] overflow-hidden">
+        <div className="grid grid-cols-2 justify-center w-full p-2">
           <div className="w-[450px] m-auto">
-            <h3 className="font-bold text-[62px]">
+            <h3 className="font-bold sm:text-[62px] text-[26px]">
               5% <span className="font-normal">OFF</span>
             </h3>
-            <div className="border-b border-black text-xl my-2 pb-4 text-[#909090]">
+            <div className="border-b border-black sm:text-xl text-[12px] my-2 pb-4 text-[#909090]">
               <span>Car Rental Discount</span> <br />
               <span>until May 21st 2024</span>
             </div>
-            <h4 className="font-semibold text-2xl text-[34px]">
+            <h4 className="font-semibold text-sm sm:text-[34px]">
               DISCOUNT CODE : <span className="text-red-500">NEW5</span>
             </h4>
           </div>
@@ -190,7 +190,7 @@ export default function Home() {
             <Image src={"/png/thar.png"} alt="thar" width={543} height={280} />
           </div>
         </div>
-        <div className="bg-red-500 w-[120px] text-white p-4 flex items-center font-semibold text-2xl text-center">
+        <div className="bg-red-500 sm:w-[120px] w-[80px] text-white sm:p-4 p-2 flex items-center font-semibold sm:text-2xl text-md text-center">
           <div>
             <div className="mb-2">
               <span>GET IT </span> <br />
@@ -201,13 +201,13 @@ export default function Home() {
               alt="arrow"
               width={50}
               height={20}
-              className="m-auto"
+              className="m-auto sm:w-full w-[40%]"
             />
           </div>
         </div>
       </div>
       {/* app section */}
-      <div className="grid grid-cols-2 p-4 bg-[#FCE2E2] my-16">
+      <div className="grid sm:grid-cols-2 p-4 bg-[#FCE2E2] my-16">
         <div className="max-w-[550px] m-auto">
           <h3 className="font-bold text-3xl">
             <span className="text-red-500">Download</span> our app to get <br />
@@ -237,7 +237,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div>
+        <div className="sm:block hidden">
           <Image
             src={"/png/app.png"}
             alt="app"
@@ -256,16 +256,16 @@ export default function Home() {
       </div>
       {/* subscription section */}
       <div className="max-w-[1250px] m-auto grid grid-cols-[1fr_2fr]">
-        <div className="bg-[#e4e4e4] p-6 bg-[url('/png/round.png')] bg-no-repeat">
-          <h3 className="text-4xl font-semibold">Save big with our</h3>
-          <p className="text-5xl font-bold my-2">CAR</p>
-          <p className="text-5xl font-bold text-red-500">RENTAL</p>
-          <ThemeButton text="FIND A CAR" className="mt-6" />
+        <div className="bg-[#e4e4e4] sm:p-6 p-2 bg-[url('/png/round.png')] bg-no-repeat">
+          <h3 className="sm:text-4xl text-xl font-semibold">Save big with our</h3>
+          <p className="sm:text-5xl text-2xl font-bold sm:my-2">CAR</p>
+          <p className="sm:text-5xl text-3xl font-bold text-red-500">RENTAL</p>
+          <ThemeButton text="FIND A CAR" className="sm:mt-6 mt-2 sm:px-6 px-2 sm:text-md text-xs" />
         </div>
         <div className="bg-[#626262] p-6 grid relative">
-          <h3 className="text-4xl text-white">MONTHLY SUBSCRIPTION</h3>
+          <h3 className="sm:text-4xl text-md text-white">MONTHLY SUBSCRIPTION</h3>
           <div className="red-marker">
-            <ul className="list-disc grid gap-2 mt-4 ml-4">
+            <ul className="list-disc grid gap-2 mt-4 ml-4 sm:text-md text-xs">
               <li className="text-white">
                 Only ₹5,000{" "}
                 <span className="text-red-500">refundable deposit</span>
@@ -285,27 +285,27 @@ export default function Home() {
             alt="car"
             width={358}
             height={172}
-            className="absolute right-0 bottom-0"
+            className="absolute sm:w-full w-[50%] right-0 bottom-0"
           />
-          <ThemeButton text="BOOK A CAR" className="w-fit mt-4" />
+          <ThemeButton text="BOOK A CAR" className="w-fit mt-4 sm:px-6 px-2 sm:text-md text-xs" />
         </div>
       </div>
       {/* faq section */}
-      <div className="grid grid-cols-[1.5fr_2fr] gap-8 p-8 my-12">
+      <div className="grid sm:grid-cols-[1.5fr_2fr] gap-8 p-8 my-12">
         <div>
           <div className="grid gap-4 max-w-[410px] m-auto">
             <h2 className="text-4xl font-bold">
               Any questions <br />
-              <span className="text-red-500"> WE GOT YOU</span>{" "}
+              <span className="text-red-500 sm:block hidden"> WE GOT YOU</span>{" "}
             </h2>
-            <p className="mb-6">
+            <p className="mb-6 sm:block hidden">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea{" "}
             </p>
           </div>
-          <Image src={"/png/car-red.png"} alt="car" width={628} height={340} />
+          <Image src={"/png/car-red.png"} alt="car" width={628} height={340} className="sm:block hidden" />
         </div>
         <div>
           {faqCollection?.map((item, index) => {
@@ -408,7 +408,7 @@ export default function Home() {
         />
       </div>
       {/* facts */}
-      <div className="my-12 bg-black p-10">
+      <div className="my-12 bg-black sm:p-10 p-2">
         <h2 className="text-center font-bold text-4xl text-white">
           Facts By The <span className="text-red-500"> Numbers</span>
         </h2>
@@ -416,10 +416,10 @@ export default function Home() {
           Lorem Ipsum has been the industry&apos;s standard <br /> dummy text ever
           since the 1500s,
         </p>
-        <div className="grid grid-cols-2 gap-10 p-8">
+        <div className="grid grid-cols-2 sm:gap-10 gap-2 sm:p-8 p-2">
           {factsArray?.map((item, index) => {
             return (
-              <div key={index} className="flex gap-6 items-center bg-[url('/png/count-bg.png')] bg-no-repeat p-8 rounded-xl w-[94%] overflow-hidden">
+              <div key={index} className="flex gap-6 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-[94%] overflow-hidden">
                 <div>
                   <Image
                     src={item?.imageUrl}
@@ -428,7 +428,7 @@ export default function Home() {
                     height={174}
                   />
                 </div>
-                <div className="font-bold text-4xl">
+                <div className="font-bold sm:text-4xl text-md">
                   <h3>{item?.count}</h3>
                   <p>{item?.headline}</p>
                 </div>
