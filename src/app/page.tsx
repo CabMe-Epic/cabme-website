@@ -75,26 +75,83 @@ export default function Home() {
           </div>
         </div>
       </div>
+      {/* Only mobile section subsription */}
+      <div className="relative max-w-[340px] sm:hidden block mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
+        <div className="absolute top-[-25px]">
+          <div className="max-w-[350px] m-auto bg-red-500 rounded-xl grid grid-cols-2 font-semibold p-2">
+            <div className="bg-white rounded-xl px-4 py-[8px] text-center">
+              Rentals
+            </div>
+            <div className="rounded-xl px-4 py-[8px] text-center text-white">
+              Subscriptions
+            </div>
+          </div>
+        </div>
+        <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full">
+          <div className="bg-black text-white p-2 rounded-l-full text-center px-4">
+            <input
+              type="radio"
+              name="select"
+              id="self"
+              className="accent-red-500"
+            />
+            <label className="ml-2" htmlFor="self">
+              Self Driven
+            </label>
+          </div>
+          <div className="p-2 rounded-full text-center px-4">
+            <input
+              type="radio"
+              name="select"
+              id="driver"
+              className="accent-red-500"
+            />
+            <label className="ml-2" htmlFor="driver">
+              Driver
+            </label>
+          </div>
+        </div>
+        <div className="mt-6 border rounded-xl p-2 flex gap-2">
+          <Image
+            src={"/svg/location-gray.svg"}
+            alt="location"
+            width={16}
+            height={18}
+          />
+          <input
+            type="text"
+            placeholder="Select Your City"
+            className="w-full border-none outline-none"
+          />
+        </div>
+        <div className="absolute bottom-[-20px] m-auto ml-[5px]">
+          <ThemeButton
+            className="font-semibold text-sm rounded-xl shadow-xl gap-2"
+            text="Start Your Journey"
+            image={"/svg/race.svg"}
+          />
+        </div>
+      </div>
       <div className="max-w-[1250px] w-full m-auto">
-        <h2 className="text-4xl font-semibold text-center">
+        <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-8 font-semibold text-center">
           Trending <span className="text-red-500"> offers</span>
         </h2>
-        <div className="w-fit flex justify-center m-auto text-md font-semibold my-6">
-          <div className="py-4 px-8 bg-red-500 text-white rounded-l-full cursor-pointer">
+        <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
+          <div className="sm:py-4 py-2 sm:px-8 px-4 bg-red-500 text-white rounded-l-full cursor-pointer">
             Daily Offers
           </div>
-          <div className="py-4 px-8 bg-black text-white rounded-r-full cursor-pointer">
+          <div className="sm:py-4 py-2 sm:px-8 px-4 bg-black text-white rounded-r-full cursor-pointer">
             Monthly Offers
           </div>
         </div>
-       
+
         <OfferCards />
       </div>
-      <div className="max-w-[1250px] m-auto my-20">
-        <h2 className="text-center text-4xl font-semibold">
+      <div className="max-w-[1250px] m-auto sm:my-20 my-6">
+        <h2 className="text-center sm:text-4xl text-2xl font-semibold">
           <span className="text-red-500"> Why</span> choose us
         </h2>
-        <div className="grid sm:grid-cols-4 grid-cols-2 mt-10">
+        <div className="grid sm:grid-cols-4 grid-cols-2 sm:mt-10 mt-4 p-4">
           {chooseArray?.map((value, ind) => {
             return (
               <>
@@ -122,13 +179,10 @@ export default function Home() {
         <h2 className="text-center font-semibold sm:text-4xl text-2xl p-4 sm:mb-8">
           Fleets <span className="text-red-500">high</span> on demand{" "}
         </h2>
-       
 
-<div className="m-4">
-            <FleetsSlider />
-            </div>
-
-
+        <div className="m-4">
+          <FleetsSlider />
+        </div>
       </div>
       <div className="max-w-[1250px] m-auto my-16">
         <h2 className="sm:text-4xl text-2xl font-semibold text-center">
@@ -137,7 +191,10 @@ export default function Home() {
         <div className="grid sm:grid-cols-4 gap-8 mt-12">
           {rentCollection?.map((item, index) => {
             return (
-              <div key={index} className="p-6 relative">
+              <div
+                key={index}
+                className="p-6 relative sm:w-full sm:h-full w-[250px] h-[250px] sm:m-0 m-auto sm:shadow-none shadow-left-shadow sm:rounded-none rounded-full sm:pb-0 pb-8 sm:px-0 px-8"
+              >
                 <span className="text-white mb-6 font-semibold bg-red-500 w-8 h-8 flex justify-center items-center rounded-full">
                   {item?.steps}
                 </span>
@@ -207,24 +264,28 @@ export default function Home() {
         </div>
       </div>
       {/* app section */}
-      <div className="grid sm:grid-cols-2 p-4 bg-[#FCE2E2] my-16">
+      <div
+        className="grid sm:grid-cols-2 px-4 py-8 rounded-xl m-4 bg-[#FCE2E2] my-16"
+        style={{ boxShadow: "0px 1px 18.1px 2px #FF000080" }}
+      >
         <div className="max-w-[550px] m-auto">
-          <h3 className="font-bold text-3xl">
+          <h3 className="font-bold sm:text-3xl text-2xl">
             <span className="text-red-500">Download</span> our app to get <br />
             most out of it
           </h3>
-          <p className="my-8">
+          <p className="sm:my-8 my-4 sm:text-md text-sm">
             Thrown shy denote ten ladies though ask saw. Or by to he going think
             order event music. Incommode so intention defective at convinced.
             Led income months itself and houses you.
           </p>
-          <div className="flex gap-12">
+          <div className="flex sm:justify-start justify-center sm:gap-12 gap-4">
             <button>
               <Image
                 src={"/png/play-store.png"}
                 alt="play-store"
                 width={179}
                 height={77}
+                className="sm:w-[179px] w-[110px]"
               />
             </button>
             <button>
@@ -233,6 +294,7 @@ export default function Home() {
                 alt="apple"
                 width={179}
                 height={77}
+                className="sm:w-[179px] w-[110px]"
               />
             </button>
           </div>
@@ -248,8 +310,8 @@ export default function Home() {
         </div>
       </div>
       {/*review section  */}
-      <div className="my-20 px-8">
-        <h2 className="text-4xl font-semibold text-center mb-12">
+      <div className="sm:my-20 my-8 px-8">
+        <h2 className="sm:text-4xl text-2xl font-semibold text-center mb-12">
           Customer <span className="text-red-500">reviews</span>
         </h2>
         <ReviewCard />
@@ -257,13 +319,20 @@ export default function Home() {
       {/* subscription section */}
       <div className="max-w-[1250px] m-auto grid grid-cols-[1fr_2fr]">
         <div className="bg-[#e4e4e4] sm:p-6 p-2 bg-[url('/png/round.png')] bg-no-repeat">
-          <h3 className="sm:text-4xl text-xl font-semibold">Save big with our</h3>
+          <h3 className="sm:text-4xl text-xl font-semibold">
+            Save big with our
+          </h3>
           <p className="sm:text-5xl text-2xl font-bold sm:my-2">CAR</p>
           <p className="sm:text-5xl text-3xl font-bold text-red-500">RENTAL</p>
-          <ThemeButton text="FIND A CAR" className="sm:mt-6 mt-2 sm:px-6 px-2 sm:text-md text-xs" />
+          <ThemeButton
+            text="FIND A CAR"
+            className="sm:mt-6 mt-2 sm:px-6 px-2 sm:text-md text-xs"
+          />
         </div>
         <div className="bg-[#626262] p-6 grid relative">
-          <h3 className="sm:text-4xl text-md text-white">MONTHLY SUBSCRIPTION</h3>
+          <h3 className="sm:text-4xl text-md text-white">
+            MONTHLY SUBSCRIPTION
+          </h3>
           <div className="red-marker">
             <ul className="list-disc grid gap-2 mt-4 ml-4 sm:text-md text-xs">
               <li className="text-white">
@@ -285,18 +354,25 @@ export default function Home() {
             alt="car"
             width={358}
             height={172}
-            className="absolute sm:w-full w-[50%] right-0 bottom-0"
+            className="absolute sm:w-[358px] w-[50%] right-0 bottom-0"
           />
-          <ThemeButton text="BOOK A CAR" className="w-fit mt-4 sm:px-6 px-2 sm:text-md text-xs" />
+          <ThemeButton
+            text="BOOK A CAR"
+            className="w-fit mt-4 sm:px-6 px-2 sm:text-md text-xs"
+          />
         </div>
       </div>
       {/* faq section */}
-      <div className="grid sm:grid-cols-[1.5fr_2fr] gap-8 p-8 my-12">
+      <div className="grid sm:grid-cols-[1.5fr_2fr] gap-8 p-8 sm:my-12">
         <div>
           <div className="grid gap-4 max-w-[410px] m-auto">
-            <h2 className="text-4xl font-bold">
-              Any questions <br />
-              <span className="text-red-500 sm:block hidden"> WE GOT YOU</span>{" "}
+            <h2 className="sm:text-4xl text-2xl sm:text-left text-center font-bold">
+              Any <span className="sm:text-black text-red-500"> questions</span>{" "}
+              <br />
+              <span className="text-red-500 sm:block hidden">
+                {" "}
+                WE GOT YOU
+              </span>{" "}
             </h2>
             <p className="mb-6 sm:block hidden">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -305,7 +381,13 @@ export default function Home() {
               nisi ut aliquip ex ea{" "}
             </p>
           </div>
-          <Image src={"/png/car-red.png"} alt="car" width={628} height={340} className="sm:block hidden" />
+          <Image
+            src={"/png/car-red.png"}
+            alt="car"
+            width={628}
+            height={340}
+            className="sm:block hidden"
+          />
         </div>
         <div>
           {faqCollection?.map((item, index) => {
@@ -313,8 +395,8 @@ export default function Home() {
           })}
         </div>
       </div>
-      {/* blogs section */}
-      <div className="grid grid-cols-2 relative">
+      {/* blogs section desktop */}
+      <div className="grid grid-cols-2 relative sm:grid hidden">
         <div
           className="bg-[url('/png/blog-left.png')] bg-contain bg-no-repeat text-white p-12"
           style={{ backgroundSize: "100% 100%" }}
@@ -407,28 +489,101 @@ export default function Home() {
           className="h-[400px] absolute top-0 left-0 right-0 m-auto"
         />
       </div>
+      {/* blogs section mobile */}
+      <div className="sm:hidden block">
+        <div className="relative">
+          <Image
+            src={"/png/our-blog.png"}
+            alt="blogs"
+            width={600}
+            height={400}
+            className="w-full h-auto"
+          />
+          <h2 className="text-white absolute top-[30%] left-8 text-2xl font-semibold">
+            Our Blogs
+          </h2>
+        </div>
+        <div className="relative">
+          <Image
+            src={"/png/our-blog-02.png"}
+            alt="blogs"
+            width={600}
+            height={400}
+            className="w-full h-auto z-[9] relative"
+          />
+          <Image
+            src={"/png/our-blog-01.png"}
+            alt="blogs"
+            width={200}
+            height={400}
+            className=" h-auto absolute left-0 top-0"
+          />
+
+          <div className="max-w-[320px] absolute text-white z-[9] bottom-6 left-[15%]">
+            <div className="text-sm">
+              <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
+            </div>
+            <h3 className="text-xl font-semibold mt-2 mb-2">
+              The Best Fastest & Most Powerful Road Car
+            </h3>
+            <p className="mb-2 text-xs">
+              Created firmament hath first very. Very doesn&apos;t face meat
+              rule life wherein him above beast also lesser very abundantly...
+            </p>
+            <Link href={"#"}>
+              {" "}
+              <span className="text-red-500 text-xs"> READ ARTICLE</span>
+            </Link>
+            <div className="flex justify-between max-w-[250px]">
+              <button className="flex items-center gap-2">
+                <Image
+                  src={"/png/left-arrow.png"}
+                  alt="arrow"
+                  width={8}
+                  height={8}
+                />
+                <span>Prev</span>
+              </button>
+              <button className="flex items-center gap-1">
+                <span>Next</span>
+                <Image
+                  src={"/png/right-arrow.png"}
+                  alt="arrow"
+                  width={24}
+                  height={24}
+                  className="h-[26px] mt-1"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* facts */}
-      <div className="my-12 bg-black sm:p-10 p-2">
-        <h2 className="text-center font-bold text-4xl text-white">
+      <div className="my-12 bg-black sm:py-10 sm:px-10 py-6 px-2">
+        <h2 className="text-center font-bold sm:text-4xl text-2xl text-white">
           Facts By The <span className="text-red-500"> Numbers</span>
         </h2>
-        <p className="text-[#E5DADA] text-center my-2">
-          Lorem Ipsum has been the industry&apos;s standard <br /> dummy text ever
-          since the 1500s,
+        <p className="text-[#E5DADA] text-center my-2 sm:text-md text-xs">
+          Lorem Ipsum has been the industry&apos;s standard <br /> dummy text
+          ever since the 1500s,
         </p>
         <div className="grid grid-cols-2 sm:gap-10 gap-2 sm:p-8 p-2">
           {factsArray?.map((item, index) => {
             return (
-              <div key={index} className="flex gap-6 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-[94%] overflow-hidden">
-                <div>
+              <div
+                key={index}
+                className="flex sm:gap-6 gap-2 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-[94%] overflow-hidden"
+              >
+                <div className="sm:w-[174px] w-[50px] flex-none">
                   <Image
                     src={item?.imageUrl}
                     alt="image"
                     width={174}
                     height={174}
+                    className="sm:w-[174px] w-[50px]"
                   />
                 </div>
-                <div className="font-bold sm:text-4xl text-md">
+                <div className="font-bold sm:text-4xl text-xs">
                   <h3>{item?.count}</h3>
                   <p>{item?.headline}</p>
                 </div>

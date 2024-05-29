@@ -19,7 +19,17 @@
     padding: 5% 0 !important;
   }
   .swiper-pagination{
-    bottom: 0;
+    bottom: -5px !important;
+    
+  }
+  .swiper-pagination-bullet-active{
+    background-color: red !important;
+  }
+  .swiper-button-next, .swiper-button-prev{
+    display: none !important;
+  }
+  .swiper{
+    padding-bottom: 30px !important;
   }
   @media only screen and (max-width:576px){
     .review-slider  .swiper-slide{

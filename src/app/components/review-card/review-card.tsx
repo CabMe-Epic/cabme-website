@@ -54,7 +54,7 @@ const ReviewCard = () => {
             <SwiperSlide key={index}>
             <div className="max-w-[550px] border sm:p-12 p-8 pb-8 m-auto rounded-xl bg-white">
               <div>
-                <p className="relative text-center text-[#607D8B]">
+                <p className="relative text-center text-[#607D8B] sm:text-md text-xs">
                  {item?.content}
                   <Image
                     src="/svg/left-quote.svg"

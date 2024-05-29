@@ -53,7 +53,7 @@ const Footer = () => {
           />
         </div>
       </div>
-      <div className="grid sm:grid-cols-[1fr_1fr_1.2fr] grid-cols-2 mt-4">
+      <div className="grid sm:grid-cols-[1fr_1fr_1.2fr] grid-cols-2 sm:gap-0 gap-4 sm:mt-4 mt-12">
         {footerCollection?.map((item, index) => {
           return (
             <div key={index}>
@@ -138,7 +138,7 @@ const Footer = () => {
         </div>
       </div>
     </div>
-    <p className="p-4 bg-red-500 text-white font-semibold text-center">Copyright,  Cabme 2022. All Right Reserved.</p>
+    <p className="p-4 bg-red-500 text-white font-semibold text-center sm:text-md text-xs">Copyright,  Cabme 2022. All Right Reserved.</p>
     </>
   );
 };
