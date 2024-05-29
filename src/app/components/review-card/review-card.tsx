@@ -103,8 +103,8 @@ const ReviewCard = () => {
                     height={20}
                   />
                 </div>
-                <p className="text-center mt-4"></p>
-                <p className="text-center">Customer</p>
+                <p className="text-center mt-4 font-semibold text-sm">{item?.name}</p>
+                <p className="text-center text-sm">Customer</p>
               </div>
             </div>
           </SwiperSlide>
