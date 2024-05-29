@@ -12,7 +12,7 @@ const Footer = () => {
           We are India&apos;s leading Car Rental Company with an innovative way of
           servicing the requirements{" "}
         </p>
-        <div className="flex gap-6 my-6 justify-center">
+        <div className="flex gap-6 my-6 sm:justify-start justify-center">
           <Image
             src={"/svg/twitter.svg"}
             alt="twitter"
@@ -38,7 +38,7 @@ const Footer = () => {
             height={24}
           />
         </div>
-        <div className="flex gap-4 sm:block hidden">
+        <div className="sm:flex gap-4 hidden">
           <Image
             src={"/png/play-store.png"}
             alt="play-store"
@@ -98,7 +98,7 @@ const Footer = () => {
                 Vidyadhar Nagar, Jaipur-302039
               </p>
             </li>
-            <li className="flex gap-2 justify-center items-center">
+            <li className="flex gap-2 sm:justify-start justify-center items-center">
               <div className="h-fit">
                 <Image
                   src={"/png/mail.png"}
@@ -109,7 +109,7 @@ const Footer = () => {
               </div>
               <Link href={"mailto:support@cabme.in"} className="text-sm">support@cabme.in</Link>
             </li>
-            <li className="flex gap-2 justify-center">
+            <li className="flex gap-2 sm:justify-start justify-center">
               <Image src={"/png/call.png"} alt="call" width={18} height={18} />
               <div className="flex gap-2 text-sm">
                 <Link href={"tel:18001216162"}>

@@ -31,6 +31,9 @@
   .swiper{
     padding-bottom: 30px !important;
   }
+  .review-slider .swiper{
+    padding-bottom: 80px !important;
+  }
   @media only screen and (max-width:576px){
     .review-slider  .swiper-slide{
       opacity: 1;
