@@ -138,7 +138,7 @@ const Footer = () => {
         </div>
       </div>
     </div>
-    <p className="p-4 bg-red-500 text-white font-semibold text-center sm:text-md text-xs">Copyright,  Cabme 2022. All Right Reserved.</p>
+    <p className="p-4 bg-red-500 text-white font-semibold text-center sm:text-md text-xs">Copyright,  Cabme 2024. All Right Reserved.</p>
     </>
   );
 };
