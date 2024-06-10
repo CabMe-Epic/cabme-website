@@ -19,7 +19,7 @@ const FaqSection = ({ key, ques, ans }: faqProp) => {
         onClick={() => toggleFaq(ques)}
       >
         <span>{ques}</span>
-        <span>
+        <span className="flex-none">
            
           <Image
             src={showAns !== "" ? "/svg/Chevron-up.svg" : "/svg/Chevron-down.svg"}

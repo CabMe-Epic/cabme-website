@@ -152,11 +152,11 @@ export default function Home() {
         <h2 className="text-center sm:text-4xl text-2xl font-semibold">
           <span className="text-red-500"> Why</span> choose us
         </h2>
-        <div className="grid sm:grid-cols-4 grid-cols-2 sm:mt-10 mt-4 p-4">
+        <div className="grid sm:grid-cols-4 grid-cols-2 gap-4 sm:mt-10 mt-4 p-4">
           {chooseArray?.map((value, ind) => {
             return (
               <>
-                <div key={ind} className="text-center grid gap-4 h-[250px]">
+                <div key={ind} className="text-center cursor-pointer grid gap-4 h-[250px] hover:shadow-xl hover:rounded-xl hover:border">
                   <div className="flex">
                     <Image
                       src={value?.imageUrl}
