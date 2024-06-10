@@ -72,7 +72,7 @@ const ContactUs = () => {
 
       <div className="max-w-[1350px] mx-4 sm:mx-auto border border-[#FF0000] rounded-xl sm:px-12 px-4 sm:pt-8 sm:pb-8 pt-12 pb-4 relative mt-32">
         <h3 className="font-semibold sm:text-3xl text-xl sm:text-left text-center sm:mt-0 mt-4">
-          If you're experiencing an issue, <br /> please{" "}
+          If you&apos;re experiencing an issue, <br /> please{" "}
           <span className="text-red-500"> email</span> us.
         </h3>
         <p className="mt-2 sm:text-left text-center flex justify-center gap-4">

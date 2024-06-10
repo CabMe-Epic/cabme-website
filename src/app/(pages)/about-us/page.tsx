@@ -38,7 +38,7 @@ const AboutUs = () => {
           </h3>
           <div className="text-[#7C7575] grid gap-4 mt-6">
             <p>
-              We are India's leading Car Rental Company with an innovative way
+              We are India&apos;s leading Car Rental Company with an innovative way
               of servicing the requirements of the ever growing car rental
               industry in India as compared to other such service providers.
             </p>
@@ -46,7 +46,7 @@ const AboutUs = () => {
               The company was incorporated in year 2020 with a small fleet of 10
               cars. Today with its strong determination and strong competition
               edge over other car rentals companies, it has managed to grab a
-              large share in car rental industry. Over the years Cabme's fleet
+              large share in car rental industry. Over the years Cabme&apos;s fleet
               has exponentially grown. 
             </p>
             <div className="mt-6">
