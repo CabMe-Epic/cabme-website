@@ -19,15 +19,15 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 const ProductSlider = () => {
   return (
-    <div className="grid grid-cols-[55%_45%]">
-      <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider">
+    
+      <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider relative">
         <Swiper
           modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
           //   spaceBetween={50}
           slidesPerView={1}
           navigation={{
-            prevEl: '.swiper-button-prev',
-            nextEl: '.swiper-button-next',
+            prevEl: ".swiper-button-prev",
+            nextEl: ".swiper-button-next",
           }}
           pagination={{ clickable: true }}
           loop={true}
@@ -35,6 +35,7 @@ const ProductSlider = () => {
             delay: 2000,
             disableOnInteraction: false,
           }}
+          
         >
           {productCollection?.map((item, index) => {
             return (
@@ -51,8 +52,12 @@ const ProductSlider = () => {
               </SwiperSlide>
             );
           })}
-          <div className="swiper-button-prev">Custom Prev</div>
-      <div className="swiper-button-next">Custom Next</div>
+          <div className="swiper-button-prev !w-[40px] !h-[40px] bg-white !items-center shadow-custom-shadow" style={{display:"flex !important"}}>
+            <Image src={"/png/left-arrow-red.png"} alt="arrow" width={24} height={16} />
+          </div>
+          <div className="swiper-button-next !w-[40px] !h-[40px] bg-white !items-center shadow-xl" style={{display:"flex !important"}}>
+            <Image src={"/png/right-arrow-red.png"} alt="arrow" width={24} height={16} />
+          </div>
         </Swiper>
         <div className="flex justify-between gap-2 mt-4">
           {interiorImage?.map((item, index) => {
@@ -70,8 +75,7 @@ const ProductSlider = () => {
           })}
         </div>
       </div>
-      <div>hii</div>
-    </div>
+  
   );
 };
 export default ProductSlider;
