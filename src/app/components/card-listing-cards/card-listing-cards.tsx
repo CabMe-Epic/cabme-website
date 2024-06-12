@@ -147,7 +147,7 @@ const CardListingCards = () => {
                         <div className='m-0'>
                             <ThemeButton
                                 text="Book Now"
-                                className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px] box-shadow: 0px 4px 4px 0px #00000040;
+                                className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]
 "
                             />
                         </div>
