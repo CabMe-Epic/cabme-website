@@ -47,7 +47,11 @@
   width: 10px;
 }
 
-
+.interest .swiper-button-prev, .interest .swiper-button-next{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
 
 ::-webkit-scrollbar-track {
   background-color: #ebebeb;
