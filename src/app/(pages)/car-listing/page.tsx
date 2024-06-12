@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 import { getBreadcrumbs } from '../../utils/breadcrumbs';
 import Image from 'next/image';
 import CardListingCards from '@/app/components/card-listing-cards/card-listing-cards';
@@ -12,6 +12,26 @@ import CardListingBanner from '@/app/components/car-listing-banner/card-listing-
 const CarListing = () => {
     const pathname = usePathname();
     const breadcrumbs = getBreadcrumbs(pathname);
+
+    const [currentPage, setCurrentPage] = useState(2); // Initial active page is set to 2
+
+    const totalPages = 5;
+
+    const handleClick = (page: any) => {
+        setCurrentPage(page);
+    };
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNext = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     return (
         <div>
@@ -94,7 +114,6 @@ const CarListing = () => {
                             <Image
                                 src="/carListing/search.png"
                                 width={20}
-                                objectFit={"contain"}
                                 height={20}
                                 alt="bluetooth"
                                 className="absolute right-2 top-3 cursor-pointer"
@@ -108,14 +127,13 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
                             </div>
                             <div className='h-[208px] overflow-auto scrollbar scroll-smooth	'>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Tesla</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
@@ -139,7 +157,7 @@ const CarListing = () => {
                                     <span className="text-[15px] text-[#555151]">Hyundai</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Tesla</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
@@ -173,14 +191,13 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
                             </div>
                             <div className='h-[208px] overflow-auto scrollbar scroll-smooth	'>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Sedan</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
@@ -204,7 +221,7 @@ const CarListing = () => {
                                     <span className="text-[15px] text-[#555151]">Hyundai</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Pickup</span>
                                 </div>
 
@@ -221,14 +238,13 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
                             </div>
                             <div className='h-[208px] overflow-auto scrollbar scroll-smooth	'>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">1 - 4</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
@@ -263,7 +279,6 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
@@ -296,21 +311,20 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
                             </div>
                             <div className='h-[100px] overflow-auto scrollbar scroll-smooth	'>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Automatic</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
                                     <input type="checkbox" className='accent-[#ff0000] p-2 size-5' />
                                     <span className="text-[15px] text-[#555151]">Manual</span>
                                 </div>
-                                
+
                             </div>
                             <hr className="my-5" />
 
@@ -322,14 +336,13 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
                             </div>
                             <div className='h-[188px] overflow-auto scrollbar scroll-smooth	'>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Petrol</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
@@ -344,8 +357,8 @@ const CarListing = () => {
                                     <input type="checkbox" className='accent-[#ff0000] p-2 size-5' />
                                     <span className="text-[15px] text-[#555151]">Electric</span>
                                 </div>
-                                
-                                
+
+
                             </div>
                             <hr className="my-5" />
 
@@ -357,14 +370,13 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
                             </div>
                             <div className='h-[168px] overflow-auto scrollbar scroll-smooth	'>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Used</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
@@ -379,8 +391,8 @@ const CarListing = () => {
                                     <input type="checkbox" className='accent-[#ff0000] p-2 size-5' />
                                     <span className="text-[15px] text-[#555151]">Subscription</span>
                                 </div>
-                                
-                                
+
+
                             </div>
                             <hr className="my-5" />
 
@@ -392,14 +404,13 @@ const CarListing = () => {
                                 <Image
                                     src="/carListing/blackArrow.svg"
                                     width={20}
-                                    objectFit={"contain"}
                                     height={20}
                                     alt="bluetooth"
                                 />
                             </div>
                             <div className='h-[158px] overflow-auto scrollbar scroll-smooth	'>
                                 <div className="flex flex-row gap-2 my-4">
-                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' checked />
+                                    <input type="checkbox" className='accent-[#ff0000] p-2 size-5' defaultChecked />
                                     <span className="text-[15px] text-[#555151]">Bluetooth</span>
                                 </div>
                                 <div className="flex flex-row gap-2 my-4">
@@ -414,8 +425,8 @@ const CarListing = () => {
                                     <input type="checkbox" className='accent-[#ff0000] p-2 size-5' />
                                     <span className="text-[15px] text-[#555151]">Air Conditioner</span>
                                 </div>
-                                
-                                
+
+
                             </div>
                             <hr className="my-5" />
 
@@ -423,13 +434,13 @@ const CarListing = () => {
                         {/*  */}
 
                         <div>
-                        <ThemeButton
+                            <ThemeButton
                                 text="Filter Results"
                                 className=" sm:px-6 !px-2 sm:text-sm text-xs h-[50px] flex flex-row justify-center !text-center !text-[14px] w-[227px]"
                             />
                         </div>
                         <div>
-                        <ThemeButton
+                            <ThemeButton
                                 text="Reset Filter"
                                 className=" sm:px-6 !px-2 sm:text-sm text-xs h-[50px] flex flex-row justify-center !text-center !text-[14px] w-[227px] !text-[#ff0000] !bg-[#fff]"
                             />
@@ -437,14 +448,43 @@ const CarListing = () => {
 
                     </aside>
                     <div className="basis-2/3">
+
                         <CardListingCards />
                         <CardListingCards />
-                        <CardListingBanner/>
+                        <CardListingBanner />
                         <CardListingCards />
                         <CardListingCards />
-                        <CardListingBanner/>
+                        <CardListingBanner />
+
                     </div>
                 </section>
+                <div className="">
+                    <div className="flex items-center justify-center space-x-2 mt-4">
+                        <button
+                            className={`px-4 py-2 border rounded-md ${currentPage === 1 ? 'text-gray-400' : 'text-gray-700'}`}
+                            onClick={handlePrev}
+                            disabled={currentPage === 1}
+                        >
+                            &larr; Prev
+                        </button>
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                key={index}
+                                className={`w-10 h-10 border rounded-md ${currentPage === index + 1 ? 'bg-red-500 text-white' : 'bg-white text-gray-700'}`}
+                                onClick={() => handleClick(index + 1)}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+                        <button
+                            className={`px-4 py-2 border rounded-md ${currentPage === totalPages ? 'text-gray-400' : 'text-gray-700'}`}
+                            onClick={handleNext}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next &rarr;
+                        </button>
+                    </div>
+                </div>
 
             </main>
         </div >

@@ -1,10 +1,90 @@
 import Image from 'next/image';
-import React from 'react';
+import React, {useState} from 'react';
 import ThemeButton from "../../components/theme-button/theme-button";
 
 const CardListingCards = () => {
+    const [showOptions, setShowOptions] = useState(false);
+    const [activeTab, setActiveTab] = useState('Inclusions');
+
+    const tabs = [
+      { name: 'Exclusion', content: 'Exclusion Content' },
+      { name: 'Inclusions', content: 'Inclusions Content' },
+      { name: 'Facilities', content: 'Facilities Content' },
+      { name: 'T&C', content: 'T&C Content' },
+    ];
     return (
         <div className="relative mb-10">
+            {/*  */}
+                     {
+                        showOptions ? 
+                        <div className="flex flex-col w-[723px] z-10 absolute right-0 -bottom-32 bg-red-50 p-4 rounded-xl drop-shadow">
+                        <div className="flex justify-center items-center gap-[30px] bg-white rounded-lg overflow-hidden shadow-lg">
+                          {tabs.map((tab) => (
+                            <button
+                              key={tab.name}
+                              className={`py-2 px-4 font-semibold rounded-t-xl mt-2 ${activeTab === tab.name ? 'bg-red-200 text-red-600' : 'bg-red-600 text-white'}`}
+                              onClick={() => setActiveTab(tab.name)}
+                            >
+                              {tab.name}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="mt-0 flex justify-center">
+                          <div className="bg-red-200 p-4 rounded-lg flex justify-around items-center w-full max-w-4xl">
+                            {activeTab === 'Inclusions' && (
+                              <>
+                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
+                                  <Image
+                                    src="/carListingBanner/baseCar.png"
+                                    width={25}
+                                    height={25}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span>Base Fare</span>
+                                </div>
+                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
+                                  <Image
+                                    src="/carListingBanner/trip.png"
+                                    width={25}
+                                    height={25}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span>Trip Insurance</span>
+                                </div>
+                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
+                                  <Image
+                                    src="/carListingBanner/gst.png"
+                                    width={25}
+                                    height={10}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span>GST</span>
+                                </div>
+                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
+                                  <Image
+                                    src="/carListingBanner/deposit.png"
+                                    width={25}
+                                    height={25}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span>Refundable Security Deposit</span>
+                                </div>
+                              </>
+                            )}
+                            {activeTab === 'Exclusion' && <div>Exclusion Content</div>}
+                            {activeTab === 'Facilities' && <div>Facilities Content</div>}
+                            {activeTab === 'T&C' && <div>T&C Content</div>}
+                          </div>
+                        </div>
+                      </div>
+
+: ""
+                     }
+                        {/*  */}
             <div className="absolute -left-2 top-8 z-10">
                 <Image
                     src="/carListing/cardTag.png"
@@ -153,8 +233,8 @@ const CardListingCards = () => {
                         </div>
 
                     </div>
-                    <div className='flex flex-row justify-end items-center w-full !pr-10 gap-2 cursor-pointer mt-6'>
-                        <span className="text-[#ff0000]">View Details </span>
+                    <div className='flex flex-row justify-end items-center w-full !pr-10 gap-2 cursor-pointer mt-2'>
+                        <span className="text-[#ff0000]" onClick={ ( ) => setShowOptions(!showOptions)}>View Details </span>
                         <Image
                             src="/carListing/arrow.png"
                             width={10}
