@@ -12,7 +12,12 @@ import ThemeButton from '../theme-button/theme-button';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const FleetsSlider = () => {
+interface sliderProp{
+  showButton?:boolean,
+  showRatingStar?:boolean
+}
+
+const FleetsSlider = ({showButton,showRatingStar}:sliderProp) => {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -61,6 +66,8 @@ const FleetsSlider = () => {
                   <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">
                     {item?.badge}
                   </span>
+                  {showRatingStar===false ? "" :
+                  
                   <div className="flex gap-[3px]">
                     <Image
                       src={"/svg/rating-star.svg"}
@@ -87,6 +94,7 @@ const FleetsSlider = () => {
                       height={18}
                     />
                   </div>
+                  }
                 </div>
                 <div className="h-[185px]">
                   <Image
@@ -115,7 +123,10 @@ const FleetsSlider = () => {
                   })}
                 </div>
                 <p className="text-xs my-4">{item?.desc}</p>
+                {showButton===false ? "" :
+                
                 <ThemeButton className="w-full" text="Book Now" />
+                }
               </div>
               </SwiperSlide>
             );

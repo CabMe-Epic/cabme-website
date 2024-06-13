@@ -34,7 +34,7 @@ const CarListing = () => {
     };
 
     return (
-        <div>
+        <div className="max-w-[1250px] m-auto">
             <main className='m-8'>
                 {/* breadcrumbs */}
                 <div className=" text-[#5F5D5D]" >
@@ -59,7 +59,7 @@ const CarListing = () => {
                 {/* heading  */}
 
                 {/* filters */}
-                <div className="flex my-10 flex-row items-center text-[#5F5D5D]  justify-between">
+                <div className=" listing-filter flex my-10 flex-row items-center text-[#5F5D5D]  justify-between">
                     <div>
                         Showing 1-8 of 10 Results
                     </div>
