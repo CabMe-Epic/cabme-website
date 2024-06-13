@@ -15,7 +15,7 @@ const CarDetails = () => {
         <div className="sm:flex hidden px-16 text-[#5F5D5D]">
           <span className="cursor-pointer">Home</span>/
           <span className="cursor-pointer">Listing</span>/
-          <span className="cursor-pointer">Car Listing</span>
+          <span className="cursor-pointer">Car Details</span>
         </div>
         <div className="max-w-[1250px] m-auto my-12 grid grid-cols-[60%_40%] gap-6">
           <div>

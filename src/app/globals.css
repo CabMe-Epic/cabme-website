@@ -44,7 +44,7 @@
   }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 .interest .swiper-button-prev, .interest .swiper-button-next{
@@ -63,6 +63,12 @@
   -webkit-border-radius: 10px;
   border-radius: 10px;
   background: #ff0000; 
+}
+
+
+
+.custom-phone-input .react-tel-input{
+  width: 50px;
 }
   @media only screen and (max-width:576px){
     .review-slider  .swiper-slide{
