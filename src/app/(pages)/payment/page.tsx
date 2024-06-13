@@ -1,10 +1,20 @@
+"use client"
 import InputField from '@/app/components/input-field/input-field';
 import ThemeButton from '@/app/components/theme-button/theme-button';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import CountryInput from '@/app/components/country-input/country-Input';
 
 const PaymentPage = (props: any) => {
+    const [openOption, setOpenOption] = useState(null);
+
+    const toggleOption = (option: any) => {
+        if (openOption === option) {
+            setOpenOption(null);
+        } else {
+            setOpenOption(option);
+        }
+    };
     return (
         <div>
             <main className='max-w-[1250px] m-auto'>
@@ -14,18 +24,18 @@ const PaymentPage = (props: any) => {
                         {/* Step 1 */}
                         <div className="flex items-center">
                             <div className="relative flex flex-col gap-2 items-center">
-                                <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex items-center justify-center">
-                                <Image src="/carDetails/done.png" width={20} height={20} alt="" />
-                                                                </div>
+                                <div className="w-8 h-8 border-[1px] border-red-500 rounded-full bg-white flex items-center justify-center">
+                                    <Image src="/carDetails/done.png" width={20} height={20} alt="" />
+                                </div>
                                 <span className="ml-2">Login & Registration</span>
                             </div>
                         </div>
-                        <div className="flex-grow p-0 h-[1px] bg-gray-300 border-b-[1px] border-black -z-10 absolute top-[15px] left-[55px]  items-center w-[1054px]"></div>
+                        <div className="flex-grow p-0 h-[1px] bg-gray-300 border-b-[1px] border-[#000000] -z-10 absolute top-[15px] left-[55px]  items-center w-[1054px]"></div>
                         {/* Step 2 */}
                         <div className="flex items-center">
                             <div className="relative flex flex-col gap-2 items-center">
-                                <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex items-center justify-center">
-                                <Image src="/carDetails/done.png" width={20} height={20} alt="" />
+                                <div className="w-8 h-8 border-[1px] border-red-500 rounded-full bg-white flex items-center justify-center">
+                                    <Image src="/carDetails/done.png" width={20} height={20} alt="" />
                                 </div>
                                 <span className="ml-2">Personal Details</span>
                             </div>
@@ -33,7 +43,7 @@ const PaymentPage = (props: any) => {
                         {/* Step 3 */}
                         <div className="flex items-center">
                             <div className="relative flex flex-col gap-2 items-center">
-                                <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex items-center justify-center">
+                                <div className="w-8 h-8 border-[1px] border-red-500 rounded-full bg-white flex items-center justify-center">
                                     <div className="w-3 h-3 p-2 bg-[#ff0000] rounded-full"></div>
                                 </div>
                                 <span className="ml-2">Payment Method</span>
@@ -46,34 +56,98 @@ const PaymentPage = (props: any) => {
                 <div className='grid grid-cols-2 gap-10 mt-10'>
 
                     <section>
-                        <div className='my-6 h-[515px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md'>
+                        <div className='my-6  p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md'>
                             <div className=''>
                                 <h1 className="text-[36px] font-bold">CHOOSE PAYMENT METHOD</h1>
                             </div>
-                            <div className="grid grid-cols-2 gap-5">
-                                <InputField type="text" className="w-auto" placeholder="First Name" />
-                                <InputField type="text" className="w-auto" placeholder="Last Name" />
-                                <input className={`w-auto h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB]`} type="date" placeholder="Date of Birth" />
-                                <select name="" id="" className={`w-auto h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB]`}>
-                                    <option value="Gender">Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
+
+                     
+
+                            <div className="max-w-[588px] w-[488px] mx-auto bg-white  rounded-lg p-4">
+                                <h2 className="text-xl font-semibold mb-4 relative overflow-hidden">Pay Online <span className="border-b-[1px] border-[#000000] w-full absolute top-3 left-32"></span></h2>
+
+                                <div className="border-b-[1px] py-2 border-[#000000] flex my-2 flex-row pb-4 items-center gap-2">
+                                    <div><Image className="mt-1" src="/carDetails/upi.png" width={50} height={50} alt="upi" /></div>
+                                    <div className="w-full">
+                                        <select className="block outline-0 w-full mt-1  rounded-md">
+                                            <option value="">UPI (GPay/PhonePay/Paytm)</option>
+                                            <option value="gpay">Google Pay</option>
+                                            <option value="phonepay">PhonePay</option>
+                                            <option value="paytm">Paytm</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="border-b-[1px] py-2 border-[#000000] flex my-2 flex-row pb-4 items-center gap-2">
+                                    <div>
+                                        <Image className="mt-1" src="/carDetails/wallet.png" width={20} height={20} alt="wallet" />
+                                    </div>
+                                    <div className="w-full">
+                                        <select className="block outline-0 w-full mt-1  rounded-md">
+                                            <option value="">Wallet</option>
+                                            <option value="wallet1">Wallet 1</option>
+                                            <option value="wallet2">Wallet 2</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div className="border-b-[1px] border-[#000000] py-2 flex my-2 flex-row pb-4 items-center gap-2">
+
+                                    <div>
+                                        <Image className="mt-1" src="/carDetails/netbanking.png" width={20} height={20} alt="netbanking" />
+                                    </div>
+                                    <div className="w-full">
+                                        <select className="block outline-0 w-full mt-1  rounded-md">
+                                            <option value="">Net Banking</option>
+                                            <option value="bank1">Bank 1</option>
+                                            <option value="bank2">Bank 2</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div className="border-b-[1px] border-[#000000] py-2 flex my-2 flex-row pb-4 items-center gap-2">
+
+                                    <div>
+                                        <Image className="mt-1" src="/carDetails/debitcard.png" width={20} height={20} alt="debitcard" />
+                                    </div>
+                                    <div className="w-full">
+                                        <select className="block outline-0 w-full mt-1  rounded-md">
+                                            <option value="">Debit/Credit Card</option>
+                                            <option value="visa">Visa</option>
+                                            <option value="mastercard">MasterCard</option>
+                                            <option value="amex">American Express</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <h2 className="relative text-xl font-semibold mt-4 mb-2 overflow-hidden">Pay Cash <span className="border-b-[1px] border-[#000000] w-full absolute top-3 left-32"></span></h2>
+                                <div className=" py-2 border-b-[1px] mb-10 border-[#000000] pb-2 flex flex-row items-center gap-2">
+                                    <div>
+                                        <Image className="mt-1" src="/carDetails/cash.png" width={20} height={20} alt="cash" />
+                                    </div>
+                                    <div className="w-full">
+                                        <select className="block outline-0 w-full mt-1  rounded-md">
+                                            <option value="">Cash</option>
+                                            <option value="cash">Pay with Cash</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div className="flex flex-col gap-4">
+                                <InputField type="text" className="w-full"  placeholder="Credit Card Number" />
+                                <div className="flex flex-row item-center gap-2 ">
+                                <div className="w-full"><InputField type="text" className="w-full" placeholder="CVV" /></div>
+                                <div className="w-full"><InputField type="text" className="w-full" placeholder="Expiry Date" /></div>
+                                </div>
+                                <InputField type="text" className="w-full"  placeholder="Name on Card" />
+                                </div>
                             </div>
-
-                            <div className="flex flex-row gap-5 items-center">
-                                <ThemeButton text="Back"
-                                    className='w-[221px] h-[55px] flex flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center text-[24px] text-[#F1301E] !border-[#F1301E] border-2 !bg-[#fff]' />
-
-                                <ThemeButton text="Next" className='w-[221px] h-[55px] flex flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-[24px] from-[#F1301E] to-[#FA4F2F]' />
-                            </div>
-
                         </div>
                         {/*  */}
-                        
-
                     </section>
-
                     <section>
                         <main className=" flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                             <div className='w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl'>
@@ -150,7 +224,7 @@ const PaymentPage = (props: any) => {
                                         <span className="text-[#ff0000] p-0 text-[30px] font-bold">₹ 15,000</span>
                                     </div>
                                     <div>
-                                        <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-[24px] font-bold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">Proceed</button>
+                                        <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-[24px] font-bold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">Checkout</button>
                                     </div>
 
                                 </div>
