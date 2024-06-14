@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"
 const Header = () =>{
     const router = useRouter()
     const toggleMenu = (item:string) =>{
-        item==="About Us" ? router.push("/about-us") : item==="Contact Us" ? router.push("/contact-us") :  ""
+        item==="About Us" ? router.push("/about-us") : item==="Contact Us" ? router.push("/contact-us") :  item==="Listing" ? router.push("/car-listing") : ""
     }
     return(
         <>
@@ -48,6 +48,6 @@ const headerMenu = [
     menu:"Blog"
 },
 {
-    menu:"Faq’s"
+    menu:"Listing"
 }
 ]

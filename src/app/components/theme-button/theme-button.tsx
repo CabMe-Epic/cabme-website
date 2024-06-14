@@ -10,7 +10,7 @@ const ThemeButton = ({ text, onClick, className, image }: buttonProps) => {
   return (
     <>
       <button
-        className={`bg-red-500 text-white rounded-md px-6 py-[6px] font-normal flex items-center ${className}`}
+        className={`bg-red-500 text-white rounded-md px-6 py-[6px] font-normal flex items-center justify-center ${className}`}
         onClick={onClick}
       >
         {" "}
