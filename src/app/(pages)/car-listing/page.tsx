@@ -195,7 +195,7 @@ const CarListing = () => {
               <div className="h-[208px] mt-4 overflow-auto scrollbar scroll-smooth	">
                 {carCategory?.map((item, index) => {
                   return (
-                    <div className="flex flex-row gap-2 mb-4">
+                    <div className="flex flex-row gap-2 mb-4" key={index}>
                       {index === 0 ? (
                         <input
                           type="checkbox"
