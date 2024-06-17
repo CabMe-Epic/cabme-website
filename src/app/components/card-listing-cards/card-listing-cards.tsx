@@ -15,75 +15,7 @@ const CardListingCards = () => {
     return (
         <div className="relative mb-10">
             {/*  */}
-                     {
-                        showOptions ? 
-                        <div className="flex flex-col w-[723px] z-10 absolute right-0 -bottom-32 bg-red-50 p-4 rounded-xl drop-shadow">
-                        <div className="flex justify-center items-center gap-[30px] bg-white rounded-lg overflow-hidden shadow-lg">
-                          {tabs.map((tab) => (
-                            <button
-                              key={tab.name}
-                              className={`py-2 px-4 font-semibold rounded-t-xl mt-2 ${activeTab === tab.name ? 'bg-red-200 text-red-600' : 'bg-red-600 text-white'}`}
-                              onClick={() => setActiveTab(tab.name)}
-                            >
-                              {tab.name}
-                            </button>
-                          ))}
-                        </div>
-                        <div className="mt-0 flex justify-center">
-                          <div className="bg-red-200 p-4 rounded-lg flex justify-around items-center w-full max-w-4xl">
-                            {activeTab === 'Inclusions' && (
-                              <>
-                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
-                                  <Image
-                                    src="/carListingBanner/baseCar.png"
-                                    width={25}
-                                    height={25}
-                                    objectFit="contain"
-                                    alt="car"
-                                  />
-                                  <span>Base Fare</span>
-                                </div>
-                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
-                                  <Image
-                                    src="/carListingBanner/trip.png"
-                                    width={25}
-                                    height={25}
-                                    objectFit="contain"
-                                    alt="car"
-                                  />
-                                  <span>Trip Insurance</span>
-                                </div>
-                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
-                                  <Image
-                                    src="/carListingBanner/gst.png"
-                                    width={25}
-                                    height={10}
-                                    objectFit="contain"
-                                    alt="car"
-                                  />
-                                  <span>GST</span>
-                                </div>
-                                <div className="flex flex-row gap-2 items-center bg-white px-2 py-6 rounded-md h-[37px]">
-                                  <Image
-                                    src="/carListingBanner/deposit.png"
-                                    width={25}
-                                    height={25}
-                                    objectFit="contain"
-                                    alt="car"
-                                  />
-                                  <span>Refundable Security Deposit</span>
-                                </div>
-                              </>
-                            )}
-                            {activeTab === 'Exclusion' && <div>Exclusion Content</div>}
-                            {activeTab === 'Facilities' && <div>Facilities Content</div>}
-                            {activeTab === 'T&C' && <div>T&C Content</div>}
-                          </div>
-                        </div>
-                      </div>
-
-: ""
-                     }
+                    
                         {/*  */}
             <div className="absolute -left-2 top-8 z-10">
                 <Image
@@ -94,7 +26,7 @@ const CardListingCards = () => {
                     alt="Tag Icon"
                 />
             </div>
-            <main className='bg-gradient-to-r from-[#fff] from-10% via-[#F4C6C1] via-30% to-[#fff] to-90% w-[1028px] h-[304px] rounded-[12px] border-[#DCDCDC] border-2 flex flex-row items-center justify-center'>
+            <main className="bg-[url('/png/listing-bg.png')] w-[1028px] h-[304px] rounded-[12px] flex flex-row items-center justify-center">
                 <div className="flex flex-col items-center jusitfy-center w-[486px] h-full ">
                     <div className='flex flex-row justify-center m-auto pr-10 pt-14'>
                         <h1 className="m-auto font-bold text-[24px]">POLO</h1>
@@ -109,12 +41,12 @@ const CardListingCards = () => {
                     <div className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer">
                         <Image
                             src="/carListing/view.png"
-                            width={20}
+                            width={16}
                             objectFit={"contain"}
-                            height={20}
+                            height={16}
                             alt="Car Icon"
                         />
-                        <span className="text-[#ff0000]">View Real Car Images</span>
+                        <span className="text-[#ff0000] text-sm">View Real Car Images</span>
                     </div>
 
                 </div>
@@ -233,7 +165,7 @@ const CardListingCards = () => {
                         </div>
 
                     </div>
-                    <div className='flex flex-row justify-end items-center w-full !pr-10 gap-2 cursor-pointer mt-2'>
+                    <div className='flex flex-row justify-end items-center w-full !pr-10 relative gap-2 cursor-pointer mt-2'>
                         <span className="text-[#ff0000]" onClick={ ( ) => setShowOptions(!showOptions)}>View Details </span>
                         <Image
                             src="/carListing/arrow.png"
@@ -242,6 +174,75 @@ const CardListingCards = () => {
                             height={10}
                             alt="bluetooth"
                         />
+                         {
+                        showOptions ? 
+                        <div className="flex flex-col w-[750px] z-10 absolute right-0 top-8 bg-red-50 p-4 rounded-xl drop-shadow">
+                        <div className="flex justify-between px-4 items-center gap-[30px] bg-white rounded-lg overflow-hidden shadow-lg">
+                          {tabs.map((tab) => (
+                            <button
+                              key={tab.name}
+                              className={`py-2 px-4 rounded-t-xl mt-2 ${activeTab === tab.name ? 'bg-red-200 text-red-600' : 'bg-red-600 text-white'}`}
+                              onClick={() => setActiveTab(tab.name)}
+                            >
+                              {tab.name}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="mt-0 flex justify-center">
+                          <div className="bg-red-200 px-4 py-2 rounded-lg flex justify-around items-center w-full max-w-4xl">
+                            {activeTab === 'Inclusions' && (
+                              <>
+                                <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
+                                  <Image
+                                    src="/carListingBanner/baseCar.png"
+                                    width={25}
+                                    height={25}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span className='text-sm'>Base Fare</span>
+                                </div>
+                                <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
+                                  <Image
+                                    src="/carListingBanner/trip.png"
+                                    width={25}
+                                    height={25}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span className='text-sm'>Trip Insurance</span>
+                                </div>
+                                <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
+                                  <Image
+                                    src="/carListingBanner/gst.png"
+                                    width={25}
+                                    height={10}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span className='text-sm'>GST</span>
+                                </div>
+                                <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
+                                  <Image
+                                    src="/carListingBanner/deposit.png"
+                                    width={25}
+                                    height={25}
+                                    objectFit="contain"
+                                    alt="car"
+                                  />
+                                  <span className='text-sm'>Refundable Security Deposit</span>
+                                </div>
+                              </>
+                            )}
+                            {activeTab === 'Exclusion' && <div>Exclusion Content</div>}
+                            {activeTab === 'Facilities' && <div>Facilities Content</div>}
+                            {activeTab === 'T&C' && <div>T&C Content</div>}
+                          </div>
+                        </div>
+                      </div>
+
+: ""
+                     }
                     </div>
                 </div>
 

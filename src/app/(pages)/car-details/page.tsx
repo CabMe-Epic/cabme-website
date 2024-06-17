@@ -35,7 +35,7 @@ const CarDetails = () => {
             {/* booking summary */}
             <div>
 
-              <main className="w-[504px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+              <main className="w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className='w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl'>
                   <span className="text-center">Booking Summary</span>
                 </div>
@@ -65,8 +65,8 @@ const CarDetails = () => {
                     <span className="w-[220px] ml-10">₹ 3000</span>
                   </div>
 
-                  <div className="grid grid-cols-2 w-fit gap-8 justify-center shadow-inner font-bold text-[30px]">
-                    <span className="w-[220px] ml-10">Total</span>
+                  <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
+                    <span className="w-[220px] ml-10">TOTAL</span>
                     <span className="w-[220px] ml-10 text-[#ff0000]">₹ 7686</span>
                   </div>
 
@@ -107,18 +107,18 @@ const CarDetails = () => {
                   <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
                     <div className="flex flex-col">
                       <span>Total Amount</span>
-                      <span className="text-[#ff0000] p-0 text-[30px] font-bold">₹ 15,000</span>
+                      <span className="text-[#ff0000] p-0 text-2xl font-bold">₹ 15,000</span>
                     </div>
                     <div>
-                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-[24px] font-bold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">Proceed</button>
+                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">Proceed</button>
                     </div>
 
                   </div>
 
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] w-[423px] py-4 rounded-3xl border-[#ff0000] cursor-pointer">
-                  <span className="font-bold text-[15px]">Pay ₹10,000 Now</span>
-                  <span className="text-[#ff0000] font-bold text-[15px]">Balance on Delivery</span>
+                <div className="flex flex-col items-center border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                  <span className="font-bold text-md">Pay ₹10,000 Now</span>
+                  <span className="text-[#ff0000] font-semibold text-[15px]">Balance on Delivery</span>
                 </div>
               </main>
               <div className="flex flex-row items-start gap-2 ml-4">
@@ -127,7 +127,7 @@ const CarDetails = () => {
                 </span>
                 <span className="text-[18px] font-semibold text-[#6CAE39]">
                   50% Refund <br /> Until 06June2024, 2:00PM <br />
-                  <span className="text-[#737373] font-light">Convince fees is not refundable</span>
+                  <span className="text-[#737373] text-sm font-light">Convince fees is not refundable</span>
                 </span>
 
               </div>
@@ -150,7 +150,7 @@ const CarDetails = () => {
         <div>
           <Video/>
         </div>
-        <div className="mx-10">
+        <div className="mx-10 top-button">
           {/* <InterestedSlider/> */}
           <FleetsSlider showButton={false} showRatingStar={false} />
         </div>

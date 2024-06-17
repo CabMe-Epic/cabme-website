@@ -42,7 +42,15 @@
   .review-slider .swiper{
     padding-bottom: 80px !important;
   }
-
+.top-button .swiper-button-next, .top-button .swiper-button-prev{
+  display: block !important;
+  position: absolute !important;
+  top: 7%;
+ 
+}
+.top-button .swiper-button-prev{
+  left: 93%;
+}
 ::-webkit-scrollbar {
   width: 6px;
 }

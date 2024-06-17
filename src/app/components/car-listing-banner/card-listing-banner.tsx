@@ -4,7 +4,7 @@ import Image from 'next/image';
  const CardListingBanner = () => {
   return (
     <div>
-      <main className="h-[141px] my-10 flex flex-row justify-between items-center bg-[#FFE9BB] p-4 pr-0 rounded-[12px]">
+      <main className="h-[141px] my-10 flex flex-row justify-between items-center bg-[#fff5e1] p-4 pr-0 rounded-[12px]">
         <div>
         <Image 
         src={"/carListingBanner/Car.png"}
