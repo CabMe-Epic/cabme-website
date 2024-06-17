@@ -34,10 +34,44 @@ const CarListing = () => {
   };
 
   return (
-    <div className="max-w-[1400px] m-auto py-8 px-4">
-      <main className="">
+    <div className="max-w-[1400px] m-auto">
+      <div className="sm:hidden xs:flex p-4 justify-between items-center bg-[url('/png/red-bg.png')] relative" style={{backgroundSize:"100% 100%"}}>
+        <div>&larr;</div>
+        <div>
+          <div className="flex gap-4 xs:mb-0 mb-2">
+            <strong>Delhi-NCR</strong>
+            <ThemeButton
+              text="Edit"
+              className="!bg-transparent !text-red-500 !px-0 !py-0"
+              editIcon={true}
+            />
+          </div>
+          <div className="flex gap-4 text-sm">
+            <div>
+              <strong>23 May</strong>
+              <span> 4:00 AM</span>
+              <span> Thu</span>
+            </div>
+            <div>
+              <strong>23 May</strong>
+              <span> 4:00 AM</span>
+              <span> Thu</span>
+            </div>
+          </div>
+        </div>
+        <div className="xs:static absolute right-2 top-6">
+          <Image
+            src={"/svg/arrow-black.svg"}
+            alt="arrow"
+            width={18}
+            height={18}
+            className="cursor-pointer"
+          />
+        </div>
+      </div>
+      <main className=" xs:py-8 px-4">
         {/* breadcrumbs */}
-        <div className=" text-[#5F5D5D]">
+        <div className="sm:block hidden text-[#5F5D5D]">
           <nav aria-label="breadcrumb">
             <ol className="flex flex-row">
               {breadcrumbs.map((breadcrumb: any, index: number) => (
@@ -51,22 +85,34 @@ const CarListing = () => {
         </div>
         {/* breadcrumbs */}
         {/* heading  */}
-        <div className="m-auto mt-5 flex justify-center items-center">
+        <div className="sm:block hidden m-auto mt-5 flex justify-center items-center text-center">
           <h1 className="text-[48px] font-bold text-[#FF0000]">Car Listing</h1>
         </div>
         {/* heading  */}
 
         {/* filters */}
-        <div className=" listing-filter flex my-20 flex-row items-center text-[#5F5D5D]  justify-between">
-          <div>Showing 1-8 of 10 Results</div>
+        <div className=" listing-filter sm:my-20 my-4 flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
+          <div className="flex justify-between w-full sm:w-auto mt-4">
+            <div className="sm:text-[16px] text-xs">
+              Showing 1-8 of 10 Results
+            </div>
+            <select
+              name="filter"
+              id="filter"
+              className="sm:hidden block shadow"
+            >
+              <option value="Filters">Filters</option>
+            </select>
+          </div>
           {/*  */}
-          <div className="flex flex-row items-center gap-4">
+          <div className="xs:flex flex-row items-center gap-4">
             <div>Show:</div>
+            <div className="flex gap-2">
             <div>
               <select
                 name=""
                 id=""
-                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md p-3 w-[78px]"
+                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[78px]"
               >
                 <option value="5">5</option>
               </select>
@@ -75,7 +121,7 @@ const CarListing = () => {
               <select
                 name=""
                 id=""
-                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md p-3 w-[154px]"
+                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[154px]"
               >
                 <option value="low-to-high">Low to High</option>
               </select>
@@ -84,15 +130,16 @@ const CarListing = () => {
               <select
                 name=""
                 id=""
-                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md p-3 w-[315px]"
+                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[315px]"
               >
                 <option value="popular">Popular</option>
               </select>
             </div>
+            </div>
           </div>
           {/*  */}
-          <div className="flex flex-row items-center gap-2">
-            <div className="cursor-pointer">
+          <div className="sm:flex hidden flex-row items-center gap-2">
+            <div className="cursor-pointer flex-none">
               <Image
                 src="/carListing/filterIconRed.png"
                 width={42}
@@ -100,7 +147,7 @@ const CarListing = () => {
                 alt="Filter Icon"
               />
             </div>
-            <div className="cursor-pointer">
+            <div className="cursor-pointer flex-none">
               <Image
                 src="/carListing/filterIconGrey.png"
                 width={42}
@@ -112,8 +159,8 @@ const CarListing = () => {
         </div>
         {/* filters */}
 
-        <section className="flex flex-row items-start justify-between gap-10">
-          <aside className="basis-1 w-[300px] h-full shadow-md p-8 ">
+        <section className="sm:flex flex-row items-start justify-between gap-10">
+          <aside className="basis-1 w-[300px] h-full shadow-md p-8 sm:block hidden">
             <div>
               <h1 className="text-center font-bold">
                 What Are You Looking For
@@ -185,20 +232,18 @@ const CarListing = () => {
                 {carType?.map((item, index) => {
                   return (
                     <div className="flex flex-row gap-2 mb-4">
-                        {index===0 ?
-                        
-                    <input
-                      type="checkbox"
-                      className="accent-[#ff0000] p-2 size-5"
-                      defaultChecked
-                    />
-                    :
-                    <input
-                      type="checkbox"
-                      className="accent-[#ff0000] p-2 size-5"
-                      
-                    />
-                    }
+                      {index === 0 ? (
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5"
+                          defaultChecked
+                        />
+                      ) : (
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5"
+                        />
+                      )}
                       <span className="text-sm text-[#555151]">
                         {item?.type}
                       </span>
@@ -221,29 +266,27 @@ const CarListing = () => {
                 />
               </div>
               <div className="h-[208px] overflow-auto scrollbar scroll-smooth mt-4">
-                {carCapacity?.map((item,index)=>{
-                    return(
-
-                <div className="flex flex-row gap-2 mb-4">
-                    {index===0 ? 
-                <input
-                  type="checkbox"
-                  className="accent-[#ff0000] p-2 size-5"
-                  defaultChecked
-                />
-                :
-                <input
-                  type="checkbox"
-                  className="accent-[#ff0000] p-2 size-5"
-                  
-                />
-                    
-                }
-                  <span className="text-sm text-[#555151]">{item?.capacity}</span>
-                </div>
-                    )
-                })}            
-                
+                {carCapacity?.map((item, index) => {
+                  return (
+                    <div className="flex flex-row gap-2 mb-4">
+                      {index === 0 ? (
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5"
+                          defaultChecked
+                        />
+                      ) : (
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5"
+                        />
+                      )}
+                      <span className="text-sm text-[#555151]">
+                        {item?.capacity}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
               <hr className="my-5" />
             </div>
@@ -422,29 +465,27 @@ const CarListing = () => {
                 />
               </div>
               <div className="h-[158px] overflow-auto scrollbar scroll-smooth mt-4">
-                {otherFeatures?.map((item,index)=>{
-                    return(
-
-                <div className="flex flex-row gap-2 mb-4">
-                    {index===0 ?
-                <input
-                  type="checkbox"
-                  className="accent-[#ff0000] p-2 size-5"
-                  defaultChecked
-                />
-                :
-                <input
-                type="checkbox"
-                className="accent-[#ff0000] p-2 size-5"
-                
-              />
-                    
-                }
-                  <span className="text-sm text-[#555151]">{item?.feature}</span>
-                </div>
-                    )
-                })}               
-                
+                {otherFeatures?.map((item, index) => {
+                  return (
+                    <div className="flex flex-row gap-2 mb-4">
+                      {index === 0 ? (
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5"
+                          defaultChecked
+                        />
+                      ) : (
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5"
+                        />
+                      )}
+                      <span className="text-sm text-[#555151]">
+                        {item?.feature}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
               <hr className="my-5" />
             </div>
@@ -475,7 +516,7 @@ const CarListing = () => {
         <div className="">
           <div className="flex items-center justify-center space-x-2 mt-4">
             <button
-              className={`px-4 py-2 border rounded-md ${
+              className={`px-4 py-2 border rounded-md whitespace-nowrap ${
                 currentPage === 1 ? "text-gray-400" : "text-gray-700"
               }`}
               onClick={handlePrev}
@@ -497,7 +538,7 @@ const CarListing = () => {
               </button>
             ))}
             <button
-              className={`px-4 py-2 border rounded-md ${
+              className={`px-4 py-2 border rounded-md whitespace-nowrap ${
                 currentPage === totalPages ? "text-gray-400" : "text-gray-700"
               }`}
               onClick={handleNext}
@@ -550,40 +591,40 @@ const carType = [
     type: "SUV",
   },
   {
-    type:"Hyundai"
-  }
+    type: "Hyundai",
+  },
 ];
 const carCapacity = [
-    {
-        capacity:"1 - 4",
-    },
-    {
-        capacity:"1 - 6",
-    },
-    {
-        capacity:"4 - 6",
-    },
-    {
-        capacity:"4 - 8",
-    },
-    {
-        capacity:"8+",
-    },
-    {
-        capacity:"20",
-    },
-]
+  {
+    capacity: "1 - 4",
+  },
+  {
+    capacity: "1 - 6",
+  },
+  {
+    capacity: "4 - 6",
+  },
+  {
+    capacity: "4 - 8",
+  },
+  {
+    capacity: "8+",
+  },
+  {
+    capacity: "20",
+  },
+];
 const otherFeatures = [
-    {
-        feature:"Bluetooth"
-    },
-    {
-        feature:"GPS Navigation"
-    },
-    {
-        feature:"Boot Space"
-    },
-    {
-        feature:"Air Conditioner"
-    }
-]
+  {
+    feature: "Bluetooth",
+  },
+  {
+    feature: "GPS Navigation",
+  },
+  {
+    feature: "Boot Space",
+  },
+  {
+    feature: "Air Conditioner",
+  },
+];

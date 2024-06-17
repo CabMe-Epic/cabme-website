@@ -5,8 +5,15 @@ interface buttonProps {
   onClick?: any;
   className?: string;
   image?: string;
+  editIcon?: boolean;
 }
-const ThemeButton = ({ text, onClick, className, image }: buttonProps) => {
+const ThemeButton = ({
+  text,
+  onClick,
+  className,
+  image,
+  editIcon,
+}: buttonProps) => {
   return (
     <>
       <button
@@ -16,6 +23,15 @@ const ThemeButton = ({ text, onClick, className, image }: buttonProps) => {
         {" "}
         <span>{text}</span>
         {image && <Image src={image} alt="image" width={115} height={27} />}
+        {editIcon && (
+          <Image
+            src={"/svg/edit.svg"}
+            alt="edit"
+            width={12}
+            height={12}
+            className="ml-[4px]"
+          />
+        )}
       </button>
     </>
   );
