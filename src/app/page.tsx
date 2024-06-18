@@ -409,23 +409,23 @@ export default function Home() {
           Lorem Ipsum has been the industry&apos;s standard <br /> dummy text
           ever since the 1500s,
         </p>
-        <div className="grid grid-cols-2 sm:gap-10 gap-2 sm:p-8 p-2">
+        <div className="grid grid-cols-4 sm:gap-10 gap-2 sm:p-8 p-2">
           {factsArray?.map((item, index) => {
             return (
               <div
                 key={index}
-                className="flex sm:gap-6 gap-2 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-[94%] overflow-hidden"
+                className="flex sm:gap-6 gap-2 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-auto overflow-hidden "
               >
-                <div className="sm:w-[174px] w-[50px] flex-none">
+                <div className="sm:w-[80px] w-[60px] flex-none">
                   <Image
                     src={item?.imageUrl}
                     alt="image"
                     width={174}
                     height={174}
-                    className="sm:w-[174px] w-[50px]"
+                    className="sm:w-[80px] w-[60px]"
                   />
                 </div>
-                <div className="font-bold sm:text-4xl text-xs">
+                <div className="font-bold sm:text-2xl text-xs">
                   <h3>{item?.count}</h3>
                   <p>{item?.headline}</p>
                 </div>

@@ -64,22 +64,22 @@ const CardListingCards = () => {
                         </div>
                         {/*  */}
                         <div className="flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#000000] px-2 py-2 rounded-lg w-[210px] h-[71px]">
-                            <span className='font-bold text-[18px] '>₹ 21,635</span>
+                            <span className='font-bold text-[18px] '>₹ 25,229</span>
                             <span className="flex flex-col gap-0">
 
-                                <p className="text-[#565454] font-[500] text-[14px]">120kms/day</p>
+                                <p className="text-[#565454] font-[500] text-[14px]">300kms/day</p>
                                 <hr className="border-[#000000] border-[1.2px]" />
-                                <p className="text-[#FF0000] font-[500] text-[14px]">360 Free kms</p>
+                                <p className="text-[#FF0000] font-[500] text-[14px]">900 Free kmss</p>
                             </span>
                         </div>
                         {/*  */}
                         <div className="flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg w-[210px] h-[71px]">
-                            <span className='font-bold text-[18px] '>₹ 21,635</span>
+                            <span className='font-bold text-[18px] '>₹ 38,675</span>
                             <span className="flex flex-col gap-0">
 
-                                <p className="text-[#565454] font-[500] text-[14px]">120kms/day</p>
+                                <p className="text-[#565454] font-[500] text-[14px]">Unlimited</p>
                                 <hr className="border-[#000000] border-[1.2px]" />
-                                <p className="text-[#FF0000] font-[500] text-[14px]">360 Free kms</p>
+                                <p className="text-[#FF0000] font-[500] text-[14px]">Unlimited Kms</p>
                             </span>
                         </div>
                     </div>
