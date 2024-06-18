@@ -19,7 +19,7 @@ const Specifications = () => {
     return (
         <div className=" shadow-md p-6 border border-gray-300 rounded-lg">
             <h2 className="text-2xl font-semibold border-b pb-2 mb-5">Specifications</h2>
-            <div className="grid grid-cols-4 justify-between items-center gap-2  ">
+            <div className="grid sm:grid-cols-4 grid-cols-2 justify-between items-center gap-2  ">
                 <div><IconComponent title="Body" subtitle="Sedan" imageSrc="/carDetails/body.png" /></div>
                 <div><IconComponent title="Make" subtitle="Nissan" imageSrc="/carDetails/make.png" /></div>
                 <div><IconComponent title="Transmission" subtitle="Automatic" imageSrc="/carDetails/transmission.png" /></div>

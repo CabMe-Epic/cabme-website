@@ -4,8 +4,8 @@ import React from "react";
 const BookingDetailsCard = () => {
   return (
     <div>
-      <main className="w-[511px] border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">
-        <div className="w-[376px]">
+      <main className="max-w-[511px] px-2 border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">
+        <div className="max-w-[376px]">
           <div className="h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
             <span className="text-center">Booking Details</span>
           </div>

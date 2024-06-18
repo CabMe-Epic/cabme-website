@@ -26,7 +26,7 @@ const CarFeatures = () => {
           <div key={index} className="flex items-center gap-4">
              <Image src="/carDetails/check.png" width={30} height={30} alt="" />
         
-            <span className='text-[#6B6767]'>{feature}</span>
+            <span className='text-[#6B6767] sm:text-md text-sm'>{feature}</span>
           </div>
         ))}
       </div>

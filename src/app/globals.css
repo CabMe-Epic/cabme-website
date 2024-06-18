@@ -43,9 +43,10 @@
     padding-bottom: 80px !important;
   }
 .top-button .swiper-button-next, .top-button .swiper-button-prev{
-  display: block !important;
+  /* display: block !important;
   position: absolute !important;
-  top: 7%;
+  top: 7%; */
+  display: hidden;
  
 }
 .top-button .swiper-button-prev{
@@ -85,4 +86,5 @@
     .review-slider  .swiper-slide-next{
       transform: scale(1);
     }
+   
   }

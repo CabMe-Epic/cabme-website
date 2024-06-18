@@ -2,6 +2,7 @@ import React from 'react';
 
 const Video: React.FC = () => {
     return (
+        <div className='px-4'>
         <div className="mx-auto p-6 bg-white rounded-lg shadow-md max-w-[1250px] border">
             <h2 className="text-2xl font-bold mb-4 border-b-[1px] pb-4 border-grey-100">Video</h2>
             <div className='m-auto flex flex-row justify-center items-center'>
@@ -14,8 +15,10 @@ const Video: React.FC = () => {
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
+                    className='h-auto'
                     
                 ></iframe>
+            </div>
             </div>
         </div>
     );
