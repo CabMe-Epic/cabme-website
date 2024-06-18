@@ -19,7 +19,10 @@ const config: Config = {
         'custom-inner': '1px 0px 10px 0px #00000040 inset;'
       }
     },
-
+    screens:{
+      'xs' :'425px',
+      'sm' : '640px'
+    }
   },
   plugins: [],
 };
