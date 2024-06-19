@@ -20,7 +20,7 @@ const PaymentPage = (props: any) => {
             <main className='max-w-[1250px] m-auto'>
                 {/*  */}
                 <div className="flex relative items-center justify-center mt-10 w-[100%] overflow-hidden pr-5">
-                    <div className="border-b-[1px] absolute -z-10 left-[45px] sm:left-[65px] top-4 border-black w-[280px] sm:w-[1100px]"></div>
+                    <div className="border-b-[1px] absolute -z-10 left-[47px] sm:left-[65px] top-4 border-black w-[290px] sm:w-[1100px]"></div>
                     <div className="flex  items-center justify-between w-[1200px] space-x-4 ">
                           {/* Step 1 */}
                           <div className="flex items-center">
@@ -143,7 +143,7 @@ const PaymentPage = (props: any) => {
 
                     <section>
                         <main className="flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md p-4 ">
-                            <div className='w-[300px] sm:w-[376px] h-[50px] bg-black text-white font-bold text-[18px] sm:text-[20px] flex justify-center items-center rounded-xl'>
+                            <div className='w-[280px] sm:w-[376px] h-[50px] bg-black text-white font-bold text-[18px] sm:text-[20px] flex justify-center items-center rounded-xl'>
                                 <span className="text-center">Booking Summary</span>
                             </div>
                             <div className="m-auto my-5">
@@ -200,7 +200,7 @@ const PaymentPage = (props: any) => {
                             <div className="w-full flex flex-col items-center">
                                 <span className="flex flex-row my-5 mt-10">
                                     <Image src="/png/offer.png" width={20} height={20} alt="offer" />
-                                    <select name="offer" id="offer" className="border-0 outline-0 bg-transparent w-full sm:w-[405px]">
+                                    <select name="offer" id="offer" className="border-0 outline-0 bg-transparent w-[330px] sm:w-[405px]">
                                         <option value="View all promo coupons">View all promo coupons</option>
                                     </select>
                                 </span>

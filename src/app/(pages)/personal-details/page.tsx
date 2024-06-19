@@ -10,7 +10,7 @@ const PersonalDetails = (props: any) => {
             <main className='max-w-[1250px] m-auto'>
                 {/*  */}
                 <div className="flex items-center justify-start sm:justify-center mt-10">
-                    <div className="flex relative items-center justify-between w-[330px] m-auto sm:px-10 sm:p-0 sm:w-[1201px] space-x-4">
+                    <div className="flex relative items-center justify-between w-[374px] m-auto sm:px-0 sm:p-0 sm:w-[1201px] space-x-4">
                         {/* Step 1 */}
                         <div className="flex items-center">
                             <div className="relative flex  flex-col gap-2 items-center">
@@ -21,7 +21,7 @@ const PersonalDetails = (props: any) => {
                                 <span className="ml-2 text-center text-xs">Login & Registration</span>
                             </div>
                         </div>
-                        <div className="flex-grow p-0 h-[1px] bg-gray-300 border-b-[1px] border-black -z-10 absolute sm:left-[82px] left-[45px] top-[15px] items-center w-[230px] sm:w-[1000px] "></div>
+                        <div className="flex-grow p-0 h-[1px] bg-gray-300 border-b-[1px] border-black -z-10 absolute sm:left-[32px] left-[45px] top-[15px] items-center w-[270px] sm:w-[1100px] "></div>
                         {/* Step 2 */}
                         <div className="flex items-center">
                             <div className="relative flex  flex-col gap-2 items-center">
@@ -44,17 +44,17 @@ const PersonalDetails = (props: any) => {
                 </div>
                 {/*  */}
 
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-10 mt-10'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-0 mt-10'>
 
-                    <section>
-                        <div className='my-6 sm:h-[515px] p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md'>
+                    <section className='mx-auto'>
+                        <div className='my-6 h-[480px] sm:h-[515px] p-6 sm:p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md w-[390px] sm:w-full mx-auto'>
                             <div className=''>
-                                <h1 className="text-[36px] font-bold">PERSONAL DETAILS</h1>
+                                <h1 className="text-[24px] sm:text-[36px] font-bold">PERSONAL DETAILS</h1>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-5 w-full">
                                 <InputField type="text" className=" " placeholder="First Name" />
                                 <InputField type="text" className=" " placeholder="Last Name" />
-                    <input className={` h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB]`} type="date" placeholder="Date of Birth" />
+                                <input className={` h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB]`} type="date" placeholder="Date of Birth" />
                                 <select name="" id="" className={` h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB]`}>
                                     <option value="Gender">Gender</option>
                                     <option value="Male">Male</option>
@@ -71,37 +71,37 @@ const PersonalDetails = (props: any) => {
 
                         </div>
                         {/*  */}
-                        <div className='my-6 sm:h-[515px] p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md'>
+                        <div className='my-6 w-[390px] h-[460px] sm:w-full sm:h-[515px] sm:p-10 border flex flex-col items-center justify-center gap-6 sm:gap-10 rounded-lg shadow-md mx-auto'>
                             <div className=''>
-                                <h1 className="text-[36px] font-bold">DOCUMENT VERIFICATION</h1>
+                                <h1 className="text-[24px] sm:text-[36px] font-bold">DOCUMENT VERIFICATION</h1>
                             </div>
-                            <div className="grid grid-cols-1 gap-5">
-                                <InputField type="text" className="!w-[300px] "  placeholder="Enter PAN Number" />
-                                <InputField type="text" className="!w-[300px]"  placeholder="Enter Driving License Number*" />
-                                <InputField type="text" className="!w-[300px]"  placeholder="Enter AADHAR Number" />
+                            <div className="grid grid-cols-1 gap-2 sm:gap-5">
+                                <InputField type="text" className="!w-[340px] sm:!w-[522px] " placeholder="Enter PAN Number" />
+                                <InputField type="text" className="!w-[340px] sm:!w-[522px]" placeholder="Enter Driving License Number*" />
+                                <InputField type="text" className="!w-[340px] sm:!w-[522px]" placeholder="Enter AADHAR Number" />
                             </div>
 
-                            <div className="flex flex-row gap-2 items-start px-2">
+                            <div className="flex flex-row gap-2 items-start px-8 sm:px-2">
                                 <span className='text-[#000000] font-bold text-[16px]'>NOTE:</span>
-                                <p className="text-[16px]">You need to submit your Driving License and Aadhar card after making payment to confirm your car booking</p>
+                                <p className="text-[16px] text-justify">You need to submit your Driving License and Aadhar card after making payment to confirm your car booking</p>
                             </div>
                         </div>
                         {/*  */}
-                            <div className='my-6 h-[515px] p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md'>
+                        <div className='my-6 w-[390px] h-[345px] sm:w-full sm:h-fit p-6 sm:p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md '>
                             <div className=''>
-                                <h1 className="text-[36px] font-bold">DELIVERY ADDRESS</h1>
+                                <h1 className=" text-[24px] sm:text-[36px] font-bold">DELIVERY ADDRESS</h1>
                             </div>
-                            <div className="grid grid-cols-1 gap-5"> 
-                                <InputField type="text"  placeholder="Enter Address" className="" />
-                                <div className="grid grid-cols-2 gap-5">
-                                <InputField type="text" className=" "  placeholder="State" />
-                                <InputField type="text" className="" placeholder="Pincode" />
+                            <div className="grid grid-cols-1 gap-2 sm:gap-5">
+                                <InputField type="text" placeholder="Enter Address" className="sm:w-[520px]" />
+                                <div className="grid grid-cols-2 gap-2 sm:gap-5">
+                                    <InputField type="text" className=" " placeholder="State" />
+                                    <InputField type="text" className="" placeholder="Pincode" />
                                 </div>
-                                
+
                             </div>
 
                             <div className="flex flex-row gap-5 items-start px-2">
-                            <ThemeButton text="Back"
+                                <ThemeButton text="Back"
                                     className='w-[121px] h-[55px] flex  flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center text-[24px] !text-[#F1301E] !border-[#F1301E] border-2 !bg-[#fff]' />
 
                                 <ThemeButton text="Next" className='w-[121px] h-[55px] flex  flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-[24px] from-[#F1301E] to-[#FA4F2F]' />
@@ -111,10 +111,10 @@ const PersonalDetails = (props: any) => {
 
                     </section>
 
-                    <section>
-                        <main className=" flex  flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-mdz">
-                            <div className='w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex  justify-center items-center rounded-xl'>
-                                <span className="text-center">Booking Summary</span>
+                    <section className="mx-auto">
+                        <main className=" flex  flex-col items-center bg-[#FAFAFA] py-10 my-6 w-[390px] sm:w-full rounded-md">
+                            <div className='w-[346px] sm:w-[300px] h-[50px] bg-black text-white font-bold text-[20px] flex  justify-center items-center rounded-xl'>
+                                <span className="text-center text-md">Booking Summary</span>
                             </div>
                             <div className="m-auto my-5">
                                 <span className="font-bold text-[24px]">
@@ -123,55 +123,55 @@ const PersonalDetails = (props: any) => {
                             </div>
                             <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Base Fare</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">₹ 5,229</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Base Fare</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">₹ 5,229</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Doorstep delivery & pickup</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">₹ 500</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Doorstep delivery & pickup</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">₹ 500</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Insurance & GST</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Included</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Insurance & GST</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Included</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Refundable Deposit</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">₹ 3000</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Refundable Deposit</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">₹ 3000</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 w-fit gap-8 justify-center shadow-inner font-bold text-[30px]">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Total</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10 text-[#ff0000]">₹ 7686</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Total</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10 text-[#ff0000]">₹ 7686</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Kms Limit</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">₹ 506 kms</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Kms Limit</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">₹ 506 kms</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Fuel</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Excluded</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Fuel</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Excluded</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Extra kms charge</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">₹ 7/km</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Extra kms charge</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">₹ 7/km</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="w-[120px] sm:w-[220px] ml-10">Tolls,Parking & Inner-state taxes</span>
-                                    <span className="w-[120px] sm:w-[220px] ml-10">To be paid by you</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">Tolls,Parking & Inner-state taxes</span>
+                                    <span className="w-[120px] sm:w-[180px] ml-10">To be paid by you</span>
                                 </div>
                             </div>
                             <div className="m-auto">
 
                                 <span className="flex flex-row my-5 mt-10 w-[340px]">
                                     <Image src="/png/offer.png" width={20} height={20} alt="offer" />
-                                    <select name="offer" id="offer" className="border-0 outline-0 bg-transparent w-[405px]">
+                                    <select name="offer" id="offer" className="border-0 outline-0 bg-transparent sm:w-full w-[305px]">
                                         <option value="View all promo coupons">View all promo coupons</option>
                                     </select>
                                 </span>

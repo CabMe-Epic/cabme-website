@@ -10,7 +10,7 @@ const SignIn = (props: any) => {
             <main className='max-w-[1250px] m-auto'>
                 {/*  */}
                 <div className="flex items-center justify-center mt-10">
-                    <div className="flex relative items-center justify-between w-[300px] sm:w-[1201px] space-x-4">
+                    <div className="flex relative items-center justify-between sm:w-[1201px] space-x-4">
                         {/* Step 1 */}
                         <div className="flex items-center">
                             <div className="relative flex flex-col gap-2 items-center">
@@ -20,7 +20,7 @@ const SignIn = (props: any) => {
                                 <span className="ml-2 text-center text-xs">Login & Registration</span>
                             </div>
                         </div>
-                        <div className="flex-grow p-0 h-[1px] bg-gray-300 border-b-[1px] border-black -z-10 absolute top-[15px] sm:left-[55px] left-[18px]  items-center w-[230px] sm:w-[1064px]"></div>
+                        <div className="flex-grow p-0 h-[1px] bg-gray-300 border-b-[1px] border-black -z-10 absolute top-[15px] sm:left-[65px] left-[32px]  items-center w-[280px] sm:w-[1064px]"></div>
                         {/* Step 2 */}
                         <div className="flex items-center">
                             <div className="relative flex flex-col gap-2 items-center">
@@ -43,9 +43,9 @@ const SignIn = (props: any) => {
                 </div>
                 {/*  */}
 
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:w-grid-cols-2 md:gap-10 mt-10 m-auto md:m-[10px]'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 sm:gap-0 gap-0 mt-10 m-auto sm:m-[10px]'>
                     <section className="mx-auto">
-                        <div className='my-6 w-[340px] h-[415px] sm:h-[500px] sm:w-[550px] lg:w-[500px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md'>
+                        <div className='my-6 w-[390px] h-[415px] sm:h-[500px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md'>
                             <div className=''>
                                 <h1 className="text-[36px] font-bold">SIGN IN</h1>
                             </div>
@@ -53,7 +53,7 @@ const SignIn = (props: any) => {
                                 {/* <InputField type="text" placeholder="Enter Phone Number" /> */}
                                 <CountryInput />
                             </div>
-                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] md:w-full">
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] ">
                                 <InputField type="text" placeholder="Enter 4 Digit OTP" />
                             </div>
                             <div>
@@ -63,10 +63,10 @@ const SignIn = (props: any) => {
                         </div>
                     </section>
 
-                    <section className="w-full mx-auto bg-grey-100">
-                        <main className=" flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md ">
-                            <div className=' w-[340px] sm:w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl'>
-                                <span className="text-center">Booking Summary</span>
+                    <section className="w-full mx-auto bg-grey-100 ">
+                        <main className=" flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md w-[390px] sm:w-[600px] mx-auto">
+                            <div className=' w-[340px] sm:w-[400px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl'>
+                                <span className="text-center text-md">Booking Summary</span>
                             </div>
                             <div className="m-auto my-5">
                                 <span className="font-bold text-[24px]">
@@ -75,48 +75,48 @@ const SignIn = (props: any) => {
                             </div>
                             <div className="grid grid-cols-1 items-start sm:w-[518px] justify-center gap-4 font-semibold">
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Base Fare</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">₹ 5,229</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Base Fare</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">₹ 5,229</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Doorstep delivery & pickup</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">₹ 500</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Doorstep delivery & pickup</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">₹ 500</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Insurance & GST</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Included</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Insurance & GST</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Included</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Refundable Deposit</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">₹ 3000</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Refundable Deposit</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">₹ 3000</span>
                                 </div>
 
-                                <div className="grid grid-cols-2 md:w-fit gap-8 justify-center shadow-inner font-bold text-[30px]">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Total</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10 text-[#ff0000]">₹ 7686</span>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Kms Limit</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">₹ 506 kms</span>
+                                <div className="grid grid-cols-2 sm:w-fit gap-8 justify-center shadow-inner font-bold text-[30px]">
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Total</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10 text-[#ff0000]">₹ 7686</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Fuel</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Excluded</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Kms Limit</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">₹ 506 kms</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Extra kms charge</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">₹ 7/km</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Fuel</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Excluded</span>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-14  justify-center">
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">Tolls,Parking & Inner-state taxes</span>
-                                    <span className="sm:w-[220px] ml-4 sm:ml-10">To be paid by you</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Extra kms charge</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">₹ 7/km</span>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-14  justify-center">
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">Tolls,Parking & Inner-state taxes</span>
+                                    <span className="w-[130px] sm:w-[220px] ml-4 sm:ml-10">To be paid by you</span>
                                 </div>
                             </div>
                             <div>
@@ -136,10 +136,10 @@ const SignIn = (props: any) => {
                                 <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
                                     <div className="flex flex-col">
                                         <span className="text-xs sm:text-md">Total Amount</span>
-                                        <span className="text-[#ff0000] p-0 md:text-[30px] font-bold text-xl sm:text-2xl">₹ 15,000</span>
+                                        <span className="text-[#ff0000] p-0 sm:text-[30px] font-bold text-xl sm:text-2xl">₹ 15,000</span>
                                     </div>
                                     <div>
-                                        <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md  md:text-[24px] font-bold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">Proceed</button>
+                                        <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md  sm:text-[24px] font-bold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">Proceed</button>
                                     </div>
 
                                 </div>
