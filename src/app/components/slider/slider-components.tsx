@@ -96,7 +96,7 @@ const FleetsSlider = ({showButton,showRatingStar}:sliderProp) => {
                   </div>
                   }
                 </div>
-                <div className="h-[185px]">
+                <div className="sm:h-[185px]">
                   <Image
                     src={item?.imageUrl}
                     alt="car"
@@ -107,7 +107,7 @@ const FleetsSlider = ({showButton,showRatingStar}:sliderProp) => {
                 <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-4">
                   {item?.title}
                 </h3>
-                <div className="grid grid-cols-3 gap-6 mt-4">
+                <div className="grid sm:grid-cols-3 grid-cols-2 gap-6 mt-4">
                   {item?.specification?.map((value, ind) => {
                     return (
                       <div key={ind} className="flex gap-4">

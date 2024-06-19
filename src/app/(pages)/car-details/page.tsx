@@ -39,47 +39,47 @@ const CarDetails = () => {
                   </span>
                 </div>
                 <div className="grid grid-cols-1 w-full items-start justify-between gap-4 font-semibold">
-                  <div className="flex grid-cols-2 justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Base Fare</span>
                     <span className="">₹ 5,229</span>
                   </div>
 
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Doorstep delivery & pickup</span>
                     <span className="">₹ 500</span>
                   </div>
 
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Insurance & GST</span>
                     <span className="">Included</span>
                   </div>
 
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Refundable Deposit</span>
                     <span className="">₹ 3000</span>
                   </div>
 
-                  <div className="flex px-2 py-2 justify-between gap-2 shadow-custom-inner font-bold text-xl">
+                  <div className="flex px-2 py-2 text-md justify-between gap-2 shadow-custom-inner font-bold">
                     <span className="">TOTAL</span>
                     <span className=" text-[#ff0000]">₹ 7686</span>
                   </div>
 
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Kms Limit</span>
                     <span className="">₹ 506 kms</span>
                   </div>
 
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Fuel</span>
                     <span className="">Excluded</span>
                   </div>
 
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Extra kms charge</span>
                     <span className="">₹ 7/km</span>
                   </div>
 
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-2 text-sm">
                     <span className="">Tolls,Parking & <br /> Inner-state taxes</span>
                     <span className="">To be paid by you</span>
                   </div>
@@ -88,7 +88,7 @@ const CarDetails = () => {
 
                   <span className="flex flex-row my-5 mt-10">
                     <Image src="/png/offer.png" width={20} height={20} alt="offer" />
-                    <select name="offer" id="offer" className="border-0 outline-0 bg-transparent max-w-[405px]">
+                    <select name="offer" id="offer" className="border-0 outline-0 bg-transparent max-w-[405px] text-sm">
                       <option value="View all promo coupons">View all promo coupons</option>
                     </select>
                   </span>

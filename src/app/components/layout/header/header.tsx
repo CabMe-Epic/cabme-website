@@ -30,7 +30,7 @@ const Header = () =>{
                 <ThemeButton text="Sign In" />
             </div>
             <div className="sm:hidden block">
-                <Image src={"/svg/nav.svg"} alt="nav" width={32} height={32} />
+                <Image src={"/svg/nav.svg"} alt="nav" width={26} height={26} />
             </div>
         </div>
         </>

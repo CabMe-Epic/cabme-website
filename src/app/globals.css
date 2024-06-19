@@ -54,6 +54,7 @@
 }
 ::-webkit-scrollbar {
   width: 6px;
+  height: 3px;
 }
 
 .interest .swiper-button-prev, .interest .swiper-button-next{

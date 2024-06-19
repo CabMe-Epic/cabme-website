@@ -52,10 +52,10 @@ const ProductSlider = () => {
               </SwiperSlide>
             );
           })}
-          <div className="swiper-button-prev !w-[40px] !h-[40px] bg-white !items-center shadow-custom-shadow" style={{display:"flex !important"}}>
+          <div className="swiper-button-prev sm:!w-[40px] sm:!h-[40px] !w-[26px] !h-[26px] bg-white !items-center shadow-custom-shadow" style={{display:"flex !important"}}>
             <Image src={"/png/left-arrow-red.png"} alt="arrow" width={24} height={16} />
           </div>
-          <div className="swiper-button-next !w-[40px] !h-[40px] bg-white !items-center shadow-xl" style={{display:"flex !important", justifyContent: "center", alignItems: "center" }}>
+          <div className="swiper-button-next sm:!w-[40px] sm:!h-[40px] !w-[26px] !h-[26px] bg-white !items-center shadow-xl" style={{display:"flex !important", justifyContent: "center", alignItems: "center" }}>
             <Image src={"/png/right-arrow-red.png"} alt="arrow" width={24} height={16} />
           </div>
         </Swiper>
