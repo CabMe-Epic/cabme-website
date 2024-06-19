@@ -231,7 +231,7 @@ const CarListing = () => {
               <div className="h-[208px] overflow-auto scrollbar scroll-smooth mt-4">
                 {carType?.map((item, index) => {
                   return (
-                    <div className="flex flex-row gap-2 mb-4">
+                    <div className="flex flex-row gap-2 mb-4" key={index}>
                       {index === 0 ? (
                         <input
                           type="checkbox"
@@ -268,7 +268,7 @@ const CarListing = () => {
               <div className="h-[208px] overflow-auto scrollbar scroll-smooth mt-4">
                 {carCapacity?.map((item, index) => {
                   return (
-                    <div className="flex flex-row gap-2 mb-4">
+                    <div className="flex flex-row gap-2 mb-4" key={index}>
                       {index === 0 ? (
                         <input
                           type="checkbox"
@@ -467,7 +467,7 @@ const CarListing = () => {
               <div className="h-[158px] overflow-auto scrollbar scroll-smooth mt-4">
                 {otherFeatures?.map((item, index) => {
                   return (
-                    <div className="flex flex-row gap-2 mb-4">
+                    <div className="flex flex-row gap-2 mb-4" key={index}>
                       {index === 0 ? (
                         <input
                           type="checkbox"
