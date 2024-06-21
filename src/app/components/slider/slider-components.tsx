@@ -12,7 +12,12 @@ import ThemeButton from '../theme-button/theme-button';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-const FleetsSlider = () => {
+interface sliderProp{
+  showButton?:boolean,
+  showRatingStar?:boolean
+}
+
+const FleetsSlider = ({showButton,showRatingStar}:sliderProp) => {
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -61,6 +66,8 @@ const FleetsSlider = () => {
                   <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">
                     {item?.badge}
                   </span>
+                  {showRatingStar===false ? "" :
+                  
                   <div className="flex gap-[3px]">
                     <Image
                       src={"/svg/rating-star.svg"}
@@ -87,8 +94,9 @@ const FleetsSlider = () => {
                       height={18}
                     />
                   </div>
+                  }
                 </div>
-                <div className="h-[185px]">
+                <div className="sm:h-[185px]">
                   <Image
                     src={item?.imageUrl}
                     alt="car"
@@ -99,7 +107,7 @@ const FleetsSlider = () => {
                 <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-4">
                   {item?.title}
                 </h3>
-                <div className="grid grid-cols-3 gap-6 mt-4">
+                <div className="grid sm:grid-cols-3 grid-cols-2 gap-6 mt-4">
                   {item?.specification?.map((value, ind) => {
                     return (
                       <div key={ind} className="flex gap-4">
@@ -115,7 +123,10 @@ const FleetsSlider = () => {
                   })}
                 </div>
                 <p className="text-xs my-4">{item?.desc}</p>
+                {showButton===false ? "" :
+                
                 <ThemeButton className="w-full" text="Book Now" />
+                }
               </div>
               </SwiperSlide>
             );

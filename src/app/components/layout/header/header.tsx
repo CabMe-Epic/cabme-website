@@ -1,20 +1,26 @@
+"use client"
 import Image from "next/image"
 import Link from "next/link"
 import ThemeButton from "../../theme-button/theme-button"
+import { useRouter } from "next/navigation"
 
 const Header = () =>{
+    const router = useRouter()
+    const toggleMenu = (item:string) =>{
+        item==="About Us" ? router.push("/about-us") : item==="Contact Us" ? router.push("/contact-us") :  item==="Listing" ? router.push("/car-listing") : ""
+    }
     return(
         <>
         <div className="flex justify-between sm:py-8 py-4 sm:px-14 px-8 items-center shadow-xl">
             <div className="cursor-pointer">
-                <Image src={"/logo.svg"} alt="logo" width={170} height={47} className="sm:w-full w-[130px]" />
+                <Image src={"/logo.svg"} alt="logo" width={170} height={47} className="sm:w-full w-[130px]"onClick={()=>router.push("/")} />
             </div>
             <ul className="sm:flex hidden gap-8">
                 {headerMenu?.map((item,index)=>{
                     return(
 
-                        <li key={index}>
-                            <Link href={"#"}>{item?.menu}</Link>
+                        <li key={index} className="cursor-pointer" onClick={()=>toggleMenu(item?.menu)}>
+                            {item?.menu}
                         </li>
                     )
                 })}
@@ -24,7 +30,7 @@ const Header = () =>{
                 <ThemeButton text="Sign In" />
             </div>
             <div className="sm:hidden block">
-                <Image src={"/svg/nav.svg"} alt="nav" width={32} height={32} />
+                <Image src={"/svg/nav.svg"} alt="nav" width={26} height={26} />
             </div>
         </div>
         </>
@@ -42,6 +48,6 @@ const headerMenu = [
     menu:"Blog"
 },
 {
-    menu:"Faq’s"
+    menu:"Listing"
 }
 ]

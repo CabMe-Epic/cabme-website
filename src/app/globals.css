@@ -28,12 +28,58 @@
   .swiper-button-next, .swiper-button-prev{
     display: none !important;
   }
+  .product-slider .swiper-button-next, .product-slider .swiper-button-prev{
+    display: block !important;
+
+    &::after{
+      display: none;
+    }
+   
+  }
   .swiper{
     padding-bottom: 30px !important;
   }
   .review-slider .swiper{
     padding-bottom: 80px !important;
   }
+.top-button .swiper-button-next, .top-button .swiper-button-prev{
+  /* display: block !important;
+  position: absolute !important;
+  top: 7%; */
+  display: hidden;
+ 
+}
+.top-button .swiper-button-prev{
+  left: 93%;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 3px;
+}
+
+.interest .swiper-button-prev, .interest .swiper-button-next{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ebebeb;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #ff0000; 
+}
+
+
+
+.custom-phone-input .react-tel-input{
+  width: 50px;
+}
   @media only screen and (max-width:576px){
     .review-slider  .swiper-slide{
       opacity: 1;
@@ -41,4 +87,5 @@
     .review-slider  .swiper-slide-next{
       transform: scale(1);
     }
+   
   }

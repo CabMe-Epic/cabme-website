@@ -6,6 +6,7 @@ import ReviewCard from "./components/review-card/review-card";
 import FaqSection from "./components/faq/faq";
 import Link from "next/link";
 import FleetsSlider from "./components/slider/slider-components";
+import OurBlogs from "./components/our-blogs/our-blogs";
 
 export default function Home() {
   return (
@@ -151,11 +152,11 @@ export default function Home() {
         <h2 className="text-center sm:text-4xl text-2xl font-semibold">
           <span className="text-red-500"> Why</span> choose us
         </h2>
-        <div className="grid sm:grid-cols-4 grid-cols-2 sm:mt-10 mt-4 p-4">
+        <div className="grid sm:grid-cols-4 grid-cols-2 gap-4 sm:mt-10 mt-4 p-4">
           {chooseArray?.map((value, ind) => {
             return (
               <>
-                <div key={ind} className="text-center grid gap-4 h-[250px]">
+                <div key={ind} className="text-center cursor-pointer grid gap-4 h-[250px] hover:shadow-xl hover:rounded-xl hover:border">
                   <div className="flex">
                     <Image
                       src={value?.imageUrl}
@@ -396,168 +397,9 @@ export default function Home() {
         </div>
       </div>
       {/* blogs section desktop */}
-      <div className="grid grid-cols-2 relative sm:grid hidden">
-        <div
-          className="bg-[url('/png/blog-left.png')] bg-contain bg-no-repeat text-white p-12"
-          style={{ backgroundSize: "100% 100%" }}
-        >
-          <div className="max-w-[375px] relative left-[10%]">
-            <div className="text-sm">
-              <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
-            </div>
-            <h3 className="text-2xl font-semibold mt-2 mb-4">
-              The Best Fastest & Most Powerful Road Car
-            </h3>
-            <p className="mb-4">
-              Created firmament hath first very. Very doesn&apos;t face meat
-              rule life wherein him above beast also lesser very abundantly...
-            </p>
-            <Link href={"#"}>
-              {" "}
-              <span className="text-red-500"> READ ARTICLE</span>
-            </Link>
-            <div className="flex justify-between mt-4">
-              <button className="flex items-center gap-2">
-                <Image
-                  src={"/png/left-arrow.png"}
-                  alt="arrow"
-                  width={8}
-                  height={8}
-                />
-                <span>Prev</span>
-              </button>
-              <button className="flex items-center gap-1">
-                <span>Next</span>
-                <Image
-                  src={"/png/right-arrow.png"}
-                  alt="arrow"
-                  width={24}
-                  height={24}
-                  className="h-[26px] mt-1"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <div
-          className="bg-[url('/png/blog-right.png')] bg-contain bg-no-repeat text-white p-12 flex justify-end"
-          style={{ backgroundSize: "100% 100%" }}
-        >
-          <div className="max-w-[375px] relative right-[10%]">
-            <div className="text-sm">
-              <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
-            </div>
-            <h3 className="text-2xl font-semibold mt-2 mb-4">
-              The Best Fastest & Most Powerful Road Car
-            </h3>
-            <p className="mb-4">
-              Created firmament hath first very. Very doesn&apos;t face meat
-              rule life wherein him above beast also lesser very abundantly...
-            </p>
-            <Link href={"#"}>
-              {" "}
-              <span className="text-red-500"> READ ARTICLE</span>
-            </Link>
-            <div className="flex justify-between mt-4">
-              <button className="flex items-center gap-2">
-                <Image
-                  src={"/png/left-arrow.png"}
-                  alt="arrow"
-                  width={8}
-                  height={8}
-                />
-                <span>Prev</span>
-              </button>
-              <button className="flex items-center gap-1">
-                <span>Next</span>
-                <Image
-                  src={"/png/right-arrow.png"}
-                  alt="arrow"
-                  width={24}
-                  height={24}
-                  className="h-[26px] mt-1"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <Image
-          src={"/png/blog.png"}
-          alt="blog"
-          width={570}
-          height={350}
-          className="h-[400px] absolute top-0 left-0 right-0 m-auto"
-        />
-      </div>
+          <OurBlogs />
       {/* blogs section mobile */}
-      <div className="sm:hidden block">
-        <div className="relative">
-          <Image
-            src={"/png/our-blog.png"}
-            alt="blogs"
-            width={600}
-            height={400}
-            className="w-full h-auto"
-          />
-          <h2 className="text-white absolute top-[30%] left-8 text-2xl font-semibold">
-            Our Blogs
-          </h2>
-        </div>
-        <div className="relative">
-          <Image
-            src={"/png/our-blog-02.png"}
-            alt="blogs"
-            width={600}
-            height={400}
-            className="w-full h-auto z-[9] relative"
-          />
-          <Image
-            src={"/png/our-blog-01.png"}
-            alt="blogs"
-            width={200}
-            height={400}
-            className=" h-auto absolute left-0 top-0"
-          />
-
-          <div className="max-w-[320px] absolute text-white z-[9] bottom-6 left-[15%]">
-            <div className="text-sm">
-              <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
-            </div>
-            <h3 className="text-xl font-semibold mt-2 mb-2">
-              The Best Fastest & Most Powerful Road Car
-            </h3>
-            <p className="mb-2 text-xs">
-              Created firmament hath first very. Very doesn&apos;t face meat
-              rule life wherein him above beast also lesser very abundantly...
-            </p>
-            <Link href={"#"}>
-              {" "}
-              <span className="text-red-500 text-xs"> READ ARTICLE</span>
-            </Link>
-            <div className="flex justify-between max-w-[250px]">
-              <button className="flex items-center gap-2">
-                <Image
-                  src={"/png/left-arrow.png"}
-                  alt="arrow"
-                  width={8}
-                  height={8}
-                />
-                <span>Prev</span>
-              </button>
-              <button className="flex items-center gap-1">
-                <span>Next</span>
-                <Image
-                  src={"/png/right-arrow.png"}
-                  alt="arrow"
-                  width={24}
-                  height={24}
-                  className="h-[26px] mt-1"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       {/* facts */}
       <div className="my-12 bg-black sm:py-10 sm:px-10 py-6 px-2">
         <h2 className="text-center font-bold sm:text-4xl text-2xl text-white">
@@ -567,23 +409,23 @@ export default function Home() {
           Lorem Ipsum has been the industry&apos;s standard <br /> dummy text
           ever since the 1500s,
         </p>
-        <div className="grid grid-cols-2 sm:gap-10 gap-2 sm:p-8 p-2">
+        <div className="grid grid-cols-4 sm:gap-10 gap-2 sm:p-8 p-2">
           {factsArray?.map((item, index) => {
             return (
               <div
                 key={index}
-                className="flex sm:gap-6 gap-2 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-[94%] overflow-hidden"
+                className="flex sm:gap-6 gap-2 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-auto overflow-hidden "
               >
-                <div className="sm:w-[174px] w-[50px] flex-none">
+                <div className="sm:w-[80px] w-[60px] flex-none">
                   <Image
                     src={item?.imageUrl}
                     alt="image"
                     width={174}
                     height={174}
-                    className="sm:w-[174px] w-[50px]"
+                    className="sm:w-[80px] w-[60px]"
                   />
                 </div>
-                <div className="font-bold sm:text-4xl text-xs">
+                <div className="font-bold sm:text-2xl text-xs">
                   <h3>{item?.count}</h3>
                   <p>{item?.headline}</p>
                 </div>
