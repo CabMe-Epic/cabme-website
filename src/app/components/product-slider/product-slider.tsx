@@ -17,7 +17,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-const ProductSlider = () => {
+const ProductSlider = ({imageGallery, featuredImage}: any) => {
+  // console.log("slider", slider);
   return (
     
       <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider relative">
@@ -42,7 +43,8 @@ const ProductSlider = () => {
               <SwiperSlide key={index}>
                 <div>
                   <Image
-                    src={item?.imageUrl}
+                    src={featuredImage
+                    }
                     alt="image"
                     width={450}
                     height={450}
@@ -60,11 +62,11 @@ const ProductSlider = () => {
           </div>
         </Swiper>
         <div className="flex justify-between gap-2 mt-4">
-          {interiorImage?.map((item, index) => {
+          {imageGallery?.map((item: any, index:number) => {
             return (
               <div key={index}>
                 <Image
-                  src={item?.imageUrl}
+                  src={item}
                   alt="image"
                   width={152}
                   height={107}

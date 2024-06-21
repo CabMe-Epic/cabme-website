@@ -1,3 +1,4 @@
+"use client"
 import ProductSlider from "@/app/components/product-slider/product-slider";
 import Specifications from "@/app/components/specifications/specifications";
 import BookingDetailsCard from "@/app/components/booking-details-card/booking-details-card";
@@ -7,8 +8,35 @@ import ExtraCharges from "@/app/components/extra-charges/extra-charges";
 import DescCar from "@/app/components/desc-car/desc-car";
 import Video from "@/app/components/video/video";
 import FleetsSlider from "@/app/components/slider/slider-components";
+import { useParams } from 'next/navigation';
+import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
+import { useEffect } from "react";
+import { useImmer } from "use-immer";
 
 const CarDetails = () => {
+
+  const { slug } = useParams(); 
+  console.log(slug, 'searchParams');
+
+  const { vehicle, loading, error } = useVehicleById(slug as string);
+
+  const [carDetail, setCarDetail] = useImmer<Vehicle[] | any>(null);
+  
+  useEffect(() => {
+    if (vehicle) {
+      setCarDetail(vehicle?.response as any); 
+    }
+  }, [vehicle, setCarDetail]);
+
+  console.log("carDetail", carDetail);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
   return (
     <>
       <div className="py-6">
@@ -19,11 +47,10 @@ const CarDetails = () => {
         </div>
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div className="px-4">
-            <ProductSlider />
-
+            <ProductSlider featuredImage={carDetail?.featuredImage as any } imageGallery={carDetail?.imageGallery as any} />
             {/* mobile view */}
             <div className="sm:hidden block my-4">
-              <BookingDetailsCard />
+              <BookingDetailsCard city={carDetail?.city as any} />
             </div>
             {/* mobile view */}
 
@@ -129,16 +156,16 @@ const CarDetails = () => {
             </div>
 
             <div className="my-12">
-              <Specifications />
+              <Specifications spec={carDetail?.vehicleSpecifications as any} />
             </div>
             <div className="my-12">
-              <CarFeatures />
+              <CarFeatures carFeatures={carDetail?.carFeatures as any} />
             </div>
           </div>
           {/*  */}
           <div >
             <div className="sm:block hidden">
-              <BookingDetailsCard />
+              <BookingDetailsCard city={carDetail?.city as any} />
             </div>
             {/* booking summary */}
             <div className="sm:block hidden">
@@ -249,11 +276,10 @@ const CarDetails = () => {
 
         </div>
         <div className="mb-10">
-          <ExtraCharges/>
+          <ExtraCharges details={carDetail}/>
         </div>
         <div className="mb-10">
-
-          <DescCar/>
+          <DescCar desc={carDetail?.vehicleDescriptions as any}/>
         </div>
         <div>
           <Video/>

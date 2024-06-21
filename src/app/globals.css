@@ -75,7 +75,9 @@
   background: #ff0000; 
 }
 
-
+.no-scroll {
+  overflow: hidden;
+}
 
 .custom-phone-input .react-tel-input{
   width: 50px;

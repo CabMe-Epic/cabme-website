@@ -1,7 +1,8 @@
 import Image from "next/image";
 import React from "react";
 
-const BookingDetailsCard = () => {
+const BookingDetailsCard = ({city}: any) => {
+  console.log("city",city)
   return (
     <div>
       <main className="max-w-[511px] px-2 border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">
@@ -11,7 +12,7 @@ const BookingDetailsCard = () => {
           </div>
           <div className="font-bold flex justify-center my-5  text-[18px]">
             <span className="font-semibold">Location : </span>{" "}
-            <span className="text-[#ff0000] ml-2"> Delhi</span>
+            <span className="text-[#ff0000] ml-2"> {city}</span>
           </div>
           <div className="flex flex-row justify-between items-center gap-10">
             <div className="flex flex-col gap-2">
