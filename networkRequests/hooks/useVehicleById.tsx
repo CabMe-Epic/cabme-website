@@ -10,7 +10,7 @@ const useVehicle = (vehicleId: string | number): { vehicle: Vehicle | null, load
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
-        const response = await axios.get<Vehicle>(`https://cabmeapi.epicglobal.co.in/api/cabme/vehicle/${vehicleId}`);
+        const response = await axios.get<Vehicle>(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/vehicle/${vehicleId}`);
         setVehicle(response.data);
         setLoading(false);
       } catch (err) {

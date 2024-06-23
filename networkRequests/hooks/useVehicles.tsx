@@ -10,8 +10,10 @@ const useVehicles = (): UseVehiclesResult => {
 
   useEffect(() => {
     const fetchVehicles = async () => {
+      console.log('URI_BASE:', process.env.NEXT_PUBLIC_URI_BASE);
+
       try {
-        const response = await axios.get<Vehicle[] | any>('https://cabmeapi.epicglobal.co.in/api/cabme/vehicles');
+        const response = await axios.get<Vehicle[] | any>(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/vehicles`);
         setVehicles(response.data);
         setLoading(false);
       } catch (err) {

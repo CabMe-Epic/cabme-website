@@ -45,7 +45,7 @@ const CarListing = () => {
   
   useEffect(() => {
     if (vehicles) {
-      setCarData(vehicles?.response as ApiResponse); 
+      setCarData(vehicles?.response as Vehicle[]); 
     }
   }, [vehicles, setCarData]);
   
