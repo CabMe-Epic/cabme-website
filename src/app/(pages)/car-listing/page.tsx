@@ -2,18 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getBreadcrumbs } from "../../utils/breadcrumbs";
 import Image from "next/image";
 import CardListingCards from "@/app/components/card-listing-cards/card-listing-cards";
 import ThemeButton from "../../components/theme-button/theme-button";
 import CardListingBanner from "@/app/components/car-listing-banner/card-listing-banner";
+import useVehicles from "../../../../networkRequests/hooks/useVehicles";
+import { useImmer } from 'use-immer';
+import "../../../../networkRequests/types/type";
+
+
 
 const CarListing = () => {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
 
-  const [currentPage, setCurrentPage] = useState(2); // Initial active page is set to 2
+  const [currentPage, setCurrentPage] = useState(2);
 
   const totalPages = 5;
 
@@ -32,6 +37,20 @@ const CarListing = () => {
       setCurrentPage(currentPage + 1);
     }
   };
+
+  const { vehicles, loading, error } = useVehicles();
+  console.log("vehicles", vehicles);
+  
+  const [carData, setCarData] = useImmer<Vehicle[] | any>(null);
+  
+  useEffect(() => {
+    if (vehicles) {
+      setCarData(vehicles?.response as Vehicle[]); 
+    }
+  }, [vehicles, setCarData]);
+  
+  console.log("carData", carData);
+
 
   return (
     <div className="max-w-[1400px] m-auto">
@@ -85,7 +104,7 @@ const CarListing = () => {
         </div>
         {/* breadcrumbs */}
         {/* heading  */}
-        <div className="sm:block hidden m-auto mt-5 flex justify-center items-center text-center">
+        <div className="sm:block  m-auto mt-5 flex justify-center items-center text-center">
           <h1 className="text-[48px] font-bold text-[#FF0000]">Car Listing</h1>
         </div>
         {/* heading  */}
@@ -505,11 +524,15 @@ const CarListing = () => {
             </div>
           </aside>
           <div className="basis-2/3">
-            <CardListingCards />
-            <CardListingCards />
-            <CardListingBanner />
-            <CardListingCards />
-            <CardListingCards />
+          {
+            carData?.map((item: Vehicle, index:number) => {
+              return (
+                <CardListingCards key={index} data={item}  />
+              )
+            })
+          }
+           
+       
             <CardListingBanner />
           </div>
         </section>

@@ -1,8 +1,34 @@
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ThemeButton from "../../components/theme-button/theme-button";
+import { useRouter } from "next/navigation";
 
-const CardListingCards = () => {
+
+const CardListingCards = ({ data }: any) => {
+
+  const Navigation = useRouter();
+
+  const [showImg, setShowImg] = useState(false);
+  const condition = true; // Replace with your actual condition
+
+  useEffect(() => {
+    if (showImg) {
+      setShowImg(true);
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+
+    // Clean up the effect on unmount
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [showImg]);
+
+  console.log("item", data)
+
+  
+
   const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
 
@@ -12,11 +38,49 @@ const CardListingCards = () => {
     { name: "Facilities", content: "Facilities Content" },
     { name: "T&C", content: "T&C Content" },
   ];
-  return (
-    <div className="relative mb-10">
-      {/*  */}
 
-      {/*  */}
+
+
+  return (
+    <>
+     {
+        showImg ?
+          <div className=" w-[100%] sm:w-screen h-[100vh] fixed !top-0 !left-0 backdrop-blur-xl	 z-20 flex justify-center items-center overflow-hidden" >
+            <div  onClick={() => setShowImg(!showImg)} className="absolute top-10 right-10">
+            <ThemeButton text="Close" className="ml-auto mt-4" />
+            </div>
+           <div className="overflow-auto  sm:flex sm:w-[80%] sm:justify-center sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden" >
+           {
+              data?.imageGallery.map((item: any, index: number) => {
+                return(
+                  <Image
+                  src={item}
+                  key={index}
+                    width={500}
+                    objectFit={"contain"}
+                    height={500}
+                    className="bg-white m-10 cursor-pointer drop-shadow h-[300px] w-[300px] object-contain rounded-xl"
+                    alt="Tag Icon"
+                  />
+                )
+              })
+            }       
+              
+           </div>
+           
+           
+          </div>
+          : ""
+      }
+    <div className="relative mb-10">
+       
+
+      
+      {/* -------------------------------- */}
+
+
+      {/* --------------------------------- */}
+
       <div className="absolute sm:block hidden -left-2 top-8 z-10">
         <Image
           src="/carListing/cardTag.png"
@@ -26,19 +90,20 @@ const CardListingCards = () => {
           alt="Tag Icon"
         />
       </div>
-      <main className="bg-[url('/png/listing-bg.png')] sm:w-[1028px] h-[304px] rounded-[12px] hidden sm:flex flex-row items-center justify-center">
+
+          <main className="bg-[url('/png/listing-bg.png')] sm:w-[1028px] h-[304px] rounded-[12px] hidden sm:flex flex-row items-center justify-center">
         <div className="flex flex-col items-center jusitfy-center w-[486px] h-full ">
           <div className="flex flex-row justify-center m-auto pr-10 pt-14">
-            <h1 className="m-auto font-bold text-[24px]">POLO</h1>
+            <h1 className="m-auto font-bold text-[24px]">{data?.carName}</h1>
           </div>
           <Image
-            src="/carListing/carDemo.png"
+            src={data?.featuredImage}
             width={386}
             objectFit={"contain"}
             height={212}
             alt="Car Icon"
           />
-          <div className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer">
+          <div onClick={() => setShowImg(!showImg)} className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer">
             <Image
               src="/carListing/view.png"
               width={16}
@@ -167,6 +232,7 @@ const CardListingCards = () => {
             </div>
             <div className="m-0">
               <ThemeButton
+              onClick={() => Navigation.push(`/car-details/${data._id}`)}
                 text="Book Now"
                 className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]
 "
@@ -193,11 +259,10 @@ const CardListingCards = () => {
                   {tabs.map((tab) => (
                     <button
                       key={tab.name}
-                      className={`py-2 px-4 rounded-t-xl mt-2 ${
-                        activeTab === tab.name
+                      className={`py-2 px-4 rounded-t-xl mt-2 ${activeTab === tab.name
                           ? "bg-red-200 text-red-600"
                           : "bg-red-600 text-white"
-                      }`}
+                        }`}
                       onClick={() => setActiveTab(tab.name)}
                     >
                       {tab.name}
@@ -268,7 +333,7 @@ const CardListingCards = () => {
       </main>
       {/* mobile view for car listing */}
       <section>
-        <div className="sm:hidden block p-4 pb-0  relative pb-6 bg-[url('/carListing/listing-card-bg.png')]" style={{backgroundSize:"100% 100%"}}>
+        <div className="sm:hidden block p-4 pb-0  relative pb-6 bg-[url('/carListing/listing-card-bg.png')]" style={{ backgroundSize: "100% 100%" }}>
           <div className="grid grid-cols-3 gap-2 mt-10">
             {priceArray?.map((item, index) => {
               return (
@@ -277,11 +342,10 @@ const CardListingCards = () => {
                   className={`border text-center py-[3px] px-2 rounded-md`}
                 >
                   <p
-                    className={`${
-                      item?.chargePerDay === "Unlimited"
+                    className={`${item?.chargePerDay === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
-                    } text-sm`}
+                      } text-sm`}
                   >
                     {item?.chargePerDay}
                   </p>
@@ -333,11 +397,10 @@ const CardListingCards = () => {
                       {tabs.map((tab) => (
                         <button
                           key={tab.name}
-                          className={`py-2 px-2 rounded-t-xl mt-2 xs:text-sm text-xs ${
-                            activeTab !== tab.name
+                          className={`py-2 px-2 rounded-t-xl mt-2 xs:text-sm text-xs ${activeTab !== tab.name
                               ? "bg-black text-white"
                               : "bg-white text-red-500 border shadow-xl"
-                          }`}
+                            }`}
                           onClick={() => setActiveTab(tab.name)}
                         >
                           {tab.name}
@@ -456,9 +519,14 @@ const CardListingCards = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 export default CardListingCards;
+
+
+
+
 const priceArray = [
   {
     chargePerDay: "120kms/day",

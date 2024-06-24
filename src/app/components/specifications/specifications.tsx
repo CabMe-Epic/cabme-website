@@ -15,23 +15,23 @@ const IconComponent = ({ title, subtitle, imageSrc }: any) => {
     );
 };
 
-const Specifications = () => {
+const Specifications = ({spec}: any) => {
     return (
         <div className=" shadow-md p-6 border border-gray-300 rounded-lg">
             <h2 className="text-2xl font-semibold border-b pb-2 mb-5">Specifications</h2>
             <div className="grid sm:grid-cols-4 grid-cols-2 justify-between items-center gap-2  ">
-                <div><IconComponent title="Body" subtitle="Sedan" imageSrc="/carDetails/body.png" /></div>
-                <div><IconComponent title="Make" subtitle="Nissan" imageSrc="/carDetails/make.png" /></div>
-                <div><IconComponent title="Transmission" subtitle="Automatic" imageSrc="/carDetails/transmission.png" /></div>
-                <div><IconComponent title="VIN" subtitle="64674773" imageSrc="/carDetails/vin.png" /></div>
-                <div><IconComponent title="Year" subtitle="2018" imageSrc="/carDetails/year.png" /></div>
-                <div><IconComponent title="Mieage" subtitle="16km" imageSrc="/carDetails/mileage.png" /></div>
-                <div><IconComponent title="Fuel Type" subtitle="Diesel" imageSrc="/carDetails/fuel.png" /></div>
-                <div><IconComponent title="Engine(HP)" subtitle="3,000" imageSrc="/carDetails/engine.png" /></div>
-                <div><IconComponent title="Door" subtitle="4 Doors" imageSrc="/carDetails/door.png" /></div>
-                <div><IconComponent title="Brake" subtitle="ABS" imageSrc="/carDetails/brake.png" /></div>
-                <div><IconComponent title="Drivetrain" subtitle="Front Wheel" imageSrc="/carDetails/drive.png" /></div>
-                <div><IconComponent title="AC" subtitle="Air Condition" imageSrc="/carDetails/ac.png" /></div>
+                <div><IconComponent title="Body" subtitle={spec?.body} imageSrc="/carDetails/body.png" /></div>
+                <div><IconComponent title="Make" subtitle={spec?.make} imageSrc="/carDetails/make.png" /></div>
+                <div><IconComponent title="Transmission" subtitle={spec?.transmission} imageSrc="/carDetails/transmission.png" /></div>
+                <div><IconComponent title="VIN" subtitle={spec?.vin} imageSrc="/carDetails/vin.png" /></div>
+                <div><IconComponent title="Year" subtitle={spec?.year} imageSrc="/carDetails/year.png" /></div>
+                <div><IconComponent title="Mileage" subtitle={spec?.mileage} imageSrc="/carDetails/mileage.png" /></div>
+                <div><IconComponent title="Fuel Type" subtitle={spec?.fuelType} imageSrc="/carDetails/fuel.png" /></div>
+                <div><IconComponent title="Engine(HP)" subtitle={spec?.engine} imageSrc="/carDetails/engine.png" /></div>
+                <div><IconComponent title="Door" subtitle={spec?.door} imageSrc="/carDetails/door.png" /></div>
+                <div><IconComponent title="Brake" subtitle={spec?.brake} imageSrc="/carDetails/brake.png" /></div>
+                <div><IconComponent title="Drivetrain" subtitle={spec?.driveTrain} imageSrc="/carDetails/drive.png" /></div>
+                <div><IconComponent title="AC" subtitle={spec?.AC} imageSrc="/carDetails/ac.png" /></div>
             </div>
         </div>
     );
