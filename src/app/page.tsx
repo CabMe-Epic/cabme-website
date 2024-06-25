@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import ThemeButton from "./components/theme-button/theme-button";
 import SliderManual from "./components/slider/slider-components";
@@ -7,8 +8,12 @@ import FaqSection from "./components/faq/faq";
 import Link from "next/link";
 import FleetsSlider from "./components/slider/slider-components";
 import OurBlogs from "./components/our-blogs/our-blogs";
+import { useState } from "react";
+import RadioButton from "./components/radio-component/radio-component";
 
 export default function Home() {
+  const [tabValue, setTabsValue] = useState("Self-Driving");
+  const [radioToggle, setRadioToggle] = useState("Out-stations");
   return (
     <>
       <div
@@ -35,46 +40,233 @@ export default function Home() {
             return (
               <div
                 className={`cursor-pointer w-full text-center py-4 ${
-                  value?.tabsValue === "Self-Driving"
+                  value?.tabsValue === tabValue
                     ? "bg-red-500 text-white font-semibold"
                     : "bg-[#EFF1FB]"
                 }`}
                 key={ind}
+                onClick={() => setTabsValue(value?.tabsValue)}
               >
                 {value?.tabsValue}
               </div>
             );
           })}
         </div>
-        <div className="flex items-center mt-6">
-          {driverArray?.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className={`flex w-full gap-4 ${
-                  index < 3 ? "border-r-2 mr-6 border-black" : ""
-                }`}
-              >
-                <div className="mt-2">
-                  <Image
-                    src={item?.imageUrl}
-                    alt="icon"
-                    width={16}
-                    height={16}
-                  />
-                </div>
-                <div className="leading-none">
-                  <h3 className="text-xl font-semibold">{item?.heading}</h3>
-                  <p className="mt-2">{item?.desc}</p>
+        {tabValue === "Driver" && (
+          <>
+            <div className="flex gap-6 w-fit m-auto mt-4">
+              {driverRadioButton?.map((driver, ind) => {
+                return (
+                  <div className="w-fit">
+                    <RadioButton
+                      onClick={() => setRadioToggle(driver.content)}
+                      key={ind}
+                      content={driver?.content}
+                      name={driver?.name}
+                      id={driver?.id}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            {radioToggle === "Out-stations" && (
+              <div className="flex items-center mt-6">
+                {outstation?.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={`flex w-full gap-4 ${
+                        index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
+                    >
+                      <div className="mt-2">
+                        <Image
+                          src={item?.imageUrl}
+                          alt="icon"
+                          width={16}
+                          height={16}
+                        />
+                      </div>
+                      <div className="leading-none">
+                        <h3 className="text-xl font-semibold">
+                          {item?.heading}
+                        </h3>
+                        {item?.id === "location" && (
+                          <select
+                            name="pickup"
+                            id="pickup"
+                            className="w-full outline-red-500 h-8"
+                          >
+                            <option value={item?.desc}>{item?.desc}</option>
+                            {item?.cities?.map((value,ind)=>{
+                              return(
+                                <option key={ind} value={value?.city}>{value?.city}</option>
+
+                              )
+                            })}
+                          </select>
+                        )}
+                        {item?.id==="date" &&
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                        }
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <div>
+                  <ThemeButton text="Search" />
                 </div>
               </div>
-            );
-          })}
+            )}
+            {radioToggle === "Local" && (
+              <div className="flex items-center mt-6">
+                {localDriverArray?.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={`flex w-full gap-4 ${
+                        index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
+                    >
+                      <div className="mt-2">
+                        <Image
+                          src={item?.imageUrl}
+                          alt="icon"
+                          width={16}
+                          height={16}
+                        />
+                      </div>
+                      <div className="leading-none">
+                        <h3 className="text-xl font-semibold">
+                          {item?.heading}
+                        </h3>
+                       
+                        {item?.id === "location" && (
+                          <select
+                            name="pickup"
+                            id="pickup"
+                            className="w-full outline-red-500 h-8"
+                          >
+                            <option value={item?.desc}>{item?.desc}</option>
+                            {item?.cities?.map((value,ind)=>{
+                              return(
+                                <option key={ind} value={value?.city}>{value?.city}</option>
 
-          <div>
-            <ThemeButton text="Search" />
+                              )
+                            })}
+                          </select>
+                        )}
+                        {item?.id==="date" &&
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                        }
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <div>
+                  <ThemeButton text="Search" />
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {tabValue === "Subscription" && (
+          <>
+            <div className="flex items-center mt-6">
+              {outstation?.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`flex w-full gap-4 ${
+                      index < 3 ? "border-r-2 mr-6 border-black" : ""
+                    }`}
+                  >
+                    <div className="mt-2">
+                      <Image
+                        src={item?.imageUrl}
+                        alt="icon"
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <div className="leading-none">
+                      <h3 className="text-xl font-semibold">{item?.heading}</h3>
+                      {item?.id === "location" && (
+                          <select
+                            name="pickup"
+                            id="pickup"
+                            className="w-full outline-red-500 h-8"
+                          >
+                            <option value={item?.desc}>{item?.desc}</option>
+                            {item?.cities?.map((value,ind)=>{
+                              return(
+                                <option key={ind} value={value?.city}>{value?.city}</option>
+
+                              )
+                            })}
+                          </select>
+                        )}
+                        {item?.id==="date" &&
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                        }
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
+        {tabValue === "Self-Driving" && (
+          <div className="flex items-center mt-6">
+            {localDriverArray?.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className={`flex w-full gap-4 ${
+                    index < 3 ? "border-r-2 mr-6 border-black" : ""
+                  }`}
+                >
+                  <div className="mt-2">
+                    <Image
+                      src={item?.imageUrl}
+                      alt="icon"
+                      width={16}
+                      height={16}
+                    />
+                  </div>
+                  <div className="leading-none">
+                    <h3 className="text-xl font-semibold">{item?.heading}</h3>
+                    {item?.id === "location" && (
+                          <select
+                            name="pickup"
+                            id="pickup"
+                            className="w-full outline-red-500 h-8"
+                          >
+                            <option value={item?.desc}>{item?.desc}</option>
+                            {item?.cities?.map((value,ind)=>{
+                              return(
+                                <option key={ind} value={value?.city}>{value?.city}</option>
+
+                              )
+                            })}
+                          </select>
+                        )}
+                        {item?.id==="date" &&
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                        }
+                  </div>
+                </div>
+              );
+            })}
+
+            <div>
+              <ThemeButton text="Search" />
+            </div>
           </div>
-        </div>
+        )}
       </div>
       {/* Only mobile section subsription */}
       <div className="relative max-w-[340px] sm:hidden block mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
@@ -156,7 +348,10 @@ export default function Home() {
           {chooseArray?.map((value, ind) => {
             return (
               <>
-                <div key={ind} className="text-center cursor-pointer grid gap-4 h-[250px] hover:shadow-xl hover:rounded-xl hover:border">
+                <div
+                  key={ind}
+                  className="text-center cursor-pointer grid gap-4 h-[250px] hover:shadow-xl hover:rounded-xl hover:border"
+                >
                   <div className="flex">
                     <Image
                       src={value?.imageUrl}
@@ -212,7 +407,7 @@ export default function Home() {
                 />
                 <div className="text-center">
                   <h3 className="font-semibold text-xl">{item?.title}</h3>
-                  <p className="text-sm mt-2">{item?.desc}</p>
+                  <p>{item?.desc}</p>
                 </div>
                 {index < 3 ? (
                   <Image
@@ -397,9 +592,9 @@ export default function Home() {
         </div>
       </div>
       {/* blogs section desktop */}
-          <OurBlogs />
+      <OurBlogs />
       {/* blogs section mobile */}
-      
+
       {/* facts */}
       <div className="my-12 bg-black sm:py-10 sm:px-10 py-6 px-2">
         <h2 className="text-center font-bold sm:text-4xl text-2xl text-white">
@@ -437,26 +632,171 @@ export default function Home() {
     </>
   );
 }
-const driverArray = [
+
+const driverRadioButton = [
   {
+    content: "Local",
+    id: "local",
+    name: "driver",
+  },
+  {
+    content: "Out-stations",
+    id: "outstations",
+    name: "driver",
+  },
+];
+const outstation = [
+  {
+    id:"location",
     imageUrl: "/svg/location.svg",
     heading: "Pick-up City",
     desc: "Enter pick-up city",
+    cities:[
+      {
+        city:"Noida"
+      },
+      {
+        city:"Meerut"
+      },
+      {
+        city:"Ghaziabad"
+      },
+      {
+        city:"Agra"
+      },
+      {
+        city:"Kanpur"
+      },
+    ]
   },
   {
+    id:"date",
     imageUrl: "/svg/calender.svg",
     heading: "Pick Up Date",
     desc: "Enter pickup date",
   },
   {
+    id:"location",
     imageUrl: "/svg/location.svg",
     heading: "Drop-off City",
     desc: "Enter drop-off city",
+    cities:[
+      {
+        city:"Noida"
+      },
+      {
+        city:"Meerut"
+      },
+      {
+        city:"Ghaziabad"
+      },
+      {
+        city:"Agra"
+      },
+      {
+        city:"Kanpur"
+      },
+    ]
   },
   {
+    id:"date",
     imageUrl: "/svg/calender.svg",
     heading: "Drop-off Date",
     desc: "Enter drop-off date",
+  },
+];
+const localDriverArray = [
+  {
+    id: "location",
+    imageUrl: "/svg/location.svg",
+    heading: "Pick-up Location",
+    desc: "Enter pick-up Location",
+     cities:[
+      {
+        city:"Noida"
+      },
+      {
+        city:"Meerut"
+      },
+      {
+        city:"Ghaziabad"
+      },
+      {
+        city:"Agra"
+      },
+      {
+        city:"Kanpur"
+      },
+    ]
+  },
+  {
+    id: "date",
+    imageUrl: "/svg/calender.svg",
+    heading: "Pick Up Date",
+    desc: "Enter pickup date",
+     cities:[
+      {
+        city:"Noida"
+      },
+      {
+        city:"Meerut"
+      },
+      {
+        city:"Ghaziabad"
+      },
+      {
+        city:"Agra"
+      },
+      {
+        city:"Kanpur"
+      },
+    ]
+  },
+  {
+    id: "location",
+    imageUrl: "/svg/location.svg",
+    heading: "Drop-off Location",
+    desc: "Enter drop-off Location",
+     cities:[
+      {
+        city:"Noida"
+      },
+      {
+        city:"Meerut"
+      },
+      {
+        city:"Ghaziabad"
+      },
+      {
+        city:"Agra"
+      },
+      {
+        city:"Kanpur"
+      },
+    ]
+  },
+  {
+    id: "date",
+    imageUrl: "/svg/calender.svg",
+    heading: "Drop-off Date",
+    desc: "Enter drop-off date",
+     cities:[
+      {
+        city:"Noida"
+      },
+      {
+        city:"Meerut"
+      },
+      {
+        city:"Ghaziabad"
+      },
+      {
+        city:"Agra"
+      },
+      {
+        city:"Kanpur"
+      },
+    ]
   },
 ];
 const tabsArray = [
@@ -528,7 +868,6 @@ const chooseArray = [
     desc: "Your safety is our priority, with a car that's sanitized for purity.",
   },
 ];
-
 const rentCollection = [
   {
     steps: 1,

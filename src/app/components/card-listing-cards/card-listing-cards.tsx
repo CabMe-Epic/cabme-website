@@ -118,6 +118,45 @@ const CardListingCards = ({ data }: any) => {
         <div className="h-[274px]">
           <div className="mt-5 flex flex-row items-center gap-4 mr-10">
             <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+              <span className="font-bold text-[18px] ">{data?.bookingOptions?.subscription?.package1?.price}</span>
+              <span className="flex flex-col gap-0">
+                <p className="text-[#565454] font-[500] text-[14px] text-center">
+                {data?.bookingOptions?.subscription?.package1?.duration}
+
+                </p>
+                <hr className="border-[#000000] border-[1.2px]" />
+                <p className="text-[#FF0000] font-[500] text-[14px]">
+                  360 Free kms
+                </p>
+              </span>
+            </div>
+            <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+              <span className="font-bold text-[18px] ">{data?.bookingOptions?.subscription?.package2?.price}</span>
+              <span className="flex flex-col gap-0">
+                <p className="text-[#565454] font-[500] text-[14px] text-center">
+                {data?.bookingOptions?.subscription?.package2?.duration}
+
+                </p>
+                <hr className="border-[#000000] border-[1.2px]" />
+                <p className="text-[#FF0000] font-[500] text-[14px]">
+                  360 Free kms
+                </p>
+              </span>
+            </div>
+            <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+              <span className="font-bold text-[18px] ">{data?.bookingOptions?.subscription?.package3?.price}</span>
+              <span className="flex flex-col gap-0">
+                <p className="text-[#565454] font-[500] text-[14px] text-center">
+                  {data?.bookingOptions?.subscription?.package3?.duration}
+                </p>
+                <hr className="border-[#000000] border-[1.2px]" />
+                <p className="text-[#FF0000] font-[500] text-[14px]">
+                  360 Free kms
+                </p>
+              </span>
+            </div>
+            
+            {/* <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#000000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
               <span className="font-bold text-[18px] ">₹ 21,635</span>
               <span className="flex flex-col gap-0">
                 <p className="text-[#565454] font-[500] text-[14px]">
@@ -129,20 +168,7 @@ const CardListingCards = ({ data }: any) => {
                 </p>
               </span>
             </div>
-            {/*  */}
-            <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#000000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
-              <span className="font-bold text-[18px] ">₹ 21,635</span>
-              <span className="flex flex-col gap-0">
-                <p className="text-[#565454] font-[500] text-[14px]">
-                  120kms/day
-                </p>
-                <hr className="border-[#000000] border-[1.2px]" />
-                <p className="text-[#FF0000] font-[500] text-[14px]">
-                  360 Free kms
-                </p>
-              </span>
-            </div>
-            {/*  */}
+          
             <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
               <span className="font-bold text-[18px] ">₹ 21,635</span>
               <span className="flex flex-col gap-0">
@@ -154,14 +180,14 @@ const CardListingCards = ({ data }: any) => {
                   360 Free kms
                 </p>
               </span>
-            </div>
+            </div> */}
           </div>
           {/*  */}
 
           <div className="flex flex-row justify-end mr-10 my-5">
             <span>
               ₹ Extra kms will be charged at{" "}
-              <span className="text-[#FF0000]">13/km</span>
+              <span className="text-[#FF0000]">{data?.bookingOptions?.subscription?.extraKmsCharge}</span>
             </span>
           </div>
 
@@ -169,7 +195,8 @@ const CardListingCards = ({ data }: any) => {
 
           <div className="flex flex-row justify-between items-center mr-10">
             <div className="grid grid-cols-3 gap-y-6">
-              <div className="flex flex-row items-center gap-2">
+              {data?.carFeatures?.bluetooth===true &&
+                <div className="flex flex-row items-center gap-2">
                 <Image
                   src="/carListing/bluetooth.png"
                   width={20}
@@ -179,6 +206,8 @@ const CardListingCards = ({ data }: any) => {
                 />
                 <span>Bluetooth</span>
               </div>
+              }
+              
               <div className="flex flex-row items-center gap-2">
                 <Image
                   src="/carListing/manual.png"
@@ -189,6 +218,8 @@ const CardListingCards = ({ data }: any) => {
                 />
                 <span>Manual</span>
               </div>
+              {data?.carFeatures?.navigationSystem===true &&
+              
               <div className="flex flex-row items-center gap-2">
                 <Image
                   src="/carListing/gps.png"
@@ -199,6 +230,7 @@ const CardListingCards = ({ data }: any) => {
                 />
                 <span>GPS Navigation</span>
               </div>
+              }
               <div className="flex flex-row items-center gap-2">
                 <Image
                   src="/carListing/seats.png"
@@ -217,7 +249,7 @@ const CardListingCards = ({ data }: any) => {
                   height={20}
                   alt="bluetooth"
                 />
-                <span>Diseal</span>
+                <span>{data?.vehicleSpecifications?.fuelType}</span>
               </div>
               <div className="flex flex-row items-center gap-2">
                 <Image
