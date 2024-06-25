@@ -11,6 +11,7 @@ import CardListingBanner from "@/app/components/car-listing-banner/card-listing-
 import useVehicles from "../../../../networkRequests/hooks/useVehicles";
 import { useImmer } from 'use-immer';
 import "../../../../networkRequests/types/type";
+import axios from "axios";
 
 
 
@@ -50,6 +51,22 @@ const CarListing = () => {
   }, [vehicles, setCarData]);
   
   console.log("carData", carData);
+  // const [data , setData] = React.useState()
+
+
+  // const fetchData = React.useCallback(async()=>{
+  //   const res = await axios.get("https://cabmeapi.epicglobal.co.in/api/cabme/vehicles") 
+  //   console.log("data shown",{res})
+
+  //   setData(res?.data.response)
+
+  // },[])
+
+  // React.useEffect(()=>{
+  //   fetchData()
+  // },[])
+
+  // console.log("data",{data})
 
 
   return (
@@ -527,7 +544,9 @@ const CarListing = () => {
           {
             carData?.map((item: Vehicle, index:number) => {
               return (
-                <CardListingCards key={index} data={item}  />
+                <>
+                  <CardListingCards key={index} data={item}  />
+                </>
               )
             })
           }
