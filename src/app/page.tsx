@@ -121,10 +121,12 @@ console.log(radioToggle,"radio");
             <div className="flex gap-6 w-fit m-auto mt-4">
               {driverRadioButton?.map((driver, ind) => {
                 return (
-                  <div className="w-fit">
+                  <div className="w-fit" 
+                  key={ind}
+                  
+                  >
                     <RadioButton
                       onClick={() => setRadioToggle(driver.content)}
-                      key={ind}
                       content={driver?.content}
                       name={driver?.name}
                       id={driver?.id}
