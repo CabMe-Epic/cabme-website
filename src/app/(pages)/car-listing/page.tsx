@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { getBreadcrumbs } from "../../utils/breadcrumbs";
 import Image from "next/image";
 import CardListingCards from "@/app/components/card-listing-cards/card-listing-cards";
@@ -12,6 +12,7 @@ import useVehicles from "../../../../networkRequests/hooks/useVehicles";
 import { useImmer } from 'use-immer';
 import "../../../../networkRequests/types/type";
 import axios from "axios";
+import { searchVehicle } from "../../../../networkRequests/hooks/api";
 
 
 
@@ -39,18 +40,30 @@ const CarListing = () => {
     }
   };
 
-  const { vehicles, loading, error } = useVehicles();
-  console.log("vehicles", vehicles);
+  // const { vehicles, loading, error } = useVehicles();
+  // console.log("vehicles", vehicles);
   
   const [carData, setCarData] = useImmer<Vehicle[] | any>(null);
+
+  const getCarDetails = useCallback(async()=>{
+      const getSearchCarData = await searchVehicle();
+      setCarData(getSearchCarData?.data?.availableVehicles)
+      
+    },[])
+    useEffect(()=>{
+      getCarDetails()
+    },[])
+    
+    console.log(carData,"search api called");
+
   
-  useEffect(() => {
-    if (vehicles) {
-      setCarData(vehicles?.response as Vehicle[]); 
-    }
-  }, [vehicles, setCarData]);
+  // useEffect(() => {
+  //   if (vehicles) {
+  //     setCarData(vehicles?.response as Vehicle[]); 
+  //   }
+  // }, [vehicles, setCarData]);
   
-  console.log("carData", carData);
+  // console.log("carData", carData);
   // const [data , setData] = React.useState()
 
 
@@ -67,6 +80,22 @@ const CarListing = () => {
   // },[])
 
   // console.log("data",{data})
+
+
+  // getting location information from localstorage
+
+  const pickupLocation= localStorage.getItem("pickupLocation");
+ const dropoffLocation = localStorage.getItem("dropOffLocation");
+ const pickUpDate = localStorage.getItem("pickupDate");
+ const dropOffDate = localStorage.getItem("dropOffDate")
+ const bookingOptions = localStorage.getItem("tabValue")
+ const driverType = localStorage.getItem("radioToggle")
+console.log(dropoffLocation,pickupLocation,pickUpDate,dropOffDate,bookingOptions,driverType,"hurraayy");
+
+//  console.log(object);
+
+//  console.log(pickupLocation,dropoffLocation,"locations");
+  
 
 
   return (
@@ -545,7 +574,14 @@ const CarListing = () => {
             carData?.map((item: Vehicle, index:number) => {
               return (
                 <>
+                {item?.available===true &&
+                <>
+                  {pickupLocation===item?.city &&
                   <CardListingCards key={index} data={item}  />
+                }
+                </>
+                }
+                
                 </>
               )
             })

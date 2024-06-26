@@ -72,6 +72,7 @@ const CardListingCards = ({ data }: any) => {
           </div>
           : ""
       }
+      
     <div className="relative mb-10">
        
 
@@ -97,11 +98,12 @@ const CardListingCards = ({ data }: any) => {
             <h1 className="m-auto font-bold text-[24px]">{data?.carName}</h1>
           </div>
           <Image
-            src={data?.featuredImage}
+            src={data?.featuredImage?.image}
             width={386}
             objectFit={"contain"}
             height={212}
             alt="Car Icon"
+            className="sm:w-[70%] mb-2"
           />
           <div onClick={() => setShowImg(!showImg)} className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer">
             <Image

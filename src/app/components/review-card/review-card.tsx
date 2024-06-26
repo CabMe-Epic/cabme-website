@@ -48,7 +48,7 @@ const ReviewCard = () => {
           disableOnInteraction: false,
         }}
         onSwiper={(swiper) => console.log(swiper)}
-        onSlideChange={() => console.log("slide change")}
+        // onSlideChange={() => console.log("slide change")}
       >
         {reviewArray?.map((item,index)=>{
           return(

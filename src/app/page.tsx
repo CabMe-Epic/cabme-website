@@ -8,12 +8,76 @@ import FaqSection from "./components/faq/faq";
 import Link from "next/link";
 import FleetsSlider from "./components/slider/slider-components";
 import OurBlogs from "./components/our-blogs/our-blogs";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RadioButton from "./components/radio-component/radio-component";
+import { getAllCities } from "../../networkRequests/hooks/api";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+const router = useRouter();
+
   const [tabValue, setTabsValue] = useState("Self-Driving");
-  const [radioToggle, setRadioToggle] = useState("Out-stations");
+  const [radioToggle, setRadioToggle] = useState("Out-station");
+console.log(radioToggle,"radio");
+
+  // location and date section work start
+
+  const [pickupLocation,setPickupLocation] = React.useState<any>();
+  const [dropOffLocation,setDropoffLocation] = React.useState<any>();
+  const [pickupDate,setPickupDate] = React.useState<any>();
+  const [dropOffDate,setDropoffDate] = React.useState<any>();
+
+  const handlePickupLocation = (event:any)=>{
+      setPickupLocation(event.target.value);
+  }
+  const handleDropOffLocation = (event:any)=>{
+      setDropoffLocation(event.target.value);
+  }
+  const handlePickupDate = (event:any)=>{
+    setPickupDate(event.target.value);
+  }
+  const handleDropOffDate = (event:any)=>{
+    setDropoffDate(event.target.value);
+  }
+
+  console.log(pickupLocation,"pickup location");
+  console.log(dropOffLocation,"dropOff location");
+  console.log(pickupDate,"pickup date");
+  console.log(dropOffDate,"dropOff date");
+
+  // for save the location data into local storage
+
+  const saveLocationData = () =>{
+    localStorage.setItem("pickupLocation" ,pickupLocation)
+    localStorage.setItem("dropOffLocation" ,dropOffLocation)
+    localStorage.setItem("pickupDate", pickupDate)
+    localStorage.setItem("dropOffDate",dropOffDate)
+    localStorage.setItem("tabValue",tabValue)
+
+    tabValue==="Driver" ? 
+    localStorage.setItem("radioToggle",radioToggle)
+    :
+    "";
+    router.push("/car-listing")
+  }
+
+  // location section work end
+
+  const [cities, setCities] = useState<[]>();
+
+
+  const getRecords = React.useCallback(async()=>{
+    const citiesResponse =  await getAllCities()
+    const cities = citiesResponse?.data?.response;
+    setCities(cities)
+    console.log("citiesResponse",{cities})
+  },[])
+
+
+
+  useEffect(()=>{
+    getRecords()
+  },[])
   return (
     <>
       <div
@@ -69,7 +133,7 @@ export default function Home() {
                 );
               })}
             </div>
-            {radioToggle === "Out-stations" && (
+            {radioToggle === "Out-station" && (
               <div className="flex items-center mt-6">
                 {outstation?.map((item, index) => {
                   return (
@@ -96,18 +160,22 @@ export default function Home() {
                             name="pickup"
                             id="pickup"
                             className="w-full outline-red-500 h-8"
+                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
+
                           >
                             <option value={item?.desc}>{item?.desc}</option>
-                            {item?.cities?.map((value,ind)=>{
+                            {cities?.map((value:any,ind)=>{
                               return(
-                                <option key={ind} value={value?.city}>{value?.city}</option>
+                                <option key={ind} value={value?.name}>{value?.name}</option>
 
                               )
                             })}
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
+                          />
                         }
                       </div>
                     </div>
@@ -115,7 +183,9 @@ export default function Home() {
                 })}
 
                 <div>
-                  <ThemeButton text="Search" />
+                  <ThemeButton text="Search" 
+                  onClick={()=>saveLocationData()}
+                  />
                 </div>
               </div>
             )}
@@ -147,18 +217,22 @@ export default function Home() {
                             name="pickup"
                             id="pickup"
                             className="w-full outline-red-500 h-8"
+                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
+
                           >
                             <option value={item?.desc}>{item?.desc}</option>
-                            {item?.cities?.map((value,ind)=>{
+                            {cities?.map((value:any,ind)=>{
                               return(
-                                <option key={ind} value={value?.city}>{value?.city}</option>
+                                <option key={ind} value={value?.name}>{value?.name}</option>
 
                               )
                             })}
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
+                          />
                         }
                       </div>
                     </div>
@@ -166,7 +240,9 @@ export default function Home() {
                 })}
 
                 <div>
-                  <ThemeButton text="Search" />
+                  <ThemeButton text="Search"
+                  onClick={()=>saveLocationData()}
+                  />
                 </div>
               </div>
             )}
@@ -199,23 +275,32 @@ export default function Home() {
                             name="pickup"
                             id="pickup"
                             className="w-full outline-red-500 h-8"
+                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
+
                           >
                             <option value={item?.desc}>{item?.desc}</option>
-                            {item?.cities?.map((value,ind)=>{
+                            {cities?.map((value:any,ind)=>{
                               return(
-                                <option key={ind} value={value?.city}>{value?.city}</option>
+                                <option key={ind} value={value?.name}>{value?.name}</option>
 
                               )
                             })}
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
+                          />
                         }
                     </div>
                   </div>
                 );
               })}
+                     <div>
+                  <ThemeButton text="Search"
+                  onClick={()=>saveLocationData()}
+                  />
+                </div>   
             </div>
           </>
         )}
@@ -241,21 +326,25 @@ export default function Home() {
                     <h3 className="text-xl font-semibold">{item?.heading}</h3>
                     {item?.id === "location" && (
                           <select
-                            name="pickup"
-                            id="pickup"
+                            name="location"
+                            id="location"
                             className="w-full outline-red-500 h-8"
+                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
                           >
                             <option value={item?.desc}>{item?.desc}</option>
-                            {item?.cities?.map((value,ind)=>{
+                            {cities?.map((value:any,ind)=>{
                               return(
-                                <option key={ind} value={value?.city}>{value?.city}</option>
+                                <option key={ind} value={value?.name}>{value?.name}</option>
 
                               )
                             })}
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8" />
+                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
+                          
+                          />
                         }
                   </div>
                 </div>
@@ -263,7 +352,7 @@ export default function Home() {
             })}
 
             <div>
-              <ThemeButton text="Search" />
+              <ThemeButton text="Search" onClick={()=>saveLocationData()} />
             </div>
           </div>
         )}
@@ -640,8 +729,8 @@ const driverRadioButton = [
     name: "driver",
   },
   {
-    content: "Out-stations",
-    id: "outstations",
+    content: "Out-station",
+    id: "outstation",
     name: "driver",
   },
 ];
