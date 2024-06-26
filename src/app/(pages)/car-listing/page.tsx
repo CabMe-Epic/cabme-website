@@ -49,10 +49,10 @@ const CarListing = () => {
       const getSearchCarData = await searchVehicle();
       setCarData(getSearchCarData?.data?.availableVehicles)
       
-    },[])
+    },[setCarData])
     useEffect(()=>{
       getCarDetails()
-    },[])
+    },[getCarDetails])
     
     console.log(carData,"search api called");
 
