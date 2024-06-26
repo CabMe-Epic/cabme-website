@@ -77,6 +77,7 @@ console.log(radioToggle,"radio");
 
   useEffect(()=>{
     getRecords()
+    
   },[])
   return (
     <>

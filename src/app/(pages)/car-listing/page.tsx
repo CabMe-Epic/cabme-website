@@ -43,18 +43,42 @@ const CarListing = () => {
   // const { vehicles, loading, error } = useVehicles();
   // console.log("vehicles", vehicles);
   
-  const [carData, setCarData] = useImmer<Vehicle[] | any>(null);
+  const [carData, setCarData] = useState<any>();
 
   const getCarDetails = useCallback(async()=>{
       const getSearchCarData = await searchVehicle();
-      setCarData(getSearchCarData?.data?.availableVehicles)
+      console.log(getSearchCarData,"mmmmmmmmmmm");
+      setCarData(getSearchCarData?.data?.vehicles)
       
-    },[setCarData])
+    },[])
     useEffect(()=>{
       getCarDetails()
-    },[getCarDetails])
-    
+    },[])
     console.log(carData,"search api called");
+
+    const [pickupLocation,setPickupLocation] =useState<any>()
+    const [dropoffLocation,setDropoffLocation] =useState<any>()
+    const [pickUpDate,setPickUpDate] =useState<any>()
+    const [dropOffDate,setDropOffDate] =useState<any>()
+    const [bookingOptions,setBookingOptions] =useState<any>()
+    const [driverType,setDriverType] =useState<any>()
+
+
+
+   
+  //  console.log(dropoffLocation,pickupLocation,pickUpDate,dropOffDate,bookingOptions,driverType,"hurraayy");
+   React.useEffect(()=>{
+    const pickupLocation= localStorage.getItem("pickupLocation");
+    const dropoffLocation = localStorage.getItem("dropOffLocation");
+    const pickUpDate = localStorage.getItem("pickupDate");
+    const dropOffDate = localStorage.getItem("dropOffDate")
+    const bookingOptions = localStorage.getItem("tabValue")
+    const driverType = localStorage.getItem("radioToggle")
+    setPickupLocation((pickupLocation))
+  },[])
+  console.log(pickupLocation,"state");
+  
+    
 
   
   // useEffect(() => {
@@ -84,13 +108,8 @@ const CarListing = () => {
 
   // getting location information from localstorage
 
-  const pickupLocation= localStorage.getItem("pickupLocation");
- const dropoffLocation = localStorage.getItem("dropOffLocation");
- const pickUpDate = localStorage.getItem("pickupDate");
- const dropOffDate = localStorage.getItem("dropOffDate")
- const bookingOptions = localStorage.getItem("tabValue")
- const driverType = localStorage.getItem("radioToggle")
-console.log(dropoffLocation,pickupLocation,pickUpDate,dropOffDate,bookingOptions,driverType,"hurraayy");
+
+
 
 //  console.log(object);
 
