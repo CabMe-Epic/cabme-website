@@ -9,12 +9,10 @@ import CardListingCards from "@/app/components/card-listing-cards/card-listing-c
 import ThemeButton from "../../components/theme-button/theme-button";
 import CardListingBanner from "@/app/components/car-listing-banner/card-listing-banner";
 import useVehicles from "../../../../networkRequests/hooks/useVehicles";
-import { useImmer } from 'use-immer';
+import { useImmer } from "use-immer";
 import "../../../../networkRequests/types/type";
 import axios from "axios";
 import { searchVehicle } from "../../../../networkRequests/hooks/api";
-
-
 
 const CarListing = () => {
   const pathname = usePathname();
@@ -42,57 +40,62 @@ const CarListing = () => {
 
   // const { vehicles, loading, error } = useVehicles();
   // console.log("vehicles", vehicles);
-  
+
   const [carData, setCarData] = useState<any>();
 
-  const getCarDetails = useCallback(async()=>{
-      const getSearchCarData = await searchVehicle();
-      console.log(getSearchCarData,"mmmmmmmmmmm");
-      setCarData(getSearchCarData?.data?.vehicles)
-      
-    },[])
-    useEffect(()=>{
-      getCarDetails()
-    },[])
-    console.log(carData,"search api called");
+  const getCarDetails = useCallback(async () => {
+    const getSearchCarData = await searchVehicle();
+    console.log(getSearchCarData, "mmmmmmmmmmm");
+    setCarData(getSearchCarData?.data?.vehicles);
+  }, []);
+  useEffect(() => {
+    getCarDetails();
+  }, []);
+  console.log(carData, "search api called");
 
-    const [pickupLocation,setPickupLocation] =useState<any>()
-    const [dropoffLocation,setDropoffLocation] =useState<any>()
-    const [pickUpDate,setPickUpDate] =useState<any>()
-    const [dropOffDate,setDropOffDate] =useState<any>()
-    const [bookingOptions,setBookingOptions] =useState<any>()
-    const [driverType,setDriverType] =useState<any>()
+  const [pickupLocation, setPickupLocation] = useState<any>();
+  const [dropoffLocation, setDropoffLocation] = useState<any>();
+  const [pickUpDate, setPickUpDate] = useState<any>();
+  const [dropOffDate, setDropOffDate] = useState<any>();
+  const [bookingOptions, setBookingOptions] = useState<any>();
+  const [driverType, setDriverType] = useState<any>();
 
-
-
-   
   //  console.log(dropoffLocation,pickupLocation,pickUpDate,dropOffDate,bookingOptions,driverType,"hurraayy");
-   React.useEffect(()=>{
-    const pickupLocation= localStorage.getItem("pickupLocation");
+  React.useEffect(() => {
+    const pickupLocation = localStorage.getItem("pickupLocation");
     const dropoffLocation = localStorage.getItem("dropOffLocation");
     const pickUpDate = localStorage.getItem("pickupDate");
-    const dropOffDate = localStorage.getItem("dropOffDate")
-    const bookingOptions = localStorage.getItem("tabValue")
-    const driverType = localStorage.getItem("radioToggle")
-    setPickupLocation((pickupLocation))
-  },[])
-  console.log(pickupLocation,"state");
-  
-    
+    const dropOffDate = localStorage.getItem("dropOffDate");
+    const bookingOptions = localStorage.getItem("tabValue");
+    const driverType = localStorage.getItem("radioToggle");
+    setPickupLocation(pickupLocation);
+    setDropoffLocation(dropoffLocation);
+    setPickUpDate(pickUpDate);
+    setDropOffDate(dropOffDate);
+    setBookingOptions(bookingOptions);
+    setDriverType(driverType);
+  }, []);
+  console.log(
+    pickupLocation,
+    dropoffLocation,
+    pickUpDate,
+    dropOffDate,
+    bookingOptions,
+    driverType,
+    "state"
+  );
 
-  
   // useEffect(() => {
   //   if (vehicles) {
-  //     setCarData(vehicles?.response as Vehicle[]); 
+  //     setCarData(vehicles?.response as Vehicle[]);
   //   }
   // }, [vehicles, setCarData]);
-  
+
   // console.log("carData", carData);
   // const [data , setData] = React.useState()
 
-
   // const fetchData = React.useCallback(async()=>{
-  //   const res = await axios.get("https://cabmeapi.epicglobal.co.in/api/cabme/vehicles") 
+  //   const res = await axios.get("https://cabmeapi.epicglobal.co.in/api/cabme/vehicles")
   //   console.log("data shown",{res})
 
   //   setData(res?.data.response)
@@ -105,21 +108,18 @@ const CarListing = () => {
 
   // console.log("data",{data})
 
-
   // getting location information from localstorage
 
+  //  console.log(object);
 
-
-
-//  console.log(object);
-
-//  console.log(pickupLocation,dropoffLocation,"locations");
-  
-
+  //  console.log(pickupLocation,dropoffLocation,"locations");
 
   return (
     <div className="max-w-[1400px] m-auto">
-      <div className="sm:hidden xs:flex p-4 justify-between items-center bg-[url('/png/red-bg.png')] relative" style={{backgroundSize:"100% 100%"}}>
+      <div
+        className="sm:hidden xs:flex p-4 justify-between items-center bg-[url('/png/red-bg.png')] relative"
+        style={{ backgroundSize: "100% 100%" }}
+      >
         <div>&larr;</div>
         <div>
           <div className="flex gap-4 xs:mb-0 mb-2">
@@ -192,33 +192,33 @@ const CarListing = () => {
           <div className="xs:flex flex-row items-center gap-4">
             <div>Show:</div>
             <div className="flex gap-2">
-            <div>
-              <select
-                name=""
-                id=""
-                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[78px]"
-              >
-                <option value="5">5</option>
-              </select>
-            </div>
-            <div>
-              <select
-                name=""
-                id=""
-                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[154px]"
-              >
-                <option value="low-to-high">Low to High</option>
-              </select>
-            </div>
-            <div>
-              <select
-                name=""
-                id=""
-                className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[315px]"
-              >
-                <option value="popular">Popular</option>
-              </select>
-            </div>
+              <div>
+                <select
+                  name=""
+                  id=""
+                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[78px]"
+                >
+                  <option value="5">5</option>
+                </select>
+              </div>
+              <div>
+                <select
+                  name=""
+                  id=""
+                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[154px]"
+                >
+                  <option value="low-to-high">Low to High</option>
+                </select>
+              </div>
+              <div>
+                <select
+                  name=""
+                  id=""
+                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[315px]"
+                >
+                  <option value="popular">Popular</option>
+                </select>
+              </div>
             </div>
           </div>
           {/*  */}
@@ -589,24 +589,44 @@ const CarListing = () => {
             </div>
           </aside>
           <div className="basis-2/3">
-          {
-            carData?.map((item: Vehicle, index:number) => {
+            {carData?.map((item: Vehicle, index: number) => {
+              var dateOnly = "";
+              {
+                const date = item?.bookingDate;
+                const dateObject = new Date(date);
+                //  dateOnly = dateObject.toISOString().split("T")[0];
+
+                if (!isNaN(dateObject.getTime())) {
+                  dateOnly = dateObject.toISOString().split("T")[0];
+                  console.log(dateOnly, "date only");
+                } else {
+                  console.error("Invalid date object created:", dateObject);
+                }
+              }
+              {
+                dateOnly === pickUpDate
+                  ? console.log("matched")
+                  : console.log("doesnt matched");
+              }
               return (
                 <>
-                {item?.available===true &&
-                <>
-                  {pickupLocation===item?.city &&
-                  <CardListingCards key={index} data={item}  />
-                }
+                  {item?.available === true && (
+                    <>
+                      {pickupLocation === item?.city && (
+                            <CardListingCards key={index} data={item} />
+
+                        // <>
+                        //   {dateOnly === pickUpDate && (
+                        //     <CardListingCards key={index} data={item} />
+                        //   )}
+                        // </>
+                      )}
+                    </>
+                  )}
                 </>
-                }
-                
-                </>
-              )
-            })
-          }
-           
-       
+              );
+            })}
+
             <CardListingBanner />
           </div>
         </section>

@@ -1,4 +1,5 @@
 interface Vehicle {
+    bookingDate: any;
     response: ApiResponse[];
     id: string;
     name: string;

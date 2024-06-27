@@ -217,8 +217,8 @@ console.log(radioToggle,"radio");
                        
                         {item?.id === "location" && (
                           <select
-                            name="pickup"
-                            id="pickup"
+                            name="loc"
+                            id="loc"
                             className="w-full outline-red-500 h-8"
                             onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
 
