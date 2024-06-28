@@ -49,7 +49,7 @@ const CarDetails = (id:any) => {
         </div>
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div className="px-4">
-            <ProductSlider featuredImage={carDetail?.featuredImage as any } imageGallery={carDetail?.imageGallery as any} />
+            <ProductSlider featuredImage={carDetail?.featuredImage?.image as any } imageGallery={carDetail?.imageGallery?.image as any} />
             {/* mobile view */}
             <div className="sm:hidden block my-4">
               <BookingDetailsCard city={carDetail?.city as any} />
