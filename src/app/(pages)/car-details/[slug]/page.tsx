@@ -13,7 +13,9 @@ import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById"
 import { useEffect } from "react";
 import { useImmer } from "use-immer";
 
-const CarDetails = () => {
+const CarDetails = (id:any) => {
+
+  console.log(id,"current product");
 
   const { slug } = useParams(); 
   console.log(slug, 'searchParams');
