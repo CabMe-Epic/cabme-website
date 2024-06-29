@@ -41,7 +41,7 @@ console.log(radioToggle,"radio");
   }
 
   console.log(pickupLocation,"pickup location");
-  console.log(dropOffLocation,"dropOff location");
+  console.log(dropOffLocation,"dropOff location");  
   console.log(pickupDate,"pickup date");
   console.log(dropOffDate,"dropOff date");
 
@@ -159,7 +159,7 @@ console.log(radioToggle,"radio");
                           {item?.heading}
                         </h3>
                         {item?.id === "location" && (
-                          <select
+                          <select 
                             name="pickup"
                             id="pickup"
                             className="w-full outline-red-500 h-8"

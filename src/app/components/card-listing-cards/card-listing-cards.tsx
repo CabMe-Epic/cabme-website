@@ -27,7 +27,15 @@ const CardListingCards = ({ data }: any) => {
 
   const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
+  const [selectedPackagePrice,setPackagePrice] = useState<any>();
 
+  const setPrice = (price:any)=>{
+    setPackagePrice(price)
+    //  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
+  }
+  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
+  console.log(selectedPackagePrice,"selected price");
+  
   const tabs = [
     { name: "Exclusion", content: "Exclusion Content" },
     { name: "Inclusions", content: "Inclusions Content" },
@@ -47,6 +55,8 @@ const CardListingCards = ({ data }: any) => {
   }, []);
   console.log("type on card section", bookingOptionsHome);
   console.log(data?.bookingOptions?.selfDrive, "dtaaaaaaaaaaaaaaaaa");
+
+
   return (
     <>
       {showImg ? (
@@ -129,8 +139,9 @@ const CardListingCards = ({ data }: any) => {
 
               <div className="h-[274px]">
                 <div className="mt-5 flex flex-row items-center gap-4 mr-10">
-                  <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
-                    <span className="font-bold text-[18px] ">
+                  <div onClick={()=>setPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price)} className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]`}>
+                    <span className="font-bold text-[18px]">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package1
                           ?.price
@@ -149,7 +160,8 @@ const CardListingCards = ({ data }: any) => {
                       </p>
                     </span>
                   </div>
-                  <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                  <div onClick={()=>setPrice(data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.price)} className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package2

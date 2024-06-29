@@ -1,8 +1,21 @@
+"use client"
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const BookingDetailsCard = ({city}: any) => {
-  console.log("city",city)
+
+
+const BookingDetailsCard = ({city}:any) => {
+  const [pickupDate,setPickupDate] = useState<any>();
+  const [dropoffDate,setDropoffDate] = useState<any>()
+  useEffect(()=>{
+    
+     
+      const getPickup = localStorage.getItem("pickupDate");
+      const getDropoff = localStorage.getItem("dropOffDate");
+      setPickupDate(getPickup);
+      setDropoffDate(getDropoff)
+  })
+  // console.log("city",pickDate)
   return (
     <div>
       <main className="max-w-[511px] px-2 border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">
@@ -24,7 +37,7 @@ const BookingDetailsCard = ({city}: any) => {
                   height={16}
                   alt="calender"
                 />
-                <span className="text-[#787070] text-sm">Feb 6, 2023</span>
+                <span className="text-[#787070] text-sm">{pickupDate}</span>
               </span>
               <span className="flex flex-row items-center gap-3">
                 <Image src="/png/time.png" width={20} height={20} alt="time" />
@@ -46,7 +59,7 @@ const BookingDetailsCard = ({city}: any) => {
                   height={16}
                   alt="calender"
                 />
-                <span className="text-[#787070] text-sm">Feb 6, 2023</span>
+                <span className="text-[#787070] text-sm">{dropoffDate}</span>
               </span>
               <span className="flex flex-row items-center gap-3">
                 <Image
