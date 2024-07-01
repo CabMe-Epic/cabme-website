@@ -181,7 +181,10 @@ const CardListingCards = ({ data }: any) => {
                       </p>
                     </span>
                   </div>
-                  <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                  <div
+                  onClick={()=>setPrice(data?.bookingOptions?.selfDrive?.packageType?.package3
+                    ?.price)}
+                  className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package3

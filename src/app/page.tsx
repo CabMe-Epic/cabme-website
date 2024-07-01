@@ -79,6 +79,22 @@ console.log(radioToggle,"radio");
     getRecords()
     
   },[])
+
+
+  //for pickup and dropoff location 
+  const [pickupTime,setPickupTime] = useState<any>()
+  const [dropoffTime,setDropoffTime] = useState<any>()
+  const hanldepickupTime = (event:any)=>{
+    setPickupTime(event.target.value)
+    // console.log(event.target.value,"time");
+  }
+  const hanldedropoffTime = (event:any)=>{
+    setDropoffTime(event?.target?.value)
+    // console.log(event.target.value,"dropoff time")
+  }
+  localStorage.setItem("pickupTime",pickupTime)
+  localStorage.setItem("dropoffTime",dropoffTime)
+  console.log(pickupTime,"pppp");
   return (
     <>
       <div
@@ -176,9 +192,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                          </div>
                         }
                       </div>
                     </div>
@@ -233,9 +252,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                          </div>
                         }
                       </div>
                     </div>
@@ -291,9 +313,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)}/>
+                          </div>
                         }
                     </div>
                   </div>
@@ -344,10 +369,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
-                          
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                          </div>
                         }
                   </div>
                 </div>

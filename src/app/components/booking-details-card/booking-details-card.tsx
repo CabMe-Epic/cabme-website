@@ -7,15 +7,37 @@ import React, { useEffect, useState } from "react";
 const BookingDetailsCard = ({city}:any) => {
   const [pickupDate,setPickupDate] = useState<any>();
   const [dropoffDate,setDropoffDate] = useState<any>()
-  useEffect(()=>{
-    
+  const [pickupTime,setPickupTime] =useState<any>()
+  const [dropoffTime,setDropoffTime] =useState<any>()
+  const [duration, setDuration] = useState('');
+
+  console.log(pickupTime,"ppp");
+  useEffect(()=>{   
      
       const getPickup = localStorage.getItem("pickupDate");
       const getDropoff = localStorage.getItem("dropOffDate");
+      const pickTime=localStorage.getItem("pickupTime")
+      const dropTime=localStorage.getItem("dropoffTime")
+      
       setPickupDate(getPickup);
-      setDropoffDate(getDropoff)
+      setDropoffDate(getDropoff);
+      setPickupTime(pickTime);
+      setDropoffTime(dropTime);
+
+      const pickupDateTime:any = new Date(`${pickupDate?.split('-').join('-')}T${pickupTime}:00`);
+      const droppingDateTime:any = new Date(`${dropoffDate?.split('-').join('-')}T${dropoffTime}:00`);
+      const diffInMs = Math.abs(droppingDateTime - pickupDateTime);
+      const diffInSeconds = Math.floor(diffInMs / 1000);
+      const days = Math.floor(diffInSeconds / (3600 * 24));
+      const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((diffInSeconds % 3600) / 60);
+      // const seconds = diffInSeconds % 60;
+      setDuration(`${days}days, ${hours}hours, ${minutes}minutes`);
   })
-  // console.log("city",pickDate)
+
+
+  console.log(duration,"duration");
+
   return (
     <div>
       <main className="max-w-[511px] px-2 border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">
@@ -41,7 +63,7 @@ const BookingDetailsCard = ({city}:any) => {
               </span>
               <span className="flex flex-row items-center gap-3">
                 <Image src="/png/time.png" width={20} height={20} alt="time" />
-                <span className="text-[#787070] text-sm">02:45 AM</span>
+                <span className="text-[#787070] text-sm">{pickupTime}</span>
               </span>
             </div>
             <div>
@@ -68,13 +90,13 @@ const BookingDetailsCard = ({city}:any) => {
                   height={20}
                   alt="calender"
                 />
-                <span className="text-[#787070] text-sm">02:45 AM</span>
+                <span className="text-[#787070] text-sm">{dropoffTime}</span>
               </span>
             </div>
           </div>
           <div className="my-8 text-center">
             <span className="bg-[#F2F7F6] w-[240px] h-[50px] p-4 rounded-lg drop-shadow-lg">
-             <b> Duration: </b> 2days,24hours,12minutes{" "}
+             <b> Duration: </b> {duration ? duration:""}{" "}
             </span>
           </div>
         </div>
