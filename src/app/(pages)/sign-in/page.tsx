@@ -1,10 +1,68 @@
+"use client"
 import InputField from '@/app/components/input-field/input-field';
 import ThemeButton from '@/app/components/theme-button/theme-button';
 import React from 'react';
 import Image from 'next/image';
-import CountryInput from '@/app/components/country-input/country-Input';
+import 'react-phone-input-2/lib/style.css';
+// import CountryInput from '@/app/components/country-input/country-Input';
+import PhoneInput from 'react-phone-input-2';
 
 const SignIn = (props: any) => {
+    const [otpSent, setOtpSent] = React.useState(false);
+    const [otp, setOtp] = React.useState('');
+    const [phone, setPhoneNumber] = React.useState('');
+    const [verificationResult, setVerificationResult] = React.useState(null);
+    console.log({ phone }, { otp }, { props })
+
+    const handleSendOtp = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/login/request-otp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ phone }),
+            });
+            const result = await response.json();
+            console.log({ result })
+            if (result) {
+                setOtpSent(true);
+                alert('OTP has been sent to your phone.');
+            }
+        } catch (error) {
+            console.error('Error sending OTP:', error);
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/login/verify-otp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ phone, otp }),
+            });
+            const result = await response.json();
+            console.log({ result })
+            if (result) {
+                setVerificationResult(result);
+                alert('OTP verification successful. You are now logged in.');
+            }
+        } catch (error) {
+            console.error('Error verifying OTP:', error);
+        }
+    };
+
+    const handleSignIn = async () => {
+        if (!otpSent) {
+            await handleSendOtp();
+        } else {
+            await handleVerifyOtp();
+        }
+    }
+
+
     return (
         <div>
             <main className='max-w-[1250px] m-auto'>
@@ -51,13 +109,33 @@ const SignIn = (props: any) => {
                             </div>
                             <div className="w-[300px] sm:w-[494px] sm:h-[68px]">
                                 {/* <InputField type="text" placeholder="Enter Phone Number" /> */}
-                                <CountryInput />
+                                <PhoneInput
+                                    country={'in'}
+                                    value={phone}
+                                    onChange={(phone) => setPhoneNumber(phone)}
+                                    containerStyle={{ width: '100%', height: '58px', borderRadius: '8px', border: 0, background: "#FCFBFB" }}
+                                    inputStyle={{ width: '100%', height: '58px', paddingLeft: 50, borderRadius: '8px', background: "#FCFBFB" }}
+                                    buttonStyle={{ border: 0, borderRadius: '8px', width: "50px", padding: "10px", background: "transparent" }}
+                                    dropdownStyle={{ borderRadius: '8px', border: 0 }}
+                                    searchStyle={{ borderRadius: '8px' }}
+                                />
                             </div>
                             <div className="w-[300px] sm:w-[494px] sm:h-[68px] ">
-                                <InputField type="text" placeholder="Enter 4 Digit OTP" />
+                                <InputField
+                                    type="text"
+                                    placeholder="Enter 4 Digit OTP"
+                                    otp={otp}
+                                    onChange={(e: any) => setOtp(e.target.value)}
+                                />
                             </div>
                             <div>
-                                <ThemeButton text="Sign In" className='w-[221px] h-[55px] flex flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-[24px] from-[#F1301E] to-[#FA4F2F]' />
+                                {/* <ThemeButton text="Sign In" className='w-[221px] h-[55px] flex flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-[24px] from-[#F1301E] to-[#FA4F2F]' /> */}
+                                <ThemeButton
+                                    text={otpSent ? "Verify OTP" : "Sign In"}
+                                    className='w-[221px] h-[55px] flex flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-[24px] from-[#F1301E] to-[#FA4F2F]'
+                                    onClick={handleSignIn}
+                                />
+
                             </div>
 
                         </div>

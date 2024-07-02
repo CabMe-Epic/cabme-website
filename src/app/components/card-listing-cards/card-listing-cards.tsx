@@ -455,7 +455,10 @@ const CardListingCards = ({ data }: any) => {
               </div>
               <div className="h-[274px]">
                 <div className="mt-5 flex flex-row items-center gap-4 mr-10">
-                  <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                  <div
+                  onClick={()=>setPrice(data?.bookingOptions?.subscription?.packageType
+                    ?.package1?.price)}
+                  className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.subscription?.packageType
@@ -475,7 +478,10 @@ const CardListingCards = ({ data }: any) => {
                       </p>
                     </span>
                   </div>
-                  <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                  <div
+                  onClick={()=>setPrice(data?.bookingOptions?.subscription?.packageType
+                    ?.package2?.price)}
+                  className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.subscription?.packageType
@@ -495,7 +501,10 @@ const CardListingCards = ({ data }: any) => {
                       </p>
                     </span>
                   </div>
-                  <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                  <div
+                  onClick={()=>setPrice(data?.bookingOptions?.subscription?.packageType
+                    ?.package3?.price)}
+                  className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.subscription?.packageType
@@ -767,7 +776,10 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                   <div className="h-[274px]">
                     <div className="mt-5 flex flex-row items-center gap-4 mr-10">
-                      <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                      <div
+                      onClick={()=>setPrice(data?.bookingOptions?.withDriver?.local?.packageType
+                        ?.package1?.price)}
+                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                         <span className="font-bold text-[18px] ">
                           {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                           {
@@ -788,7 +800,10 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                         </span>
                       </div>
-                      <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                      <div
+                      onClick={()=>setPrice(data?.bookingOptions?.withDriver?.local?.packageType
+                        ?.package2?.price)}
+                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                         <span className="font-bold text-[18px] ">
                           {
                             data?.bookingOptions?.withDriver?.local?.packageType
@@ -808,7 +823,10 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                         </span>
                       </div>
-                      <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                      <div
+                      onClick={()=>setPrice(data?.bookingOptions?.withDriver?.local?.packageType
+                        ?.package3?.price)}
+                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                         <span className="font-bold text-[18px] ">
                           {
                             data?.bookingOptions?.withDriver?.local?.packageType
