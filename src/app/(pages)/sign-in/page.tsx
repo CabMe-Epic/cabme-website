@@ -4,15 +4,16 @@ import ThemeButton from '@/app/components/theme-button/theme-button';
 import React from 'react';
 import Image from 'next/image';
 import 'react-phone-input-2/lib/style.css';
-// import CountryInput from '@/app/components/country-input/country-Input';
+import Cookies from "js-cookie";
 import PhoneInput from 'react-phone-input-2';
+import axios from 'axios';
 
 const SignIn = (props: any) => {
     const [otpSent, setOtpSent] = React.useState(false);
     const [otp, setOtp] = React.useState('');
     const [phone, setPhoneNumber] = React.useState('');
     const [verificationResult, setVerificationResult] = React.useState(null);
-    console.log({ phone }, { otp }, { props })
+    // console.log({ phone }, { otp }, { verificationResult })
 
     const handleSendOtp = async () => {
         try {
@@ -36,16 +37,22 @@ const SignIn = (props: any) => {
 
     const handleVerifyOtp = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/login/verify-otp`, {
-                method: 'POST',
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/login/verify-otp`, {
+                phone,
+                otp,
+            }, {
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ phone, otp }),
+                }
             });
-            const result = await response.json();
-            console.log({ result })
+
+            const result = response.data;
+            console.log({ result });
+
             if (result) {
+                const token = result?.result.token;
+                console.log({ token });
+                Cookies.set('token', token, { secure: true, sameSite: 'Strict' });
                 setVerificationResult(result);
                 alert('OTP verification successful. You are now logged in.');
             }
@@ -108,7 +115,6 @@ const SignIn = (props: any) => {
                                 <h1 className="text-[36px] font-bold">SIGN IN</h1>
                             </div>
                             <div className="w-[300px] sm:w-[494px] sm:h-[68px]">
-                                {/* <InputField type="text" placeholder="Enter Phone Number" /> */}
                                 <PhoneInput
                                     country={'in'}
                                     value={phone}
@@ -129,13 +135,11 @@ const SignIn = (props: any) => {
                                 />
                             </div>
                             <div>
-                                {/* <ThemeButton text="Sign In" className='w-[221px] h-[55px] flex flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-[24px] from-[#F1301E] to-[#FA4F2F]' /> */}
                                 <ThemeButton
                                     text={otpSent ? "Verify OTP" : "Sign In"}
                                     className='w-[221px] h-[55px] flex flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-[24px] from-[#F1301E] to-[#FA4F2F]'
                                     onClick={handleSignIn}
                                 />
-
                             </div>
 
                         </div>

@@ -12,38 +12,49 @@ import { useParams } from 'next/navigation';
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useState } from "react";
 import { useImmer } from "use-immer";
+import Cookies from "js-cookie";
 import { searchVehicle } from "../../../../../networkRequests/hooks/api";
 
 const CarDetails = () => {
 
+  const handleBooked = () => {
+    const token = Cookies.get('token');
+    console.log({ token })
+    if (token) {
+      // rest of the booking code....
+    } else {
+      alert("You are not logged in. Please log in to access this resource.")
+    }
+  };
+
   // console.log(id.params.slug,"current product");
 
-  const { slug } = useParams(); 
+  const { slug } = useParams();
   console.log(slug, 'searchParams');
 
 
   // const [carData, setCarData] = useState<any>();
-  const [carDetails,setCarDetails] = useState<any>()
+  const [carDetails, setCarDetails] = useState<any>()
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicle();
     console.log(getSearchCarData?.data?.vehicles, "product page");
     const carData = getSearchCarData?.data?.vehicles;
-    carData?.map((item:any)=>{
-      return(
+    carData?.map((item: any) => {
+      return (
         // console.log(item._id,"single poduct")
-  
-        item?._id===slug ? setCarDetails(item) :""
+
+        item?._id === slug ? setCarDetails(item) : ""
       )
     })
     // setCarData(getSearchCarData?.data?.vehicles);
   }, []);
-  const [pickupDate,setPickupDate] = useState<any>();
-  const [dropoffDate,setDropoffDate] = useState<any>()
-  const [packagePrice,setPackagePrice] = useState<any>()
+  const [pickupDate, setPickupDate] = useState<any>();
+  const [dropoffDate, setDropoffDate] = useState<any>()
+  const [packagePrice, setPackagePrice] = useState<any>()
 
   React.useEffect(() => {
-   
+
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice")
@@ -51,10 +62,10 @@ const CarDetails = () => {
     setPickupDate(getPickup);
     setDropoffDate(getDropoff)
     getCarDetails();
-  
-  
+
+
   }, []);
-console.log(packagePrice,"hello");
+  console.log(packagePrice, "hello");
 
   //getting the date and time from the local storage
 
@@ -66,12 +77,12 @@ console.log(packagePrice,"hello");
   //     item?._id===slug ? setCarDetails(item) :""
   //   )
   // })
-  console.log(carDetails,"car details");
+  console.log(carDetails, "car details");
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
-console.log(vehicle,"loooooooooooo");
+  console.log(vehicle, "loooooooooooo");
   // const [carDetail, setCarDetail] = useImmer<Vehicle[] | any>(null);
-  
+
   // useEffect(() => {
   //   if (vehicle) {
   //     setCarDetail(vehicle?.response as any); 
@@ -87,6 +98,9 @@ console.log(vehicle,"loooooooooooo");
   if (error) {
     return <div>Error: {error.message}</div>;
   }
+
+
+
   return (
     <>
       <div className="py-6">
@@ -97,10 +111,10 @@ console.log(vehicle,"loooooooooooo");
         </div>
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div className="px-4">
-            <ProductSlider featuredImage={carDetails?.featuredImage?.image as any } imageGallery={carDetails?.imageGallery as any} />
+            <ProductSlider featuredImage={carDetails?.featuredImage?.image as any} imageGallery={carDetails?.imageGallery as any} />
             {/* mobile view */}
             <div className="sm:hidden block my-4">
-              <BookingDetailsCard city={carDetails?.city as any}  />
+              <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* mobile view */}
 
@@ -181,7 +195,7 @@ console.log(vehicle,"loooooooooooo");
                       <span className="text-[#ff0000] p-0 text-xl font-semibold">₹ 15,000</span>
                     </div>
                     <div>
-                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">Proceed</button>
+                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg" onClick={handleBooked}>Proceed</button>
                     </div>
 
                   </div>
@@ -332,13 +346,13 @@ console.log(vehicle,"loooooooooooo");
 
         </div>
         <div className="mb-10">
-          <ExtraCharges details={carDetails}/>
+          <ExtraCharges details={carDetails} />
         </div>
         <div className="mb-10">
-          <DescCar desc={carDetails?.vehicleDescriptions as any}/>
+          <DescCar desc={carDetails?.vehicleDescriptions as any} />
         </div>
         <div>
-          <Video/>
+          <Video />
         </div>
         <div className="mx-10 top-button">
           {/* <InterestedSlider/> */}
