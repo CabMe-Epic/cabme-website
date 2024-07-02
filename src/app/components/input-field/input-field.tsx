@@ -1,11 +1,16 @@
 "use client"
 import React, { useState } from 'react';
 
-const InputField = ({ type, placeholder, className }: any) => {
+const InputField = ({ type, placeholder, className, otp, onChange }: any) => {
     return (
-        
-            <input className={ ` w-full  h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB] ${className}`} type={type} placeholder={placeholder} />
-        
+
+        <input className={` w-full  h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB] ${className}`}
+            type={type}
+            value={otp}
+            onChange={onChange}
+            placeholder={placeholder}
+        />
+
     );
 }
 
