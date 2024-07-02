@@ -11,7 +11,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const SignIn = (props: any) => {
+const SignIn = () => {
     const router = useRouter()
     const [showSignIn, setShowSignIn] = React.useState(true);
     const [otpSent, setOtpSent] = React.useState(false);
@@ -28,8 +28,6 @@ const SignIn = (props: any) => {
         city: "",
         state: "",
     });
-
-    // console.log({ formData })
 
     const handleSignUp = async () => {
         try {

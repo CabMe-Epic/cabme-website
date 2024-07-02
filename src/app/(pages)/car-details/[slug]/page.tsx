@@ -16,9 +16,9 @@ import Cookies from "js-cookie";
 import { searchVehicle } from "../../../../../networkRequests/hooks/api";
 
 const CarDetails = () => {
+  const token = Cookies.get('token');
 
   const handleBooked = () => {
-    const token = Cookies.get('token');
     console.log({ token })
     if (token) {
       // rest of the booking code....
@@ -195,7 +195,7 @@ const CarDetails = () => {
                       <span className="text-[#ff0000] p-0 text-xl font-semibold">₹ 15,000</span>
                     </div>
                     <div>
-                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg" onClick={handleBooked}>Proceed</button>
+                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg" >Proceed</button>
                     </div>
 
                   </div>
@@ -315,7 +315,7 @@ const CarDetails = () => {
                       <span className="text-[#ff0000] p-0 text-2xl font-bold">₹ 15,000</span>
                     </div>
                     <div>
-                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">Proceed</button>
+                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg" onClick={handleBooked}>Proceed</button>
                     </div>
 
                   </div>
