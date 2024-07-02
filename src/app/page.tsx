@@ -41,7 +41,7 @@ console.log(radioToggle,"radio");
   }
 
   console.log(pickupLocation,"pickup location");
-  console.log(dropOffLocation,"dropOff location");
+  console.log(dropOffLocation,"dropOff location");  
   console.log(pickupDate,"pickup date");
   console.log(dropOffDate,"dropOff date");
 
@@ -77,7 +77,24 @@ console.log(radioToggle,"radio");
 
   useEffect(()=>{
     getRecords()
+    
   },[])
+
+
+  //for pickup and dropoff location 
+  const [pickupTime,setPickupTime] = useState<any>()
+  const [dropoffTime,setDropoffTime] = useState<any>()
+  const hanldepickupTime = (event:any)=>{
+    setPickupTime(event.target.value)
+    // console.log(event.target.value,"time");
+  }
+  const hanldedropoffTime = (event:any)=>{
+    setDropoffTime(event?.target?.value)
+    // console.log(event.target.value,"dropoff time")
+  }
+  localStorage.setItem("pickupTime",pickupTime)
+  localStorage.setItem("dropoffTime",dropoffTime)
+  console.log(pickupTime,"pppp");
   return (
     <>
       <div
@@ -121,10 +138,12 @@ console.log(radioToggle,"radio");
             <div className="flex gap-6 w-fit m-auto mt-4">
               {driverRadioButton?.map((driver, ind) => {
                 return (
-                  <div className="w-fit">
+                  <div className="w-fit" 
+                  key={ind}
+                  
+                  >
                     <RadioButton
                       onClick={() => setRadioToggle(driver.content)}
-                      key={ind}
                       content={driver?.content}
                       name={driver?.name}
                       id={driver?.id}
@@ -156,7 +175,7 @@ console.log(radioToggle,"radio");
                           {item?.heading}
                         </h3>
                         {item?.id === "location" && (
-                          <select
+                          <select 
                             name="pickup"
                             id="pickup"
                             className="w-full outline-red-500 h-8"
@@ -173,9 +192,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                          </div>
                         }
                       </div>
                     </div>
@@ -214,8 +236,8 @@ console.log(radioToggle,"radio");
                        
                         {item?.id === "location" && (
                           <select
-                            name="pickup"
-                            id="pickup"
+                            name="loc"
+                            id="loc"
                             className="w-full outline-red-500 h-8"
                             onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
 
@@ -230,9 +252,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                          </div>
                         }
                       </div>
                     </div>
@@ -288,9 +313,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)}/>
+                          </div>
                         }
                     </div>
                   </div>
@@ -341,10 +369,12 @@ console.log(radioToggle,"radio");
                           </select>
                         )}
                         {item?.id==="date" &&
-                          <input type="date" name="date" id="date" className="outline-red-500 w-full h-8"
+                        <div className="flex gap-2">
+                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
                           onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
-                          
                           />
+                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                          </div>
                         }
                   </div>
                 </div>

@@ -10,25 +10,75 @@ import Video from "@/app/components/video/video";
 import FleetsSlider from "@/app/components/slider/slider-components";
 import { useParams } from 'next/navigation';
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
-import { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useImmer } from "use-immer";
+import { searchVehicle } from "../../../../../networkRequests/hooks/api";
 
 const CarDetails = () => {
+
+  // console.log(id.params.slug,"current product");
 
   const { slug } = useParams(); 
   console.log(slug, 'searchParams');
 
-  const { vehicle, loading, error } = useVehicleById(slug as string);
 
-  const [carDetail, setCarDetail] = useImmer<Vehicle[] | any>(null);
+  // const [carData, setCarData] = useState<any>();
+  const [carDetails,setCarDetails] = useState<any>()
+
+  const getCarDetails = useCallback(async () => {
+    const getSearchCarData = await searchVehicle();
+    console.log(getSearchCarData?.data?.vehicles, "product page");
+    const carData = getSearchCarData?.data?.vehicles;
+    carData?.map((item:any)=>{
+      return(
+        // console.log(item._id,"single poduct")
   
-  useEffect(() => {
-    if (vehicle) {
-      setCarDetail(vehicle?.response as any); 
-    }
-  }, [vehicle, setCarDetail]);
+        item?._id===slug ? setCarDetails(item) :""
+      )
+    })
+    // setCarData(getSearchCarData?.data?.vehicles);
+  }, []);
+  const [pickupDate,setPickupDate] = useState<any>();
+  const [dropoffDate,setDropoffDate] = useState<any>()
+  const [packagePrice,setPackagePrice] = useState<any>()
 
-  console.log("carDetail", carDetail);
+  React.useEffect(() => {
+   
+    const getPickup = localStorage.getItem("pickupDate");
+    const getDropoff = localStorage.getItem("dropOffDate");
+    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice")
+    setPackagePrice(selectedPackagePrice)
+    setPickupDate(getPickup);
+    setDropoffDate(getDropoff)
+    getCarDetails();
+  
+  
+  }, []);
+console.log(packagePrice,"hello");
+
+  //getting the date and time from the local storage
+
+
+  // carData?.map((item:any,index:number)=>{
+  //   return(
+  //     // console.log(item._id,"single poduct")
+
+  //     item?._id===slug ? setCarDetails(item) :""
+  //   )
+  // })
+  console.log(carDetails,"car details");
+
+  const { vehicle, loading, error } = useVehicleById(slug as string);
+console.log(vehicle,"loooooooooooo");
+  // const [carDetail, setCarDetail] = useImmer<Vehicle[] | any>(null);
+  
+  // useEffect(() => {
+  //   if (vehicle) {
+  //     setCarDetail(vehicle?.response as any); 
+  //   }
+  // }, [vehicle, setCarDetail]);
+
+  // console.log("carDetail", carDetail);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -47,10 +97,10 @@ const CarDetails = () => {
         </div>
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div className="px-4">
-            <ProductSlider featuredImage={carDetail?.featuredImage as any } imageGallery={carDetail?.imageGallery as any} />
+            <ProductSlider featuredImage={carDetails?.featuredImage?.image as any } imageGallery={carDetails?.imageGallery as any} />
             {/* mobile view */}
             <div className="sm:hidden block my-4">
-              <BookingDetailsCard city={carDetail?.city as any} />
+              <BookingDetailsCard city={carDetails?.city as any}  />
             </div>
             {/* mobile view */}
 
@@ -68,7 +118,7 @@ const CarDetails = () => {
                 <div className="grid grid-cols-1 w-full items-start justify-between gap-4 font-semibold">
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Base Fare</span>
-                    <span className="">₹ 5,229</span>
+                    <span className="">₹ {packagePrice}</span>
                   </div>
 
                   <div className="flex justify-between gap-2 text-sm">
@@ -156,16 +206,16 @@ const CarDetails = () => {
             </div>
 
             <div className="my-12">
-              <Specifications spec={carDetail?.vehicleSpecifications as any} />
+              <Specifications spec={carDetails?.vehicleSpecifications as any} />
             </div>
             <div className="my-12">
-              <CarFeatures carFeatures={carDetail?.carFeatures as any} />
+              <CarFeatures carFeatures={carDetails?.carFeatures as any} />
             </div>
           </div>
           {/*  */}
           <div >
             <div className="sm:block hidden">
-              <BookingDetailsCard city={carDetail?.city as any} />
+              <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* booking summary */}
             <div className="sm:block hidden">
@@ -174,15 +224,21 @@ const CarDetails = () => {
                 <div className='w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl'>
                   <span className="text-center">Booking Summary</span>
                 </div>
-                <div className="m-auto my-5">
+                <div className="my-5 flex justify-between w-full px-8">
                   <span className="font-bold text-[24px]">
                     Fare Details
                   </span>
+                  <select name="package" id="package">
+                    <option value="package">Change package</option>
+                    {/* <option value="package">{}</option>
+                    <option value="package">Change package</option>
+                    <option value="package">Change package</option> */}
+                  </select>
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Base Fare</span>
-                    <span className="w-[220px] ml-10">₹ 5,229</span>
+                    <span className="w-[220px] ml-10">₹ {packagePrice}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
@@ -276,10 +332,10 @@ const CarDetails = () => {
 
         </div>
         <div className="mb-10">
-          <ExtraCharges details={carDetail}/>
+          <ExtraCharges details={carDetails}/>
         </div>
         <div className="mb-10">
-          <DescCar desc={carDetail?.vehicleDescriptions as any}/>
+          <DescCar desc={carDetails?.vehicleDescriptions as any}/>
         </div>
         <div>
           <Video/>
