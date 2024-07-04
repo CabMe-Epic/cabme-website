@@ -92,8 +92,8 @@ const SignIn = () => {
             if (response.status === 200) {
                 const token = result.result.token;
                 localStorage.setItem('userId', result?.result?.user?.id);
+                localStorage.setItem('token', token);
                 console.log({ token });
-                Cookies.set('token', token, { secure: true, sameSite: 'Strict' });
                 setVerificationResult(result);
                 toast.success("OTP verification successful. You are now logged in.");
                 // router.push('/personal-details')
