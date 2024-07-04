@@ -91,11 +91,12 @@ const SignIn = () => {
 
             if (response.status === 200) {
                 const token = result.result.token;
+                localStorage.setItem('userId', result?.result?.user?.id);
                 console.log({ token });
                 Cookies.set('token', token, { secure: true, sameSite: 'Strict' });
                 setVerificationResult(result);
                 toast.success("OTP verification successful. You are now logged in.");
-                router.push('/payment')
+                // router.push('/personal-details')
             } else {
                 toast.error(result.message || "OTP verification failed.");
             }
@@ -137,7 +138,8 @@ const SignIn = () => {
                                 <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex items-center justify-center">
                                     <div className="w-3 h-3  p-2 rounded-full"></div>
                                 </div>
-                                <span className="ml-2 text-center text-xs">Personal Details</span>
+                                {/* <span className="ml-2 text-center text-xs">Personal Details</span> */}
+                                <span className="ml-2 text-center text-xs">Document Verification</span>
                             </div>
                         </div>
                         {/* Step 3 */}

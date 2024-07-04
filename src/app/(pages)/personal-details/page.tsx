@@ -28,7 +28,8 @@ const PersonalDetails = (props: any) => {
                                 <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex  items-center justify-center">
                                     <div className="w-3 h-3 bg-[#ff0000]  p-2 rounded-full"></div>
                                 </div>
-                                <span className="ml-2 text-center text-xs">Personal Details</span>
+                                {/* <span className="ml-2 text-center text-xs">Personal Details</span> */}
+                                <span className="ml-2 text-center text-xs">Document Verification</span>
                             </div>
                         </div>
                         {/* Step 3 */}
@@ -47,7 +48,7 @@ const PersonalDetails = (props: any) => {
                 <div className='grid grid-cols-1 sm:grid-cols-[55%_45%] gap-0 mt-10'>
 
                     <section className='mx-auto'>
-                        <div className='my-6 p-6 sm:p-10 border flex flex-col items-center sm:gap-10 gap-4 rounded-lg shadow-md w-[390px] sm:w-full mx-auto'>
+                        {/* <div className='my-6 p-6 sm:p-10 border flex flex-col items-center sm:gap-10 gap-4 rounded-lg shadow-md w-[390px] sm:w-full mx-auto'>
                             <div className=''>
                                 <h1 className="text-[24px] sm:text-3xl font-bold">PERSONAL DETAILS</h1>
                             </div>
@@ -69,9 +70,9 @@ const PersonalDetails = (props: any) => {
                                 <ThemeButton text="Next" className='flex px-12 flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-md from-[#F1301E] to-[#FA4F2F]' />
                             </div>
 
-                        </div>
-                        {/*  */}
-                        <div className='my-6 sm:w-full sm:p-10 border flex flex-col items-center rounded-lg shadow-md sm:mx-auto mx-4 p-4'>
+                        </div> */}
+
+                        {/* <div className='my-6 sm:w-full sm:p-10 border flex flex-col items-center rounded-lg shadow-md sm:mx-auto mx-4 p-4'>
                             <div className=''>
                                 <h1 className="text-[24px] sm:text-3xl font-bold sm:mb-10 mb-6">DOCUMENT VERIFICATION</h1>
                             </div>
@@ -85,9 +86,9 @@ const PersonalDetails = (props: any) => {
                                 <span className='text-[#000000] font-bold text-[16px]'>NOTE:</span>
                                 <p className="sm:text-[16px] text-sm text-justify">You need to submit your Driving License and Aadhar card after making payment to confirm your car booking</p>
                             </div>
-                        </div>
-                        {/*  */}
-                        <div className='my-6 h-[345px] sm:w-full sm:h-fit p-6 sm:p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md mx-4 sm:mx-0'>
+                        </div> */}
+
+                        {/* <div className='my-6 h-[345px] sm:w-full sm:h-fit p-6 sm:p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md mx-4 sm:mx-0'>
                             <div className=''>
                                 <h1 className=" text-[24px] sm:text-3xl font-bold">DELIVERY ADDRESS</h1>
                             </div>
@@ -107,7 +108,7 @@ const PersonalDetails = (props: any) => {
                                 <ThemeButton text="Next" className='px-12 flex  flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-md from-[#F1301E] to-[#FA4F2F]' />
                             </div>
 
-                        </div>
+                        </div> */}
 
                     </section>
 
