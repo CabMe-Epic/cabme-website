@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
 
 interface ReservationDateTime {
   pickupDate: string;
@@ -39,44 +40,8 @@ const CarDetails = () => {
 
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-  const [reservationDateTime, setReservationDateTime] = useState<ReservationDateTime>({
-    pickupDate: '',
-    dropoffDate: '',
-    pickupTime: '',
-    dropoffTime: ''
-  });
-  const [duration, setDuration] = useState('');
-
-  React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate") || '';
-    const getDropoff = localStorage.getItem("dropOffDate") || '';
-    const pickTime = localStorage.getItem("pickupTime") || '';
-    const dropTime = localStorage.getItem("dropoffTime") || '';
-
-    setReservationDateTime({
-      pickupDate: getPickup,
-      dropoffDate: getDropoff,
-      pickupTime: pickTime,
-      dropoffTime: dropTime
-    });
-  }, []);
-
-  React.useEffect(() => {
-    const { pickupDate, dropoffDate, pickupTime, dropoffTime } = reservationDateTime;
-
-    if (pickupDate && dropoffDate && pickupTime && dropoffTime) {
-      const pickupDateTime: Date = new Date(`${pickupDate.split('-').join('-')}T${pickupTime}:00`);
-      const droppingDateTime: Date = new Date(`${dropoffDate.split('-').join('-')}T${dropoffTime}:00`);
-      const diffInMs: number = Math.abs(droppingDateTime.getTime() - pickupDateTime.getTime());
-      const diffInSeconds: number = Math.floor(diffInMs / 1000);
-      const days: number = Math.floor(diffInSeconds / (3600 * 24));
-      const hours: number = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
-      const minutes: number = Math.floor((diffInSeconds % 3600) / 60);
-
-      setDuration(`${days} days, ${hours} hours, ${minutes} minutes`);
-    }
-  }, [reservationDateTime]);
+  const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
+  console.log({ duration })
 
   const bookingData = {
     userId: userId,
