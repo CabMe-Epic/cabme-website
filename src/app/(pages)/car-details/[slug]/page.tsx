@@ -11,28 +11,24 @@ import FleetsSlider from "@/app/components/slider/slider-components";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useState } from "react";
-import Cookies from "js-cookie";
 import { searchVehicle } from "../../../../../networkRequests/hooks/api";
+import { useRouter } from 'next/navigation'
+import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRouter } from 'next/navigation'
+
+interface ReservationDateTime {
+  pickupDate: string;
+  dropoffDate: string;
+  pickupTime: string;
+  dropoffTime: string;
+}
 
 const CarDetails = () => {
   const router = useRouter();
-  const token = Cookies.get("token");
-  console.log({ token })
-  const [user, setUser] = useState(null);
-  const [currentPackage, setCurrentPackage] = useState<any>();
-  //@ts-ignore
   const userId = localStorage.getItem('userId');
-  console.log({ userId })
-
-
-  function handleBooking() {
-    console.log("Working")
-  }
-
-  const { slug } = useParams();
+  const token = localStorage?.getItem("token");
+  const [currentPackage, setCurrentPackage] = useState<any>();
 
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
@@ -41,14 +37,97 @@ const CarDetails = () => {
   const [bookingOpt, setBookingOpt] = useState<any>();
   const [currentPrice, setCurrentPrice] = useState<any>();
 
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  const [reservationDateTime, setReservationDateTime] = useState<ReservationDateTime>({
+    pickupDate: '',
+    dropoffDate: '',
+    pickupTime: '',
+    dropoffTime: ''
+  });
+  const [duration, setDuration] = useState('');
+
+  React.useEffect(() => {
+    const getPickup = localStorage.getItem("pickupDate") || '';
+    const getDropoff = localStorage.getItem("dropOffDate") || '';
+    const pickTime = localStorage.getItem("pickupTime") || '';
+    const dropTime = localStorage.getItem("dropoffTime") || '';
+
+    setReservationDateTime({
+      pickupDate: getPickup,
+      dropoffDate: getDropoff,
+      pickupTime: pickTime,
+      dropoffTime: dropTime
+    });
+  }, []);
+
+  React.useEffect(() => {
+    const { pickupDate, dropoffDate, pickupTime, dropoffTime } = reservationDateTime;
+
+    if (pickupDate && dropoffDate && pickupTime && dropoffTime) {
+      const pickupDateTime: Date = new Date(`${pickupDate.split('-').join('-')}T${pickupTime}:00`);
+      const droppingDateTime: Date = new Date(`${dropoffDate.split('-').join('-')}T${dropoffTime}:00`);
+      const diffInMs: number = Math.abs(droppingDateTime.getTime() - pickupDateTime.getTime());
+      const diffInSeconds: number = Math.floor(diffInMs / 1000);
+      const days: number = Math.floor(diffInSeconds / (3600 * 24));
+      const hours: number = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
+      const minutes: number = Math.floor((diffInSeconds % 3600) / 60);
+
+      setDuration(`${days} days, ${hours} hours, ${minutes} minutes`);
+    }
+  }, [reservationDateTime]);
+
+  const bookingData = {
+    userId: userId,
+    vehicleId: carDetails?._id,
+    option: "Self Drive",
+    location: carDetails?.city,
+    pickUpDateTime: localStorage.getItem("pickupDate"),
+    dropOffDateTime: localStorage.getItem("dropOffDate"),
+    baseFare: packagePrice,
+    doorstepDelivery: 200,
+    insuranceGST: carDetails?.extraService?.insurance,
+    refundableDeposit: 2000,
+    kmsLimit: 300,
+    fuel: carDetails?.extraService?.fuel,
+    extraKmsCharge: carDetails?.extraService?.extraKmCharges,
+    tollsParking: "Included",
+    promocode: "DISCOUNT10",
+    totalAmount: 7000,
+    bookingDuration: duration,
+    bufferTime: 60,
+    kilometers: 300,
+    createdByUser: userId
+  };
+
+  async function handleBooking() {
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`, bookingData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('Booking response:', { response });
+      toast.success(response?.data?.message)
+      if (response?.data?.success) {
+        setTimeout(() => {
+          router.push("/payment")
+        }, 2000);
+      }
+    } catch (error: any) {
+      console.error('Error booking cab:', { error });
+    }
+  }
+
+  const { slug } = useParams();
+
+
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicle();
-    // console.log(getSearchCarData?.data?.vehicles, "product page");
     const carData = getSearchCarData?.data?.vehicles;
     carData?.map((item: any) => {
       return (
-        // console.log(item._id,"single poduct")
-
         item?._id === slug ? setCarDetails(item) : ""
       );
     });
@@ -77,7 +156,6 @@ const CarDetails = () => {
     setDropoffDate(getDropoff)
     getCarDetails();
   }, [getCarDetails]);
-  console.log(packagePrice, "hello");
 
   //getting the date and time from the local storage
 
@@ -88,7 +166,7 @@ const CarDetails = () => {
   //     item?._id===slug ? setCarDetails(item) :""
   //   )
   // })
-  console.log(carDetails, "car details");
+  console.log({ carDetails });
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
   // console.log(vehicle, "loooooooooooo");
@@ -106,7 +184,6 @@ const CarDetails = () => {
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
     const bookingOption = localStorage.getItem("tabValue");
-    console.log(bookingOption, "jiii");
     setPackagePrice(selectedPackagePrice);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
@@ -114,6 +191,7 @@ const CarDetails = () => {
     getCarDetails();
     // price();
   }, []);
+
   React.useEffect(() => {
     {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
@@ -136,9 +214,7 @@ const CarDetails = () => {
   }
   // set current package price
 
-  console.log(currentPackage, "current");
   const handlePriceChange = (updatedPrice: any) => {
-    console.log(updatedPrice, "ooooooooo");
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice)
   }
@@ -422,7 +498,7 @@ const CarDetails = () => {
                         <button
                           onClick={handleBooking}
                           className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
-                          Proceed
+                          Checkout
                         </button>
                       ) : (
                         <button

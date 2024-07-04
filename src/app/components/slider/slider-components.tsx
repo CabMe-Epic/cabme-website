@@ -52,8 +52,7 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
           delay: 2000,
           disableOnInteraction: false,
         }}
-        onSwiper={(swiper) => console.log(swiper)}
-        // onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log()}
       >
         <div className="grid grid-cols-3 gap-6 my-12">
           {fleetsArray?.map((item, index) => {

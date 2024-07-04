@@ -96,7 +96,7 @@ const SignIn = () => {
                 console.log({ token });
                 setVerificationResult(result);
                 toast.success("OTP verification successful. You are now logged in.");
-                // router.push('/personal-details')
+                router.push('/personal-details')
             } else {
                 toast.error(result.message || "OTP verification failed.");
             }

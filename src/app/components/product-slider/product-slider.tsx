@@ -18,7 +18,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 const ProductSlider = ({imageGallery, featuredImage}: any) => {
-  // console.log("slider", slider);
   return (
     
       <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider relative">

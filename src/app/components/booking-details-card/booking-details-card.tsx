@@ -2,8 +2,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-
-
 const BookingDetailsCard = ({ city }: any) => {
   const [pickupDate, setPickupDate] = useState<any>();
   const [dropoffDate, setDropoffDate] = useState<any>()
@@ -11,9 +9,7 @@ const BookingDetailsCard = ({ city }: any) => {
   const [dropoffTime, setDropoffTime] = useState<any>()
   const [duration, setDuration] = useState('');
 
-  console.log(pickupTime, "ppp");
   useEffect(() => {
-
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const pickTime = localStorage.getItem("pickupTime")
@@ -31,12 +27,8 @@ const BookingDetailsCard = ({ city }: any) => {
     const days = Math.floor(diffInSeconds / (3600 * 24));
     const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
     const minutes = Math.floor((diffInSeconds % 3600) / 60);
-    // const seconds = diffInSeconds % 60;
     setDuration(`${days}days, ${hours}hours, ${minutes}minutes`);
   })
-
-
-  console.log({ duration });
 
   return (
     <div>
