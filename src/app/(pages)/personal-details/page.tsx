@@ -158,7 +158,7 @@ const PersonalDetails = (props: any) => {
                             </div>
                         </div>
                         {/* Step 3 */}
-                        <div className="flex items-center">
+                        <div className="flex  items-center">
                             <div className="relative flex  flex-col gap-2 items-center">
                                 <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex  items-center justify-center">
                                     <div className="w-3 h-3 p-2 rounded-full"></div>
@@ -179,13 +179,13 @@ const PersonalDetails = (props: any) => {
                                 <h1 className="text-[36px] font-bold">Aadhar Verification</h1>
                             </div>
 
-                            <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex gap-5 ">
+                            <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex gap-5 sm:flex-row flex-col">
                                 <InputField type="text" name="aadharNumber" value={state.aadharNumber} onChange={handleChange} placeholder="Enter Aadhar Number" />
                                 <ThemeButton onClick={handleSendAadharOTP} text="Send Otp" className="w-[221px] h-[56px] 	" />
                             </div>
                             <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
                                 {
-                                    verifyOTPAadhar ? <div className='flex justify-between ml-4 gap-0 w-[465px]'>
+                                    verifyOTPAadhar ? <div className='flex justify-between ml-4 gap-0 w-[465px] '>
                                          <InputField name="aadharOTP" value={state.aadharOTP} onChange={handleChange} type="text" placeholder="Enter OTP" className="mr-5" />
                                         {
                                             checkOTPAadhar ? <div><Image className='object-contain' src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyAadharOTP} className="w-[230px] h-[56px]" />
@@ -205,8 +205,8 @@ const PersonalDetails = (props: any) => {
                                 <h1 className="text-[36px] font-bold">Pan Card Verification</h1>
                             </div>
 
-                            <div className="w-[400px] sm:w-[100%] sm:h-[68px] flex justify-between gap-5 ">
-                                <InputField type="text" name="panNumber" otp={state.panNumber.toUpperCase()} value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number"  className="w-[1000px]"/>
+                            <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex justify-between gap-5 sm:flex-row  flex-col">
+                                <InputField type="text" name="panNumber" otp={state.panNumber.toUpperCase()} value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number"  className="sm:w-[1000px] w-[300px] "/>
 
                                 <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
                                     {verifyOTPPan
