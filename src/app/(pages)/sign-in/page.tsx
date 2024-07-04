@@ -35,8 +35,7 @@ const SignIn = () => {
             console.log('Signup successful:', { response });
             if (response?.data?.success) {
                 toast.success(response?.data?.message)
-                Cookies.set('token', response?.data?.result?.token, { secure: true, sameSite: 'Strict' });
-                router.push('/payment')
+                setShowSignIn(true)
             }
         } catch (error: any) {
             console.error('Error signing up:', error);
