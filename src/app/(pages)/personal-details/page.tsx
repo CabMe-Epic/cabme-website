@@ -1,10 +1,71 @@
+"use client"
 import InputField from '@/app/components/input-field/input-field';
 import ThemeButton from '@/app/components/theme-button/theme-button';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import CountryInput from '@/app/components/country-input/country-Input';
 
 const PersonalDetails = (props: any) => {
+
+    const [verifyOTPAadhar, setVerifyOTPAadhar] = useState(false);
+    const [checkOTPAadhar, setCheckOTPAadhar] = useState(false);
+    const [verifyOTPPan, setVerifyOTPPan] = useState(false);
+    const [checkOTPPan, setCheckOTPPan] = useState(false);
+    const [verifyOTPDL, setVerifyOTDL] = useState(false);
+    const [checkOTPDL, setCheckOTPDL] = useState(false);
+
+    const [state, setState] = useState({
+        aadharNumber: "",
+        aadharOTP: "",
+        panNumber: "",
+        panOTP: "",
+        dLNumber: "",
+        dLOTP: ""
+    })
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setState((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }))
+    }
+
+    console.log(state)
+
+    const handleSendAadharOTP = () => {
+        if (state.aadharNumber != "") {
+            alert("AADHAR OTP SENT");
+            setVerifyOTPAadhar(true)
+        }
+    }
+    const handleVerifyAadharOTP = () => {
+        if (state.aadharOTP != "") {
+            setCheckOTPAadhar(true);
+        }
+    }
+    const handleSendPanOTP = () => {
+        if (state.panNumber != "") {
+            alert("Pan OTP SENT");
+            setVerifyOTPPan(true)
+        }
+    }
+    const handleVerifyPanOTP = () => {
+        if (state.panOTP != "") {
+            setCheckOTPPan(true);
+        }
+    }
+    const handleSendDLOTP = () => {
+        if (state.dLNumber != "") {
+            alert("Driving License OTP SENT");
+            setVerifyOTDL(true)
+        }
+    }
+    const handleVerifyDLOTP = () => {
+        if (state.dLOTP != "") {
+            setCheckOTPDL(true);
+        }
+    }
     return (
         <div>
             <main className='max-w-[1250px] m-auto'>
@@ -46,7 +107,84 @@ const PersonalDetails = (props: any) => {
 
                 <div className='grid grid-cols-1 sm:grid-cols-[55%_45%] gap-0 mt-10'>
 
-                    <section className='mx-auto'>
+
+                    <section className="mx-auto">
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[500px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                            <div className="">
+                                <h1 className="text-[36px] font-bold">Aadhar Verification</h1>
+                            </div>
+
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                <InputField type="text" name="aadharNumber" value={state.aadharNumber} onChange={handleChange} placeholder="Enter Aadhar Number" />
+                                <ThemeButton onClick={handleSendAadharOTP} text="Send Otp" className="w-[221px] h-[56px] 	" />
+                            </div>
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                {
+                                    verifyOTPAadhar ? <div style={{ display: "flex", alignItems: "center", gap: "20px" }}> <InputField name="aadharOTP" value={state.aadharOTP} onChange={handleChange} type="text" placeholder="Enter OTP" />
+                                        {
+                                            checkOTPAadhar ? <div style={{ width: "240px" }}><Image src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyAadharOTP} className="w-[221px] h-[56px]" />
+                                        }
+                                    </div>
+                                        : ""
+                                }
+
+                            </div>
+
+                        </div>
+
+                        {/* aaadhar end */}
+
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[500px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                            <div className="">
+                                <h1 className="text-[36px] font-bold">Pan Card Verification</h1>
+                            </div>
+
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                <InputField type="text" name="panNumber" value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number" />
+                                <ThemeButton onClick={handleSendPanOTP} text="Send Otp" className="w-[221px] h-[56px] 	" />
+                            </div>
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                {
+                                    verifyOTPPan ? <div style={{ display: "flex", alignItems: "center", gap: "20px" }}> <InputField name="panOTP" value={state.panOTP} onChange={handleChange} type="text" placeholder="Enter OTP" />
+                                        {
+                                            checkOTPPan ? <div style={{ width: "240px" }}><Image src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="Verify OTP" onClick={handleVerifyPanOTP} className="w-[221px] h-[56px]" />
+                                        }
+                                    </div>
+                                        : ""
+                                }
+
+                            </div>
+
+                        </div>
+                        {/* pan end */}
+
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[500px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                            <div className="">
+                                <h1 className="text-[36px] font-bold">Driving License Verification</h1>
+                            </div>
+
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                <InputField type="text" name="dLNumber" value={state.dLNumber} onChange={handleChange} placeholder="Enter Driving License Number" />
+                                <ThemeButton onClick={handleSendDLOTP} text="Send Otp" className="w-[221px] h-[56px] 	" />
+                            </div>
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                {
+                                    verifyOTPDL ? <div style={{ display: "flex", alignItems: "center", gap: "20px" }}> <InputField name="dLOTP" value={state.dLOTP} onChange={handleChange} type="text" placeholder="Enter OTP" />
+                                        {
+                                            checkOTPDL ? <div style={{ width: "240px" }}><Image src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyDLOTP} className="w-[221px] h-[56px]" />
+                                        }
+                                    </div>
+                                        : ""
+                                }
+
+                            </div>
+
+                        </div>
+                        {/* DL end */}
+                    </section>
+
+
+                    {/* <section className='mx-auto'>
                         <div className='my-6 p-6 sm:p-10 border flex flex-col items-center sm:gap-10 gap-4 rounded-lg shadow-md w-[390px] sm:w-full mx-auto'>
                             <div className=''>
                                 <h1 className="text-[24px] sm:text-3xl font-bold">PERSONAL DETAILS</h1>
@@ -70,7 +208,7 @@ const PersonalDetails = (props: any) => {
                             </div>
 
                         </div>
-                        {/*  */}
+                       
                         <div className='my-6 sm:w-full sm:p-10 border flex flex-col items-center rounded-lg shadow-md sm:mx-auto mx-4 p-4'>
                             <div className=''>
                                 <h1 className="text-[24px] sm:text-3xl font-bold sm:mb-10 mb-6">DOCUMENT VERIFICATION</h1>
@@ -83,10 +221,10 @@ const PersonalDetails = (props: any) => {
 
                             <div className="flex flex-row gap-2 items-start sm:px-8 sm:px-2 mt-4 mb-4">
                                 <span className='text-[#000000] font-bold text-[16px]'>NOTE:</span>
-                                <p className="sm:text-[16px] text-sm text-justify">You need to submit your Driving License and Aadhar card after making payment to confirm your car booking</p>
+                                <p className="sm:text-[16px] text-sm text-justify">You need to submit your Driving License and Driving Liecense after making payment to confirm your car booking</p>
                             </div>
                         </div>
-                        {/*  */}
+                      
                         <div className='my-6 h-[345px] sm:w-full sm:h-fit p-6 sm:p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md mx-4 sm:mx-0'>
                             <div className=''>
                                 <h1 className=" text-[24px] sm:text-3xl font-bold">DELIVERY ADDRESS</h1>
@@ -109,7 +247,8 @@ const PersonalDetails = (props: any) => {
 
                         </div>
 
-                    </section>
+                    </section> */}
+
 
                     <section className='px-4'>
                         <main className="flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md p-4 shadow-custom-shadow border">
