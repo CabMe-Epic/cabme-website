@@ -95,6 +95,7 @@ const PersonalDetails = (props: any) => {
                 },
                 body: JSON.stringify({
                     panNumber: pan,
+                    currentUserId: userId
                 })
             });
             const data = await response.json();
@@ -239,9 +240,6 @@ const PersonalDetails = (props: any) => {
                         </div> */}
                         {/* DL end */}
                     </section>
-
-
-
 
 
                     <section className='px-4'>
