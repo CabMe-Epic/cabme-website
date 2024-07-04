@@ -18,13 +18,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
 
-interface ReservationDateTime {
-  pickupDate: string;
-  dropoffDate: string;
-  pickupTime: string;
-  dropoffTime: string;
-}
-
 const CarDetails = () => {
   const router = useRouter();
   const userId = localStorage.getItem('userId');
@@ -43,13 +36,16 @@ const CarDetails = () => {
   const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
   console.log({ duration })
 
+  const pickupDateTimeString: string = `${pickupDate}T${localStorage?.getItem('pickupTime')}:00.000Z`;
+  const droppingDateTimeString: string = `${dropoffDate}T${localStorage?.getItem('dropoffTime')}:00.000Z`;
+
   const bookingData = {
     userId: userId,
     vehicleId: carDetails?._id,
     option: "Self Drive",
     location: carDetails?.city,
-    pickUpDateTime: localStorage.getItem("pickupDate"),
-    dropOffDateTime: localStorage.getItem("dropOffDate"),
+    pickUpDateTime: pickupDateTimeString,
+    dropOffDateTime: droppingDateTimeString,
     baseFare: packagePrice,
     doorstepDelivery: 200,
     insuranceGST: carDetails?.extraService?.insurance,
