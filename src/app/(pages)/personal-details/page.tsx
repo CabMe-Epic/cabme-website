@@ -81,6 +81,7 @@ const PersonalDetails = (props: any) => {
             console.log({ data })
             if (data?.verificationResponse?.statusCode === 200) {
                 setCheckOTPAadhar(true);
+                
             }
         } catch (error) {
             console.error('Error fetching OTP:', error);
@@ -101,10 +102,14 @@ const PersonalDetails = (props: any) => {
             const data = await response.json();
             console.log({ data })
             if (data?.success) {
-                setCheckOTPPan(true)
-                setVerifyOTPPan(true)
-                router.push("/payment")
+                setCheckOTPPan(true);
+                    setVerifyOTPPan(true);
+                setTimeout(() => {
+                    router.push("/payment"); 
 
+                   
+                }, 2000);
+             
             }
         } catch (error) {
             console.error('Error fetching OTP:', error);
@@ -153,7 +158,7 @@ const PersonalDetails = (props: any) => {
                             </div>
                         </div>
                         {/* Step 3 */}
-                        <div className="flex items-center">
+                        <div className="flex  items-center">
                             <div className="relative flex  flex-col gap-2 items-center">
                                 <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex  items-center justify-center">
                                     <div className="w-3 h-3 p-2 rounded-full"></div>
@@ -169,20 +174,21 @@ const PersonalDetails = (props: any) => {
 
 
                     <section className="mx-auto">
-                        <div className="my-6 w-[390px] h-[415px] sm:h-[500px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
                             <div className="">
                                 <h1 className="text-[36px] font-bold">Aadhar Verification</h1>
                             </div>
 
-                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                            <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex gap-5 sm:flex-row flex-col">
                                 <InputField type="text" name="aadharNumber" value={state.aadharNumber} onChange={handleChange} placeholder="Enter Aadhar Number" />
                                 <ThemeButton onClick={handleSendAadharOTP} text="Send Otp" className="w-[221px] h-[56px] 	" />
                             </div>
                             <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
                                 {
-                                    verifyOTPAadhar ? <div style={{ display: "flex", alignItems: "center", gap: "20px" }}> <InputField name="aadharOTP" value={state.aadharOTP} onChange={handleChange} type="text" placeholder="Enter OTP" />
+                                    verifyOTPAadhar ? <div className='flex justify-between ml-4 gap-0 w-[465px] '>
+                                         <InputField name="aadharOTP" value={state.aadharOTP} onChange={handleChange} type="text" placeholder="Enter OTP" className="mr-5" />
                                         {
-                                            checkOTPAadhar ? <div style={{ width: "240px" }}><Image src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyAadharOTP} className="w-[221px] h-[56px]" />
+                                            checkOTPAadhar ? <div><Image className='object-contain' src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyAadharOTP} className="w-[230px] h-[56px]" />
                                         }
                                     </div>
                                         : ""
@@ -194,21 +200,21 @@ const PersonalDetails = (props: any) => {
 
                         {/* aaadhar end */}
 
-                        <div className="my-6 w-[390px] h-[415px] sm:h-[500px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
                             <div className="">
                                 <h1 className="text-[36px] font-bold">Pan Card Verification</h1>
                             </div>
 
-                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
-                                <InputField type="text" name="panNumber" value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number" />
+                            <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex justify-between gap-5 sm:flex-row  flex-col">
+                                <InputField type="text" name="panNumber" otp={state.panNumber.toUpperCase()} value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number"  className="sm:w-[1000px] w-[300px] "/>
 
                                 <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
                                     {verifyOTPPan
                                         ? (
-                                            <Image src="/done.png" width={40} height={40} alt='done' />
+                                            <Image src="/done.png" className='object-contain' width={40} height={40} alt='done' />
                                         )
                                         : (
-                                            < ThemeButton onClick={handleSendPanOTP} text="Verify Pan" className="w-[221px] h-[56px] " />
+                                            < ThemeButton onClick={handleSendPanOTP} text="Verify Pan" className="w-[150px] h-[56px] " />
                                         )
                                     }
                                 </div>
