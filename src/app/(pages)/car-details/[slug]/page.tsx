@@ -54,7 +54,6 @@ const CarDetails = () => {
   const [packagePrice, setPackagePrice] = useState<any>()
 
   React.useEffect(() => {
-
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice")
@@ -62,9 +61,7 @@ const CarDetails = () => {
     setPickupDate(getPickup);
     setDropoffDate(getDropoff)
     getCarDetails();
-
-
-  }, []);
+  }, [getCarDetails]);
   console.log(packagePrice, "hello");
 
   //getting the date and time from the local storage
