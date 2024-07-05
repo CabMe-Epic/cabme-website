@@ -173,7 +173,7 @@ const CarDetails = () => {
     getCarDetails();
     // price();
   }, []);
-
+console.log(typeof packagePrice,"pppppp");
   React.useEffect(() => {
     {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
@@ -200,6 +200,10 @@ const CarDetails = () => {
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice)
   }
+  // const basePrice = Number(packagePrice);
+  const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
+  // console.log(total,"jiiii");
+  // console.log(typeof basePrice);
 
   return (
     <>
@@ -240,7 +244,7 @@ const CarDetails = () => {
 
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Doorstep delivery & pickup</span>
-                    <span className="">₹ 500</span>
+                    <span className="">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
                   </div>
 
                   <div className="flex justify-between gap-2 text-sm">
@@ -250,34 +254,34 @@ const CarDetails = () => {
 
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Refundable Deposit</span>
-                    <span className="">₹ 3000</span>
+                    <span className="">₹ {currentPackage?.refundableDeposit}</span>
                   </div>
 
                   <div className="flex px-2 py-2 text-md justify-between gap-2 shadow-custom-inner font-bold">
                     <span className="">TOTAL</span>
-                    <span className=" text-[#ff0000]">₹ 7686</span>
+                    <span className=" text-[#ff0000]">₹ {total}</span>
                   </div>
 
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Kms Limit</span>
-                    <span className="">₹ 506 kms</span>
+                    <span className="">₹ {currentPackage?.kmsLimit!=="" ? currentPackage?.kmsLimit : "0"} kms</span>
                   </div>
 
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Fuel</span>
-                    <span className="">{carDetails?.extraService?.fuel}</span>
+                    <span className="">{currentPackage?.fuel}</span>
                   </div>
 
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Extra kms charge</span>
-                    <span className="">{carDetails?.extraService?.extraKmCharges}</span>
+                    <span className="">{currentPackage?.extraKmsCharge}</span>
                   </div>
 
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">
                       Tolls,Parking & <br /> Inner-state taxes
                     </span>
-                    <span className="">To be paid by you</span>
+                    <span className="">{currentPackage?.tollsParkingTaxes}</span>
                   </div>
                 </div>
                 <div className="w-full">
@@ -396,7 +400,7 @@ const CarDetails = () => {
                     <span className="w-[220px] ml-10">
                       Doorstep delivery & pickup
                     </span>
-                    <span className="w-[220px] ml-10">₹ 500</span>
+                    <span className="w-[220px] ml-10">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
@@ -406,36 +410,36 @@ const CarDetails = () => {
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Refundable Deposit</span>
-                    <span className="w-[220px] ml-10">₹ 3000</span>
+                    <span className="w-[220px] ml-10">₹ {currentPackage?.refundableDeposit}</span>
                   </div>
 
                   <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                     <span className="w-[220px] ml-10">TOTAL</span>
                     <span className="w-[220px] ml-10 text-[#ff0000]">
-                      ₹ 7686
+                    ₹ {total}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Kms Limit</span>
-                    <span className="w-[220px] ml-10">₹ 506 kms</span>
+                    <span className="w-[220px] ml-10">₹ {currentPackage?.kmsLimit!=="" ? currentPackage?.kmsLimit : "0"} kms</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Fuel</span>
-                    <span className="w-[220px] ml-10">{carDetails?.extraService?.fuel}</span>
+                    <span className="w-[220px] ml-10">{currentPackage?.fuel}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Extra kms charge</span>
-                    <span className="w-[220px] ml-10">₹ {carDetails?.extraService?.extraKmCharges}</span>
+                    <span className="w-[220px] ml-10">₹ {currentPackage?.extraKmsCharge}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">
                       Tolls,Parking & Inner-state taxes
                     </span>
-                    <span className="w-[220px] ml-10">To be paid by you</span>
+                    <span className="w-[220px] ml-10">{currentPackage?.tollsParkingTaxes}</span>
                   </div>
                 </div>
                 <div>

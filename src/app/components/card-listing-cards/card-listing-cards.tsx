@@ -29,7 +29,7 @@ const CardListingCards = ({ data }: any) => {
   const [activeTab, setActiveTab] = useState("Inclusions");
   const [selectedPackagePrice,setPackagePrice] = useState<any>();
 
-  const setPrice = (price:any)=>{
+  const setPrice = (price:number)=>{
     setPackagePrice(price)
     //  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
   }
