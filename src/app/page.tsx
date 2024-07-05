@@ -14,50 +14,50 @@ import { getAllCities } from "../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-const router = useRouter();
+  const router = useRouter();
 
   const [tabValue, setTabsValue] = useState("Self-Driving");
   const [radioToggle, setRadioToggle] = useState("Out-station");
-console.log(radioToggle,"radio");
+  console.log(radioToggle, "radio");
 
   // location and date section work start
 
-  const [pickupLocation,setPickupLocation] = React.useState<any>();
-  const [dropOffLocation,setDropoffLocation] = React.useState<any>();
-  const [pickupDate,setPickupDate] = React.useState<any>();
-  const [dropOffDate,setDropoffDate] = React.useState<any>();
+  const [pickupLocation, setPickupLocation] = React.useState<any>();
+  const [dropOffLocation, setDropoffLocation] = React.useState<any>();
+  const [pickupDate, setPickupDate] = React.useState<any>();
+  const [dropOffDate, setDropoffDate] = React.useState<any>();
 
-  const handlePickupLocation = (event:any)=>{
-      setPickupLocation(event.target.value);
+  const handlePickupLocation = (event: any) => {
+    setPickupLocation(event.target.value);
   }
-  const handleDropOffLocation = (event:any)=>{
-      setDropoffLocation(event.target.value);
+  const handleDropOffLocation = (event: any) => {
+    setDropoffLocation(event.target.value);
   }
-  const handlePickupDate = (event:any)=>{
+  const handlePickupDate = (event: any) => {
     setPickupDate(event.target.value);
   }
-  const handleDropOffDate = (event:any)=>{
+  const handleDropOffDate = (event: any) => {
     setDropoffDate(event.target.value);
   }
 
-  console.log(pickupLocation,"pickup location");
-  console.log(dropOffLocation,"dropOff location");  
-  console.log(pickupDate,"pickup date");
-  console.log(dropOffDate,"dropOff date");
+  console.log(pickupLocation, "pickup location");
+  console.log(dropOffLocation, "dropOff location");
+  console.log(pickupDate, "pickup date");
+  console.log(dropOffDate, "dropOff date");
 
   // for save the location data into local storage
 
-  const saveLocationData = () =>{
-    localStorage.setItem("pickupLocation" ,pickupLocation)
-    localStorage.setItem("dropOffLocation" ,dropOffLocation)
+  const saveLocationData = () => {
+    localStorage.setItem("pickupLocation", pickupLocation)
+    localStorage.setItem("dropOffLocation", dropOffLocation)
     localStorage.setItem("pickupDate", pickupDate)
-    localStorage.setItem("dropOffDate",dropOffDate)
-    localStorage.setItem("tabValue",tabValue)
+    localStorage.setItem("dropOffDate", dropOffDate)
+    localStorage.setItem("tabValue", tabValue)
 
-    tabValue==="Driver" ? 
-    localStorage.setItem("radioToggle",radioToggle)
-    :
-    "";
+    tabValue === "Driver" ?
+      localStorage.setItem("radioToggle", radioToggle)
+      :
+      "";
     router.push("/car-listing")
   }
 
@@ -66,35 +66,38 @@ console.log(radioToggle,"radio");
   const [cities, setCities] = useState<[]>();
 
 
-  const getRecords = React.useCallback(async()=>{
-    const citiesResponse =  await getAllCities()
+  const getRecords = React.useCallback(async () => {
+    const citiesResponse = await getAllCities()
     const cities = citiesResponse?.data?.response;
     setCities(cities)
-    console.log("citiesResponse",{cities})
-  },[])
+    console.log("citiesResponse", { cities })
+  }, [])
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
     getRecords()
-    
-  },[])
+
+  }, [])
 
 
   //for pickup and dropoff location 
-  const [pickupTime,setPickupTime] = useState<any>()
-  const [dropoffTime,setDropoffTime] = useState<any>()
-  const hanldepickupTime = (event:any)=>{
+  const [pickupTime, setPickupTime] = useState<any>()
+  const [dropoffTime, setDropoffTime] = useState<any>()
+  const hanldepickupTime = (event: any) => {
     setPickupTime(event.target.value)
     // console.log(event.target.value,"time");
   }
-  const hanldedropoffTime = (event:any)=>{
+  const hanldedropoffTime = (event: any) => {
     setDropoffTime(event?.target?.value)
     // console.log(event.target.value,"dropoff time")
   }
-  localStorage.setItem("pickupTime",pickupTime)
-  localStorage.setItem("dropoffTime",dropoffTime)
-  console.log(pickupTime,"pppp");
+
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('pickupTime', pickupTime);
+    localStorage.setItem('dropoffTime', dropoffTime);
+  }
+  
   return (
     <>
       <div
@@ -120,11 +123,10 @@ console.log(radioToggle,"radio");
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-4 ${
-                  value?.tabsValue === tabValue
-                    ? "bg-red-500 text-white font-semibold"
-                    : "bg-[#EFF1FB]"
-                }`}
+                className={`cursor-pointer w-full text-center py-4 ${value?.tabsValue === tabValue
+                  ? "bg-red-500 text-white font-semibold"
+                  : "bg-[#EFF1FB]"
+                  }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -138,9 +140,9 @@ console.log(radioToggle,"radio");
             <div className="flex gap-6 w-fit m-auto mt-4">
               {driverRadioButton?.map((driver, ind) => {
                 return (
-                  <div className="w-fit" 
-                  key={ind}
-                  
+                  <div className="w-fit"
+                    key={ind}
+
                   >
                     <RadioButton
                       onClick={() => setRadioToggle(driver.content)}
@@ -158,9 +160,8 @@ console.log(radioToggle,"radio");
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${
-                        index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
+                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -175,28 +176,28 @@ console.log(radioToggle,"radio");
                           {item?.heading}
                         </h3>
                         {item?.id === "location" && (
-                          <select 
+                          <select
                             name="pickup"
                             id="pickup"
                             className="w-full outline-red-500 h-8"
-                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
+                            onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
 
                           >
                             <option value={item?.desc}>{item?.desc}</option>
-                            {cities?.map((value:any,ind)=>{
-                              return(
+                            {cities?.map((value: any, ind) => {
+                              return (
                                 <option key={ind} value={value?.name}>{value?.name}</option>
 
                               )
                             })}
                           </select>
                         )}
-                        {item?.id==="date" &&
-                        <div className="flex gap-2">
-                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
-                          />
-                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                        {item?.id === "date" &&
+                          <div className="flex gap-2">
+                            <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
+                              onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
+                            />
+                            <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
                           </div>
                         }
                       </div>
@@ -205,8 +206,8 @@ console.log(radioToggle,"radio");
                 })}
 
                 <div>
-                  <ThemeButton text="Search" 
-                  onClick={()=>saveLocationData()}
+                  <ThemeButton text="Search"
+                    onClick={() => saveLocationData()}
                   />
                 </div>
               </div>
@@ -217,9 +218,8 @@ console.log(radioToggle,"radio");
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${
-                        index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
+                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -233,30 +233,30 @@ console.log(radioToggle,"radio");
                         <h3 className="text-xl font-semibold">
                           {item?.heading}
                         </h3>
-                       
+
                         {item?.id === "location" && (
                           <select
                             name="loc"
                             id="loc"
                             className="w-full outline-red-500 h-8"
-                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
+                            onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
 
                           >
                             <option value={item?.desc}>{item?.desc}</option>
-                            {cities?.map((value:any,ind)=>{
-                              return(
+                            {cities?.map((value: any, ind) => {
+                              return (
                                 <option key={ind} value={value?.name}>{value?.name}</option>
 
                               )
                             })}
                           </select>
                         )}
-                        {item?.id==="date" &&
-                        <div className="flex gap-2">
-                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
-                          />
-                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
+                        {item?.id === "date" &&
+                          <div className="flex gap-2">
+                            <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
+                              onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
+                            />
+                            <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
                           </div>
                         }
                       </div>
@@ -266,7 +266,7 @@ console.log(radioToggle,"radio");
 
                 <div>
                   <ThemeButton text="Search"
-                  onClick={()=>saveLocationData()}
+                    onClick={() => saveLocationData()}
                   />
                 </div>
               </div>
@@ -281,9 +281,8 @@ console.log(radioToggle,"radio");
                 return (
                   <div
                     key={index}
-                    className={`flex w-full gap-4 ${
-                      index < 3 ? "border-r-2 mr-6 border-black" : ""
-                    }`}
+                    className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
                   >
                     <div className="mt-2">
                       <Image
@@ -296,39 +295,39 @@ console.log(radioToggle,"radio");
                     <div className="leading-none">
                       <h3 className="text-xl font-semibold">{item?.heading}</h3>
                       {item?.id === "location" && (
-                          <select
-                            name="pickup"
-                            id="pickup"
-                            className="w-full outline-red-500 h-8"
-                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
+                        <select
+                          name="pickup"
+                          id="pickup"
+                          className="w-full outline-red-500 h-8"
+                          onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
 
-                          >
-                            <option value={item?.desc}>{item?.desc}</option>
-                            {cities?.map((value:any,ind)=>{
-                              return(
-                                <option key={ind} value={value?.name}>{value?.name}</option>
+                        >
+                          <option value={item?.desc}>{item?.desc}</option>
+                          {cities?.map((value: any, ind) => {
+                            return (
+                              <option key={ind} value={value?.name}>{value?.name}</option>
 
-                              )
-                            })}
-                          </select>
-                        )}
-                        {item?.id==="date" &&
+                            )
+                          })}
+                        </select>
+                      )}
+                      {item?.id === "date" &&
                         <div className="flex gap-2">
                           <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
+                            onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
                           />
-                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)}/>
-                          </div>
-                        }
+                          <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
+                        </div>
+                      }
                     </div>
                   </div>
                 );
               })}
-                     <div>
-                  <ThemeButton text="Search"
-                  onClick={()=>saveLocationData()}
-                  />
-                </div>   
+              <div>
+                <ThemeButton text="Search"
+                  onClick={() => saveLocationData()}
+                />
+              </div>
             </div>
           </>
         )}
@@ -338,9 +337,8 @@ console.log(radioToggle,"radio");
               return (
                 <div
                   key={index}
-                  className={`flex w-full gap-4 ${
-                    index < 3 ? "border-r-2 mr-6 border-black" : ""
-                  }`}
+                  className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                    }`}
                 >
                   <div className="mt-2">
                     <Image
@@ -353,36 +351,36 @@ console.log(radioToggle,"radio");
                   <div className="leading-none">
                     <h3 className="text-xl font-semibold">{item?.heading}</h3>
                     {item?.id === "location" && (
-                          <select
-                            name="location"
-                            id="location"
-                            className="w-full outline-red-500 h-8"
-                            onChange={item?.heading==="Pick-up Location" ? ((e)=>handlePickupLocation(e)) : ((ev)=>handleDropOffLocation(ev))}
-                          >
-                            <option value={item?.desc}>{item?.desc}</option>
-                            {cities?.map((value:any,ind)=>{
-                              return(
-                                <option key={ind} value={value?.name}>{value?.name}</option>
+                      <select
+                        name="location"
+                        id="location"
+                        className="w-full outline-red-500 h-8"
+                        onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
+                      >
+                        <option value={item?.desc}>{item?.desc}</option>
+                        {cities?.map((value: any, ind) => {
+                          return (
+                            <option key={ind} value={value?.name}>{value?.name}</option>
 
-                              )
-                            })}
-                          </select>
-                        )}
-                        {item?.id==="date" &&
-                        <div className="flex gap-2">
-                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                          onChange={item?.heading==="Pick Up Date" ? ((e)=>handlePickupDate(e)) : ((ev)=>handleDropOffDate(ev))}
-                          />
-                          <input type="time" name="pickup" id="" onChange={item?.heading==="Pick Up Date" ?(event)=>hanldepickupTime(event):(event)=>hanldedropoffTime(event)} />
-                          </div>
-                        }
+                          )
+                        })}
+                      </select>
+                    )}
+                    {item?.id === "date" &&
+                      <div className="flex gap-2">
+                        <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
+                          onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
+                        />
+                        <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
+                      </div>
+                    }
                   </div>
                 </div>
               );
             })}
 
             <div>
-              <ThemeButton text="Search" onClick={()=>saveLocationData()} />
+              <ThemeButton text="Search" onClick={() => saveLocationData()} />
             </div>
           </div>
         )}
@@ -518,11 +516,10 @@ console.log(radioToggle,"radio");
                   alt="image"
                   width={62}
                   height={62}
-                  className={`${
-                    item?.imageUrl === "/svg/car-vector.svg"
-                      ? "w-[130px]"
-                      : "w-auto"
-                  } h-[62px] m-auto mb-4`}
+                  className={`${item?.imageUrl === "/svg/car-vector.svg"
+                    ? "w-[130px]"
+                    : "w-auto"
+                    } h-[62px] m-auto mb-4`}
                 />
                 <div className="text-center">
                   <h3 className="font-semibold text-xl">{item?.title}</h3>
@@ -766,59 +763,59 @@ const driverRadioButton = [
 ];
 const outstation = [
   {
-    id:"location",
+    id: "location",
     imageUrl: "/svg/location.svg",
     heading: "Pick-up City",
     desc: "Enter pick-up city",
-    cities:[
+    cities: [
       {
-        city:"Noida"
+        city: "Noida"
       },
       {
-        city:"Meerut"
+        city: "Meerut"
       },
       {
-        city:"Ghaziabad"
+        city: "Ghaziabad"
       },
       {
-        city:"Agra"
+        city: "Agra"
       },
       {
-        city:"Kanpur"
+        city: "Kanpur"
       },
     ]
   },
   {
-    id:"date",
+    id: "date",
     imageUrl: "/svg/calender.svg",
     heading: "Pick Up Date",
     desc: "Enter pickup date",
   },
   {
-    id:"location",
+    id: "location",
     imageUrl: "/svg/location.svg",
     heading: "Drop-off City",
     desc: "Enter drop-off city",
-    cities:[
+    cities: [
       {
-        city:"Noida"
+        city: "Noida"
       },
       {
-        city:"Meerut"
+        city: "Meerut"
       },
       {
-        city:"Ghaziabad"
+        city: "Ghaziabad"
       },
       {
-        city:"Agra"
+        city: "Agra"
       },
       {
-        city:"Kanpur"
+        city: "Kanpur"
       },
     ]
   },
   {
-    id:"date",
+    id: "date",
     imageUrl: "/svg/calender.svg",
     heading: "Drop-off Date",
     desc: "Enter drop-off date",
@@ -830,21 +827,21 @@ const localDriverArray = [
     imageUrl: "/svg/location.svg",
     heading: "Pick-up Location",
     desc: "Enter pick-up Location",
-     cities:[
+    cities: [
       {
-        city:"Noida"
+        city: "Noida"
       },
       {
-        city:"Meerut"
+        city: "Meerut"
       },
       {
-        city:"Ghaziabad"
+        city: "Ghaziabad"
       },
       {
-        city:"Agra"
+        city: "Agra"
       },
       {
-        city:"Kanpur"
+        city: "Kanpur"
       },
     ]
   },
@@ -853,21 +850,21 @@ const localDriverArray = [
     imageUrl: "/svg/calender.svg",
     heading: "Pick Up Date",
     desc: "Enter pickup date",
-     cities:[
+    cities: [
       {
-        city:"Noida"
+        city: "Noida"
       },
       {
-        city:"Meerut"
+        city: "Meerut"
       },
       {
-        city:"Ghaziabad"
+        city: "Ghaziabad"
       },
       {
-        city:"Agra"
+        city: "Agra"
       },
       {
-        city:"Kanpur"
+        city: "Kanpur"
       },
     ]
   },
@@ -876,21 +873,21 @@ const localDriverArray = [
     imageUrl: "/svg/location.svg",
     heading: "Drop-off Location",
     desc: "Enter drop-off Location",
-     cities:[
+    cities: [
       {
-        city:"Noida"
+        city: "Noida"
       },
       {
-        city:"Meerut"
+        city: "Meerut"
       },
       {
-        city:"Ghaziabad"
+        city: "Ghaziabad"
       },
       {
-        city:"Agra"
+        city: "Agra"
       },
       {
-        city:"Kanpur"
+        city: "Kanpur"
       },
     ]
   },
@@ -899,21 +896,21 @@ const localDriverArray = [
     imageUrl: "/svg/calender.svg",
     heading: "Drop-off Date",
     desc: "Enter drop-off date",
-     cities:[
+    cities: [
       {
-        city:"Noida"
+        city: "Noida"
       },
       {
-        city:"Meerut"
+        city: "Meerut"
       },
       {
-        city:"Ghaziabad"
+        city: "Ghaziabad"
       },
       {
-        city:"Agra"
+        city: "Agra"
       },
       {
-        city:"Kanpur"
+        city: "Kanpur"
       },
     ]
   },

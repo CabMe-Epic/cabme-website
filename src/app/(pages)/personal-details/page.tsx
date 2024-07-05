@@ -59,8 +59,13 @@ const PersonalDetails = (props: any) => {
             console.error('Error fetching OTP:', error);
         }
     };
-
-    const userId = localStorage?.getItem('userId')
+    const [userId, setUserId] = useState<string | null>(null);
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedUserId = localStorage.getItem('userId');
+            setUserId(storedUserId);
+        }
+    }, []);
     console.log({ userId })
 
     const handleVerifyAadharOTP = async () => {
@@ -81,7 +86,7 @@ const PersonalDetails = (props: any) => {
             console.log({ data })
             if (data?.verificationResponse?.statusCode === 200) {
                 setCheckOTPAadhar(true);
-                
+
             }
         } catch (error) {
             console.error('Error fetching OTP:', error);
@@ -103,13 +108,13 @@ const PersonalDetails = (props: any) => {
             console.log({ data })
             if (data?.success) {
                 setCheckOTPPan(true);
-                    setVerifyOTPPan(true);
+                setVerifyOTPPan(true);
                 setTimeout(() => {
-                    router.push("/payment"); 
+                    router.push("/payment");
 
-                   
+
                 }, 2000);
-             
+
             }
         } catch (error) {
             console.error('Error fetching OTP:', error);
@@ -186,7 +191,7 @@ const PersonalDetails = (props: any) => {
                             <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
                                 {
                                     verifyOTPAadhar ? <div className='flex justify-between ml-4 gap-0 w-[465px] '>
-                                         <InputField name="aadharOTP" value={state.aadharOTP} onChange={handleChange} type="text" placeholder="Enter OTP" className="mr-5" />
+                                        <InputField name="aadharOTP" value={state.aadharOTP} onChange={handleChange} type="text" placeholder="Enter OTP" className="mr-5" />
                                         {
                                             checkOTPAadhar ? <div><Image className='object-contain' src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyAadharOTP} className="w-[230px] h-[56px]" />
                                         }
@@ -206,7 +211,7 @@ const PersonalDetails = (props: any) => {
                             </div>
 
                             <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex justify-between gap-5 sm:flex-row  flex-col">
-                                <InputField type="text" name="panNumber" otp={state.panNumber.toUpperCase()} value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number"  className="sm:w-[1000px] w-[300px] "/>
+                                <InputField type="text" name="panNumber" otp={state.panNumber.toUpperCase()} value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number" className="sm:w-[1000px] w-[300px] " />
 
                                 <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
                                     {verifyOTPPan

@@ -20,8 +20,11 @@ import useReservationDateTime from "../../../../../networkRequests/hooks/useRese
 
 const CarDetails = () => {
   const router = useRouter();
-  const userId = localStorage.getItem('userId');
-  const token = localStorage?.getItem("token");
+  const [userId, setUserId] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [pickupTime, setPickupTime] = useState<string | null>(null);
+  const [dropoffTime, setDropoffTime] = useState<string | null>(null);
+
   const [currentPackage, setCurrentPackage] = useState<any>();
 
   const [carDetails, setCarDetails] = useState<any>();
@@ -36,8 +39,26 @@ const CarDetails = () => {
   const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
   console.log({ duration })
 
-  const pickupDateTimeString: string = `${pickupDate}T${localStorage?.getItem('pickupTime')}:00.000Z`;
-  const droppingDateTimeString: string = `${dropoffDate}T${localStorage?.getItem('dropoffTime')}:00.000Z`;
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedPickupTime = localStorage.getItem('pickupTime');
+      const storedDropoffTime = localStorage.getItem('dropoffTime');
+      setPickupTime(storedPickupTime);
+      setDropoffTime(storedDropoffTime);
+    }
+  }, []);
+
+  const pickupDateTimeString = pickupTime ? `${pickupDate}T${pickupTime}:00.000Z` : null;
+  const droppingDateTimeString = dropoffTime ? `${dropoffDate}T${dropoffTime}:00.000Z` : null;
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedUserId = localStorage.getItem('userId');
+      const storedToken = localStorage.getItem('token');
+      setUserId(storedUserId);
+      setToken(storedToken);
+    }
+  }, []);
 
   const bookingData = {
     userId: userId,
