@@ -24,6 +24,7 @@ const CarDetails = () => {
   const [token, setToken] = useState<string | null>(null);
   const [pickupTime, setPickupTime] = useState<string | null>(null);
   const [dropoffTime, setDropoffTime] = useState<string | null>(null);
+  const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
 
   const [currentPackage, setCurrentPackage] = useState<any>();
 
@@ -32,10 +33,10 @@ const CarDetails = () => {
   const [dropoffDate, setDropoffDate] = useState<any>();
   const [packagePrice, setPackagePrice] = useState<any>();
   const [bookingOpt, setBookingOpt] = useState<any>();
-  const [currentPrice, setCurrentPrice] = useState<any>();
 
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
   const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
   console.log({ duration })
 
@@ -43,8 +44,10 @@ const CarDetails = () => {
     if (typeof window !== 'undefined') {
       const storedPickupTime = localStorage.getItem('pickupTime');
       const storedDropoffTime = localStorage.getItem('dropoffTime');
+      const storedTabValue = localStorage.getItem('tabValue');
       setPickupTime(storedPickupTime);
       setDropoffTime(storedDropoffTime);
+      setSelectedTabValue(storedTabValue)
     }
   }, []);
 
@@ -63,20 +66,20 @@ const CarDetails = () => {
   const bookingData = {
     userId: userId,
     vehicleId: carDetails?._id,
-    option: "Self Drive",
+    option: selectedTabValue,
     location: carDetails?.city,
     pickUpDateTime: pickupDateTimeString,
     dropOffDateTime: droppingDateTimeString,
     baseFare: packagePrice,
-    doorstepDelivery: 200,
+    doorstepDelivery: 0,
     insuranceGST: carDetails?.extraService?.insurance,
-    refundableDeposit: 2000,
-    kmsLimit: 300,
+    refundableDeposit: 0,
+    kmsLimit: 0,
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "Included",
     promocode: "DISCOUNT10",
-    totalAmount: 7000,
+    totalAmount: total,
     bookingDuration: duration,
     bufferTime: 60,
     kilometers: 300,
@@ -118,15 +121,6 @@ const CarDetails = () => {
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       )
       : "";
-
-    // : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-    // ? setCurrentPackage(carDetails?.bookingOptions?.subscription?.packageType)
-    // : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-    // ? setCurrentPackage("")
-    // : setCurrentPackage("")
-    // console.log("hello")
-    // setCarData(getSearchCarData?.data?.vehicles);
-    // console.log(currentPackage, "current package");
   }, []);
 
   React.useEffect(() => {
@@ -139,28 +133,10 @@ const CarDetails = () => {
     getCarDetails();
   }, [getCarDetails]);
 
-  //getting the date and time from the local storage
-
-  // carData?.map((item:any,index:number)=>{
-  //   return(
-  //     // console.log(item._id,"single poduct")
-
-  //     item?._id===slug ? setCarDetails(item) :""
-  //   )
-  // })
   console.log({ carDetails });
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
-  // console.log(vehicle, "loooooooooooo");
-  // const [carDetail, setCarDetail] = useImmer<Vehicle[] | any>(null);
 
-  // useEffect(() => {
-  //   if (vehicle) {
-  //     setCarDetail(vehicle?.response as any);
-  //   }
-  // }, [vehicle, setCarDetail]);
-
-  // console.log("carDetail", carDetail);
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
@@ -173,7 +149,7 @@ const CarDetails = () => {
     getCarDetails();
     // price();
   }, []);
-console.log(typeof packagePrice,"pppppp");
+  console.log(typeof packagePrice, "pppppp");
   React.useEffect(() => {
     {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
@@ -194,16 +170,12 @@ console.log(typeof packagePrice,"pppppp");
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-  // set current package price
 
   const handlePriceChange = (updatedPrice: any) => {
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice)
   }
-  // const basePrice = Number(packagePrice);
-  const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
-  // console.log(total,"jiiii");
-  // console.log(typeof basePrice);
+
 
   return (
     <>
@@ -264,7 +236,7 @@ console.log(typeof packagePrice,"pppppp");
 
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Kms Limit</span>
-                    <span className="">₹ {currentPackage?.kmsLimit!=="" ? currentPackage?.kmsLimit : "0"} kms</span>
+                    <span className="">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
                   </div>
 
                   <div className="flex justify-between gap-2 text-sm">
@@ -416,13 +388,13 @@ console.log(typeof packagePrice,"pppppp");
                   <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                     <span className="w-[220px] ml-10">TOTAL</span>
                     <span className="w-[220px] ml-10 text-[#ff0000]">
-                    ₹ {total}
+                      ₹ {total}
                     </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Kms Limit</span>
-                    <span className="w-[220px] ml-10">₹ {currentPackage?.kmsLimit!=="" ? currentPackage?.kmsLimit : "0"} kms</span>
+                    <span className="w-[220px] ml-10">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
