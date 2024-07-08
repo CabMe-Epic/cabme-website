@@ -83,7 +83,7 @@ const CarDetails = () => {
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
     promocode: "",
-    totalAmount: total,
+    totalAmount: totalPrice,
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
