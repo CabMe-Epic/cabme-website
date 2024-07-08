@@ -133,10 +133,6 @@ const CarDetails = () => {
     getCarDetails();
   }, [getCarDetails]);
 
-<<<<<<< HEAD
- 
-=======
->>>>>>> b9c1fbc4680cd587febee109d8afb2a224b89888
   console.log({ carDetails });
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
