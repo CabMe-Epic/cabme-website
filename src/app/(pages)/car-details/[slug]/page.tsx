@@ -40,7 +40,7 @@ const CarDetails = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
   const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
-  
+
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
 
@@ -83,7 +83,7 @@ const CarDetails = () => {
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
     promocode: "",
-    totalAmount: totalPrice,
+    totalAmount: totalPrice.toFixed(2),
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
