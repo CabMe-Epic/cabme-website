@@ -139,28 +139,11 @@ const CarDetails = () => {
     getCarDetails();
   }, [getCarDetails]);
 
-  //getting the date and time from the local storage
-
-  // carData?.map((item:any,index:number)=>{
-  //   return(
-  //     // console.log(item._id,"single poduct")
-
-  //     item?._id===slug ? setCarDetails(item) :""
-  //   )
-  // })
+ 
   console.log({ carDetails });
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
-  // console.log(vehicle, "loooooooooooo");
-  // const [carDetail, setCarDetail] = useImmer<Vehicle[] | any>(null);
 
-  // useEffect(() => {
-  //   if (vehicle) {
-  //     setCarDetail(vehicle?.response as any);
-  //   }
-  // }, [vehicle, setCarDetail]);
-
-  // console.log("carDetail", carDetail);
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
