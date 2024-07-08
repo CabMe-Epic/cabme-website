@@ -43,6 +43,9 @@ const CarDetails = () => {
 
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
+  console.log({ totalPrice })
+  console.log({ days })
+  console.log({ hours })
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -83,7 +86,7 @@ const CarDetails = () => {
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
     promocode: "",
-    totalAmount: totalPrice.toFixed(2),
+    totalAmount: Number(totalPrice.toFixed(2)),
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
