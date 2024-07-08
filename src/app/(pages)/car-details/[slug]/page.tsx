@@ -17,6 +17,8 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
+import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
+import { calculatePrice } from "@/app/utils/calculatePrice ";
 
 const CarDetails = () => {
   const router = useRouter();
@@ -38,7 +40,9 @@ const CarDetails = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
   const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
-  console.log({ duration })
+  
+  const { days, hours } = extractDaysAndHours(duration)
+  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -77,12 +81,12 @@ const CarDetails = () => {
     kmsLimit: 0,
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
-    tollsParking: "Included",
-    promocode: "DISCOUNT10",
+    tollsParking: "",
+    promocode: "",
     totalAmount: total,
     bookingDuration: duration,
-    bufferTime: 60,
-    kilometers: 300,
+    bufferTime: 0,
+    kilometers: 0,
     createdByUser: userId
   };
 
@@ -385,10 +389,11 @@ const CarDetails = () => {
                     <span className="w-[220px] ml-10">₹ {currentPackage?.refundableDeposit}</span>
                   </div>
 
+                  {/* DESKTOP ...  */}
                   <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                     <span className="w-[220px] ml-10">TOTAL</span>
                     <span className="w-[220px] ml-10 text-[#ff0000]">
-                      ₹ {total}
+                      ₹ {totalPrice.toFixed(2)}
                     </span>
                   </div>
 
@@ -446,7 +451,7 @@ const CarDetails = () => {
                     <div className="flex flex-col">
                       <span>Total Amount</span>
                       <span className="text-[#ff0000] p-0 text-2xl font-bold">
-                        ₹ 15,000
+                        ₹ {totalPrice.toFixed(2)}
                       </span>
                     </div>
                     <div>
