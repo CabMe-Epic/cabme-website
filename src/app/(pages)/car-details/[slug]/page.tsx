@@ -365,7 +365,7 @@ const CarDetails = () => {
             </div>
             {/* booking summary */}
             <div className="sm:block hidden">
-              <BookingSummery/>
+              {/* <BookingSummery/> */}
               <main className=" w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
