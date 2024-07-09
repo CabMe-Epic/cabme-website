@@ -27,17 +27,17 @@ const CardListingCards = ({ data }: any) => {
 
   const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
-  const [selectedPackagePrice,setPackagePrice] = useState<any>();
+  const [selectedPackagePrice, setPackagePrice] = useState<any>();
 
-  const setPrice = (price:number)=>{
-    setPackagePrice(price)
+  const setPrice = (price: number) => {
+    setPackagePrice(price);
     // setClicked1(true);
 
     //  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
-  }
-  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
-  console.log(selectedPackagePrice,"selected price");
-  
+  };
+  localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
+  console.log(selectedPackagePrice, "selected price");
+
   const tabs = [
     { name: "Exclusion", content: "Exclusion Content" },
     { name: "Inclusions", content: "Inclusions Content" },
@@ -60,7 +60,7 @@ const CardListingCards = ({ data }: any) => {
   const [clicked1, setClicked1] = useState(false);
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
- 
+
   return (
     <>
       {showImg ? (
@@ -104,7 +104,9 @@ const CardListingCards = ({ data }: any) => {
             height={46}
             alt="Tag Icon"
           />
-          <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">{data?.brandName}</span>
+          <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+            {data?.brandName}
+          </span>
         </div>
 
         <main className="bg-[url('/png/listing-bg.png')] sm:w-[1028px] h-[304px] rounded-[12px] hidden sm:flex flex-row items-center justify-center">
@@ -144,13 +146,22 @@ const CardListingCards = ({ data }: any) => {
 
               <div className="h-[274px]">
                 <div className="mt-5 flex flex-row items-center gap-4 mr-10">
-                  <div onClick={()=>{setPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.price);
-                          setClicked1(true);
-                    setClicked2(false);
-                    setClicked3(false);
-                          
-                          } }className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]" : ""}`}>
+                  <div
+                    onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price
+                      );
+                      setClicked1(true);
+                      setClicked2(false);
+                      setClicked3(false);
+                    }}
+                    className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      clicked1
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                        : ""
+                    }`}
+                  >
                     <span className="font-bold text-[18px]">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package1
@@ -170,13 +181,22 @@ const CardListingCards = ({ data }: any) => {
                       </p>
                     </span>
                   </div>
-                  <div onClick={() => {
-                    setPrice(data?.bookingOptions?.selfDrive?.packageType?.package2
-                      ?.price);
-                    setClicked1(false);
-                    setClicked2(true);
-                    setClicked3(false);
-                  }} className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked2 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]" : ""}`}>
+                  <div
+                    onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.price
+                      );
+                      setClicked1(false);
+                      setClicked2(true);
+                      setClicked3(false);
+                    }}
+                    className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      clicked2
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                        : ""
+                    }`}
+                  >
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package2
@@ -198,13 +218,20 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                   <div
                     onClick={() => {
-                      setPrice(data?.bookingOptions?.selfDrive?.packageType?.package3
-                        ?.price);
+                      setPrice(
+                        data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.price
+                      );
                       setClicked1(false);
                       setClicked2(false);
                       setClicked3(true);
                     }}
-                    className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]" : ""}`}>
+                    className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      clicked3
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                        : ""
+                    }`}
+                  >
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package3
@@ -252,18 +279,20 @@ const CardListingCards = ({ data }: any) => {
             </div> */}
                 </div>
                 {/*  */}
-
-                <div className="flex flex-row justify-end mr-10 my-5">
-                  <span>
-                    ₹ Extra kms will be charged at{" "}
-                    <span className="text-[#FF0000]">
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType
-                          ?.extraKmsCharge
-                      }
+                {data?.bookingOptions?.selfDrive?.packageType
+                  ?.extraKmsCharge && (
+                  <div className="flex flex-row justify-end mr-10 my-5">
+                    <span>
+                      ₹ Extra kms will be charged at{" "}
+                      <span className="text-[#FF0000]">
+                        {
+                          data?.bookingOptions?.selfDrive?.packageType
+                            ?.extraKmsCharge
+                        }
+                      </span>
                     </span>
-                  </span>
-                </div>
+                  </div>
+                )}
 
                 {/*  */}
 
@@ -322,7 +351,9 @@ const CardListingCards = ({ data }: any) => {
                         height={20}
                         alt="bluetooth"
                       />
-                      <span className="text-[15px]">{data?.vehicleSpecifications?.fuelType}</span>
+                      <span className="text-[15px]">
+                        {data?.vehicleSpecifications?.fuelType}
+                      </span>
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <Image
@@ -476,13 +507,21 @@ const CardListingCards = ({ data }: any) => {
               <div className="h-[274px]">
                 <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                   <div
-                  onClick={()=>{setPrice(data?.bookingOptions?.subscription?.packageType
-                    ?.package1?.price);
-                    setClicked1(true);
-                    setClicked2(false);
-                    setClicked3(false);
-                  }}
-                  className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]" : ""}`}>
+                    onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.subscription?.packageType
+                          ?.package1?.price
+                      );
+                      setClicked1(true);
+                      setClicked2(false);
+                      setClicked3(false);
+                    }}
+                    className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      clicked1
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                        : ""
+                    }`}
+                  >
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.subscription?.packageType
@@ -503,9 +542,14 @@ const CardListingCards = ({ data }: any) => {
                     </span>
                   </div>
                   <div
-                  onClick={()=>setPrice(data?.bookingOptions?.subscription?.packageType
-                    ?.package2?.price)}
-                  className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                    onClick={() =>
+                      setPrice(
+                        data?.bookingOptions?.subscription?.packageType
+                          ?.package2?.price
+                      )
+                    }
+                    className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                  >
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.subscription?.packageType
@@ -526,9 +570,14 @@ const CardListingCards = ({ data }: any) => {
                     </span>
                   </div>
                   <div
-                  onClick={()=>setPrice(data?.bookingOptions?.subscription?.packageType
-                    ?.package3?.price)}
-                  className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                    onClick={() =>
+                      setPrice(
+                        data?.bookingOptions?.subscription?.packageType
+                          ?.package3?.price
+                      )
+                    }
+                    className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                  >
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.subscription?.packageType
@@ -576,18 +625,20 @@ const CardListingCards = ({ data }: any) => {
           </div> */}
                 </div>
                 {/*  */}
-
-                <div className="flex flex-row justify-end mr-10 my-5">
-                  <span>
-                    ₹ Extra kms will be charged at{" "}
-                    <span className="text-[#FF0000]">
-                      {
-                        data?.bookingOptions?.subscription?.packageType
-                          ?.extraKmsCharge
-                      }
+                {data?.bookingOptions?.subscription?.packageType
+                  ?.extraKmsCharge && (
+                  <div className="flex flex-row justify-end mr-10 my-5">
+                    <span>
+                      ₹ Extra kms will be charged at{" "}
+                      <span className="text-[#FF0000]">
+                        {
+                          data?.bookingOptions?.subscription?.packageType
+                            ?.extraKmsCharge
+                        }
+                      </span>
                     </span>
-                  </span>
-                </div>
+                  </div>
+                )}
 
                 {/*  */}
 
@@ -801,9 +852,14 @@ const CardListingCards = ({ data }: any) => {
                   <div className="h-[274px]">
                     <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                       <div
-                      onClick={()=>setPrice(data?.bookingOptions?.withDriver?.local?.packageType
-                        ?.package1?.price)}
-                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                        onClick={() =>
+                          setPrice(
+                            data?.bookingOptions?.withDriver?.local?.packageType
+                              ?.package1?.price
+                          )
+                        }
+                        className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                      >
                         <span className="font-bold text-[18px] ">
                           {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                           {
@@ -825,9 +881,14 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                       <div
-                      onClick={()=>setPrice(data?.bookingOptions?.withDriver?.local?.packageType
-                        ?.package2?.price)}
-                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                        onClick={() =>
+                          setPrice(
+                            data?.bookingOptions?.withDriver?.local?.packageType
+                              ?.package2?.price
+                          )
+                        }
+                        className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                      >
                         <span className="font-bold text-[18px] ">
                           {
                             data?.bookingOptions?.withDriver?.local?.packageType
@@ -848,9 +909,14 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                       <div
-                      onClick={()=>setPrice(data?.bookingOptions?.withDriver?.local?.packageType
-                        ?.package3?.price)}
-                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                        onClick={() =>
+                          setPrice(
+                            data?.bookingOptions?.withDriver?.local?.packageType
+                              ?.package3?.price
+                          )
+                        }
+                        className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                      >
                         <span className="font-bold text-[18px] ">
                           {
                             data?.bookingOptions?.withDriver?.local?.packageType
@@ -898,18 +964,20 @@ const CardListingCards = ({ data }: any) => {
 </div> */}
                     </div>
                     {/*  */}
-
-                    <div className="flex flex-row justify-end mr-10 my-5">
-                      <span>
-                        ₹ Extra kms will be charged at{" "}
-                        <span className="text-[#FF0000]">
-                          {
-                            data?.bookingOptions?.withDriver?.local?.packageType
-                              ?.extraKmsCharge
-                          }
+                    {data?.bookingOptions?.withDriver?.local?.packageType
+                      ?.extraKmsCharge && (
+                      <div className="flex flex-row justify-end mr-10 my-5">
+                        <span>
+                          ₹ Extra kms will be charged at{" "}
+                          <span className="text-[#FF0000]">
+                            {
+                              data?.bookingOptions?.withDriver?.local
+                                ?.packageType?.extraKmsCharge
+                            }
+                          </span>
                         </span>
-                      </span>
-                    </div>
+                      </div>
+                    )}
 
                     {/*  */}
 
