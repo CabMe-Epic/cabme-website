@@ -5,7 +5,7 @@ const ExclusionComponent = () =>{
 
         <div>
             <div>
-                <Image src={} alt="" width={16} height={16} />
+                {/* <Image src={} alt="" width={16} height={16} /> */}
             </div>
             <span></span>
         </div>

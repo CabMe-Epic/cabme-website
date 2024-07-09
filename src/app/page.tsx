@@ -261,11 +261,11 @@ export default function Home() {
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (e) => handlePickupDate(e)
-                                  : (ev) => handleDropOffDate(ev)
-                              }
+                              // onChange={
+                              //   item?.heading === "Pick Up Date"
+                              //     ? (e) => handlePickupDate(e)
+                              //     : (ev) => handleDropOffDate(ev)
+                              // }
                             />
                             <input
                               type="time"
@@ -344,11 +344,11 @@ export default function Home() {
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (e) => handlePickupDate(e)
-                                  : (ev) => handleDropOffDate(ev)
-                              }
+                              // onChange={
+                              //   item?.heading === "Pick Up Date"
+                              //     ? (e) => handlePickupDate(e)
+                              //     : (ev) => handleDropOffDate(ev)
+                              // }
                             />
                             <input
                               type="time"
@@ -428,11 +428,11 @@ export default function Home() {
                             name="date"
                             id="date"
                             className="outline-red-500 w-fit h-8"
-                            onChange={
-                              item?.heading === "Pick Up Date"
-                                ? (e) => handlePickupDate(e)
-                                : (ev) => handleDropOffDate(ev)
-                            }
+                            // onChange={
+                            //   item?.heading === "Pick Up Date"
+                            //     ? (e) => handlePickupDate(e)
+                            //     : (ev) => handleDropOffDate(ev)
+                            // }
                           />
                           <input
                             type="time"
