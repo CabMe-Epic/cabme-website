@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const BookingDetailsCard = ({ city }: any) => {
+
   const [pickupDate, setPickupDate] = useState<any>();
   const [dropoffDate, setDropoffDate] = useState<any>()
   const [pickupTime, setPickupTime] = useState<any>()
@@ -28,7 +29,10 @@ const BookingDetailsCard = ({ city }: any) => {
     const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
     const minutes = Math.floor((diffInSeconds % 3600) / 60);
     setDuration(`${days}days, ${hours}hours, ${minutes}minutes`);
-  }, [])
+  }, [dropoffDate, dropoffTime, pickupDate, pickupTime])
+
+  console.log({ duration })
+
   return (
     <div>
       <main className="max-w-[511px] px-2 border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">

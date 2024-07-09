@@ -67,10 +67,6 @@ const CarDetails = () => {
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
   const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
-  // console.log({ discountAmount })
-  // console.log({ discountAppliedAmount })
-  // console.log({ selectedDiscountType })
-
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
@@ -188,7 +184,7 @@ const CarDetails = () => {
         setDiscountAppliedAmount(0);
         setSelectedPromocodeOption(null)
         setSelectedDiscountType(null)
-        alert("Please select a promo code first.");
+        alert("Clear coupon");
       }
     } else {
       alert("Please select a promo code first.");
