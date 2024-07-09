@@ -60,7 +60,7 @@ const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Ar
               alt={item?.alt || "image"}
               width={152}
               height={107}
-              className="rounded-xl h-[100px] object-contain"
+              className="rounded-xl h-[100px] object-contain "
             />
           </div>
         ))}
