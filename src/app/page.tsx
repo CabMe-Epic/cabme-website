@@ -46,6 +46,8 @@ export default function Home() {
   const [dropOffLocation, setDropoffLocation] = React.useState<any>();
   const [pickupDate, setPickupDate] = React.useState<any>();
   const [dropOffDate, setDropoffDate] = React.useState<any>();
+  const [pickupTime, setPickupTime] = useState<any>();
+  const [dropoffTime, setDropoffTime] = useState<any>();
 
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event.target.value);
@@ -53,12 +55,12 @@ export default function Home() {
   const handleDropOffLocation = (event: any) => {
     setDropoffLocation(event.target.value);
   };
-  const handlePickupDate = (event: any) => {
-    setPickupDate(event.target.value);
-  };
-  const handleDropOffDate = (event: any) => {
-    setDropoffDate(event.target.value);
-  };
+  // const handlePickupDate = (event: any) => {
+  //   setPickupDate(event.target.value);
+  // };
+  // const handleDropOffDate = (event: any) => {
+  //   setDropoffDate(event.target.value);
+  // };
 
   console.log(pickupLocation, "pickup location");
   console.log(dropOffLocation, "dropOff location");
@@ -73,6 +75,8 @@ export default function Home() {
     localStorage.setItem("pickupDate", pickupDate);
     localStorage.setItem("dropOffDate", dropOffDate);
     localStorage.setItem("tabValue", tabValue);
+    localStorage.setItem("pickupTime",pickupTime);
+    localStorage.setItem("dropoffTime",dropoffTime)
 
     tabValue === "Driver"
       ? localStorage.setItem("radioToggle", radioToggle)
@@ -96,35 +100,55 @@ export default function Home() {
   }, []);
 
   //for pickup and dropoff location
-  const [pickupTime, setPickupTime] = useState<any>();
-  const [dropoffTime, setDropoffTime] = useState<any>();
+
+
+
+//set date and time in local storage from date picker
+  function convert(str: any) {
+    var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+     
+    return [date.getFullYear(), mnth, day].join("-");
+  }
+  function convertTime(str: any) {
+    var date = new Date(str);
+     
+        const hours  = ("0" + date.getHours()).slice(-2);
+        const minutes = ("0" + date.getMinutes()).slice(-2);
+        return [ hours, minutes ].join(":");
+}
   const hanldepickupTime = (event: any) => {
     // setPickupTime(event.target.value);
     setStartDate(event);
 
     console.log(event, "timeee");
     const result = convert(event);
-    console.log(result, "resss");
+    setPickupDate(result);
+    const getpickupTime=convertTime(event);
+    setPickupTime(getpickupTime);
+    // console.log(getpickupTime,"pkk");
+
+    // console.log(result, "resss");
   };
   //extracting date from calender
-  function convert(str: any) {
-    var date = new Date(str),
-      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-      day = ("0" + date.getDate()).slice(-2);
-    return [date.getFullYear(), mnth, day].join("-");
-  }
+ 
   const hanldedropoffTime = (event: any) => {
     // setDropoffTime(event?.target?.value);
     const result = convert(event);
     setDropDate(event);
-    console.log(result, "drrrr");
-    console.log(event, "dropoff time");
+    setDropoffDate(result)
+    const getDropoffTime = convertTime(event);
+    setDropoffTime(getDropoffTime);
+    // console.log(result, "drrrr");
+    // console.log(event, "dropoff time");
   };
 
   if (typeof window !== "undefined") {
     localStorage.setItem("pickupTime", pickupTime);
     localStorage.setItem("dropoffTime", dropoffTime);
   }
+
   const [mobileCities, setMobileCities] = useState("select");
   const [mobileCalender, setMobilepickupdate] = useState("");
   console.log(mobileCities, "mobile");
@@ -857,11 +881,12 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className="p-6 relative sm:w-full sm:h-full w-[250px] h-[250px] sm:m-0 m-auto sm:shadow-none shadow-left-shadow sm:rounded-none rounded-full sm:pb-0 pb-8 sm:px-0 px-8"
+                className={`p-6 relative w-[261px] h-[261px] ${index%2===0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} sm:m-0 m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
-                <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full">
+                <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full ml-[15px]">
                   {item?.steps}
                 </span>
+                <div className="mt-[-17px]">
                 <Image
                   src={item?.imageUrl}
                   alt="image"
@@ -875,7 +900,8 @@ export default function Home() {
                 />
                 <div className="text-center">
                   <h3 className="font-semibold text-xl">{item?.title}</h3>
-                  <p>{item?.desc}</p>
+                  <p className="text-xs mt-2 !w-[180px] m-auto">{item?.desc}</p>
+                </div>
                 </div>
                 {index < 3 ? (
                   <Image
@@ -908,7 +934,7 @@ export default function Home() {
             </h4>
           </div>
           <div className="flex justify-end">
-            <Image src={"/png/thar.png"} alt="thar" width={543} height={280} />
+            <Image src={"/png/thar-new-left.png"} alt="thar" width={543} height={280} />
           </div>
         </div>
         <div className="bg-primary-color sm:w-[120px] w-[80px] text-white sm:p-4 p-2 flex items-center font-semibold sm:text-2xl text-md text-center">

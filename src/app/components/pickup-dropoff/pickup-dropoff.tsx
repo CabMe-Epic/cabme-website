@@ -11,7 +11,7 @@ const PickupDropOff = () =>{
               <div
                 className={`cursor-pointer w-full text-center py-4 ${
                   value?.tabsValue === "Self-Driving"
-                    ? "bg-red-500 text-white font-semibold"
+                    ? "bg-primary-color text-white font-semibold"
                     : "bg-[#EFF1FB]"
                 }`}
                 key={ind}

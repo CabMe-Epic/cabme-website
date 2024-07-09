@@ -16,7 +16,9 @@ const config: Config = {
       boxShadow: {
         'custom-shadow': '0px 4px 4px 0px #00000040',
         'left-shadow': '-33px 46px 104px -34px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-        'custom-inner': '1px 0px 10px 0px #00000040 inset;'
+        'custom-inner': '1px 0px 10px 0px #00000040 inset;',
+        'top-shadow': '0px -4px 4px 0px #00000040;',
+        'bottom-shadow': '0px 4px 4px 0px #00000040;'
       }
     },
     screens:{

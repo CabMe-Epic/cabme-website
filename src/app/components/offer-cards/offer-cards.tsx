@@ -68,7 +68,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
                       </strong>
                       <p className="text-[8px]">{item?.desc}</p>
                     </div>
-                    <div className="bg-red-500 text-white h-full mt-1 text-center">
+                    <div className="bg-primary-color text-white h-full mt-1 text-center">
                       {item?.couponCode}
                     </div>
                   </div>
@@ -105,7 +105,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
                       </strong>
                       <p className="text-[8px]">{item?.desc}</p>
                     </div>
-                    <div className="bg-red-500 text-white h-fit mt-1 text-center w-full absolute bottom-0">
+                    <div className="bg-primary-color text-white h-fit mt-1 text-center w-full absolute bottom-0">
                       {item?.couponCode}
                     </div>
                   </div>

@@ -60,7 +60,7 @@ const CarListing = () => {
   const [bookingOptions, setBookingOptions] = useState<any>();
   const [driverType, setDriverType] = useState<any>();
 
-  //  console.log(dropoffLocation,pickupLocation,pickUpDate,dropOffDate,bookingOptions,driverType,"hurraayy");
+   console.log(dropoffLocation,pickupLocation,pickUpDate,dropOffDate,bookingOptions,driverType,"hurraayy"); 
   React.useEffect(() => {
     const pickupLocation = localStorage.getItem("pickupLocation");
     const dropoffLocation = localStorage.getItem("dropOffLocation");
@@ -126,7 +126,7 @@ const CarListing = () => {
             <strong>Delhi-NCR</strong>
             <ThemeButton
               text="Edit"
-              className="!bg-transparent !text-red-500 !px-0 !py-0"
+              className="!bg-transparent !text-primary !px-0 !py-0"
               editIcon={true}
             />
           </div>
@@ -646,7 +646,7 @@ const CarListing = () => {
                 key={index}
                 className={`w-10 h-10 border rounded-md ${
                   currentPage === index + 1
-                    ? "bg-red-500 text-white"
+                    ? "bg-primary-color text-white"
                     : "bg-white text-gray-700"
                 }`}
                 onClick={() => handleClick(index + 1)}
