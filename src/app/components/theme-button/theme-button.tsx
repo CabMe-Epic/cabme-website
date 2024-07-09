@@ -17,7 +17,7 @@ const ThemeButton = ({
   return (
     <>
       <button
-        className={`bg-red-500 text-white rounded-md px-6 py-[6px] font-normal flex items-center justify-center ${className}`}
+        className={`bg-[#FF0000] text-white rounded-md px-6 py-[6px] font-normal flex items-center justify-center ${className}`}
         onClick={onClick}
       >
         {" "}

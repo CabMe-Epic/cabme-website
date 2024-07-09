@@ -16,7 +16,12 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { useEffect, useState } from "react";
 
-const OfferCards = () => {
+interface offerProp {
+  dailyOffer?: boolean;
+  monthlyOffer?: boolean;
+}
+
+const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -41,74 +46,153 @@ const OfferCards = () => {
       navigation
       pagination={{ clickable: true }}
       loop={true}
-      
       autoplay={{
         delay: 2000,
         disableOnInteraction: false,
       }}
     >
-      <div className="grid grid-cols-3 gap-6">
-        {offerCardsArray?.map((item, index) => {
-          return (
-            <SwiperSlide key={index}>
-              <div className="w-[400px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
-                <div className="flex flex-col content-between bg-white">
-                  <div className="p-2">
-                    <h3 className="font-bold text-5xl h-fit mb-2">
-                      {item?.percent}{" "}
-                      <span className="font-normal text-[22px]">OFF</span>
-                    </h3>
-                    <strong className="text-[12px] font-normal h-fit">
-                      TERMS & CONDITIONS*
-                    </strong>
-                    <p className="text-[8px]">{item?.desc}</p>
+      {dailyOffer===true ? (
+        <div className="grid grid-cols-3 gap-6">
+          {offerCardsArray?.map((item, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <div className="w-[400px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+                  <div className="flex flex-col content-between bg-white">
+                    <div className="p-2">
+                      <h3 className="font-bold text-5xl h-fit mb-2">
+                        {item?.percent}{" "}
+                        <span className="font-normal text-[22px]">OFF</span>
+                      </h3>
+                      <strong className="text-[12px] font-normal h-fit">
+                        TERMS & CONDITIONS*
+                      </strong>
+                      <p className="text-[8px]">{item?.desc}</p>
+                    </div>
+                    <div className="bg-red-500 text-white h-full mt-1 text-center">
+                      {item?.couponCode}
+                    </div>
                   </div>
-                  <div className="bg-red-500 text-white h-full mt-1 text-center">
-                    NEW10
+                  <div className="w-full h-[160px]">
+                    <Image
+                      src={item?.imageURl}
+                      alt="offer"
+                      width={160}
+                      height={121}
+                      className="w-full h-full"
+                    />
                   </div>
                 </div>
-                <div className="w-full h-[160px]">
-                  <Image
-                    src={item?.imageURl}
-                    alt="offer"
-                    width={160}
-                    height={121}
-                    className="w-full h-full"
-                  />
+              </SwiperSlide>
+            );
+          })}
+        </div>
+      )
+    :
+        monthlyOffer===true ?
+        <div className="grid grid-cols-3 gap-6">
+          {monthlyOfferCard?.map((item, index) => {
+            return (
+              <SwiperSlide key={index}>
+                <div className="w-[400px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+                  <div className="flex flex-col content-between bg-white relative">
+                    <div className="p-2">
+                      <h3 className="font-bold text-2xl h-fit mb-2">
+                        {item?.percent}{" "}
+                        <span className="font-normal text-[22px]">OFF</span>
+                      </h3>
+                      <strong className="text-[12px] font-normal h-fit">
+                        TERMS & CONDITIONS*
+                      </strong>
+                      <p className="text-[8px]">{item?.desc}</p>
+                    </div>
+                    <div className="bg-red-500 text-white h-fit mt-1 text-center w-full absolute bottom-0">
+                      {item?.couponCode}
+                    </div>
+                  </div>
+                  <div className="w-full h-[160px]">
+                    <Image
+                      src={item?.imageURl}
+                      alt="offer"
+                      width={160}
+                      height={121}
+                      className="w-full h-full"
+                    />
+                  </div>
                 </div>
-              </div>
-            </SwiperSlide>
-          );
-        })}
-      </div>
+              </SwiperSlide>
+            );
+          })}
+        </div>
+        :"No offer right now..!!"
+    }
+      
     </Swiper>
   );
 };
 export default OfferCards;
 const offerCardsArray = [
   {
-    percent: "10%",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore",
+    percent: "15%",
+    desc: "Applicable on booking with minimum duration 2 days Promocode applicable every time",
     imageURl: "/offer/01.png",
+    couponCode:"CAB100"
   },
   {
-    percent: "10%",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore",
+    percent: "35%",
+    desc: "Applicable on booking with minimum duration 6 days Promocode applicable every time",
     imageURl: "/offer/02.png",
+    couponCode:"CAB102"
+
   },
   {
     percent: "10%",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore",
+    desc: "Applicable on booking with minimum duration 1 days Promocode applicable every time",
     imageURl: "/offer/03.png",
+    couponCode:"CAB101"
+
   },
   {
-    percent: "10%",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore",
-    imageURl: "/offer/03.png",
+    percent: "15%",
+    desc: "Applicable on booking with minimum duration 2 days Promocode applicable every time",
+    imageURl: "/offer/01.png",
+    couponCode:"CAB100"
   },
   {
-    percent: "10%",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore",
+    percent: "35%",
+    desc: "Applicable on booking with minimum duration 6 days Promocode applicable every time",
+    imageURl: "/offer/02.png",
+    couponCode:"CAB102"
+
+  },
+  
+];
+const monthlyOfferCard = [
+  {
+    percent: "Rs.3000",
+    desc: "Flat Rs.3000 off on Car Subscription. Rental Amount till Rs.35,000.",
+    imageURl: "/offer/01.png",
+    couponCode:"CABSUB3"
+
+  },
+  {
+    percent: "Rs.4000",
+    desc: "Flat Rs.4000 off on Car Subscription. Rental amount above Rs 35,000.",
+    imageURl: "/offer/02.png",
+    couponCode:"CABSUB2"
+
+  },
+  {
+    percent: "Rs.6000",
+    desc: "Flat Rs.6000 off on Car Subscription. Rental amount above Rs. 50,000.",
     imageURl: "/offer/03.png",
+    couponCode:"CABSUB1"
+
+  },
+  {
+    percent: "Rs.3000",
+    desc: "Flat Rs.3000 off on Car Subscription. Rental Amount till Rs.35,000.",
+    imageURl: "/offer/01.png",
+    couponCode:"CABSUB3"
+
   },
 ];
