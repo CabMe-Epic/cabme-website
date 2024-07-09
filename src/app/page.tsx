@@ -12,11 +12,31 @@ import React, { useEffect, useState } from "react";
 import RadioButton from "./components/radio-component/radio-component";
 import { getAllCities } from "../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Home() {
+  // const [startDate, setStartDate] = useState(
+  //   setHours(setMinutes(new Date(), 0), 9),
+  // );
+  const [startDate, setStartDate] = useState(new Date());
+  const [dropDate, setDropDate] = useState(new Date());
+  console.log(startDate, "sun");
+
+  const filterPassedTime = (time: any) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
   const router = useRouter();
 
   const [tabValue, setTabsValue] = useState("Self-Driving");
+  const [mobileTabValue, setMobileTabValue] = useState("Rentals");
+  const [mobilePickuptime, setMobilepickuptime] = useState("");
+  const [mobileDroplocation, setMobiledropCities] = useState("");
+  const [mobilDropdate, setMobiledropdate] = useState("");
+  const [switchRadio, setSwitchRadio] = useState("Self Driven");
   const [radioToggle, setRadioToggle] = useState("Out-station");
   console.log(radioToggle, "radio");
 
@@ -26,19 +46,21 @@ export default function Home() {
   const [dropOffLocation, setDropoffLocation] = React.useState<any>();
   const [pickupDate, setPickupDate] = React.useState<any>();
   const [dropOffDate, setDropoffDate] = React.useState<any>();
+  const [pickupTime, setPickupTime] = useState<any>();
+  const [dropoffTime, setDropoffTime] = useState<any>();
 
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event.target.value);
-  }
+  };
   const handleDropOffLocation = (event: any) => {
     setDropoffLocation(event.target.value);
-  }
-  const handlePickupDate = (event: any) => {
-    setPickupDate(event.target.value);
-  }
-  const handleDropOffDate = (event: any) => {
-    setDropoffDate(event.target.value);
-  }
+  };
+  // const handlePickupDate = (event: any) => {
+  //   setPickupDate(event.target.value);
+  // };
+  // const handleDropOffDate = (event: any) => {
+  //   setDropoffDate(event.target.value);
+  // };
 
   console.log(pickupLocation, "pickup location");
   console.log(dropOffLocation, "dropOff location");
@@ -48,60 +70,95 @@ export default function Home() {
   // for save the location data into local storage
 
   const saveLocationData = () => {
-    localStorage.setItem("pickupLocation", pickupLocation)
-    localStorage.setItem("dropOffLocation", dropOffLocation)
-    localStorage.setItem("pickupDate", pickupDate)
-    localStorage.setItem("dropOffDate", dropOffDate)
-    localStorage.setItem("tabValue", tabValue)
+    localStorage.setItem("pickupLocation", pickupLocation);
+    localStorage.setItem("dropOffLocation", dropOffLocation);
+    localStorage.setItem("pickupDate", pickupDate);
+    localStorage.setItem("dropOffDate", dropOffDate);
+    localStorage.setItem("tabValue", tabValue);
+    localStorage.setItem("pickupTime",pickupTime);
+    localStorage.setItem("dropoffTime",dropoffTime)
 
-    tabValue === "Driver" ?
-      localStorage.setItem("radioToggle", radioToggle)
-      :
-      "";
-    router.push("/car-listing")
-  }
+    tabValue === "Driver"
+      ? localStorage.setItem("radioToggle", radioToggle)
+      : "";
+    router.push("/car-listing");
+  };
 
   // location section work end
 
   const [cities, setCities] = useState<[]>();
 
-
   const getRecords = React.useCallback(async () => {
-    const citiesResponse = await getAllCities()
+    const citiesResponse = await getAllCities();
     const cities = citiesResponse?.data?.response;
-    setCities(cities)
-    console.log("citiesResponse", { cities })
-  }, [])
-
-
+    setCities(cities);
+    console.log("citiesResponse", { cities });
+  }, []);
 
   useEffect(() => {
-    getRecords()
+    getRecords();
+  }, []);
 
-  }, [])
+  //for pickup and dropoff location
 
 
-  //for pickup and dropoff location 
-  const [pickupTime, setPickupTime] = useState<any>()
-  const [dropoffTime, setDropoffTime] = useState<any>()
+
+//set date and time in local storage from date picker
+  function convert(str: any) {
+    var date = new Date(str),
+      mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+      day = ("0" + date.getDate()).slice(-2);
+     
+    return [date.getFullYear(), mnth, day].join("-");
+  }
+  function convertTime(str: any) {
+    var date = new Date(str);
+     
+        const hours  = ("0" + date.getHours()).slice(-2);
+        const minutes = ("0" + date.getMinutes()).slice(-2);
+        return [ hours, minutes ].join(":");
+}
   const hanldepickupTime = (event: any) => {
-    setPickupTime(event.target.value)
-    // console.log(event.target.value,"time");
-  }
+    // setPickupTime(event.target.value);
+    setStartDate(event);
+
+    console.log(event, "timeee");
+    const result = convert(event);
+    setPickupDate(result);
+    const getpickupTime=convertTime(event);
+    setPickupTime(getpickupTime);
+    // console.log(getpickupTime,"pkk");
+
+    // console.log(result, "resss");
+  };
+  //extracting date from calender
+ 
   const hanldedropoffTime = (event: any) => {
-    setDropoffTime(event?.target?.value)
-    // console.log(event.target.value,"dropoff time")
+    // setDropoffTime(event?.target?.value);
+    const result = convert(event);
+    setDropDate(event);
+    setDropoffDate(result)
+    const getDropoffTime = convertTime(event);
+    setDropoffTime(getDropoffTime);
+    // console.log(result, "drrrr");
+    // console.log(event, "dropoff time");
+  };
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem("pickupTime", pickupTime);
+    localStorage.setItem("dropoffTime", dropoffTime);
   }
 
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('pickupTime', pickupTime);
-    localStorage.setItem('dropoffTime', dropoffTime);
-  }
-  
+  const [mobileCities, setMobileCities] = useState("select");
+  const [mobileCalender, setMobilepickupdate] = useState("");
+  console.log(mobileCities, "mobile");
+
+  const [offer, setOffer] = useState("Daily Offers");
+
   return (
     <>
       <div
-        className="bg-[url('/home-banner.png')] sm:h-[370px] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center"
+        className="bg-[url('/home-banner.png')] sm:h-[370px] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center mx-20 mt-6"
         style={{ backgroundSize: "100% 100%" }}
       >
         <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
@@ -111,22 +168,23 @@ export default function Home() {
           <div className="sm:mt-2">
             <p className="text-[12px]">
               <span>wheels with our</span>{" "}
-              <b className="text-red-500 sm:text-xl text-[12px]">
+              <b className="text-primary sm:text-xl text-[12px]">
                 brand-new selection of cars.
               </b>
             </p>
           </div>
         </div>
       </div>
-      <div className="max-w-[1250px] sm:block hidden m-auto my-20 shadow-xl border rounded-xl px-6 py-12 relative">
-        <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-md absolute left-0 right-0 top-[-30px] w-full">
+      <div className="max-w-[1250px] h-[220px] sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative">
+        <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-4 ${value?.tabsValue === tabValue
-                  ? "bg-red-500 text-white font-semibold"
-                  : "bg-[#EFF1FB]"
-                  }`}
+                className={`cursor-pointer w-full text-center py-6 text-lg ${
+                  value?.tabsValue === tabValue
+                    ? "bg-primary-color text-white font-semibold"
+                    : "bg-[#EFF1FB]"
+                }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -137,13 +195,10 @@ export default function Home() {
         </div>
         {tabValue === "Driver" && (
           <>
-            <div className="flex gap-6 w-fit m-auto mt-4">
+            <div className="flex gap-6 w-fit m-auto mt-6 w-fit">
               {driverRadioButton?.map((driver, ind) => {
                 return (
-                  <div className="w-fit"
-                    key={ind}
-
-                  >
+                  <div className="w-fit" key={ind}>
                     <RadioButton
                       onClick={() => setRadioToggle(driver.content)}
                       content={driver?.content}
@@ -160,8 +215,9 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                        }`}
+                      className={`flex w-full gap-4 ${
+                        index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -179,34 +235,59 @@ export default function Home() {
                           <select
                             name="pickup"
                             id="pickup"
-                            className="w-full outline-red-500 h-8"
-                            onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
-
+                            className="w-full outline-red-500 h-8 text-xs"
+                            onChange={
+                              item?.heading === "Pick-up Location"
+                                ? (e) => handlePickupLocation(e)
+                                : (ev) => handleDropOffLocation(ev)
+                            }
                           >
-                            <option value={item?.desc}>{item?.desc}</option>
+                            <option value={item?.desc} className="text-sm">
+                              {item?.desc}
+                            </option>
                             {cities?.map((value: any, ind) => {
                               return (
-                                <option key={ind} value={value?.name}>{value?.name}</option>
-
-                              )
+                                <option key={ind} value={value?.name}>
+                                  {value?.name}
+                                </option>
+                              );
                             })}
                           </select>
                         )}
-                        {item?.id === "date" &&
+                        {item?.id === "date" && (
                           <div className="flex gap-2">
-                            <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                              onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
+                            <input
+                              type="date"
+                              name="date"
+                              id="date"
+                              className="outline-red-500 w-fit h-8"
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (e) => handlePickupDate(e)
+                                  : (ev) => handleDropOffDate(ev)
+                              }
                             />
-                            <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
+                            <input
+                              type="time"
+                              name="pickup"
+                              id=""
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (event) => hanldepickupTime(event)
+                                  : (event) => hanldedropoffTime(event)
+                              }
+                            />
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                   );
                 })}
 
                 <div>
-                  <ThemeButton text="Search"
+                  <ThemeButton
+                    text="Search"
+                    className="px-8 !py-[10px] relative right-6"
                     onClick={() => saveLocationData()}
                   />
                 </div>
@@ -218,8 +299,9 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                        }`}
+                      className={`flex w-full gap-4 ${
+                        index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -238,34 +320,57 @@ export default function Home() {
                           <select
                             name="loc"
                             id="loc"
-                            className="w-full outline-red-500 h-8"
-                            onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
-
+                            className="w-full outline-red-500 h-8 text-xs"
+                            onChange={
+                              item?.heading === "Pick-up Location"
+                                ? (e) => handlePickupLocation(e)
+                                : (ev) => handleDropOffLocation(ev)
+                            }
                           >
                             <option value={item?.desc}>{item?.desc}</option>
                             {cities?.map((value: any, ind) => {
                               return (
-                                <option key={ind} value={value?.name}>{value?.name}</option>
-
-                              )
+                                <option key={ind} value={value?.name}>
+                                  {value?.name}
+                                </option>
+                              );
                             })}
                           </select>
                         )}
-                        {item?.id === "date" &&
+                        {item?.id === "date" && (
                           <div className="flex gap-2">
-                            <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                              onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
+                            <input
+                              type="date"
+                              name="date"
+                              id="date"
+                              className="outline-red-500 w-fit h-8"
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (e) => handlePickupDate(e)
+                                  : (ev) => handleDropOffDate(ev)
+                              }
                             />
-                            <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
+                            <input
+                              type="time"
+                              name="pickup"
+                              id=""
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (event) => hanldepickupTime(event)
+                                  : (event) => hanldedropoffTime(event)
+                              }
+                            />
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
                   );
                 })}
 
                 <div>
-                  <ThemeButton text="Search"
+                  <ThemeButton
+                    text="Search"
+                    className="px-8 !py-[10px] relative right-6"
                     onClick={() => saveLocationData()}
                   />
                 </div>
@@ -276,13 +381,14 @@ export default function Home() {
 
         {tabValue === "Subscription" && (
           <>
-            <div className="flex items-center mt-6">
+            <div className="flex items-center mt-6 w-full">
               {outstation?.map((item, index) => {
                 return (
                   <div
                     key={index}
-                    className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
+                    className={`flex w-full gap-4 ${
+                      index < 3 ? "border-r-2 mr-6 border-black" : ""
+                    }`}
                   >
                     <div className="mt-2">
                       <Image
@@ -298,33 +404,56 @@ export default function Home() {
                         <select
                           name="pickup"
                           id="pickup"
-                          className="w-full outline-red-500 h-8"
-                          onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
-
+                          className="w-full outline-red-500 h-8 text-xs"
+                          onChange={
+                            item?.heading === "Pick-up Location"
+                              ? (e) => handlePickupLocation(e)
+                              : (ev) => handleDropOffLocation(ev)
+                          }
                         >
                           <option value={item?.desc}>{item?.desc}</option>
                           {cities?.map((value: any, ind) => {
                             return (
-                              <option key={ind} value={value?.name}>{value?.name}</option>
-
-                            )
+                              <option key={ind} value={value?.name}>
+                                {value?.name}
+                              </option>
+                            );
                           })}
                         </select>
                       )}
-                      {item?.id === "date" &&
+                      {item?.id === "date" && (
                         <div className="flex gap-2">
-                          <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                            onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
+                          <input
+                            type="date"
+                            name="date"
+                            id="date"
+                            className="outline-red-500 w-fit h-8"
+                            onChange={
+                              item?.heading === "Pick Up Date"
+                                ? (e) => handlePickupDate(e)
+                                : (ev) => handleDropOffDate(ev)
+                            }
                           />
-                          <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
+                          <input
+                            type="time"
+                            name="pickup"
+                            id=""
+                            onChange={
+                              item?.heading === "Pick Up Date"
+                                ? (event) => hanldepickupTime(event)
+                                : (event) => hanldedropoffTime(event)
+                            }
+                          />
                         </div>
-                      }
+                      )}
                     </div>
                   </div>
                 );
               })}
               <div>
-                <ThemeButton text="Search"
+                <ThemeButton
+                  text="Search"
+                  className="px-8 !py-[10px] relative right-6"
                   onClick={() => saveLocationData()}
                 />
               </div>
@@ -332,13 +461,14 @@ export default function Home() {
           </>
         )}
         {tabValue === "Self-Driving" && (
-          <div className="flex items-center mt-6">
+          <div className="flex items-center mt-6 w-full">
             {localDriverArray?.map((item, index) => {
               return (
                 <div
                   key={index}
-                  className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                    }`}
+                  className={`flex w-full gap-4 ${
+                    index < 3 ? "border-r-2 mr-6 border-black" : ""
+                  }`}
                 >
                   <div className="mt-2">
                     <Image
@@ -354,87 +484,323 @@ export default function Home() {
                       <select
                         name="location"
                         id="location"
-                        className="w-full outline-red-500 h-8"
-                        onChange={item?.heading === "Pick-up Location" ? ((e) => handlePickupLocation(e)) : ((ev) => handleDropOffLocation(ev))}
+                        className="w-full outline-red-500 h-8 text-xs"
+                        onChange={
+                          item?.heading === "Pick-up Location"
+                            ? (e) => handlePickupLocation(e)
+                            : (ev) => handleDropOffLocation(ev)
+                        }
                       >
                         <option value={item?.desc}>{item?.desc}</option>
                         {cities?.map((value: any, ind) => {
                           return (
-                            <option key={ind} value={value?.name}>{value?.name}</option>
-
-                          )
+                            <option key={ind} value={value?.name}>
+                              {value?.name}
+                            </option>
+                          );
                         })}
                       </select>
                     )}
-                    {item?.id === "date" &&
+                    {item?.id === "date" && (
                       <div className="flex gap-2">
-                        <input type="date" name="date" id="date" className="outline-red-500 w-fit h-8"
-                          onChange={item?.heading === "Pick Up Date" ? ((e) => handlePickupDate(e)) : ((ev) => handleDropOffDate(ev))}
+                        {/* <input
+
+                          type="date"
+                          name="date"
+                          id="date"
+                          className="outline-red-500 w-fit h-8"
+                          onChange={
+                            item?.heading === "Pick Up Date"
+                              ? (e) => handlePickupDate(e)
+                              : (ev) => handleDropOffDate(ev)
+                          }
+                        /> */}
+
+                        {/* <input
+                          type="time"
+                          name="pickup"
+                          id=""
+                          onChange={
+                            item?.heading === "Pick Up Date"
+                              ? (event) => hanldepickupTime(event)
+                              : (event) => hanldedropoffTime(event)
+                          }
+                        /> */}
+
+                        <DatePicker
+                          className="cursor-pointer"
+                          selected={
+                            item?.heading === "Pick Up Date"
+                              ? startDate
+                              : dropDate
+                          }
+                          onChange={
+                            item?.heading === "Pick Up Date"
+                              ? (date) => hanldepickupTime(date)
+                              : (date) => hanldedropoffTime(date)
+                            // (date) => setStartDate(date)
+                          }
+                          showTimeSelect
+                          filterTime={filterPassedTime}
+                          dateFormat="MMMM d, yyyy h:mm aa"
                         />
-                        <input type="time" name="pickup" id="" onChange={item?.heading === "Pick Up Date" ? (event) => hanldepickupTime(event) : (event) => hanldedropoffTime(event)} />
                       </div>
-                    }
+                    )}
                   </div>
                 </div>
               );
             })}
 
             <div>
-              <ThemeButton text="Search" onClick={() => saveLocationData()} />
+              <ThemeButton
+                className="px-8 !py-[10px] relative right-6"
+                text="Search"
+                onClick={() => saveLocationData()}
+              />
             </div>
           </div>
         )}
       </div>
       {/* Only mobile section subsription */}
       <div className="relative max-w-[340px] sm:hidden block mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
-        <div className="absolute top-[-25px]">
-          <div className="max-w-[350px] m-auto bg-red-500 rounded-xl grid grid-cols-2 font-semibold p-2">
-            <div className="bg-white rounded-xl px-4 py-[8px] text-center">
+        <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
+          <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2">
+            <div
+              className={`${
+                mobileTabValue === "Rentals" ? "bg-white text-black" : ""
+              } rounded-xl px-4 py-[8px] text-center`}
+              onClick={() => setMobileTabValue("Rentals")}
+            >
               Rentals
             </div>
-            <div className="rounded-xl px-4 py-[8px] text-center text-white">
+            <div
+              className={`${
+                mobileTabValue === "Subscriptions"
+                  ? "bg-white text-black"
+                  : "text-white"
+              } rounded-xl px-4 py-[8px] text-center`}
+              onClick={() => setMobileTabValue("Subscriptions")}
+            >
               Subscriptions
             </div>
           </div>
         </div>
-        <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full">
-          <div className="bg-black text-white p-2 rounded-l-full text-center px-4">
-            <input
-              type="radio"
-              name="select"
-              id="self"
-              className="accent-red-500"
-            />
-            <label className="ml-2" htmlFor="self">
-              Self Driven
-            </label>
+        {mobileTabValue === "Rentals" && (
+          <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full">
+            <div
+              className={`${
+                switchRadio === "Self Driven"
+                  ? "bg-black text-white"
+                  : "text-black"
+              } p-2 rounded-l-full text-center px-4`}
+              onClick={() => setSwitchRadio("Self Driven")}
+            >
+              <input
+                type="radio"
+                name="select"
+                id="self"
+                className="accent-red-500"
+              />
+              <label className="ml-2" htmlFor="self">
+                Self Driven
+              </label>
+            </div>
+            <div
+              className={`p-2 rounded-full text-center px-4 ${
+                switchRadio === "Driver" ? "bg-black text-white" : "text-black"
+              }`}
+              onClick={() => setSwitchRadio("Driver")}
+            >
+              <input
+                type="radio"
+                name="select"
+                id="driver"
+                className="accent-red-500"
+              />
+              <label className="ml-2" htmlFor="driver">
+                Driver
+              </label>
+            </div>
           </div>
-          <div className="p-2 rounded-full text-center px-4">
-            <input
-              type="radio"
-              name="select"
-              id="driver"
-              className="accent-red-500"
+        )}
+        {mobileTabValue === "Rentals" && (
+          <>
+            {switchRadio === "Driver" && (
+              <div className="flex gap-6 w-fit m-auto mt-4">
+                {driverRadioButton?.map((driver, ind) => {
+                  return (
+                    <div className="w-fit" key={ind}>
+                      <RadioButton
+                        onClick={() => setRadioToggle(driver.content)}
+                        content={driver?.content}
+                        name={driver?.name}
+                        id={driver?.id}
+                      />
+                    </div>
+                  );
+                })}
+                {/* <div>
+                <input type="radio" name="drivertype" id="local" />
+                <label>Local</label>
+                </div>
+                <div>
+                <input type="radio" name="drivertype" id="outstation" />
+                <label>Out-station</label>
+                </div> */}
+              </div>
+            )}
+          </>
+        )}
+
+        <div className="mt-4">
+          <label htmlFor="city" className="font-semibold">
+            {radioToggle === "Local"
+              ? "Pick-up location"
+              : switchRadio === "Self Driven"
+              ? "Pick-up location"
+              : "Pick-up City"}
+          </label>
+          <div
+            className={`border rounded-xl p-2 flex gap-2 mt-2    
+          `}
+          >
+            <Image
+              src={"/svg/location-gray.svg"}
+              alt="location"
+              width={16}
+              height={18}
             />
-            <label className="ml-2" htmlFor="driver">
-              Driver
-            </label>
-          </div>
-        </div>
-        <div className="mt-6 border rounded-xl p-2 flex gap-2">
-          <Image
-            src={"/svg/location-gray.svg"}
-            alt="location"
-            width={16}
-            height={18}
-          />
-          <input
+            <div className="w-full">
+              <select
+                name="city"
+                id="city"
+                className="w-full outline-none"
+                onChange={(event) => setMobileCities(event?.target?.value)}
+              >
+                <option value="select">Select your city</option>
+                {cities?.map((value: any, ind) => {
+                  return (
+                    <option key={ind} value={value?.name}>
+                      {value?.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
+            {/* <input
             type="text"
             placeholder="Select Your City"
             className="w-full border-none outline-none"
-          />
+          /> */}
+          </div>
+          {mobileCities !== "select" && (
+            <div className="mt-2">
+              <label htmlFor="pickup">Pickup date</label>
+              <div className="border rounded-xl p-2">
+                <input
+                  type="date"
+                  name=""
+                  id="pickup"
+                  className="w-full"
+                  onChange={(event) =>
+                    setMobilepickupdate(event?.target?.value)
+                  }
+                />
+              </div>
+            </div>
+          )}
+          {mobileCalender !== "" && (
+            <div className="mt-2 mb-2">
+              <label htmlFor="pickuptime">Pick-up time</label>
+              <div className="border w-fit p-2 rounded-xl">
+                <input
+                  type="time"
+                  name="pickuptime"
+                  id=""
+                  className="w-[150px] outline-none"
+                  onChange={(event) =>
+                    setMobilepickuptime(event?.target?.value)
+                  }
+                />
+              </div>
+            </div>
+          )}
+          {mobilePickuptime !== "" && (
+            <>
+              <label htmlFor="city" className="font-semibold">
+                {radioToggle === "Local"
+                  ? "Drop-off location"
+                  : "Drop-off City"}
+              </label>
+              <div
+                className={`border rounded-xl p-2 flex gap-2 mt-2    
+          `}
+              >
+                <Image
+                  src={"/svg/location-gray.svg"}
+                  alt="location"
+                  width={16}
+                  height={18}
+                />
+                <div className="w-full">
+                  <select
+                    name="city"
+                    id="city"
+                    className="w-full outline-none"
+                    onChange={(event) =>
+                      setMobiledropCities(event?.target?.value)
+                    }
+                  >
+                    <option value="select">Select your city</option>
+                    {cities?.map((value: any, ind) => {
+                      return (
+                        <option key={ind} value={value?.name}>
+                          {value?.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+
+                {/* <input
+            type="text"
+            placeholder="Select Your City"
+            className="w-full border-none outline-none"
+          /> */}
+              </div>
+            </>
+          )}
+          {mobileDroplocation !== "" && (
+            <div className="mt-2">
+              <label htmlFor="pickup">Dropoff date</label>
+              <div className="border rounded-xl p-2">
+                <input
+                  type="date"
+                  name=""
+                  id="pickup"
+                  className="w-full"
+                  onChange={(event) => setMobiledropdate(event?.target?.value)}
+                />
+              </div>
+            </div>
+          )}
+          {mobilDropdate !== "" && (
+            <div className="mt-2">
+              <label htmlFor="pickuptime">Drop-off time</label>
+              <div className="border w-fit p-2 rounded-xl">
+                <input
+                  type="time"
+                  name="pickuptime"
+                  id=""
+                  className="w-[150px] outline-none"
+                  // onChange={(event)=>setMobilepickuptime(event?.target?.value)}
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="absolute bottom-[-20px] m-auto ml-[5px]">
+        <div className="absolute bottom-[-20px] m-auto left-0 right-0 w-fit">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-xl gap-2"
             text="Start Your Journey"
@@ -444,22 +810,31 @@ export default function Home() {
       </div>
       <div className="max-w-[1250px] w-full m-auto">
         <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-8 font-semibold text-center">
-          Trending <span className="text-red-500"> offers</span>
+          Trending <span className="text-primary"> offers</span>
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
-          <div className="sm:py-4 py-2 sm:px-8 px-4 bg-red-500 text-white rounded-l-full cursor-pointer">
+          <div
+            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer==="Daily Offers" ? "bg-primary-color" :"bg-black"} text-white rounded-l-full cursor-pointer`}
+            onClick={() => setOffer("Daily Offers")}
+          >
             Daily Offers
           </div>
-          <div className="sm:py-4 py-2 sm:px-8 px-4 bg-black text-white rounded-r-full cursor-pointer">
+          <div
+            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer==="Daily Offers" ? "bg-black" :"bg-primary-color"} text-white rounded-r-full cursor-pointer`}
+            onClick={() => setOffer("Monthly Offers")}
+          >
             Monthly Offers
           </div>
         </div>
-
-        <OfferCards />
+        {offer === "Daily Offers" && <OfferCards dailyOffer />}
+        {offer === "Monthly Offers" && 
+        <OfferCards monthlyOffer />
+        
+        }
       </div>
       <div className="max-w-[1250px] m-auto sm:my-20 my-6">
         <h2 className="text-center sm:text-4xl text-2xl font-semibold">
-          <span className="text-red-500"> Why</span> choose us
+          <span className="text-primary"> Why</span> choose us
         </h2>
         <div className="grid sm:grid-cols-4 grid-cols-2 gap-4 sm:mt-10 mt-4 p-4">
           {chooseArray?.map((value, ind) => {
@@ -490,7 +865,7 @@ export default function Home() {
       </div>
       <div className="max-w-[1250px] m-auto">
         <h2 className="text-center font-semibold sm:text-4xl text-2xl p-4 sm:mb-8">
-          Fleets <span className="text-red-500">high</span> on demand{" "}
+          Fleets <span className="text-primary">high</span> on demand{" "}
         </h2>
 
         <div className="m-4">
@@ -499,31 +874,34 @@ export default function Home() {
       </div>
       <div className="max-w-[1250px] m-auto my-16">
         <h2 className="sm:text-4xl text-2xl font-semibold text-center">
-          Make <span className="text-red-500"> 4 steps</span> to rent a car
+          Make <span className="text-primary"> 4 steps</span> to rent a car
         </h2>
         <div className="grid sm:grid-cols-4 gap-8 mt-12">
           {rentCollection?.map((item, index) => {
             return (
               <div
                 key={index}
-                className="p-6 relative sm:w-full sm:h-full w-[250px] h-[250px] sm:m-0 m-auto sm:shadow-none shadow-left-shadow sm:rounded-none rounded-full sm:pb-0 pb-8 sm:px-0 px-8"
+                className={`p-6 relative w-[261px] h-[261px] ${index%2===0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} sm:m-0 m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
-                <span className="text-white mb-6 font-semibold bg-red-500 w-8 h-8 flex justify-center items-center rounded-full">
+                <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full ml-[15px]">
                   {item?.steps}
                 </span>
+                <div className="mt-[-17px]">
                 <Image
                   src={item?.imageUrl}
                   alt="image"
                   width={62}
                   height={62}
-                  className={`${item?.imageUrl === "/svg/car-vector.svg"
-                    ? "w-[130px]"
-                    : "w-auto"
-                    } h-[62px] m-auto mb-4`}
+                  className={`${
+                    item?.imageUrl === "/svg/car-vector.svg"
+                      ? "w-[130px]"
+                      : "w-auto"
+                  } h-[62px] m-auto mb-4`}
                 />
                 <div className="text-center">
                   <h3 className="font-semibold text-xl">{item?.title}</h3>
-                  <p>{item?.desc}</p>
+                  <p className="text-xs mt-2 !w-[180px] m-auto">{item?.desc}</p>
+                </div>
                 </div>
                 {index < 3 ? (
                   <Image
@@ -552,14 +930,14 @@ export default function Home() {
               <span>until May 21st 2024</span>
             </div>
             <h4 className="font-semibold text-sm sm:text-[34px]">
-              DISCOUNT CODE : <span className="text-red-500">NEW5</span>
+              DISCOUNT CODE : <span className="text-primary">NEW5</span>
             </h4>
           </div>
           <div className="flex justify-end">
-            <Image src={"/png/thar.png"} alt="thar" width={543} height={280} />
+            <Image src={"/png/thar-new-left.png"} alt="thar" width={543} height={280} />
           </div>
         </div>
-        <div className="bg-red-500 sm:w-[120px] w-[80px] text-white sm:p-4 p-2 flex items-center font-semibold sm:text-2xl text-md text-center">
+        <div className="bg-primary-color sm:w-[120px] w-[80px] text-white sm:p-4 p-2 flex items-center font-semibold sm:text-2xl text-md text-center">
           <div>
             <div className="mb-2">
               <span>GET IT </span> <br />
@@ -582,7 +960,7 @@ export default function Home() {
       >
         <div className="max-w-[550px] m-auto">
           <h3 className="font-bold sm:text-3xl text-2xl">
-            <span className="text-red-500">Download</span> our app to get <br />
+            <span className="text-primary">Download</span> our app to get <br />
             most out of it
           </h3>
           <p className="sm:my-8 my-4 sm:text-md text-sm">
@@ -624,7 +1002,7 @@ export default function Home() {
       {/*review section  */}
       <div className="sm:my-20 my-8 px-8">
         <h2 className="sm:text-4xl text-2xl font-semibold text-center mb-12">
-          Customer <span className="text-red-500">reviews</span>
+          Customer <span className="text-primary">reviews</span>
         </h2>
         <ReviewCard />
       </div>
@@ -635,7 +1013,7 @@ export default function Home() {
             Save big with our
           </h3>
           <p className="sm:text-5xl text-2xl font-bold sm:my-2">CAR</p>
-          <p className="sm:text-5xl text-3xl font-bold text-red-500">RENTAL</p>
+          <p className="sm:text-5xl text-3xl font-bold text-primary">RENTAL</p>
           <ThemeButton
             text="FIND A CAR"
             className="sm:mt-6 mt-2 sm:px-6 px-2 sm:text-md text-xs"
@@ -649,15 +1027,15 @@ export default function Home() {
             <ul className="list-disc grid gap-2 mt-4 ml-4 sm:text-md text-xs">
               <li className="text-white">
                 Only ₹5,000{" "}
-                <span className="text-red-500">refundable deposit</span>
+                <span className="text-primary">refundable deposit</span>
               </li>
               <li className="text-white">
                 No loan liability,{" "}
-                <span className="text-red-500">zero down payment</span>
+                <span className="text-primary">zero down payment</span>
               </li>
               <li className="text-white">
                 Insurance & maintained{" "}
-                <span className="text-red-500">included</span>
+                <span className="text-primary">included</span>
               </li>
             </ul>
           </div>
@@ -679,9 +1057,9 @@ export default function Home() {
         <div>
           <div className="grid gap-4 max-w-[410px] m-auto">
             <h2 className="sm:text-4xl text-2xl sm:text-left text-center font-bold">
-              Any <span className="sm:text-black text-red-500"> questions</span>{" "}
+              Any <span className="sm:text-black text-primary"> questions</span>{" "}
               <br />
-              <span className="text-red-500 sm:block hidden">
+              <span className="text-primary sm:block hidden">
                 {" "}
                 WE GOT YOU
               </span>{" "}
@@ -714,7 +1092,7 @@ export default function Home() {
       {/* facts */}
       <div className="my-12 bg-black sm:py-10 sm:px-10 py-6 px-2">
         <h2 className="text-center font-bold sm:text-4xl text-2xl text-white">
-          Facts By The <span className="text-red-500"> Numbers</span>
+          Facts By The <span className="text-primary"> Numbers</span>
         </h2>
         <p className="text-[#E5DADA] text-center my-2 sm:text-md text-xs">
           Lorem Ipsum has been the industry&apos;s standard <br /> dummy text
@@ -745,6 +1123,22 @@ export default function Home() {
           })}
         </div>
       </div>
+      <div className="fixed bottom-6 left-6 w-12 h-12 bg-black rounded-full flex items-center justify-center">
+        <Image
+          src={"/svg/outgoing-call-icon.svg"}
+          alt="phone"
+          width={26}
+          height={26}
+        />
+      </div>
+      <div className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
+        <Image
+          src={"/svg/whatsapp-white.svg"}
+          alt="phone"
+          width={30}
+          height={30}
+        />
+      </div>
     </>
   );
 }
@@ -769,21 +1163,21 @@ const outstation = [
     desc: "Enter pick-up city",
     cities: [
       {
-        city: "Noida"
+        city: "Noida",
       },
       {
-        city: "Meerut"
+        city: "Meerut",
       },
       {
-        city: "Ghaziabad"
+        city: "Ghaziabad",
       },
       {
-        city: "Agra"
+        city: "Agra",
       },
       {
-        city: "Kanpur"
+        city: "Kanpur",
       },
-    ]
+    ],
   },
   {
     id: "date",
@@ -798,21 +1192,21 @@ const outstation = [
     desc: "Enter drop-off city",
     cities: [
       {
-        city: "Noida"
+        city: "Noida",
       },
       {
-        city: "Meerut"
+        city: "Meerut",
       },
       {
-        city: "Ghaziabad"
+        city: "Ghaziabad",
       },
       {
-        city: "Agra"
+        city: "Agra",
       },
       {
-        city: "Kanpur"
+        city: "Kanpur",
       },
-    ]
+    ],
   },
   {
     id: "date",
@@ -829,21 +1223,21 @@ const localDriverArray = [
     desc: "Enter pick-up Location",
     cities: [
       {
-        city: "Noida"
+        city: "Noida",
       },
       {
-        city: "Meerut"
+        city: "Meerut",
       },
       {
-        city: "Ghaziabad"
+        city: "Ghaziabad",
       },
       {
-        city: "Agra"
+        city: "Agra",
       },
       {
-        city: "Kanpur"
+        city: "Kanpur",
       },
-    ]
+    ],
   },
   {
     id: "date",
@@ -852,21 +1246,21 @@ const localDriverArray = [
     desc: "Enter pickup date",
     cities: [
       {
-        city: "Noida"
+        city: "Noida",
       },
       {
-        city: "Meerut"
+        city: "Meerut",
       },
       {
-        city: "Ghaziabad"
+        city: "Ghaziabad",
       },
       {
-        city: "Agra"
+        city: "Agra",
       },
       {
-        city: "Kanpur"
+        city: "Kanpur",
       },
-    ]
+    ],
   },
   {
     id: "location",
@@ -875,21 +1269,21 @@ const localDriverArray = [
     desc: "Enter drop-off Location",
     cities: [
       {
-        city: "Noida"
+        city: "Noida",
       },
       {
-        city: "Meerut"
+        city: "Meerut",
       },
       {
-        city: "Ghaziabad"
+        city: "Ghaziabad",
       },
       {
-        city: "Agra"
+        city: "Agra",
       },
       {
-        city: "Kanpur"
+        city: "Kanpur",
       },
-    ]
+    ],
   },
   {
     id: "date",
@@ -898,21 +1292,21 @@ const localDriverArray = [
     desc: "Enter drop-off date",
     cities: [
       {
-        city: "Noida"
+        city: "Noida",
       },
       {
-        city: "Meerut"
+        city: "Meerut",
       },
       {
-        city: "Ghaziabad"
+        city: "Ghaziabad",
       },
       {
-        city: "Agra"
+        city: "Agra",
       },
       {
-        city: "Kanpur"
+        city: "Kanpur",
       },
-    ]
+    ],
   },
 ];
 const tabsArray = [
@@ -938,50 +1332,50 @@ const chooseArray = [
     imageUrl: "/png/car02.png",
     width: 164,
     height: 132,
-    title: "Safe and Sanitized Car",
-    desc: "Your safety is our priority, with a car that's sanitized for purity.",
+    title: "No Hidden Charges",
+    desc: "What you see is what you get, no hidden charges to fret.",
   },
   {
     imageUrl: "/png/car03.png",
     width: 127,
     height: 95,
-    title: "Safe and Sanitized Car",
-    desc: "Your safety is our priority, with a car that's sanitized for purity.",
+    title: "Doorstep Delivery",
+    desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
     imageUrl: "/png/car04.png",
     width: 136,
     height: 132,
-    title: "Safe and Sanitized Car",
-    desc: "Your safety is our priority, with a car that's sanitized for purity.",
+    title: "Doorstep Delivery",
+    desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
     imageUrl: "/png/car05.png",
     width: 197,
     height: 132,
-    title: "Safe and Sanitized Car",
+    title: "Brand New Fleets",
     desc: "Your safety is our priority, with a car that's sanitized for purity.",
   },
   {
     imageUrl: "/png/car06.png",
     width: 164,
     height: 132,
-    title: "Safe and Sanitized Car",
-    desc: "Your safety is our priority, with a car that's sanitized for purity.",
+    title: "Road Side Assistance",
+    desc: "What you see is what you get, no hidden charges to fret.",
   },
   {
     imageUrl: "/png/car07.png",
     width: 95,
     height: 95,
-    title: "Safe and Sanitized Car",
-    desc: "Your safety is our priority, with a car that's sanitized for purity.",
+    title: "Flexible Kms",
+    desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
     imageUrl: "/png/car08.png",
     width: 191,
     height: 73,
-    title: "Safe and Sanitized Car",
-    desc: "Your safety is our priority, with a car that's sanitized for purity.",
+    title: "Vehicle Health Check",
+    desc: "Your new ride, right to your door, with service you'll adore.",
   },
 ];
 const rentCollection = [

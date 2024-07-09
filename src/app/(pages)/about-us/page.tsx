@@ -17,7 +17,7 @@ const AboutUs = () => {
           <p>We Are Proud Of Our Business. </p>
           <p>
             {" "}
-            <span className="text-red-500 font-semibold"> Rent Car</span> Now!
+            <span className="text-primary font-semibold"> Rent Car</span> Now!
           </p>
         </div>
         <Image
@@ -30,7 +30,7 @@ const AboutUs = () => {
       </div>
       <div className="max-w-[1250px] m-auto sm:grid grid-cols-2 gap-12 items-center my-16 sm:px-0 px-8">
         <div>
-          <h2 className="text-red-500 font-semibold sm:text-3xl text-2xl">
+          <h2 className="text-primary font-semibold sm:text-3xl text-2xl">
             About Us
           </h2>
           <h3 className="sm:text-4xl text-2xl font-semibold leading-normal mt-2">
@@ -50,7 +50,7 @@ const AboutUs = () => {
               has exponentially grown. 
             </p>
             <div className="mt-6">
-              <h4 className="text-red-500 font-bold sm:mb-0 mb-2">
+              <h4 className="text-primary font-bold sm:mb-0 mb-2">
                 Talk to Us?
               </h4>
               <div className="flex gap-6 sm:mb-0 mb-4">
@@ -97,7 +97,7 @@ const AboutUs = () => {
 
       <div className="sm:px-0 px-8">
         <h2 className="text-center sm:text-4xl text-2xl font-semibold sm:mb-6 mb-2">
-          Our <span className="text-red-500"> Services</span>
+          Our <span className="text-primary"> Services</span>
         </h2>
         <p className="text-center">
           The ultra strong Unique Selling Proposition of Cabme has been its
@@ -197,7 +197,7 @@ const AboutUs = () => {
             We value the time and quality of travel <br />
             <span>for each of our clients</span>
           </p>
-          <h3 className="sm:text-7xl text-2xl font-semibold text-center tracking-wide text-red-500 sm:mt-12 mt-4">
+          <h3 className="sm:text-7xl text-2xl font-semibold text-center tracking-wide text-primary sm:mt-12 mt-4">
             Your Adventure <br />{" "}
             <span className="text-black">Starts Here</span>{" "}
           </h3>
@@ -227,7 +227,7 @@ const AboutUs = () => {
             <h3 className="font-semibold sm:text-4xl text-xl leading-normal">
               Make Every Journey Memorable. <br className="sm:block hidden" />{" "}
               Rent
-              <span className="text-red-500"> with Us</span>
+              <span className="text-primary"> with Us</span>
             </h3>
             <div className="grid sm:grid-cols-3 grid-cols-2 gap-4 mt-16 h-[55%]">
               {svgCollection?.map((item, index) => {
@@ -259,7 +259,7 @@ const AboutUs = () => {
       <div className="sm:grid grid-cols-2 sm:px-0 px-8 gap-12 mb-12 sm:mt-20 mt-6 items-center max-w-[1250px] m-auto">
         <div>
           <h3 className="sm:text-4xl text-2xl font-[500]">
-            Use our <span className="text-red-500"> quick booking from</span> to
+            Use our <span className="text-primary"> quick booking from</span> to
             get a car{" "}
           </h3>
           <p className="text-[#7D7373] my-4">
@@ -268,7 +268,7 @@ const AboutUs = () => {
             vehicula felis, eu cursus sem tellus.
           </p>
           <div className="mt-6">
-            <h4 className="text-red-500 font-semibold mb-2">
+            <h4 className="text-primary font-semibold mb-2">
               Call for book an order?
             </h4>
             <div className="flex gap-6">
@@ -327,7 +327,7 @@ const AboutUs = () => {
         <div>
           <div className="relative max-w-[480px]  mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
             <div className="absolute top-[-25px] left-0 right-0">
-              <div className="max-w-[350px] m-auto bg-red-500 rounded-xl grid grid-cols-2 font-semibold p-2">
+              <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2">
                 <div className="bg-white rounded-xl px-4 py-[8px] text-center">
                   Rentals
                 </div>
@@ -418,7 +418,7 @@ const AboutUs = () => {
           </h3>
           <p className="text-xl sm:text-left text-center">
             Get{" "}
-            <span className="text-red-500 font-semibold">
+            <span className="text-primary font-semibold">
               {" "}
               MONTHLY SUBSCRIPTION
             </span>{" "}
@@ -433,7 +433,7 @@ const AboutUs = () => {
           className="absolute sm:top-[-45%] top-[-20%] sm:right-[10%] sm:w-[380px] w-[200px]"
         />
       </div>
-      <div className="sm:mx-8 mx-2 sm:mt-64 sm:mb-24 bg-red-500 rounded-2xl sm:pt-12 pt-4 pb-8 sm:px-16 px-8">
+      <div className="sm:mx-8 mx-2 sm:mt-64 sm:mb-24 bg-primary-color rounded-2xl sm:pt-12 pt-4 pb-8 sm:px-16 px-8">
         <div className="text-white sm:grid grid-cols-2 gap-8">
           <div>
             <h2 className="sm:text-5xl text-3xl font-semibold leading-normal">
@@ -494,15 +494,15 @@ const AboutUs = () => {
       </div>
       <div className="sm:mt-48 mt-[80%] sm:px-8 px-4">
         <h2 className="text-4xl font-semibold text-center my-6">
-          Customer <span className="text-red-500"> reviews</span>
+          Customer <span className="text-primary"> reviews</span>
         </h2>
         <ReviewCard />
       </div>
       <div className="px-4 sm:hidden block">
         <h2 className="sm:text-4xl text-2xl sm:text-left text-center font-bold">
-          Any <span className="sm:text-black text-red-500"> questions</span>{" "}
+          Any <span className="sm:text-black text-primary"> questions</span>{" "}
           <br />
-          <span className="text-red-500 sm:block hidden"> WE GOT YOU</span>{" "}
+          <span className="text-primary sm:block hidden"> WE GOT YOU</span>{" "}
         </h2>
         {faqCollection?.map((item, index) => {
           return <FaqSection key={index} ques={item?.ques} ans={item?.ans} />;

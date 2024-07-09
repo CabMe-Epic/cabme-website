@@ -108,7 +108,7 @@ const PaymentPage = (props: any) => {
                                         <Image className="mt-1" src="/carDetails/debitcard.png" width={20} height={20} alt="debitcard" />
                                     </div>
                                     <div className="w-full">
-                                        <select className="block outline-0 w-full mt-1 rounded-md text-red-500 font-[500] sm:text-md text-sm">
+                                        <select className="block outline-0 w-full mt-1 rounded-md text-primary font-[500] sm:text-md text-sm">
                                             <option value="">Debit/Credit Card</option>
                                             <option value="visa">Visa</option>
                                             <option value="mastercard">MasterCard</option>
