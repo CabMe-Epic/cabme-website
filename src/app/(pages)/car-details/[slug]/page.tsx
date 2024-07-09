@@ -57,6 +57,7 @@ const CarDetails = () => {
       setSelectedTabValue(storedTabValue)
     }
   }, []);
+  console.log(pickupTime,dropoffTime,"lkkk");
 
   const pickupDateTimeString = pickupTime ? `${pickupDate}T${pickupTime}:00.000Z` : null;
   const droppingDateTimeString = dropoffTime ? `${dropoffDate}T${dropoffTime}:00.000Z` : null;
@@ -133,10 +134,15 @@ const CarDetails = () => {
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
+    const storedPickupTime = localStorage.getItem('pickupTime');
+      const storedDropoffTime = localStorage.getItem('dropoffTime');
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice")
+    
     setPackagePrice(selectedPackagePrice)
     setPickupDate(getPickup);
     setDropoffDate(getDropoff)
+    setDropoffTime(storedDropoffTime)
+    setPickupTime(storedPickupTime)
     getCarDetails();
   }, [getCarDetails]);
 
@@ -370,7 +376,7 @@ const CarDetails = () => {
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Base Fare</span>
-                    <span className="w-[220px] ml-10">
+                    <span className="w-[220px] ml-10 w-fit">
                       ₹{packagePrice} * {days} Days and {hours} Hours
                     </span>
                   </div>

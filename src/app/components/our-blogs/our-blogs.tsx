@@ -23,7 +23,7 @@ const OurBlogs = () => {
             </p>
             <Link href={"#"}>
               {" "}
-              <span className="text-red-500"> READ ARTICLE</span>
+              <span className="text-primary"> READ ARTICLE</span>
             </Link>
             <div className="flex justify-between mt-4">
               <button className="flex items-center gap-2">
@@ -65,7 +65,7 @@ const OurBlogs = () => {
             </p>
             <Link href={"#"}>
               {" "}
-              <span className="text-red-500"> READ ARTICLE</span>
+              <span className="text-primary"> READ ARTICLE</span>
             </Link>
             <div className="flex justify-between mt-4">
               <button className="flex items-center gap-2">
@@ -141,7 +141,7 @@ const OurBlogs = () => {
             </p>
             <Link href={"#"}>
               {" "}
-              <span className="text-red-500 text-xs"> READ ARTICLE</span>
+              <span className="text-primary text-xs"> READ ARTICLE</span>
             </Link>
             <div className="flex justify-between max-w-[250px]">
               <button className="flex items-center gap-2">
