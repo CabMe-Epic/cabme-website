@@ -26,7 +26,10 @@ const Subscription = () => {
         </div>
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div>
-            <ProductSlider />
+            <ProductSlider featuredImage={{
+              image: "",
+              alt: ""
+            }} />
 
             <div className="sm:hidden block my-4">
               <BookingDetailsCard />
@@ -52,11 +55,10 @@ const Subscription = () => {
                         (option) => (
                           <button
                             key={option}
-                            className={`py-2 px-4 ${
-                              selectedOption === option
-                                ? "bg-[#ff0000] text-white"
-                                : "text-gray-600 bg-[#F2F7F6]"
-                            } rounded`}
+                            className={`py-2 px-4 ${selectedOption === option
+                              ? "bg-[#ff0000] text-white"
+                              : "text-gray-600 bg-[#F2F7F6]"
+                              } rounded`}
                             onClick={() => handleOptionClick(option)}
                           >
                             {option}
@@ -201,11 +203,10 @@ const Subscription = () => {
                         (option) => (
                           <button
                             key={option}
-                            className={`py-2 px-4 ${
-                              selectedOption === option
-                                ? "bg-[#ff0000] text-white"
-                                : "text-gray-600 bg-[#F2F7F6]"
-                            } rounded`}
+                            className={`py-2 px-4 ${selectedOption === option
+                              ? "bg-[#ff0000] text-white"
+                              : "text-gray-600 bg-[#F2F7F6]"
+                              } rounded`}
                             onClick={() => handleOptionClick(option)}
                           >
                             {option}

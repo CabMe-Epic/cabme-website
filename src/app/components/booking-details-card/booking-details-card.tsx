@@ -28,8 +28,7 @@ const BookingDetailsCard = ({ city }: any) => {
     const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
     const minutes = Math.floor((diffInSeconds % 3600) / 60);
     setDuration(`${days}days, ${hours}hours, ${minutes}minutes`);
-  },[])
-console.log(pickupTime,dropoffTime,"hann");
+  }, [])
   return (
     <div>
       <main className="max-w-[511px] px-2 border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">
