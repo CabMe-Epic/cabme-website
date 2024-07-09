@@ -39,7 +39,8 @@ const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Ar
                 alt={item?.alt || "image"}
                 width={450}
                 height={450}
-                className="w-full h-auto"
+
+                className="w-full h-[450px] object-contain"
               />
             </div>
           </SwiperSlide>
@@ -59,7 +60,7 @@ const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Ar
               alt={item?.alt || "image"}
               width={152}
               height={107}
-              className="rounded-xl"
+              className="rounded-xl h-[100px] object-contain"
             />
           </div>
         ))}
