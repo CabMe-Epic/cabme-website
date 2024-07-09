@@ -196,7 +196,7 @@ const CarDetails = () => {
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div className="px-4">
             <ProductSlider
-              featuredImage={carDetails?.featuredImage?.image as any}
+              featuredImage={carDetails?.featuredImage as any}
               imageGallery={carDetails?.imageGallery as any}
             />
             {/* mobile view */}
@@ -371,7 +371,7 @@ const CarDetails = () => {
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Base Fare</span>
                     <span className="w-[220px] ml-10">
-                      ₹{packagePrice}
+                      ₹{packagePrice} * {days} Days and {hours} Hours
                     </span>
                   </div>
 
