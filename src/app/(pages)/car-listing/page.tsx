@@ -244,7 +244,7 @@ const CarListing = () => {
         {/* filters */}
 
         <section className="sm:flex flex-row items-start justify-between gap-10">
-          <aside className="basis-1 w-[300px] h-full shadow-md p-8 sm:block hidden">
+          <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8 sm:block hidden">
             <div>
               <h1 className="text-center font-bold">
                 What Are You Looking For

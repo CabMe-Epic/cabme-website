@@ -376,7 +376,7 @@ const CarDetails = () => {
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Base Fare</span>
-                    <span className="w-[220px] ml-10">
+                    <span className="w-[220px] ml-10 w-fit">
                       ₹{packagePrice} * {days} Days and {hours} Hours
                     </span>
                   </div>

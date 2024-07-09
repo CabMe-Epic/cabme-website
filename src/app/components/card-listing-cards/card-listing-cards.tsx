@@ -31,7 +31,7 @@ const CardListingCards = ({ data }: any) => {
 
   const setPrice = (price:number)=>{
     setPackagePrice(price)
-    setClicked1(true);
+    // setClicked1(true);
 
     //  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
   }
@@ -96,14 +96,15 @@ const CardListingCards = ({ data }: any) => {
 
         {/* --------------------------------- */}
 
-        <div className="absolute sm:block hidden -left-2 top-8 z-10">
+        <div className="absolute sm:block hidden -left-2 top-[20px] z-10 w-fit">
           <Image
-            src="/carListing/cardTag.png"
+            src="/png/red-design.png"
             width={133}
             objectFit={"contain"}
             height={46}
             alt="Tag Icon"
           />
+          <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">{data?.brandName}</span>
         </div>
 
         <main className="bg-[url('/png/listing-bg.png')] sm:w-[1028px] h-[304px] rounded-[12px] hidden sm:flex flex-row items-center justify-center">
@@ -126,16 +127,16 @@ const CardListingCards = ({ data }: any) => {
                 />
                 <div
                   onClick={() => setShowImg(!showImg)}
-                  className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer"
+                  className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                 >
                   <Image
                     src="/carListing/view.png"
-                    width={16}
+                    width={12}
                     objectFit={"contain"}
-                    height={16}
+                    height={12}
                     alt="Car Icon"
                   />
-                  <span className="text-[#ff0000] text-sm">
+                  <span className="text-[#ff0000] text-sm font-semibold">
                     View Real Car Images
                   </span>
                 </div>
@@ -143,8 +144,13 @@ const CardListingCards = ({ data }: any) => {
 
               <div className="h-[274px]">
                 <div className="mt-5 flex flex-row items-center gap-4 mr-10">
-                  <div onClick={()=>setPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.price)} className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]`}>
+                  <div onClick={()=>{setPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price);
+                          setClicked1(true);
+                    setClicked2(false);
+                    setClicked3(false);
+                          
+                          } }className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]" : ""}`}>
                     <span className="font-bold text-[18px]">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package1
@@ -272,7 +278,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span>Bluetooth</span>
+                        <span className="text-[15px]">Bluetooth</span>
                       </div>
                     )}
 
@@ -284,7 +290,7 @@ const CardListingCards = ({ data }: any) => {
                         height={20}
                         alt="bluetooth"
                       />
-                      <span>Manual</span>
+                      <span className="text-[15px]">Manual</span>
                     </div>
                     {data?.carFeatures?.navigationSystem === true && (
                       <div className="flex flex-row items-center gap-2">
@@ -295,7 +301,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span>GPS Navigation</span>
+                        <span className="text-[15px]">GPS Navigation</span>
                       </div>
                     )}
                     <div className="flex flex-row items-center gap-2">
@@ -306,7 +312,7 @@ const CardListingCards = ({ data }: any) => {
                         height={20}
                         alt="bluetooth"
                       />
-                      <span>5 Person</span>
+                      <span className="text-[15px]">5 Person</span>
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <Image
@@ -316,7 +322,7 @@ const CardListingCards = ({ data }: any) => {
                         height={20}
                         alt="bluetooth"
                       />
-                      <span>{data?.vehicleSpecifications?.fuelType}</span>
+                      <span className="text-[15px]">{data?.vehicleSpecifications?.fuelType}</span>
                     </div>
                     <div className="flex flex-row items-center gap-2">
                       <Image
@@ -326,7 +332,7 @@ const CardListingCards = ({ data }: any) => {
                         height={20}
                         alt="bluetooth"
                       />
-                      <span>Boot Space</span>
+                      <span className="text-[15px]">Boot Space</span>
                     </div>
                   </div>
                   <div className="m-0">
@@ -453,16 +459,16 @@ const CardListingCards = ({ data }: any) => {
                 />
                 <div
                   onClick={() => setShowImg(!showImg)}
-                  className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer"
+                  className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                 >
                   <Image
                     src="/carListing/view.png"
-                    width={16}
+                    width={12}
                     objectFit={"contain"}
-                    height={16}
+                    height={12}
                     alt="Car Icon"
                   />
-                  <span className="text-[#ff0000] text-sm">
+                  <span className="text-[#ff0000] text-sm font-semibold">
                     View Real Car Images
                   </span>
                 </div>
@@ -470,9 +476,13 @@ const CardListingCards = ({ data }: any) => {
               <div className="h-[274px]">
                 <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                   <div
-                  onClick={()=>setPrice(data?.bookingOptions?.subscription?.packageType
-                    ?.package1?.price)}
-                  className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
+                  onClick={()=>{setPrice(data?.bookingOptions?.subscription?.packageType
+                    ?.package1?.price);
+                    setClicked1(true);
+                    setClicked2(false);
+                    setClicked3(false);
+                  }}
+                  className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]" : ""}`}>
                     <span className="font-bold text-[18px] ">
                       {
                         data?.bookingOptions?.subscription?.packageType
@@ -774,16 +784,16 @@ const CardListingCards = ({ data }: any) => {
                     />
                     <div
                       onClick={() => setShowImg(!showImg)}
-                      className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer"
+                      className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                     >
                       <Image
                         src="/carListing/view.png"
-                        width={16}
+                        width={12}
                         objectFit={"contain"}
-                        height={16}
+                        height={12}
                         alt="Car Icon"
                       />
-                      <span className="text-[#ff0000] text-sm">
+                      <span className="text-[#ff0000] text-sm font-semibold">
                         View Real Car Images
                       </span>
                     </div>
@@ -1098,16 +1108,16 @@ const CardListingCards = ({ data }: any) => {
                     />
                     <div
                       onClick={() => setShowImg(!showImg)}
-                      className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer"
+                      className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                     >
                       <Image
                         src="/carListing/view.png"
-                        width={16}
+                        width={12}
                         objectFit={"contain"}
-                        height={16}
+                        height={12}
                         alt="Car Icon"
                       />
-                      <span className="text-[#ff0000] text-sm">
+                      <span className="text-[#ff0000] text-sm font-semibold">
                         View Real Car Images
                       </span>
                     </div>
