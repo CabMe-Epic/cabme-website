@@ -122,7 +122,7 @@ const CarDetails = () => {
       discountType: selectedDiscountType ? selectedDiscountType : null,
       discountAmount: Number(discountAppliedAmount.toFixed(2)),
     },
-    totalAmount: Number(totalPrice.toFixed(2)),
+    totalAmount: discountAmount > 0 ? Number(discountAmount.toFixed(2)) : Number(totalPrice.toFixed(2)),
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
