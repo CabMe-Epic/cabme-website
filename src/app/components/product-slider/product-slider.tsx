@@ -1,111 +1,109 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  Autoplay,
-} from "swiper/modules";
-
+import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-const ProductSlider = ({imageGallery, featuredImage}: any) => {
-  // console.log("slider", slider);
-  return (
-    
-      <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider relative">
-        <Swiper
-          modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
-          //   spaceBetween={50}
-          slidesPerView={1}
-          navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
-          }}
-          pagination={{ clickable: true }}
-          loop={true}
-          autoplay={{
-            delay: 2000,
-            disableOnInteraction: false,
-          }}
-          
-        >
-          {productCollection?.map((item, index) => {
-            return (
-              <SwiperSlide key={index}>
-                <div>
-                  <Image
-                    src={featuredImage
-                    }
-                    alt="image"
-                    width={450}
-                    height={450}
-                    className="w-full h-auto"
-                  />
-                </div>
-              </SwiperSlide>
-            );
-          })}
-          <div className="swiper-button-prev sm:!w-[40px] sm:!h-[40px] !w-[26px] !h-[26px] bg-white !items-center shadow-custom-shadow flex items-center" style={{display:"flex !important"}}>
-            <Image src={"/png/left-arrow-red.png"} alt="arrow" width={24} height={16} className="m-auto" />
-          </div>
-          <div className="swiper-button-next sm:!w-[40px] sm:!h-[40px] !w-[26px] !h-[26px] bg-white !items-center shadow-xl" style={{display:"flex !important", justifyContent: "center", alignItems: "center" }}>
-            <Image src={"/png/right-arrow-red.png"} alt="arrow" width={24} height={16} className="m-auto" />
-          </div>
-        </Swiper>
-        <div className="flex justify-between gap-2 mt-4">
-          {imageGallery?.map((item: any, index:number) => {
-            return (
-              <div key={index}>
-                <Image
-                  src={item?.image}
-                  alt="image"
-                  width={152}
-                  height={107}
-                  className="rounded-xl"
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
+
+const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Array<{ image: string, alt: string }>, featuredImage: { image: string, alt: string } }) => {
+
+
+
+  const finalArray = Array.isArray(imageGallery) ? [ featuredImage , ...imageGallery] : [featuredImage];
+  console.log(finalArray, "finalArray");
   
+
+  return (
+    <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider relative">
+      <Swiper
+        modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
+        slidesPerView={1}
+        navigation={{
+          prevEl: ".swiper-button-prev",
+          nextEl: ".swiper-button-next",
+        }}
+        pagination={{ clickable: true }}
+        loop={true}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
+      >
+        {finalArray.map((item, index) => (
+          <SwiperSlide key={index}>
+            <div>
+              <Image
+                src={item?.image}
+                alt={item?.alt || "image"}
+                width={450}
+                height={450}
+                className="w-full h-auto"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+        <div className="swiper-button-prev absolute top-1/2 left-2 transform -translate-y-1/2 bg-white shadow-custom-shadow flex items-center justify-center w-8 h-8">
+          <Image src="/png/left-arrow-red.png" alt="arrow" width={24} height={16} />
+        </div>
+        <div className="swiper-button-next absolute top-1/2 right-2 transform -translate-y-1/2 bg-white shadow-xl flex items-center justify-center w-8 h-8">
+          <Image src="/png/right-arrow-red.png" alt="arrow" width={24} height={16} />
+        </div>
+      </Swiper>
+      <div className="flex justify-between gap-2 mt-4">
+        {finalArray.map((item, index) => (
+          <div key={index}>
+            <Image
+              src={item?.image}
+              alt={item?.alt || "image"}
+              width={152}
+              height={107}
+              className="rounded-xl"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
+
 export default ProductSlider;
+
 const productCollection = [
   {
-    imageUrl: "/png/car011.png",
+    image: "/png/car011.png",
+    alt: "Car 011",
   },
   {
-    imageUrl: "/png/car011.png",
+    image: "/png/car011.png",
+    alt: "Car 011",
   },
   {
-    imageUrl: "/png/car011.png",
+    image: "/png/car011.png",
+    alt: "Car 011",
   },
   {
-    imageUrl: "/png/car011.png",
+    image: "/png/car011.png",
+    alt: "Car 011",
   },
 ];
+
 const interiorImage = [
   {
-    imageUrl: "/png/interior01.png",
+    image: "/png/interior01.png",
+    alt: "Interior 01",
   },
   {
-    imageUrl: "/png/interior02.png",
+    image: "/png/interior02.png",
+    alt: "Interior 02",
   },
   {
-    imageUrl: "/png/interior03.png",
+    image: "/png/interior03.png",
+    alt: "Interior 03",
   },
   {
-    imageUrl: "/png/interior04.png",
+    image: "/png/interior04.png",
+    alt: "Interior 04",
   },
 ];

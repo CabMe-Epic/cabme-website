@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-
+:root{
+  --primary-color: #ff0000;
+}
 .red-marker li::marker {
     color: red;
+  }
+  .bg-primary-color{
+    background-color: var(--primary-color);
+  }
+  .text-primary{
+    color: var(--primary-color);
   }
   .radio-button{
     accent-color: red;
@@ -14,6 +22,9 @@
     z-index: 9;
     transition: 800ms;
     opacity: 1 !important;
+  }
+  .react-datepicker-wrapper input{
+    font-size: 11px !important;
   }
   .review-slider  .swiper-slide{
     opacity: 0.4;

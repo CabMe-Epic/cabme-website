@@ -45,7 +45,7 @@ const ContactUs = () => {
         <span className="cursor-pointer">Contact us</span>
       </div>
       <div className="sm:text-4xl text-2xl text-center">
-        <h2 className="font-semibold text-red-500 mb-2">Contact Us</h2>
+        <h2 className="font-semibold text-primary mb-2">Contact Us</h2>
         <p>Anytime</p>
       </div>
       <div className="grid sm:grid-cols-4 grid-cols-2 px-4 sm:gap-10 gap-4 max-w-[1250px] m-auto w-full text-center sm:my-12 my-8">
@@ -73,14 +73,14 @@ const ContactUs = () => {
       <div className="max-w-[1350px] mx-4 sm:mx-auto border border-[#FF0000] rounded-xl sm:px-12 px-4 sm:pt-8 sm:pb-8 pt-12 pb-4 relative mt-32">
         <h3 className="font-semibold sm:text-3xl text-xl sm:text-left text-center sm:mt-0 mt-4">
           If you&apos;re experiencing an issue, <br /> please{" "}
-          <span className="text-red-500"> email</span> us.
+          <span className="text-primary"> email</span> us.
         </h3>
         <p className="mt-2 sm:text-left text-center flex justify-center gap-4">
           <span>
           Please email at : &nbsp;
           </span>
           <Link
-            className="text-red-500 font-semibold"
+            className="text-primary font-semibold"
             href={"mailto:support@cabme.in"}
           >
             support@cabme.in
@@ -125,7 +125,7 @@ const ContactUs = () => {
                     />
                   </div>
                   <div className="text-center">
-                    <h3 className="text-2xl font-semibold text-red-500">
+                    <h3 className="text-2xl font-semibold text-primary">
                       {item?.place}
                     </h3>
                     <p className="mt-2">{item?.desc}</p>
@@ -140,7 +140,7 @@ const ContactUs = () => {
       <PickupDropOff />
       <div className="relative sm:hidden block max-w-[480px]  mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
             <div className="absolute top-[-25px] left-0 right-0">
-              <div className="max-w-[350px] m-auto bg-red-500 rounded-xl grid grid-cols-2 font-semibold p-2">
+              <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2">
                 <div className="bg-white rounded-xl px-4 py-[8px] text-center">
                   Rentals
                 </div>
@@ -227,9 +227,9 @@ const ContactUs = () => {
         <div>
           <div className="grid gap-4 max-w-[410px] m-auto">
             <h2 className="sm:text-4xl text-2xl sm:text-left text-center font-bold">
-              Any <span className="sm:text-black text-red-500"> questions</span>{" "}
+              Any <span className="sm:text-black text-primary"> questions</span>{" "}
               <br />
-              <span className="text-red-500 sm:block hidden mt-2">
+              <span className="text-primary sm:block hidden mt-2">
                 {" "}
                 WE GOT YOU
               </span>{" "}

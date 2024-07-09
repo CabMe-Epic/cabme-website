@@ -1,10 +1,140 @@
+"use client"
 import InputField from '@/app/components/input-field/input-field';
 import ThemeButton from '@/app/components/theme-button/theme-button';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
-import CountryInput from '@/app/components/country-input/country-Input';
+import { useRouter } from 'next/navigation'
+
 
 const PersonalDetails = (props: any) => {
+    const router = useRouter();
+
+    const [verifyOTPAadhar, setVerifyOTPAadhar] = useState(false);
+    const [checkOTPAadhar, setCheckOTPAadhar] = useState(false);
+    const [verifyOTPPan, setVerifyOTPPan] = useState(false);
+    const [checkOTPPan, setCheckOTPPan] = useState(false);
+    const [verifyOTPDL, setVerifyOTDL] = useState(false);
+    const [checkOTPDL, setCheckOTPDL] = useState(false);
+
+    const [requestId, setRequestId] = useState();
+
+    const [state, setState] = useState({
+        aadharNumber: "",
+        aadharOTP: "",
+        panNumber: "",
+        panOTP: "",
+        dLNumber: "",
+        dLOTP: ""
+    })
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setState((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }))
+    }
+
+    console.log({ state })
+    const aadhar = state?.aadharNumber
+    const otp = state?.aadharOTP
+    const pan = state?.panNumber
+
+    const handleSendAadharOTP = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/getOkycOtp`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ aadhaarNumber: aadhar })
+            });
+            const data = await response.json();
+            console.log({ data })
+            if (data?.otpResponse?.data?.requestId) {
+                setVerifyOTPAadhar(true)
+                setRequestId(data?.otpResponse?.data?.requestId)
+            }
+        } catch (error) {
+            console.error('Error fetching OTP:', error);
+        }
+    };
+    const [userId, setUserId] = useState<string | null>(null);
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedUserId = localStorage.getItem('userId');
+            setUserId(storedUserId);
+        }
+    }, []);
+    console.log({ userId })
+
+    const handleVerifyAadharOTP = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchOkycData`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    currentUserId: userId,
+                    otp: otp,
+                    requestId,
+                    aadhaarNumber: aadhar
+                })
+            });
+            const data = await response.json();
+            console.log({ data })
+            if (data?.verificationResponse?.statusCode === 200) {
+                setCheckOTPAadhar(true);
+
+            }
+        } catch (error) {
+            console.error('Error fetching OTP:', error);
+        }
+    }
+    const handleSendPanOTP = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    panNumber: pan,
+                    currentUserId: userId
+                })
+            });
+            const data = await response.json();
+            console.log({ data })
+            if (data?.success) {
+                setCheckOTPPan(true);
+                setVerifyOTPPan(true);
+                setTimeout(() => {
+                    router.push("/payment");
+
+
+                }, 2000);
+
+            }
+        } catch (error) {
+            console.error('Error fetching OTP:', error);
+        }
+
+    }
+    const handleVerifyPanOTP = async () => {
+
+    }
+    const handleSendDLOTP = () => {
+        if (state.dLNumber != "") {
+            alert("Driving License OTP SENT");
+            setVerifyOTDL(true)
+        }
+    }
+    const handleVerifyDLOTP = () => {
+        if (state.dLOTP != "") {
+            setCheckOTPDL(true);
+        }
+    }
     return (
         <div>
             <main className='max-w-[1250px] m-auto'>
@@ -28,11 +158,12 @@ const PersonalDetails = (props: any) => {
                                 <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex  items-center justify-center">
                                     <div className="w-3 h-3 bg-[#ff0000]  p-2 rounded-full"></div>
                                 </div>
-                                <span className="ml-2 text-center text-xs">Personal Details</span>
+                                {/* <span className="ml-2 text-center text-xs">Personal Details</span> */}
+                                <span className="ml-2 text-center text-xs">Document Verification</span>
                             </div>
                         </div>
                         {/* Step 3 */}
-                        <div className="flex items-center">
+                        <div className="flex  items-center">
                             <div className="relative flex  flex-col gap-2 items-center">
                                 <div className="w-8 h-8 border-2 border-red-500 rounded-full bg-white flex  items-center justify-center">
                                     <div className="w-3 h-3 p-2 rounded-full"></div>
@@ -46,70 +177,81 @@ const PersonalDetails = (props: any) => {
 
                 <div className='grid grid-cols-1 sm:grid-cols-[55%_45%] gap-0 mt-10'>
 
-                    <section className='mx-auto'>
-                        <div className='my-6 p-6 sm:p-10 border flex flex-col items-center sm:gap-10 gap-4 rounded-lg shadow-md w-[390px] sm:w-full mx-auto'>
-                            <div className=''>
-                                <h1 className="text-[24px] sm:text-3xl font-bold">PERSONAL DETAILS</h1>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-5 w-full">
-                                <InputField type="text" className=" " placeholder="First Name" />
-                                <InputField type="text" className=" " placeholder="Last Name" />
-                                <input className={` h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB]`} type="date" placeholder="Date of Birth" />
-                                <select name="" id="" className={` h-[58px] pl-5 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB]`}>
-                                    <option value="Gender">Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
+
+                    <section className="mx-auto">
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                            <div className="">
+                                <h1 className="text-[36px] font-bold">Aadhar Verification</h1>
                             </div>
 
-                            <div className="flex flex-row gap-5 items-center sm:block hidden">
-                                <ThemeButton text="Back"
-                                    className='flex px-12 flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center text-md !text-[#F1301E] !border-[#F1301E] border-2 !bg-[#fff]' />
+                            <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex gap-5 sm:flex-row flex-col">
+                                <InputField type="text" name="aadharNumber" value={state.aadharNumber} onChange={handleChange} placeholder="Enter Aadhar Number" />
+                                <ThemeButton onClick={handleSendAadharOTP} text="Send Otp" className="w-[221px] h-[56px] 	" />
+                            </div>
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                {
+                                    verifyOTPAadhar ? <div className='flex justify-between ml-4 gap-0 w-[465px] '>
+                                        <InputField name="aadharOTP" value={state.aadharOTP} onChange={handleChange} type="text" placeholder="Enter OTP" className="mr-5" />
+                                        {
+                                            checkOTPAadhar ? <div><Image className='object-contain' src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyAadharOTP} className="w-[230px] h-[56px]" />
+                                        }
+                                    </div>
+                                        : ""
+                                }
 
-                                <ThemeButton text="Next" className='flex px-12 flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-md from-[#F1301E] to-[#FA4F2F]' />
                             </div>
 
                         </div>
-                        {/*  */}
-                        <div className='my-6 sm:w-full sm:p-10 border flex flex-col items-center rounded-lg shadow-md sm:mx-auto mx-4 p-4'>
-                            <div className=''>
-                                <h1 className="text-[24px] sm:text-3xl font-bold sm:mb-10 mb-6">DOCUMENT VERIFICATION</h1>
-                            </div>
-                            <div className="grid grid-cols-1 gap-2 sm:gap-5 w-full">
-                                <InputField type="text" placeholder="Enter PAN Number" />
-                                <InputField type="text" placeholder="Enter Driving License Number*" />
-                                <InputField type="text" placeholder="Enter AADHAR Number" />
+
+                        {/* aaadhar end */}
+
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                            <div className="">
+                                <h1 className="text-[36px] font-bold">Pan Card Verification</h1>
                             </div>
 
-                            <div className="flex flex-row gap-2 items-start sm:px-8 sm:px-2 mt-4 mb-4">
-                                <span className='text-[#000000] font-bold text-[16px]'>NOTE:</span>
-                                <p className="sm:text-[16px] text-sm text-justify">You need to submit your Driving License and Aadhar card after making payment to confirm your car booking</p>
-                            </div>
-                        </div>
-                        {/*  */}
-                        <div className='my-6 h-[345px] sm:w-full sm:h-fit p-6 sm:p-10 border flex  flex-col items-center justify-center gap-10 rounded-lg shadow-md mx-4 sm:mx-0'>
-                            <div className=''>
-                                <h1 className=" text-[24px] sm:text-3xl font-bold">DELIVERY ADDRESS</h1>
-                            </div>
-                            <div className="grid grid-cols-1 gap-2 sm:gap-5 w-full">
-                                <InputField type="text" placeholder="Enter Address" className="mb-4" />
-                                <div className="grid grid-cols-2 gap-2 sm:gap-5 w-full">
-                                    <InputField type="text" className=" " placeholder="State" />
-                                    <InputField type="text" className="" placeholder="Pincode" />
+                            <div className="w-[300px] sm:w-[100%] sm:h-[68px] flex justify-between gap-5 sm:flex-row  flex-col">
+                                <InputField type="text" name="panNumber" otp={state.panNumber.toUpperCase()} value={state.panNumber} onChange={handleChange} placeholder="Enter Pan Number" className="sm:w-[1000px] w-[300px] " />
+
+                                <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                    {verifyOTPPan
+                                        ? (
+                                            <Image src="/done.png" className='object-contain' width={40} height={40} alt='done' />
+                                        )
+                                        : (
+                                            < ThemeButton onClick={handleSendPanOTP} text="Verify Pan" className="w-[150px] h-[56px] " />
+                                        )
+                                    }
                                 </div>
-
                             </div>
-
-                            <div className="flex flex-row gap-5 items-start px-2">
-                                <ThemeButton text="Back"
-                                    className='px-12 flex  flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center text-md !text-[#F1301E] !border-[#F1301E] border-2 !bg-[#fff]' />
-
-                                <ThemeButton text="Next" className='px-12 flex  flex-row justify-center items-center font-semibold !drop-shadow-md !rounded-full !text-center bg-gradient-to-b text-md from-[#F1301E] to-[#FA4F2F]' />
-                            </div>
-
                         </div>
+                        {/* pan end */}
 
+                        {/* <div className="my-6 w-[390px] h-[415px] sm:h-[500px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                            <div className="">
+                                <h1 className="text-[36px] font-bold">Driving License Verification</h1>
+                            </div>
+
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                <InputField type="text" name="dLNumber" value={state.dLNumber} onChange={handleChange} placeholder="Enter Driving License Number" />
+                                <ThemeButton onClick={handleSendDLOTP} text="Send Otp" className="w-[221px] h-[56px] 	" />
+                            </div>
+                            <div className="w-[300px] sm:w-[494px] sm:h-[68px] flex gap-5 ">
+                                {
+                                    verifyOTPDL ? <div style={{ display: "flex", alignItems: "center", gap: "20px" }}> <InputField name="dLOTP" value={state.dLOTP} onChange={handleChange} type="text" placeholder="Enter OTP" />
+                                        {
+                                            checkOTPDL ? <div style={{ width: "240px" }}><Image src="/done.png" width={40} height={40} alt='done' /></div> : <ThemeButton text="VerifyOTP" onClick={handleVerifyDLOTP} className="w-[221px] h-[56px]" />
+                                        }
+                                    </div>
+                                        : ""
+                                }
+
+                            </div>
+
+                        </div> */}
+                        {/* DL end */}
                     </section>
+
 
                     <section className='px-4'>
                         <main className="flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md p-4 shadow-custom-shadow border">

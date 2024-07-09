@@ -11,8 +11,8 @@ const Header = () =>{
     }
     return(
         <>
-        <div className="flex justify-between sm:py-8 py-4 sm:px-14 px-8 items-center shadow-xl">
-            <div className="cursor-pointer">
+        <div className="flex justify-between sm:py-4 py-4 sm:px-14 px-8 items-center shadow-xl">
+            <div className="cursor-pointer w-[12%]">
                 <Image src={"/logo.svg"} alt="logo" width={170} height={47} className="sm:w-full w-[130px]"onClick={()=>router.push("/")} />
             </div>
             <ul className="sm:flex hidden gap-8">

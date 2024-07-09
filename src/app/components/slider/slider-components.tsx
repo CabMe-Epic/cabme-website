@@ -52,8 +52,7 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
           delay: 2000,
           disableOnInteraction: false,
         }}
-        onSwiper={(swiper) => console.log(swiper)}
-        // onSlideChange={() => console.log("slide change")}
+        onSwiper={(swiper) => console.log()}
       >
         <div className="grid grid-cols-3 gap-6 my-12">
           {fleetsArray?.map((item, index) => {
@@ -168,7 +167,7 @@ const fleetsArray = [
         speci: "5 Person",
       },
     ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    desc: "",
   },
   {
     badge: "Mahindra",
@@ -200,7 +199,7 @@ const fleetsArray = [
         speci: "5 Person",
       },
     ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
+    desc: "",
   },
   {
     badge: "Honda",
