@@ -196,7 +196,7 @@ const CarDetails = () => {
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div className="px-4">
             <ProductSlider
-              featuredImage={carDetails?.featuredImage?.image as any}
+              featuredImage={carDetails?.featuredImage as any}
               imageGallery={carDetails?.imageGallery as any}
             />
             {/* mobile view */}
