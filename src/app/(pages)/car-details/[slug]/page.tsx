@@ -225,7 +225,6 @@ const CarDetails = () => {
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* mobile view */}
-
             <div className="sm:hidden block">
               <main className="max-w-[511px] px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="max-w-[376px] h-[50px] w-full bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
