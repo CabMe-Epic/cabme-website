@@ -26,7 +26,10 @@ const Subscription = () => {
         </div>
         <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
           <div>
-            <ProductSlider />
+            <ProductSlider featuredImage={{
+              image: "",
+              alt: ""
+            }} />
 
             <div className="sm:hidden block my-4">
               <BookingDetailsCard />

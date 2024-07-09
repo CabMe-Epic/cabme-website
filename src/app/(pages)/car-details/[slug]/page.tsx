@@ -19,6 +19,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
+import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
+import BookingSummery from "@/app/components/booking-summery";
 
 const CarDetails = () => {
   const router = useRouter();
@@ -27,6 +29,7 @@ const CarDetails = () => {
   const [pickupTime, setPickupTime] = useState<string | null>(null);
   const [dropoffTime, setDropoffTime] = useState<string | null>(null);
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
+  const [promoCodes, setPromoCodes] = useState([]);
 
   const [currentPackage, setCurrentPackage] = useState<any>();
 
@@ -43,9 +46,6 @@ const CarDetails = () => {
 
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
-  console.log({ totalPrice })
-  console.log({ days })
-  console.log({ hours })
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -112,6 +112,21 @@ const CarDetails = () => {
       console.error('Error booking cab:', { error });
     }
   }
+
+  React.useEffect(() => {
+    const getPromoCodes = async () => {
+      try {
+        const data = await fetchPromoCodes();
+        setPromoCodes(data);
+      } catch (error) {
+        console.log({ error })
+      }
+    };
+
+    getPromoCodes();
+  }, [])
+
+  console.log({ promoCodes })
 
   const { slug } = useParams();
 
@@ -350,6 +365,7 @@ const CarDetails = () => {
             </div>
             {/* booking summary */}
             <div className="sm:block hidden">
+              {/* <BookingSummery/> */}
               <main className=" w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
@@ -442,7 +458,19 @@ const CarDetails = () => {
                       className="border-0 outline-0 bg-transparent w-[405px]"
                     >
                       <option value="View all promo coupons">
-                        View all promo coupons
+                        View all promo coupons1
+                      </option>
+                      <option value="View all promo coupons">
+                        View all promo coupons2
+                      </option>
+                      <option value="View all promo coupons">
+                        View all promo coupons3
+                      </option>
+                      <option value="View all promo coupons">
+                        View all promo coupons4
+                      </option>
+                      <option value="View all promo coupons">
+                        View all promo coupons5
                       </option>
                     </select>
                   </span>
