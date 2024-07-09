@@ -8,12 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Array<{ image: string, alt: string }>, featuredImage: { image: string, alt: string } }) => {
-
-
-
-  const finalArray = Array.isArray(imageGallery) ? [ featuredImage , ...imageGallery] : [featuredImage];
-  console.log(finalArray, "finalArray");
-  
+  const finalArray = Array.isArray(imageGallery) ? [featuredImage, ...imageGallery] : [featuredImage];
 
   return (
     <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider relative">
@@ -39,7 +34,8 @@ const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Ar
                 alt={item?.alt || "image"}
                 width={450}
                 height={450}
-                className="w-full h-auto"
+
+                className="w-full h-[450px] object-contain"
               />
             </div>
           </SwiperSlide>
@@ -59,7 +55,7 @@ const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Ar
               alt={item?.alt || "image"}
               width={152}
               height={107}
-              className="rounded-xl"
+              className="rounded-xl h-[100px] object-contain"
             />
           </div>
         ))}
