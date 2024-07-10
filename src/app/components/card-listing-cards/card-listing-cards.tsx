@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import ThemeButton from "../../components/theme-button/theme-button";
 import { useRouter } from "next/navigation";
 import ExclusionComponent from "../exclusion/exclusion";
+import FacilityComponent from "../facility/facility";
+import TermsAndConditions from "../terms-and-condition-tabs/terms-and-condition";
 
 const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
@@ -109,10 +111,10 @@ const CardListingCards = ({ data }: any) => {
             {data?.brandName}
           </span>
         </div>
-
+<div className="bg-[url('/png/listing-bg.png')]" style={{ backgroundSize: "100% 100%" }}>
         <main
-          className="bg-[url('/png/listing-bg.png')] sm:w-[1028px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat"
-          style={{ backgroundSize: "100% 100%" }}
+          className=" sm:w-[1028px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat"
+          
         >
           {/* ---------------------------------------- */}
           {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
@@ -148,7 +150,7 @@ const CardListingCards = ({ data }: any) => {
                 </div>
               </div>
               <div>
-                <div className="h-[274px]">
+                <div className="h-[274px] relative">
                   <div className="mt-5 flex flex-row items-center gap-4 mr-4 justify-end">
                     <div
                       onClick={() => {
@@ -286,9 +288,9 @@ const CardListingCards = ({ data }: any) => {
             </div> */}
                   </div>
                   {/*  */}
+                  <div className="flex flex-row justify-end mr-10 my-5">
                   {data?.bookingOptions?.selfDrive?.packageType
                     ?.extraKmsCharge && (
-                    <div className="flex flex-row justify-end mr-10 my-5">
                       <span>
                         Extra kms will be charged at{" "}
                         <span className="text-[#FF0000]">
@@ -299,13 +301,13 @@ const CardListingCards = ({ data }: any) => {
                           }
                         </span>
                       </span>
-                    </div>
                   )}
+                  </div>
 
                   {/*  */}
 
                   <div className="flex flex-row justify-between items-center mr-10">
-                    <div className="grid grid-cols-3 gap-y-6">
+                    <div className="grid grid-cols-3 gap-y-6 ml-4">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -384,7 +386,7 @@ const CardListingCards = ({ data }: any) => {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row justify-end items-center w-full !pr-10 relative gap-2 cursor-pointer mt-2">
+                  <div className="flex flex-row justify-end items-center w-full !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0">
                     <span
                       className="text-[#ff0000]"
                       onClick={() => setShowOptions(!showOptions)}
@@ -400,84 +402,7 @@ const CardListingCards = ({ data }: any) => {
                     />
                   </div>
                 </div>
-                {showOptions && (
-                  <div className="flex flex-col w-[680px] z-10 bg-red-50 p-4 rounded-xl drop-shadow">
-                    <div className="flex justify-between px-4 items-center gap-[30px] bg-white rounded-lg overflow-hidden shadow-lg">
-                      {tabs.map((tab) => (
-                        <button
-                          key={tab.name}
-                          className={`py-2 px-4 rounded-t-xl mt-2 ${
-                            activeTab === tab.name
-                              ? "bg-black text-white"
-                              : "bg-white text-black"
-                          }`}
-                          onClick={() => setActiveTab(tab.name)}
-                        >
-                          {tab.name}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="mt-0 flex justify-center">
-                      <div className="bg-white px-4 py-2 rounded-lg flex justify-around items-center w-full max-w-4xl">
-                        {activeTab === "Inclusions" && (
-                          <>
-                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                              <Image
-                                src="/carListingBanner/baseCar.png"
-                                width={25}
-                                height={25}
-                                objectFit="contain"
-                                alt="car"
-                              />
-                              <span className="text-sm">Base Fare</span>
-                            </div>
-                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                              <Image
-                                src="/carListingBanner/trip.png"
-                                width={25}
-                                height={25}
-                                objectFit="contain"
-                                alt="car"
-                              />
-                              <span className="text-sm">Trip Insurance</span>
-                            </div>
-                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                              <Image
-                                src="/carListingBanner/gst.png"
-                                width={25}
-                                height={10}
-                                objectFit="contain"
-                                alt="car"
-                              />
-                              <span className="text-sm">GST</span>
-                            </div>
-                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                              <Image
-                                src="/carListingBanner/deposit.png"
-                                width={25}
-                                height={25}
-                                objectFit="contain"
-                                alt="car"
-                              />
-                              <span className="text-sm">
-                                Refundable Security Deposit
-                              </span>
-                            </div>
-                          </>
-                        )}
-                        {activeTab === "Exclusion" && (
-                          <div>
-                            <ExclusionComponent />
-                          </div>
-                        )}
-                        {activeTab === "Facilities" && (
-                          <div>Facilities Content</div>
-                        )}
-                        {activeTab === "T&C" && <div>T&C Content</div>}
-                      </div>
-                    </div>
-                  </div>
-                )}
+               
               </div>
             </>
           ) : bookingOptionsHome ===
@@ -513,7 +438,7 @@ const CardListingCards = ({ data }: any) => {
                   </span>
                 </div>
               </div>
-              <div className="h-[274px]">
+              <div className="h-[274px] relative">
                 <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                   <div
                     onClick={() => {
@@ -637,9 +562,9 @@ const CardListingCards = ({ data }: any) => {
           </div> */}
                 </div>
                 {/*  */}
+                <div className="flex flex-row justify-end mr-10 my-5">
                 {data?.bookingOptions?.subscription?.packageType
                   ?.extraKmsCharge && (
-                  <div className="flex flex-row justify-end mr-10 my-5">
                     <span>
                       Extra kms will be charged at{" "}
                       <span className="text-[#FF0000]">
@@ -650,13 +575,13 @@ const CardListingCards = ({ data }: any) => {
                         }
                       </span>
                     </span>
-                  </div>
                 )}
+                </div>
 
                 {/*  */}
 
                 <div className="flex flex-row justify-between items-center mr-10">
-                  <div className="grid grid-cols-3 gap-y-6">
+                  <div className="grid grid-cols-3 gap-y-6 ml-4">
                     {data?.carFeatures?.bluetooth === true && (
                       <div className="flex flex-row items-center gap-2">
                         <Image
@@ -733,7 +658,7 @@ const CardListingCards = ({ data }: any) => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-row justify-end items-center w-full !pr-10 relative gap-2 cursor-pointer mt-2">
+                <div className="flex flex-row justify-end items-center w-full !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0">
                   <span
                     className="text-[#ff0000]"
                     onClick={() => setShowOptions(!showOptions)}
@@ -747,84 +672,7 @@ const CardListingCards = ({ data }: any) => {
                     height={10}
                     alt="bluetooth"
                   />
-                  {showOptions ? (
-                    <div className="flex flex-col w-[750px] z-10 absolute right-0 top-8 bg-red-50 p-4 rounded-xl drop-shadow">
-                      <div className="flex justify-between px-4 items-center gap-[30px] bg-white rounded-lg overflow-hidden shadow-lg">
-                        {tabs.map((tab) => (
-                          <button
-                            key={tab.name}
-                            className={`py-2 px-4 rounded-t-xl mt-2 ${
-                              activeTab === tab.name
-                                ? "bg-red-200 text-red-600"
-                                : "bg-red-600 text-white"
-                            }`}
-                            onClick={() => setActiveTab(tab.name)}
-                          >
-                            {tab.name}
-                          </button>
-                        ))}
-                      </div>
-                      <div className="mt-0 flex justify-center">
-                        <div className="bg-red-200 px-4 py-2 rounded-lg flex justify-around items-center w-full max-w-4xl">
-                          {activeTab === "Inclusions" && (
-                            <>
-                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                                <Image
-                                  src="/carListingBanner/baseCar.png"
-                                  width={25}
-                                  height={25}
-                                  objectFit="contain"
-                                  alt="car"
-                                />
-                                <span className="text-sm">Base Fare</span>
-                              </div>
-                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                                <Image
-                                  src="/carListingBanner/trip.png"
-                                  width={25}
-                                  height={25}
-                                  objectFit="contain"
-                                  alt="car"
-                                />
-                                <span className="text-sm">Trip Insurance</span>
-                              </div>
-                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                                <Image
-                                  src="/carListingBanner/gst.png"
-                                  width={25}
-                                  height={10}
-                                  objectFit="contain"
-                                  alt="car"
-                                />
-                                <span className="text-sm">GST</span>
-                              </div>
-                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px]">
-                                <Image
-                                  src="/carListingBanner/deposit.png"
-                                  width={25}
-                                  height={25}
-                                  objectFit="contain"
-                                  alt="car"
-                                />
-                                <span className="text-sm">
-                                  Refundable Security Deposit
-                                </span>
-                              </div>
-                            </>
-                          )}
-                          {activeTab === "Exclusion" && (
-                            <div>Exclusion Content</div>
-                          )}
-                          {activeTab === "Facilities" && (
-                            <div>Facilities Content</div>
-                          )}
-                          {activeTab === "T&C" && <div>T&C Content</div>}
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                 
                 </div>
               </div>
             </>
@@ -862,7 +710,7 @@ const CardListingCards = ({ data }: any) => {
                       </span>
                     </div>
                   </div>
-                  <div className="h-[274px]">
+                  <div className="h-[274px] relative">
                     <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                       <div
                         onClick={() =>
@@ -980,9 +828,9 @@ const CardListingCards = ({ data }: any) => {
 </div> */}
                     </div>
                     {/*  */}
+                    <div className="flex flex-row justify-end mr-10 my-5">
                     {data?.bookingOptions?.withDriver?.local?.packageType
                       ?.extraKmsCharge && (
-                      <div className="flex flex-row justify-end mr-10 my-5">
                         <span>
                           Extra kms will be charged at{" "}
                           <span className="text-[#FF0000]">
@@ -993,13 +841,13 @@ const CardListingCards = ({ data }: any) => {
                             }
                           </span>
                         </span>
-                      </div>
                     )}
+                    </div>
 
                     {/*  */}
 
                     <div className="flex flex-row justify-between items-center mr-10">
-                      <div className="grid grid-cols-3 gap-y-6">
+                      <div className="grid grid-cols-3 gap-y-6 ml-4">
                         {data?.carFeatures?.bluetooth === true && (
                           <div className="flex flex-row items-center gap-2">
                             <Image
@@ -1076,7 +924,7 @@ const CardListingCards = ({ data }: any) => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-row justify-end items-center w-full !pr-10 relative gap-2 cursor-pointer mt-2">
+                    <div className="flex flex-row justify-end items-center w-full !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0">
                       <span
                         className="text-[#ff0000]"
                         onClick={() => setShowOptions(!showOptions)}
@@ -1207,7 +1055,7 @@ const CardListingCards = ({ data }: any) => {
                       </span>
                     </div>
                   </div>
-                  <div className="h-[274px]">
+                  <div className="h-[274px] relative">
                     <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                       <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                         <span className="font-bold text-[18px] ">
@@ -1308,7 +1156,7 @@ const CardListingCards = ({ data }: any) => {
                     {/*  */}
 
                     <div className="flex flex-row justify-between items-center mr-10">
-                      <div className="grid grid-cols-3 gap-y-6">
+                      <div className="grid grid-cols-3 gap-y-6 ml-4">
                         {data?.carFeatures?.bluetooth === true && (
                           <div className="flex flex-row items-center gap-2">
                             <Image
@@ -1385,7 +1233,7 @@ const CardListingCards = ({ data }: any) => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-row justify-end items-center w-full !pr-10 relative gap-2 cursor-pointer mt-2">
+                    <div className="flex flex-row justify-end items-center w-full !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0">
                       <span
                         className="text-[#ff0000]"
                         onClick={() => setShowOptions(!showOptions)}
@@ -1491,6 +1339,89 @@ const CardListingCards = ({ data }: any) => {
             ""
           )}
         </main>
+        {showOptions && (
+                  <div className="flex flex-col w-full z-10 bg-red-50 p-4 rounded-xl drop-shadow p-4">
+                    <div className="flex justify-between px-4 items-center gap-[30px] bg-white rounded-lg overflow-hidden shadow-lg">
+                      {tabs.map((tab) => (
+                        <button
+                          key={tab.name}
+                          className={`py-2 px-4 rounded-t-xl mt-2 w-full ${
+                            activeTab === tab.name
+                              ? "bg-white text-primary font-bold"
+                              : "bg-black text-white"
+                          }`}
+                          onClick={() => setActiveTab(tab.name)}
+                        >
+                          {tab.name}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="mt-0 flex w-full justify-between">
+                      <div className="bg-white px-4 py-4 rounded-lg flex justify-around items-center w-full">
+                        {activeTab === "Inclusions" && (
+                          <div className="grid grid-cols-4 gap-4">
+                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                              <Image
+                                src="/carListingBanner/baseCar.png"
+                                width={25}
+                                height={25}
+                                objectFit="contain"
+                                alt="car"
+                              />
+                              <span className="text-sm font-semibold">Base Fare</span>
+                            </div>
+                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                              <Image
+                                src="/carListingBanner/trip.png"
+                                width={25}
+                                height={25}
+                                objectFit="contain"
+                                alt="car"
+                              />
+                              <span className="text-xs font-semibold">Trip Insurance</span>
+                            </div>
+                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                              <Image
+                                src="/carListingBanner/gst.png"
+                                width={25}
+                                height={10}
+                                objectFit="contain"
+                                alt="car"
+                              />
+                              <span className="text-xs font-semibold">GST</span>
+                            </div>
+                            <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                              <Image
+                                src="/carListingBanner/deposit.png"
+                                width={25}
+                                height={25}
+                                objectFit="contain"
+                                alt="car"
+                              />
+                              <span className="font-semibold text-xs">
+                                Refundable Security Deposit
+                              </span>
+                            </div>
+                          </div>
+                        )}
+                        {activeTab === "Exclusion" && (
+                          <div className="w-full">
+                            <ExclusionComponent />
+                          </div>
+                        )}
+                        {activeTab === "Facilities" && (
+                          <div className="w-full">
+                            <FacilityComponent />
+                          </div>
+                        )}
+                        {activeTab === "T&C" && <div className="w-full">
+                          <TermsAndConditions />
+                          </div>}
+                      </div>
+                    </div>
+                  </div>
+                )}
+        </div>
         {/* mobile view for car listing */}
         <section>
           <div

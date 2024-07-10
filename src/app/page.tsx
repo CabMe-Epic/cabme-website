@@ -127,20 +127,21 @@ export default function Home() {
     setPickupDate(result);
     const getpickupTime = convertTime(event);
     setPickupTime(getpickupTime);
-    // console.log(getpickupTime,"pkk");
+    console.log(getpickupTime,"pkk");
 
     // console.log(result, "resss");
   };
   //extracting date from calender
 
   const hanldedropoffTime = (event: any) => {
+    console.log(event,"joo");
     // setDropoffTime(event?.target?.value);
     const result = convert(event);
     setDropDate(event);
     setDropoffDate(result)
     const getDropoffTime = convertTime(event);
     setDropoffTime(getDropoffTime);
-    // console.log(result, "drrrr");
+    console.log(getDropoffTime, "drrrr");
     // console.log(event, "dropoff time");
   };
 
@@ -158,10 +159,10 @@ export default function Home() {
   return (
     <>
       <div
-        className="bg-[url('/home-banner.png')] sm:h-[370px] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center mx-20 mt-6"
+        className="bg-[url('/latest-home.png')] rounded-2xl sm:h-[370px] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center mx-20 mt-6"
         style={{ backgroundSize: "100% 100%" }}
       >
-        <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
+        {/* <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
           <h1 className="sm:text-4xl text-[20px] font-semibold sm:mt-8 mt-2">
             Experience innovation on
           </h1>
@@ -173,7 +174,7 @@ export default function Home() {
               </b>
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="max-w-[1250px] h-[220px] sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative">
         <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
@@ -254,16 +255,24 @@ export default function Home() {
                         )}
                         {item?.id === "date" && (
                           <div className="flex gap-2">
-                            <input
+                            {/* <input
                               type="date"
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
+<<<<<<< HEAD
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (e) => handlePickupDate(e)
+                                  : (ev) => handleDropOffDate(ev)
+                              }
+=======
                             // onChange={
                             //   item?.heading === "Pick Up Date"
                             //     ? (e) => handlePickupDate(e)
                             //     : (ev) => handleDropOffDate(ev)
                             // }
+>>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                             />
                             <input
                               type="time"
@@ -274,7 +283,23 @@ export default function Home() {
                                   ? (event) => hanldepickupTime(event)
                                   : (event) => hanldedropoffTime(event)
                               }
-                            />
+                            /> */}<DatePicker
+                          className="cursor-pointer"
+                          selected={
+                            item?.heading === "Pick Up Date"
+                              ? startDate
+                              : dropDate
+                          }
+                          onChange={
+                            item?.heading === "Pick Up Date"
+                              ? (date) => hanldepickupTime(date)
+                              : (date) => hanldedropoffTime(date)
+                            // (date) => setStartDate(date)
+                          }
+                          showTimeSelect
+                          filterTime={filterPassedTime}
+                          dateFormat="MMMM d, yyyy h:mm aa"
+                        />
                           </div>
                         )}
                       </div>
@@ -336,16 +361,24 @@ export default function Home() {
                         )}
                         {item?.id === "date" && (
                           <div className="flex gap-2">
-                            <input
+                            {/* <input
                               type="date"
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
+<<<<<<< HEAD
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (e) => handlePickupDate(e)
+                                  : (ev) => handleDropOffDate(ev)
+                              }
+=======
                             // onChange={
                             //   item?.heading === "Pick Up Date"
                             //     ? (e) => handlePickupDate(e)
                             //     : (ev) => handleDropOffDate(ev)
                             // }
+>>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                             />
                             <input
                               type="time"
@@ -356,7 +389,24 @@ export default function Home() {
                                   ? (event) => hanldepickupTime(event)
                                   : (event) => hanldedropoffTime(event)
                               }
-                            />
+                            /> */}
+                            <DatePicker
+                          className="cursor-pointer"
+                          selected={
+                            item?.heading === "Pick Up Date"
+                              ? startDate
+                              : dropDate
+                          }
+                          onChange={
+                            item?.heading === "Pick Up Date"
+                              ? (date) => hanldepickupTime(date)
+                              : (date) => hanldedropoffTime(date)
+                            // (date) => setStartDate(date)
+                          }
+                          showTimeSelect
+                          filterTime={filterPassedTime}
+                          dateFormat="MMMM d, yyyy h:mm aa"
+                        />
                           </div>
                         )}
                       </div>
@@ -419,16 +469,24 @@ export default function Home() {
                       )}
                       {item?.id === "date" && (
                         <div className="flex gap-2">
-                          <input
+                          {/* <input
                             type="date"
                             name="date"
                             id="date"
                             className="outline-red-500 w-fit h-8"
+<<<<<<< HEAD
+                            onChange={
+                              item?.heading === "Pick Up Date"
+                                ? (e) => handlePickupDate(e)
+                                : (ev) => handleDropOffDate(ev)
+                            }
+=======
                           // onChange={
                           //   item?.heading === "Pick Up Date"
                           //     ? (e) => handlePickupDate(e)
                           //     : (ev) => handleDropOffDate(ev)
                           // }
+>>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                           />
                           <input
                             type="time"
@@ -439,7 +497,24 @@ export default function Home() {
                                 ? (event) => hanldepickupTime(event)
                                 : (event) => hanldedropoffTime(event)
                             }
-                          />
+                          /> */}
+                          <DatePicker
+                          className="cursor-pointer"
+                          selected={
+                            item?.heading === "Pick Up Date"
+                              ? startDate
+                              : dropDate
+                          }
+                          onChange={
+                            item?.heading === "Pick Up Date"
+                              ? (date) => hanldepickupTime(date)
+                              : (date) => hanldedropoffTime(date)
+                            // (date) => setStartDate(date)
+                          }
+                          showTimeSelect
+                          filterTime={filterPassedTime}
+                          dateFormat="MMMM d, yyyy h:mm aa"
+                        />
                         </div>
                       )}
                     </div>
