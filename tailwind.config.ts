@@ -19,7 +19,8 @@ const config: Config = {
         'custom-inner': '1px 0px 10px 0px #00000040 inset;',
         'top-shadow': '0px -4px 4px 0px #00000040;',
         'bottom-shadow': '0px 4px 4px 0px #00000040;',
-        'filter-shadow' : '0px 4px 20.2px 0px #0000001F'
+        'filter-shadow' : '0px 4px 20.2px 0px #0000001F',
+        'tabs-shadow': '0px 2px 2px 0px #00000040'
       }
     },
     screens:{
