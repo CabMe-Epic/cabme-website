@@ -12,6 +12,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { useEffect, useState } from "react";
 
 const ProductSlider = ({
   imageGallery = [],
@@ -23,7 +24,22 @@ const ProductSlider = ({
   const finalArray = Array.isArray(imageGallery)
     ? [featuredImage, ...imageGallery]
     : [featuredImage];
+    const [isMobile, setIsMobile] = useState(false);
 
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 576);
+      };
+  
+      handleResize();
+  
+      window.addEventListener("resize", handleResize);
+  
+      // Cleanup
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
   return (
     <div className="p-4 hidden-slide shadow-product-shadow border border-[#f8f4f4] product-slider relative">
       <Swiper
@@ -53,7 +69,7 @@ const ProductSlider = ({
             </div>
           </SwiperSlide>
         ))}
-        {window?.innerWidth > 600 ? (
+        {!isMobile  ? (
           <>
             <div className="sm:flex !hidden left mobile-hidden swiper-button-prev absolute top-1/2 left-2 transform  bg-white shadow-custom-shadow items-center justify-center sm:!w-8 sm:!h-8 !w-6 !h-6">
               <Image
