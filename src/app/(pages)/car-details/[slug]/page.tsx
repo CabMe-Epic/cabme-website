@@ -479,7 +479,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                       <span className="w-[220px] ml-10">TOTAL</span>
                       <span className="w-[220px] ml-10 text-[#ff0000]">
-                        ₹ {discountAmount.toFixed(2)}
+                        ₹ {totalPrice.toFixed(2)}
                       </span>
                     </div>
                   ) : (
@@ -551,10 +551,11 @@ const CarDetails = () => {
                     <button className="text-[#ff0000]" onClick={handleApplyPromoCode}>Apply</button>
                   </div>
 
+                  {/* DESKTOP TOTAL AMOUNT  */}
                   <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
                     {discountAmount > 0 ? (
                       <div className="flex flex-col">
-                        <span>Total Amount</span>
+                        <span>Total Amount </span>
                         <span className="text-[#ff0000] p-0 text-2xl font-bold">
                           ₹ {discountAmount.toFixed(2)}
                         </span>
