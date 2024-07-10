@@ -75,8 +75,8 @@ export default function Home() {
     localStorage.setItem("pickupDate", pickupDate);
     localStorage.setItem("dropOffDate", dropOffDate);
     localStorage.setItem("tabValue", tabValue);
-    localStorage.setItem("pickupTime",pickupTime);
-    localStorage.setItem("dropoffTime",dropoffTime)
+    localStorage.setItem("pickupTime", pickupTime);
+    localStorage.setItem("dropoffTime", dropoffTime)
 
     tabValue === "Driver"
       ? localStorage.setItem("radioToggle", radioToggle)
@@ -103,21 +103,21 @@ export default function Home() {
 
 
 
-//set date and time in local storage from date picker
+  //set date and time in local storage from date picker
   function convert(str: any) {
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
       day = ("0" + date.getDate()).slice(-2);
-     
+
     return [date.getFullYear(), mnth, day].join("-");
   }
   function convertTime(str: any) {
     var date = new Date(str);
-     
-        const hours  = ("0" + date.getHours()).slice(-2);
-        const minutes = ("0" + date.getMinutes()).slice(-2);
-        return [ hours, minutes ].join(":");
-}
+
+    const hours = ("0" + date.getHours()).slice(-2);
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+    return [hours, minutes].join(":");
+  }
   const hanldepickupTime = (event: any) => {
     // setPickupTime(event.target.value);
     setStartDate(event);
@@ -125,14 +125,14 @@ export default function Home() {
     console.log(event, "timeee");
     const result = convert(event);
     setPickupDate(result);
-    const getpickupTime=convertTime(event);
+    const getpickupTime = convertTime(event);
     setPickupTime(getpickupTime);
     console.log(getpickupTime,"pkk");
 
     // console.log(result, "resss");
   };
   //extracting date from calender
- 
+
   const hanldedropoffTime = (event: any) => {
     console.log(event,"joo");
     // setDropoffTime(event?.target?.value);
@@ -181,11 +181,10 @@ export default function Home() {
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-6 text-lg ${
-                  value?.tabsValue === tabValue
+                className={`cursor-pointer w-full text-center py-6 text-lg ${value?.tabsValue === tabValue
                     ? "bg-primary-color text-white font-semibold"
                     : "bg-[#EFF1FB]"
-                }`}
+                  }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -216,9 +215,8 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${
-                        index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
+                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -262,11 +260,19 @@ export default function Home() {
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
+<<<<<<< HEAD
                               onChange={
                                 item?.heading === "Pick Up Date"
                                   ? (e) => handlePickupDate(e)
                                   : (ev) => handleDropOffDate(ev)
                               }
+=======
+                            // onChange={
+                            //   item?.heading === "Pick Up Date"
+                            //     ? (e) => handlePickupDate(e)
+                            //     : (ev) => handleDropOffDate(ev)
+                            // }
+>>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                             />
                             <input
                               type="time"
@@ -316,9 +322,8 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${
-                        index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
+                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -361,11 +366,19 @@ export default function Home() {
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
+<<<<<<< HEAD
                               onChange={
                                 item?.heading === "Pick Up Date"
                                   ? (e) => handlePickupDate(e)
                                   : (ev) => handleDropOffDate(ev)
                               }
+=======
+                            // onChange={
+                            //   item?.heading === "Pick Up Date"
+                            //     ? (e) => handlePickupDate(e)
+                            //     : (ev) => handleDropOffDate(ev)
+                            // }
+>>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                             />
                             <input
                               type="time"
@@ -420,9 +433,8 @@ export default function Home() {
                 return (
                   <div
                     key={index}
-                    className={`flex w-full gap-4 ${
-                      index < 3 ? "border-r-2 mr-6 border-black" : ""
-                    }`}
+                    className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
                   >
                     <div className="mt-2">
                       <Image
@@ -462,11 +474,19 @@ export default function Home() {
                             name="date"
                             id="date"
                             className="outline-red-500 w-fit h-8"
+<<<<<<< HEAD
                             onChange={
                               item?.heading === "Pick Up Date"
                                 ? (e) => handlePickupDate(e)
                                 : (ev) => handleDropOffDate(ev)
                             }
+=======
+                          // onChange={
+                          //   item?.heading === "Pick Up Date"
+                          //     ? (e) => handlePickupDate(e)
+                          //     : (ev) => handleDropOffDate(ev)
+                          // }
+>>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                           />
                           <input
                             type="time"
@@ -517,9 +537,8 @@ export default function Home() {
               return (
                 <div
                   key={index}
-                  className={`flex w-full gap-4 ${
-                    index < 3 ? "border-r-2 mr-6 border-black" : ""
-                  }`}
+                  className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                    }`}
                 >
                   <div className="mt-2">
                     <Image
@@ -617,19 +636,17 @@ export default function Home() {
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2">
             <div
-              className={`${
-                mobileTabValue === "Rentals" ? "bg-white text-black" : ""
-              } rounded-xl px-4 py-[8px] text-center`}
+              className={`${mobileTabValue === "Rentals" ? "bg-white text-black" : ""
+                } rounded-xl px-4 py-[8px] text-center`}
               onClick={() => setMobileTabValue("Rentals")}
             >
               Rentals
             </div>
             <div
-              className={`${
-                mobileTabValue === "Subscriptions"
+              className={`${mobileTabValue === "Subscriptions"
                   ? "bg-white text-black"
                   : "text-white"
-              } rounded-xl px-4 py-[8px] text-center`}
+                } rounded-xl px-4 py-[8px] text-center`}
               onClick={() => setMobileTabValue("Subscriptions")}
             >
               Subscriptions
@@ -639,11 +656,10 @@ export default function Home() {
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full">
             <div
-              className={`${
-                switchRadio === "Self Driven"
+              className={`${switchRadio === "Self Driven"
                   ? "bg-black text-white"
                   : "text-black"
-              } p-2 rounded-l-full text-center px-4`}
+                } p-2 rounded-l-full text-center px-4`}
               onClick={() => setSwitchRadio("Self Driven")}
             >
               <input
@@ -657,9 +673,8 @@ export default function Home() {
               </label>
             </div>
             <div
-              className={`p-2 rounded-full text-center px-4 ${
-                switchRadio === "Driver" ? "bg-black text-white" : "text-black"
-              }`}
+              className={`p-2 rounded-full text-center px-4 ${switchRadio === "Driver" ? "bg-black text-white" : "text-black"
+                }`}
               onClick={() => setSwitchRadio("Driver")}
             >
               <input
@@ -708,8 +723,8 @@ export default function Home() {
             {radioToggle === "Local"
               ? "Pick-up location"
               : switchRadio === "Self Driven"
-              ? "Pick-up location"
-              : "Pick-up City"}
+                ? "Pick-up location"
+                : "Pick-up City"}
           </label>
           <div
             className={`border rounded-xl p-2 flex gap-2 mt-2    
@@ -845,7 +860,7 @@ export default function Home() {
                   name="pickuptime"
                   id=""
                   className="w-[150px] outline-none"
-                  // onChange={(event)=>setMobilepickuptime(event?.target?.value)}
+                // onChange={(event)=>setMobilepickuptime(event?.target?.value)}
                 />
               </div>
             </div>
@@ -865,22 +880,22 @@ export default function Home() {
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer==="Daily Offers" ? "bg-primary-color" :"bg-black"} text-white rounded-l-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"} text-white rounded-l-full cursor-pointer`}
             onClick={() => setOffer("Daily Offers")}
           >
             Daily Offers
           </div>
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer==="Daily Offers" ? "bg-black" :"bg-primary-color"} text-white rounded-r-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"} text-white rounded-r-full cursor-pointer`}
             onClick={() => setOffer("Monthly Offers")}
           >
             Monthly Offers
           </div>
         </div>
         {offer === "Daily Offers" && <OfferCards dailyOffer />}
-        {offer === "Monthly Offers" && 
-        <OfferCards monthlyOffer />
-        
+        {offer === "Monthly Offers" &&
+          <OfferCards monthlyOffer />
+
         }
       </div>
       <div className="max-w-[1250px] m-auto sm:my-20 my-6">
@@ -932,27 +947,26 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className={`p-6 relative w-[261px] h-[261px] ${index%2===0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} sm:m-0 m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`p-6 relative w-[261px] h-[261px] ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} sm:m-0 m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full ml-[15px]">
                   {item?.steps}
                 </span>
                 <div className="mt-[-17px]">
-                <Image
-                  src={item?.imageUrl}
-                  alt="image"
-                  width={62}
-                  height={62}
-                  className={`${
-                    item?.imageUrl === "/svg/car-vector.svg"
-                      ? "w-[130px]"
-                      : "w-auto"
-                  } h-[62px] m-auto mb-4`}
-                />
-                <div className="text-center">
-                  <h3 className="font-semibold text-xl">{item?.title}</h3>
-                  <p className="text-xs mt-2 !w-[180px] m-auto">{item?.desc}</p>
-                </div>
+                  <Image
+                    src={item?.imageUrl}
+                    alt="image"
+                    width={62}
+                    height={62}
+                    className={`${item?.imageUrl === "/svg/car-vector.svg"
+                        ? "w-[130px]"
+                        : "w-auto"
+                      } h-[62px] m-auto mb-4`}
+                  />
+                  <div className="text-center">
+                    <h3 className="font-semibold text-xl">{item?.title}</h3>
+                    <p className="text-xs mt-2 !w-[180px] m-auto">{item?.desc}</p>
+                  </div>
                 </div>
                 {index < 3 ? (
                   <Image

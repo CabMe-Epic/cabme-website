@@ -22,6 +22,29 @@ import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
 import BookingSummery from "@/app/components/booking-summery";
 
+interface PromoCode {
+  code: string;
+  promocodeType: string;
+  promocodeDescription: string;
+  couponExpiryDate: Date;
+  usageLimits: number;
+  couponAmount: number;
+  maximumDiscount: number;
+  selectDiscount: string;
+  couponStartDate: Date;
+  minimumBookingDay: number;
+  usageRestriction: string;
+  promotionClassification: string;
+  customerContact?: string;
+}
+
+const initialDiscountState = {
+  selectedPromocodeOption: null,
+  discountAmount: 0,
+  discountAppliedAmount: 0,
+  selectedDiscountType: null
+};
+
 const CarDetails = () => {
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
@@ -40,6 +63,11 @@ const CarDetails = () => {
   const [bookingOpt, setBookingOpt] = useState<any>();
 
 
+  const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<string | any>();
+  const [discountAmount, setDiscountAmount] = useState<number>(0);
+  const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
+  const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
+
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
   const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
@@ -57,7 +85,6 @@ const CarDetails = () => {
       setSelectedTabValue(storedTabValue)
     }
   }, []);
-  console.log(pickupTime,dropoffTime,"lkkk");
 
   const pickupDateTimeString = pickupTime ? `${pickupDate}T${pickupTime}:00.000Z` : null;
   const droppingDateTimeString = dropoffTime ? `${dropoffDate}T${dropoffTime}:00.000Z` : null;
@@ -86,8 +113,12 @@ const CarDetails = () => {
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
-    promocode: "",
-    totalAmount: Number(totalPrice.toFixed(2)),
+    promocode: {
+      code: selectedPromocodeOption ? selectedPromocodeOption : null,
+      discountType: selectedDiscountType ? selectedDiscountType : null,
+      discountAmount: Number(discountAppliedAmount.toFixed(2)),
+    },
+    totalAmount: discountAmount > 0 ? Number(discountAmount.toFixed(2)) : Number(totalPrice.toFixed(2)),
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
@@ -117,7 +148,7 @@ const CarDetails = () => {
     const getPromoCodes = async () => {
       try {
         const data = await fetchPromoCodes();
-        setPromoCodes(data);
+        setPromoCodes(data?.promocodes);
       } catch (error) {
         console.log({ error })
       }
@@ -126,7 +157,40 @@ const CarDetails = () => {
     getPromoCodes();
   }, [])
 
-  console.log({ promoCodes })
+
+  const handleChangePromocodeOption = (e: any) => {
+    setSelectedPromocodeOption(e.target.value)
+  }
+
+  const handleApplyPromoCode = () => {
+    if (selectedPromocodeOption) {
+      const selectedPromoCode = promoCodes.find((code: PromoCode) => code.code === selectedPromocodeOption) as PromoCode | undefined;
+      console.log({ selectedPromoCode });
+      if (selectedPromoCode) {
+        if (selectedPromoCode.selectDiscount === 'Percentage') {
+          const discount = (selectedPromoCode.couponAmount / 100) * totalPrice;
+          const discountedPrice = totalPrice - discount;
+          setDiscountAmount(discountedPrice);
+          setDiscountAppliedAmount(discount);
+          setSelectedDiscountType(selectedPromoCode.selectDiscount)
+        } else if (selectedPromoCode.selectDiscount === 'Fixed') {
+          const discountedPrice = totalPrice - selectedPromoCode.couponAmount;
+          setDiscountAmount(discountedPrice);
+          setDiscountAppliedAmount(selectedPromoCode.couponAmount);
+          setSelectedDiscountType(selectedPromoCode.selectDiscount)
+        }
+      } else {
+        setDiscountAmount(0);
+        setDiscountAppliedAmount(0);
+        setSelectedPromocodeOption(null)
+        setSelectedDiscountType(null)
+        alert("Clear coupon");
+      }
+    } else {
+      alert("Please select a promo code first.");
+    }
+  };
+
 
   const { slug } = useParams();
 
@@ -150,9 +214,9 @@ const CarDetails = () => {
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const storedPickupTime = localStorage.getItem('pickupTime');
-      const storedDropoffTime = localStorage.getItem('dropoffTime');
+    const storedDropoffTime = localStorage.getItem('dropoffTime');
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice")
-    
+
     setPackagePrice(selectedPackagePrice)
     setPickupDate(getPickup);
     setDropoffDate(getDropoff)
@@ -161,7 +225,6 @@ const CarDetails = () => {
     getCarDetails();
   }, [getCarDetails]);
 
-  console.log({ carDetails });
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
@@ -177,7 +240,6 @@ const CarDetails = () => {
     getCarDetails();
     // price();
   }, []);
-  console.log(typeof packagePrice, "pppppp");
   React.useEffect(() => {
     {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
@@ -204,7 +266,6 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice)
   }
 
-
   return (
     <>
       <div className="py-6">
@@ -225,7 +286,6 @@ const CarDetails = () => {
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* mobile view */}
-
             <div className="sm:hidden block">
               <main className="max-w-[511px] px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="max-w-[376px] h-[50px] w-full bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
@@ -415,12 +475,21 @@ const CarDetails = () => {
                   </div>
 
                   {/* DESKTOP ...  */}
-                  <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                    <span className="w-[220px] ml-10">TOTAL</span>
-                    <span className="w-[220px] ml-10 text-[#ff0000]">
-                      ₹ {totalPrice.toFixed(2)}
-                    </span>
-                  </div>
+                  {discountAmount > 0 ? (
+                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
+                      <span className="w-[220px] ml-10">TOTAL</span>
+                      <span className="w-[220px] ml-10 text-[#ff0000]">
+                        ₹ {discountAmount.toFixed(2)}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
+                      <span className="w-[220px] ml-10">TOTAL</span>
+                      <span className="w-[220px] ml-10 text-[#ff0000]">
+                        ₹ {totalPrice.toFixed(2)}
+                      </span>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Kms Limit</span>
@@ -456,22 +525,18 @@ const CarDetails = () => {
                       name="offer"
                       id="offer"
                       className="border-0 outline-0 bg-transparent w-[405px]"
+                      onChange={(e) => handleChangePromocodeOption(e)}
                     >
+
                       <option value="View all promo coupons">
-                        View all promo coupons1
+                        View all promo coupons
                       </option>
-                      <option value="View all promo coupons">
-                        View all promo coupons2
-                      </option>
-                      <option value="View all promo coupons">
-                        View all promo coupons3
-                      </option>
-                      <option value="View all promo coupons">
-                        View all promo coupons4
-                      </option>
-                      <option value="View all promo coupons">
-                        View all promo coupons5
-                      </option>
+                      {promoCodes?.map((item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {item.code}
+                        </option>
+                      ))}
+
                     </select>
                   </span>
 
@@ -480,17 +545,29 @@ const CarDetails = () => {
                       type="text"
                       placeholder="DJF4D4F"
                       className="w-full border-0 outline-none pr-4 text-[#888787]"
+                      value={selectedPromocodeOption}
+                      readOnly
                     />
-                    <button className="text-[#ff0000]">Apply</button>
+                    <button className="text-[#ff0000]" onClick={handleApplyPromoCode}>Apply</button>
                   </div>
 
                   <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
-                    <div className="flex flex-col">
-                      <span>Total Amount</span>
-                      <span className="text-[#ff0000] p-0 text-2xl font-bold">
-                        ₹ {totalPrice.toFixed(2)}
-                      </span>
-                    </div>
+                    {discountAmount > 0 ? (
+                      <div className="flex flex-col">
+                        <span>Total Amount</span>
+                        <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                          ₹ {discountAmount.toFixed(2)}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col">
+                        <span>Total Amount</span>
+                        <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                          ₹ {totalPrice.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+
                     <div>
 
                       {/* Desktop button ... */}

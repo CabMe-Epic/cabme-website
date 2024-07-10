@@ -8,12 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 const ProductSlider = ({ imageGallery = [], featuredImage }: { imageGallery?: Array<{ image: string, alt: string }>, featuredImage: { image: string, alt: string } }) => {
-
-
-
-  const finalArray = Array.isArray(imageGallery) ? [ featuredImage , ...imageGallery] : [featuredImage];
-  console.log(finalArray, "finalArray");
-  
+  const finalArray = Array.isArray(imageGallery) ? [featuredImage, ...imageGallery] : [featuredImage];
 
   return (
     <div className="p-4 shadow-xl border border-[#f8f4f4] product-slider relative">
