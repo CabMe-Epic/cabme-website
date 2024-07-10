@@ -31,6 +31,7 @@
   }
   .swiper-initialized{
     padding: 5% 0 !important;
+
   }
   .swiper-pagination{
     bottom: -5px !important;
@@ -103,5 +104,10 @@
     .review-slider  .swiper-slide-next{
       transform: scale(1);
     }
-   
+    .swiper-initialized{
+      padding-bottom: 10px !important;
+    }
+    .product-slider .swiper-button-next,  .product-slider .swiper-button-prev{
+    /* display: none !important; */
+   }
   }

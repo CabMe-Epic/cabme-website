@@ -35,16 +35,16 @@ const BookingDetailsCard = ({ city }: any) => {
 
   return (
     <div>
-      <main className="max-w-[511px] px-2 border-[1.5px] rounded-md flex bg-[#f7f7f7] flex-col items-center justify-center py-6">
-        <div className="max-w-[376px]">
-          <div className="h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
-            <span className="text-center">Booking Details</span>
+      <main className="bg-[url('/png/details-bg.png')] bg-no-repeat bg-cover max-w-[511px] px-2 rounded-xl flex bg-[#f7f7f7] flex-col items-center justify-center py-6" style={{backgroundSize:"100% 100%"}}>
+        <div className="max-w-[376px] sm:py-0 sm:px-0 px-4">
+          <div className="sm:h-[50px] h-[43px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl w-[80%] m-auto sm:w-[100%]">
+            <span className="text-center sm:text-md text-[18px]">Booking Details</span>
           </div>
           <div className="font-bold flex justify-center my-5  text-[18px]">
             <span className="font-semibold">Location : </span>{" "}
             <span className="text-[#ff0000] ml-2"> {city}</span>
           </div>
-          <div className="flex flex-row justify-between items-center gap-10">
+          <div className="flex flex-row justify-between items-center sm:gap-10">
             <div className="flex flex-col gap-2">
               <span className="font-semibold">Pick-up</span>
               <span className="flex flex-row items-center gap-3">
@@ -90,7 +90,7 @@ const BookingDetailsCard = ({ city }: any) => {
             </div>
           </div>
           <div className="my-8 text-center">
-            <span className="bg-[#F2F7F6] w-[240px] h-[50px] p-4 rounded-lg drop-shadow-lg">
+            <span className="bg-[#F2F7F6] sm:w-[280px] w-full block h-[50px] p-4 rounded-lg drop-shadow-lg m-auto">
               <b> Duration: </b> {duration ? duration : ""}{" "}
             </span>
           </div>

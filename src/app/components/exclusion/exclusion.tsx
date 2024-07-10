@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const ExclusionComponent = () => {
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid sm:grid-cols-4 gap-4">
       {exclusionCollection?.map((item, index) => {
         return (
           <div key={index} className="flex items-center gap-2 border border-[#FF0000] shadow-tabs-shadow rounded-md py-[4px] px-4">

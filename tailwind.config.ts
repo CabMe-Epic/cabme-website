@@ -20,7 +20,11 @@ const config: Config = {
         'top-shadow': '0px -4px 4px 0px #00000040;',
         'bottom-shadow': '0px 4px 4px 0px #00000040;',
         'filter-shadow' : '0px 4px 20.2px 0px #0000001F',
-        'tabs-shadow': '0px 2px 2px 0px #00000040'
+        'tabs-shadow': '0px 2px 2px 0px #00000040',
+        'product-shadow':'0px 4px 23.9px 0px #0000001F',
+        'image-shadow':'0px 4px 8px 0px #00000040',
+        'features-shadow':'0px 4px 20.7px 0px #0000001F',
+        'sign-button' : '0px 4px 4px 0px #FF000040 inset'
       }
     },
     screens:{

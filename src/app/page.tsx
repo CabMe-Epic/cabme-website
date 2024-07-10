@@ -159,7 +159,7 @@ export default function Home() {
   return (
     <>
       <div
-        className="bg-[url('/latest-home.png')] rounded-2xl sm:h-[370px] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center mx-20 mt-6"
+        className="bg-[url('/latest-home.png')] rounded-2xl sm:h-[370px] h-[16vh] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
         style={{ backgroundSize: "100% 100%" }}
       >
         {/* <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
@@ -260,19 +260,11 @@ export default function Home() {
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
-<<<<<<< HEAD
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (e) => handlePickupDate(e)
-                                  : (ev) => handleDropOffDate(ev)
-                              }
-=======
                             // onChange={
                             //   item?.heading === "Pick Up Date"
                             //     ? (e) => handlePickupDate(e)
                             //     : (ev) => handleDropOffDate(ev)
                             // }
->>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                             />
                             <input
                               type="time"
@@ -474,19 +466,11 @@ export default function Home() {
                             name="date"
                             id="date"
                             className="outline-red-500 w-fit h-8"
-<<<<<<< HEAD
-                            onChange={
-                              item?.heading === "Pick Up Date"
-                                ? (e) => handlePickupDate(e)
-                                : (ev) => handleDropOffDate(ev)
-                            }
-=======
                           // onChange={
                           //   item?.heading === "Pick Up Date"
                           //     ? (e) => handlePickupDate(e)
                           //     : (ev) => handleDropOffDate(ev)
                           // }
->>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                           />
                           <input
                             type="time"
@@ -632,21 +616,21 @@ export default function Home() {
         )}
       </div>
       {/* Only mobile section subsription */}
-      <div className="relative max-w-[340px] sm:hidden block mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
+      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 my-6">
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
-          <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2">
+          <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2 shadow-custom-shadow">
             <div
-              className={`${mobileTabValue === "Rentals" ? "bg-white text-black" : ""
-                } rounded-xl px-4 py-[8px] text-center`}
+              className={`${mobileTabValue === "Rentals" ? "bg-white text-black shadow-custom-shadow" : ""
+                } rounded-xl px-4 py-[8px] text-center text-sm`}
               onClick={() => setMobileTabValue("Rentals")}
             >
               Rentals
             </div>
             <div
               className={`${mobileTabValue === "Subscriptions"
-                  ? "bg-white text-black"
+                  ? "bg-white text-black shadow-custom-shadow"
                   : "text-white"
-                } rounded-xl px-4 py-[8px] text-center`}
+                } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => setMobileTabValue("Subscriptions")}
             >
               Subscriptions
@@ -654,12 +638,12 @@ export default function Home() {
           </div>
         </div>
         {mobileTabValue === "Rentals" && (
-          <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full">
+          <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
             <div
               className={`${switchRadio === "Self Driven"
                   ? "bg-black text-white"
                   : "text-black"
-                } p-2 rounded-l-full text-center px-4`}
+                } p-2 rounded-l-full text-center px-4 flex items-center`}
               onClick={() => setSwitchRadio("Self Driven")}
             >
               <input
@@ -668,12 +652,12 @@ export default function Home() {
                 id="self"
                 className="accent-red-500"
               />
-              <label className="ml-2" htmlFor="self">
+              <label className="ml-2 text-sm" htmlFor="self">
                 Self Driven
               </label>
             </div>
             <div
-              className={`p-2 rounded-full text-center px-4 ${switchRadio === "Driver" ? "bg-black text-white" : "text-black"
+              className={`p-2 text-center px-4 flex items-center justify-center ${switchRadio === "Driver" ? "bg-black text-white" : "text-black"
                 }`}
               onClick={() => setSwitchRadio("Driver")}
             >
@@ -683,7 +667,7 @@ export default function Home() {
                 id="driver"
                 className="accent-red-500"
               />
-              <label className="ml-2" htmlFor="driver">
+              <label className="ml-2 text-sm" htmlFor="driver">
                 Driver
               </label>
             </div>
@@ -701,6 +685,7 @@ export default function Home() {
                         content={driver?.content}
                         name={driver?.name}
                         id={driver?.id}
+                        className="text-sm"
                       />
                     </div>
                   );
@@ -740,7 +725,7 @@ export default function Home() {
               <select
                 name="city"
                 id="city"
-                className="w-full outline-none"
+                className="w-full outline-none text-sm"
                 onChange={(event) => setMobileCities(event?.target?.value)}
               >
                 <option value="select">Select your city</option>
@@ -762,7 +747,7 @@ export default function Home() {
           </div>
           {mobileCities !== "select" && (
             <div className="mt-2">
-              <label htmlFor="pickup">Pickup date</label>
+              <label htmlFor="pickup" className="font-semibold">Pickup date</label>
               <div className="border rounded-xl p-2">
                 <input
                   type="date"
@@ -778,7 +763,7 @@ export default function Home() {
           )}
           {mobileCalender !== "" && (
             <div className="mt-2 mb-2">
-              <label htmlFor="pickuptime">Pick-up time</label>
+              <label htmlFor="pickuptime" className="font-semibold">Pick-up time</label>
               <div className="border w-fit p-2 rounded-xl">
                 <input
                   type="time"
@@ -813,7 +798,7 @@ export default function Home() {
                   <select
                     name="city"
                     id="city"
-                    className="w-full outline-none"
+                    className="w-full outline-none text-sm"
                     onChange={(event) =>
                       setMobiledropCities(event?.target?.value)
                     }
@@ -866,61 +851,64 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className="absolute bottom-[-20px] m-auto left-0 right-0 w-fit">
+        <div className="m-auto w-[80%] mt-6">
           <ThemeButton
-            className="font-semibold text-sm rounded-xl shadow-xl gap-2"
+            className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
-            image={"/svg/race.svg"}
+            // rightArrowIcon
+            // image={"/svg/race.svg"}
           />
         </div>
       </div>
       <div className="max-w-[1250px] w-full m-auto">
-        <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-8 font-semibold text-center">
+        <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
           Trending <span className="text-primary"> offers</span>
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"} text-white rounded-l-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"} text-white rounded-l-full cursor-pointer`}
             onClick={() => setOffer("Daily Offers")}
           >
             Daily Offers
           </div>
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"} text-white rounded-r-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"} text-white rounded-r-full cursor-pointer`}
             onClick={() => setOffer("Monthly Offers")}
           >
             Monthly Offers
           </div>
         </div>
-        {offer === "Daily Offers" && <OfferCards dailyOffer />}
+        {offer === "Daily Offers" && <div className="mx-4"> <OfferCards dailyOffer /> </div>}
         {offer === "Monthly Offers" &&
+        <div className="mx-4">
           <OfferCards monthlyOffer />
+          </div>
 
         }
       </div>
-      <div className="max-w-[1250px] m-auto sm:my-20 my-6">
+      <div className="max-w-[1250px] m-auto sm:my-20 sm:mt-6 sm:mb-6 mt-10">
         <h2 className="text-center sm:text-4xl text-2xl font-semibold">
           <span className="text-primary"> Why</span> choose us
         </h2>
-        <div className="grid sm:grid-cols-4 grid-cols-2 gap-4 sm:mt-10 mt-4 p-4">
+        <div className="grid sm:grid-cols-4 grid-cols-2 gap-4 sm:mt-10 mt-0 sm:px-4 sm:py-4 py-0 px-4">
           {chooseArray?.map((value, ind) => {
             return (
               <>
                 <div
                   key={ind}
-                  className="text-center cursor-pointer grid gap-4 h-[250px] hover:shadow-xl hover:rounded-xl hover:border"
+                  className="text-center cursor-pointer content-center grid sm:gap-4 gap-2 h-[250px] sm:hover:shadow-xl sm:hover:rounded-xl sm:hover:border"
                 >
-                  <div className="flex">
+                  <div className="flex sm:h-auto h-[100px]">
                     <Image
                       src={value?.imageUrl}
                       alt="image"
                       width={value?.width}
                       height={value?.height}
-                      className="m-auto h-[80px] w-auto"
+                      className="m-auto sm:h-[80px] h-auto sm:w-auto w-[90px]"
                     />
                   </div>
-                  <div className="px-4">
-                    <h3 className="font-semibold">{value?.title}</h3>
+                  <div className="sm:px-4">
+                    <h3 className="font-semibold line-clamp-1">{value?.title}</h3>
                     <p className="text-xs mt-1">{value?.desc}</p>
                   </div>
                 </div>
@@ -929,30 +917,30 @@ export default function Home() {
           })}
         </div>
       </div>
-      <div className="max-w-[1250px] m-auto">
-        <h2 className="text-center font-semibold sm:text-4xl text-2xl p-4 sm:mb-8">
+      <div className="max-w-[1250px] m-auto s:mt-0 mt-4">
+        <h2 className="text-center font-semibold sm:text-4xl text-xl sm:py-4 sm:px-4 my-0 px-4 sm:mb-8">
           Fleets <span className="text-primary">high</span> on demand{" "}
         </h2>
 
-        <div className="m-4">
+        <div className="sm:my-4 sm:mx-4 my-0 mx-4">
           <FleetsSlider />
         </div>
       </div>
-      <div className="max-w-[1250px] m-auto my-16">
+      <div className="max-w-[1250px] m-auto sm:my-16 my-10">
         <h2 className="sm:text-4xl text-2xl font-semibold text-center">
           Make <span className="text-primary"> 4 steps</span> to rent a car
         </h2>
-        <div className="grid sm:grid-cols-4 gap-8 mt-12">
+        <div className="grid sm:grid-cols-4 gap-8 sm:mt-12 mt-6">
           {rentCollection?.map((item, index) => {
             return (
               <div
                 key={index}
-                className={`p-6 relative w-[261px] h-[261px] ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} sm:m-0 m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[220px] sm:h-[261px] h-[220px] ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} sm:m-0 m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
-                <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full ml-[15px]">
+                <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
                 </span>
-                <div className="mt-[-17px]">
+                <div className="sm:mt-[-17px] mt-[-25px]">
                   <Image
                     src={item?.imageUrl}
                     alt="image"
@@ -961,11 +949,11 @@ export default function Home() {
                     className={`${item?.imageUrl === "/svg/car-vector.svg"
                         ? "w-[130px]"
                         : "w-auto"
-                      } h-[62px] m-auto mb-4`}
+                      } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
                     <h3 className="font-semibold text-xl">{item?.title}</h3>
-                    <p className="text-xs mt-2 !w-[180px] m-auto">{item?.desc}</p>
+                    <p className="text-xs mt-2 sm:!w-[180px] !w-[130px] m-auto">{item?.desc}</p>
                   </div>
                 </div>
                 {index < 3 ? (
@@ -990,7 +978,7 @@ export default function Home() {
             <h3 className="font-bold sm:text-[62px] text-[26px]">
               5% <span className="font-normal">OFF</span>
             </h3>
-            <div className="border-b border-black sm:text-xl text-[12px] my-2 pb-4 text-[#909090]">
+            <div className="border-b border-black sm:text-xl text-[12px] sm:my-2 sm:pb-4 text-[#909090]">
               <span>Car Rental Discount</span> <br />
               <span>until May 21st 2024</span>
             </div>
@@ -1020,7 +1008,7 @@ export default function Home() {
       </div>
       {/* app section */}
       <div
-        className="grid sm:grid-cols-2 px-4 py-8 rounded-xl m-4 bg-[#FCE2E2] my-16"
+        className="grid sm:grid-cols-2 px-4 py-8 rounded-xl m-4 bg-[#FCE2E2] sm:my-16 my-10"
         style={{ boxShadow: "0px 1px 18.1px 2px #FF000080" }}
       >
         <div className="max-w-[550px] m-auto">
@@ -1066,14 +1054,14 @@ export default function Home() {
       </div>
       {/*review section  */}
       <div className="sm:my-20 my-8 px-8">
-        <h2 className="sm:text-4xl text-2xl font-semibold text-center mb-12">
+        <h2 className="sm:text-4xl text-2xl font-semibold text-center sm:mb-12 mb-6">
           Customer <span className="text-primary">reviews</span>
         </h2>
         <ReviewCard />
       </div>
       {/* subscription section */}
-      <div className="max-w-[1250px] m-auto grid grid-cols-[1fr_2fr]">
-        <div className="bg-[#e4e4e4] sm:p-6 p-2 bg-[url('/png/round.png')] bg-no-repeat">
+      <div className="max-w-[1250px] m-auto sm:grid flex flex-col-reverse grid-cols-[1fr_2fr]">
+        <div className="bg-[#e4e4e4] sm:px-6 sm:py-6 py-2 px-4 bg-[url('/png/round.png')] bg-no-repeat">
           <h3 className="sm:text-4xl text-xl font-semibold">
             Save big with our
           </h3>
@@ -1084,7 +1072,7 @@ export default function Home() {
             className="sm:mt-6 mt-2 sm:px-6 px-2 sm:text-md text-xs"
           />
         </div>
-        <div className="bg-[#626262] p-6 grid relative">
+        <div className="bg-[#626262] sm:py-6 sm:px-6 py-6 px-4 grid relative">
           <h3 className="sm:text-4xl text-md text-white">
             MONTHLY SUBSCRIPTION
           </h3>
@@ -1163,7 +1151,7 @@ export default function Home() {
           Lorem Ipsum has been the industry&apos;s standard <br /> dummy text
           ever since the 1500s,
         </p>
-        <div className="grid grid-cols-4 sm:gap-10 gap-2 sm:p-8 p-2">
+        <div className="grid sm:grid-cols-4 sm:gap-10 gap-2 sm:p-8 p-2">
           {factsArray?.map((item, index) => {
             return (
               <div
