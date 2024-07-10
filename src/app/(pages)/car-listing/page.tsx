@@ -13,6 +13,7 @@ import { useImmer } from "use-immer";
 import "../../../../networkRequests/types/type";
 import axios from "axios";
 import { searchVehicle } from "../../../../networkRequests/hooks/api";
+import ModifySearch from "@/app/components/modify-search/modify-search";
 
 const CarListing = () => {
   const pathname = usePathname();
@@ -170,12 +171,18 @@ const CarListing = () => {
         {/* breadcrumbs */}
         {/* heading  */}
         <div className="sm:block  m-auto mt-5 flex justify-center items-center text-center">
-          <h1 className="text-[48px] font-bold text-[#FF0000]">Car Listing</h1>
+          <h1 className="sm:text-[48px] text-2xl font-bold text-[#FF0000]">Car <span className="text-black"> Listing</span></h1>
         </div>
         {/* heading  */}
 
+
+        {/* modify search section */}
+        <div className="sm:block hidden">
+          <ModifySearch />
+        </div>
+
         {/* filters */}
-        <div className=" listing-filter sm:my-20 my-4 flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
+        <div className=" listing-filter sm:my-14 my-4 flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
           <div className="flex justify-between w-full sm:w-auto mt-4">
             <div className="sm:text-[16px] text-xs">
               Showing 1-8 of 10 Results
@@ -190,13 +197,13 @@ const CarListing = () => {
           </div>
           {/*  */}
           <div className="xs:flex flex-row items-center gap-4">
-            <div>Show:</div>
+            <div className="text-sm">Show:</div>
             <div className="flex gap-2">
               <div>
                 <select
                   name=""
                   id=""
-                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[78px]"
+                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[78px] text-sm"
                 >
                   <option value="5">5</option>
                 </select>
@@ -205,7 +212,7 @@ const CarListing = () => {
                 <select
                   name=""
                   id=""
-                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[154px]"
+                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[154px] text-sm"
                 >
                   <option value="low-to-high">Low to High</option>
                 </select>
@@ -214,7 +221,7 @@ const CarListing = () => {
                 <select
                   name=""
                   id=""
-                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[315px]"
+                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[315px] text-sm"
                 >
                   <option value="popular">Popular</option>
                 </select>

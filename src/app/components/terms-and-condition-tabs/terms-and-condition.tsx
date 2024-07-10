@@ -1,7 +1,7 @@
 const TermsAndConditions = ()=>{
     return(
         <div>
-            <ul className="grid grid-cols-4 list-disc gap-8 ml-4">
+            <ul className="grid sm:grid-cols-4 list-disc sm:gap-8 gap-4 ml-4">
                 {conditionsCollection?.map((item,index)=>{
                     return(
 

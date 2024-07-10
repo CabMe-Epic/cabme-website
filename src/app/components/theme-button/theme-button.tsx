@@ -6,6 +6,7 @@ interface buttonProps {
   className?: string;
   image?: string;
   editIcon?: boolean;
+  rightArrowIcon?:boolean
 }
 const ThemeButton = ({
   text,
@@ -13,6 +14,7 @@ const ThemeButton = ({
   className,
   image,
   editIcon,
+  rightArrowIcon
 }: buttonProps) => {
   return (
     <>
@@ -29,6 +31,15 @@ const ThemeButton = ({
             alt="edit"
             width={12}
             height={12}
+            className="ml-[4px]"
+          />
+        )}
+        {rightArrowIcon && (
+          <Image
+            src={"/gif/right-arr.gif"} 
+            alt="edit"
+            width={26}
+            height={26}
             className="ml-[4px]"
           />
         )}

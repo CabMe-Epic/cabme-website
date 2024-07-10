@@ -10,7 +10,7 @@ const Footer = () => {
     <>
     <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8">
       <div className="max-w-[330px] m-auto sm:text-left text-center">
-        <Image src={"/logo.svg"} alt="logo" width={178} height={48} className="sm:m-0 m-auto" />
+        <Image src={"/logo.svg"} alt="logo" width={178} height={48} className="sm:m-0 m-auto sm:w-[50%] w-[50%]" />
         <p className="mt-6">
           We are India&apos;s leading Car Rental Company with an innovative way of
           servicing the requirements{" "}

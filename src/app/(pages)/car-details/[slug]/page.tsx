@@ -275,7 +275,7 @@ const CarDetails = () => {
           <span className="cursor-pointer">Listing</span>/
           <span className="cursor-pointer">Car Details</span>
         </div>
-        <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
+        <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6 ">
           <div className="px-4">
             <ProductSlider
               featuredImage={carDetails?.featuredImage as any}
@@ -288,13 +288,13 @@ const CarDetails = () => {
             {/* mobile view */}
             <div className="sm:hidden block">
               <main className="max-w-[511px] px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
-                <div className="max-w-[376px] h-[50px] w-full bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
-                  <span className="text-center">Booking Summary</span>
+                <div className="max-w-[376px] sm:h-[50px] h-[43px] sm:w-full w-[80%] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
+                  <span className="text-center sm:text-md text-[18px]">Booking Summary</span>
                 </div>
                 <div className="m-auto my-5">
-                  <span className="font-bold text-[24px]">Fare Details</span>
+                  <span className="sm:font-bold font-semibold sm:text-[24px] text-[20px]">Fare Details</span>
                 </div>
-                <div className="grid grid-cols-1 w-full items-start justify-between gap-4 font-semibold">
+                <div className="grid grid-cols-1 w-full items-start justify-between gap-4">
                   <div className="flex justify-between gap-2 text-sm">
                     <span className="">Base Fare</span>
                     <span className="">
@@ -363,30 +363,30 @@ const CarDetails = () => {
                     </select>
                   </span>
 
-                  <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
+                  <div className="max-w-[418px]  sm:h-[45px] h-[40px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
                     <input
                       type="text"
                       placeholder="DJF4D4F"
                       className="w-full border-0 outline-none pr-4 text-[#888787]"
                     />
-                    <button className="text-[#ff0000]">Apply</button>
+                    <button className="text-[#ff0000] sm:text-md text-sm">Apply</button>
                   </div>
 
-                  <div className="my-6 h-[69px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
+                  <div className="my-6 h-[69px] shadow-custom-shadow bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
                     <div className="flex flex-col">
-                      <span>Total Amount</span>
+                      <span className="sm:text-md text-sm">Total Amount</span>
                       <span className="text-[#ff0000] p-0 text-xl font-semibold">
                         ₹ 15,000
                       </span>
                     </div>
                     <div>
-                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">
+                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-xl text-md shadow-custom-shadow font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">
                         Proceed
                       </button>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 sm:rounded-3xl rounded-full border-[#ff0000] cursor-pointer">
                   <span className="font-bold text-md">Pay ₹10,000 Now</span>
                   <span className="text-[#ff0000] font-semibold text-[15px]">
                     Balance on Delivery
@@ -402,7 +402,7 @@ const CarDetails = () => {
                     alt="offer"
                   />
                 </span>
-                <span className="text-[18px] font-semibold text-[#6CAE39]">
+                <span className="sm:text-[18px] text-[14px] font-semibold text-[#6CAE39]">
                   50% Refund <br /> Until 06June2024, 2:00PM <br />
                   <span className="text-[#737373] text-sm font-light">
                     Convince fees is not refundable
