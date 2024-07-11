@@ -205,7 +205,7 @@ export default function Home() {
   return (
     <>
       <div
-        className="bg-[url('/latest-home.png')] rounded-2xl sm:h-[370px] h-[16vh] sm:py-0 py-4 h-full bg-no-repeat bg-contain flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
+        className="bg-[url('/latest-home.png')] rounded-2xl lg:h-[370px] sm:h-[240px] h-[18vh] sm:py-0 py-4 bg-no-repeat bg-contain flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
         style={{ backgroundSize: "100% 100%" }}
       >
         {/* <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
@@ -222,7 +222,7 @@ export default function Home() {
           </div>
         </div> */}
       </div>
-      <div className="max-w-[1250px] h-[220px] sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative">
+      <div className="max-w-[1250px] h-[230px] sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative">
         <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
@@ -559,7 +559,7 @@ export default function Home() {
               return (
                 <div
                   key={index}
-                  className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                  className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
                     }`}
                 >
                   <div className="mt-2">
@@ -571,7 +571,7 @@ export default function Home() {
                     />
                   </div>
                   <div className="leading-none">
-                    <h3 className="text-xl font-semibold">{item?.heading}</h3>
+                    <h3 className="lg:text-xl text-lg font-semibold">{item?.heading}</h3>
                     {item?.id === "location" && (
                       <select
                         name="location"
@@ -594,7 +594,7 @@ export default function Home() {
                       </select>
                     )}
                     {item?.id === "date" && (
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 mt-2">
                         {/* <input
 
                           type="date"
@@ -643,7 +643,7 @@ export default function Home() {
               );
             })}
 
-            <div>
+            <div className="lg:block hidden">
               <ThemeButton
                 className="px-8 !py-[10px] relative right-6"
                 text="Search"
@@ -652,6 +652,13 @@ export default function Home() {
             </div>
           </div>
         )}
+        <div className="lg:hidden block mt-4">
+              <ThemeButton
+                className="px-8 !py-[10px] relative right-6 m-auto"
+                text="Search"
+                onClick={() => saveLocationData()}
+              />
+            </div>
       </div>
       {/* Only mobile section subsription */}
       <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 my-6">
@@ -921,16 +928,16 @@ export default function Home() {
           <FleetsSlider />
         </div>
       </div>
-      <div className="max-w-[1250px] m-auto sm:my-16 my-10">
+      <div className="lg:max-w-[1250px] max-w-[750px] m-auto sm:my-16 my-10 mx-auto">
         <h2 className="sm:text-4xl text-2xl font-semibold text-center">
           Make <span className="text-primary"> 4 steps</span> to rent a car
         </h2>
-        <div className="grid sm:grid-cols-4 gap-8 sm:mt-12 mt-6">
+        <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-8 sm:mt-12 mt-6">
           {rentCollection?.map((item, index) => {
             return (
               <div
                 key={index}
-                className={`sm:p-6 p-2 relative sm:w-[261px] w-[220px] sm:h-[261px] h-[220px] ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} sm:m-0 m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[220px] sm:h-[261px] h-[220px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
@@ -957,7 +964,7 @@ export default function Home() {
                     alt="arrow"
                     width={140}
                     height={30}
-                    className="absolute top-[35%] right-[-30%] sm:block hidden"
+                    className="absolute top-[35%] right-[-30%] lg:block hidden"
                   />
                 ) : (
                   ""
@@ -1043,7 +1050,7 @@ export default function Home() {
             alt="app"
             width={700}
             height={550}
-            className="w-full h-[532px]"
+            className="w-full lg:h-[532px]"
           />
         </div>
       </div>
@@ -1146,7 +1153,7 @@ export default function Home() {
           Lorem Ipsum has been the industry&apos;s standard <br /> dummy text
           ever since the 1500s,
         </p>
-        <div className="grid sm:grid-cols-4 sm:gap-10 gap-2 sm:p-8 p-2">
+        <div className="grid lg:grid-cols-4 grid-cols-2 sm:gap-10 gap-2 sm:p-8 p-2">
           {factsArray?.map((item, index) => {
             return (
               <div

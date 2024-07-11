@@ -52,7 +52,7 @@ const OurBlogs = () => {
           className="bg-[url('/png/blog-right.png')] bg-contain bg-no-repeat text-white p-12 flex justify-end"
           style={{ backgroundSize: "100% 100%" }}
         >
-          <div className="max-w-[375px] relative right-[10%]">
+          <div className="max-w-[375px] relative lg:right-[10%]">
             <div className="text-sm">
               <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
             </div>
