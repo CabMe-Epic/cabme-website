@@ -130,6 +130,7 @@ const CarListing = () => {
   const [selectedTransmission, setSelectTransmission] = useState<any>([]);
   const [selectedFuelType, setSelectedFuelType] = useState<any>([]);
   const [selectedOthers, setSelectedOthers] = useState<any>([]);
+  const [priceRange, setPriceRange] = useState<any>(50000);
 
   const handleCategoryCheckboxChange = (category: any) => {
     setSelectedCategories((prevSelected) => {
@@ -513,10 +514,11 @@ const CarListing = () => {
                     <input
                       type="range"
                       name=""
-                      min="10000"
-                      max="50000"
-                      className="w-full my-3 accent-[#ff0000]"
+                      min="1001"
+                      max="10000"
+                      className="w-full my-3 accent-[#ff0000] cursor-pointer"
                       id=""
+                      onChange={(e) => setPriceRange(e.target.value)}
                     />
                     <div className="flex flex-row gap-4">
                       <div className="flex flex-col">
@@ -526,7 +528,7 @@ const CarListing = () => {
                           id=""
                           className="bg-[#fff] border-[#DDD9D9]  p-1 w-[100px] h-[42px] border-b-2 outline-0"
                         >
-                          <option value="10,000">₹ 10,000</option>
+                          <option value="1000">₹ 1,000</option>
                         </select>
                       </div>
                       <div className="flex flex-col">
@@ -536,7 +538,7 @@ const CarListing = () => {
                           id=""
                           className="bg-[#fff] border-[#DDD9D9] p-1 w-[100px] h-[42px] border-b-2 outline-0"
                         >
-                          <option value="50,000">₹ 50,000</option>
+                          <option value="5000">₹{priceRange}</option>
                         </select>
                       </div>
                     </div>
@@ -720,7 +722,7 @@ const CarListing = () => {
             </div>
           </aside>
           <div className="basis-2/3">
-            {filteredItems?.map((item: any , index: number) => {
+            {filteredItems?.map((item: any, index: number) => {
               var dateOnly = "";
               {
                 const date = item?.bookingDate;
@@ -749,8 +751,8 @@ const CarListing = () => {
                         (selectedCapacity.length === 0 || selectedCapacity.some((capacity: any) => item?.seatingCapacity === capacity)) &&
                         (selectedTransmission.length === 0 || selectedTransmission.some((trans: any) => item?.vehicleSpecifications.transmission === trans)) &&
                         (selectedFuelType.length === 0 || selectedFuelType.some((type: any) => item?.vehicleSpecifications.fuelType === type)) &&
-                        (selectedOthers.length === 0 || selectedOthers.every((feature: any) => item?.carFeatures[feature] === true))
-                        &&
+                        (selectedOthers.length === 0 || selectedOthers.every((feature: any) => item?.carFeatures[feature] === true)) &&
+                        (item?.bookingOptions.selfDrive.packageType.package1?.price <= priceRange) &&
                         (
                           <>
                             <CardListingCards key={`card-${item.id}`} data={item} />
@@ -760,6 +762,7 @@ const CarListing = () => {
                           </>
                         )
                       )}
+
                     </>
                   )}
 
