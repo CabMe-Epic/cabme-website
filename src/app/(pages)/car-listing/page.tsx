@@ -574,10 +574,11 @@ const CarListing = () => {
                       </select>
                     </div>
                   </div>
-                </div>
-              ) : (
+                </div>)
+
+                :
                 ""
-              )}
+              }
 
               <hr className="my-5" />
             </div>
@@ -844,9 +845,8 @@ const CarListing = () => {
         <div className="">
           <div className="flex items-center justify-center space-x-2 mt-4">
             <button
-              className={`px-4 py-2 border rounded-md whitespace-nowrap ${
-                currentPage === 1 ? "text-gray-400" : "text-gray-700"
-              }`}
+              className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === 1 ? "text-gray-400" : "text-gray-700"
+                }`}
               onClick={handlePrev}
               disabled={currentPage === 1}
             >
@@ -855,20 +855,18 @@ const CarListing = () => {
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index}
-                className={`w-10 h-10 border rounded-md ${
-                  currentPage === index + 1
+                className={`w-10 h-10 border rounded-md ${currentPage === index + 1
                     ? "bg-primary-color text-white"
                     : "bg-white text-gray-700"
-                }`}
+                  }`}
                 onClick={() => handleClick(index + 1)}
               >
                 {index + 1}
               </button>
             ))}
             <button
-              className={`px-4 py-2 border rounded-md whitespace-nowrap ${
-                currentPage === totalPages ? "text-gray-400" : "text-gray-700"
-              }`}
+              className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === totalPages ? "text-gray-400" : "text-gray-700"
+                }`}
               onClick={handleNext}
               disabled={currentPage === totalPages}
             >
