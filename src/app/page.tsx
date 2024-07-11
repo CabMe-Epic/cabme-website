@@ -14,6 +14,9 @@ import { getAllCities } from "../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "./Datepicker.css";
+import moment from 'moment';
+
 
 export default function Home() {
   // const [startDate, setStartDate] = useState(
@@ -49,6 +52,15 @@ export default function Home() {
   const [pickupTime, setPickupTime] = useState<any>();
   const [dropoffTime, setDropoffTime] = useState<any>();
 
+  // for mobile
+
+  const [mobilestartCity, setMobilestartCity] = useState("select");
+  const [mobileStartDate, setMobileStartDate] = useState(null);
+  const [mobileStartTime, setMobileStartTime] = useState(null);
+  const [mobileEndCity, setMobileEndCity] = useState("select");
+  const [mobileEndDate, setMobileEndDate] = useState(null);
+  const [mobileEndTime, setMobileEndTime] = useState(null);
+
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event.target.value);
   };
@@ -62,21 +74,23 @@ export default function Home() {
   //   setDropoffDate(event.target.value);
   // };
 
-  console.log(pickupLocation, "pickup location");
-  console.log(dropOffLocation, "dropOff location");
-  console.log(pickupDate, "pickup date");
-  console.log(dropOffDate, "dropOff date");
+  console.log(pickupLocation, "213 pickup location");
+  console.log(dropOffLocation, "213 dropOff location");
+  console.log(pickupDate, "213pickup date");
+  console.log(dropOffDate, "213dropOff date");
+
+
 
   // for save the location data into local storage
 
   const saveLocationData = () => {
-    localStorage.setItem("pickupLocation", pickupLocation);
-    localStorage.setItem("dropOffLocation", dropOffLocation);
-    localStorage.setItem("pickupDate", pickupDate);
-    localStorage.setItem("dropOffDate", dropOffDate);
-    localStorage.setItem("tabValue", tabValue);
-    localStorage.setItem("pickupTime", pickupTime);
-    localStorage.setItem("dropoffTime", dropoffTime)
+    localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
+    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
+    localStorage.setItem("pickupDate", pickupDate || mobileStartTime);
+    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
+    localStorage.setItem("tabValue", tabValue || switchRadio);
+    localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
+    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime)
 
     tabValue === "Driver"
       ? localStorage.setItem("radioToggle", radioToggle)
@@ -87,6 +101,8 @@ export default function Home() {
   // location section work end
 
   const [cities, setCities] = useState<[]>();
+
+
 
   const getRecords = React.useCallback(async () => {
     const citiesResponse = await getAllCities();
@@ -127,14 +143,14 @@ export default function Home() {
     setPickupDate(result);
     const getpickupTime = convertTime(event);
     setPickupTime(getpickupTime);
-    console.log(getpickupTime,"pkk");
+    console.log(getpickupTime, "pkk");
 
     // console.log(result, "resss");
   };
   //extracting date from calender
 
   const hanldedropoffTime = (event: any) => {
-    console.log(event,"joo");
+    console.log(event, "joo");
     // setDropoffTime(event?.target?.value);
     const result = convert(event);
     setDropDate(event);
@@ -150,11 +166,41 @@ export default function Home() {
     localStorage.setItem("dropoffTime", dropoffTime);
   }
 
-  const [mobileCities, setMobileCities] = useState("select");
-  const [mobileCalender, setMobilepickupdate] = useState("");
-  console.log(mobileCities, "mobile");
+  const handleStartDateTimeChange = (date: any) => {
+    if (date) {
+      setMobileStartDate(moment(date).format('YYYY-MM-DD') as any);
+      setMobileStartTime(moment(date).format('HH:mm') as any);
+    } else {
+      setMobileStartDate(null);
+      setMobileStartTime(null);
+    }
+  };
+
+  const handleDateTimeChange = (date: any) => {
+    if (date) {
+      setMobileEndDate(moment(date).format('YYYY-MM-DD') as any);
+      setMobileEndTime(moment(date).format('HH:mm') as any);
+    } else {
+      setMobileEndDate(null);
+      setMobileEndTime(null);
+    }
+  };
+
+  const handleDateChange = (date: any, setDate: any) => {
+    setDate(moment(date).format('YYYY-MM-DD'));
+  };
+
+  const handleTimeChange = (time: any, setTime: any) => {
+    setTime(moment(time).format('HH:mm'));
+  };
+
+  console.log(mobilestartCity, mobileStartDate, mobileStartTime, "mobile");
+  console.log(mobileEndCity, mobileEndDate, mobileEndTime, "mobilee");
 
   const [offer, setOffer] = useState("Daily Offers");
+  console.log(switchRadio, "tabValue")
+  console.log(tabValue, "tabValue")
+
 
   return (
     <>
@@ -182,8 +228,8 @@ export default function Home() {
             return (
               <div
                 className={`cursor-pointer w-full text-center py-6 text-lg ${value?.tabsValue === tabValue
-                    ? "bg-primary-color text-white font-semibold"
-                    : "bg-[#EFF1FB]"
+                  ? "bg-primary-color text-white font-semibold"
+                  : "bg-[#EFF1FB]"
                   }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
@@ -276,22 +322,22 @@ export default function Home() {
                                   : (event) => hanldedropoffTime(event)
                               }
                             /> */}<DatePicker
-                          className="cursor-pointer"
-                          selected={
-                            item?.heading === "Pick Up Date"
-                              ? startDate
-                              : dropDate
-                          }
-                          onChange={
-                            item?.heading === "Pick Up Date"
-                              ? (date) => hanldepickupTime(date)
-                              : (date) => hanldedropoffTime(date)
-                            // (date) => setStartDate(date)
-                          }
-                          showTimeSelect
-                          filterTime={filterPassedTime}
-                          dateFormat="MMMM d, yyyy h:mm aa"
-                        />
+                              className="cursor-pointer"
+                              selected={
+                                item?.heading === "Pick Up Date"
+                                  ? startDate
+                                  : dropDate
+                              }
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (date) => hanldepickupTime(date)
+                                  : (date) => hanldedropoffTime(date)
+                                // (date) => setStartDate(date)
+                              }
+                              showTimeSelect
+                              filterTime={filterPassedTime}
+                              dateFormat="MMMM d, yyyy h:mm aa"
+                            />
                           </div>
                         )}
                       </div>
@@ -358,19 +404,11 @@ export default function Home() {
                               name="date"
                               id="date"
                               className="outline-red-500 w-fit h-8"
-<<<<<<< HEAD
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (e) => handlePickupDate(e)
-                                  : (ev) => handleDropOffDate(ev)
-                              }
-=======
                             // onChange={
                             //   item?.heading === "Pick Up Date"
                             //     ? (e) => handlePickupDate(e)
                             //     : (ev) => handleDropOffDate(ev)
                             // }
->>>>>>> 5c787e9a4742e185afab455d65fa20c18939954f
                             />
                             <input
                               type="time"
@@ -383,22 +421,22 @@ export default function Home() {
                               }
                             /> */}
                             <DatePicker
-                          className="cursor-pointer"
-                          selected={
-                            item?.heading === "Pick Up Date"
-                              ? startDate
-                              : dropDate
-                          }
-                          onChange={
-                            item?.heading === "Pick Up Date"
-                              ? (date) => hanldepickupTime(date)
-                              : (date) => hanldedropoffTime(date)
-                            // (date) => setStartDate(date)
-                          }
-                          showTimeSelect
-                          filterTime={filterPassedTime}
-                          dateFormat="MMMM d, yyyy h:mm aa"
-                        />
+                              className="cursor-pointer"
+                              selected={
+                                item?.heading === "Pick Up Date"
+                                  ? startDate
+                                  : dropDate
+                              }
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (date) => hanldepickupTime(date)
+                                  : (date) => hanldedropoffTime(date)
+                                // (date) => setStartDate(date)
+                              }
+                              showTimeSelect
+                              filterTime={filterPassedTime}
+                              dateFormat="MMMM d, yyyy h:mm aa"
+                            />
                           </div>
                         )}
                       </div>
@@ -483,22 +521,22 @@ export default function Home() {
                             }
                           /> */}
                           <DatePicker
-                          className="cursor-pointer"
-                          selected={
-                            item?.heading === "Pick Up Date"
-                              ? startDate
-                              : dropDate
-                          }
-                          onChange={
-                            item?.heading === "Pick Up Date"
-                              ? (date) => hanldepickupTime(date)
-                              : (date) => hanldedropoffTime(date)
-                            // (date) => setStartDate(date)
-                          }
-                          showTimeSelect
-                          filterTime={filterPassedTime}
-                          dateFormat="MMMM d, yyyy h:mm aa"
-                        />
+                            className="cursor-pointer"
+                            selected={
+                              item?.heading === "Pick Up Date"
+                                ? startDate
+                                : dropDate
+                            }
+                            onChange={
+                              item?.heading === "Pick Up Date"
+                                ? (date) => hanldepickupTime(date)
+                                : (date) => hanldedropoffTime(date)
+                              // (date) => setStartDate(date)
+                            }
+                            showTimeSelect
+                            filterTime={filterPassedTime}
+                            dateFormat="MMMM d, yyyy h:mm aa"
+                          />
                         </div>
                       )}
                     </div>
@@ -628,8 +666,8 @@ export default function Home() {
             </div>
             <div
               className={`${mobileTabValue === "Subscriptions"
-                  ? "bg-white text-black shadow-custom-shadow"
-                  : "text-white"
+                ? "bg-white text-black shadow-custom-shadow"
+                : "text-white"
                 } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => setMobileTabValue("Subscriptions")}
             >
@@ -641,8 +679,8 @@ export default function Home() {
           <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
             <div
               className={`${switchRadio === "Self Driven"
-                  ? "bg-black text-white"
-                  : "text-black"
+                ? "bg-black text-white"
+                : "text-black"
                 } p-2 rounded-l-full text-center px-4 flex items-center`}
               onClick={() => setSwitchRadio("Self Driven")}
             >
@@ -711,10 +749,7 @@ export default function Home() {
                 ? "Pick-up location"
                 : "Pick-up City"}
           </label>
-          <div
-            className={`border rounded-xl p-2 flex gap-2 mt-2    
-          `}
-          >
+          <div className="border rounded-xl p-2 flex gap-2 mt-2">
             <Image
               src={"/svg/location-gray.svg"}
               alt="location"
@@ -726,126 +761,85 @@ export default function Home() {
                 name="city"
                 id="city"
                 className="w-full outline-none text-sm"
-                onChange={(event) => setMobileCities(event?.target?.value)}
+                onChange={(event) => setMobilestartCity(event.target.value)}
               >
                 <option value="select">Select your city</option>
-                {cities?.map((value: any, ind) => {
-                  return (
-                    <option key={ind} value={value?.name}>
-                      {value?.name}
-                    </option>
-                  );
-                })}
+                {cities?.map((value: any, ind) => (
+                  <option key={ind} value={value.name}>
+                    {value.name}
+                  </option>
+                ))}
               </select>
             </div>
-
-            {/* <input
-            type="text"
-            placeholder="Select Your City"
-            className="w-full border-none outline-none"
-          /> */}
           </div>
-          {mobileCities !== "select" && (
+          {mobilestartCity !== "select" && (
             <div className="mt-2">
-              <label htmlFor="pickup" className="font-semibold">Pickup date</label>
-              <div className="border rounded-xl p-2">
-                <input
-                  type="date"
-                  name=""
-                  id="pickup"
-                  className="w-full"
-                  onChange={(event) =>
-                    setMobilepickupdate(event?.target?.value)
-                  }
-                />
-              </div>
-            </div>
-          )}
-          {mobileCalender !== "" && (
-            <div className="mt-2 mb-2">
-              <label htmlFor="pickuptime" className="font-semibold">Pick-up time</label>
-              <div className="border w-fit p-2 rounded-xl">
-                <input
-                  type="time"
-                  name="pickuptime"
-                  id=""
-                  className="w-[150px] outline-none"
-                  onChange={(event) =>
-                    setMobilepickuptime(event?.target?.value)
-                  }
-                />
-              </div>
-            </div>
-          )}
-          {mobilePickuptime !== "" && (
-            <>
-              <label htmlFor="city" className="font-semibold">
-                {radioToggle === "Local"
-                  ? "Drop-off location"
-                  : "Drop-off City"}
+              <label htmlFor="pickupDate" className="font-semibold">
+                Pickup date
               </label>
-              <div
-                className={`border rounded-xl p-2 flex gap-2 mt-2    
-          `}
-              >
+              <div className="border rounded-xl p-2 flex items-center gap-2">
+            <Image
+              src={"/date.svg"}
+              alt="location"
+              width={16}
+              height={18}
+            />
+            <DatePicker
+              selected={mobileStartDate ? moment(`${mobileStartDate} ${mobileStartTime}`, 'YYYY-MM-DD HH:mm').toDate() : null}
+              onChange={handleStartDateTimeChange}
+              showTimeSelect
+              dateFormat="yyyy-MM-dd HH:mm"
+              placeholderText="Select date and time"
+            />
+          </div>
+            </div>
+          )}
+          {mobileStartDate && (
+
+            <div className="mt-2 mb-2">
+              <label htmlFor="dropoffCity" className="font-semibold">
+                Drop-off City
+              </label>
+              <div className="border rounded-xl p-2 flex gap-2 mt-2">
                 <Image
                   src={"/svg/location-gray.svg"}
                   alt="location"
                   width={16}
                   height={18}
-                />
-                <div className="w-full">
-                  <select
-                    name="city"
-                    id="city"
-                    className="w-full outline-none text-sm"
-                    onChange={(event) =>
-                      setMobiledropCities(event?.target?.value)
-                    }
-                  >
-                    <option value="select">Select your city</option>
-                    {cities?.map((value: any, ind) => {
-                      return (
-                        <option key={ind} value={value?.name}>
-                          {value?.name}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
+                />      <select
+                  name="dropoffCity"
+                  id="dropoffCity"
+                  className="w-full outline-none text-sm"
+                  onChange={(event) => setMobileEndCity(event.target.value)}
+                >
+                  <option value="select">Select your city</option>
+                  {cities?.map((value: any, ind) => (
+                    <option key={ind} value={value.name}>
+                      {value.name}
+                    </option>
+                  ))}
+                </select></div>
 
-                {/* <input
-            type="text"
-            placeholder="Select Your City"
-            className="w-full border-none outline-none"
-          /> */}
-              </div>
-            </>
-          )}
-          {mobileDroplocation !== "" && (
-            <div className="mt-2">
-              <label htmlFor="pickup">Dropoff date</label>
-              <div className="border rounded-xl p-2">
-                <input
-                  type="date"
-                  name=""
-                  id="pickup"
-                  className="w-full"
-                  onChange={(event) => setMobiledropdate(event?.target?.value)}
-                />
-              </div>
             </div>
           )}
-          {mobilDropdate !== "" && (
+          {mobileEndCity !== "select" && (
             <div className="mt-2">
-              <label htmlFor="pickuptime">Drop-off time</label>
-              <div className="border w-fit p-2 rounded-xl">
-                <input
-                  type="time"
-                  name="pickuptime"
-                  id=""
-                  className="w-[150px] outline-none"
-                // onChange={(event)=>setMobilepickuptime(event?.target?.value)}
+              <label htmlFor="dropoffDate" className="font-semibold">
+                Dropoff date
+              </label>
+              <div className="border rounded-xl p-2 flex items-center gap-2">
+                <Image
+                  src={"/date.svg"}
+                  alt="location"
+                  width={16}
+                  height={18}
+                />
+                <DatePicker
+                  selected={mobileEndDate ? moment(`${mobileEndDate} ${mobileEndTime}`, 'YYYY-MM-DD HH:mm').toDate() : null}
+                  onChange={handleDateTimeChange}
+                  showTimeSelect
+                  dateFormat="yyyy-MM-dd HH:mm"
+                  placeholderText="Select date and time"
                 />
               </div>
             </div>
@@ -855,8 +849,9 @@ export default function Home() {
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
-            // rightArrowIcon
-            // image={"/svg/race.svg"}
+            onClick={() => saveLocationData()}
+          // rightArrowIcon
+          // image={"/svg/race.svg"}
           />
         </div>
       </div>
@@ -880,8 +875,8 @@ export default function Home() {
         </div>
         {offer === "Daily Offers" && <div className="mx-4"> <OfferCards dailyOffer /> </div>}
         {offer === "Monthly Offers" &&
-        <div className="mx-4">
-          <OfferCards monthlyOffer />
+          <div className="mx-4">
+            <OfferCards monthlyOffer />
           </div>
 
         }
@@ -947,8 +942,8 @@ export default function Home() {
                     width={62}
                     height={62}
                     className={`${item?.imageUrl === "/svg/car-vector.svg"
-                        ? "w-[130px]"
-                        : "w-auto"
+                      ? "w-[130px]"
+                      : "w-auto"
                       } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
