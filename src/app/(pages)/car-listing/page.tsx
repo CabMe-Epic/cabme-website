@@ -542,7 +542,6 @@ const CarListing = () => {
                   alt="bluetooth"
                 />
               </div>
-<<<<<<< HEAD
               {showPriceRange ? (
                 <div>
                   <input
@@ -563,41 +562,6 @@ const CarListing = () => {
                       >
                         <option value="10,000">₹ 10,000</option>
                       </select>
-=======
-              {
-                showPriceRange ?
-                  <div>
-                    <input
-                      type="range"
-                      name=""
-                      min="1001"
-                      max="10000"
-                      className="w-full my-3 accent-[#ff0000] cursor-pointer"
-                      id=""
-                      onChange={(e) => setPriceRange(e.target.value)}
-                    />
-                    <div className="flex flex-row gap-4">
-                      <div className="flex flex-col">
-                        <span>MIN</span>
-                        <select
-                          name=""
-                          id=""
-                          className="bg-[#fff] border-[#DDD9D9]  p-1 w-[100px] h-[42px] border-b-2 outline-0"
-                        >
-                          <option value="1000">₹ 1,000</option>
-                        </select>
-                      </div>
-                      <div className="flex flex-col">
-                        <span>MAX</span>
-                        <select
-                          name=""
-                          id=""
-                          className="bg-[#fff] border-[#DDD9D9] p-1 w-[100px] h-[42px] border-b-2 outline-0"
-                        >
-                          <option value="5000">₹{priceRange}</option>
-                        </select>
-                      </div>
->>>>>>> 7975cfd0ee90e9554b76d462882325f01b49d740
                     </div>
                     <div className="flex flex-col">
                       <span>MAX</span>
@@ -825,7 +789,6 @@ const CarListing = () => {
                 <>
                   {item?.available && (
                     <>
-<<<<<<< HEAD
                       {pickupLocation === item?.city &&
                         (selectedCategories.length === 0 ||
                           selectedCategories.some(
@@ -856,17 +819,6 @@ const CarListing = () => {
                             (feature: any) =>
                               item?.carFeatures[feature] === true
                           )) && (
-=======
-                      {pickupLocation === item?.city && (
-                        (selectedCategories.length === 0 || selectedCategories.some((category: any) => item?.brandName === category)) &&
-                        (selectedTypes.length === 0 || selectedTypes.some((type: any) => item?.vehicleSpecifications?.body === type)) &&
-                        (selectedCapacity.length === 0 || selectedCapacity.some((capacity: any) => item?.seatingCapacity === capacity)) &&
-                        (selectedTransmission.length === 0 || selectedTransmission.some((trans: any) => item?.vehicleSpecifications.transmission === trans)) &&
-                        (selectedFuelType.length === 0 || selectedFuelType.some((type: any) => item?.vehicleSpecifications.fuelType === type)) &&
-                        (selectedOthers.length === 0 || selectedOthers.every((feature: any) => item?.carFeatures[feature] === true)) &&
-                        (item?.bookingOptions.selfDrive.packageType.package1?.price <= priceRange) &&
-                        (
->>>>>>> 7975cfd0ee90e9554b76d462882325f01b49d740
                           <>
                             <CardListingCards
                               key={`card-${item.id}`}
@@ -879,13 +831,7 @@ const CarListing = () => {
                               />
                             )}
                           </>
-<<<<<<< HEAD
                         )}
-=======
-                        )
-                      )}
-
->>>>>>> 7975cfd0ee90e9554b76d462882325f01b49d740
                     </>
                   )}
                 </>
