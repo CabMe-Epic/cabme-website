@@ -1106,14 +1106,14 @@ const CardListingCards = ({ data }: any) => {
                             data?.bookingOptions?.subscription?.package3
                               ?.duration
                           } */}
-                                --
-                              </p>
-                              <hr className="border-[#000000] border-[1.2px]" />
-                              <p className="text-[#FF0000] font-[500] text-[14px]">
-                                360 Free kms
-                              </p>
-                            </span>
-                          </div>
+                              --
+                            </p>
+                            <hr className="border-[#000000] border-[1.2px]" />
+                            <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px]">
+                              360 Free kms
+                            </p>
+                          </span>
+                        </div>
 
                           {/* <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#000000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
 <span className="font-bold text-[18px] ">₹ 21,635</span>
