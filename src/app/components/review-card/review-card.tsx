@@ -19,10 +19,12 @@ import { useEffect, useState } from "react";
 
 const ReviewCard = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isTab, setIsTab] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 576);
+      setIsTab(window.innerWidth<1250);
+      setIsMobile(window.innerWidth < 800);
     };
 
     handleResize();
@@ -39,7 +41,7 @@ const ReviewCard = () => {
       <Swiper
         modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
-        slidesPerView={isMobile ? 1 : 3}
+        slidesPerView={isMobile ? 1 : isTab ? 1 : 3}
         navigation
         pagination={{ clickable: true }}
         loop={true}

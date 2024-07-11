@@ -24,9 +24,11 @@ interface sliderProp {
 
 const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isTab, setIsTab] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
+      setIsTab(window.innerWidth<1250);
       setIsMobile(window.innerWidth < 576);
     };
 
@@ -43,8 +45,8 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
     <>
       <Swiper
         modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
-        spaceBetween={50}
-        slidesPerView={isMobile ? 1 : 3}
+        spaceBetween={20}
+        slidesPerView={isMobile ? 1 : isTab ? 2 : 3}
         navigation
         pagination={{ clickable: true }}
         loop={true}
@@ -58,7 +60,7 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
           {fleetsArray?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <div className="m-auto bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl">
+                <div className="lg:m-auto bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl max-w-[400px]">
                   <div className="flex justify-between">
                     <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">
                       {item?.badge}
