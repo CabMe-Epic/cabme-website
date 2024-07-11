@@ -44,7 +44,7 @@ const BookingDetailsCard = ({ city }: any) => {
             <span className="font-semibold">Location : </span>{" "}
             <span className="text-[#ff0000] ml-2"> {city}</span>
           </div>
-          <div className="flex flex-row justify-between items-center sm:gap-10">
+          <div className="flex flex-row justify-between items-center sm:gap-10 gap-2">
             <div className="flex flex-col gap-2">
               <span className="font-semibold">Pick-up</span>
               <span className="flex flex-row items-center gap-3">
@@ -90,7 +90,7 @@ const BookingDetailsCard = ({ city }: any) => {
             </div>
           </div>
           <div className="my-8 text-center">
-            <span className="bg-[#F2F7F6] sm:w-[280px] w-full block h-[50px] p-4 rounded-lg drop-shadow-lg m-auto">
+            <span className="bg-[#F2F7F6] w-full block h-[50px] p-4 rounded-lg drop-shadow-lg m-auto sm:text-md text-sm">
               <b> Duration: </b> {duration ? duration : ""}{" "}
             </span>
           </div>

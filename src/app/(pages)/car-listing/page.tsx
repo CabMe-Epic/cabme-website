@@ -61,7 +61,15 @@ const CarListing = () => {
   const [bookingOptions, setBookingOptions] = useState<any>();
   const [driverType, setDriverType] = useState<any>();
 
-  console.log(dropoffLocation, pickupLocation, pickUpDate, dropOffDate, bookingOptions, driverType, "hurraayy");
+  console.log(
+    dropoffLocation,
+    pickupLocation,
+    pickUpDate,
+    dropOffDate,
+    bookingOptions,
+    driverType,
+    "hurraayy"
+  );
   React.useEffect(() => {
     const pickupLocation = localStorage.getItem("pickupLocation");
     const dropoffLocation = localStorage.getItem("dropOffLocation");
@@ -123,7 +131,7 @@ const CarListing = () => {
   const [showFuelType, setShowFuelType] = useState(false);
   const [showOthers, setShowOther] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<any>([]);
   const [selectedCapacity, setSelectedCapacity] = useState<any>([]);
@@ -168,8 +176,8 @@ const CarListing = () => {
       } else {
         return [...prevSelected, transmission];
       }
-    })
-  }
+    });
+  };
 
   const handleFuelTypeCheckboxChange = (type: any) => {
     setSelectedFuelType((prevState: any) => {
@@ -178,9 +186,8 @@ const CarListing = () => {
       } else {
         return [...prevState, type];
       }
-    })
-
-  }
+    });
+  };
 
   const handleOthersCheckboxChange = (type: any) => {
     console.log(type, "selectedTypes");
@@ -190,10 +197,8 @@ const CarListing = () => {
       } else {
         return [...prevState, type];
       }
-    })
-
-
-  }
+    });
+  };
 
   const handleSearchChange = (e: any) => {
     setSearchTerm(e.target.value);
@@ -203,8 +208,7 @@ const CarListing = () => {
     item?.carName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-
-  console.log(selectedOthers, "selectedTypes")
+  console.log(selectedOthers, "selectedTypes");
 
   const handleFilterReset = (e: any) => {
     e.preventDefault();
@@ -221,7 +225,7 @@ const CarListing = () => {
     setShowTransmission(false);
     setShowFuelType(false);
     setShowOther(false);
-  }
+  };
 
   return (
     <div className="max-w-[1400px] m-auto">
@@ -279,10 +283,11 @@ const CarListing = () => {
         {/* breadcrumbs */}
         {/* heading  */}
         <div className="sm:block  m-auto mt-5 flex justify-center items-center text-center">
-          <h1 className="sm:text-[48px] text-2xl font-bold text-[#FF0000]">Car <span className="text-black"> Listing</span></h1>
+          <h1 className="sm:text-[48px] text-2xl font-bold text-[#FF0000]">
+            Car <span className="text-black"> Listing</span>
+          </h1>
         </div>
         {/* heading  */}
-
 
         {/* modify search section */}
         <div className="sm:block hidden">
@@ -290,8 +295,8 @@ const CarListing = () => {
         </div>
 
         {/* filters */}
-        <div className=" listing-filter sm:my-14 my-4 flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
-          <div className="flex justify-between w-full sm:w-auto mt-4">
+        <div className=" listing-filter sm:my-14 my-4 lg:flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
+          <div className="sm:flex hidden  w-full sm:w-auto mt-4 lg:mb-0 mb-4 lg:justify-start justify-center">
             <div className="sm:text-[16px] text-xs">
               Showing 1-8 of 10 Results
             </div>
@@ -304,62 +309,77 @@ const CarListing = () => {
             </select>
           </div>
           {/*  */}
-          <div className="xs:flex flex-row items-center gap-4">
-            <div className="text-sm">Show:</div>
-            <div className="flex gap-2">
-              <div>
-                <select
-                  name=""
-                  id=""
-                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[78px] text-sm"
-                >
-                  <option value="5">5</option>
-                </select>
+          <div className="flex justify-between gap-2">
+            <div className="xs:flex flex-row items-center gap-4">
+              <div className="text-sm">Show:</div>
+              <div className="flex gap-2">
+                <div>
+                  <select
+                    name=""
+                    id=""
+                    className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[78px] text-sm"
+                  >
+                    <option value="5">5</option>
+                  </select>
+                </div>
+                <div>
+                  <select
+                    name=""
+                    id=""
+                    className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[154px] text-sm"
+                  >
+                    <option value="low-to-high">Low to High</option>
+                  </select>
+                </div>
+                <div>
+                  <select
+                    name=""
+                    id=""
+                    className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[315px] text-sm"
+                  >
+                    <option value="popular">Popular</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <select
-                  name=""
-                  id=""
-                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[154px] text-sm"
-                >
-                  <option value="low-to-high">Low to High</option>
-                </select>
+            </div>
+            {/*  */}
+            <div className="sm:flex hidden flex-row items-center gap-2">
+              <div className="cursor-pointer flex-none">
+                <Image
+                  src="/carListing/filterIconRed.png"
+                  width={42}
+                  height={42}
+                  alt="Filter Icon"
+                />
               </div>
-              <div>
-                <select
-                  name=""
-                  id=""
-                  className="bg-[#fff] border-[#DDD9D9] border-[2px] rounded-md sm:p-3 p-[4px] sm:w-[315px] text-sm"
-                >
-                  <option value="popular">Popular</option>
-                </select>
+              <div className="cursor-pointer flex-none">
+                <Image
+                  src="/carListing/filterIconGrey.png"
+                  width={42}
+                  height={42}
+                  alt="Filter Icon"
+                />
               </div>
             </div>
           </div>
-          {/*  */}
-          <div className="sm:flex hidden flex-row items-center gap-2">
-            <div className="cursor-pointer flex-none">
-              <Image
-                src="/carListing/filterIconRed.png"
-                width={42}
-                height={42}
-                alt="Filter Icon"
-              />
+          {/* for mobile  */}
+          <div className="sm:hidden flex  w-full sm:w-auto mt-4 lg:mb-0 mb-4 justify-between px-4">
+            <div className="sm:text-[16px] text-xs">
+              Showing 1-8 of 10 Results
             </div>
-            <div className="cursor-pointer flex-none">
-              <Image
-                src="/carListing/filterIconGrey.png"
-                width={42}
-                height={42}
-                alt="Filter Icon"
-              />
-            </div>
+            <select
+              name="filter"
+              id="filter"
+              className="sm:hidden block shadow"
+            >
+              <option value="Filters">Filters</option>
+            </select>
           </div>
         </div>
         {/* filters */}
 
-        <section className="sm:flex flex-row items-start justify-between gap-10">
-          <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8 sm:block hidden">
+        <section className="sm:flex flex-row items-start xl:justify-between justify-center gap-10">
+          <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8 xl:block hidden">
             <div>
               <h1 className="text-center font-bold">
                 What Are You Looking For
@@ -384,239 +404,261 @@ const CarListing = () => {
             <hr className="border-[1px] my-6" />
 
             <div>
-              <div onClick={() => {
-                setShowCarCategory(!showCarCategory)
-              }} className="flex flex-row items-center justify-between cursor-pointer">
+              <div
+                onClick={() => {
+                  setShowCarCategory(!showCarCategory);
+                }}
+                className="flex flex-row items-center justify-between cursor-pointer"
+              >
                 <span className="font-bold">Car Category</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
                   height={20}
                   alt="bluetooth"
-
                 />
               </div>
-              {
-                showCarCategory ?
-                  <div className="h-auto mt-4 overflow-auto scrollbar scroll-smooth	">
-                    {carCategory?.map((item: any, index: number) => {
-                      const isChecked = selectedCategories.includes(item?.category);
-                      return (
-                        <div className="flex flex-row gap-2 mb-4" key={index}>
-                          <input
-                            type="checkbox"
-                            className="accent-[#ff0000] p-2 size-5 cursor-pointer cursor-pointer"
-                            checked={isChecked}
-                            onChange={() => handleCategoryCheckboxChange(item?.category)}
-                          />
-                          <span className="text-sm text-[#555151]">
-                            {item?.category}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  : ""
-              }
+              {showCarCategory ? (
+                <div className="h-auto mt-4 overflow-auto scrollbar scroll-smooth	">
+                  {carCategory?.map((item: any, index: number) => {
+                    const isChecked = selectedCategories.includes(
+                      item?.category
+                    );
+                    return (
+                      <div className="flex flex-row gap-2 mb-4" key={index}>
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5 cursor-pointer cursor-pointer"
+                          checked={isChecked}
+                          onChange={() =>
+                            handleCategoryCheckboxChange(item?.category)
+                          }
+                        />
+                        <span className="text-sm text-[#555151]">
+                          {item?.category}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
 
               <hr className="my-5" />
             </div>
             {/*  */}
             <div>
-              <div onClick={() => setShowCarType(!showCarType)} className="flex flex-row items-center justify-between cursor-pointer">
+              <div
+                onClick={() => setShowCarType(!showCarType)}
+                className="flex flex-row items-center justify-between cursor-pointer"
+              >
                 <span className="font-bold">Car Type</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
                   height={20}
                   alt="bluetooth"
-
                 />
               </div>
-              {
-                showCarType ?
-                  <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
-                    {carType.map((item, index) => {
-                      const isChecked = selectedTypes.includes(item.type);
-                      return (
-                        <div className="flex flex-row gap-2 mb-4" key={index}>
-                          <input
-                            type="checkbox"
-                            className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                            checked={isChecked}
-                            onChange={() => handleTypeCheckboxChange(item.type)}
-                          />
-                          <span className="text-sm text-[#555151]">
-                            {item.type}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  : ""
-              }
+              {showCarType ? (
+                <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
+                  {carType.map((item, index) => {
+                    const isChecked = selectedTypes.includes(item.type);
+                    return (
+                      <div className="flex flex-row gap-2 mb-4" key={index}>
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                          checked={isChecked}
+                          onChange={() => handleTypeCheckboxChange(item.type)}
+                        />
+                        <span className="text-sm text-[#555151]">
+                          {item.type}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
 
               <hr className="my-5" />
             </div>
             {/*  */}
             <div>
-              <div onClick={() => setShowCapacity(!showCapacity)} className="flex flex-row items-center justify-between cursor-pointer">
+              <div
+                onClick={() => setShowCapacity(!showCapacity)}
+                className="flex flex-row items-center justify-between cursor-pointer"
+              >
                 <span className="font-bold">Capacity</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
                   height={20}
                   alt="bluetooth"
-
                 />
               </div>
-              {
-                showCapacity ?
-                  <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
-                    {carCapacity?.map((item, index) => {
-                      const isChecked = selectedCapacity.includes(item.capacity);
-                      return (
-                        <div className="flex flex-row gap-2 mb-4" key={index}>
-                          <input
-                            type="checkbox"
-                            className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                            checked={isChecked}
-                            onChange={() => handleCapacityCheckboxChange(item?.capacity)}
-                          />
-                          <span className="text-sm text-[#555151]">
-                            {item?.capacity}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div> : ""
-              }
+              {showCapacity ? (
+                <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
+                  {carCapacity?.map((item, index) => {
+                    const isChecked = selectedCapacity.includes(item.capacity);
+                    return (
+                      <div className="flex flex-row gap-2 mb-4" key={index}>
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                          checked={isChecked}
+                          onChange={() =>
+                            handleCapacityCheckboxChange(item?.capacity)
+                          }
+                        />
+                        <span className="text-sm text-[#555151]">
+                          {item?.capacity}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
 
               <hr className="my-5" />
             </div>
             {/*  */}
             <div>
-              <div onClick={() => setShowPriceRange(!showPriceRange)} className="flex flex-row items-center justify-between cursor-pointer">
+              <div
+                onClick={() => setShowPriceRange(!showPriceRange)}
+                className="flex flex-row items-center justify-between cursor-pointer"
+              >
                 <span className="font-bold">Price Range</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
                   height={20}
                   alt="bluetooth"
-
                 />
               </div>
-              {
-                showPriceRange ?
-                  <div>
-                    <input
-                      type="range"
-                      name=""
-                      min="10000"
-                      max="50000"
-                      className="w-full my-3 accent-[#ff0000]"
-                      id=""
-                    />
-                    <div className="flex flex-row gap-4">
-                      <div className="flex flex-col">
-                        <span>MIN</span>
-                        <select
-                          name=""
-                          id=""
-                          className="bg-[#fff] border-[#DDD9D9]  p-1 w-[100px] h-[42px] border-b-2 outline-0"
-                        >
-                          <option value="10,000">₹ 10,000</option>
-                        </select>
-                      </div>
-                      <div className="flex flex-col">
-                        <span>MAX</span>
-                        <select
-                          name=""
-                          id=""
-                          className="bg-[#fff] border-[#DDD9D9] p-1 w-[100px] h-[42px] border-b-2 outline-0"
-                        >
-                          <option value="50,000">₹ 50,000</option>
-                        </select>
-                      </div>
+              {showPriceRange ? (
+                <div>
+                  <input
+                    type="range"
+                    name=""
+                    min="10000"
+                    max="50000"
+                    className="w-full my-3 accent-[#ff0000]"
+                    id=""
+                  />
+                  <div className="flex flex-row gap-4">
+                    <div className="flex flex-col">
+                      <span>MIN</span>
+                      <select
+                        name=""
+                        id=""
+                        className="bg-[#fff] border-[#DDD9D9]  p-1 w-[100px] h-[42px] border-b-2 outline-0"
+                      >
+                        <option value="10,000">₹ 10,000</option>
+                      </select>
                     </div>
-                  </div> : ""
-              }
+                    <div className="flex flex-col">
+                      <span>MAX</span>
+                      <select
+                        name=""
+                        id=""
+                        className="bg-[#fff] border-[#DDD9D9] p-1 w-[100px] h-[42px] border-b-2 outline-0"
+                      >
+                        <option value="50,000">₹ 50,000</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
 
               <hr className="my-5" />
             </div>
             {/*  */}
             <div>
-              <div onClick={() => setShowTransmission(!showTransmission)} className="flex flex-row items-center justify-between cursor-pointer">
+              <div
+                onClick={() => setShowTransmission(!showTransmission)}
+                className="flex flex-row items-center justify-between cursor-pointer"
+              >
                 <span className="font-bold">Transmission Type</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
                   height={20}
                   alt="bluetooth"
-
                 />
               </div>
-              {
-                showTransmission ?
-                  <div className="h-[100px] overflow-auto scrollbar scroll-smooth	">
-                    {
-                      Transmissions.map((item: any, index: any) => {
-                        const isChecked = selectedTransmission.includes(item.trans);
-                        return (
-                          <div className="flex flex-row gap-2 my-4" key={index}>
-                            <input
-                              type="checkbox"
-                              className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                              checked={isChecked}
-                              onChange={() => handleTransmissionCheckboxChange(item?.trans)}
-                            />
-                            <span className="text-sm text-[#555151]">{item?.trans}</span>
-                          </div>
-                        )
-                      })
-                    }
-
-                  </div> : ""
-              }
+              {showTransmission ? (
+                <div className="h-[100px] overflow-auto scrollbar scroll-smooth	">
+                  {Transmissions.map((item: any, index: any) => {
+                    const isChecked = selectedTransmission.includes(item.trans);
+                    return (
+                      <div className="flex flex-row gap-2 my-4" key={index}>
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                          checked={isChecked}
+                          onChange={() =>
+                            handleTransmissionCheckboxChange(item?.trans)
+                          }
+                        />
+                        <span className="text-sm text-[#555151]">
+                          {item?.trans}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
 
               <hr className="my-5" />
             </div>
             {/*  */}
             <div>
-              <div onClick={() => setShowFuelType(!showFuelType)} className="flex flex-row items-center justify-between cursor-pointer">
+              <div
+                onClick={() => setShowFuelType(!showFuelType)}
+                className="flex flex-row items-center justify-between cursor-pointer"
+              >
                 <span className="font-bold">Fuel Type</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
                   height={20}
                   alt="bluetooth"
-
                 />
               </div>
-              {
-                showFuelType ?
-                  <div className="h-[188px] overflow-auto scrollbar scroll-smooth	">
-                    {
-                      FuelType.map((item, index) => {
-                        const isChecked = selectedFuelType.includes(item.type);
-                        return (
-                          <div className="flex flex-row gap-2 my-4" key={index}>
-                            <input
-                              type="checkbox"
-                              className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                              checked={isChecked}
-                              onChange={() => handleFuelTypeCheckboxChange(item?.type)}
-                            />
-                            <span className="text-sm text-[#555151]">{item.type}</span>
-                          </div>
-                        )
-                      })
-                    }
-
-
-                  </div> : ""
-              }
+              {showFuelType ? (
+                <div className="h-[188px] overflow-auto scrollbar scroll-smooth	">
+                  {FuelType.map((item, index) => {
+                    const isChecked = selectedFuelType.includes(item.type);
+                    return (
+                      <div className="flex flex-row gap-2 my-4" key={index}>
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                          checked={isChecked}
+                          onChange={() =>
+                            handleFuelTypeCheckboxChange(item?.type)
+                          }
+                        />
+                        <span className="text-sm text-[#555151]">
+                          {item.type}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
 
               <hr className="my-5" />
             </div>
@@ -666,40 +708,43 @@ const CarListing = () => {
             </div> */}
             {/*  */}
             <div>
-              <div onClick={() => setShowOther(!showOthers)} className="flex flex-row items-center justify-between cursor-pointer">
+              <div
+                onClick={() => setShowOther(!showOthers)}
+                className="flex flex-row items-center justify-between cursor-pointer"
+              >
                 <span className="font-bold">Others</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
                   height={20}
                   alt="bluetooth"
-
                 />
               </div>
-              {
-                showOthers ?
-                  <div className="h-[158px] overflow-auto scrollbar scroll-smooth mt-4">
-                    {otherFeatures?.map((item, index) => {
-                      const isChecked = selectedOthers.includes(item.feature)
-                      return (
-                        <div className="flex flex-row gap-2 mb-4" key={index}>
+              {showOthers ? (
+                <div className="h-[158px] overflow-auto scrollbar scroll-smooth mt-4">
+                  {otherFeatures?.map((item, index) => {
+                    const isChecked = selectedOthers.includes(item.feature);
+                    return (
+                      <div className="flex flex-row gap-2 mb-4" key={index}>
+                        <input
+                          type="checkbox"
+                          className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                          checked={isChecked}
+                          onChange={() =>
+                            handleOthersCheckboxChange(item?.feature)
+                          }
+                        />
 
-                          <input
-                            type="checkbox"
-                            className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                            checked={isChecked}
-                            onChange={() => handleOthersCheckboxChange(item?.feature)}
-                          />
-
-
-                          <span className="text-sm text-[#555151]">
-                            {item?.feature}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div> : ""
-              }
+                        <span className="text-sm text-[#555151]">
+                          {item?.feature}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )}
 
               <hr className="my-5" />
             </div>
@@ -720,7 +765,7 @@ const CarListing = () => {
             </div>
           </aside>
           <div className="basis-2/3">
-            {filteredItems?.map((item: any , index: number) => {
+            {filteredItems?.map((item: any, index: number) => {
               var dateOnly = "";
               {
                 const date = item?.bookingDate;
@@ -743,26 +788,51 @@ const CarListing = () => {
                 <>
                   {item?.available && (
                     <>
-                      {pickupLocation === item?.city && (
-                        (selectedCategories.length === 0 || selectedCategories.some((category: any) => item?.brandName === category)) &&
-                        (selectedTypes.length === 0 || selectedTypes.some((type: any) => item?.vehicleSpecifications?.body === type)) &&
-                        (selectedCapacity.length === 0 || selectedCapacity.some((capacity: any) => item?.seatingCapacity === capacity)) &&
-                        (selectedTransmission.length === 0 || selectedTransmission.some((trans: any) => item?.vehicleSpecifications.transmission === trans)) &&
-                        (selectedFuelType.length === 0 || selectedFuelType.some((type: any) => item?.vehicleSpecifications.fuelType === type)) &&
-                        (selectedOthers.length === 0 || selectedOthers.every((feature: any) => item?.carFeatures[feature] === true))
-                        &&
-                        (
+                      {pickupLocation === item?.city &&
+                        (selectedCategories.length === 0 ||
+                          selectedCategories.some(
+                            (category: any) => item?.brandName === category
+                          )) &&
+                        (selectedTypes.length === 0 ||
+                          selectedTypes.some(
+                            (type: any) =>
+                              item?.vehicleSpecifications?.body === type
+                          )) &&
+                        (selectedCapacity.length === 0 ||
+                          selectedCapacity.some(
+                            (capacity: any) =>
+                              item?.seatingCapacity === capacity
+                          )) &&
+                        (selectedTransmission.length === 0 ||
+                          selectedTransmission.some(
+                            (trans: any) =>
+                              item?.vehicleSpecifications.transmission === trans
+                          )) &&
+                        (selectedFuelType.length === 0 ||
+                          selectedFuelType.some(
+                            (type: any) =>
+                              item?.vehicleSpecifications.fuelType === type
+                          )) &&
+                        (selectedOthers.length === 0 ||
+                          selectedOthers.every(
+                            (feature: any) =>
+                              item?.carFeatures[feature] === true
+                          )) && (
                           <>
-                            <CardListingCards key={`card-${item.id}`} data={item} />
+                            <CardListingCards
+                              key={`card-${item.id}`}
+                              data={item}
+                            />
                             {dateOnly === pickUpDate && (
-                              <CardListingCards key={`card-date-${item.id}`} data={item} />
+                              <CardListingCards
+                                key={`card-date-${item.id}`}
+                                data={item}
+                              />
                             )}
                           </>
-                        )
-                      )}
+                        )}
                     </>
                   )}
-
                 </>
               );
             })}
@@ -773,8 +843,9 @@ const CarListing = () => {
         <div className="">
           <div className="flex items-center justify-center space-x-2 mt-4">
             <button
-              className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === 1 ? "text-gray-400" : "text-gray-700"
-                }`}
+              className={`px-4 py-2 border rounded-md whitespace-nowrap ${
+                currentPage === 1 ? "text-gray-400" : "text-gray-700"
+              }`}
               onClick={handlePrev}
               disabled={currentPage === 1}
             >
@@ -783,18 +854,20 @@ const CarListing = () => {
             {[...Array(totalPages)].map((_, index) => (
               <button
                 key={index}
-                className={`w-10 h-10 border rounded-md ${currentPage === index + 1
-                  ? "bg-primary-color text-white"
-                  : "bg-white text-gray-700"
-                  }`}
+                className={`w-10 h-10 border rounded-md ${
+                  currentPage === index + 1
+                    ? "bg-primary-color text-white"
+                    : "bg-white text-gray-700"
+                }`}
                 onClick={() => handleClick(index + 1)}
               >
                 {index + 1}
               </button>
             ))}
             <button
-              className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === totalPages ? "text-gray-400" : "text-gray-700"
-                }`}
+              className={`px-4 py-2 border rounded-md whitespace-nowrap ${
+                currentPage === totalPages ? "text-gray-400" : "text-gray-700"
+              }`}
               onClick={handleNext}
               disabled={currentPage === totalPages}
             >
@@ -820,8 +893,7 @@ const carCategory = [
   },
   {
     category: "Mahindra",
-  }
-
+  },
 ];
 const carType = [
   {
@@ -836,7 +908,6 @@ const carType = [
   {
     type: "SUV",
   },
-
 ];
 const carCapacity = [
   {
@@ -854,17 +925,16 @@ const carCapacity = [
   {
     capacity: "8",
   },
-
 ];
 
 const Transmissions = [
   {
-    trans: "Automatic"
+    trans: "Automatic",
   },
   {
-    trans: "Manual"
-  }
-]
+    trans: "Manual",
+  },
+];
 
 const FuelType = [
   {
@@ -877,9 +947,9 @@ const FuelType = [
     type: "Electric",
   },
   {
-    type: "CNG+Petrol"
-  }
-]
+    type: "CNG+Petrol",
+  },
+];
 
 const otherFeatures = [
   {
@@ -892,6 +962,6 @@ const otherFeatures = [
     feature: "multiZoneAC",
   },
   {
-    feature: "premiumSoundSystem"
-  }
+    feature: "premiumSoundSystem",
+  },
 ];

@@ -113,8 +113,10 @@ const Footer = () => {
               <Link href={"mailto:support@cabme.in"} className="text-sm">support@cabme.in</Link>
             </li>
             <li className="flex gap-2 sm:justify-start justify-center">
+              <div className="flex-none">
               <Image src={"/png/call.png"} alt="call" width={18} height={18} />
-              <div className="flex gap-2 text-sm">
+              </div>
+              <div className="lg:flex gap-2 text-sm">
                 <Link href={"tel:18001216162"}>
                   <span className="text-sm">1800 121 6162 ,</span>{" "}
                 </Link>

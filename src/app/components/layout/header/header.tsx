@@ -11,7 +11,7 @@ const Header = () =>{
     }
     return(
         <>
-        <div className="flex justify-between sm:py-4 py-4 sm:px-14 px-8 items-center shadow-xl">
+        <div className="flex justify-between sm:py-4 py-4 sm:px-4 lg:px-8 px-14 items-center shadow-xl">
             <div className="cursor-pointer sm:w-[12%] w-[30%]">
                 <Image src={"/logo.svg"} alt="logo" width={170} height={47} className="sm:w-full w-[130px]"onClick={()=>router.push("/")} />
             </div>
@@ -19,7 +19,7 @@ const Header = () =>{
                 {headerMenu?.map((item,index)=>{
                     return(
 
-                        <li key={index} className="cursor-pointer" onClick={()=>toggleMenu(item?.menu)}>
+                        <li key={index} className="cursor-pointer lg:text-md text-sm" onClick={()=>toggleMenu(item?.menu)}>
                             {item?.menu}
                         </li>
                     )

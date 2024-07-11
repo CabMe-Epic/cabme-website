@@ -116,11 +116,11 @@ const CardListingCards = ({ data }: any) => {
           className="bg-[url('/png/listing-bg.png')]"
           style={{ backgroundSize: "100% 100%" }}
         >
-          <main className=" sm:w-[1028px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat">
+          <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat">
             {/* ---------------------------------------- */}
             {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
               <>
-                <div className="flex flex-col items-center jusitfy-center w-[486px] h-full ">
+                <div className="flex flex-col items-center jusitfy-center lg:w-[486px] w-[260px] h-full ">
                   <div className="flex flex-row justify-center m-auto pr-10 pt-14">
                     <h1 className="m-auto font-bold text-[24px]">
                       {data?.carName}
@@ -152,7 +152,7 @@ const CardListingCards = ({ data }: any) => {
                 </div>
                 <div>
                   <div className="h-[274px] relative">
-                    <div className="mt-5 flex flex-row items-center gap-4 mr-4 justify-end">
+                    <div className="mt-5 flex flex-row items-center lg:gap-4 gap-2 mr-4 justify-end">
                       <div
                         onClick={() => {
                           setPrice(
@@ -163,13 +163,13 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(false);
                           setClicked3(false);
                         }}
-                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                         }`}
                       >
-                        <span className="font-bold text-[20px]">
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
                           {
                             data?.bookingOptions?.selfDrive?.packageType
@@ -184,7 +184,7 @@ const CardListingCards = ({ data }: any) => {
                             }
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
-                          <p className="text-[#FF0000] font-[500] text-[14px]">
+                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
                             360 Free kms
                           </p>
                         </span>
@@ -199,13 +199,13 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(true);
                           setClicked3(false);
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                         }`}
                       >
-                        <span className="font-bold text-[20px] ">
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
                           {
                             data?.bookingOptions?.selfDrive?.packageType
@@ -213,14 +213,14 @@ const CardListingCards = ({ data }: any) => {
                           }
                         </span>
                         <span className="flex flex-col gap-0">
-                          <p className="text-[#565454] font-[500] text-[14px] text-center">
+                          <p className="text-[#565454] font-[500] text-[14px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.duration
                             }
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
-                          <p className="text-[#FF0000] font-[500] text-[14px]">
+                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
                             360 Free kms
                           </p>
                         </span>
@@ -235,13 +235,13 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(false);
                           setClicked3(true);
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                         }`}
                       >
-                        <span className="font-bold text-[20px] ">
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
                           {
                             data?.bookingOptions?.selfDrive?.packageType
@@ -249,14 +249,14 @@ const CardListingCards = ({ data }: any) => {
                           }
                         </span>
                         <span className="flex flex-col gap-0">
-                          <p className="text-[#565454] font-[500] text-[14px] text-center">
+                          <p className="text-[#565454] font-[500] text-[14px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.duration
                             }
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
-                          <p className="text-[#FF0000] font-[500] text-[14px]">
+                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
                             360 Free kms
                           </p>
                         </span>
@@ -318,7 +318,7 @@ const CardListingCards = ({ data }: any) => {
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="text-[15px]">Bluetooth</span>
+                            <span className="lg:text-[15px] text-[11px]">Bluetooth</span>
                           </div>
                         )}
 
@@ -330,7 +330,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="text-[15px]">Manual</span>
+                          <span className="lg:text-[15px] text-[11px]">Manual</span>
                         </div>
                         {data?.carFeatures?.navigationSystem === true && (
                           <div className="flex flex-row items-center gap-2">
@@ -341,7 +341,7 @@ const CardListingCards = ({ data }: any) => {
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="text-[15px]">GPS Navigation</span>
+                            <span className="lg:text-[15px] text-[11px]">GPS Navigation</span>
                           </div>
                         )}
                         <div className="flex flex-row items-center gap-2">
@@ -352,7 +352,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="text-[15px]">5 Person</span>
+                          <span className="lg:text-[15px] text-[11px]">5 Person</span>
                         </div>
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -362,7 +362,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="text-[15px]">
+                          <span className="lg:text-[15px] text-[11px]">
                             {data?.vehicleSpecifications?.fuelType}
                           </span>
                         </div>
@@ -374,7 +374,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="text-[15px]">Boot Space</span>
+                          <span className="lg:text-[15px] text-[11px]">Boot Space</span>
                         </div>
                       </div>
                       <div className="m-0">
@@ -1111,7 +1111,7 @@ const CardListingCards = ({ data }: any) => {
                               --
                             </p>
                             <hr className="border-[#000000] border-[1.2px]" />
-                            <p className="text-[#FF0000] font-[500] text-[14px]">
+                            <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px]">
                               360 Free kms
                             </p>
                           </span>

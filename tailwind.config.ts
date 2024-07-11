@@ -29,7 +29,9 @@ const config: Config = {
     },
     screens:{
       'xs' :'425px',
-      'sm' : '640px'
+      'sm' : '640px',
+      'lg' : '1024px',
+      'xl' : '1250px'
     }
   },
   plugins: [],
