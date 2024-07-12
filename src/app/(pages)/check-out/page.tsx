@@ -17,6 +17,8 @@ const Checkout = () => {
 
   const [frontImage, setFrontImage] = useState<any>(null);
   const [backImage, setBackImage] = useState<any>(null);
+  const [dlFrontImage, setDlFrontImage] = useState<any>(null);
+  const [panFrontImage, setPanFrontImage] = useState<any>(null);
   const [showDocSelect, setShowDocSelect] = useState<any>("DrivingLicense");
 
   const handleFrontImageChange = (e: any) => {
@@ -29,6 +31,17 @@ const Checkout = () => {
     setBackImage(URL.createObjectURL(file));
   };
 
+  const handleDlFrontImageChange = (e: any) => {
+    const file = e.target.files[0];
+    setDlFrontImage(URL.createObjectURL(file));
+  };
+
+  const handlePanFrontImageChange = (e: any) => {
+    const file = e.target.files[0];
+    setPanFrontImage(URL.createObjectURL(file));
+  };
+
+
   const handleRemoveFrontAadhar = () => {
     setFrontImage(null);
   };
@@ -36,7 +49,15 @@ const Checkout = () => {
   const handleRemoveBackAadhar = () => {
     setBackImage(null);
   };
+  const handleRemoveDlFront = () => {
+    setDlFrontImage(null);
+  };
 
+  const handleRemovePanFront = () => {
+    setPanFrontImage(null);
+  };
+
+  
   const handleDocSelect = (e: any) => {
     console.log(e.target.value, "ee");
     setShowDocSelect(e.target.value);
@@ -318,17 +339,17 @@ const Checkout = () => {
                           className="border-0 bg-white !w-[400px] font-light placeholder:text-[#312D4E] mt-5"
                         />
                         <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                          {frontImage ? (
+                          {dlFrontImage ? (
                             <div className="relative ">
                               <span
-                                onClick={handleRemoveFrontAadhar}
+                                onClick={handleRemoveDlFront}
                                 className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
                               >
                                 {" "}
                                 Remove
                               </span>
                               <Image
-                                src={frontImage}
+                                src={dlFrontImage}
                                 alt="Front"
                                 width={100}
                                 height={55}
@@ -349,7 +370,7 @@ const Checkout = () => {
                               />
                               <input
                                 type="file"
-                                onChange={handleFrontImageChange}
+                                onChange={handleDlFrontImageChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                               />
                             </div>
@@ -386,17 +407,17 @@ const Checkout = () => {
                           className="border-0 bg-white !w-[400px] font-light placeholder:text-[#312D4E] mt-5"
                         />
                         <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                          {frontImage ? (
+                          {panFrontImage ? (
                             <div className="relative ">
                               <span
-                                onClick={handleRemoveFrontAadhar}
+                                onClick={handleRemovePanFront}
                                 className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
                               >
                                 {" "}
                                 Remove
                               </span>
                               <Image
-                                src={frontImage}
+                                src={panFrontImage}
                                 alt="Front"
                                 width={100}
                                 height={55}
@@ -417,7 +438,7 @@ const Checkout = () => {
                               />
                               <input
                                 type="file"
-                                onChange={handleFrontImageChange}
+                                onChange={handlePanFrontImageChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                               />
                             </div>
