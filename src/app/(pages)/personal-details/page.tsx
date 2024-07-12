@@ -4,6 +4,7 @@ import ThemeButton from '@/app/components/theme-button/theme-button';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
+import BookingSummery from '@/app/components/booking-summery';
 
 
 const PersonalDetails = (props: any) => {
@@ -175,11 +176,11 @@ const PersonalDetails = (props: any) => {
                 </div>
                 {/*  */}
 
-                <div className='grid grid-cols-1 sm:grid-cols-[55%_45%] gap-0 mt-10'>
+                <div className='grid grid-cols-1 sm:grid-cols-[55%_45%] gap-6 mt-10'>
 
 
                     <section className="mx-auto">
-                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] lg:w-[600px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
                             <div className="">
                                 <h1 className="text-[36px] font-bold">Aadhar Verification</h1>
                             </div>
@@ -205,7 +206,7 @@ const PersonalDetails = (props: any) => {
 
                         {/* aaadhar end */}
 
-                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] sm:w-[550px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
+                        <div className="my-6 w-[390px] h-[415px] sm:h-[300px] lg:w-[600px] p-10 border flex flex-col items-center justify-center gap-10 rounded-lg shadow-md">
                             <div className="">
                                 <h1 className="text-[36px] font-bold">Pan Card Verification</h1>
                             </div>
@@ -252,8 +253,8 @@ const PersonalDetails = (props: any) => {
                         {/* DL end */}
                     </section>
 
-
-                    <section className='px-4'>
+                            <BookingSummery />
+                    {/* <section className='px-4'>
                         <main className="flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md p-4 shadow-custom-shadow border">
                             <div className='w-[280px] sm:w-[376px] h-[50px] bg-black text-white font-semibold text-[18px] sm:text-[20px] flex justify-center items-center rounded-xl'>
                                 <span className="text-center">Booking Summary</span>
@@ -338,7 +339,7 @@ const PersonalDetails = (props: any) => {
                                 <span className="text-[#ff0000] font-semibold text-[18px] sm:text-[20px]">Balance on Delivery</span>
                             </div>
                         </main>
-                    </section>
+                    </section> */}
 
 
 

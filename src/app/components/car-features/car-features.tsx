@@ -19,7 +19,7 @@ const features = [
 
 const CarFeatures = ({ carFeatures }: any) => {
   return (
-    <div className=" mx-auto p-6 bg-white rounded-lg shadow-features-shadow">
+    <div className="sm:max-w-[600px] lg:max-w-full mx-auto p-6 bg-white rounded-lg shadow-features-shadow">
       <h2 className="sm:text-2xl text-xl sm:font-bold font-semibold mb-4 border-b-[1px] pb-4 border-grey-100">
         Car Features
       </h2>

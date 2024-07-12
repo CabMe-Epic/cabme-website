@@ -205,7 +205,7 @@ export default function Home() {
   return (
     <>
       <div
-        className="bg-[url('/latest-home.png')] rounded-2xl lg:h-[370px] sm:h-[240px] h-[18vh] sm:py-0 py-4 bg-no-repeat bg-contain flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
+        className="bg-[url('/latest-home.png')] rounded-2xl lg:h-[360px] sm:h-[200px] h-[18vh] sm:py-0 py-4 bg-no-repeat bg-contain flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
         style={{ backgroundSize: "100% 100%" }}
       >
         {/* <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
@@ -977,10 +977,10 @@ export default function Home() {
       <div className="flex justify-between bg-[#F9F9F9] overflow-hidden">
         <div className="grid grid-cols-2 justify-center w-full p-2">
           <div className="w-[450px] m-auto">
-            <h3 className="font-bold sm:text-[62px] text-[26px]">
+            <h3 className="font-bold lg:text-[62px] sm:text-[44px] text-[26px]">
               5% <span className="font-normal">OFF</span>
             </h3>
-            <div className="border-b border-black sm:text-xl text-[12px] sm:my-2 sm:pb-4 text-[#909090]">
+            <div className="border-b border-black lg:text-xl sm:text-lg text-[12px] sm:my-2 sm:pb-4 text-[#909090]">
               <span>Car Rental Discount</span> <br />
               <span>until May 21st 2024</span>
             </div>
@@ -1064,11 +1064,11 @@ export default function Home() {
       {/* subscription section */}
       <div className="max-w-[1250px] m-auto sm:grid flex flex-col-reverse grid-cols-[1fr_2fr]">
         <div className="bg-[#e4e4e4] sm:px-6 sm:py-6 py-2 px-4 bg-[url('/png/round.png')] bg-no-repeat">
-          <h3 className="sm:text-4xl text-xl font-semibold">
+          <h3 className="lg:text-4xl sm:text-2xl text-xl font-semibold">
             Save big with our
           </h3>
-          <p className="sm:text-5xl text-2xl font-bold sm:my-2">CAR</p>
-          <p className="sm:text-5xl text-3xl font-bold text-primary">RENTAL</p>
+          <p className="lg:text-5xl sm:text-3xl text-2xl font-bold sm:my-2">CAR</p>
+          <p className="lg:text-5xl sm:text-3xl text-3xl font-bold text-primary">RENTAL</p>
           <ThemeButton
             text="FIND A CAR"
             className="sm:mt-6 mt-2 sm:px-6 px-2 sm:text-md text-xs"

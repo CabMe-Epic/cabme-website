@@ -275,19 +275,19 @@ const CarDetails = () => {
           <span className="cursor-pointer">Listing</span>/
           <span className="cursor-pointer">Car Details</span>
         </div>
-        <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6 ">
-          <div className="px-4">
+        <div className="max-w-[1250px] m-auto sm:my-12 lg:grid grid-cols-[60%_40%] gap-6 ">
+          <div className="px-4 lg:max-w-auto max-w-[700px] m-auto">
             <ProductSlider
               featuredImage={carDetails?.featuredImage as any}
               imageGallery={carDetails?.imageGallery as any}
             />
             {/* mobile view */}
-            <div className="sm:hidden block my-4">
+            <div className="lg:hidden block my-4">
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* mobile view */}
-            <div className="sm:hidden block">
-              <main className="max-w-[511px] px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+            <div className="lg:hidden block">
+              <main className="max-w-[511px] m-auto px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="max-w-[376px] sm:h-[50px] h-[43px] sm:w-full w-[80%] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center sm:text-md text-[18px]">Booking Summary</span>
                 </div>
@@ -393,7 +393,7 @@ const CarDetails = () => {
                   </span>
                 </div>
               </main>
-              <div className="flex flex-row items-start gap-2 ml-4">
+              <div className="sm:max-w-[511px] lg:max-w-full m-auto flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">
                   <Image
                     src="/png/waiting.png"
@@ -420,11 +420,11 @@ const CarDetails = () => {
           </div>
           {/*  */}
           <div>
-            <div className="sm:block hidden">
+            <div className="lg:block hidden">
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* booking summary */}
-            <div className="sm:block hidden">
+            <div className="lg:block hidden">
               {/* <BookingSummery/> */}
               <main className=" w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">

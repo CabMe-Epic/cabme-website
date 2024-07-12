@@ -2,7 +2,7 @@ import React from 'react'
 
 const DescCar = ({ desc }: any) => {
     return (
-        <div className=" sm:mx-auto p-6 bg-white rounded-lg shadow-md max-w-[1250px] border mx-4">
+        <div className=" lg:mx-auto p-6 bg-white rounded-lg shadow-md max-w-[1250px] border mx-4">
             <h2 className="text-2xl font-semibold mb-4 border-b-[1px] pb-4 border-grey-100">Description of Car</h2>
             <div className="">
 
