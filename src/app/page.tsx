@@ -562,7 +562,7 @@ export default function Home() {
                   className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
                     }`}
                 >
-                  <div className="mt-2">
+                  <div className="mt-2 flex-none">
                     <Image
                       src={item?.imageUrl}
                       alt="icon"
@@ -984,7 +984,7 @@ export default function Home() {
               <span>Car Rental Discount</span> <br />
               <span>until May 21st 2024</span>
             </div>
-            <h4 className="font-semibold text-sm sm:text-[34px]">
+            <h4 className="font-semibold text-sm sm:text-[28px]">
               DISCOUNT CODE : <span className="text-primary">NEW5</span>
             </h4>
           </div>
@@ -1010,15 +1010,15 @@ export default function Home() {
       </div>
       {/* app section */}
       <div
-        className="grid sm:grid-cols-2 px-4 py-8 rounded-xl m-4 bg-[#FCE2E2] sm:my-16 my-10"
+        className="grid sm:grid-cols-2 gap-4 px-4 py-8 rounded-xl m-4 bg-[#FCE2E2] sm:my-16 my-10"
         style={{ boxShadow: "0px 1px 18.1px 2px #FF000080" }}
       >
         <div className="max-w-[550px] m-auto">
-          <h3 className="font-bold sm:text-3xl text-2xl">
+          <h3 className="font-bold lg:text-3xl text-2xl">
             <span className="text-primary">Download</span> our app to get <br />
             most out of it
           </h3>
-          <p className="sm:my-8 my-4 sm:text-md text-sm">
+          <p className="lg:my-8 my-4 sm:text-md text-sm">
             Thrown shy denote ten ladies though ask saw. Or by to he going think
             order event music. Incommode so intention defective at convinced.
             Led income months itself and houses you.
@@ -1030,7 +1030,7 @@ export default function Home() {
                 alt="play-store"
                 width={179}
                 height={77}
-                className="sm:w-[179px] w-[110px]"
+                className="lg:w-[179px] sm:w-full w-[110px]"
               />
             </button>
             <button>
@@ -1039,7 +1039,7 @@ export default function Home() {
                 alt="apple"
                 width={179}
                 height={77}
-                className="sm:w-[179px] w-[110px]"
+                className="lg:w-[179px] sm:w-full w-[110px]"
               />
             </button>
           </div>
@@ -1171,7 +1171,7 @@ export default function Home() {
                 </div>
                 <div className="font-bold sm:text-2xl text-xs">
                   <h3>{item?.count}</h3>
-                  <p>{item?.headline}</p>
+                  <p className="lg:text-[14px] text-sm">{item?.headline}</p>
                 </div>
               </div>
             );

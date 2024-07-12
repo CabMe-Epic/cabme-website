@@ -13,8 +13,10 @@ import useReservationDateTime from "../../../../networkRequests/hooks/useReserva
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../networkRequests/hooks/promocodes";
+import ApplyCoupon from "../ApplyCoupon/apply-coupon";
 
 const BookingSummery = () => {
+    const [applyCoupon,setApplyCoupon] = React.useState(false);
 
 
     return (
@@ -78,13 +80,19 @@ const BookingSummery = () => {
                 </div>
                 <div className="w-full">
                     <span className="flex flex-row my-5 mt-10">
+                        <div>
                         <Image
                             src="/png/offer.png"
                             width={20}
                             height={20}
                             alt="offer"
                         />
-                        <select
+                        </div>
+                        <div className="flex gap-2 ml-2 items-center">
+                            <h3 className="font-semibold text-sm">Have a coupon?</h3>
+                            <h4 className="font-semibold text-xs text-primary cursor-pointer" onClick={()=>setApplyCoupon(true)}>Click here to enter your code</h4>
+                        </div>
+                        {/* <select
                             name="offer"
                             id="offer"
                             className="border-0 outline-0 bg-transparent max-w-[405px] text-sm"
@@ -92,7 +100,7 @@ const BookingSummery = () => {
                             <option value="View all promo coupons">
                                 View all promo coupons
                             </option>
-                        </select>
+                        </select> */}
                     </span>
 
                     <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
@@ -125,6 +133,10 @@ const BookingSummery = () => {
                     </span>
                 </div>
             </main>
+            {applyCoupon &&
+            
+            <ApplyCoupon onClick={()=>setApplyCoupon(false)} />
+            }
         </div>
     )
 }

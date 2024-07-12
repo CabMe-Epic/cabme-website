@@ -117,16 +117,16 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                             width={18}
                             height={18}
                           />
-                          <span className="text-sm">{value?.speci}</span>
+                          <span className="text-sm whitespace-nowrap">{value?.speci}</span>
                         </div>
                       );
                     })}
                   </div>
-                  <p className="text-xs my-4">{item?.desc}</p>
+                  {/* <p className="text-xs my-4">{item?.desc}</p> */}
                   {showButton === false ? (
                     ""
                   ) : (
-                    <ThemeButton className="w-full" text="Book Now" />
+                    <ThemeButton className="w-full mt-2" text="Book Now" />
                   )}
                 </div>
               </SwiperSlide>
