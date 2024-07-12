@@ -226,7 +226,7 @@ const SignIn = () => {
                     />
                   </div>
                   <div className="flex gap-2">
-                    <p>Don't have an account?</p>
+                    <p>Don&apos;t have an account?</p>
                     <span
                       onClick={() => setShowSignIn(false)}
                       className="cursor-pointer text-blue-500"
