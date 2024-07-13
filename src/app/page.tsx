@@ -205,9 +205,10 @@ export default function Home() {
   return (
     <>
       <div
-        className="bg-[url('/latest-home.png')] rounded-2xl lg:h-[360px] sm:h-[200px] h-[18vh] sm:py-0 py-4 bg-no-repeat bg-contain flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
+        className=" rounded-2xl sm:py-0 py-4 flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
         style={{ backgroundSize: "100% 100%" }}
       >
+        <Image src={"/latest-home.png"} alt="banner" width={1650} height={950} className="w-full h-auto" />
         {/* <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
           <h1 className="sm:text-4xl text-[20px] font-semibold sm:mt-8 mt-2">
             Experience innovation on
