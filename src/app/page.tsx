@@ -1,11 +1,9 @@
 "use client";
 import Image from "next/image";
 import ThemeButton from "./components/theme-button/theme-button";
-import SliderManual from "./components/slider/slider-components";
 import OfferCards from "./components/offer-cards/offer-cards";
 import ReviewCard from "./components/review-card/review-card";
 import FaqSection from "./components/faq/faq";
-import Link from "next/link";
 import FleetsSlider from "./components/slider/slider-components";
 import OurBlogs from "./components/our-blogs/our-blogs";
 import React, { useEffect, useState } from "react";
