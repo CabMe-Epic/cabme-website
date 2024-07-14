@@ -125,6 +125,8 @@ const CarDetails = () => {
     createdByUser: userId
   };
 
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+
   async function handleBooking() {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`, bookingData, {
@@ -135,8 +137,9 @@ const CarDetails = () => {
       console.log('Booking response:', { response });
       toast.success(response?.data?.message)
       if (response?.data?.success) {
+        setBookingSuccess(true);
         setTimeout(() => {
-          router.push("/payment")
+          // router.push("/payment")
         }, 2000);
       }
     } catch (error: any) {
@@ -572,7 +575,7 @@ const CarDetails = () => {
                     <div>
 
                       {/* Desktop button ... */}
-                      {userId && token ? (
+                      {/* {userId && token ? (
                         <button
                           onClick={handleBooking}
                           className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
@@ -580,11 +583,37 @@ const CarDetails = () => {
                         </button>
                       ) : (
                         <button
-                          onClick={() => router.push("/sign-in")}
+                          onClick={() => router.push("/check-out")}
                           className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
                           Proceed
                         </button>
-                      )}
+                      )} */}
+
+                      {/* Dynamic buttons ...  */}
+
+                      <>
+                        {userId && token ? (
+                          bookingSuccess ? (
+                            <button
+                              // onClick={() => router.push("/payment")}
+                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                              Payment
+                            </button>
+                          ) : (
+                            <button
+                              onClick={handleBooking}
+                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                              Checkout
+                            </button>
+                          )
+                        ) : (
+                          <button
+                            onClick={() => router.push("/check-out")}
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                            Proceed
+                          </button>
+                        )}
+                      </>
                     </div>
                   </div>
                 </div>
