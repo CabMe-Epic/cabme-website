@@ -21,8 +21,8 @@ export default function Home() {
   // const [startDate, setStartDate] = useState(
   //   setHours(setMinutes(new Date(), 0), 9),
   // );
-  const [startDate, setStartDate] = useState(new Date());
-  const [dropDate, setDropDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<any>();
+  const [dropDate, setDropDate] = useState<any>();
   console.log(startDate, "sun");
 
   const filterPassedTime = (time: any) => {
@@ -92,11 +92,11 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime)
 
-    
+
     tabValue === "Driver"
-    ? localStorage.setItem("radioToggle", radioToggle)
-    : "";
-   
+      ? localStorage.setItem("radioToggle", radioToggle)
+      : "";
+
     router.push("/car-listing")
   };
 
@@ -126,7 +126,7 @@ export default function Home() {
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
       day = ("0" + date.getDate()).slice(-2);
-    
+
 
     return [date.getFullYear(), mnth, day].join("-");
   }
@@ -205,7 +205,7 @@ export default function Home() {
   const [offer, setOffer] = useState("Daily Offers");
   console.log(switchRadio, "tabValue")
   console.log(tabValue, "tabValue")
-
+  console.log(startDate, "startDate")
 
   return (
     <>
@@ -335,6 +335,7 @@ export default function Home() {
                                   ? startDate
                                   : dropDate
                               }
+
                               onChange={
                                 item?.heading === "Pick Up Date"
                                   ? (date) => hanldepickupTime(date)
@@ -353,6 +354,7 @@ export default function Home() {
                 })}
 
                 <div>
+
                   <ThemeButton
                     text="Search"
                     className="px-8 !py-[10px] relative right-6"
@@ -601,7 +603,7 @@ export default function Home() {
                       </select>
                     )}
                     {item?.id === "date" && (
-                      <div className="flex gap-2 mt-2">
+                      <div className="flex flex-col gap-2 mt-2">
                         {/* <input
 
                           type="date"
@@ -642,7 +644,10 @@ export default function Home() {
                           showTimeSelect
                           filterTime={filterPassedTime}
                           dateFormat="MMMM d, yyyy h:mm aa"
+                          placeholderText={item?.heading === "Pick Up Date" && !startDate ? "DD-MM-YYYY" : (item?.heading !== "Pick Up Date" && !dropDate ? "DD-MM-YYYY" : "")}
+
                         />
+
                       </div>
                     )}
                   </div>
@@ -660,12 +665,12 @@ export default function Home() {
           </div>
         )}
         <div className="lg:hidden block mt-4">
-              <ThemeButton
-                className="px-8 !py-[10px] relative right-6 m-auto"
-                text="Search"
-                onClick={() => saveLocationData()}
-              />
-            </div>
+          <ThemeButton
+            className="px-8 !py-[10px] relative right-6 m-auto"
+            text="Search"
+            onClick={() => saveLocationData()}
+          />
+        </div>
       </div>
       {/* Only mobile section subsription */}
       <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 my-6">
@@ -703,7 +708,7 @@ export default function Home() {
                 name="select"
                 id="self"
                 className="accent-red-500"
-                checked={switchRadio==="Self Driven" ? true:false}
+                checked={switchRadio === "Self Driven" ? true : false}
               />
               <label className="ml-2 text-sm" htmlFor="self">
                 Self Driven
@@ -793,20 +798,20 @@ export default function Home() {
                 Pickup date
               </label>
               <div className="border rounded-xl p-2 flex items-center gap-2">
-            <Image
-              src={"/date.svg"}
-              alt="location"
-              width={16}
-              height={18}
-            />
-            <DatePicker
-              selected={mobileStartDate ? moment(`${mobileStartDate} ${mobileStartTime}`, 'YYYY-MM-DD HH:mm').toDate() : null}
-              onChange={handleStartDateTimeChange}
-              showTimeSelect
-              dateFormat="yyyy-MM-dd HH:mm"
-              placeholderText="Select date and time"
-            />
-          </div>
+                <Image
+                  src={"/date.svg"}
+                  alt="location"
+                  width={16}
+                  height={18}
+                />
+                <DatePicker
+                  selected={mobileStartDate ? moment(`${mobileStartDate} ${mobileStartTime}`, 'YYYY-MM-DD HH:mm').toDate() : null}
+                  onChange={handleStartDateTimeChange}
+                  showTimeSelect
+                  dateFormat="yyyy-MM-dd HH:mm"
+                  placeholderText="Select date and time"
+                />
+              </div>
             </div>
           )}
           {mobileStartDate && (
@@ -1189,7 +1194,7 @@ export default function Home() {
           })}
         </div>
       </div>
-      
+
     </>
   );
 }
