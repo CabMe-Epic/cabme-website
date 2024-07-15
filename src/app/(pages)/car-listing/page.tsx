@@ -838,12 +838,12 @@ const CarListing = () => {
                           data={item}
                         />
                       )}{
-                      console.log(cardCount, "cardCount")
+                        console.log(cardCount, "cardCount")
                       }
                       {
-                      cardCount % 2 === 0 &&   <CardListingBanner />
+                        cardCount % 2 === 0 && <CardListingBanner />
                       }
-                    
+
                     </>
                   )}
                 </>
