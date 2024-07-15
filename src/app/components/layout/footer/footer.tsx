@@ -144,6 +144,25 @@ const Footer = () => {
       </div>
     </div>
     <p className="p-4 bg-primary-color text-white font-semibold text-center sm:text-md text-xs">Copyright,  Cabme 2024. All Right Reserved.</p>
+    <div className="fixed center bottom-6 left-6 w-12 h-12 bg-black rounded-full flex items-center justify-center">
+        <Image
+          src={"/svg/outgoing-call-icon.svg"}
+          alt="phone"
+          width={30}
+          height={30}
+          className="circle pulse !w-[30px] !h-[30px]"
+
+        />
+      </div>
+      <div className="fixed center bottom-6 right-6 w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
+        <Image
+          src={"/svg/whatsapp-white.svg"}
+          alt="phone"
+          width={30}
+          height={30}
+          className="circle pulse"
+        />
+      </div>
     </>
   );
 };
