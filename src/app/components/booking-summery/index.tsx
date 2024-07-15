@@ -99,7 +99,7 @@ const BookingSummery = () => {
     const handleApplyPromoCode = () => {
         if (selectedPromocodeOption) {
             const selectedPromoCode = promoCodes.find((code: PromoCode) => code.code === selectedPromocodeOption) as PromoCode | undefined;
-            console.log({ selectedPromoCode });
+            // console.log({ selectedPromoCode });
             if (selectedPromoCode) {
                 if (selectedPromoCode.selectDiscount === 'Percentage') {
                     const discount = (selectedPromoCode.couponAmount / 100) * totalPrice;
@@ -145,7 +145,7 @@ const BookingSummery = () => {
         }
     }, [carDetails, bookingOpt]);
 
-    console.log(sessionSlug, "sessionSlug")
+    // console.log(sessionSlug, "sessionSlug")
 
 
     async function handleBooking() {
@@ -155,7 +155,7 @@ const BookingSummery = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log('Booking response:', { response });
+            // console.log('Booking response:', { response });
             toast.success(response?.data?.message)
             if (response?.data?.success) {
                 setBookingSuccess(true);
@@ -231,7 +231,7 @@ const BookingSummery = () => {
         getPromoCodes();
     }, [])
 
-    console.log(carDetails, "carDetails")
+    // console.log(carDetails, "carDetails")
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedPickupTime = localStorage.getItem('pickupTime');

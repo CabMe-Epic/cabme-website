@@ -228,6 +228,8 @@ const CarListing = () => {
     setShowOther(false);
   };
 
+  let cardCount = 0;
+
   return (
     <div className="max-w-[1400px] m-auto">
       <div
@@ -297,7 +299,7 @@ const CarListing = () => {
 
         {/* filters */}
         <div className=" listing-filter sm:my-14 my-4 lg:flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
-          <div className="sm:flex hidden  w-full sm:w-auto mt-4 lg:mb-0 mb-4 lg:justify-start justify-center">
+          {/* <div className="sm:flex hidden  w-full sm:w-auto mt-4 lg:mb-0 mb-4 lg:justify-start justify-center">
             <div className="sm:text-[16px] text-xs">
               Showing 1-8 of 10 Results
             </div>
@@ -308,10 +310,10 @@ const CarListing = () => {
             >
               <option value="Filters">Filters</option>
             </select>
-          </div>
+          </div> */}
           {/*  */}
           <div className="flex justify-between gap-2">
-            <div className="xs:flex flex-row items-center gap-4">
+            {/* <div className="xs:flex flex-row items-center gap-4">
               <div className="text-sm">Show:</div>
               <div className="flex gap-2">
                 <div>
@@ -342,9 +344,9 @@ const CarListing = () => {
                   </select>
                 </div>
               </div>
-            </div>
+            </div> */}
             {/*  */}
-            <div className="sm:flex hidden flex-row items-center gap-2">
+            {/* <div className="sm:flex hidden flex-row items-center gap-2">
               <div className="cursor-pointer flex-none">
                 <Image
                   src="/carListing/filterIconRed.png"
@@ -361,10 +363,10 @@ const CarListing = () => {
                   alt="Filter Icon"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           {/* for mobile  */}
-          <div className="sm:hidden flex  w-full sm:w-auto mt-4 lg:mb-0 mb-4 justify-between px-4">
+          {/* <div className="sm:hidden flex  w-full sm:w-auto mt-4 lg:mb-0 mb-4 justify-between px-4">
             <div className="sm:text-[16px] text-xs">
               Showing 1-8 of 10 Results
             </div>
@@ -375,7 +377,7 @@ const CarListing = () => {
             >
               <option value="Filters">Filters</option>
             </select>
-          </div>
+          </div> */}
         </div>
         {/* filters */}
 
@@ -411,7 +413,7 @@ const CarListing = () => {
                 }}
                 className="flex flex-row items-center justify-between cursor-pointer"
               >
-                <span className="font-bold">Car Category</span>
+                <span className="font-bold">Car Brand</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
@@ -493,7 +495,7 @@ const CarListing = () => {
                 onClick={() => setShowCapacity(!showCapacity)}
                 className="flex flex-row items-center justify-between cursor-pointer"
               >
-                <span className="font-bold">Capacity</span>
+                <span className="font-bold">Passenger Capacity</span>
                 <Image
                   src="/carListing/blackArrow.svg"
                   width={20}
@@ -709,7 +711,7 @@ const CarListing = () => {
               <hr className="my-5" />
             </div> */}
             {/*  */}
-            <div>
+            {/* <div>
               <div
                 onClick={() => setShowOther(!showOthers)}
                 className="flex flex-row items-center justify-between cursor-pointer"
@@ -749,7 +751,7 @@ const CarListing = () => {
               )}
 
               <hr className="my-5" />
-            </div>
+            </div> */}
             {/*  */}
 
             <div>
@@ -772,7 +774,6 @@ const CarListing = () => {
               {
                 const date = item?.bookingDate;
                 const dateObject = new Date(date);
-                //  dateOnly = dateObject.toISOString().split("T")[0];
 
                 if (!isNaN(dateObject.getTime())) {
                   dateOnly = dateObject.toISOString().split("T")[0];
@@ -784,62 +785,73 @@ const CarListing = () => {
               {
                 dateOnly === pickUpDate
                   ? console.log("matched")
-                  : console.log("doesnt matched");
+                  : console.log("doesn't match");
               }
+
+              const isMatchingCriteria = item?.available &&
+                pickupLocation === item?.city &&
+                (selectedCategories.length === 0 ||
+                  selectedCategories.some(
+                    (category: any) => item?.brandName === category
+                  )) &&
+                (selectedTypes.length === 0 ||
+                  selectedTypes.some(
+                    (type: any) =>
+                      item?.vehicleSpecifications?.body === type
+                  )) &&
+                (selectedCapacity.length === 0 ||
+                  selectedCapacity.some(
+                    (capacity: any) =>
+                      item?.seatingCapacity === capacity
+                  )) &&
+                (selectedTransmission.length === 0 ||
+                  selectedTransmission.some(
+                    (trans: any) =>
+                      item?.vehicleSpecifications.transmission === trans
+                  )) &&
+                (selectedFuelType.length === 0 ||
+                  selectedFuelType.some(
+                    (type: any) =>
+                      item?.vehicleSpecifications.fuelType === type
+                  )) &&
+                (selectedOthers.length === 0 ||
+                  selectedOthers.every(
+                    (feature: any) =>
+                      item?.carFeatures[feature] === true
+                  ));
+
+              if (isMatchingCriteria) {
+                cardCount++;
+              }
+
               return (
                 <>
-                  {item?.available && (
+                  {isMatchingCriteria && (
                     <>
-                      {pickupLocation === item?.city &&
-                        (selectedCategories.length === 0 ||
-                          selectedCategories.some(
-                            (category: any) => item?.brandName === category
-                          )) &&
-                        (selectedTypes.length === 0 ||
-                          selectedTypes.some(
-                            (type: any) =>
-                              item?.vehicleSpecifications?.body === type
-                          )) &&
-                        (selectedCapacity.length === 0 ||
-                          selectedCapacity.some(
-                            (capacity: any) =>
-                              item?.seatingCapacity === capacity
-                          )) &&
-                        (selectedTransmission.length === 0 ||
-                          selectedTransmission.some(
-                            (trans: any) =>
-                              item?.vehicleSpecifications.transmission === trans
-                          )) &&
-                        (selectedFuelType.length === 0 ||
-                          selectedFuelType.some(
-                            (type: any) =>
-                              item?.vehicleSpecifications.fuelType === type
-                          )) &&
-                        (selectedOthers.length === 0 ||
-                          selectedOthers.every(
-                            (feature: any) =>
-                              item?.carFeatures[feature] === true
-                          )) && (
-                          <>
-                            <CardListingCards
-                              key={`card-${item.id}`}
-                              data={item}
-                            />
-                            {dateOnly === pickUpDate && (
-                              <CardListingCards
-                                key={`card-date-${item.id}`}
-                                data={item}
-                              />
-                            )}
-                          </>
-                        )}
+                      <CardListingCards
+                        key={`card-${item.id}`}
+                        data={item}
+                      />
+                      {dateOnly === pickUpDate && (
+                        <CardListingCards
+                          key={`card-date-${item.id}`}
+                          data={item}
+                        />
+                      )}{
+                        console.log(cardCount, "cardCount")
+                      }
+                      {
+                        cardCount % 2 === 0 && <CardListingBanner />
+                      }
+
                     </>
                   )}
                 </>
               );
             })}
 
-            <CardListingBanner />
+
+            {/* <CardListingBanner /> */}
           </div>
         </section>
         <div className="">
@@ -856,8 +868,8 @@ const CarListing = () => {
               <button
                 key={index}
                 className={`w-10 h-10 border rounded-md ${currentPage === index + 1
-                    ? "bg-primary-color text-white"
-                    : "bg-white text-gray-700"
+                  ? "bg-primary-color text-white"
+                  : "bg-white text-gray-700"
                   }`}
                 onClick={() => handleClick(index + 1)}
               >
