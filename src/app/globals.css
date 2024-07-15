@@ -109,7 +109,10 @@
 .pulse {
   animation: pulse-animation 2s infinite;
 }
-
+.banner-slider .swiper-initialized{
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 @keyframes pulse-animation {
   0% {
     box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
@@ -127,6 +130,9 @@
   .review-slider  .swiper-slide{
     opacity: 1;
   }
+  .banner-slider .swiper-initialized{
+    padding-bottom: 0 !important;
+  }
 }
   @media only screen and (max-width:576px){
     .review-slider  .swiper-slide{
@@ -141,6 +147,7 @@
     .product-slider .swiper-button-next,  .product-slider .swiper-button-prev{
     /* display: none !important; */
    }
+
   }
 
   @media (max-width: 600px) {

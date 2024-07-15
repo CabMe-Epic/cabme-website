@@ -121,23 +121,39 @@ const ReviewCard = () => {
 export default ReviewCard;
 const reviewArray = [
   {
-    content:"As a satisfied customer of [SaaS Provider], I want to share my positive experience with others. Their software as a service platform has greatly improved the efficiency and productivity of our business operations. The cloud-based solution is user-friendly and regularly updated to stay ahead of the technology curve.",
-    name:"Savannah Nguyen"
+    content:"Very good service. I could not expect that I can get a car at 4.30 in the morning. Even they have paid for fuel which I filled more. Very transparent",
+    name:"Ramesh Singh Shekhwat"
   },
   {
-    content:"As a satisfied customer of [SaaS Provider], I want to share my positive experience with others. Their software as a service platform has greatly improved the efficiency and productivity of our business operations. The cloud-based solution is user-friendly and regularly updated to stay ahead of the technology curve.",
-    name:"Savannah Nguyen"
+    content:"Nice service with on time pickup and delivery. Good customer support with friendly and very helpful staff. The car was also very smooth and the packages are pocket friendly. Overall an amazing experience. Would highly recommend",
+    name:"Roshan Singh"
     
   },
   {
-    content:"As a satisfied customer of [SaaS Provider], I want to share my positive experience with others. Their software as a service platform has greatly improved the efficiency and productivity of our business operations. The cloud-based solution is user-friendly and regularly updated to stay ahead of the technology curve.",
-    name:"Savannah Nguyen"
+    content:"Booked for 4 days for a family trip. Car was water washed and sanitized when I recieved it. Trip and the process were very comfortable and hassle-free. Best self-drive car service provider. I strongly recommend Cabme. Looking forward to using Cabme car",
+    name:"Lokesh Singh"
     
   },
   {
-    content:"As a satisfied customer of [SaaS Provider], I want to share my positive experience with others. Their software as a service platform has greatly improved the efficiency and productivity of our business operations. The cloud-based solution is user-friendly and regularly updated to stay ahead of the technology curve.",
-    name:"Savannah Nguyen"
+    content:"Sanitized car was provided. The delivery and pickup boy was very polite and helpful. This company is honest with their customers.",
+    name:"Nikhil Sharma"
     
   },
+  {
+    content:"Very good service. I could not expect that I can get a car at 4.30 in the morning. Even they have paid for fuel which I filled more. Very transparent",
+    name:"Ramesh Singh Shekhwat"
+  },
+  {
+    content:"Nice service with on time pickup and delivery. Good customer support with friendly and very helpful staff. The car was also very smooth and the packages are pocket friendly. Overall an amazing experience. Would highly recommend",
+    name:"Roshan Singh"
+  },
+  {
+    content:"Booked for 4 days for a family trip. Car was water washed and sanitized when I recieved it. Trip and the process were very comfortable and hassle-free. Best self-drive car service provider. I strongly recommend Cabme. Looking forward to using Cabme car",
+    name:"Lokesh Singh"
+  },
+  {
+    content:"Sanitized car was provided. The delivery and pickup boy was very polite and helpful. This company is honest with their customers.",
+    name:"Nikhil Sharma"
+  }
 
 ]

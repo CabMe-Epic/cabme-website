@@ -14,6 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Datepicker.css";
 import moment from 'moment';
+import BannerSlider from "./components/banner-slider/banner-slider";
 
 
 export default function Home() {
@@ -203,10 +204,11 @@ export default function Home() {
   return (
     <>
       <div
-        className=" rounded-2xl sm:py-0 py-4 flex items-center sm:mx-20 sm:mt-6 mt-4 mx-2"
+        className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2"
         style={{ backgroundSize: "100% 100%" }}
       >
-        <Image src={"/latest-home.png"} alt="banner" width={1650} height={950} className="w-full h-auto" />
+        <BannerSlider />
+        {/* <Image src={"/latest-home.png"} alt="banner" width={1650} height={950} className="w-full h-auto" /> */}
         {/* <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
           <h1 className="sm:text-4xl text-[20px] font-semibold sm:mt-8 mt-2">
             Experience innovation on
@@ -221,7 +223,7 @@ export default function Home() {
           </div>
         </div> */}
       </div>
-      <div className="max-w-[1250px] h-[230px] sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative">
+      <div className="max-w-[1250px] h-[230px] sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative z-[99]">
         <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
@@ -695,6 +697,7 @@ export default function Home() {
                 name="select"
                 id="self"
                 className="accent-red-500"
+                checked={switchRadio==="Self Driven" ? true:false}
               />
               <label className="ml-2 text-sm" htmlFor="self">
                 Self Driven
@@ -936,12 +939,12 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className={`sm:p-6 p-2 relative sm:w-[261px] w-[220px] sm:h-[261px] h-[220px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
                 </span>
-                <div className="sm:mt-[-17px] mt-[-25px]">
+                <div className="sm:mt-[-17px] mt-[-35px]">
                   <Image
                     src={item?.imageUrl}
                     alt="image"
@@ -953,7 +956,7 @@ export default function Home() {
                       } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
-                    <h3 className="font-semibold text-xl">{item?.title}</h3>
+                    <h3 className="font-semibold text-xl sm:leading-[26px] leading-none">{item?.title}</h3>
                     <p className="text-xs mt-2 sm:!w-[180px] !w-[130px] m-auto">{item?.desc}</p>
                   </div>
                 </div>
@@ -1385,7 +1388,7 @@ const chooseArray = [
     imageUrl: "/png/car04.png",
     width: 136,
     height: 132,
-    title: "Doorstep Delivery",
+    title: "Insurance included",
     desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
