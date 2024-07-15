@@ -113,6 +113,10 @@
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+.react-datepicker{
+  margin-left: 50px !important;
+  width: auto !important;
+}
 @keyframes pulse-animation {
   0% {
     box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
@@ -135,6 +139,10 @@
   }
 }
   @media only screen and (max-width:576px){
+    .react-datepicker{
+      /* margin-left: 50px !important; */
+      width: 100% !important;
+    }
     .review-slider  .swiper-slide{
       opacity: 1;
     }

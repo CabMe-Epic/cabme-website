@@ -95,10 +95,10 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
           {monthlyOfferCard?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <div className="w-[400px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+                <div className="sm:w-[400px] w-[340px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
                   <div className="flex flex-col content-between bg-white relative">
                     <div className="p-2">
-                      <h3 className="font-bold text-2xl h-fit mb-2">
+                      <h3 className="font-bold sm:text-2xl text-xl h-fit sm:mb-2">
                         {item?.percent}{" "}
                         <span className="font-normal text-[22px]">OFF</span>
                       </h3>
@@ -111,7 +111,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
                       {item?.couponCode}
                     </div>
                   </div>
-                  <div className="w-full h-[160px]">
+                  <div className="w-full sm:h-[160px] h-[125px]">
                     <Image
                       src={item?.imageURl}
                       alt="offer"

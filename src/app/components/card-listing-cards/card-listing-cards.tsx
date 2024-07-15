@@ -76,7 +76,7 @@ const CardListingCards = ({ data }: any) => {
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
           <div className="overflow-auto  sm:flex sm:w-[80%] sm:justify-center sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
-            {data?.imageGallery.map((item: any, index: number) => {
+            {data?.imageGallery?.map((item: any, index: number) => {
               return (
                 <Image
                   src={item?.image}
