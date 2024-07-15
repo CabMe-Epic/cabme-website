@@ -65,6 +65,7 @@ export default function Home() {
   };
   const handleDropOffLocation = (event: any) => {
     setDropoffLocation(event.target.value);
+
   };
   // const handlePickupDate = (event: any) => {
   //   setPickupDate(event.target.value);
@@ -91,10 +92,12 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime)
 
+    
     tabValue === "Driver"
-      ? localStorage.setItem("radioToggle", radioToggle)
-      : "";
-    router.push("/car-listing");
+    ? localStorage.setItem("radioToggle", radioToggle)
+    : "";
+   
+    router.push("/car-listing")
   };
 
   // location section work end
@@ -123,6 +126,7 @@ export default function Home() {
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
       day = ("0" + date.getDate()).slice(-2);
+    
 
     return [date.getFullYear(), mnth, day].join("-");
   }
@@ -158,6 +162,8 @@ export default function Home() {
     setDropoffTime(getDropoffTime);
     console.log(getDropoffTime, "drrrr");
     // console.log(event, "dropoff time");
+
+
   };
 
   if (typeof window !== "undefined") {
@@ -854,7 +860,10 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className="m-auto w-[80%] mt-6">
+        <div className="flex items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
+          <strong>Duration :</strong> <p className="text-sm">3 Days and 9 hours</p>
+        </div>
+        <div className="m-auto w-[80%] mt-4">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
@@ -882,9 +891,9 @@ export default function Home() {
             Monthly Offers
           </div>
         </div>
-        {offer === "Daily Offers" && <div className="mx-4"> <OfferCards dailyOffer /> </div>}
+        {offer === "Daily Offers" && <div className="mx-4 sm:mt-0 mt-4"> <OfferCards dailyOffer /> </div>}
         {offer === "Monthly Offers" &&
-          <div className="mx-4">
+          <div className="mx-4 sm:mt-0 mt-4">
             <OfferCards monthlyOffer />
           </div>
 
@@ -1162,7 +1171,7 @@ export default function Home() {
                 key={index}
                 className="flex sm:gap-6 gap-2 items-center bg-[url('/png/count-bg.png')] bg-no-repeat sm:p-8 p-2 rounded-xl w-auto overflow-hidden "
               >
-                <div className="sm:w-[80px] w-[60px] flex-none">
+                <div className="sm:w-[80px] w-[50px] flex-none">
                   <Image
                     src={item?.imageUrl}
                     alt="image"
