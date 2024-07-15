@@ -166,7 +166,6 @@ const Checkout = () => {
   const [otp, setOtp] = useState("");
   const [aadhar, setAadhar] = useState("");
   const [aadharOtp, setAadharOtp] = useState("");
-
   const [aadharData, setAadharData] = useState('');
   const [session, setSession] = useState();
   console.log({ session })

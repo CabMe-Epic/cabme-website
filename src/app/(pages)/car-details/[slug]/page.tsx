@@ -195,7 +195,7 @@ const CarDetails = () => {
   };
 
 
-  const { slug } = useParams();
+  const { slug }: any = useParams();
 
 
   const getCarDetails = useCallback(async () => {
@@ -269,6 +269,10 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice)
   }
 
+  const handleProceed = () => {
+    sessionStorage.setItem('slug', slug);
+    router.push("/check-out");
+  }
   return (
     <>
       <div className="py-6">
@@ -608,7 +612,7 @@ const CarDetails = () => {
                           )
                         ) : (
                           <button
-                            onClick={() => router.push("/check-out")}
+                            onClick={handleProceed}
                             className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
                             Proceed
                           </button>
