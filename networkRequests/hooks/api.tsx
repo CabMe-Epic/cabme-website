@@ -59,3 +59,4 @@ export const postPanCard = async (data: any) => {
     throw error;
   }
 }
+

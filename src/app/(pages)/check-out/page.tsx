@@ -19,10 +19,9 @@ interface SelectedUser {
   city: string;
 }
 
-
 interface User extends SelectedUser {
   id: string;
-  _id: string;
+  _id?: string;
   phone: string;
   date: string;
   phoneVerified: boolean;
@@ -58,8 +57,8 @@ const Checkout = () => {
 
   const [panCardPost, setPanCardPost] = useState<string | null>(null);
 
-  console.log({ panCardPost })
-  // console.log({ aadharBackPost })
+  const [userDetails, setUserDetails] = useState<User | null>(null);
+  console.log({ userDetails })
 
   const [selectedUser, setSelectedUser] = useState<SelectedUser | null>({
     firstName: '',
@@ -70,6 +69,28 @@ const Checkout = () => {
     city: '',
     state: '',
   });
+
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  console.log("Line no 77 ", { user })
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/668e37221c4fe8829d707ea2`);
+        setUser(response?.data?.result);
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -184,7 +205,7 @@ const Checkout = () => {
       const data = await response.json();
       console.log({ data })
       const session = getSessionData('user');
-      setSession(session)
+      setCurrentUser(session)
       if (data?.otpResponse?.data?.requestId) {
         setAadharGenerate(true)
         setAadharData(data)
@@ -204,7 +225,7 @@ const Checkout = () => {
         },
         body: JSON.stringify({
           //@ts-ignore
-          currentUserId: currentUser?._id as any || session?.id as any,
+          currentUserId: currentUser?.id as any || session?.id as any,
           otp: aadharOtp,
           //@ts-ignore
           requestId: aadharData?.otpResponse?.data?.requestId,
@@ -262,33 +283,36 @@ const Checkout = () => {
   const [panCard, setPanCard] = useState('');
 
   const handleVerifiedPan = async () => {
-    try {
-      const session = getSessionData('user');
-      console.log({ session })
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          panNumber: panCard,
-          //@ts-ignore
-          currentUserId: currentUser?._id || session?._id,
-          panImageUrl: panCardPost
-        })
-      });
-      const data = await response.json();
-      console.log({ data })
-      if (data?.success) {
-        const update = data?.user
-        sessionStorage.setItem("user", JSON.stringify(update))
-        toast.success("Pan card has been verified.")
-        setThree(true)
-        setFour(false)
-      }
-    } catch (error) {
-      console.error('Error fetching OTP:', error);
-    }
+    setThree(true)
+    setFour(false)
+    // try {
+    //   const session = getSessionData('user');
+    //   console.log({ session })
+    //   const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       panNumber: panCard,
+    //       //@ts-ignore
+    //       currentUserId: currentUser?._id || session?.id,
+    //       panImageUrl: panCardPost
+    //     })
+    //   });
+    //   const data = await response.json();
+    //   console.log({ data })
+    //   if (data?.success) {
+    //     const update = data?.user
+    //     setSessionData("user", update)
+    // setCurrentUser(update)
+    //     toast.success("Pan card has been verified.")
+    //     setThree(true)
+    //     setFour(false)
+    //   }
+    // } catch (error) {
+    //   console.error('Error fetching OTP:', error);
+    // }
   }
 
   const [frontImage, setFrontImage] = useState<any>(null);
@@ -375,6 +399,9 @@ const Checkout = () => {
     console.log(e.target.value, "ee");
     setShowDocSelect(e.target.value);
   };
+
+
+
 
 
   return (
@@ -817,15 +844,15 @@ const Checkout = () => {
                 </span>
                 <div className="flex items-center gap-5 mt-4 text-sm">
                   <Image src="/user.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">Suraj Dubey</span>
+                  <span className="text-[#878787]">{user?.firstName} {user?.lastName}</span>
                 </div>
                 <div className="flex items-center gap-5 mt-4 text-sm">
                   <Image src="/email.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">Dubeysuraj864@gmail.com</span>
+                  <span className="text-[#878787]">{user?.email}</span>
                 </div>
                 <div className="flex items-center gap-5 mt-4 text-sm">
                   <Image src="/phone.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">9958355617</span>
+                  <span className="text-[#878787]">{user?.phone}</span>
                 </div>
               </div>
               <div className="max-w-[300px] ">
@@ -833,16 +860,16 @@ const Checkout = () => {
                 <div className="flex items-center gap-5 mt-4  text-sm">
                   <Image src="/location.svg" alt="user" width={20} height={20} />
                   <span className="text-[#878787]">
-                    Street No. 5Q, Tagore Garden
+                    {user?.address}
                   </span>
                 </div>
                 <div className="flex items-center gap-5 mt-4 text-sm">
                   <Image src="/location.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">New Delhi</span>
+                  <span className="text-[#878787]">{user?.city}</span>
                 </div>
                 <div className="flex items-center gap-5 mt-4 text-sm">
                   <Image src="/location.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">India</span>
+                  <span className="text-[#878787]">{user?.state}</span>
                 </div>
               </div>
             </div>
@@ -853,7 +880,7 @@ const Checkout = () => {
                   <span className="text-[#878787] w-[200px]">PAN Number</span>:{" "}
                   <span className="flex items-center gap-2">
                     {" "}
-                    <span className="text-[#878787]">UXRG56789KO</span>{" "}
+                    <span className="text-[#878787]">{user?.panNumber}</span>{" "}
                     <Image src="/pancard.svg" alt="user" width={60} height={60} />{" "}
                     <Image src="/pancard.svg" alt="user" width={60} height={60} />
                   </span>
@@ -874,7 +901,7 @@ const Checkout = () => {
                   :{" "}
                   <span className="flex items-center gap-2">
                     {" "}
-                    <span className="text-[#878787]">678905443789</span>{" "}
+                    <span className="text-[#878787]">{user?.drivingLicenseNumber}</span>{" "}
                     <Image src="/dlcard.svg" alt="user" width={60} height={60} />{" "}
                     <Image src="/dlcard.svg" alt="user" width={60} height={60} />
                   </span>
@@ -892,7 +919,7 @@ const Checkout = () => {
                   <span className="text-[#878787] w-[200px]">Aadhar Number</span>:{" "}
                   <span className="flex items-center gap-2">
                     {" "}
-                    <span className="text-[#878787]">3214 6788 8976</span>{" "}
+                    <span className="text-[#878787]">{user?.aadharNumber}</span>{" "}
                     <Image
                       src="/aadharCard.svg"
                       alt="user"
