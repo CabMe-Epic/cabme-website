@@ -165,8 +165,8 @@ const CardListingCards = ({ data }: any) => {
                           setClicked3(false);
                         }}
                         className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
                           }`}
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
@@ -200,8 +200,8 @@ const CardListingCards = ({ data }: any) => {
                           setClicked3(false);
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
                           }`}
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
@@ -235,8 +235,8 @@ const CardListingCards = ({ data }: any) => {
                           setClicked3(true);
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
                           }`}
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
@@ -1451,7 +1451,7 @@ const CardListingCards = ({ data }: any) => {
                     </p>
                   </div>
                   <div
-                     onClick={() => {
+                    onClick={() => {
                       setClicked1(false);
                       setClicked2(true);
                       setClicked3(false);
@@ -1475,13 +1475,13 @@ const CardListingCards = ({ data }: any) => {
                     </p>
                   </div>
                   <div
-                           onClick={() => {
-                            setClicked1(false);
-                            setClicked2(false);
-                            setClicked3(true);
-      
-                          }}
-                          className={`${clicked3 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
+                    onClick={() => {
+                      setClicked1(false);
+                      setClicked2(false);
+                      setClicked3(true);
+
+                    }}
+                    className={`${clicked3 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1520,8 +1520,8 @@ const CardListingCards = ({ data }: any) => {
 
                     <span>
                       <Image
-                        src={data?.featuredImage.image}
-                        alt={data?.featuredImage.alt}
+                        src={data?.featuredImage?.image}
+                        alt={data?.featuredImage?.alt}
                         width={350}
                         height={350}
                         className="xs:w-full w-[60%] h-auto xs:m-0 m-auto"
