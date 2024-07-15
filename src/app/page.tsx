@@ -1177,22 +1177,7 @@ export default function Home() {
           })}
         </div>
       </div>
-      <div className="fixed bottom-6 left-6 w-12 h-12 bg-black rounded-full flex items-center justify-center">
-        <Image
-          src={"/svg/outgoing-call-icon.svg"}
-          alt="phone"
-          width={26}
-          height={26}
-        />
-      </div>
-      <div className="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
-        <Image
-          src={"/svg/whatsapp-white.svg"}
-          alt="phone"
-          width={30}
-          height={30}
-        />
-      </div>
+      
     </>
   );
 }
