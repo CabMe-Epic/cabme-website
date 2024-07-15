@@ -228,6 +228,8 @@ const CarListing = () => {
     setShowOther(false);
   };
 
+  let cardCount = 0;
+
   return (
     <div className="max-w-[1400px] m-auto">
       <div
@@ -772,7 +774,6 @@ const CarListing = () => {
               {
                 const date = item?.bookingDate;
                 const dateObject = new Date(date);
-                //  dateOnly = dateObject.toISOString().split("T")[0];
 
                 if (!isNaN(dateObject.getTime())) {
                   dateOnly = dateObject.toISOString().split("T")[0];
@@ -784,65 +785,65 @@ const CarListing = () => {
               {
                 dateOnly === pickUpDate
                   ? console.log("matched")
-                  : console.log("doesnt matched");
+                  : console.log("doesn't match");
               }
+
+              const isMatchingCriteria = item?.available &&
+                pickupLocation === item?.city &&
+                (selectedCategories.length === 0 ||
+                  selectedCategories.some(
+                    (category: any) => item?.brandName === category
+                  )) &&
+                (selectedTypes.length === 0 ||
+                  selectedTypes.some(
+                    (type: any) =>
+                      item?.vehicleSpecifications?.body === type
+                  )) &&
+                (selectedCapacity.length === 0 ||
+                  selectedCapacity.some(
+                    (capacity: any) =>
+                      item?.seatingCapacity === capacity
+                  )) &&
+                (selectedTransmission.length === 0 ||
+                  selectedTransmission.some(
+                    (trans: any) =>
+                      item?.vehicleSpecifications.transmission === trans
+                  )) &&
+                (selectedFuelType.length === 0 ||
+                  selectedFuelType.some(
+                    (type: any) =>
+                      item?.vehicleSpecifications.fuelType === type
+                  )) &&
+                (selectedOthers.length === 0 ||
+                  selectedOthers.every(
+                    (feature: any) =>
+                      item?.carFeatures[feature] === true
+                  ));
+
+              if (isMatchingCriteria) {
+                cardCount++;
+              }
+
               return (
                 <>
-                  {item?.available && (
+                  {isMatchingCriteria && (
                     <>
-                      {pickupLocation === item?.city &&
-                        (selectedCategories.length === 0 ||
-                          selectedCategories.some(
-                            (category: any) => item?.brandName === category
-                          )) &&
-                        (selectedTypes.length === 0 ||
-                          selectedTypes.some(
-                            (type: any) =>
-                              item?.vehicleSpecifications?.body === type
-                          )) &&
-                        (selectedCapacity.length === 0 ||
-                          selectedCapacity.some(
-                            (capacity: any) =>
-                              item?.seatingCapacity === capacity
-                          )) &&
-                        (selectedTransmission.length === 0 ||
-                          selectedTransmission.some(
-                            (trans: any) =>
-                              item?.vehicleSpecifications.transmission === trans
-                          )) &&
-                        (selectedFuelType.length === 0 ||
-                          selectedFuelType.some(
-                            (type: any) =>
-                              item?.vehicleSpecifications.fuelType === type
-                          )) &&
-                        (selectedOthers.length === 0 ||
-                          selectedOthers.every(
-                            (feature: any) =>
-                              item?.carFeatures[feature] === true
-                          )) && (
-                          <>
-                            <CardListingCards
-                              key={`card-${item.id}`}
-                              data={item}
-                            />
-                            {
-                              ((index + 1) % 2 === 0) && <CardListingBanner />
-                            }
+                      <CardListingCards
+                        key={`card-${item.id}`}
+                        data={item}
+                      />
+                      {dateOnly === pickUpDate && (
+                        <CardListingCards
+                          key={`card-date-${item.id}`}
+                          data={item}
+                        />
+                      )}{
+                        console.log(cardCount, "cardCount")
+                      }
+                      {
+                        cardCount % 2 === 0 && <CardListingBanner />
+                      }
 
-
-                            {dateOnly === pickUpDate && (
-
-                              <>       <CardListingCards
-                                key={`card-date-${item.id}`}
-                                data={item}
-                              />{
-                                  ((index + 1) % 2 === 0) &&
-                                  <CardListingBanner />
-                                }
-                              </>
-                            )}
-                          </>
-                        )}
                     </>
                   )}
                 </>
@@ -850,6 +851,7 @@ const CarListing = () => {
             })}
 
 
+            {/* <CardListingBanner /> */}
           </div>
         </section>
         <div className="">

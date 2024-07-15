@@ -76,7 +76,7 @@ const CardListingCards = ({ data }: any) => {
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
           <div className="overflow-auto  sm:flex sm:w-[80%] sm:justify-center sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
-            {data?.imageGallery.map((item: any, index: number) => {
+            {data?.imageGallery?.map((item: any, index: number) => {
               return (
                 <Image
                   src={item?.image}
@@ -127,7 +127,7 @@ const CardListingCards = ({ data }: any) => {
                     </h1>
                   </div>
                   <Image
-                   onClick={() => setShowImg(!showImg)}
+                    onClick={() => setShowImg(!showImg)}
                     src={data?.featuredImage?.image}
                     width={386}
                     objectFit={"contain"}
@@ -164,11 +164,10 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(false);
                           setClicked3(false);
                         }}
-                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
-                          clicked1
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
-                        }`}
+                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
+                          }`}
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
@@ -200,11 +199,10 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(true);
                           setClicked3(false);
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
-                          clicked2
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
-                        }`}
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
+                          }`}
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
@@ -236,11 +234,10 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(false);
                           setClicked3(true);
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
-                          clicked3
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
-                        }`}
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
+                          }`}
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
@@ -1107,14 +1104,14 @@ const CardListingCards = ({ data }: any) => {
                             data?.bookingOptions?.subscription?.package3
                               ?.duration
                           } */}
-                              --
-                            </p>
-                            <hr className="border-[#000000] border-[1.2px]" />
-                            <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px]">
-                              360 Free kms
-                            </p>
-                          </span>
-                        </div>
+                                --
+                              </p>
+                              <hr className="border-[#000000] border-[1.2px]" />
+                              <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px]">
+                                360 Free kms
+                              </p>
+                            </span>
+                          </div>
 
                           {/* <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#000000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
 <span className="font-bold text-[18px] ">₹ 21,635</span>
@@ -1430,7 +1427,13 @@ const CardListingCards = ({ data }: any) => {
                 <div className="grid grid-cols-3 gap-2 mt-10">
 
                   <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
+                    onClick={() => {
+                      setClicked1(true);
+                      setClicked2(false);
+                      setClicked3(false);
+
+                    }}
+                    className={`${clicked1 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1448,7 +1451,13 @@ const CardListingCards = ({ data }: any) => {
                     </p>
                   </div>
                   <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
+                    onClick={() => {
+                      setClicked1(false);
+                      setClicked2(true);
+                      setClicked3(false);
+
+                    }}
+                    className={`${clicked2 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1466,7 +1475,13 @@ const CardListingCards = ({ data }: any) => {
                     </p>
                   </div>
                   <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
+                    onClick={() => {
+                      setClicked1(false);
+                      setClicked2(false);
+                      setClicked3(true);
+
+                    }}
+                    className={`${clicked3 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1505,8 +1520,8 @@ const CardListingCards = ({ data }: any) => {
 
                     <span>
                       <Image
-                        src={data?.featuredImage.image}
-                        alt={data?.featuredImage.alt}
+                        src={data?.featuredImage?.image}
+                        alt={data?.featuredImage?.alt}
                         width={350}
                         height={350}
                         className="xs:w-full w-[60%] h-auto xs:m-0 m-auto"
