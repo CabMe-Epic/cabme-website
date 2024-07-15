@@ -41,7 +41,7 @@ const ProductSlider = ({
       };
     }, []);
   return (
-    <div className="p-4 hidden-slide shadow-product-shadow border border-[#f8f4f4] product-slider relative">
+    <div className="p-4 pt-0 rounded-xl mt-[5px] hidden-slide shadow-product-shadow border border-[#f8f4f4] product-slider relative">
       <Swiper
         modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
         slidesPerView={1}
