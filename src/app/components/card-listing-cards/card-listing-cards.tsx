@@ -127,12 +127,13 @@ const CardListingCards = ({ data }: any) => {
                     </h1>
                   </div>
                   <Image
+                   onClick={() => setShowImg(!showImg)}
                     src={data?.featuredImage?.image}
                     width={386}
                     objectFit={"contain"}
                     height={212}
                     alt="Car Icon"
-                    className="sm:w-[95%] mb-2"
+                    className="sm:w-[95%] mb-2 cursor-pointer"
                   />
                   <div
                     onClick={() => setShowImg(!showImg)}
