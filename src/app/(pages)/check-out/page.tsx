@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"
+import { postAadharBack, postAadharFront } from "../../../../networkRequests/hooks/api";
 
 interface SelectedUser {
   firstName: string;
@@ -19,6 +20,7 @@ interface SelectedUser {
 
 
 interface User extends SelectedUser {
+  id: string;
   _id: string;
   phone: string;
   date: string;
@@ -49,6 +51,12 @@ const Checkout = () => {
   console.log({ currentUser })
   const [phone, setPhoneNumber] = useState("");
 
+
+  const [aadharFrontPost, setAadharFrontPost] = useState<string | null>(null);
+  const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
+
+  // console.log({ aadharFrontPost })
+  // console.log({ aadharBackPost })
 
   const [selectedUser, setSelectedUser] = useState<SelectedUser | null>({
     firstName: '',
@@ -111,6 +119,7 @@ const Checkout = () => {
   useEffect(() => {
     const data = sessionStorage.getItem('user');
     const session = data ? JSON.parse(data) : null;
+    console.log({ session })
     if (session?.phoneVerified) {
       setCurrentUser(session);
       setTwo(false);
@@ -158,6 +167,8 @@ const Checkout = () => {
   const [aadhar, setAadhar] = useState("");
   const [aadharOtp, setAadharOtp] = useState("");
   const [aadharData, setAadharData] = useState('');
+  const [session, setSession] = useState();
+  console.log({ session })
 
   const handleGenerateAadharOTP = async () => {
     try {
@@ -170,6 +181,9 @@ const Checkout = () => {
       });
       const data = await response.json();
       console.log({ data })
+      const value = sessionStorage?.getItem('user')
+      const session = value ? JSON.parse(value) : null;
+      setSession(session)
       if (data?.otpResponse?.data?.requestId) {
         setAadharGenerate(true)
         setAadharData(data)
@@ -181,17 +195,21 @@ const Checkout = () => {
 
   const handleVerifyAadharOTP = async () => {
     try {
+      console.log({aadharFrontPost}, {aadharBackPost})
       const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchOkycData`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          currentUserId: currentUser?._id as any,
+          //@ts-ignore
+          currentUserId: currentUser?._id as any || session?.id as any,
           otp: aadharOtp,
           //@ts-ignore
           requestId: aadharData?.otpResponse?.data?.requestId,
-          aadhaarNumber: aadhar
+          aadhaarNumber: aadhar,
+          aadharCardFrontImageUrl: aadharFrontPost,
+          aadharCardBackImageUrl: aadharBackPost
         })
       });
       const data = await response.json();
@@ -253,7 +271,8 @@ const Checkout = () => {
         },
         body: JSON.stringify({
           panNumber: panCard,
-          currentUserId: currentUser?._id
+          //@ts-ignore
+          currentUserId: currentUser?._id || session?.id
         })
       });
       const data = await response.json();
@@ -276,14 +295,39 @@ const Checkout = () => {
   const [panFrontImage, setPanFrontImage] = useState<any>(null);
   const [showDocSelect, setShowDocSelect] = useState<any>("DrivingLicense");
 
-  const handleFrontImageChange = (e: any) => {
-    const file = e.target.files[0];
-    setFrontImage(URL.createObjectURL(file));
+
+  const handleFrontImageChange = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = URL.createObjectURL(event.target.files[0]);
+      const imagePayload: any = {
+        files: event.target.files[0]
+      }
+      setFrontImage(file);
+      try {
+        const res = await postAadharFront(imagePayload);
+        const cleanUrl = res.replace(/\n/g, '');
+        setAadharFrontPost(cleanUrl);
+      } catch (error) {
+        console.error('Error uploading Aadhar front image:', error);
+      }
+    }
   };
 
-  const handleBackImageChange = (e: any) => {
-    const file = e.target.files[0];
-    setBackImage(URL.createObjectURL(file));
+  const handleBackImageChange = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = URL.createObjectURL(event.target.files[0]);
+      const imagePayload: any = {
+        files: event.target.files[0]
+      }
+      setBackImage(file);
+      try {
+        const res = await postAadharBack(imagePayload);
+        const cleanUrl = res.replace(/\n/g, '');
+        setAadharBackPost(cleanUrl);
+      } catch (error) {
+        console.error('Error uploading Aadhar front image:', error);
+      }
+    }
   };
 
   const handleDlFrontImageChange = (e: any) => {
@@ -388,7 +432,7 @@ const Checkout = () => {
                       <InputField
                         name="firstName"
                         placeholder="First name*"
-                        otp={currentUser?.firstName || ''}
+                        otp={currentUser?.firstName}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                         onChange={handleInputChange}
                       />
@@ -458,6 +502,8 @@ const Checkout = () => {
                 <div>
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Upload Aadhar Card{" "}
+
+                    {/* {data?.verificationResponse?.statusCode} */}
                     <span className="flex items-center gap-2 text-[#01A601]">
                       <Image
                         src="/greendone.svg"
@@ -860,7 +906,6 @@ const Checkout = () => {
             </div>
           </div></div> : ""
         }
-
 
         <div className="w-[765px] h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md">
           <h2 className="text-[20px] font-bold">4. Payment</h2>

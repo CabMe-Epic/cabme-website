@@ -195,7 +195,7 @@ const CarDetails = () => {
   };
 
 
-  const { slug } = useParams();
+  const { slug }: any = useParams();
 
 
   const getCarDetails = useCallback(async () => {
@@ -269,6 +269,10 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice)
   }
 
+  const handleProceed = () => {
+    sessionStorage.setItem('slug', slug);
+    router.push("/check-out");
+  }
   return (
     <>
       <div className="py-6">
@@ -278,8 +282,8 @@ const CarDetails = () => {
           <span className="cursor-pointer">Listing</span>/
           <span className="cursor-pointer">Car Details</span>
         </div>
-        <div className="max-w-[1250px] m-auto sm:my-12 lg:grid grid-cols-[60%_40%] gap-6 ">
-          <div className="px-4 lg:max-w-auto max-w-[700px] m-auto">
+        <div className="max-w-[1250px] m-auto sm:my-12 lg:grid rounded-xl items-start grid-cols-[60%_40%] gap-6 ">
+          <div className="px-4 lg:max-w-auto max-w-[700px] -mt-1 rounded-xl m-auto">
             <ProductSlider
               featuredImage={carDetails?.featuredImage as any}
               imageGallery={carDetails?.imageGallery as any}
@@ -348,7 +352,7 @@ const CarDetails = () => {
                   </div>
                 </div>
                 <div className="w-full">
-                  <span className="flex flex-row my-5 mt-10">
+                  {/* <span className="flex flex-row my-5 mt-10">
                     <Image
                       src="/png/offer.png"
                       width={20}
@@ -364,16 +368,16 @@ const CarDetails = () => {
                         View all promo coupons
                       </option>
                     </select>
-                  </span>
+                  </span> */}
 
-                  <div className="max-w-[418px]  sm:h-[45px] h-[40px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
+                  {/* <div className="max-w-[418px]  sm:h-[45px] h-[40px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
                     <input
                       type="text"
                       placeholder="DJF4D4F"
                       className="w-full border-0 outline-none pr-4 text-[#888787]"
                     />
                     <button className="text-[#ff0000] sm:text-md text-sm">Apply</button>
-                  </div>
+                  </div> */}
 
                   <div className="my-6 h-[69px] shadow-custom-shadow bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
                     <div className="flex flex-col">
@@ -517,7 +521,7 @@ const CarDetails = () => {
                   </div>
                 </div>
                 <div>
-                  <span className="flex flex-row my-5 mt-10">
+                  {/* <span className="flex flex-row my-5 mt-10">
                     <Image
                       src="/png/offer.png"
                       width={20}
@@ -541,9 +545,9 @@ const CarDetails = () => {
                       ))}
 
                     </select>
-                  </span>
+                  </span> */}
 
-                  <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
+                  {/* <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
                     <input
                       type="text"
                       placeholder="DJF4D4F"
@@ -552,10 +556,10 @@ const CarDetails = () => {
                       readOnly
                     />
                     <button className="text-[#ff0000]" onClick={handleApplyPromoCode}>Apply</button>
-                  </div>
+                  </div> */}
 
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[420px] py-5 rounded-3xl">
                     {discountAmount > 0 ? (
                       <div className="flex flex-col">
                         <span>Total Amount </span>
@@ -608,7 +612,7 @@ const CarDetails = () => {
                           )
                         ) : (
                           <button
-                            onClick={() => router.push("/check-out")}
+                            onClick={handleProceed}
                             className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
                             Proceed
                           </button>
@@ -652,11 +656,11 @@ const CarDetails = () => {
           <DescCar desc={carDetails?.vehicleDescriptions as any} />
         </div>
         <div>
-          <Video />
+          {/* <Video /> */}
         </div>
         <div className="mx-10 top-button">
           {/* <InterestedSlider/> */}
-          <FleetsSlider showButton={false} showRatingStar={false} />
+          {/* <FleetsSlider showButton={false} showRatingStar={false} /> */}
         </div>
       </div>
     </>
