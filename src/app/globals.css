@@ -130,6 +130,10 @@
 .custom-phone-input .react-tel-input{
   width: 50px;
 }
+.react-datepicker{
+  width: 115% !important;
+  display: flex; flex-direction: row !important;
+}
 @media only screen and (max-width:1024px){
   .review-slider  .swiper-slide{
     opacity: 1;
