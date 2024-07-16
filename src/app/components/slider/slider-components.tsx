@@ -27,6 +27,23 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTab, setIsTab] = useState(false)
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      const handleResize = () => {
+        setIsTab(window.innerWidth < 1250);
+        setIsMobile(window.innerWidth < 576);
+      };
+  
+      handleResize();
+  
+      window.addEventListener("resize", handleResize);
+  
+      // Cleanup
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
+
   const { vehicles, loading, error }: any = useVehicles();
 
   if (loading) {
@@ -46,22 +63,7 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
 
   console.log(vehicle, "vehicle")
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    const handleResize = () => {
-      setIsTab(window.innerWidth < 1250);
-      setIsMobile(window.innerWidth < 576);
-    };
 
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   return (
     <>
       <Swiper

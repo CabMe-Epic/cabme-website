@@ -114,6 +114,50 @@ export default function Home() {
     router.push("/car-listing");
   };
 
+  const saveLocationDataMobile = () => {
+    if (!mobileStartTime) {
+      alert("Please select the Pickup Time");
+      return;
+    }
+
+    if (!mobileEndTime) {
+      alert("Please select the Drop Off Time");
+      return;
+    }
+
+    if (!mobileStartDate) {
+      alert("Please select the Pickup Date");
+      return;
+    }
+
+    if (!mobileEndDate) {
+      alert("Please select the Drop Off Date");
+      return;
+    }
+
+    const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
+    const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
+
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+
+    localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
+    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
+    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
+    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
+    localStorage.setItem("tabValue", tabValue || switchRadio);
+    localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
+    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+
+    if (tabValue === "Driver") {
+      localStorage.setItem("radioToggle", radioToggle);
+    }
+
+    router.push("/car-listing");
+  };
+
 
   console.log(pickupTime, dropoffTime, "pickupTime")
 
@@ -196,7 +240,7 @@ export default function Home() {
   }
 
   const handleStartDateTimeChange = (date: any) => {
-    
+
     if (date) {
       setMobileStartDate(moment(date).format('YYYY-MM-DD') as any);
       setMobileStartTime(moment(date).format('HH:mm') as any);
@@ -834,9 +878,9 @@ export default function Home() {
                   onChange={handleStartDateTimeChange}
                   showTimeSelect
                   dateFormat="yyyy-MM-dd HH:mm"
-                  placeholderText="Select date and time"                  
-                  onKeyDown={(event)=>event?.preventDefault()}
-                  
+                  placeholderText="Select date and time"
+                  onKeyDown={(event) => event?.preventDefault()}
+
                 />
               </div>
             </div>
@@ -899,7 +943,7 @@ export default function Home() {
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
-            onClick={() => saveLocationData()}
+            onClick={() => saveLocationDataMobile()}
           // rightArrowIcon
           // image={"/svg/race.svg"}
           />
