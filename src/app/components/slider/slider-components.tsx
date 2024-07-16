@@ -27,13 +27,26 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTab, setIsTab] = useState(false)
 
-
   const { vehicles, loading, error }: any = useVehicles();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!vehicles || vehicles.length === 0) {
+    return <div>No vehicles available.</div>;
+  }
+
 
   const vehicle = vehicles?.response;
 
   console.log(vehicle, "vehicle")
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const handleResize = () => {
       setIsTab(window.innerWidth < 1250);
