@@ -15,29 +15,12 @@ import axios from "axios";
 import { searchVehicle } from "../../../../networkRequests/hooks/api";
 import ModifySearch from "@/app/components/modify-search/modify-search";
 
+const ITEMS_PER_PAGE = 2;
 const CarListing = () => {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
 
-  const [currentPage, setCurrentPage] = useState(2);
 
-  const totalPages = 5;
-
-  const handleClick = (page: any) => {
-    setCurrentPage(page);
-  };
-
-  const handlePrev = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   // const { vehicles, loading, error } = useVehicles();
   // console.log("vehicles", vehicles);
@@ -51,8 +34,9 @@ const CarListing = () => {
   }, []);
   useEffect(() => {
     getCarDetails();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(carData, "search api called");
+  // console.log(carData, "search api called");
 
   const [pickupLocation, setPickupLocation] = useState<any>();
   const [dropoffLocation, setDropoffLocation] = useState<any>();
@@ -228,6 +212,50 @@ const CarListing = () => {
     setShowOther(false);
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Filter items based on isMatchingCriteria
+  const matchingItems = filteredItems?.filter((item: { bookingDate: string | number | Date; available: any; city: any; brandName: any; vehicleSpecifications: { body: any; transmission: any; fuelType: any; }; seatingCapacity: any; carFeatures: { [x: string]: boolean; }; }) => {
+    const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
+    if (dateObject && isNaN(dateObject.getTime())) {
+      console.error('Invalid date object created:', dateObject);
+      return false;
+    }
+  
+    const isMatchingCriteria =
+      item?.available &&
+      pickupLocation === item?.city &&
+      (selectedCategories.length === 0 ||
+        selectedCategories.some((category) => item?.brandName === category)) &&
+      (selectedTypes.length === 0 ||
+        selectedTypes.some((type: any) => item?.vehicleSpecifications?.body === type)) &&
+      (selectedCapacity.length === 0 ||
+        selectedCapacity.some((capacity: any) => item?.seatingCapacity === capacity)) &&
+      (selectedTransmission.length === 0 ||
+        selectedTransmission.some((trans: any) => item?.vehicleSpecifications.transmission === trans)) &&
+      (selectedFuelType.length === 0 ||
+        selectedFuelType.some((type: any) => item?.vehicleSpecifications.fuelType === type)) &&
+      (selectedOthers.length === 0 ||
+        selectedOthers.every((feature: string | number) => item?.carFeatures[feature] === true));
+  
+    return isMatchingCriteria;
+  });
+  
+  // Calculate total pages based on matching items
+  const totalPages = Math.ceil(matchingItems?.length / ITEMS_PER_PAGE);
+  
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+  
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+  
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedItems = matchingItems?.slice(startIndex, endIndex);
+  
   let cardCount = 0;
 
   return (
@@ -769,122 +797,56 @@ const CarListing = () => {
             </div>
           </aside>
           <div className="basis-2/3">
-            {filteredItems?.map((item: any, index: number) => {
-              var dateOnly = "";
-              {
-                const date = item?.bookingDate;
-                const dateObject = new Date(date);
+    {paginatedItems?.map((item: { bookingDate: string | number | Date; id: any; }, index: any) => {
+      const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
+      let dateOnly = '';
+      if (dateObject && !isNaN(dateObject.getTime())) {
+        dateOnly = dateObject.toISOString().split('T')[0];
+      }
 
-                if (!isNaN(dateObject.getTime())) {
-                  dateOnly = dateObject.toISOString().split("T")[0];
-                  console.log(dateOnly, "date only");
-                } else {
-                  console.error("Invalid date object created:", dateObject);
-                }
-              }
-              {
-                dateOnly === pickUpDate
-                  ? console.log("matched")
-                  : console.log("doesn't match");
-              }
+      cardCount++;
+      return (
+        <React.Fragment key={`fragment-${item.id}`}>
+          <CardListingCards key={`card-${item.id}`} data={item} />
+          {dateOnly === pickUpDate && (
+            <CardListingCards key={`card-date-${item.id}`} data={item} />
+          )}
+          {cardCount % 2 === 0 && <CardListingBanner />}
+        </React.Fragment>
+      );
+    })}
 
-              const isMatchingCriteria = item?.available &&
-                pickupLocation === item?.city &&
-                (selectedCategories.length === 0 ||
-                  selectedCategories.some(
-                    (category: any) => item?.brandName === category
-                  )) &&
-                (selectedTypes.length === 0 ||
-                  selectedTypes.some(
-                    (type: any) =>
-                      item?.vehicleSpecifications?.body === type
-                  )) &&
-                (selectedCapacity.length === 0 ||
-                  selectedCapacity.some(
-                    (capacity: any) =>
-                      item?.seatingCapacity === capacity
-                  )) &&
-                (selectedTransmission.length === 0 ||
-                  selectedTransmission.some(
-                    (trans: any) =>
-                      item?.vehicleSpecifications.transmission === trans
-                  )) &&
-                (selectedFuelType.length === 0 ||
-                  selectedFuelType.some(
-                    (type: any) =>
-                      item?.vehicleSpecifications.fuelType === type
-                  )) &&
-                (selectedOthers.length === 0 ||
-                  selectedOthers.every(
-                    (feature: any) =>
-                      item?.carFeatures[feature] === true
-                  ));
-
-              if (isMatchingCriteria) {
-                cardCount++;
-              }
-
-              return (
-                <>
-                  {isMatchingCriteria && (
-                    <>
-                      <CardListingCards
-                        key={`card-${item.id}`}
-                        data={item}
-                      />
-                      {dateOnly === pickUpDate && (
-                        <CardListingCards
-                          key={`card-date-${item.id}`}
-                          data={item}
-                        />
-                      )}{
-                        console.log(cardCount, "cardCount")
-                      }
-                      {
-                        cardCount % 2 === 0 && <CardListingBanner />
-                      }
-
-                    </>
-                  )}
-                </>
-              );
-            })}
+    <div className="pagination flex items-center justify-center space-x-2 mt-4">
+      <button
+        className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === 1 ? 'text-gray-400' : 'text-gray-700'}`}
+        onClick={handlePrevPage}
+        disabled={currentPage === 1}
+      >
+        &larr; Prev
+      </button>
+      {totalPages > 0 && [...Array(totalPages)].map((_, index) => (
+        <button
+          key={index}
+          className={`w-10 h-10 border rounded-md ${currentPage === index + 1 ? 'bg-primary-color text-white' : 'bg-white text-gray-700'}`}
+          onClick={() => setCurrentPage(index + 1)}
+        >
+          {index + 1}
+        </button>
+      ))}
+      <button
+        className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === totalPages ? 'text-gray-400' : 'text-gray-700'}`}
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+      >
+        Next &rarr;
+      </button>
+    </div>
+  </div>
 
 
-            {/* <CardListingBanner /> */}
-          </div>
         </section>
         <div className="">
-          <div className="flex items-center justify-center space-x-2 mt-4">
-            <button
-              className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === 1 ? "text-gray-400" : "text-gray-700"
-                }`}
-              onClick={handlePrev}
-              disabled={currentPage === 1}
-            >
-              &larr; Prev
-            </button>
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                className={`w-10 h-10 border rounded-md ${currentPage === index + 1
-                  ? "bg-primary-color text-white"
-                  : "bg-white text-gray-700"
-                  }`}
-                onClick={() => handleClick(index + 1)}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === totalPages ? "text-gray-400" : "text-gray-700"
-                }`}
-              onClick={handleNext}
-              disabled={currentPage === totalPages}
-            >
-              Next &rarr;
-            </button>
-          </div>
+
         </div>
       </main>
     </div>
