@@ -1,33 +1,93 @@
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ThemeButton from "../theme-button/theme-button";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
 
-const ModifySearch = () => {
-  const [startDate, setStartDate] = React.useState(new Date());
-  const [cities, setCities] = React.useState<any>();
-  const [selectedCity, setSelectedCity] = React.useState<any>();
-  useEffect(() => {
+const ModifySearch: React.FC = () => {
+  const [cities, setCities] = useState<{ name: string }[] | undefined>([]);
+  const [selectedCity, setSelectedCity] = useState<string | undefined>();
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<string | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [endTime, setEndTime] = useState<string | null>(null);
 
-    const getCities = async () => {
-      const res = await getAllCities();
-      console.log(res, "resCity")
-      setCities(res?.data?.response)
+  const handleStartDateTimeChange = (date: Date | null) => {
+    setStartDate(date);
+    if (date) {
+      setStartTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     }
+  };
+
+  const handleEndDateTimeChange = (date: Date | null) => {
+    console.log(date, "date")
+    setEndDate(date);
+    if (date) {
+      setEndTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }
+  };
+
+  useEffect(() => {
+    const getCities = async () => {
+      try {
+        const res = await getAllCities();
+        setCities(res?.data?.response || []);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
+    };
 
     getCities();
+  }, []);
 
-    // const city =  localStorage.getItem("pickupLocation")
+  const handleCity = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCity(e.target.value);
+  };
 
-  }, [])
-
-  const handleCity = async (e: any) => {
+  const handleModifySearch = (e: React.FormEvent) => {
     e.preventDefault();
-    setSelectedCity(e.target.value)
-    localStorage.setItem("pickupLocation", e.target.value);
-  }
+
+    if (selectedCity && startDate && endDate && startTime && endTime) {
+      // Save data to localStorage
+      localStorage.setItem("pickupLocation", selectedCity);
+      localStorage.setItem("pickupDate", startDate.toISOString());
+      localStorage.setItem("dropOffDate", endDate.toISOString());
+      localStorage.setItem("pickupTime", startTime);
+      localStorage.setItem("dropoffTime", endTime);
+      window.location.reload();
+    }
+  };
+
+  useEffect(() => {
+    const getData = () => {
+      const initialLocation = localStorage.getItem("pickupLocation") || "";
+      const pickupdate = localStorage.getItem("pickupDate");
+      const dropoffDate = localStorage.getItem("dropOffDate");
+      const pickupTime = localStorage.getItem("pickupTime") || "";
+      const dropoffTime = localStorage.getItem("dropoffTime") || "";
+
+      setSelectedCity(initialLocation);
+      if (pickupdate && pickupTime) {
+        // Combine date and time into a single string
+        const startDateTime = new Date(`${pickupdate}T${pickupTime}`);
+        // Set the start date
+        setStartDate(startDateTime);
+      }
+      
+      if (dropoffDate && dropoffTime) {
+        // Combine date and time into a single string
+        const endDateTime = new Date(`${dropoffDate}T${dropoffTime}`);
+        // Set the end date
+        setEndDate(endDateTime);
+      }
+      
+
+
+    };
+
+    getData();
+  }, []);
 
   return (
     <div
@@ -38,61 +98,73 @@ const ModifySearch = () => {
         <div className="text-3xl cursor-pointer w-fit">&larr;</div>
         <div>
           <p className="">Showing Cars</p>
-          <select onChange={handleCity} name="city" id="city" className="font-semibold">
-            {
-              cities?.map((item: any, index: number) => {
-                return (
-                  <option key={index} value={item?.name}>{item?.name}</option>
-                )
-              })
-            }
+          <select
+            onChange={handleCity}
+            name="city"
+            id="city"
+            className="font-semibold"
+            value={selectedCity || ""}
+          >
+            <option value="" disabled>Select a city</option>
+            {cities?.map((item, index) => (
+              <option key={index} value={item.name}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </div>
       </div>
       <div className="flex gap-6">
         <div className="lg:flex gap-2">
           <div className="whitespace-nowrap">Pickup Date</div>
-          <div className="relative">
+          <div className="relative date-picker ">
             <DatePicker
-              className="cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent"
+              className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}
-              //   onChange={
-              //     item?.heading === "Pick Up Date"
-              //       ? (date) => hanldepickupTime(date)
-              //       : (date) => hanldedropoffTime(date)
-              //     // (date) => setStartDate(date)
-              //   }
+              onChange={handleStartDateTimeChange}
               showTimeSelect
-              //   filterTime={filterPassedTime}
               dateFormat="MMMM d, yyyy h:mm aa"
+              placeholderText="MMMM d, yyyy h:mm aa"
             />
-            <Image src={"/svg/edit-red.svg"} alt="edit" width={12} height={12} className="absolute top-[9px] right-[5px] z-[-9]" />
+            <Image
+              src={"/svg/edit-red.svg"}
+              alt="edit"
+              width={12}
+              height={12}
+              className="absolute top-[9px] right-[5px] z-[-9]"
+            />
           </div>
         </div>
         <div className="lg:flex gap-2">
           <div className="whitespace-nowrap">Return Date</div>
           <div className="relative">
             <DatePicker
-              className="cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent"
-              selected={startDate}
-              //   onChange={
-              //     item?.heading === "Pick Up Date"
-              //       ? (date) => hanldepickupTime(date)
-              //       : (date) => hanldedropoffTime(date)
-              //     // (date) => setStartDate(date)
-              //   }
+              className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
+              selected={endDate}
+              onChange={handleEndDateTimeChange}
               showTimeSelect
-              //   filterTime={filterPassedTime}
               dateFormat="MMMM d, yyyy h:mm aa"
+              placeholderText="MMMM d, yyyy h:mm aa"
             />
-            <Image src={"/svg/edit-red.svg"} alt="edit" width={12} height={12} className="absolute top-[9px] right-[5px] z-[-9]" />
+            <Image
+              src={"/svg/edit-red.svg"}
+              alt="edit"
+              width={12}
+              height={12}
+              className="absolute top-[9px] right-[5px] z-[-9]"
+            />
           </div>
         </div>
       </div>
       <div className="ml-auto">
-        <ThemeButton text="Modify Search" className="!rounded-full !px-4" />
+        <ThemeButton
+          onClick={handleModifySearch}
+          text="Modify Search"
+          className="!rounded-full !px-4"
+        />
       </div>
     </div>
   );
 };
+
 export default ModifySearch;

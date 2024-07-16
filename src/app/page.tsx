@@ -31,6 +31,7 @@ export default function Home() {
 
     return currentDate.getTime() < selectedDate.getTime();
   };
+
   const router = useRouter();
 
   const [tabValue, setTabsValue] = useState("Self-Driving");
@@ -42,16 +43,12 @@ export default function Home() {
   const [radioToggle, setRadioToggle] = useState("Out-station");
   console.log(radioToggle, "radio");
 
-  // location and date section work start
-
-  const [pickupLocation, setPickupLocation] = React.useState<any>();
-  const [dropOffLocation, setDropoffLocation] = React.useState<any>();
-  const [pickupDate, setPickupDate] = React.useState<any>();
-  const [dropOffDate, setDropoffDate] = React.useState<any>();
+  const [pickupLocation, setPickupLocation] = useState<any>();
+  const [dropOffLocation, setDropoffLocation] = useState<any>();
+  const [pickupDate, setPickupDate] = useState<any>();
+  const [dropOffDate, setDropoffDate] = useState<any>();
   const [pickupTime, setPickupTime] = useState<any>();
   const [dropoffTime, setDropoffTime] = useState<any>();
-
-  // for mobile
 
   const [mobilestartCity, setMobilestartCity] = useState("select");
   const [mobileStartDate, setMobileStartDate] = useState(null);
@@ -63,42 +60,62 @@ export default function Home() {
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event.target.value);
   };
+
   const handleDropOffLocation = (event: any) => {
     setDropoffLocation(event.target.value);
-
   };
-  // const handlePickupDate = (event: any) => {
-  //   setPickupDate(event.target.value);
-  // };
-  // const handleDropOffDate = (event: any) => {
-  //   setDropoffDate(event.target.value);
-  // };
 
   console.log(pickupLocation, "213 pickup location");
   console.log(dropOffLocation, "213 dropOff location");
   console.log(pickupDate, "213pickup date");
   console.log(dropOffDate, "213dropOff date");
 
-
-
-  // for save the location data into local storage
-
   const saveLocationData = () => {
+    if (!pickupTime) {
+      alert("Please select the Pickup Time");
+      return;
+    }
+
+    if (!dropoffTime) {
+      alert("Please select the Drop Off Time");
+      return;
+    }
+
+    if (!pickupDate) {
+      alert("Please select the Pickup Date");
+      return;
+    }
+
+    if (!dropOffDate) {
+      alert("Please select the Drop Off Date");
+      return;
+    }
+
+    const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+    const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
+
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+
     localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
     localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
-    localStorage.setItem("pickupDate", pickupDate || mobileStartTime);
+    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
     localStorage.setItem("tabValue", tabValue || switchRadio);
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
-    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime)
+    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
 
+    if (tabValue === "Driver") {
+      localStorage.setItem("radioToggle", radioToggle);
+    }
 
-    tabValue === "Driver"
-      ? localStorage.setItem("radioToggle", radioToggle)
-      : "";
-
-    router.push("/car-listing")
+    router.push("/car-listing");
   };
+
+
+  console.log(pickupTime, dropoffTime, "pickupTime")
 
   // location section work end
 
@@ -156,11 +173,18 @@ export default function Home() {
     console.log(event, "joo");
     // setDropoffTime(event?.target?.value);
     const result = convert(event);
-    setDropDate(event);
-    setDropoffDate(result)
-    const getDropoffTime = convertTime(event);
-    setDropoffTime(getDropoffTime);
-    console.log(getDropoffTime, "drrrr");
+    if (pickupDate === undefined || pickupTime === undefined) {
+      alert("Please Select the Pickup Date & Time")
+      return;
+    }
+    else {
+      setDropDate(event);
+      setDropoffDate(result)
+      const getDropoffTime = convertTime(event);
+      setDropoffTime(getDropoffTime);
+      console.log(getDropoffTime, "drrrr");
+    }
+
     // console.log(event, "dropoff time");
 
 
