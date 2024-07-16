@@ -24,7 +24,6 @@ interface User extends SelectedUser {
   id: string;
   _id?: string;
   phone: string;
-  date: string;
   phoneVerified: boolean;
   aadharNumber: string;
   aadharCardFrontImageUrl: string;
@@ -37,14 +36,13 @@ interface User extends SelectedUser {
   drivingLicenseBackImageUrl: string;
   role: string;
   starRating: number;
-  createdAt: string;
-  updatedAt: string;
 }
 
 const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const userData = useStore((state) => state.userData);
-  console.log({ userData })
+  console.log("USER DATA", { userData })
+
 
   const [aadharGenerate, setAadharGenerate] = useState(false);
   const [one, setOne] = useState(true);
@@ -52,8 +50,14 @@ const Checkout = () => {
   const [three, setThree] = useState(true);
   const [four, setFour] = useState(true);
 
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  console.log({ currentUser })
+  useEffect(() => {
+    console.log({ userData })
+    if (userData?.phoneVerified) {
+      setTwo(false);
+      setOne(false);
+    }
+  }, []);
+
   const [phone, setPhoneNumber] = useState("");
 
 
@@ -63,7 +67,7 @@ const Checkout = () => {
   const [panCardPost, setPanCardPost] = useState<string | null>(null);
 
   const [userDetails, setUserDetails] = useState<User | null>(null);
-  console.log({ userDetails })
+  // console.log({ userDetails })
 
   const [selectedUser, setSelectedUser] = useState<SelectedUser | null>({
     firstName: '',
@@ -75,19 +79,25 @@ const Checkout = () => {
     state: '',
   });
 
+  console.log({ selectedUser })
+
+
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  console.log("Line no 77 ", { user })
+  const [errorMessage, setErrorMessage] = useState("");
+  console.log("USER", { user })
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/668e37221c4fe8829d707ea2`);
-        setUser(response?.data?.result);
+        if (userData?._id) {
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`);
+          setUser(response?.data?.result);
+        }
       } catch (err: any) {
-        setError(err.message);
+        throw err;
+        // setErrorMessage(err.message);
       } finally {
         setLoading(false);
       }
@@ -124,10 +134,8 @@ const Checkout = () => {
         payload
       );
       console.log("Signup successful:", { response });
-      const currentUser = response?.data?.result?.user
-      updateUserData(currentUser)
       if (response?.data?.success) {
-        setSessionData('user', currentUser)
+        updateUserData(response?.data?.result?.user)
         setOne(false)
         setTwo(true)
         setThree(false)
@@ -145,16 +153,6 @@ const Checkout = () => {
       }
     }
   };
-
-  useEffect(() => {
-    const session = getSessionData('user');
-    console.log({ session })
-    if (session?.phoneVerified) {
-      setCurrentUser(session);
-      setTwo(false);
-      setOne(false);
-    }
-  }, []);
 
   const handlePhoneChange = (event: any) => {
     setPhoneNumber(event.target.value);
@@ -175,14 +173,9 @@ const Checkout = () => {
       const result = await response.json();
       console.log({ result });
 
-      if (result.success === false) {
-        setOne(true)
-        setTwo(false)
-      }
-
       if (response.ok) {
         setAadharGenerate(true);
-        toast.success("OTP has been sent to your phone.");
+        setErrorMessage(result?.message)
       } else {
         toast.error(result.message || "Failed to send OTP.");
       }
@@ -196,8 +189,6 @@ const Checkout = () => {
   const [aadhar, setAadhar] = useState("");
   const [aadharOtp, setAadharOtp] = useState("");
   const [aadharData, setAadharData] = useState('');
-  const [session, setSession] = useState();
-  console.log({ session })
 
   const handleGenerateAadharOTP = async () => {
     try {
@@ -211,7 +202,6 @@ const Checkout = () => {
       const data = await response.json();
       console.log({ data })
       const session = getSessionData('user');
-      setCurrentUser(session)
       if (data?.otpResponse?.data?.requestId) {
         setAadharGenerate(true)
         setAadharData(data)
@@ -271,12 +261,13 @@ const Checkout = () => {
       if (response.status === 200) {
         const currentUser = result?.result?.user
         const token = result?.result?.token;
-        setSessionData('user', currentUser);
-        setSessionData("token", token)
-        window.location.reload();
+        updateUserData(currentUser)
+        if (currentUser?.phoneVerified) {
+          window.location.reload();
+        }
         setOne(false)
         setTwo(false)
-        toast.success("OTP verification successful. You are now logged in.");
+        toast.success("OTP verification successfully.");
       } else {
         toast.error(result.message || "OTP verification failed.");
       }
@@ -289,12 +280,14 @@ const Checkout = () => {
   const [panCard, setPanCard] = useState('');
 
   const handleVerifiedPan = async () => {
+    setThree(true)
+    setFour(false)
     const panData = {
       panNumber: 'cjzpa1072n',
       panVerified: true,
       panImageUrl: 'https://beta.cabme.in/car-listing',
     };
-    updateUserData(panData);
+    // updateUserData(panData);
     // setThree(true)
     // setFour(false)
     // try {
@@ -412,10 +405,6 @@ const Checkout = () => {
     setShowDocSelect(e.target.value);
   };
 
-
-
-
-
   return (
     <div className="py-6 flex max-w-[1400px] gap-20 m-auto">
       <ToastContainer />
@@ -425,6 +414,7 @@ const Checkout = () => {
           <div>
             {/*-------------------------------------------------------- section one start */}
             <div className="w-[765px] h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md">
+              <h6 className="text-[12px] font-bold" style={{ color: 'red' }}>{otp ? "" : errorMessage}</h6>
               <h2 className="text-[20px] font-bold">1. Start Your Order</h2>
               {one ? (
                 <div>
@@ -485,14 +475,14 @@ const Checkout = () => {
                       <InputField
                         name="firstName"
                         placeholder="First name*"
-                        otp={currentUser?.firstName}
+                        otp={userData?.firstName}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                         onChange={handleInputChange}
                       />
                       <InputField
                         name="lastName"
                         placeholder="Last name*"
-                        otp={currentUser?.lastName}
+                        otp={userData?.lastName}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                         onChange={handleInputChange}
                       />
@@ -502,7 +492,7 @@ const Checkout = () => {
                     <InputField
                       name="email"
                       placeholder="Enter your email address*"
-                      otp={currentUser?.email}
+                      otp={userData?.email}
                       className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                       onChange={handleInputChange}
                     />
@@ -511,7 +501,7 @@ const Checkout = () => {
                     <InputField
                       name="address"
                       placeholder="Enter your address*"
-                      otp={currentUser?.address}
+                      otp={userData?.address}
                       className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                       onChange={handleInputChange}
                     />
@@ -521,14 +511,14 @@ const Checkout = () => {
                       <InputField
                         name="state"
                         placeholder="State*"
-                        otp={currentUser?.state}
+                        otp={userData?.state}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                         onChange={handleInputChange}
                       />
                       <InputField
                         name="city"
                         placeholder="City*"
-                        otp={currentUser?.city}
+                        otp={userData?.city}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                         onChange={handleInputChange}
                       />

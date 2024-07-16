@@ -1,46 +1,23 @@
 import create from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserState, UserData } from './types';
+import { User, UserState } from './types';
 
 export const useStore = create<UserState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       isLoggedIn: false,
-      userData: {
-        firstName: '',
-        lastName: '',
-        fullName: '',
-        email: '',
-        phone: '',
-        date: null,
-        phoneVerified: false,
-        aadharNumber: '',
-        aadharCardFrontImageUrl: '',
-        aadharCardBackImageUrl: '',
-        aadharVerified: false,
-        panNumber: '',
-        panVerified: false,
-        panImageUrl: '',
-        drivingLicenseNumber: '',
-        drivingLicenseFrontImageUrl: '',
-        drivingLicenseBackImageUrl: '',
-        drivingLicenseVerified: false,
-        role: '',
-        address: '',
-        city: '',
-        state: '',
-        starRating: 0,
-      },
-      login: (userData: UserData) => set({ isLoggedIn: true, userData: { ...userData, fullName: `${userData.firstName} ${userData.lastName}` } }),
-      logout: () => set({ isLoggedIn: false, userData: {} as UserData }),
-      updateUserData: (newData: Partial<UserData>) =>
+      userData: null,
+      login: (userData: User) => set({ isLoggedIn: true, userData }),
+      logout: () => set({ isLoggedIn: false, userData: null }),
+      updateUserData: (newData: Partial<User>) =>
         set((state) => ({
-          userData: { ...state.userData, ...newData },
+          userData: { ...state.userData!, ...newData },
         })),
+      getUserData: () => get().userData,
     }),
     {
-      name: 'user-storage', 
-      getStorage: () => localStorage, 
+      name: 'user-storage',
+      getStorage: () => localStorage,
     }
   )
 );
