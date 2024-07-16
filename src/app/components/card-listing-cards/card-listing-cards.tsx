@@ -1451,8 +1451,8 @@ const CardListingCards = ({ data }: any) => {
                     }}
                     className={`${
                       clicked1
-                        ? "border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                        : "border text-center py-[3px] px-2 rounded-md"
+                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
                     }`}
                   >
                     <p
@@ -1487,8 +1487,8 @@ const CardListingCards = ({ data }: any) => {
                     }}
                     className={`${
                       clicked2
-                        ? "border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                        : "border text-center py-[3px] px-2 rounded-md"
+                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
                     }`}
                   >
                     <p
@@ -1523,8 +1523,8 @@ const CardListingCards = ({ data }: any) => {
                     }}
                     className={`${
                       clicked3
-                        ? "border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                        : "border text-center py-[3px] px-2 rounded-md"
+                        ? "border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
                     }`}
                   >
                     <p
