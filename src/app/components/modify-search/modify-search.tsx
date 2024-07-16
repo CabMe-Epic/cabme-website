@@ -16,14 +16,15 @@ const ModifySearch: React.FC = () => {
   const handleStartDateTimeChange = (date: Date | null) => {
     setStartDate(date);
     if (date) {
-      setStartTime(date.toLocaleTimeString());
+      setStartTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     }
   };
 
   const handleEndDateTimeChange = (date: Date | null) => {
+    console.log(date, "date")
     setEndDate(date);
     if (date) {
-      setEndTime(date.toLocaleTimeString());
+      setEndTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     }
   };
 
@@ -54,26 +55,35 @@ const ModifySearch: React.FC = () => {
       localStorage.setItem("dropOffDate", endDate.toISOString());
       localStorage.setItem("pickupTime", startTime);
       localStorage.setItem("dropoffTime", endTime);
-
-      // Reload the page or use router.push() if available
-      // router.push("/car-listing");
       window.location.reload();
     }
   };
 
   useEffect(() => {
     const getData = () => {
-      const initialocation = localStorage.getItem("pickupLocation") || "";
+      const initialLocation = localStorage.getItem("pickupLocation") || "";
       const pickupdate = localStorage.getItem("pickupDate");
       const dropoffDate = localStorage.getItem("dropOffDate");
       const pickupTime = localStorage.getItem("pickupTime") || "";
       const dropoffTime = localStorage.getItem("dropoffTime") || "";
 
-      setSelectedCity(initialocation);
-      if (pickupdate) setStartDate(new Date(pickupdate));
-      if (dropoffDate) setEndDate(new Date(dropoffDate));
-      setStartTime(pickupTime);
-      setEndTime(dropoffTime);
+      setSelectedCity(initialLocation);
+      if (pickupdate && pickupTime) {
+        // Combine date and time into a single string
+        const startDateTime = new Date(`${pickupdate}T${pickupTime}`);
+        // Set the start date
+        setStartDate(startDateTime);
+      }
+      
+      if (dropoffDate && dropoffTime) {
+        // Combine date and time into a single string
+        const endDateTime = new Date(`${dropoffDate}T${dropoffTime}`);
+        // Set the end date
+        setEndDate(endDateTime);
+      }
+      
+
+
     };
 
     getData();
@@ -112,7 +122,6 @@ const ModifySearch: React.FC = () => {
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}
               onChange={handleStartDateTimeChange}
-              showDateSelect
               showTimeSelect
               dateFormat="MMMM d, yyyy h:mm aa"
               placeholderText="MMMM d, yyyy h:mm aa"
@@ -133,7 +142,6 @@ const ModifySearch: React.FC = () => {
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={endDate}
               onChange={handleEndDateTimeChange}
-              showDateSelect
               showTimeSelect
               dateFormat="MMMM d, yyyy h:mm aa"
               placeholderText="MMMM d, yyyy h:mm aa"
