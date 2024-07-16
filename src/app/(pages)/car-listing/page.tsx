@@ -242,7 +242,7 @@ const CarListing = () => {
             <strong>Delhi-NCR</strong>
             <ThemeButton
               text="Edit"
-              className="!bg-transparent !text-primary !px-0 !py-0"
+              className="!bg-transparent text-primary text-sm !px-0 !py-0"
               editIcon={true}
             />
           </div>

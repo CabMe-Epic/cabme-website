@@ -19,22 +19,22 @@ const ExclusionComponent = () => {
 export default ExclusionComponent;
 const exclusionCollection = [
   {
-    imageURl: "/png/fuels-png.svg",
+    imageURl: "/svg/fuel.svg",
     content: "Fuel",
     alt:"fuel"
   },
   {
-    imageURl: "/png/toll-png.svg",
+    imageURl: "/svg/tolls.svg",
     content: "Tolls",
     alt:"toll"
   },
   {
-    imageURl: "/png/parkings-png.svg",
+    imageURl: "/svg/parking.svg",
     content: "Parking",
     alt:"parking"
   },
   {
-    imageURl: "/png/charges.svg",
+    imageURl: "/svg/charges.svg",
     content: "Interstate Charges",
     alt:"charges"
   },
