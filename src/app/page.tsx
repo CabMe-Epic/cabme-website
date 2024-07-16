@@ -165,7 +165,7 @@ export default function Home() {
     setPickupTime(getpickupTime);
     console.log(getpickupTime, "pkk");
 
-    // console.log(result, "resss");
+    console.log(result, "resss");
   };
   //extracting date from calender
 
@@ -205,7 +205,6 @@ export default function Home() {
       setMobileStartTime(null);
     }
   };
-
   const handleDateTimeChange = (date: any) => {
     if (date) {
       setMobileEndDate(moment(date).format('YYYY-MM-DD') as any);
@@ -214,6 +213,7 @@ export default function Home() {
       setMobileEndDate(null);
       setMobileEndTime(null);
     }
+    
   };
 
   const handleDateChange = (date: any, setDate: any) => {
