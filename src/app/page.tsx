@@ -172,6 +172,7 @@ export default function Home() {
   }
 
   const handleStartDateTimeChange = (date: any) => {
+    
     if (date) {
       setMobileStartDate(moment(date).format('YYYY-MM-DD') as any);
       setMobileStartTime(moment(date).format('HH:mm') as any);
@@ -210,7 +211,7 @@ export default function Home() {
   return (
     <>
       <div
-        className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2"
+        className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         style={{ backgroundSize: "100% 100%" }}
       >
         <BannerSlider />
@@ -673,9 +674,9 @@ export default function Home() {
         </div>
       </div>
       {/* Only mobile section subsription */}
-      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 sm:my-6 z-[9]">
+      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 sm:my-6 my-4 z-[9]">
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
-          <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2 shadow-custom-shadow">
+          <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
               className={`${mobileTabValue === "Rentals" ? "bg-white text-black shadow-custom-shadow" : ""
                 } rounded-xl px-4 py-[8px] text-center text-sm`}
@@ -809,7 +810,9 @@ export default function Home() {
                   onChange={handleStartDateTimeChange}
                   showTimeSelect
                   dateFormat="yyyy-MM-dd HH:mm"
-                  placeholderText="Select date and time"
+                  placeholderText="Select date and time"                  
+                  onKeyDown={(event)=>event?.preventDefault()}
+                  
                 />
               </div>
             </div>
