@@ -1442,10 +1442,11 @@ const CardListingCards = ({ data }: any) => {
                       setClicked2(false);
                       setClicked3(false);
                     }}
-                    className={`${clicked1
-                      ? "border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                      : "border text-center py-[3px] px-2 rounded-md"
-                      }`}
+                    className={`${
+                      clicked1
+                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                    }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1476,10 +1477,11 @@ const CardListingCards = ({ data }: any) => {
                       setClicked2(true);
                       setClicked3(false);
                     }}
-                    className={`${clicked2
-                      ? "border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                      : "border text-center py-[3px] px-2 rounded-md"
-                      }`}
+                    className={`${
+                      clicked2
+                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
+                    }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1510,10 +1512,11 @@ const CardListingCards = ({ data }: any) => {
                       setClicked2(false);
                       setClicked3(true);
                     }}
-                    className={`${clicked3
-                      ? "border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                      : "border text-center py-[3px] px-2 rounded-md"
-                      }`}
+                    className={`${
+                      clicked3
+                        ? "border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
+                    }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType

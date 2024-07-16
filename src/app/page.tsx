@@ -51,11 +51,12 @@ export default function Home() {
   const [dropoffTime, setDropoffTime] = useState<any>();
 
   const [mobilestartCity, setMobilestartCity] = useState("select");
-  const [mobileStartDate, setMobileStartDate] = useState(null);
-  const [mobileStartTime, setMobileStartTime] = useState(null);
+  const [mobileStartDate, setMobileStartDate] = useState<any>(null);
+  const [mobileStartTime, setMobileStartTime] = useState<any>(null);
   const [mobileEndCity, setMobileEndCity] = useState("select");
-  const [mobileEndDate, setMobileEndDate] = useState(null);
-  const [mobileEndTime, setMobileEndTime] = useState(null);
+  const [mobileEndDate, setMobileEndDate] = useState<any>(null);
+  const [mobileEndTime, setMobileEndTime] = useState<any>(null);
+
 
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event.target.value);
@@ -213,7 +214,7 @@ export default function Home() {
     setPickupTime(getpickupTime);
     console.log(getpickupTime, "pkk");
 
-    // console.log(result, "resss");
+    console.log(result, "resss");
   };
   //extracting date from calender
 
@@ -248,26 +249,51 @@ export default function Home() {
     if (date) {
       setMobileStartDate(moment(date).format('YYYY-MM-DD') as any);
       setMobileStartTime(moment(date).format('HH:mm') as any);
+      console.log(mobileStartDate,"lelo start date");
+      console.log(mobileStartTime,"lelo time");
     } else {
       setMobileStartDate(null);
       setMobileStartTime(null);
     }
   };
-
+  const [duration,setDuration] = useState<any>()
   const handleDateTimeChange = (date: any) => {
     if (date) {
       setMobileEndDate(moment(date).format('YYYY-MM-DD') as any);
       setMobileEndTime(moment(date).format('HH:mm') as any);
+      console.log(mobileEndDate,"lelo end date");
+      console.log(mobileEndTime,"lelo end time");
+      if(mobileEndTime!==null){
+        const pickupDateTime: any = new Date(`${mobileStartDate?.split('-').join('-')}T${mobileStartTime}:00`);
+        const droppingDateTime: any = new Date(`${mobileEndDate?.split('-').join('-')}T${mobileEndTime}:00`);
+        const diffInMs = Math.abs(droppingDateTime - pickupDateTime);
+        const diffInSeconds = Math.floor(diffInMs / 1000);
+        const days = Math.floor(diffInSeconds / (3600 * 24));
+        const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
+        // const minutes = Math.floor((diffInSeconds % 3600) / 60);
+       
+  
+          setDuration(`${days}days, ${hours}hours`)
+      }
+
+     
+        
+    
+      
+      console.log(duration,"durraa");
+
+
     } else {
       setMobileEndDate(null);
       setMobileEndTime(null);
     }
+    
   };
 
   const handleDateChange = (date: any, setDate: any) => {
     setDate(moment(date).format('YYYY-MM-DD'));
   };
-
+console.log(duration,"dura");
   const handleTimeChange = (time: any, setTime: any) => {
     setTime(moment(time).format('HH:mm'));
   };
@@ -418,6 +444,8 @@ export default function Home() {
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                             />
                           </div>
                         )}
@@ -518,6 +546,8 @@ export default function Home() {
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                             />
                           </div>
                         )}
@@ -618,6 +648,8 @@ export default function Home() {
                             showTimeSelect
                             filterTime={filterPassedTime}
                             dateFormat="MMMM d, yyyy h:mm aa"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                           />
                         </div>
                       )}
@@ -718,6 +750,7 @@ export default function Home() {
                           filterTime={filterPassedTime}
                           dateFormat="MMMM d, yyyy h:mm aa"
                           placeholderText={item?.heading === "Pick Up Date" && !startDate ? "DD-MM-YYYY" : (item?.heading !== "Pick Up Date" && !dropDate ? "DD-MM-YYYY" : "")}
+                  onKeyDown={(event)=>event?.preventDefault()}
 
                         />
 
@@ -935,13 +968,15 @@ export default function Home() {
                   showTimeSelect
                   dateFormat="yyyy-MM-dd HH:mm"
                   placeholderText="Select date and time"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                 />
               </div>
             </div>
           )}
         </div>
         <div className="flex items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
-          <strong>Duration :</strong> <p className="text-sm">3 Days and 9 hours</p>
+          <strong>Duration :</strong> <p className="text-sm">{ duration }</p>
         </div>
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
