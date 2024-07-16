@@ -6,8 +6,6 @@ import Image from "next/image";
 import CarFeatures from "@/app/components/car-features/car-features";
 import ExtraCharges from "@/app/components/extra-charges/extra-charges";
 import DescCar from "@/app/components/desc-car/desc-car";
-import Video from "@/app/components/video/video";
-import FleetsSlider from "@/app/components/slider/slider-components";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useState } from "react";
@@ -20,7 +18,6 @@ import useReservationDateTime from "../../../../../networkRequests/hooks/useRese
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
-import BookingSummery from "@/app/components/booking-summery";
 
 interface PromoCode {
   code: string;
@@ -37,13 +34,6 @@ interface PromoCode {
   promotionClassification: string;
   customerContact?: string;
 }
-
-const initialDiscountState = {
-  selectedPromocodeOption: null,
-  discountAmount: 0,
-  discountAppliedAmount: 0,
-  selectedDiscountType: null
-};
 
 const CarDetails = () => {
   const router = useRouter();
@@ -74,6 +64,8 @@ const CarDetails = () => {
 
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
+  
+  const ThirtyDiscount = (totalPrice * 30) / 100
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -621,22 +613,21 @@ const CarDetails = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* DESKTOP  */}
                 <div className="flex flex-row items-center justify-around border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
-                 <div className="flex flex-col items-start">
-                 <span className="font-bold text-md">Pay ₹10,000 Now</span>
-                  <span className="text-[#ff0000] font-semibold text-[15px]">
-                    Balance on Delivery
-               
-                  </span>
-                 </div>
-
+                  <div className="flex flex-col items-start">
+                    <span className="font-bold text-md">Pay ₹{ThirtyDiscount >= 2000 ? ThirtyDiscount.toFixed(2) : totalPrice.toFixed(2)} Now </span>
+                    <span className="text-[#ff0000] font-semibold text-[15px]">
+                      Balance on Delivery
+                    </span>
+                  </div>
                   <button
-                            onClick={handleProceed}
-                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-sm font-semibold text-white w-[78.31px] h-[53.08px] rounded-md drop-shadow-lg">
-                            Proceed
-                          </button>
+                    onClick={handleProceed}
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-sm font-semibold text-white w-[78.31px] h-[53.08px] rounded-md drop-shadow-lg">
+                    Proceed
+                  </button>
                 </div>
-
               </main>
               <div className="flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">

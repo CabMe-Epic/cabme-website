@@ -31,7 +31,7 @@ const BookingDetailsCard = ({ city }: any) => {
     setDuration(`${days}days, ${hours}hours, ${minutes}minutes`);
   }, [dropoffDate, dropoffTime, pickupDate, pickupTime])
 
-  console.log({ duration })
+  // console.log({ duration })
 
   return (
     <div>
