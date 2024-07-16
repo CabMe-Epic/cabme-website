@@ -45,14 +45,21 @@ const Footer = () => {
           <Image
             src={"/png/play-store.png"}
             alt="play-store"
+            onClick={() => window.open("https://play.google.com/store/apps/details?id=com.cabme.in&hl=en_IN", "_blank")}
+
             width={97}
             height={39}
+            className="cursor-pointer"
           />
           <Image
             src={"/png/apple.png"}
             alt="play-store"
             width={97}
             height={39}
+               className="cursor-pointer"
+
+               onClick={() => window.open("https://apps.apple.com/in/app/cabme-self-drive-car-rentals/id1670293597", "_blank")}
+       
           />
         </div>
       </div>

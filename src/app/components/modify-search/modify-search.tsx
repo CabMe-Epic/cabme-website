@@ -134,7 +134,7 @@ const ModifySearch: React.FC = () => {
         </div>
         <div className="lg:flex gap-2">
           <div className="whitespace-nowrap">Return Date</div>
-          <div className="relative">
+          <div className="relative .date-picker">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={endDate}
