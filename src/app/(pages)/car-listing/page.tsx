@@ -15,7 +15,7 @@ import axios from "axios";
 import { searchVehicle } from "../../../../networkRequests/hooks/api";
 import ModifySearch from "@/app/components/modify-search/modify-search";
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 8;
 const CarListing = () => {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
