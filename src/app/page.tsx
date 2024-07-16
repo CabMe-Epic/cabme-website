@@ -673,7 +673,7 @@ export default function Home() {
         </div>
       </div>
       {/* Only mobile section subsription */}
-      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 my-6">
+      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 sm:my-6 z-[9]">
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2 shadow-custom-shadow">
             <div
@@ -896,9 +896,9 @@ export default function Home() {
             Monthly Offers
           </div>
         </div>
-        {offer === "Daily Offers" && <div className="mx-4 sm:mt-0 mt-4"> <OfferCards dailyOffer /> </div>}
+        {offer === "Daily Offers" && <div className="mx-4 sm:mt-0 mt-4 offerCards"> <OfferCards dailyOffer /> </div>}
         {offer === "Monthly Offers" &&
-          <div className="mx-4 sm:mt-0 mt-4">
+          <div className="mx-4 sm:mt-0 mt-4 offerCards">
             <OfferCards monthlyOffer />
           </div>
 
@@ -940,7 +940,7 @@ export default function Home() {
           Fleets <span className="text-primary">high</span> on demand{" "}
         </h2>
 
-        <div className="sm:my-4 sm:mx-4 my-0 mx-4">
+        <div className="sm:my-4 sm:mx-4 my-0 mx-4 fleets">
           <FleetsSlider />
         </div>
       </div>
