@@ -4,27 +4,27 @@ import "react-datepicker/dist/react-datepicker.css";
 import React, { useEffect, useState } from "react";
 import ThemeButton from "../theme-button/theme-button";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
+import moment from "moment";
 
 const ModifySearch: React.FC = () => {
   const [cities, setCities] = useState<{ name: string }[] | undefined>([]);
   const [selectedCity, setSelectedCity] = useState<string | undefined>();
   const [startDate, setStartDate] = useState<Date | null>(null);
-  const [startTime, setStartTime] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
 
   const handleStartDateTimeChange = (date: Date | null) => {
-    setStartDate(date);
     if (date) {
-      setStartTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setStartDate(date);
+      setStartTime(moment(date).format('HH:mm'));
     }
   };
 
   const handleEndDateTimeChange = (date: Date | null) => {
-    console.log(date, "date")
-    setEndDate(date);
     if (date) {
-      setEndTime(date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+      setEndDate(date);
+      setEndTime(moment(date).format('HH:mm'));
     }
   };
 
@@ -48,13 +48,14 @@ const ModifySearch: React.FC = () => {
   const handleModifySearch = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (selectedCity && startDate && endDate && startTime && endTime) {
+    if (selectedCity && startDate && endDate) {
       // Save data to localStorage
       localStorage.setItem("pickupLocation", selectedCity);
-      localStorage.setItem("pickupDate", startDate.toISOString());
-      localStorage.setItem("dropOffDate", endDate.toISOString());
-      localStorage.setItem("pickupTime", startTime);
-      localStorage.setItem("dropoffTime", endTime);
+      localStorage.setItem("pickupDate", moment(startDate).format('YYYY-MM-DD'));
+      localStorage.setItem("dropOffDate", moment(endDate).format('YYYY-MM-DD'));
+      localStorage.setItem("pickupTime", startTime || "");
+      localStorage.setItem("dropoffTime", endTime || "");
+
       window.location.reload();
     }
   };
@@ -64,16 +65,21 @@ const ModifySearch: React.FC = () => {
       const initialLocation = localStorage.getItem("pickupLocation") || "";
       const pickupdate = localStorage.getItem("pickupDate");
       const dropoffDate = localStorage.getItem("dropOffDate");
-      const pickupTime = localStorage.getItem("pickupTime") || "";
-      const dropoffTime = localStorage.getItem("dropoffTime") || "";
+      const pickUpTime = localStorage.getItem("pickupTime");
+      const dropOffTime = localStorage.getItem("dropoffTime");
+
       setSelectedCity(initialLocation);
-      if (pickupdate && pickupTime) {
-        const startDateTime = new Date(`${pickupdate}T${pickupTime}`);
+
+      if (pickupdate && pickUpTime) {
+        const startDateTime = new Date(`${pickupdate}T${pickUpTime}`);
         setStartDate(startDateTime);
+        setStartTime(moment(startDateTime).format('HH:mm'));
       }
-      if (dropoffDate && dropoffTime) {
-        const endDateTime = new Date(`${dropoffDate}T${dropoffTime}`);
+
+      if (dropoffDate && dropOffTime) {
+        const endDateTime = new Date(`${dropoffDate}T${dropOffTime}`);
         setEndDate(endDateTime);
+        setEndTime(moment(endDateTime).format('HH:mm'));
       }
     };
 
@@ -108,7 +114,7 @@ const ModifySearch: React.FC = () => {
       <div className="flex gap-6">
         <div className="lg:flex gap-2">
           <div className="whitespace-nowrap">Pickup Date</div>
-          <div className="relative date-picker ">
+          <div className="relative date-picker">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}

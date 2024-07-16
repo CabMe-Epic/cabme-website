@@ -106,6 +106,8 @@ export default function Home() {
     localStorage.setItem("tabValue", tabValue || switchRadio);
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+    console.log(pickupDate,pickupTime ,"ddd")
+
 
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
@@ -150,6 +152,8 @@ export default function Home() {
     localStorage.setItem("tabValue", tabValue || switchRadio);
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+
+    console.log(pickupDate,pickupTime ,"ddd")
 
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
