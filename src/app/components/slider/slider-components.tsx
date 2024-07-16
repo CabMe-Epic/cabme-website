@@ -28,7 +28,7 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
   const [isTab, setIsTab] = useState(false)
 
 
-  const { vehicles, loading, error } = useVehicles();
+  const { vehicles, loading, error }: any = useVehicles();
 
   const vehicle = vehicles?.response;
 
@@ -109,14 +109,15 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                       src={item?.featuredImage?.image}
                       alt={item?.featuredImage?.alt}
                       width={400}
+
                       height={185}
                     />
                   </div>
-                  <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-4">
+                  <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-14">
                     {item?.carName}
                   </h3>
                   <div className="grid sm:grid-cols-3 grid-cols-2 gap-6 mt-4">
-                    {fleetsArray[index]?.specification?.map((value: any, ind: number) => {
+                    {fleetsArray[0]?.specification?.map((value: any, ind: number) => {
                       return (
                         <div key={ind} className="flex gap-4">
                           <Image
@@ -129,10 +130,13 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                             {ind === 0
                               ? item?.vehicleSpecifications['transmission']
                               : ind === 1
-                                ? item?.vehicleSpecifications['fuelType']
+                                ? item?.vehicleSpecifications['engine']
                                 : ind === 2
-                                  ? item?.vehicleSpecifications['engine']
-                                  : ""
+                                  ? item?.vehicleSpecifications['fuelType']
+                                  : ind === 3 ? item?.vehicleSpecifications['fuelType']
+                                    : ind === 4 ? item?.vehicleSpecifications['make']
+                                      : ind === 5 ? item?.seatingCapacity
+                                        : ""
                             }
                           </span>
 
@@ -189,100 +193,6 @@ const fleetsArray = [
     ],
     desc: "",
   },
-  {
-    badge: "Mahindra",
-    imageUrl: "/cars/xuv-mahindra.png",
-    title: "XUV 700 Mahindra",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "",
-  },
-  {
-    badge: "Honda",
-    imageUrl: "/cars/amaze.png",
-    title: "AMAZE VX",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
-  {
-    badge: "Maruti",
-    imageUrl: "/cars/swift.png",
-    title: "Swift Dzire",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "transmission",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
+
+
 ];
