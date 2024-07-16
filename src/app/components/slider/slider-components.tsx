@@ -16,6 +16,7 @@ import "swiper/css/scrollbar";
 import ThemeButton from "../theme-button/theme-button";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import useVehicles from "../../../../networkRequests/hooks/useVehicles";
 
 interface sliderProp {
   showButton?: boolean;
@@ -26,21 +27,43 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTab, setIsTab] = useState(false)
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsTab(window.innerWidth<1250);
-      setIsMobile(window.innerWidth < 576);
-    };
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      const handleResize = () => {
+        setIsTab(window.innerWidth < 1250);
+        setIsMobile(window.innerWidth < 576);
+      };
+  
+      handleResize();
+  
+      window.addEventListener("resize", handleResize);
+  
+      // Cleanup
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }, []);
 
-    handleResize();
+  const { vehicles, loading, error }: any = useVehicles();
 
-    window.addEventListener("resize", handleResize);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!vehicles || vehicles.length === 0) {
+    return <div>No vehicles available.</div>;
+  }
+
+
+  const vehicle = vehicles?.response;
+
+  console.log(vehicle, "vehicle")
+
+
   return (
     <>
       <Swiper
@@ -57,13 +80,13 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
         onSwiper={(swiper) => console.log()}
       >
         <div className="grid grid-cols-3 gap-6 my-12">
-          {fleetsArray?.map((item, index) => {
+          {vehicle?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
                 <div className="lg:m-auto bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl max-w-[400px]">
                   <div className="flex justify-between">
                     <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">
-                      {item?.badge}
+                      {item?.brandName}
                     </span>
                     {showRatingStar === false ? (
                       ""
@@ -98,17 +121,18 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                   </div>
                   <div className="sm:h-[185px]">
                     <Image
-                      src={item?.imageUrl}
-                      alt="car"
+                      src={item?.featuredImage?.image}
+                      alt={item?.featuredImage?.alt}
                       width={400}
+
                       height={185}
                     />
                   </div>
-                  <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-4">
-                    {item?.title}
+                  <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-14">
+                    {item?.carName}
                   </h3>
                   <div className="grid sm:grid-cols-3 grid-cols-2 gap-6 mt-4">
-                    {item?.specification?.map((value, ind) => {
+                    {fleetsArray[0]?.specification?.map((value: any, ind: number) => {
                       return (
                         <div key={ind} className="flex gap-4">
                           <Image
@@ -117,7 +141,20 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                             width={18}
                             height={18}
                           />
-                          <span className="text-sm whitespace-nowrap">{value?.speci}</span>
+                          <span className="text-sm whitespace-nowrap">
+                            {ind === 0
+                              ? item?.vehicleSpecifications['transmission']
+                              : ind === 1
+                                ? item?.vehicleSpecifications['engine']
+                                : ind === 2
+                                  ? item?.vehicleSpecifications['fuelType']
+                                  : ind === 3 ? item?.vehicleSpecifications['fuelType']
+                                    : ind === 4 ? item?.vehicleSpecifications['make']
+                                      : ind === 5 ? item?.seatingCapacity
+                                        : ""
+                            }
+                          </span>
+
                         </div>
                       );
                     })}
@@ -146,7 +183,7 @@ const fleetsArray = [
     specification: [
       {
         iconUrl: "/svg/manual.svg",
-        speci: "Manual",
+        speci: "transmission",
       },
       {
         iconUrl: "/svg/speed.svg",
@@ -171,100 +208,6 @@ const fleetsArray = [
     ],
     desc: "",
   },
-  {
-    badge: "Mahindra",
-    imageUrl: "/cars/xuv-mahindra.png",
-    title: "XUV 700 Mahindra",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "",
-  },
-  {
-    badge: "Honda",
-    imageUrl: "/cars/amaze.png",
-    title: "AMAZE VX",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
-  {
-    badge: "Maruti",
-    imageUrl: "/cars/swift.png",
-    title: "Swift Dzire",
-    specification: [
-      {
-        iconUrl: "/svg/manual.svg",
-        speci: "Manual",
-      },
-      {
-        iconUrl: "/svg/speed.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/diesel.svg",
-        speci: "14Km",
-      },
-      {
-        iconUrl: "/svg/basic.svg",
-        speci: "Basic",
-      },
-      {
-        iconUrl: "/svg/engine.svg",
-        speci: "2022",
-      },
-      {
-        iconUrl: "/svg/person.svg",
-        speci: "5 Person",
-      },
-    ],
-    desc: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-  },
+
+
 ];

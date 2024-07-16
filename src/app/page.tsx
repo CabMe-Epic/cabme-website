@@ -31,6 +31,7 @@ export default function Home() {
 
     return currentDate.getTime() < selectedDate.getTime();
   };
+
   const router = useRouter();
 
   const [tabValue, setTabsValue] = useState("Self-Driving");
@@ -42,16 +43,12 @@ export default function Home() {
   const [radioToggle, setRadioToggle] = useState("Out-station");
   console.log(radioToggle, "radio");
 
-  // location and date section work start
-
-  const [pickupLocation, setPickupLocation] = React.useState<any>();
-  const [dropOffLocation, setDropoffLocation] = React.useState<any>();
-  const [pickupDate, setPickupDate] = React.useState<any>();
-  const [dropOffDate, setDropoffDate] = React.useState<any>();
+  const [pickupLocation, setPickupLocation] = useState<any>();
+  const [dropOffLocation, setDropoffLocation] = useState<any>();
+  const [pickupDate, setPickupDate] = useState<any>();
+  const [dropOffDate, setDropoffDate] = useState<any>();
   const [pickupTime, setPickupTime] = useState<any>();
   const [dropoffTime, setDropoffTime] = useState<any>();
-
-  // for mobile
 
   const [mobilestartCity, setMobilestartCity] = useState("select");
   const [mobileStartDate, setMobileStartDate] = useState(null);
@@ -63,42 +60,106 @@ export default function Home() {
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event.target.value);
   };
+
   const handleDropOffLocation = (event: any) => {
     setDropoffLocation(event.target.value);
-
   };
-  // const handlePickupDate = (event: any) => {
-  //   setPickupDate(event.target.value);
-  // };
-  // const handleDropOffDate = (event: any) => {
-  //   setDropoffDate(event.target.value);
-  // };
 
   console.log(pickupLocation, "213 pickup location");
   console.log(dropOffLocation, "213 dropOff location");
   console.log(pickupDate, "213pickup date");
   console.log(dropOffDate, "213dropOff date");
 
-
-
-  // for save the location data into local storage
-
   const saveLocationData = () => {
+    if (!pickupTime) {
+      alert("Please select the Pickup Time");
+      return;
+    }
+
+    if (!dropoffTime) {
+      alert("Please select the Drop Off Time");
+      return;
+    }
+
+    if (!pickupDate) {
+      alert("Please select the Pickup Date");
+      return;
+    }
+
+    if (!dropOffDate) {
+      alert("Please select the Drop Off Date");
+      return;
+    }
+
+    const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+    const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
+
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+
     localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
     localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
-    localStorage.setItem("pickupDate", pickupDate || mobileStartTime);
+    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
     localStorage.setItem("tabValue", tabValue || switchRadio);
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
-    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime)
+    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
 
+    if (tabValue === "Driver") {
+      localStorage.setItem("radioToggle", radioToggle);
+    }
 
-    tabValue === "Driver"
-      ? localStorage.setItem("radioToggle", radioToggle)
-      : "";
-
-    router.push("/car-listing")
+    router.push("/car-listing");
   };
+
+  const saveLocationDataMobile = () => {
+    if (!mobileStartTime) {
+      alert("Please select the Pickup Time");
+      return;
+    }
+
+    if (!mobileEndTime) {
+      alert("Please select the Drop Off Time");
+      return;
+    }
+
+    if (!mobileStartDate) {
+      alert("Please select the Pickup Date");
+      return;
+    }
+
+    if (!mobileEndDate) {
+      alert("Please select the Drop Off Date");
+      return;
+    }
+
+    const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
+    const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
+
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+
+    localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
+    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
+    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
+    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
+    localStorage.setItem("tabValue", tabValue || switchRadio);
+    localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
+    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+
+    if (tabValue === "Driver") {
+      localStorage.setItem("radioToggle", radioToggle);
+    }
+
+    router.push("/car-listing");
+  };
+
+
+  console.log(pickupTime, dropoffTime, "pickupTime")
 
   // location section work end
 
@@ -156,11 +217,18 @@ export default function Home() {
     console.log(event, "joo");
     // setDropoffTime(event?.target?.value);
     const result = convert(event);
-    setDropDate(event);
-    setDropoffDate(result)
-    const getDropoffTime = convertTime(event);
-    setDropoffTime(getDropoffTime);
-    console.log(getDropoffTime, "drrrr");
+    if (pickupDate === undefined || pickupTime === undefined) {
+      alert("Please Select the Pickup Date & Time")
+      return;
+    }
+    else {
+      setDropDate(event);
+      setDropoffDate(result)
+      const getDropoffTime = convertTime(event);
+      setDropoffTime(getDropoffTime);
+      console.log(getDropoffTime, "drrrr");
+    }
+
     // console.log(event, "dropoff time");
 
 
@@ -172,6 +240,7 @@ export default function Home() {
   }
 
   const handleStartDateTimeChange = (date: any) => {
+
     if (date) {
       setMobileStartDate(moment(date).format('YYYY-MM-DD') as any);
       setMobileStartTime(moment(date).format('HH:mm') as any);
@@ -210,7 +279,7 @@ export default function Home() {
   return (
     <>
       <div
-        className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2"
+        className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         style={{ backgroundSize: "100% 100%" }}
       >
         <BannerSlider />
@@ -673,9 +742,9 @@ export default function Home() {
         </div>
       </div>
       {/* Only mobile section subsription */}
-      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 my-6">
+      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 sm:my-6 my-4 z-[9]">
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
-          <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2 shadow-custom-shadow">
+          <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
               className={`${mobileTabValue === "Rentals" ? "bg-white text-black shadow-custom-shadow" : ""
                 } rounded-xl px-4 py-[8px] text-center text-sm`}
@@ -810,6 +879,8 @@ export default function Home() {
                   showTimeSelect
                   dateFormat="yyyy-MM-dd HH:mm"
                   placeholderText="Select date and time"
+                  onKeyDown={(event) => event?.preventDefault()}
+
                 />
               </div>
             </div>
@@ -872,7 +943,7 @@ export default function Home() {
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
-            onClick={() => saveLocationData()}
+            onClick={() => saveLocationDataMobile()}
           // rightArrowIcon
           // image={"/svg/race.svg"}
           />
@@ -896,9 +967,9 @@ export default function Home() {
             Monthly Offers
           </div>
         </div>
-        {offer === "Daily Offers" && <div className="mx-4 sm:mt-0 mt-4"> <OfferCards dailyOffer /> </div>}
+        {offer === "Daily Offers" && <div className="mx-4 sm:mt-0 mt-4 offerCards"> <OfferCards dailyOffer /> </div>}
         {offer === "Monthly Offers" &&
-          <div className="mx-4 sm:mt-0 mt-4">
+          <div className="mx-4 sm:mt-0 mt-4 offerCards">
             <OfferCards monthlyOffer />
           </div>
 
@@ -940,7 +1011,7 @@ export default function Home() {
           Fleets <span className="text-primary">high</span> on demand{" "}
         </h2>
 
-        <div className="sm:my-4 sm:mx-4 my-0 mx-4">
+        <div className="sm:my-4 sm:mx-4 my-0 mx-4 fleets">
           <FleetsSlider />
         </div>
       </div>
