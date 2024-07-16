@@ -621,12 +621,22 @@ const CarDetails = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
-                  <span className="font-bold text-md">Pay ₹10,000 Now</span>
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                 <div className="flex flex-col items-start">
+                 <span className="font-bold text-md">Pay ₹10,000 Now</span>
                   <span className="text-[#ff0000] font-semibold text-[15px]">
                     Balance on Delivery
+               
                   </span>
+                 </div>
+
+                  <button
+                            onClick={handleProceed}
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-sm font-semibold text-white w-[78.31px] h-[53.08px] rounded-md drop-shadow-lg">
+                            Proceed
+                          </button>
                 </div>
+
               </main>
               <div className="flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">
