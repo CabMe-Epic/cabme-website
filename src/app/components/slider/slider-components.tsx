@@ -16,6 +16,7 @@ import "swiper/css/scrollbar";
 import ThemeButton from "../theme-button/theme-button";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import useVehicles from "../../../../networkRequests/hooks/useVehicles";
 
 interface sliderProp {
   showButton?: boolean;
@@ -26,9 +27,16 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTab, setIsTab] = useState(false)
 
+
+  const { vehicles, loading, error } = useVehicles();
+
+  const vehicle = vehicles?.response;
+
+  console.log(vehicle, "vehicle")
+
   useEffect(() => {
     const handleResize = () => {
-      setIsTab(window.innerWidth<1250);
+      setIsTab(window.innerWidth < 1250);
       setIsMobile(window.innerWidth < 576);
     };
 
@@ -57,13 +65,13 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
         onSwiper={(swiper) => console.log()}
       >
         <div className="grid grid-cols-3 gap-6 my-12">
-          {fleetsArray?.map((item, index) => {
+          {vehicle?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
                 <div className="lg:m-auto bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl max-w-[400px]">
                   <div className="flex justify-between">
                     <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">
-                      {item?.badge}
+                      {item?.brandName}
                     </span>
                     {showRatingStar === false ? (
                       ""
@@ -98,17 +106,17 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                   </div>
                   <div className="sm:h-[185px]">
                     <Image
-                      src={item?.imageUrl}
-                      alt="car"
+                      src={item?.featuredImage?.image}
+                      alt={item?.featuredImage?.alt}
                       width={400}
                       height={185}
                     />
                   </div>
                   <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-4">
-                    {item?.title}
+                    {item?.carName}
                   </h3>
                   <div className="grid sm:grid-cols-3 grid-cols-2 gap-6 mt-4">
-                    {item?.specification?.map((value, ind) => {
+                    {fleetsArray[index]?.specification?.map((value: any, ind: number) => {
                       return (
                         <div key={ind} className="flex gap-4">
                           <Image
@@ -117,7 +125,17 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                             width={18}
                             height={18}
                           />
-                          <span className="text-sm whitespace-nowrap">{value?.speci}</span>
+                          <span className="text-sm whitespace-nowrap">
+                            {ind === 0
+                              ? item?.vehicleSpecifications['transmission']
+                              : ind === 1
+                                ? item?.vehicleSpecifications['fuelType']
+                                : ind === 2
+                                  ? item?.vehicleSpecifications['engine']
+                                  : ""
+                            }
+                          </span>
+
                         </div>
                       );
                     })}
@@ -146,7 +164,7 @@ const fleetsArray = [
     specification: [
       {
         iconUrl: "/svg/manual.svg",
-        speci: "Manual",
+        speci: "transmission",
       },
       {
         iconUrl: "/svg/speed.svg",
@@ -242,7 +260,7 @@ const fleetsArray = [
     specification: [
       {
         iconUrl: "/svg/manual.svg",
-        speci: "Manual",
+        speci: "transmission",
       },
       {
         iconUrl: "/svg/speed.svg",
