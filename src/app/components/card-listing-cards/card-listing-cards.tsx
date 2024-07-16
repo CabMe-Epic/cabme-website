@@ -60,7 +60,7 @@ const CardListingCards = ({ data }: any) => {
   }, []);
   console.log("type on card section", bookingOptionsHome);
   console.log(data?.bookingOptions?.selfDrive, "dtaaaaaaaaaaaaaaaaa");
-  const [clicked1, setClicked1] = useState(false);
+  const [clicked1, setClicked1] = useState(true);
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
@@ -77,6 +77,7 @@ const CardListingCards = ({ data }: any) => {
           </div>
           <div className="overflow-auto  sm:flex sm:w-[80%] sm:justify-center sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
             {data?.imageGallery?.map((item: any, index: number) => {
+              console.log(item?.image,"url");
               return (
                 <Image
                   src={item?.image}
@@ -1352,7 +1353,7 @@ const CardListingCards = ({ data }: any) => {
                     <div className="grid grid-cols-4 gap-4">
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
-                          src="/carListingBanner/baseCar.png"
+                          src="/carListingBanner/baseCar.svg"
                           width={25}
                           height={25}
                           objectFit="contain"
@@ -1362,7 +1363,7 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
-                          src="/carListingBanner/trip.png"
+                          src="/carListingBanner/trip.svg"
                           width={25}
                           height={25}
                           objectFit="contain"
@@ -1374,7 +1375,7 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
-                          src="/carListingBanner/gst.png"
+                          src="/carListingBanner/gst.svg"
                           width={25}
                           height={10}
                           objectFit="contain"
@@ -1384,7 +1385,7 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
-                          src="/carListingBanner/deposit.png"
+                          src="/carListingBanner/deposit.svg"
                           width={25}
                           height={25}
                           objectFit="contain"
@@ -1433,7 +1434,7 @@ const CardListingCards = ({ data }: any) => {
                       setClicked3(false);
 
                     }}
-                    className={`${clicked1 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
+                    className={`${clicked1 ? 'border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1445,7 +1446,7 @@ const CardListingCards = ({ data }: any) => {
                       {data?.bookingOptions?.selfDrive?.packageType
                         ?.package2?.duration}
                     </p>
-                    <strong className="block text-sm">{data?.bookingOptions?.selfDrive?.packageType?.package2?.price}</strong>
+                    <strong className="block text-sm">₹ {data?.bookingOptions?.selfDrive?.packageType?.package2?.price}</strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       360 Free kms
                     </p>
@@ -1457,7 +1458,7 @@ const CardListingCards = ({ data }: any) => {
                       setClicked3(false);
 
                     }}
-                    className={`${clicked2 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
+                    className={`${clicked2 ? 'border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1469,19 +1470,19 @@ const CardListingCards = ({ data }: any) => {
                       {data?.bookingOptions?.selfDrive?.packageType
                         ?.package1?.duration}
                     </p>
-                    <strong className="block text-sm">{data?.bookingOptions?.selfDrive?.packageType?.package1?.price}</strong>
+                    <strong className="block text-sm">₹ {data?.bookingOptions?.selfDrive?.packageType?.package1?.price}</strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       360 Free kms
                     </p>
                   </div>
                   <div
-                    onClick={() => {
-                      setClicked1(false);
-                      setClicked2(false);
-                      setClicked3(true);
-
-                    }}
-                    className={`${clicked3 ? 'border-black border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
+                           onClick={() => {
+                            setClicked1(false);
+                            setClicked2(false);
+                            setClicked3(true);
+      
+                          }}
+                          className={`${clicked3 ? 'border-[#FF0000] border bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md' : 'border text-center py-[3px] px-2 rounded-md'}`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1493,7 +1494,7 @@ const CardListingCards = ({ data }: any) => {
                       {data?.bookingOptions?.selfDrive?.packageType
                         ?.package3?.duration}
                     </p>
-                    <strong className="block text-sm">{data?.bookingOptions?.selfDrive?.packageType?.package3?.price}</strong>
+                    <strong className="block text-sm">₹ {data?.bookingOptions?.selfDrive?.packageType?.package3?.price}</strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       360 Free kms
                     </p>
@@ -1655,7 +1656,7 @@ const CardListingCards = ({ data }: any) => {
                           <div className="grid sm:grid-cols-4 gap-4 w-full">
                             <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                               <Image
-                                src="/carListingBanner/baseCar.png"
+                                src="/carListingBanner/baseCar.svg"
                                 width={25}
                                 height={25}
                                 objectFit="contain"
@@ -1667,7 +1668,7 @@ const CardListingCards = ({ data }: any) => {
                             </div>
                             <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                               <Image
-                                src="/carListingBanner/trip.png"
+                                src="/carListingBanner/trip.svg"
                                 width={25}
                                 height={25}
                                 objectFit="contain"
@@ -1679,7 +1680,7 @@ const CardListingCards = ({ data }: any) => {
                             </div>
                             <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                               <Image
-                                src="/carListingBanner/gst.png"
+                                src="/carListingBanner/gst.svg"
                                 width={25}
                                 height={10}
                                 objectFit="contain"
@@ -1689,7 +1690,7 @@ const CardListingCards = ({ data }: any) => {
                             </div>
                             <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                               <Image
-                                src="/carListingBanner/deposit.png"
+                                src="/carListingBanner/deposit.svg"
                                 width={25}
                                 height={25}
                                 objectFit="contain"

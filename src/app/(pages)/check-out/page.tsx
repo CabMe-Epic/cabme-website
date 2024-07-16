@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"
 import { postAadharBack, postAadharFront, postPanCard } from "../../../../networkRequests/hooks/api";
 import { getSessionData, setSessionData } from "@/app/utils/sessionStorageUtil";
+import { useStore } from "@/app/zustand/store";
 
 interface SelectedUser {
   firstName: string;
@@ -41,6 +42,10 @@ interface User extends SelectedUser {
 }
 
 const Checkout = () => {
+  const updateUserData = useStore((state) => state.updateUserData);
+  const userData = useStore((state) => state.userData);
+  console.log({ userData })
+
   const [aadharGenerate, setAadharGenerate] = useState(false);
   const [one, setOne] = useState(true);
   const [two, setTwo] = useState(true);
@@ -120,6 +125,7 @@ const Checkout = () => {
       );
       console.log("Signup successful:", { response });
       const currentUser = response?.data?.result?.user
+      updateUserData(currentUser)
       if (response?.data?.success) {
         setSessionData('user', currentUser)
         setOne(false)
@@ -283,8 +289,14 @@ const Checkout = () => {
   const [panCard, setPanCard] = useState('');
 
   const handleVerifiedPan = async () => {
-    setThree(true)
-    setFour(false)
+    const panData = {
+      panNumber: 'cjzpa1072n',
+      panVerified: true,
+      panImageUrl: 'https://beta.cabme.in/car-listing',
+    };
+    updateUserData(panData);
+    // setThree(true)
+    // setFour(false)
     // try {
     //   const session = getSessionData('user');
     //   console.log({ session })
