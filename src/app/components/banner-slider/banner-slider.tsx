@@ -60,7 +60,7 @@ const BannerSlider = () => {
                   alt="banner"
                   width={1650}
                   height={850}
-                  className="w-full h-auto"
+                  className="w-full h-auto rounded-xl"
                 />
               </div>
             </SwiperSlide>
