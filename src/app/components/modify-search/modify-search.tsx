@@ -66,24 +66,15 @@ const ModifySearch: React.FC = () => {
       const dropoffDate = localStorage.getItem("dropOffDate");
       const pickupTime = localStorage.getItem("pickupTime") || "";
       const dropoffTime = localStorage.getItem("dropoffTime") || "";
-
       setSelectedCity(initialLocation);
       if (pickupdate && pickupTime) {
-        // Combine date and time into a single string
         const startDateTime = new Date(`${pickupdate}T${pickupTime}`);
-        // Set the start date
         setStartDate(startDateTime);
       }
-      
       if (dropoffDate && dropoffTime) {
-        // Combine date and time into a single string
         const endDateTime = new Date(`${dropoffDate}T${dropoffTime}`);
-        // Set the end date
         setEndDate(endDateTime);
       }
-      
-
-
     };
 
     getData();
