@@ -1615,7 +1615,7 @@ const CardListingCards = ({ data }: any) => {
                         <span className="text-[10px]">Boot Space</span>
                       </div>
                     </div>
-                    <ThemeButton text="Book Now" className="ml-auto mt-4" />
+                    <ThemeButton text="Book Now" className="ml-auto mt-4 shadow-custom-shadow" />
                     <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
                       <span
                         className="text-[#ff0000] text-xs"
