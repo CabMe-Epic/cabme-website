@@ -370,6 +370,8 @@ export default function Home() {
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                             />
                           </div>
                         )}
@@ -470,6 +472,8 @@ export default function Home() {
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                             />
                           </div>
                         )}
@@ -570,6 +574,8 @@ export default function Home() {
                             showTimeSelect
                             filterTime={filterPassedTime}
                             dateFormat="MMMM d, yyyy h:mm aa"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                           />
                         </div>
                       )}
@@ -670,6 +676,7 @@ export default function Home() {
                           filterTime={filterPassedTime}
                           dateFormat="MMMM d, yyyy h:mm aa"
                           placeholderText={item?.heading === "Pick Up Date" && !startDate ? "DD-MM-YYYY" : (item?.heading !== "Pick Up Date" && !dropDate ? "DD-MM-YYYY" : "")}
+                  onKeyDown={(event)=>event?.preventDefault()}
 
                         />
 
@@ -887,6 +894,8 @@ export default function Home() {
                   showTimeSelect
                   dateFormat="yyyy-MM-dd HH:mm"
                   placeholderText="Select date and time"
+                  onKeyDown={(event)=>event?.preventDefault()}
+
                 />
               </div>
             </div>
