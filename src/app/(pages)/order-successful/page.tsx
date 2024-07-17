@@ -168,7 +168,7 @@ const OrderSuccessful = () => {
       </div>
       <div className="my-6">
         <p className="text-sm text-center">We appreciate your trust in us and look forward to providing you with an exceptional experience.</p>
-        <p className="text-sm text-center mt-4">If you have any questions or need to make any changes to your booking, please don't hesitate to contact us at [Contact Information].</p>
+        <p className="text-sm text-center mt-4">If you have any questions or need to make any changes to your booking, please dont hesitate to contact us at [Contact Information].</p>
       </div>
     </div>
   );
