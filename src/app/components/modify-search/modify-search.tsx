@@ -88,19 +88,21 @@ const ModifySearch: React.FC = () => {
 
   return (
     <div
-      className="grid grid-cols-[1fr_2fr_1fr] justify-between my-12 p-4 items-center rounded-md bg-[url('/png/search-bg.png')]"
+      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between my-12 p-4 items-center rounded-md bg-[url('/png/search-bg.png')]"
       style={{ backgroundSize: "100% 100%" }}
     >
-      <div className="flex gap-4 items-center">
-        <div className="text-3xl cursor-pointer w-fit">&larr;</div>
-        <div>
-          <p className="">Showing Cars</p>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-2 sm:mb-0">
+        <div className="text-3xl cursor-pointer w-fit hidden sm:block">&larr;</div>
+        <div className="flex flex-col sm:flex-col sm:items-start gap-2">
+          {/* <div className="text-3xl cursor-pointer w-fit sm:hidden block">&larr;</div> */}
+          <div className="flex gap-2 sm:ml-1"><span className="block sm:hidden ">&larr;</span>Showing Cars</div>
           <select
             onChange={handleCity}
             name="city"
             id="city"
-            className="font-semibold"
+            className="font-semibold w-[100%] sm:min-[200px]"
             value={selectedCity || ""}
+
           >
             <option value="" disabled>Select a city</option>
             {cities?.map((item, index) => (
@@ -111,10 +113,10 @@ const ModifySearch: React.FC = () => {
           </select>
         </div>
       </div>
-      <div className="flex gap-6">
-        <div className="lg:flex gap-2">
+      <div className="flex flex-col items-start sm:items-center sm:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2">
           <div className="whitespace-nowrap">Pickup Date</div>
-          <div className="relative date-picker">
+          <div className="relative date-picker m-0 w-[100%] sm:min-[200px]">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}
@@ -132,9 +134,9 @@ const ModifySearch: React.FC = () => {
             />
           </div>
         </div>
-        <div className="lg:flex gap-2">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2">
           <div className="whitespace-nowrap">Return Date</div>
-          <div className="relative .date-picker">
+          <div className="relative date-picker m-0 w-[100%] sm:min-[200px]">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={endDate}
@@ -153,7 +155,7 @@ const ModifySearch: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="ml-auto">
+      <div className="sm:ml-auto my-10 sm:m-4">
         <ThemeButton
           onClick={handleModifySearch}
           text="Modify Search"
@@ -161,6 +163,7 @@ const ModifySearch: React.FC = () => {
         />
       </div>
     </div>
+
   );
 };
 

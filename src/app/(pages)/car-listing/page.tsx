@@ -260,7 +260,7 @@ const CarListing = () => {
 
   return (
     <div className="max-w-[1400px] m-auto">
-      <div
+      {/* <div
         className="sm:hidden xs:flex p-4 justify-between items-center bg-[url('/png/red-bg.png')] relative"
         style={{ backgroundSize: "100% 100%" }}
       >
@@ -296,7 +296,7 @@ const CarListing = () => {
             className="cursor-pointer"
           />
         </div>
-      </div>
+      </div> */}
       <main className=" xs:py-8 px-4">
         {/* breadcrumbs */}
         <div className="sm:block hidden text-[#5F5D5D]">
@@ -321,7 +321,7 @@ const CarListing = () => {
         {/* heading  */}
 
         {/* modify search section */}
-        <div className="sm:block hidden">
+        <div className="sm:block">
           <ModifySearch />
         </div>
 
