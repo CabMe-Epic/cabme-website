@@ -1438,15 +1438,18 @@ const CardListingCards = ({ data }: any) => {
                 <div className="grid grid-cols-3 gap-2 mt-10">
                   <div
                     onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.selfDrive?.packageType
+                          ?.package1?.price
+                      );
                       setClicked1(true);
                       setClicked2(false);
                       setClicked3(false);
                     }}
-                    className={`${
-                      clicked1
-                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                        : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
-                    }`}
+                    className={`${clicked1
+                      ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                      : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                      }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1473,15 +1476,18 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                   <div
                     onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.selfDrive?.packageType
+                          ?.package2?.price
+                      );
                       setClicked1(false);
                       setClicked2(true);
                       setClicked3(false);
                     }}
-                    className={`${
-                      clicked2
-                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                        : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
-                    }`}
+                    className={`${clicked2
+                      ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                      : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
+                      }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1508,15 +1514,18 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                   <div
                     onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.selfDrive?.packageType
+                          ?.package3?.price
+                      );
                       setClicked1(false);
                       setClicked2(false);
                       setClicked3(true);
                     }}
-                    className={`${
-                      clicked3
-                        ? "border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                        : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
-                    }`}
+                    className={`${clicked3
+                      ? "border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                      : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
+                      }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
@@ -1663,6 +1672,9 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <ThemeButton
+                      onClick={() =>
+                        Navigation.push(`/car-details/${data._id}`)
+                      }
                       text="Book Now"
                       className="ml-auto mt-4 shadow-custom-shadow grad-button !px-4 !font-semibold"
                     />
@@ -1972,7 +1984,9 @@ const CardListingCards = ({ data }: any) => {
                         <span className="text-[10px]">Boot Space</span>
                       </div>
                     </div>
-                    <ThemeButton text="Book Now" className="ml-auto mt-4" />
+                    <ThemeButton onClick={() =>
+                      Navigation.push(`/car-details/${data._id}`)
+                    } text="Book Now" className="ml-auto mt-4" />
                     <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
                       <span
                         className="text-[#ff0000] text-xs"
@@ -2278,7 +2292,9 @@ const CardListingCards = ({ data }: any) => {
                         <span className="text-[10px]">Boot Space</span>
                       </div>
                     </div>
-                    <ThemeButton text="Book Now" className="ml-auto mt-4" />
+                    <ThemeButton onClick={() =>
+                      Navigation.push(`/car-details/${data._id}`)
+                    } text="Book Now" className="ml-auto mt-4" />
                     <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
                       <span
                         className="text-[#ff0000] text-xs"

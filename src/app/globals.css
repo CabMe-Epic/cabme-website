@@ -211,7 +211,7 @@
 @media (max-width: 600px) {
   .date-picker {
     width: 101% !important;
-    margin-left: 75px !important;
+    margin-left: 0px !important;
   }
 
   .react-datepicker {
@@ -228,4 +228,8 @@
   .react-datepicker__month-container {
     width: 70% !important;
   }
+}
+
+.no-scroll {
+  overflow: hidden;
 }
