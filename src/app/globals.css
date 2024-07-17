@@ -4,6 +4,7 @@
 
 :root {
   --primary-color: #ff0000;
+  --gray-500: #FBFBFB;
 }
 
 .red-marker li::marker {
@@ -16,6 +17,9 @@
 
 .text-primary {
   color: var(--primary-color);
+}
+.bg-gray-500{
+  background-color: var(--gray-500);
 }
 
 .radio-button {
@@ -224,4 +228,8 @@
   .react-datepicker__month-container {
     width: 70% !important;
   }
+}
+
+.no-scroll {
+  overflow: hidden;
 }
