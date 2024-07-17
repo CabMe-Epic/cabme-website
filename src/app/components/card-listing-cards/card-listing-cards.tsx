@@ -9,6 +9,7 @@ import TermsAndConditions from "../terms-and-condition-tabs/terms-and-condition"
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import useReservationDateTime from "@../../../networkRequests/hooks/useReservationDateTime";
+import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 
 const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
@@ -69,22 +70,6 @@ const CardListingCards = ({ data }: any) => {
   const [clicked3, setClicked3] = useState(false);
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
 
-
-
-
-//   const usePriceCalculation = (price: number) => {
-//     const { reservationDateTime, duration } = useReservationDateTime();
-//     const [totalPrice, setTotalPrice] = useState(0);
-
-//     useEffect(() => {
-//         if (reservationDateTime && duration) {
-//             const { days, hours } = extractDaysAndHours(duration);
-//             setTotalPrice(calculatePrice(Number(days), Number(hours), Number(price)));
-//         }
-//     }, [reservationDateTime, duration, price]);
-
-//     return totalPrice;
-// };
 
   return (
     <>
@@ -192,12 +177,8 @@ const CardListingCards = ({ data }: any) => {
                           }`}
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
-                          ₹{" "}
-                          {
-                            // usePriceCalculation()
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package1?.price
-                          }
+                          ₹ {calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType
+                            ?.package1?.price)?.toFixed(0)}
                         </span>
                         <span className="flex flex-col gap-0">
                           <p className="text-[#565454] font-[500] text-[14px] text-center">
@@ -229,9 +210,9 @@ const CardListingCards = ({ data }: any) => {
                       >
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
-                          {
+                          {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
-                              ?.package2?.price
+                              ?.package2?.price)?.toFixed(0)
                           }
                         </span>
                         <span className="flex flex-col gap-0">
@@ -265,8 +246,9 @@ const CardListingCards = ({ data }: any) => {
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
                           {
+                            calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
-                              ?.package3?.price
+                              ?.package3?.price)?.toFixed(0)
                           }
                         </span>
                         <span className="flex flex-col gap-0">

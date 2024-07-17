@@ -105,62 +105,62 @@ const OrderSuccessful = () => {
           <UserDetails />
         </div>
         <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8">
-            <div>
-                <h3 className="text-lg font-semibold">Expected date of delivery</h3>
-                <p className="text-sm">Between 26th -  26th May</p>
-            </div>
-            <div className="my-4">
-                <h3 className="text-lg font-semibold">Place of delivery</h3>
-                <p className="text-sm">At your doorstep</p>
-            </div>
-            <div>
-                <h3 className="text-lg font-semibold">Delivery Address</h3>
-                <p className="text-sm">B-21,Plot no -115,Street4 near Bansal Hospital Noida,201031</p>
-            </div>
+          <div>
+            <h3 className="text-lg font-semibold">Expected date of delivery</h3>
+            <p className="text-sm">Between 26th -  26th May</p>
+          </div>
+          <div className="my-4">
+            <h3 className="text-lg font-semibold">Place of delivery</h3>
+            <p className="text-sm">At your doorstep</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Delivery Address</h3>
+            <p className="text-sm">B-21,Plot no -115,Street4 near Bansal Hospital Noida,201031</p>
+          </div>
         </div>
       </div>
       <div className="grid grid-cols-2 bg-[#FBFBFB] p-6">
         <div className="max-w-[450px] w-full">
-            <h3 className="font-semibold text-2xl mb-4">DOCUMENT </h3>
-            <div className=" flex justify-between py-2">
-                <span className="w-[200px]">PAN Number</span>
-                <span>:</span>
-                <span>UXRG56789KO</span>
-            </div>
-            <div className="my-4 flex justify-between py-2">
-                <span className="w-[200px]">Driving License Number</span>
-                <span>:</span>
-                <span>678905443789</span>
-            </div>
-            <div className=" flex justify-between py-2">
-                <span className="w-[200px]">Aadhar Number</span>
-                <span>:</span>
-                <span>3214 6788 8976</span>
-            </div>
+          <h3 className="font-semibold text-2xl mb-4">DOCUMENT </h3>
+          <div className=" flex justify-between py-2">
+            <span className="w-[200px]">PAN Number</span>
+            <span>:</span>
+            <span>UXRG56789KO</span>
+          </div>
+          <div className="my-4 flex justify-between py-2">
+            <span className="w-[200px]">Driving License Number</span>
+            <span>:</span>
+            <span>678905443789</span>
+          </div>
+          <div className=" flex justify-between py-2">
+            <span className="w-[200px]">Aadhar Number</span>
+            <span>:</span>
+            <span>3214 6788 8976</span>
+          </div>
         </div>
         <div className="border-l pl-12">
-            <h3 className="font-semibold text-2xl mb-4">DOCUMENT IMAGE  </h3>
-            <div className="flex items-center">
-                <p className="max-w-[250px] w-full">PAN Number</p>
-                <div className="flex gap-2">
-                    <Image src={"/png/pan-front.png"} alt="pancard" width={78} height={44} />
-                    <Image src={"/png/pan-back.png"} alt="pancard" width={78} height={44} />
-                </div>
+          <h3 className="font-semibold text-2xl mb-4">DOCUMENT IMAGE  </h3>
+          <div className="flex items-center">
+            <p className="max-w-[250px] w-full">PAN Number</p>
+            <div className="flex gap-2">
+              <Image src={"/png/pan-front.png"} alt="pancard" width={78} height={44} />
+              <Image src={"/png/pan-back.png"} alt="pancard" width={78} height={44} />
             </div>
-            <div className="flex my-2 items-center">
-                <p className="max-w-[250px] w-full">Driving License Number</p>
-                <div className="flex gap-2">
-                    <Image src={"/png/dl-front.png"} alt="license" width={78} height={44} />
-                    <Image src={"/png/dl-back.png"} alt="license" width={78} height={44} />
-                </div>
+          </div>
+          <div className="flex my-2 items-center">
+            <p className="max-w-[250px] w-full">Driving License Number</p>
+            <div className="flex gap-2">
+              <Image src={"/png/dl-front.png"} alt="license" width={78} height={44} />
+              <Image src={"/png/dl-back.png"} alt="license" width={78} height={44} />
             </div>
-            <div className="flex items-center">
-                <p className="max-w-[250px] w-full">Aadhar Number</p>
-                <div className="flex gap-2">
-                    <Image src={"/png/adhar-front.png"} alt="pancard" width={78} height={44} />
-                    <Image src={"/png/adhar-back.png"} alt="pancard" width={78} height={44} />
-                </div>
+          </div>
+          <div className="flex items-center">
+            <p className="max-w-[250px] w-full">Aadhar Number</p>
+            <div className="flex gap-2">
+              <Image src={"/png/adhar-front.png"} alt="pancard" width={78} height={44} />
+              <Image src={"/png/adhar-back.png"} alt="pancard" width={78} height={44} />
             </div>
+          </div>
         </div>
       </div>
       <div className="mt-8 pb-4">
