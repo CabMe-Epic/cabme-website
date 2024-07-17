@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import ThemeButton from "../../components/theme-button/theme-button";
@@ -5,6 +6,9 @@ import { useRouter } from "next/navigation";
 import ExclusionComponent from "../exclusion/exclusion";
 import FacilityComponent from "../facility/facility";
 import TermsAndConditions from "../terms-and-condition-tabs/terms-and-condition";
+import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
+import { calculatePrice } from "@/app/utils/calculatePrice ";
+import useReservationDateTime from "@../../../networkRequests/hooks/useReservationDateTime";
 
 const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
@@ -64,6 +68,23 @@ const CardListingCards = ({ data }: any) => {
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
+
+
+
+
+//   const usePriceCalculation = (price: number) => {
+//     const { reservationDateTime, duration } = useReservationDateTime();
+//     const [totalPrice, setTotalPrice] = useState(0);
+
+//     useEffect(() => {
+//         if (reservationDateTime && duration) {
+//             const { days, hours } = extractDaysAndHours(duration);
+//             setTotalPrice(calculatePrice(Number(days), Number(hours), Number(price)));
+//         }
+//     }, [reservationDateTime, duration, price]);
+
+//     return totalPrice;
+// };
 
   return (
     <>
@@ -173,6 +194,7 @@ const CardListingCards = ({ data }: any) => {
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap">
                           ₹{" "}
                           {
+                            // usePriceCalculation()
                             data?.bookingOptions?.selfDrive?.packageType
                               ?.package1?.price
                           }
