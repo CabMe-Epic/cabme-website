@@ -392,7 +392,7 @@ const CardListingCards = ({ data }: any) => {
                             Navigation.push(`/car-details/${data._id}`)
                           }
                           text="Book Now"
-                          className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]"
+                          className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md text-xs w-[140px] h-[50px] text-center flex flex-row justify-center !font-bold !text-[20px]"
                         />
                       </div>
                     </div>
