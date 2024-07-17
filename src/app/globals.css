@@ -207,7 +207,7 @@
 @media (max-width: 600px) {
   .date-picker {
     width: 101% !important;
-    margin-left: 75px !important;
+    margin-left: 0px !important;
   }
 
   .react-datepicker {
