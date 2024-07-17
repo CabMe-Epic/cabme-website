@@ -247,8 +247,8 @@ const CardListingCards = ({ data }: any) => {
                           ₹{" "}
                           {
                             calculateTotalPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package3?.price)?.toFixed(0)
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.price)?.toFixed(0)
                           }
                         </span>
                         <span className="flex flex-col gap-0">
@@ -1091,7 +1091,7 @@ const CardListingCards = ({ data }: any) => {
                           </div>
                           <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
                             <span className="font-bold text-[18px] ">
-                              {/* {data?.bookingOptions?.subscription?.package2?.price} */}  
+                              {/* {data?.bookingOptions?.subscription?.package2?.price} */}
                               --
                             </span>
                             <span className="flex flex-col gap-0">
@@ -1470,8 +1470,9 @@ const CardListingCards = ({ data }: any) => {
                     <strong className="block text-sm">
                       ₹{" "}
                       {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.price
+
+                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.price)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
@@ -1508,8 +1509,10 @@ const CardListingCards = ({ data }: any) => {
                     <strong className="block text-sm">
                       ₹{" "}
                       {
-                        data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.price
+
+
+                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
@@ -1546,8 +1549,9 @@ const CardListingCards = ({ data }: any) => {
                     <strong className="block text-sm">
                       ₹{" "}
                       {
-                        data?.bookingOptions?.selfDrive?.packageType?.package3
-                          ?.price
+
+                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.price)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
