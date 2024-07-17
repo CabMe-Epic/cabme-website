@@ -225,6 +225,7 @@
     width: 70% !important;
   }
 }
-.no-scroll{
+
+.no-scroll {
   overflow: hidden;
 }
