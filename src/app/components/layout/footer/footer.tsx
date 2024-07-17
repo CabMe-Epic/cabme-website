@@ -1,19 +1,25 @@
-"use client"
+"use client";
 import { link } from "fs";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Footer = () => {
-  const router = useRouter()
+  const router = useRouter();
   return (
     <>
       <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8">
         <div className="max-w-[330px] m-auto sm:text-left text-center">
-          <Image src={"/logo.svg"} alt="logo" width={178} height={48} className="sm:m-0 m-auto sm:w-[50%] w-[50%]" />
+          <Image
+            src={"/logo.svg"}
+            alt="logo"
+            width={178}
+            height={48}
+            className="sm:m-0 m-auto sm:w-[50%] w-[50%]"
+          />
           <p className="mt-6">
-            We are India&apos;s leading Car Rental Company with an innovative way of
-            servicing the requirements{" "}
+            We are India&apos;s leading Car Rental Company with an innovative
+            way of servicing the requirements{" "}
           </p>
           <div className="flex gap-6 my-6 sm:justify-start justify-center">
             <Image
@@ -22,38 +28,55 @@ const Footer = () => {
               width={24}
               height={24}
               onClick={() => window.open("https://x.com/cabmeindia", "_blank")}
-                   className="cursor-pointer"
+              className="cursor-pointer"
             />
             <Image
               src={"/svg/linkedIn.svg"}
               alt="linkedIn"
               width={24}
               height={24}
-                  onClick={() => window.open("https://www.linkedin.com/company/cabmeindia/?originalSubdomain=in", "_blank")}
-                   className="cursor-pointer" 
+              onClick={() =>
+                window.open(
+                  "https://www.linkedin.com/company/cabmeindia/?originalSubdomain=in",
+                  "_blank"
+                )
+              }
+              className="cursor-pointer"
             />
             <Image
               src={"/svg/facebook.svg"}
               alt="facebook"
               width={24}
               height={24}
-              onClick={() => window.open("https://www.facebook.com/cabmeindia/?_rdr", "_blank")}
-              className="cursor-pointer" 
+              onClick={() =>
+                window.open(
+                  "https://www.facebook.com/cabmeindia/?_rdr",
+                  "_blank"
+                )
+              }
+              className="cursor-pointer"
             />
             <Image
               src={"/svg/youtube.svg"}
               alt="youtube"
               width={24}
               height={24}
-              onClick={() => window.open("https://www.youtube.com/@cabmeindia4053", "_blank")}
-              className="cursor-pointer" 
+              onClick={() =>
+                window.open("https://www.youtube.com/@cabmeindia4053", "_blank")
+              }
+              className="cursor-pointer"
             />
           </div>
           <div className="sm:flex gap-4 hidden">
             <Image
               src={"/png/play-store.png"}
               alt="play-store"
-              onClick={() => window.open("https://play.google.com/store/apps/details?id=com.cabme.in&hl=en_IN", "_blank")}
+              onClick={() =>
+                window.open(
+                  "https://play.google.com/store/apps/details?id=com.cabme.in&hl=en_IN",
+                  "_blank"
+                )
+              }
               width={97}
               height={39}
               className="cursor-pointer"
@@ -64,9 +87,12 @@ const Footer = () => {
               width={97}
               height={39}
               className="cursor-pointer"
-
-              onClick={() => window.open("https://apps.apple.com/in/app/cabme-self-drive-car-rentals/id1670293597", "_blank")}
-
+              onClick={() =>
+                window.open(
+                  "https://apps.apple.com/in/app/cabme-self-drive-car-rentals/id1670293597",
+                  "_blank"
+                )
+              }
             />
           </div>
         </div>
@@ -101,7 +127,10 @@ const Footer = () => {
             <h3 className="font-bold text-md mb-6">Reach Us</h3>
             <ul className="grid gap-4">
               <li className="flex gap-2 justify-center">
-                <div className="w-[18px] h-[18px] flex-none" style={{ width: "18px !important" }}>
+                <div
+                  className="w-[18px] h-[18px] flex-none"
+                  style={{ width: "18px !important" }}
+                >
                   <Image
                     src={"/png/locate.png"}
                     alt="location"
@@ -124,11 +153,18 @@ const Footer = () => {
                     height={18}
                   />
                 </div>
-                <Link href={"mailto:support@cabme.in"} className="text-sm">support@cabme.in</Link>
+                <Link href={"mailto:support@cabme.in"} className="text-sm">
+                  support@cabme.in
+                </Link>
               </li>
               <li className="flex gap-2 sm:justify-start justify-center">
                 <div className="flex-none">
-                  <Image src={"/png/call.png"} alt="call" width={18} height={18} />
+                  <Image
+                    src={"/png/call.png"}
+                    alt="call"
+                    width={18}
+                    height={18}
+                  />
                 </div>
                 <div className="lg:flex gap-2 text-sm">
                   <Link href={"tel:18001216162"}>
@@ -157,7 +193,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <p className="p-4 bg-primary-color text-white font-semibold text-center sm:text-md text-xs">Copyright,  Cabme 2024. All Right Reserved.</p>
+      <p className="p-4 bg-primary-color text-white font-semibold text-center sm:text-md text-xs">
+        Copyright, Cabme 2024. All Right Reserved.
+      </p>
       <div className="fixed z-[999] center bottom-6 left-6 w-12 h-12 bg-black rounded-full flex items-center justify-center">
         <Image
           src={"/svg/outgoing-call-icon.svg"}
@@ -165,7 +203,6 @@ const Footer = () => {
           width={30}
           height={30}
           className="circle pulse !w-[30px] !h-[30px]"
-
         />
       </div>
       <div className="fixed z-[999] center bottom-6 right-6 w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
@@ -202,9 +239,9 @@ const footerCollection = [
   {
     footerHead: "Helpful Links",
     links: [
-      {
-        link: "Rentals",
-      },
+      // {
+      //   link: "Rentals",
+      // },
       {
         link: "About",
       },
@@ -214,14 +251,9 @@ const footerCollection = [
       {
         link: "Blogs",
       },
-      {
-        link: "Deals",
-      },
+      // {
+      //   link: "Deals",
+      // },
     ],
   },
 ];
-
-
-
-
-

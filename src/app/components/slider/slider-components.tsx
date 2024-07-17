@@ -21,28 +21,33 @@ import useVehicles from "../../../../networkRequests/hooks/useVehicles";
 interface sliderProp {
   showButton?: boolean;
   showRatingStar?: boolean;
+  scrollToFleet?: any;
 }
 
-const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
+const FleetsSlider = ({
+  showButton,
+  showRatingStar,
+  scrollToFleet,
+}: sliderProp) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isTab, setIsTab] = useState(false)
+  const [isTab, setIsTab] = useState(false);
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      const handleResize = () => {
-        setIsTab(window.innerWidth < 1250);
-        setIsMobile(window.innerWidth < 576);
-      };
-  
-      handleResize();
-  
-      window.addEventListener("resize", handleResize);
-  
-      // Cleanup
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }, []);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    const handleResize = () => {
+      setIsTab(window.innerWidth < 1250);
+      setIsMobile(window.innerWidth < 576);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const { vehicles, loading, error }: any = useVehicles();
 
@@ -58,11 +63,9 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
     return <div>No vehicles available.</div>;
   }
 
-
   const vehicle = vehicles?.response;
 
-  console.log(vehicle, "vehicle")
-
+  console.log(vehicle, "vehicle");
 
   return (
     <>
@@ -124,7 +127,6 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                       src={item?.featuredImage?.image}
                       alt={item?.featuredImage?.alt}
                       width={400}
-
                       height={185}
                     />
                   </div>
@@ -132,38 +134,45 @@ const FleetsSlider = ({ showButton, showRatingStar }: sliderProp) => {
                     {item?.carName}
                   </h3>
                   <div className="grid sm:grid-cols-3 grid-cols-2 gap-6 mt-4">
-                    {fleetsArray[0]?.specification?.map((value: any, ind: number) => {
-                      return (
-                        <div key={ind} className="flex gap-4">
-                          <Image
-                            src={value?.iconUrl}
-                            alt="icons"
-                            width={18}
-                            height={18}
-                          />
-                          <span className="text-sm whitespace-nowrap">
-                            {ind === 0
-                              ? item?.vehicleSpecifications['transmission']
-                              : ind === 1
-                                ? item?.vehicleSpecifications['engine']
+                    {fleetsArray[0]?.specification?.map(
+                      (value: any, ind: number) => {
+                        return (
+                          <div key={ind} className="flex gap-4">
+                            <Image
+                              src={value?.iconUrl}
+                              alt="icons"
+                              width={18}
+                              height={18}
+                            />
+                            <span className="text-sm whitespace-nowrap">
+                              {ind === 0
+                                ? item?.vehicleSpecifications["transmission"]
+                                : ind === 1
+                                ? item?.vehicleSpecifications["engine"]
                                 : ind === 2
-                                  ? item?.vehicleSpecifications['fuelType']
-                                  : ind === 3 ? item?.vehicleSpecifications['fuelType']
-                                    : ind === 4 ? item?.vehicleSpecifications['make']
-                                      : ind === 5 ? item?.seatingCapacity
-                                        : ""
-                            }
-                          </span>
-
-                        </div>
-                      );
-                    })}
+                                ? item?.vehicleSpecifications["fuelType"]
+                                : ind === 3
+                                ? item?.vehicleSpecifications["fuelType"]
+                                : ind === 4
+                                ? item?.vehicleSpecifications["make"]
+                                : ind === 5
+                                ? item?.seatingCapacity
+                                : ""}
+                            </span>
+                          </div>
+                        );
+                      }
+                    )}
                   </div>
                   {/* <p className="text-xs my-4">{item?.desc}</p> */}
                   {showButton === false ? (
                     ""
                   ) : (
-                    <ThemeButton className="w-full mt-2" text="Book Now" />
+                    <ThemeButton
+                      className="w-full mt-2"
+                      text="Book Now"
+                      onClick={scrollToFleet}
+                    />
                   )}
                 </div>
               </SwiperSlide>
@@ -208,6 +217,4 @@ const fleetsArray = [
     ],
     desc: "",
   },
-
-
 ];

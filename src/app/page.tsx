@@ -35,6 +35,12 @@ export default function Home() {
 
   const router = useRouter();
 
+  const topFleetForm = React.useRef<HTMLDivElement>(null);
+
+  const scrollToFleet = () => {
+    topFleetForm?.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const [tabValue, setTabsValue] = useState("Self-Driving");
   const [mobileTabValue, setMobileTabValue] = useState("Rentals");
   const [mobilePickuptime, setMobilepickuptime] = useState("");
@@ -306,6 +312,7 @@ export default function Home() {
       <div
         className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         style={{ backgroundSize: "100% 100%" }}
+        ref={topFleetForm}
       >
         <BannerSlider />
         {/* <Image src={"/latest-home.png"} alt="banner" width={1650} height={950} className="w-full h-auto" /> */}
@@ -323,7 +330,11 @@ export default function Home() {
           </div>
         </div> */}
       </div>
-      <div className="max-w-[1250px] h-[230px] sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative z-[99]">
+      <div
+        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative z-[99] ${
+          tabValue === "Driver" ? "h-[250px]" : "h-[230px]"
+        }`}
+      >
         <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
@@ -343,22 +354,243 @@ export default function Home() {
         </div>
         {tabValue === "Driver" && (
           <>
-            <div className="flex gap-6 w-fit m-auto mt-6 w-fit">
-              {driverRadioButton?.map((driver, ind) => {
-                return (
-                  <div className="w-fit" key={ind}>
-                    <RadioButton
-                      onClick={() => setRadioToggle(driver.content)}
-                      content={driver?.content}
-                      name={driver?.name}
-                      id={driver?.id}
+            <div className="grid">
+              <div className="flex gap-6 w-fit m-auto mt-6 w-fit">
+                {driverRadioButton?.map((driver, ind) => {
+                  return (
+                    <div className="w-fit" key={ind}>
+                      <RadioButton
+                        onClick={() => setRadioToggle(driver.content)}
+                        content={driver?.content}
+                        name={driver?.name}
+                        id={driver?.id}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+              {radioToggle === "Out-station" && (
+                <div className="flex items-center mt-6">
+                  {outstation?.map((item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
+                      >
+                        <div className="mt-2">
+                          <Image
+                            src={item?.imageUrl}
+                            alt="icon"
+                            width={16}
+                            height={16}
+                          />
+                        </div>
+                        <div className="leading-none">
+                          <h3 className="text-xl font-semibold">
+                            {item?.heading}
+                          </h3>
+                          {item?.id === "location" && (
+                            <select
+                              name="pickup"
+                              id="pickup"
+                              className="w-full outline-red-500 h-8 text-xs"
+                              onChange={
+                                item?.heading === "Pick-up Location"
+                                  ? (e) => handlePickupLocation(e)
+                                  : (ev) => handleDropOffLocation(ev)
+                              }
+                            >
+                              <option value={item?.desc} className="text-sm">
+                                {item?.desc}
+                              </option>
+                              {cities?.map((value: any, ind) => {
+                                return (
+                                  <option key={ind} value={value?.name}>
+                                    {value?.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          )}
+                          {item?.id === "date" && (
+                            <div className="flex gap-2">
+                              {/* <input
+                              type="date"
+                              name="date"
+                              id="date"
+                              className="outline-red-500 w-fit h-8"
+                            // onChange={
+                            //   item?.heading === "Pick Up Date"
+                            //     ? (e) => handlePickupDate(e)
+                            //     : (ev) => handleDropOffDate(ev)
+                            // }
+                            />
+                            <input
+                              type="time"
+                              name="pickup"
+                              id=""
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (event) => hanldepickupTime(event)
+                                  : (event) => hanldedropoffTime(event)
+                              }
+                            /> */}
+                              <DatePicker
+                                className="cursor-pointer"
+                                selected={
+                                  item?.heading === "Pick Up Date"
+                                    ? startDate
+                                    : dropDate
+                                }
+                                onChange={
+                                  item?.heading === "Pick Up Date"
+                                    ? (date) => hanldepickupTime(date)
+                                    : (date) => hanldedropoffTime(date)
+                                  // (date) => setStartDate(date)
+                                }
+                                showTimeSelect
+                                filterTime={filterPassedTime}
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                onKeyDown={(event) => event?.preventDefault()}
+                                minDate={new Date()}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <div>
+                    <ThemeButton
+                      text="Search"
+                      className="px-8 !py-[10px] relative right-6"
+                      onClick={() => saveLocationData()}
                     />
                   </div>
-                );
-              })}
+                </div>
+              )}
+              {radioToggle === "Local" && (
+                <div className="flex items-center mt-6">
+                  {localDriverArray?.map((item, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
+                      >
+                        <div className="mt-2">
+                          <Image
+                            src={item?.imageUrl}
+                            alt="icon"
+                            width={16}
+                            height={16}
+                          />
+                        </div>
+                        <div className="leading-none">
+                          <h3 className="text-xl font-semibold">
+                            {item?.heading}
+                          </h3>
+
+                          {item?.id === "location" && (
+                            <select
+                              name="loc"
+                              id="loc"
+                              className="w-full outline-red-500 h-8 text-xs"
+                              onChange={
+                                item?.heading === "Pick-up Location"
+                                  ? (e) => handlePickupLocation(e)
+                                  : (ev) => handleDropOffLocation(ev)
+                              }
+                            >
+                              <option value={item?.desc}>{item?.desc}</option>
+                              {cities?.map((value: any, ind) => {
+                                return (
+                                  <option key={ind} value={value?.name}>
+                                    {value?.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          )}
+                          {item?.id === "date" && (
+                            <div className="flex gap-2">
+                              {/* <input
+                              type="date"
+                              name="date"
+                              id="date"
+                              className="outline-red-500 w-fit h-8"
+                            // onChange={
+                            //   item?.heading === "Pick Up Date"
+                            //     ? (e) => handlePickupDate(e)
+                            //     : (ev) => handleDropOffDate(ev)
+                            // }
+                            />
+                            <input
+                              type="time"
+                              name="pickup"
+                              id=""
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (event) => hanldepickupTime(event)
+                                  : (event) => hanldedropoffTime(event)
+                              }
+                            /> */}
+                              <DatePicker
+                                className="cursor-pointer"
+                                selected={
+                                  item?.heading === "Pick Up Date"
+                                    ? startDate
+                                    : dropDate
+                                }
+                                onChange={
+                                  item?.heading === "Pick Up Date"
+                                    ? (date) => hanldepickupTime(date)
+                                    : (date) => hanldedropoffTime(date)
+                                  // (date) => setStartDate(date)
+                                }
+                                showTimeSelect
+                                filterTime={filterPassedTime}
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                onKeyDown={(event) => event?.preventDefault()}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <div>
+                    <ThemeButton
+                      text="Search"
+                      className="px-8 !py-[10px] relative right-6"
+                      onClick={() => saveLocationData()}
+                    />
+                  </div>
+                </div>
+              )}
+              {durationFormat && (
+                <div className="w-fit m-auto">
+                  <div className="mt-4">
+                    <h3 className="font-semibold text-lg ">
+                      Duration:{" "}
+                      <span className="font-[400]"> {durationFormat} </span>
+                    </h3>
+                  </div>
+                </div>
+              )}
             </div>
-            {radioToggle === "Out-station" && (
-              <div className="flex items-center mt-6">
+          </>
+        )}
+
+        {tabValue === "Subscription" && (
+          <>
+            <div className="grid">
+              <div className="flex items-center mt-6 w-full">
                 {outstation?.map((item, index) => {
                   return (
                     <div
@@ -390,109 +622,6 @@ export default function Home() {
                                 : (ev) => handleDropOffLocation(ev)
                             }
                           >
-                            <option value={item?.desc} className="text-sm">
-                              {item?.desc}
-                            </option>
-                            {cities?.map((value: any, ind) => {
-                              return (
-                                <option key={ind} value={value?.name}>
-                                  {value?.name}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        )}
-                        {item?.id === "date" && (
-                          <div className="flex gap-2">
-                            {/* <input
-                              type="date"
-                              name="date"
-                              id="date"
-                              className="outline-red-500 w-fit h-8"
-                            // onChange={
-                            //   item?.heading === "Pick Up Date"
-                            //     ? (e) => handlePickupDate(e)
-                            //     : (ev) => handleDropOffDate(ev)
-                            // }
-                            />
-                            <input
-                              type="time"
-                              name="pickup"
-                              id=""
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (event) => hanldepickupTime(event)
-                                  : (event) => hanldedropoffTime(event)
-                              }
-                            /> */}
-                            <DatePicker
-                              className="cursor-pointer"
-                              selected={
-                                item?.heading === "Pick Up Date"
-                                  ? startDate
-                                  : dropDate
-                              }
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (date) => hanldepickupTime(date)
-                                  : (date) => hanldedropoffTime(date)
-                                // (date) => setStartDate(date)
-                              }
-                              showTimeSelect
-                              filterTime={filterPassedTime}
-                              dateFormat="MMMM d, yyyy h:mm aa"
-                              onKeyDown={(event) => event?.preventDefault()}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-
-                <div>
-                  <ThemeButton
-                    text="Search"
-                    className="px-8 !py-[10px] relative right-6"
-                    onClick={() => saveLocationData()}
-                  />
-                </div>
-              </div>
-            )}
-            {radioToggle === "Local" && (
-              <div className="flex items-center mt-6">
-                {localDriverArray?.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className={`flex w-full gap-4 ${
-                        index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
-                    >
-                      <div className="mt-2">
-                        <Image
-                          src={item?.imageUrl}
-                          alt="icon"
-                          width={16}
-                          height={16}
-                        />
-                      </div>
-                      <div className="leading-none">
-                        <h3 className="text-xl font-semibold">
-                          {item?.heading}
-                        </h3>
-
-                        {item?.id === "location" && (
-                          <select
-                            name="loc"
-                            id="loc"
-                            className="w-full outline-red-500 h-8 text-xs"
-                            onChange={
-                              item?.heading === "Pick-up Location"
-                                ? (e) => handlePickupLocation(e)
-                                : (ev) => handleDropOffLocation(ev)
-                            }
-                          >
                             <option value={item?.desc}>{item?.desc}</option>
                             {cities?.map((value: any, ind) => {
                               return (
@@ -506,108 +635,6 @@ export default function Home() {
                         {item?.id === "date" && (
                           <div className="flex gap-2">
                             {/* <input
-                              type="date"
-                              name="date"
-                              id="date"
-                              className="outline-red-500 w-fit h-8"
-                            // onChange={
-                            //   item?.heading === "Pick Up Date"
-                            //     ? (e) => handlePickupDate(e)
-                            //     : (ev) => handleDropOffDate(ev)
-                            // }
-                            />
-                            <input
-                              type="time"
-                              name="pickup"
-                              id=""
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (event) => hanldepickupTime(event)
-                                  : (event) => hanldedropoffTime(event)
-                              }
-                            /> */}
-                            <DatePicker
-                              className="cursor-pointer"
-                              selected={
-                                item?.heading === "Pick Up Date"
-                                  ? startDate
-                                  : dropDate
-                              }
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (date) => hanldepickupTime(date)
-                                  : (date) => hanldedropoffTime(date)
-                                // (date) => setStartDate(date)
-                              }
-                              showTimeSelect
-                              filterTime={filterPassedTime}
-                              dateFormat="MMMM d, yyyy h:mm aa"
-                              onKeyDown={(event) => event?.preventDefault()}
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-
-                <div>
-                  <ThemeButton
-                    text="Search"
-                    className="px-8 !py-[10px] relative right-6"
-                    onClick={() => saveLocationData()}
-                  />
-                </div>
-              </div>
-            )}
-          </>
-        )}
-
-        {tabValue === "Subscription" && (
-          <>
-            <div className="flex items-center mt-6 w-full">
-              {outstation?.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className={`flex w-full gap-4 ${
-                      index < 3 ? "border-r-2 mr-6 border-black" : ""
-                    }`}
-                  >
-                    <div className="mt-2">
-                      <Image
-                        src={item?.imageUrl}
-                        alt="icon"
-                        width={16}
-                        height={16}
-                      />
-                    </div>
-                    <div className="leading-none">
-                      <h3 className="text-xl font-semibold">{item?.heading}</h3>
-                      {item?.id === "location" && (
-                        <select
-                          name="pickup"
-                          id="pickup"
-                          className="w-full outline-red-500 h-8 text-xs"
-                          onChange={
-                            item?.heading === "Pick-up Location"
-                              ? (e) => handlePickupLocation(e)
-                              : (ev) => handleDropOffLocation(ev)
-                          }
-                        >
-                          <option value={item?.desc}>{item?.desc}</option>
-                          {cities?.map((value: any, ind) => {
-                            return (
-                              <option key={ind} value={value?.name}>
-                                {value?.name}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      )}
-                      {item?.id === "date" && (
-                        <div className="flex gap-2">
-                          {/* <input
                             type="date"
                             name="date"
                             id="date"
@@ -628,37 +655,49 @@ export default function Home() {
                                 : (event) => hanldedropoffTime(event)
                             }
                           /> */}
-                          <DatePicker
-                            className="cursor-pointer"
-                            selected={
-                              item?.heading === "Pick Up Date"
-                                ? startDate
-                                : dropDate
-                            }
-                            onChange={
-                              item?.heading === "Pick Up Date"
-                                ? (date) => hanldepickupTime(date)
-                                : (date) => hanldedropoffTime(date)
-                              // (date) => setStartDate(date)
-                            }
-                            showTimeSelect
-                            filterTime={filterPassedTime}
-                            dateFormat="MMMM d, yyyy h:mm aa"
-                            onKeyDown={(event) => event?.preventDefault()}
-                          />
-                        </div>
-                      )}
+                            <DatePicker
+                              className="cursor-pointer"
+                              selected={
+                                item?.heading === "Pick Up Date"
+                                  ? startDate
+                                  : dropDate
+                              }
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (date) => hanldepickupTime(date)
+                                  : (date) => hanldedropoffTime(date)
+                                // (date) => setStartDate(date)
+                              }
+                              showTimeSelect
+                              filterTime={filterPassedTime}
+                              dateFormat="MMMM d, yyyy h:mm aa"
+                              onKeyDown={(event) => event?.preventDefault()}
+                              minDate={new Date()}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-              <div>
-                <ThemeButton
-                  text="Search"
-                  className="px-8 !py-[10px] relative right-6"
-                  onClick={() => saveLocationData()}
-                />
+                  );
+                })}
+                <div>
+                  <ThemeButton
+                    text="Search"
+                    className="px-8 !py-[10px] relative right-6"
+                    onClick={() => saveLocationData()}
+                  />
+                </div>
               </div>
+              {durationFormat && (
+                <div className="w-fit m-auto">
+                  <div className="mt-4">
+                    <h3 className="font-semibold text-lg ">
+                      Duration:{" "}
+                      <span className="font-[400]"> {durationFormat} </span>
+                    </h3>
+                  </div>
+                </div>
+              )}
             </div>
           </>
         )}
@@ -756,6 +795,7 @@ export default function Home() {
                                 : ""
                             }
                             onKeyDown={(event) => event?.preventDefault()}
+                            minDate={new Date()}
                           />
                         </div>
                       )}
@@ -1093,7 +1133,7 @@ export default function Home() {
         </h2>
 
         <div className="sm:my-4 sm:mx-4 my-0 mx-4 fleets">
-          <FleetsSlider />
+          <FleetsSlider scrollToFleet={scrollToFleet} />
         </div>
       </div>
       <div className="lg:max-w-[1250px] max-w-[750px] m-auto sm:my-16 my-10 mx-auto">
@@ -1173,7 +1213,7 @@ export default function Home() {
           </div>
         </div>
         <div className="bg-primary-color sm:w-[120px] w-[80px] text-white sm:p-4 p-2 flex items-center font-semibold sm:text-2xl text-md text-center">
-          <div>
+          <div className="cursor-pointer" onClick={scrollToFleet}>
             <div className="mb-2">
               <span>GET IT </span> <br />
               <span>NOW</span>
@@ -1288,6 +1328,7 @@ export default function Home() {
           <ThemeButton
             text="BOOK A CAR"
             className="w-fit mt-4 sm:px-6 px-2 sm:text-md text-xs"
+            onClick={scrollToFleet}
           />
         </div>
       </div>
