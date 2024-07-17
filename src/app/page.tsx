@@ -13,15 +13,16 @@ import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Datepicker.css";
-import moment from 'moment';
+import moment from "moment";
 import BannerSlider from "./components/banner-slider/banner-slider";
-
 
 export default function Home() {
   // const [startDate, setStartDate] = useState(
   //   setHours(setMinutes(new Date(), 0), 9),
   // );
   const [startDate, setStartDate] = useState<any>();
+
+  console.log("startDate pick", { startDate });
   const [dropDate, setDropDate] = useState<any>();
   console.log(startDate, "sun");
 
@@ -56,7 +57,6 @@ export default function Home() {
   const [mobileEndCity, setMobileEndCity] = useState("select");
   const [mobileEndDate, setMobileEndDate] = useState<any>(null);
   const [mobileEndTime, setMobileEndTime] = useState<any>(null);
-
 
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event.target.value);
@@ -107,8 +107,7 @@ export default function Home() {
     localStorage.setItem("tabValue", tabValue || switchRadio);
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
-    console.log(pickupDate,pickupTime ,"ddd")
-
+    console.log(pickupDate, pickupTime, "ddd");
 
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
@@ -154,7 +153,7 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
 
-    console.log(pickupDate,pickupTime ,"ddd")
+    console.log(pickupDate, pickupTime, "ddd");
 
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
@@ -163,14 +162,11 @@ export default function Home() {
     router.push("/car-listing");
   };
 
-
-  console.log(pickupTime, dropoffTime, "pickupTime")
+  console.log(pickupTime, dropoffTime, "pickupTime");
 
   // location section work end
 
   const [cities, setCities] = useState<[]>();
-
-
 
   const getRecords = React.useCallback(async () => {
     const citiesResponse = await getAllCities();
@@ -185,14 +181,11 @@ export default function Home() {
 
   //for pickup and dropoff location
 
-
-
   //set date and time in local storage from date picker
   function convert(str: any) {
     var date = new Date(str),
       mnth = ("0" + (date.getMonth() + 1)).slice(-2),
       day = ("0" + date.getDate()).slice(-2);
-
 
     return [date.getFullYear(), mnth, day].join("-");
   }
@@ -204,10 +197,8 @@ export default function Home() {
     return [hours, minutes].join(":");
   }
   const hanldepickupTime = (event: any) => {
-    // setPickupTime(event.target.value);
+    console.log(event, "pickup date");
     setStartDate(event);
-
-    console.log(event, "timeee");
     const result = convert(event);
     setPickupDate(result);
     const getpickupTime = convertTime(event);
@@ -223,20 +214,17 @@ export default function Home() {
     // setDropoffTime(event?.target?.value);
     const result = convert(event);
     if (pickupDate === undefined || pickupTime === undefined) {
-      alert("Please Select the Pickup Date & Time")
+      alert("Please Select the Pickup Date & Time");
       return;
-    }
-    else {
+    } else {
       setDropDate(event);
-      setDropoffDate(result)
+      setDropoffDate(result);
       const getDropoffTime = convertTime(event);
       setDropoffTime(getDropoffTime);
       console.log(getDropoffTime, "drrrr");
     }
 
     // console.log(event, "dropoff time");
-
-
   };
 
   if (typeof window !== "undefined") {
@@ -245,66 +233,73 @@ export default function Home() {
   }
 
   const handleStartDateTimeChange = (date: any) => {
-
     if (date) {
-      setMobileStartDate(moment(date).format('YYYY-MM-DD') as any);
-      setMobileStartTime(moment(date).format('HH:mm') as any);
-      console.log(mobileStartDate,"lelo start date");
-      console.log(mobileStartTime,"lelo time");
+      setMobileStartDate(moment(date).format("YYYY-MM-DD") as any);
+      setMobileStartTime(moment(date).format("HH:mm") as any);
+      console.log(mobileStartDate, "lelo start date");
+      console.log(mobileStartTime, "lelo time");
     } else {
       setMobileStartDate(null);
       setMobileStartTime(null);
     }
   };
-  const [duration,setDuration] = useState<any>()
+  const [duration, setDuration] = useState<any>();
   const handleDateTimeChange = (date: any) => {
     if (date) {
-      setMobileEndDate(moment(date).format('YYYY-MM-DD') as any);
-      setMobileEndTime(moment(date).format('HH:mm') as any);
-      console.log(mobileEndDate,"lelo end date");
-      console.log(mobileEndTime,"lelo end time");
-      if(mobileEndTime!==null){
-        const pickupDateTime: any = new Date(`${mobileStartDate?.split('-').join('-')}T${mobileStartTime}:00`);
-        const droppingDateTime: any = new Date(`${mobileEndDate?.split('-').join('-')}T${mobileEndTime}:00`);
+      setMobileEndDate(moment(date).format("YYYY-MM-DD") as any);
+      setMobileEndTime(moment(date).format("HH:mm") as any);
+      console.log(mobileEndDate, "lelo end date");
+      console.log(mobileEndTime, "lelo end time");
+      if (mobileEndTime !== null) {
+        const pickupDateTime: any = new Date(
+          `${mobileStartDate?.split("-").join("-")}T${mobileStartTime}:00`
+        );
+        const droppingDateTime: any = new Date(
+          `${mobileEndDate?.split("-").join("-")}T${mobileEndTime}:00`
+        );
         const diffInMs = Math.abs(droppingDateTime - pickupDateTime);
         const diffInSeconds = Math.floor(diffInMs / 1000);
         const days = Math.floor(diffInSeconds / (3600 * 24));
         const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
         // const minutes = Math.floor((diffInSeconds % 3600) / 60);
-       
-  
-          setDuration(`${days}days, ${hours}hours`)
+
+        setDuration(`${days}days, ${hours}hours`);
       }
 
-     
-        
-    
-      
-      console.log(duration,"durraa");
-
-
+      console.log(duration, "durraa");
     } else {
       setMobileEndDate(null);
       setMobileEndTime(null);
     }
-    
   };
 
   const handleDateChange = (date: any, setDate: any) => {
-    setDate(moment(date).format('YYYY-MM-DD'));
+    setDate(moment(date).format("YYYY-MM-DD"));
   };
-console.log(duration,"dura");
+  console.log(duration, "dura");
   const handleTimeChange = (time: any, setTime: any) => {
-    setTime(moment(time).format('HH:mm'));
+    setTime(moment(time).format("HH:mm"));
   };
 
   console.log(mobilestartCity, mobileStartDate, mobileStartTime, "mobile");
   console.log(mobileEndCity, mobileEndDate, mobileEndTime, "mobilee");
 
   const [offer, setOffer] = useState("Daily Offers");
-  console.log(switchRadio, "tabValue")
-  console.log(tabValue, "tabValue")
-  console.log(startDate, "startDate")
+  console.log(switchRadio, "tabValue");
+  console.log(tabValue, "tabValue");
+  console.log(dropDate, "dropDate sahil");
+
+  const durationFormat = React.useMemo(() => {
+    if (startDate && dropDate) {
+      const diffInMs = Math.abs(dropDate - startDate);
+      const diffInSeconds = Math.floor(diffInMs / 1000);
+      const days = Math.floor(diffInSeconds / (3600 * 24));
+      const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
+      return `${days} days, ${hours} hours`;
+    }
+  }, [startDate, dropDate]);
+
+  console.log("durationFormat", { durationFormat });
 
   return (
     <>
@@ -333,10 +328,11 @@ console.log(duration,"dura");
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-6 text-lg ${value?.tabsValue === tabValue
-                  ? "bg-primary-color text-white font-semibold"
-                  : "bg-[#EFF1FB]"
-                  }`}
+                className={`cursor-pointer w-full text-center py-6 text-lg ${
+                  value?.tabsValue === tabValue
+                    ? "bg-primary-color text-white font-semibold"
+                    : "bg-[#EFF1FB]"
+                }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -367,8 +363,9 @@ console.log(duration,"dura");
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                        }`}
+                      className={`flex w-full gap-4 ${
+                        index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -427,14 +424,14 @@ console.log(duration,"dura");
                                   ? (event) => hanldepickupTime(event)
                                   : (event) => hanldedropoffTime(event)
                               }
-                            /> */}<DatePicker
+                            /> */}
+                            <DatePicker
                               className="cursor-pointer"
                               selected={
                                 item?.heading === "Pick Up Date"
                                   ? startDate
                                   : dropDate
                               }
-
                               onChange={
                                 item?.heading === "Pick Up Date"
                                   ? (date) => hanldepickupTime(date)
@@ -444,8 +441,7 @@ console.log(duration,"dura");
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
-                  onKeyDown={(event)=>event?.preventDefault()}
-
+                              onKeyDown={(event) => event?.preventDefault()}
                             />
                           </div>
                         )}
@@ -455,7 +451,6 @@ console.log(duration,"dura");
                 })}
 
                 <div>
-
                   <ThemeButton
                     text="Search"
                     className="px-8 !py-[10px] relative right-6"
@@ -470,8 +465,9 @@ console.log(duration,"dura");
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                        }`}
+                      className={`flex w-full gap-4 ${
+                        index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -546,8 +542,7 @@ console.log(duration,"dura");
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
-                  onKeyDown={(event)=>event?.preventDefault()}
-
+                              onKeyDown={(event) => event?.preventDefault()}
                             />
                           </div>
                         )}
@@ -575,8 +570,9 @@ console.log(duration,"dura");
                 return (
                   <div
                     key={index}
-                    className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
+                    className={`flex w-full gap-4 ${
+                      index < 3 ? "border-r-2 mr-6 border-black" : ""
+                    }`}
                   >
                     <div className="mt-2">
                       <Image
@@ -648,8 +644,7 @@ console.log(duration,"dura");
                             showTimeSelect
                             filterTime={filterPassedTime}
                             dateFormat="MMMM d, yyyy h:mm aa"
-                  onKeyDown={(event)=>event?.preventDefault()}
-
+                            onKeyDown={(event) => event?.preventDefault()}
                           />
                         </div>
                       )}
@@ -668,48 +663,52 @@ console.log(duration,"dura");
           </>
         )}
         {tabValue === "Self-Driving" && (
-          <div className="flex items-center mt-6 w-full">
-            {localDriverArray?.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
+          <div className="grid">
+            <div className="flex items-center mt-6 w-full">
+              {localDriverArray?.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${
+                      index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
                     }`}
-                >
-                  <div className="mt-2 flex-none">
-                    <Image
-                      src={item?.imageUrl}
-                      alt="icon"
-                      width={16}
-                      height={16}
-                    />
-                  </div>
-                  <div className="leading-none">
-                    <h3 className="lg:text-xl text-lg font-semibold">{item?.heading}</h3>
-                    {item?.id === "location" && (
-                      <select
-                        name="location"
-                        id="location"
-                        className="w-full outline-red-500 h-8 text-xs"
-                        onChange={
-                          item?.heading === "Pick-up Location"
-                            ? (e) => handlePickupLocation(e)
-                            : (ev) => handleDropOffLocation(ev)
-                        }
-                      >
-                        <option value={item?.desc}>{item?.desc}</option>
-                        {cities?.map((value: any, ind) => {
-                          return (
-                            <option key={ind} value={value?.name}>
-                              {value?.name}
-                            </option>
-                          );
-                        })}
-                      </select>
-                    )}
-                    {item?.id === "date" && (
-                      <div className="flex flex-col gap-2 mt-2">
-                        {/* <input
+                  >
+                    <div className="mt-2 flex-none">
+                      <Image
+                        src={item?.imageUrl}
+                        alt="icon"
+                        width={16}
+                        height={16}
+                      />
+                    </div>
+                    <div className="leading-none">
+                      <h3 className="lg:text-xl text-lg font-semibold">
+                        {item?.heading}
+                      </h3>
+                      {item?.id === "location" && (
+                        <select
+                          name="location"
+                          id="location"
+                          className="w-full outline-red-500 h-8 text-xs"
+                          onChange={
+                            item?.heading === "Pick-up Location"
+                              ? (e) => handlePickupLocation(e)
+                              : (ev) => handleDropOffLocation(ev)
+                          }
+                        >
+                          <option value={item?.desc}>{item?.desc}</option>
+                          {cities?.map((value: any, ind) => {
+                            return (
+                              <option key={ind} value={value?.name}>
+                                {value?.name}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      )}
+                      {item?.id === "date" && (
+                        <div className="flex flex-col gap-2 mt-2">
+                          {/* <input
 
                           type="date"
                           name="date"
@@ -722,7 +721,7 @@ console.log(duration,"dura");
                           }
                         /> */}
 
-                        {/* <input
+                          {/* <input
                           type="time"
                           name="pickup"
                           id=""
@@ -733,41 +732,56 @@ console.log(duration,"dura");
                           }
                         /> */}
 
-                        <DatePicker
-                          className="cursor-pointer"
-                          selected={
-                            item?.heading === "Pick Up Date"
-                              ? startDate
-                              : dropDate
-                          }
-                          onChange={
-                            item?.heading === "Pick Up Date"
-                              ? (date) => hanldepickupTime(date)
-                              : (date) => hanldedropoffTime(date)
-                            // (date) => setStartDate(date)
-                          }
-                          showTimeSelect
-                          filterTime={filterPassedTime}
-                          dateFormat="MMMM d, yyyy h:mm aa"
-                          placeholderText={item?.heading === "Pick Up Date" && !startDate ? "DD-MM-YYYY" : (item?.heading !== "Pick Up Date" && !dropDate ? "DD-MM-YYYY" : "")}
-                  onKeyDown={(event)=>event?.preventDefault()}
-
-                        />
-
-                      </div>
-                    )}
+                          <DatePicker
+                            className="cursor-pointer"
+                            selected={
+                              item?.heading === "Pick Up Date"
+                                ? startDate
+                                : dropDate
+                            }
+                            onChange={
+                              item?.heading === "Pick Up Date"
+                                ? (date) => hanldepickupTime(date)
+                                : (date) => hanldedropoffTime(date)
+                              // (date) => setStartDate(date)
+                            }
+                            showTimeSelect
+                            filterTime={filterPassedTime}
+                            dateFormat="MMMM d, yyyy h:mm aa"
+                            placeholderText={
+                              item?.heading === "Pick Up Date" && !startDate
+                                ? "DD-MM-YYYY"
+                                : item?.heading !== "Pick Up Date" && !dropDate
+                                ? "DD-MM-YYYY"
+                                : ""
+                            }
+                            onKeyDown={(event) => event?.preventDefault()}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
 
-            <div className="lg:block hidden">
-              <ThemeButton
-                className="px-8 !py-[10px] relative right-6"
-                text="Search"
-                onClick={() => saveLocationData()}
-              />
+              <div className="lg:block hidden">
+                <ThemeButton
+                  className="px-8 !py-[10px] relative right-6"
+                  text="Search"
+                  onClick={() => saveLocationData()}
+                />
+              </div>
             </div>
+            {durationFormat && (
+              <div className="w-fit m-auto">
+                <div className="mt-4">
+                  <h3 className="font-semibold text-lg ">
+                    Duration:{" "}
+                    <span className="font-[400]"> {durationFormat} </span>
+                  </h3>
+                </div>
+              </div>
+            )}
           </div>
         )}
         <div className="lg:hidden block mt-4">
@@ -783,17 +797,21 @@ console.log(duration,"dura");
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
-              className={`${mobileTabValue === "Rentals" ? "bg-white text-black shadow-custom-shadow" : ""
-                } rounded-xl px-4 py-[8px] text-center text-sm`}
+              className={`${
+                mobileTabValue === "Rentals"
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : ""
+              } rounded-xl px-4 py-[8px] text-center text-sm`}
               onClick={() => setMobileTabValue("Rentals")}
             >
               Rentals
             </div>
             <div
-              className={`${mobileTabValue === "Subscriptions"
-                ? "bg-white text-black shadow-custom-shadow"
-                : "text-white"
-                } rounded-xl px-4 py-[8px] text-center text-sm `}
+              className={`${
+                mobileTabValue === "Subscriptions"
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : "text-white"
+              } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => setMobileTabValue("Subscriptions")}
             >
               Subscriptions
@@ -803,10 +821,11 @@ console.log(duration,"dura");
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
             <div
-              className={`${switchRadio === "Self Driven"
-                ? "bg-black text-white"
-                : "text-black"
-                } p-2 rounded-l-full text-center px-4 flex items-center`}
+              className={`${
+                switchRadio === "Self Driven"
+                  ? "bg-black text-white"
+                  : "text-black"
+              } p-2 rounded-l-full text-center px-4 flex items-center`}
               onClick={() => setSwitchRadio("Self Driven")}
             >
               <input
@@ -821,8 +840,9 @@ console.log(duration,"dura");
               </label>
             </div>
             <div
-              className={`p-2 text-center px-4 flex items-center justify-center ${switchRadio === "Driver" ? "bg-black text-white" : "text-black"
-                }`}
+              className={`p-2 text-center px-4 flex items-center justify-center ${
+                switchRadio === "Driver" ? "bg-black text-white" : "text-black"
+              }`}
               onClick={() => setSwitchRadio("Driver")}
             >
               <input
@@ -872,8 +892,8 @@ console.log(duration,"dura");
             {radioToggle === "Local"
               ? "Pick-up location"
               : switchRadio === "Self Driven"
-                ? "Pick-up location"
-                : "Pick-up City"}
+              ? "Pick-up location"
+              : "Pick-up City"}
           </label>
           <div className="border rounded-xl p-2 flex gap-2 mt-2">
             <Image
@@ -911,19 +931,24 @@ console.log(duration,"dura");
                   height={18}
                 />
                 <DatePicker
-                  selected={mobileStartDate ? moment(`${mobileStartDate} ${mobileStartTime}`, 'YYYY-MM-DD HH:mm').toDate() : null}
+                  selected={
+                    mobileStartDate
+                      ? moment(
+                          `${mobileStartDate} ${mobileStartTime}`,
+                          "YYYY-MM-DD HH:mm"
+                        ).toDate()
+                      : null
+                  }
                   onChange={handleStartDateTimeChange}
                   showTimeSelect
                   dateFormat="yyyy-MM-dd HH:mm"
                   placeholderText="Select date and time"
                   onKeyDown={(event) => event?.preventDefault()}
-
                 />
               </div>
             </div>
           )}
           {mobileStartDate && (
-
             <div className="mt-2 mb-2">
               <label htmlFor="dropoffCity" className="font-semibold">
                 Drop-off City
@@ -934,7 +959,8 @@ console.log(duration,"dura");
                   alt="location"
                   width={16}
                   height={18}
-                />      <select
+                />{" "}
+                <select
                   name="dropoffCity"
                   id="dropoffCity"
                   className="w-full outline-none text-sm"
@@ -946,8 +972,8 @@ console.log(duration,"dura");
                       {value.name}
                     </option>
                   ))}
-                </select></div>
-
+                </select>
+              </div>
             </div>
           )}
           {mobileEndCity !== "select" && (
@@ -963,28 +989,34 @@ console.log(duration,"dura");
                   height={18}
                 />
                 <DatePicker
-                  selected={mobileEndDate ? moment(`${mobileEndDate} ${mobileEndTime}`, 'YYYY-MM-DD HH:mm').toDate() : null}
+                  selected={
+                    mobileEndDate
+                      ? moment(
+                          `${mobileEndDate} ${mobileEndTime}`,
+                          "YYYY-MM-DD HH:mm"
+                        ).toDate()
+                      : null
+                  }
                   onChange={handleDateTimeChange}
                   showTimeSelect
                   dateFormat="yyyy-MM-dd HH:mm"
                   placeholderText="Select date and time"
-                  onKeyDown={(event)=>event?.preventDefault()}
-
+                  onKeyDown={(event) => event?.preventDefault()}
                 />
               </div>
             </div>
           )}
         </div>
         <div className="flex items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
-          <strong>Duration :</strong> <p className="text-sm">{ duration }</p>
+          <strong>Duration :</strong> <p className="text-sm">{duration}</p>
         </div>
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
             onClick={() => saveLocationDataMobile()}
-          // rightArrowIcon
-          // image={"/svg/race.svg"}
+            // rightArrowIcon
+            // image={"/svg/race.svg"}
           />
         </div>
       </div>
@@ -994,25 +1026,33 @@ console.log(duration,"dura");
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"} text-white rounded-l-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+              offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+            } text-white rounded-l-full cursor-pointer`}
             onClick={() => setOffer("Daily Offers")}
           >
             Daily Offers
           </div>
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"} text-white rounded-r-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+              offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+            } text-white rounded-r-full cursor-pointer`}
             onClick={() => setOffer("Monthly Offers")}
           >
             Monthly Offers
           </div>
         </div>
-        {offer === "Daily Offers" && <div className="mx-4 sm:mt-0 mt-4 offerCards"> <OfferCards dailyOffer /> </div>}
-        {offer === "Monthly Offers" &&
+        {offer === "Daily Offers" && (
+          <div className="mx-4 sm:mt-0 mt-4 offerCards">
+            {" "}
+            <OfferCards dailyOffer />{" "}
+          </div>
+        )}
+        {offer === "Monthly Offers" && (
           <div className="mx-4 sm:mt-0 mt-4 offerCards">
             <OfferCards monthlyOffer />
           </div>
-
-        }
+        )}
       </div>
       <div className="max-w-[1250px] m-auto sm:my-20 sm:mt-6 sm:mb-6 mt-10">
         <h2 className="text-center sm:text-4xl text-2xl font-semibold">
@@ -1036,7 +1076,9 @@ console.log(duration,"dura");
                     />
                   </div>
                   <div className="sm:px-4">
-                    <h3 className="font-semibold line-clamp-1">{value?.title}</h3>
+                    <h3 className="font-semibold line-clamp-1">
+                      {value?.title}
+                    </h3>
                     <p className="text-xs mt-1">{value?.desc}</p>
                   </div>
                 </div>
@@ -1063,7 +1105,9 @@ console.log(duration,"dura");
             return (
               <div
                 key={index}
-                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"} m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${
+                  index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
+                } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
@@ -1074,14 +1118,19 @@ console.log(duration,"dura");
                     alt="image"
                     width={62}
                     height={62}
-                    className={`${item?.imageUrl === "/svg/car-vector.svg"
-                      ? "w-[130px]"
-                      : "w-auto"
-                      } sm:h-[62px] h-[40px] m-auto mb-4`}
+                    className={`${
+                      item?.imageUrl === "/svg/car-vector.svg"
+                        ? "w-[130px]"
+                        : "w-auto"
+                    } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
-                    <h3 className="font-semibold text-xl sm:leading-[26px] leading-none">{item?.title}</h3>
-                    <p className="text-xs mt-2 sm:!w-[180px] !w-[130px] m-auto">{item?.desc}</p>
+                    <h3 className="font-semibold text-xl sm:leading-[26px] leading-none">
+                      {item?.title}
+                    </h3>
+                    <p className="text-xs mt-2 sm:!w-[180px] !w-[130px] m-auto">
+                      {item?.desc}
+                    </p>
                   </div>
                 </div>
                 {index < 3 ? (
@@ -1115,7 +1164,12 @@ console.log(duration,"dura");
             </h4>
           </div>
           <div className="flex justify-end">
-            <Image src={"/png/thar-new-left.png"} alt="thar" width={543} height={280} />
+            <Image
+              src={"/png/thar-new-left.png"}
+              alt="thar"
+              width={543}
+              height={280}
+            />
           </div>
         </div>
         <div className="bg-primary-color sm:w-[120px] w-[80px] text-white sm:p-4 p-2 flex items-center font-semibold sm:text-2xl text-md text-center">
@@ -1193,8 +1247,12 @@ console.log(duration,"dura");
           <h3 className="lg:text-4xl sm:text-2xl text-xl font-semibold">
             Save big with our
           </h3>
-          <p className="lg:text-5xl sm:text-3xl text-2xl font-bold sm:my-2">CAR</p>
-          <p className="lg:text-5xl sm:text-3xl text-3xl font-bold text-primary">RENTAL</p>
+          <p className="lg:text-5xl sm:text-3xl text-2xl font-bold sm:my-2">
+            CAR
+          </p>
+          <p className="lg:text-5xl sm:text-3xl text-3xl font-bold text-primary">
+            RENTAL
+          </p>
           <ThemeButton
             text="FIND A CAR"
             className="sm:mt-6 mt-2 sm:px-6 px-2 sm:text-md text-xs"
@@ -1304,7 +1362,6 @@ console.log(duration,"dura");
           })}
         </div>
       </div>
-
     </>
   );
 }
