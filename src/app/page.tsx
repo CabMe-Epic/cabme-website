@@ -331,11 +331,11 @@ export default function Home() {
         </div> */}
       </div>
       <div
-        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative z-[99] ${
+        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative ${
           tabValue === "Driver" ? "h-[250px]" : "h-[230px]"
         }`}
       >
-        <div className="max-w-[700px] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
+        <div className="max-w-[700px] z-[9] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
               <div
