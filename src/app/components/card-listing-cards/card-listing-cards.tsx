@@ -77,11 +77,11 @@ const CardListingCards = ({ data }: any) => {
         <div className=" w-[100%] sm:w-screen h-[100vh] fixed !top-0 !left-0 backdrop-blur-xl	 z-20 flex justify-center items-center overflow-hidden">
           <div
             onClick={() => setShowImg(!showImg)}
-            className="absolute top-10 right-10"
+            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 "
           >
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
-          <div className="overflow-auto  sm:flex sm:w-[80%] sm:justify-center sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
+          <div className="overflow-auto   sm:flex sm:w-[80%] sm:justify-start sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
             {data?.imageGallery?.map((item: any, index: number) => {
               console.log(item?.image, "url");
               return (
@@ -99,7 +99,7 @@ const CardListingCards = ({ data }: any) => {
           </div>
         </div>
       ) : (
-        ""
+        "" 
       )}
 
       <div className="relative mb-10">
@@ -123,7 +123,7 @@ const CardListingCards = ({ data }: any) => {
           className="bg-[url('/png/listing-bg.png')]"
           style={{ backgroundSize: "100% 100%" }}
         >
-          <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat">
+          <main className=" sm:max-w-[928px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat">
             {/* ---------------------------------------- */}
             {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
               <>
@@ -159,7 +159,7 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                 </div>
                 <div>
-                  <div className="h-[274px] relative">
+                  <div className="h-[274px] max-w-[600px] relative">
                     <div className="mt-5 flex flex-row items-center lg:gap-4 gap-2 mr-4 justify-end">
                       <div
                         onClick={() => {
@@ -311,7 +311,7 @@ const CardListingCards = ({ data }: any) => {
                     {/*  */}
 
                     <div className="flex flex-row justify-between items-center mr-10">
-                      <div className="grid grid-cols-3 gap-y-6 ml-4">
+                      <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                         {data?.carFeatures?.bluetooth === true && (
                           <div className="flex flex-row items-center gap-2">
                             <Image
@@ -362,7 +362,7 @@ const CardListingCards = ({ data }: any) => {
                             alt="bluetooth"
                           />
                           <span className="lg:text-[15px] text-[11px]">
-                            5 Person
+                            {data?.seatingCapacity} Person
                           </span>
                         </div>
                         <div className="flex flex-row items-center gap-2">
@@ -593,7 +593,7 @@ const CardListingCards = ({ data }: any) => {
                   {/*  */}
 
                   <div className="flex flex-row justify-between items-center mr-10">
-                    <div className="grid grid-cols-3 gap-y-6 ml-4">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -637,7 +637,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span>5 Person</span>
+                        <span>{data?.seatingCapacity} Person</span>
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         <Image
@@ -860,7 +860,7 @@ const CardListingCards = ({ data }: any) => {
                         {/*  */}
 
                         <div className="flex flex-row justify-between items-center mr-10">
-                          <div className="grid grid-cols-3 gap-y-6 ml-4">
+                          <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                             {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
@@ -904,7 +904,7 @@ const CardListingCards = ({ data }: any) => {
                                 height={20}
                                 alt="bluetooth"
                               />
-                              <span>5 Person</span>
+                              <span>{data?.seatingCapacity} Person</span>
                             </div>
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1168,7 +1168,7 @@ const CardListingCards = ({ data }: any) => {
                         {/*  */}
 
                         <div className="flex flex-row justify-between items-center mr-10">
-                          <div className="grid grid-cols-3 gap-y-6 ml-4">
+                          <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                             {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
@@ -1212,7 +1212,7 @@ const CardListingCards = ({ data }: any) => {
                                 height={20}
                                 alt="bluetooth"
                               />
-                              <span>5 Person</span>
+                              <span>{data?.seatingCapacity} Person </span>
                             </div>
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1457,13 +1457,13 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package2?.duration === "Unlimited"
+                        ?.package1?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
                         } sm:text-sm text-[10px]`}
                     >
                       {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
+                        data?.bookingOptions?.selfDrive?.packageType?.package1
                           ?.duration
                       }
                     </p>
@@ -1471,7 +1471,7 @@ const CardListingCards = ({ data }: any) => {
                       ₹{" "}
                       {
 
-                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package2
+                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
                           ?.price)?.toFixed(0)
                       }
                     </strong>
@@ -1496,13 +1496,13 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package1?.duration === "Unlimited"
+                        ?.package2?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
                         } sm:text-sm text-[10px]`}
                     >
                       {
-                        data?.bookingOptions?.selfDrive?.packageType?.package1
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.duration
                       }
                     </p>
@@ -1511,7 +1511,7 @@ const CardListingCards = ({ data }: any) => {
                       {
 
 
-                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
+                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.price)?.toFixed(0)
                       }
                     </strong>
@@ -1605,7 +1605,7 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-y-6 ml-4 mt-6">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 mt-6">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -1806,31 +1806,6 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package2?.duration === "Unlimited"
-                        ? "text-[#939393]"
-                        : "text-[#565454]"
-                        } sm:text-sm text-[10px]`}
-                    >
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.duration
-                      }
-                    </p>
-                    <strong className="block text-sm">
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.price
-                      }
-                    </strong>
-                    <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
-                    </p>
-                  </div>
-                  <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
-                  >
-                    <p
-                      className={` ${data?.bookingOptions?.subscription?.packageType
                         ?.package1?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
@@ -1844,6 +1819,31 @@ const CardListingCards = ({ data }: any) => {
                     <strong className="block text-sm">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price
+                      }
+                    </strong>
+                    <p className="text-primary sm:text-xs text-[8px]">
+                      360 Free kms
+                    </p>
+                  </div>
+                  <div
+                    className={`border text-center py-[3px] px-2 rounded-md`}
+                  >
+                    <p
+                      className={` ${data?.bookingOptions?.subscription?.packageType
+                        ?.package2?.duration === "Unlimited"
+                        ? "text-[#939393]"
+                        : "text-[#565454]"
+                        } sm:text-sm text-[10px]`}
+                    >
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.duration
+                      }
+                    </p>
+                    <strong className="block text-sm">
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.price
                       }
                     </strong>
@@ -1923,7 +1923,7 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-y-6 ml-4 mt-6">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 mt-6">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -1967,7 +1967,7 @@ const CardListingCards = ({ data }: any) => {
                           height={15}
                           alt="bluetooth"
                         />
-                        <span className="text-[10px]">5 Person</span>
+                        <span className="text-[10px]">{data?.seatingCapacity} Person</span>
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         <Image
@@ -2114,31 +2114,6 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package2?.duration === "Unlimited"
-                        ? "text-[#939393]"
-                        : "text-[#565454]"
-                        } sm:text-sm text-[10px]`}
-                    >
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.duration
-                      }
-                    </p>
-                    <strong className="block text-sm">
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.price
-                      }
-                    </strong>
-                    <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
-                    </p>
-                  </div>
-                  <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
-                  >
-                    <p
-                      className={` ${data?.bookingOptions?.subscription?.packageType
                         ?.package1?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
@@ -2152,6 +2127,31 @@ const CardListingCards = ({ data }: any) => {
                     <strong className="block text-sm">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price
+                      }
+                    </strong>
+                    <p className="text-primary sm:text-xs text-[8px]">
+                      360 Free kms
+                    </p>
+                  </div>
+                  <div
+                    className={`border text-center py-[3px] px-2 rounded-md`}
+                  >
+                    <p
+                      className={` ${data?.bookingOptions?.subscription?.packageType
+                        ?.package2?.duration === "Unlimited"
+                        ? "text-[#939393]"
+                        : "text-[#565454]"
+                        } sm:text-sm text-[10px]`}
+                    >
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.duration
+                      }
+                    </p>
+                    <strong className="block text-sm">
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.price
                       }
                     </strong>
@@ -2231,7 +2231,7 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-y-6 ml-4 mt-6">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 mt-6">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -2275,7 +2275,7 @@ const CardListingCards = ({ data }: any) => {
                           height={15}
                           alt="bluetooth"
                         />
-                        <span className="text-[10px]">5 Person</span>
+                        <span className="text-[10px]">{data?.seatingCapacity} Person</span>
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         <Image

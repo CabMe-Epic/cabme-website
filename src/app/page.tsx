@@ -15,6 +15,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Datepicker.css";
 import moment from "moment";
 import BannerSlider from "./components/banner-slider/banner-slider";
+import SelectOption from "./components/new-drop-down/new-drop-down";
 
 export default function Home() {
   // const [startDate, setStartDate] = useState(
@@ -1058,7 +1059,9 @@ export default function Home() {
             // image={"/svg/race.svg"}
           />
         </div>
-      </div>
+      </div> 
+       {/* <SelectOption/> */}
+    
       <div className="max-w-[1250px] w-full m-auto">
         <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
           Trending <span className="text-primary"> offers</span>

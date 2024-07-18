@@ -6,6 +6,33 @@ import { useRouter } from "next/navigation";
 
 const Footer = () => {
   const router = useRouter();
+
+
+  const handleClick = (value: any, e: any) => {
+
+    if (value === "About") {
+      router.push("/about-us")
+    }
+    if (value === "Contact") {
+      router.push("/contact-us")
+    }
+    if (value === "Blogs") {
+      router.push("https://marketing.cabme.in/")
+    }
+    if(value === "Terms & Conditions"){
+      router.push("/terms-and-conditions")
+    }
+    if(value === "Privacy Policy"){
+      router.push("/privacy-policy")
+    }
+    if(value === "Refund Policy"){
+      router.push("/refund-policy")
+    }
+    if(value === "Shipping Policy"){
+      router.push("/shipping-policy")
+    }
+  }
+
   return (
     <>
       <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8">
@@ -97,16 +124,17 @@ const Footer = () => {
           </div>
         </div>
         <div className="grid sm:grid-cols-[1fr_1fr_1.2fr] grid-cols-2 sm:gap-0 gap-4 sm:mt-4 mt-12">
-          {footerCollection?.map((item, index) => {
+          {footerCollection?.map((item: any, index: number) => {
             return (
               <div key={index}>
                 <h3 className="font-bold text-md mb-6">{item?.footerHead}</h3>
                 <ul>
-                  {item?.links?.map((value, ind) => {
+                  {item?.links?.map((value: any, ind: number) => {
                     return (
                       <li
-                        className="text-sm mb-4 flex items-center gap-2"
+                        className="text-sm mb-4 flex items-center gap-2 cursor-pointer"
                         key={ind}
+                        onClick={(e) => handleClick(value?.link, e)}
                       >
                         <Image
                           src={"/png/right.png"}
@@ -115,7 +143,8 @@ const Footer = () => {
                           height={8}
                           className="w-[7px] h-[8px]"
                         />
-                        <Link href={value?.href}>{value?.link}</Link>
+
+                        {value?.link}
                       </li>
                     );
                   })}
@@ -197,14 +226,16 @@ const Footer = () => {
         Copyright, Cabme 2024. All Right Reserved.
       </p>
       <div className="fixed z-[999] center bottom-6 left-6 w-12 h-12 bg-black rounded-full flex items-center justify-center">
+      <a href="tel:+18001216162">
         <Image
-          src={"/svg/outgoing-call-icon.svg"}
+          src="/svg/outgoing-call-icon.svg"
           alt="phone"
           width={30}
           height={30}
           className="circle pulse !w-[30px] !h-[30px]"
         />
-      </div>
+      </a>
+    </div>
       <div className="fixed z-[999] center bottom-6 right-6 w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
         <Image
           src={"/svg/whatsapp-white.svg"}
@@ -257,7 +288,6 @@ const footerCollection = [
       },
       {
         link: "Contact",
-        href:"/contact-us"
 
       },
       {
