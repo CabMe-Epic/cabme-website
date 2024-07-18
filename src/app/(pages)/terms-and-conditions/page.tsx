@@ -466,11 +466,11 @@ const TermsAndConditions = () => {
                             from OAIS
                           </p>
                           <p>
-                            (w) I will follow the owner's manual instructions,
-                            if provided in the Vehicle’s glove compartment,
+                            (w) I will follow the owner&apos;s manual instructions,
+                            if provided in the Vehicle&apos;s glove compartment,
                             while using the Vehicle. If a problem arises, that
                             prevents or limits the use of the Vehicle or that
-                            may compromise people's safety, I will immediately
+                            may compromise people&apos;s safety, I will immediately
                             notify at Coordinates and follow instructions as
                             provided. I may have to pay for towing, repairs, and
                             other expenses in some circumstances.
@@ -1167,15 +1167,15 @@ const TermsAndConditions = () => {
                             (b) The license plate numbers of any other vehicles
                             involved, their make and year, their identification
                             number (serial number), and the insurance
-                            certificate's number (with name, address and phone
+                            certificate&apos;s number (with name, address and phone
                             number of the insurance agent);
                           </li>
                           <li>
-                            (c) The names, addresses, and driver's license
+                            (c) The names, addresses, and driver&apos;s license
                             numbers of the persons involved in the incident;
                           </li>
                           <li>
-                            (d) The name, address, and driver's license number
+                            (d) The name, address, and driver&apos;s license number
                             of the owner of the vehicle (if he or she is not the
                             driver);
                           </li>

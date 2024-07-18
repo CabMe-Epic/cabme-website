@@ -10,7 +10,7 @@ const RefundPolicy = () => {
           The Hirer can cancel the booking by logging into his/her CABME account
           through the CABME website/mobile application. The Hirer may send in
           the details of the booking he/she is willing to cancel by email on or
-          call us on '18001216162' Cancellation charges will be applicable. In
+          call us on &apos;18001216162&apos; Cancellation charges will be applicable. In
           case customer choose to cancel their subscription request after the
           vehicle is handed over, then subscription Fee paid by customer is
           liable to be forfeited at customer discretion.

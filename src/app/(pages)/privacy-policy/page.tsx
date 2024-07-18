@@ -22,7 +22,7 @@ const PrivacyPolicy = () => {
           but the individual user remains anonymous.
         </p>
         <p className="sm:my-8 my-6">
-          We place a small file known as a "cookie" on your computer&apos;s hard
+          We place a small file known as a &qout;cookie&qout; on your computer&apos;s hard
           drive. A cookie may contain information that allows us to track your
           path through our Site and to determine whether you have visited us
           before. However, unless you register with us, it contains no
@@ -42,7 +42,7 @@ const PrivacyPolicy = () => {
           as name, physical address or telephone number. It is our intent to
           inform you before we do that and to tell you what we intend to do with
           the information. Generally, you will have the option not to provide
-          the information, and in the future you will be able to "opt out" of
+          the information, and in the future you will be able to &qout;opt out&qout; of
           certain uses of the information. If you choose not to provide the
           information we request, you can still visit the Cabme website, but you
           may be unable to access certain options, offers and services.
