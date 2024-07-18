@@ -77,11 +77,11 @@ const CardListingCards = ({ data }: any) => {
         <div className=" w-[100%] sm:w-screen h-[100vh] fixed !top-0 !left-0 backdrop-blur-xl	 z-20 flex justify-center items-center overflow-hidden">
           <div
             onClick={() => setShowImg(!showImg)}
-            className="absolute top-10 right-10"
+            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 "
           >
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
-          <div className="overflow-auto  sm:flex sm:w-[80%] sm:justify-center sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
+          <div className="overflow-auto   sm:flex sm:w-[80%] sm:justify-start sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
             {data?.imageGallery?.map((item: any, index: number) => {
               console.log(item?.image, "url");
               return (
