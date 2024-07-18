@@ -311,7 +311,7 @@ const CardListingCards = ({ data }: any) => {
                     {/*  */}
 
                     <div className="flex flex-row justify-between items-center mr-10">
-                      <div className="grid grid-cols-3 gap-y-6 ml-4">
+                      <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                         {data?.carFeatures?.bluetooth === true && (
                           <div className="flex flex-row items-center gap-2">
                             <Image
@@ -362,7 +362,7 @@ const CardListingCards = ({ data }: any) => {
                             alt="bluetooth"
                           />
                           <span className="lg:text-[15px] text-[11px]">
-                            5 Person
+                            {data?.seatingCapacity} Person
                           </span>
                         </div>
                         <div className="flex flex-row items-center gap-2">
@@ -593,7 +593,7 @@ const CardListingCards = ({ data }: any) => {
                   {/*  */}
 
                   <div className="flex flex-row justify-between items-center mr-10">
-                    <div className="grid grid-cols-3 gap-y-6 ml-4">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -637,7 +637,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span>5 Person</span>
+                        <span>{data?.seatingCapacity} Person</span>
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         <Image
@@ -860,7 +860,7 @@ const CardListingCards = ({ data }: any) => {
                         {/*  */}
 
                         <div className="flex flex-row justify-between items-center mr-10">
-                          <div className="grid grid-cols-3 gap-y-6 ml-4">
+                          <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                             {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
@@ -904,7 +904,7 @@ const CardListingCards = ({ data }: any) => {
                                 height={20}
                                 alt="bluetooth"
                               />
-                              <span>5 Person</span>
+                              <span>{data?.seatingCapacity} Person</span>
                             </div>
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1168,7 +1168,7 @@ const CardListingCards = ({ data }: any) => {
                         {/*  */}
 
                         <div className="flex flex-row justify-between items-center mr-10">
-                          <div className="grid grid-cols-3 gap-y-6 ml-4">
+                          <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                             {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
@@ -1212,7 +1212,7 @@ const CardListingCards = ({ data }: any) => {
                                 height={20}
                                 alt="bluetooth"
                               />
-                              <span>5 Person</span>
+                              <span>{data?.seatingCapacity} Person </span>
                             </div>
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1605,7 +1605,7 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-y-6 ml-4 mt-6">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 mt-6">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -1923,7 +1923,7 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-y-6 ml-4 mt-6">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 mt-6">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -1967,7 +1967,7 @@ const CardListingCards = ({ data }: any) => {
                           height={15}
                           alt="bluetooth"
                         />
-                        <span className="text-[10px]">5 Person</span>
+                        <span className="text-[10px]">{data?.seatingCapacity} Person</span>
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         <Image
@@ -2231,7 +2231,7 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-y-6 ml-4 mt-6">
+                    <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 mt-6">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -2275,7 +2275,7 @@ const CardListingCards = ({ data }: any) => {
                           height={15}
                           alt="bluetooth"
                         />
-                        <span className="text-[10px]">5 Person</span>
+                        <span className="text-[10px]">{data?.seatingCapacity} Person</span>
                       </div>
                       <div className="flex flex-row items-center gap-2">
                         <Image
