@@ -115,7 +115,7 @@ const Footer = () => {
                           height={8}
                           className="w-[7px] h-[8px]"
                         />
-                        <Link href={"#"}>{value?.link}</Link>
+                        <Link href={value?.href}>{value?.link}</Link>
                       </li>
                     );
                   })}
@@ -224,16 +224,24 @@ const footerCollection = [
     links: [
       {
         link: "FAQs",
+        href:"#"
       },
       {
         link: "Terms & Conditions",
+        href:"#"
       },
       {
         link: "Privacy Policy",
+        href:"privacy-policy"
       },
       {
         link: "Refund Policy",
+        href:"/refund-policy"
       },
+      {
+        link:"Shipping Policy",
+        href:"/shipping-policy"
+      }
     ],
   },
   {
@@ -244,12 +252,18 @@ const footerCollection = [
       // },
       {
         link: "About",
+        href:"/about-us"
+
       },
       {
         link: "Contact",
+        href:"/contact-us"
+
       },
       {
         link: "Blogs",
+        href:"#"
+
       },
       // {
       //   link: "Deals",
