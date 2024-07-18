@@ -290,13 +290,13 @@ const CarDetails = () => {
                 <div className="w-full max-w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl mb-5">
                   <span className="text-center">Booking Summary</span>
                 </div>
-                <div className="w-full max-w-[376px] mb-5 px-8 flex justify-between">
+                <div className="w-full max-w-[376px] mb-5 px-2 flex justify-between">
                   <span className="font-bold text-[24px]">Fare Details</span>
                   <select
                     name="package"
                     id="package"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
-                    className="w-[50%] max-w-[150px]"
+                    className="w-[50%] max-w-[180px]"
                   >
                     <option value="package">change package</option>
                     <option value={currentPackage?.package1?.price}>
@@ -310,7 +310,7 @@ const CarDetails = () => {
                     </option>
                   </select>
                 </div>
-                <div className="grid grid-cols-1 gap-4 w-full max-w-full px-8 font-semibold">
+                <div className="grid grid-cols-1 gap-4 w-full max-w-full px-2 font-semibold">
                   <div className="grid grid-cols-2 gap-4">
                     <span className="ml-2">Base Fare</span>
                     <span>

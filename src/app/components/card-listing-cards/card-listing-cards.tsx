@@ -123,7 +123,7 @@ const CardListingCards = ({ data }: any) => {
           className="bg-[url('/png/listing-bg.png')]"
           style={{ backgroundSize: "100% 100%" }}
         >
-          <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat">
+          <main className=" sm:max-w-[928px] pb-4 items-baseline rounded-[12px] hidden sm:flex flex-row items-center justify-center bg-no-repeat">
             {/* ---------------------------------------- */}
             {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
               <>
@@ -159,7 +159,7 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                 </div>
                 <div>
-                  <div className="h-[274px] relative">
+                  <div className="h-[274px] max-w-[600px] relative">
                     <div className="mt-5 flex flex-row items-center lg:gap-4 gap-2 mr-4 justify-end">
                       <div
                         onClick={() => {
