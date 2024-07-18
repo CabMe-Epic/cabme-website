@@ -1457,13 +1457,13 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package2?.duration === "Unlimited"
+                        ?.package1?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
                         } sm:text-sm text-[10px]`}
                     >
                       {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
+                        data?.bookingOptions?.selfDrive?.packageType?.package1
                           ?.duration
                       }
                     </p>
@@ -1471,7 +1471,7 @@ const CardListingCards = ({ data }: any) => {
                       ₹{" "}
                       {
 
-                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package2
+                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
                           ?.price)?.toFixed(0)
                       }
                     </strong>
@@ -1496,13 +1496,13 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package1?.duration === "Unlimited"
+                        ?.package2?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
                         } sm:text-sm text-[10px]`}
                     >
                       {
-                        data?.bookingOptions?.selfDrive?.packageType?.package1
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.duration
                       }
                     </p>
@@ -1511,7 +1511,7 @@ const CardListingCards = ({ data }: any) => {
                       {
 
 
-                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1
+                        calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.price)?.toFixed(0)
                       }
                     </strong>
@@ -1806,31 +1806,6 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package2?.duration === "Unlimited"
-                        ? "text-[#939393]"
-                        : "text-[#565454]"
-                        } sm:text-sm text-[10px]`}
-                    >
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.duration
-                      }
-                    </p>
-                    <strong className="block text-sm">
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.price
-                      }
-                    </strong>
-                    <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
-                    </p>
-                  </div>
-                  <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
-                  >
-                    <p
-                      className={` ${data?.bookingOptions?.subscription?.packageType
                         ?.package1?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
@@ -1844,6 +1819,31 @@ const CardListingCards = ({ data }: any) => {
                     <strong className="block text-sm">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price
+                      }
+                    </strong>
+                    <p className="text-primary sm:text-xs text-[8px]">
+                      360 Free kms
+                    </p>
+                  </div>
+                  <div
+                    className={`border text-center py-[3px] px-2 rounded-md`}
+                  >
+                    <p
+                      className={` ${data?.bookingOptions?.subscription?.packageType
+                        ?.package2?.duration === "Unlimited"
+                        ? "text-[#939393]"
+                        : "text-[#565454]"
+                        } sm:text-sm text-[10px]`}
+                    >
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.duration
+                      }
+                    </p>
+                    <strong className="block text-sm">
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.price
                       }
                     </strong>
@@ -2114,31 +2114,6 @@ const CardListingCards = ({ data }: any) => {
                   >
                     <p
                       className={` ${data?.bookingOptions?.subscription?.packageType
-                        ?.package2?.duration === "Unlimited"
-                        ? "text-[#939393]"
-                        : "text-[#565454]"
-                        } sm:text-sm text-[10px]`}
-                    >
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.duration
-                      }
-                    </p>
-                    <strong className="block text-sm">
-                      {
-                        data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.price
-                      }
-                    </strong>
-                    <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
-                    </p>
-                  </div>
-                  <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
-                  >
-                    <p
-                      className={` ${data?.bookingOptions?.subscription?.packageType
                         ?.package1?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
@@ -2152,6 +2127,31 @@ const CardListingCards = ({ data }: any) => {
                     <strong className="block text-sm">
                       {
                         data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.price
+                      }
+                    </strong>
+                    <p className="text-primary sm:text-xs text-[8px]">
+                      360 Free kms
+                    </p>
+                  </div>
+                  <div
+                    className={`border text-center py-[3px] px-2 rounded-md`}
+                  >
+                    <p
+                      className={` ${data?.bookingOptions?.subscription?.packageType
+                        ?.package2?.duration === "Unlimited"
+                        ? "text-[#939393]"
+                        : "text-[#565454]"
+                        } sm:text-sm text-[10px]`}
+                    >
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.duration
+                      }
+                    </p>
+                    <strong className="block text-sm">
+                      {
+                        data?.bookingOptions?.selfDrive?.packageType?.package2
                           ?.price
                       }
                     </strong>
