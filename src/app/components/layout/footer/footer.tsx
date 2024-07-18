@@ -232,7 +232,7 @@ const footerCollection = [
         link: "Privacy Policy",
       },
       {
-        link: "Privacy Policy",
+        link: "Refund Policy",
       },
     ],
   },
