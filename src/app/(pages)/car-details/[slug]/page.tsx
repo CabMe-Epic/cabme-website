@@ -64,7 +64,7 @@ const CarDetails = () => {
 
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
-  
+
   const ThirtyDiscount = (totalPrice * 30) / 100
 
   React.useEffect(() => {
@@ -286,112 +286,154 @@ const CarDetails = () => {
             </div>
             {/* mobile view */}
             <div className="lg:hidden block">
-              <main className="max-w-[511px] m-auto px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
-                <div className="max-w-[376px] sm:h-[50px] h-[43px] sm:w-full w-[80%] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
-                  <span className="text-center sm:text-md text-[18px]">Booking Summary</span>
+              <main className="max-w-[90vw] mx-auto flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+                <div className="w-full max-w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl mb-5">
+                  <span className="text-center">Booking Summary</span>
                 </div>
-                <div className="m-auto my-5">
-                  <span className="sm:font-bold font-semibold sm:text-[24px] text-[20px]">Fare Details</span>
+                <div className="w-full max-w-[376px] mb-5 px-8 flex justify-between">
+                  <span className="font-bold text-[24px]">Fare Details</span>
+                  <select
+                    name="package"
+                    id="package"
+                    onChange={(event) => handlePriceChange(event?.target?.value)}
+                    className="w-[50%] max-w-[150px]"
+                  >
+                    <option value="package">change package</option>
+                    <option value={currentPackage?.package1?.price}>
+                      {currentPackage?.package1?.price}
+                    </option>
+                    <option value={currentPackage?.package2?.price}>
+                      {currentPackage?.package2?.price}
+                    </option>
+                    <option value={currentPackage?.package3?.price}>
+                      {currentPackage?.package3?.price}
+                    </option>
+                  </select>
                 </div>
-                <div className="grid grid-cols-1 w-full items-start justify-between gap-4">
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Base Fare</span>
-                    <span className="">
-                      ₹ {packagePrice}
+                <div className="grid grid-cols-1 gap-4 w-full max-w-full px-8 font-semibold">
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">Base Fare</span>
+                    <span>
+                      ₹{packagePrice} * {days} Days and {hours} Hours
                     </span>
                   </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Doorstep delivery & pickup</span>
-                    <span className="">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Insurance & GST</span>
-                    <span className="">{carDetails?.extraService?.insurance}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Refundable Deposit</span>
-                    <span className="">₹ {currentPackage?.refundableDeposit}</span>
-                  </div>
-
-                  <div className="flex px-2 py-2 text-md justify-between gap-2 shadow-custom-inner font-bold">
-                    <span className="">TOTAL</span>
-                    <span className=" text-[#ff0000]">₹ {total}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Kms Limit</span>
-                    <span className="">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Fuel</span>
-                    <span className="">{currentPackage?.fuel}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Extra kms charge</span>
-                    <span className="">{currentPackage?.extraKmsCharge}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">
-                      Tolls,Parking & <br /> Inner-state taxes
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Doorstep delivery & pickup
                     </span>
-                    <span className="">{currentPackage?.tollsParkingTaxes}</span>
+                    <span>
+                      ₹ {currentPackage?.DoorstepDeliveryPickup}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Insurance & GST
+                    </span>
+                    <span>
+                      {carDetails?.extraService?.insurance}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Refundable Deposit
+                    </span>
+                    <span>
+                      ₹ {currentPackage?.refundableDeposit}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      TOTAL
+                    </span>
+                    <span className="text-[#ff0000]">
+                      ₹ {totalPrice.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Kms Limit
+                    </span>
+                    <span>
+                      ₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Fuel
+                    </span>
+                    <span>
+                      {currentPackage?.fuel}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Extra kms charge
+                    </span>
+                    <span>
+                      ₹ {currentPackage?.extraKmsCharge}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Tolls, Parking & Inner-state taxes
+                    </span>
+                    <span>
+                      {currentPackage?.tollsParkingTaxes}
+                    </span>
                   </div>
                 </div>
-                <div className="w-full">
-                  {/* <span className="flex flex-row my-5 mt-10">
-                    <Image
-                      src="/png/offer.png"
-                      width={20}
-                      height={20}
-                      alt="offer"
-                    />
-                    <select
-                      name="offer"
-                      id="offer"
-                      className="border-0 outline-0 bg-transparent max-w-[405px] text-sm"
-                    >
-                      <option value="View all promo coupons">
-                        View all promo coupons
-                      </option>
-                    </select>
-                  </span> */}
-
-                  {/* <div className="max-w-[418px]  sm:h-[45px] h-[40px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
-                    <input
-                      type="text"
-                      placeholder="DJF4D4F"
-                      className="w-full border-0 outline-none pr-4 text-[#888787]"
-                    />
-                    <button className="text-[#ff0000] sm:text-md text-sm">Apply</button>
-                  </div> */}
-
-                  <div className="my-6 h-[69px] shadow-custom-shadow bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
+                <div className="w-full max-w-[376px] mb-6  mt-6">
+                  <div className="flex justify-between items-center bg-[#E7E7E7] p-4 rounded-3xl shadow-lg">
                     <div className="flex flex-col">
-                      <span className="sm:text-md text-sm">Total Amount</span>
-                      <span className="text-[#ff0000] p-0 text-xl font-semibold">
-                        ₹ 15,000
+                      <span>
+                        Total Amount
+                      </span>
+                      <span className="text-[#ff0000] text-2xl font-bold">
+                        ₹ {discountAmount > 0 ? discountAmount.toFixed(2) : totalPrice.toFixed(2)}
                       </span>
                     </div>
                     <div>
-                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-xl text-md shadow-custom-shadow font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">
-                        Proceed
-                      </button>
+                      {userId && token ? (
+                        bookingSuccess ? (
+                          <button
+                            // onClick={() => router.push("/payment")}
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                            Payment
+                          </button>
+                        ) : (
+                          <button
+                            onClick={handleBooking}
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                            Checkout
+                          </button>
+                        )
+                      ) : (
+                        <button
+                          onClick={handleProceed}
+                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                          Proceed
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 sm:rounded-3xl rounded-full border-[#ff0000] cursor-pointer">
-                  <span className="font-bold text-md">Pay ₹10,000 Now</span>
-                  <span className="text-[#ff0000] font-semibold text-[15px]">
-                    Balance on Delivery
-                  </span>
+                <div className="w-full max-w-[376px] flex justify-around items-center border-[1.5px] rounded-3xl border-[#ff0000] cursor-pointer">
+                  <div className="flex flex-col items-start p-4">
+                    <span className="font-bold text-md">
+                      Pay ₹{ThirtyDiscount >= 2000 ? ThirtyDiscount.toFixed(2) : totalPrice.toFixed(2)} Now
+                    </span>
+                    <span className="text-[#ff0000] font-semibold text-[15px]">
+                      Balance on Delivery
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleProceed}
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-sm font-semibold text-white w-[78.31px] h-[53.08px] rounded-md drop-shadow-lg">
+                    Proceed
+                  </button>
                 </div>
               </main>
+
               <div className="sm:max-w-[511px] lg:max-w-full m-auto flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">
                   <Image
