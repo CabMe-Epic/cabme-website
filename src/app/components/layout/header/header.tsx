@@ -14,7 +14,7 @@ const Header = () => {
       ? router.push("/about-us")
       : item === "Contact Us"
         ? router.push("/contact-us")
-        : item === "Out Blogs"
+        : item === "Our Blogs"
           ? router.push("https://marketing.cabme.in/")
           : "";
   };
@@ -76,7 +76,7 @@ const headerMenu = [
     menu: "Contact Us",
   },
   {
-    menu: "Out Blogs",
+    menu: "Our Blogs",
   },
   // {
   //     menu:"Listing"

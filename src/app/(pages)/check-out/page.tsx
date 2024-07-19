@@ -406,19 +406,19 @@ const Checkout = () => {
   };
 
   return (
-    <div className="py-6 flex max-w-[1400px] gap-20 m-auto">
+    <div className="py-6 lg:flex max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
-      <div>
+      <div className="max-w-[765px] w-full mx-auto">
         {(one == false) && two && three ? (""
         ) : (
           <div>
             {/*-------------------------------------------------------- section one start */}
-            <div className="w-[765px] h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md">
+            <div className="h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
               <h6 className="text-[12px] font-bold" style={{ color: 'red' }}>{otp ? "" : errorMessage}</h6>
-              <h2 className="text-[20px] font-bold">1. Start Your Order</h2>
+              <h2 className="text-[20px] font-semibold">1. Start Your Order</h2>
               {one ? (
                 <div>
-                  <div className="mt-4 flex gap-6 items-center">
+                  <div className="mt-4 sm:flex gap-6 items-center">
                     <InputField
                       placeholder="Please enter your phone number*"
                       className="border-0 bg-white font-light placeholder:text-[#312D4E]"
@@ -433,7 +433,7 @@ const Checkout = () => {
                       </div>
                     ) : (
                       <button
-                        className="w-[209px] font-semibold h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                        className="w-[209px] font-semibold h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all sm:mt-0 mt-4"
                         onClick={handleSendOtp}
                       >
                         Generate OTP
@@ -466,8 +466,8 @@ const Checkout = () => {
             </div>
             {/*-------------------------------------------------------- section one end */}
             {/*-------------------------------------------------------- section two start */}
-            <div className="w-[765px] h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md">
-              <h2 className="text-[20px] font-bold">2. About you</h2>
+            <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
+              <h2 className="text-[20px] font-semibold">2. About you</h2>
               {!two ? (
                 <div>
                   <div className="mt-4 flex gap-10 items-center">
@@ -539,8 +539,8 @@ const Checkout = () => {
             </div>
             {/*-------------------------------------------------------- section two end */}
             {/*-------------------------------------------------------- section three start */}
-            <div className="w-[765px] h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md">
-              <h2 className="text-[20px] font-bold">3. KYC Verification</h2>
+            <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
+              <h2 className="text-[20px] font-semibold">3. KYC Verification</h2>
               {!three ? (
                 <div>
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
@@ -836,7 +836,7 @@ const Checkout = () => {
 
 
         {
-          ((one == false) && two && three) ? <div>   <div className="w-[765px] h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md shadow-xl">
+          ((one == false) && two && three) ? <div>   <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md shadow-xl">
             <h2 className="text-[20px] font-bold">About You</h2>
 
             <div className="mt-3 flex justify-between">
@@ -950,14 +950,14 @@ const Checkout = () => {
           </div></div> : ""
         }
 
-        <div className="w-[765px] h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md">
+        <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
           <h2 className="text-[20px] font-bold">4. Payment</h2>
-          <button className="w-[209px] font-semibold mt-4 h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all">
+          <button className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all">
             Continue
           </button>
         </div>
       </div>
-      <div className="w-[450px]">
+      <div className="max-w-[450px] w-full m-auto">
         <BookingSummery />
       </div>
     </div>

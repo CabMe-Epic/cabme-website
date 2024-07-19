@@ -236,6 +236,7 @@ const Footer = () => {
         />
       </a>
     </div>
+    <Link href={"https://wa.link/l86m7r"}>
       <div className="fixed z-[999] center bottom-6 right-6 w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
         <Image
           src={"/svg/whatsapp-white.svg"}
@@ -245,6 +246,7 @@ const Footer = () => {
           className="circle pulse"
         />
       </div>
+      </Link>
     </>
   );
 };
