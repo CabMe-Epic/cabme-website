@@ -19,7 +19,18 @@ const Footer = () => {
     if (value === "Blogs") {
       router.push("https://marketing.cabme.in/")
     }
-
+    if(value === "Terms & Conditions"){
+      router.push("/terms-and-conditions")
+    }
+    if(value === "Privacy Policy"){
+      router.push("/privacy-policy")
+    }
+    if(value === "Refund Policy"){
+      router.push("/refund-policy")
+    }
+    if(value === "Shipping Policy"){
+      router.push("/shipping-policy")
+    }
   }
 
   return (
@@ -225,6 +236,7 @@ const Footer = () => {
         />
       </a>
     </div>
+    <Link href={"https://wa.link/l86m7r"}>
       <div className="fixed z-[999] center bottom-6 right-6 w-12 h-12 rounded-full bg-green-600 flex items-center justify-center">
         <Image
           src={"/svg/whatsapp-white.svg"}
@@ -234,6 +246,7 @@ const Footer = () => {
           className="circle pulse"
         />
       </div>
+      </Link>
     </>
   );
 };
@@ -244,16 +257,24 @@ const footerCollection = [
     links: [
       {
         link: "FAQs",
+        href:"#"
       },
       {
         link: "Terms & Conditions",
+        href:"#"
       },
       {
         link: "Privacy Policy",
+        href:"privacy-policy"
       },
       {
-        link: "Privacy Policy",
+        link: "Refund Policy",
+        href:"/refund-policy"
       },
+      {
+        link:"Shipping Policy",
+        href:"/shipping-policy"
+      }
     ],
   },
   {
@@ -264,6 +285,8 @@ const footerCollection = [
       // },
       {
         link: "About",
+        href:"/about-us"
+
       },
       {
         link: "Contact",
@@ -271,6 +294,8 @@ const footerCollection = [
       },
       {
         link: "Blogs",
+        href:"#"
+
       },
       // {
       //   link: "Deals",

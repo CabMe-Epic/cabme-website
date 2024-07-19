@@ -348,7 +348,6 @@ export default function Home() {
     <>
       <div
         className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
-        style={{ backgroundSize: "100% 100%" }}
         ref={topFleetForm}
       >
         <BannerSlider />

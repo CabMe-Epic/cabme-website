@@ -17,24 +17,8 @@ import "swiper/css/scrollbar";
 
 import { useEffect, useState } from "react";
 const BannerSlider = () => {
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTab, setIsTab] = useState(false);
+ 
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsTab(window.innerWidth < 1250);
-      setIsMobile(window.innerWidth < 800);
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
   return (
     <div className="banner-slider">
       <Swiper
