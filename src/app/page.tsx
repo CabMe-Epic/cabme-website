@@ -787,7 +787,7 @@ export default function Home() {
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
-                                 placeholderText="Enter Date & Time"
+                              placeholderText="Enter Date & Time"
                               onKeyDown={(event) => event?.preventDefault()}
                               minDate={new Date()}
                             />
@@ -963,7 +963,7 @@ export default function Home() {
                                   ? "Enter Date & Time"
                                   : ""
                             }
-                            
+
                             onKeyDown={(event) => event?.preventDefault()}
                             minDate={new Date()}
                           />
