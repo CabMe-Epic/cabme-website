@@ -99,7 +99,7 @@ const CardListingCards = ({ data }: any) => {
           </div>
         </div>
       ) : (
-        "" 
+        ""
       )}
 
       <div className="relative mb-10">

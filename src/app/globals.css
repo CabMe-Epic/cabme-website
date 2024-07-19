@@ -18,7 +18,8 @@
 .text-primary {
   color: var(--primary-color);
 }
-.bg-gray-500{
+
+.bg-gray-500 {
   background-color: var(--gray-500);
 }
 
@@ -161,6 +162,31 @@
 
 .custom-phone-input .react-tel-input {
   width: 50px;
+}
+
+
+.react-datepicker {
+  width: 101px;
+  margin: 0 !important;
+  background: #FCFBFB !important;
+  border: 0 !important;
+  margin-top: 10px !important;
+
+}
+
+.datepickerinput {
+  border: 0 !important;
+  outline: 0;
+}
+
+.react-datepicker-wrapper input {
+  font-size: 15px !important;
+  color: #3c3c3c;
+  background: #FCFBFB !important;
+  ;
+  padding: 0;
+  width: 100% !important;
+  height: auto;
 }
 
 @media only screen and (max-width: 1024px) {

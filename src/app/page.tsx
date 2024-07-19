@@ -16,6 +16,8 @@ import "./Datepicker.css";
 import moment from "moment";
 import BannerSlider from "./components/banner-slider/banner-slider";
 import SelectOption from "./components/new-drop-down/new-drop-down";
+import City from "./components/city-selection/city-selection";
+
 
 export default function Home() {
   // const [startDate, setStartDate] = useState(
@@ -66,12 +68,14 @@ export default function Home() {
   const [mobileEndTime, setMobileEndTime] = useState<any>(null);
 
   const handlePickupLocation = (event: any) => {
-    setPickupLocation(event.target.value);
+    setPickupLocation(event);
   };
 
   const handleDropOffLocation = (event: any) => {
-    setDropoffLocation(event.target.value);
+    setDropoffLocation(event);
   };
+
+
 
   console.log(pickupLocation, "213 pickup location");
   console.log(dropOffLocation, "213 dropOff location");
@@ -308,6 +312,38 @@ export default function Home() {
 
   console.log("durationFormat", { durationFormat });
 
+  const [selectedCity, setSelectedCity] = useState("");
+  const [dropSelectedCity, setDropSelectedCity] = useState("");
+
+  const handleCityClick = (cityName: any) => {
+    setSelectedCity(cityName);
+    // setPickupLocation(cityName);
+    handlePickupLocation(cityName)
+    // setShowLocationPopup(false);
+  };
+
+  const handleDropOffCity = (cityName: any) => {
+    setDropSelectedCity(cityName);
+    // setDropoffLocation(cityName);
+    handleDropOffLocation(cityName)
+    // setShowDropLocationPopup(false);
+  }
+
+  console.log(selectedCity, "selectedCity");
+
+  const [showLocationPopup, setShowLocationPopup] = useState(false);
+  const [showDropLocationPopup, setShowDropLocationPopup] = useState(false);
+
+  const handleSelectPopupLocation = (e: any) => {
+    e.preventDefault();
+    setShowLocationPopup(!showLocationPopup);
+  };
+
+  const handleDropSelectPopupLocation = (e: any) => {
+    e.preventDefault();
+    setShowDropLocationPopup(!showLocationPopup);
+  };
+
   return (
     <>
       <div
@@ -331,19 +367,17 @@ export default function Home() {
         </div> */}
       </div>
       <div
-        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative ${
-          tabValue === "Driver" ? "h-[250px]" : "h-[230px]"
-        }`}
+        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative ${tabValue === "Driver" ? "h-[290px]" : "h-[230px]"
+          }`}
       >
         <div className="max-w-[700px] z-[9] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-6 text-lg ${
-                  value?.tabsValue === tabValue
-                    ? "bg-primary-color text-white font-semibold"
-                    : "bg-[#EFF1FB]"
-                }`}
+                className={`cursor-pointer w-full text-center py-6 text-lg ${value?.tabsValue === tabValue
+                  ? "bg-primary-color text-white font-semibold"
+                  : "bg-[#EFF1FB]"
+                  }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -355,7 +389,7 @@ export default function Home() {
         {tabValue === "Driver" && (
           <>
             <div className="grid">
-              <div className="flex gap-6 w-fit m-auto mt-6 w-fit">
+              <div className="flex gap-6 w-fit m-auto mt-6 w-fit h-fit">
                 {driverRadioButton?.map((driver, ind) => {
                   return (
                     <div className="w-fit" key={ind}>
@@ -375,9 +409,8 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${
-                          index < 3 ? "border-r-2 mr-6 border-black" : ""
-                        }`}
+                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                          }`}
                       >
                         <div className="mt-2">
                           <Image
@@ -391,31 +424,54 @@ export default function Home() {
                           <h3 className="text-xl font-semibold">
                             {item?.heading}
                           </h3>
-                          {item?.id === "location" && (
-                            <select
-                              name="pickup"
-                              id="pickup"
-                              className="w-full outline-red-500 h-8 text-xs"
-                              onChange={
-                                item?.heading === "Pick-up Location"
-                                  ? (e) => handlePickupLocation(e)
-                                  : (ev) => handleDropOffLocation(ev)
-                              }
-                            >
-                              <option value={item?.desc} className="text-sm">
-                                {item?.desc}
-                              </option>
-                              {cities?.map((value: any, ind) => {
-                                return (
-                                  <option key={ind} value={value?.name}>
-                                    {value?.name}
-                                  </option>
-                                );
-                              })}
-                            </select>
+                          {item?.id === "location" && showLocationPopup && (
+                            <>
+                              <input
+                                className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                                type="text"
+                                placeholder="All City"
+                                onClick={(e) => handleSelectPopupLocation(e)}
+                                value={selectedCity}
+                                readOnly // Prevent editing directly
+                              />
+
+                              <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                                  <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                    {cities?.map((city: any, index: number) => (
+                                      <div key={index}>
+                                        <City
+                                          city={city}
+                                          isSelected={selectedCity === city.name}
+                                          onClick={() => handleCityClick(city.name)}
+                                        />
+                                      </div>
+                                    ))}
+                                  </div>
+                                  <ThemeButton
+                                    onClick={() => setShowLocationPopup(false)}
+                                    className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                                    text="continue"
+                                  />
+                                </div>
+                              </div>
+                            </>
                           )}
+
+                          {item?.id === "location" && !showLocationPopup && (
+                            <input
+                              className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                              type="text"
+                              placeholder="All City"
+                              onClick={(e) => handleSelectPopupLocation(e)}
+                              value={selectedCity}
+                              readOnly // Prevent editing directly
+                            />
+                          )}
+
+
                           {item?.id === "date" && (
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -438,7 +494,7 @@ export default function Home() {
                               }
                             /> */}
                               <DatePicker
-                                className="cursor-pointer"
+                                className="cursor-pointer border-0 datepickerinput"
                                 selected={
                                   item?.heading === "Pick Up Date"
                                     ? startDate
@@ -453,6 +509,7 @@ export default function Home() {
                                 showTimeSelect
                                 filterTime={filterPassedTime}
                                 dateFormat="MMMM d, yyyy h:mm aa"
+                                placeholderText="Enter Date & Time"
                                 onKeyDown={(event) => event?.preventDefault()}
                                 minDate={new Date()}
                               />
@@ -466,7 +523,7 @@ export default function Home() {
                   <div>
                     <ThemeButton
                       text="Search"
-                      className="px-8 !py-[10px] relative right-6"
+                      className="px-8 !py-[10px] relative right-6 ml-4 ml-4"
                       onClick={() => saveLocationData()}
                     />
                   </div>
@@ -478,9 +535,8 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${
-                          index < 3 ? "border-r-2 mr-6 border-black" : ""
-                        }`}
+                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                          }`}
                       >
                         <div className="mt-2">
                           <Image
@@ -507,6 +563,7 @@ export default function Home() {
                               }
                             >
                               <option value={item?.desc}>{item?.desc}</option>
+
                               {cities?.map((value: any, ind) => {
                                 return (
                                   <option key={ind} value={value?.name}>
@@ -517,7 +574,7 @@ export default function Home() {
                             </select>
                           )}
                           {item?.id === "date" && (
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -540,7 +597,7 @@ export default function Home() {
                               }
                             /> */}
                               <DatePicker
-                                className="cursor-pointer"
+                                className="cursor-pointer datepickerinput"
                                 selected={
                                   item?.heading === "Pick Up Date"
                                     ? startDate
@@ -555,6 +612,7 @@ export default function Home() {
                                 showTimeSelect
                                 filterTime={filterPassedTime}
                                 dateFormat="MMMM d, yyyy h:mm aa"
+                                placeholderText="Enter Date & Time"
                                 onKeyDown={(event) => event?.preventDefault()}
                               />
                             </div>
@@ -567,11 +625,13 @@ export default function Home() {
                   <div>
                     <ThemeButton
                       text="Search"
-                      className="px-8 !py-[10px] relative right-6"
+                      className="px-8 !py-[10px] relative right-6 ml-4"
                       onClick={() => saveLocationData()}
                     />
                   </div>
                 </div>
+
+
               )}
               {durationFormat && (
                 <div className="w-fit m-auto">
@@ -581,8 +641,42 @@ export default function Home() {
                       <span className="font-[400]"> {durationFormat} </span>
                     </h3>
                   </div>
+
+
+
                 </div>
               )}
+              <div onClick={(e) => handleDropSelectPopupLocation(e)}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+                Drop in different city?
+              </div>
+
+              {showDropLocationPopup && (
+                <>
+
+                  <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                        {cities?.map((city: any, index: number) => (
+                          <div key={index}>
+                            <City
+                              city={city}
+                              isSelected={dropSelectedCity === city.name}
+                              onClick={() => handleDropOffCity(city.name)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <ThemeButton
+                        onClick={() => setShowDropLocationPopup(false)}
+                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                        text="continue"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+
             </div>
           </>
         )}
@@ -595,9 +689,8 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${
-                        index < 3 ? "border-r-2 mr-6 border-black" : ""
-                      }`}
+                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -611,26 +704,49 @@ export default function Home() {
                         <h3 className="text-xl font-semibold">
                           {item?.heading}
                         </h3>
-                        {item?.id === "location" && (
-                          <select
-                            name="pickup"
-                            id="pickup"
-                            className="w-full outline-red-500 h-8 text-xs"
-                            onChange={
-                              item?.heading === "Pick-up Location"
-                                ? (e) => handlePickupLocation(e)
-                                : (ev) => handleDropOffLocation(ev)
-                            }
-                          >
-                            <option value={item?.desc}>{item?.desc}</option>
-                            {cities?.map((value: any, ind) => {
-                              return (
-                                <option key={ind} value={value?.name}>
-                                  {value?.name}
-                                </option>
-                              );
-                            })}
-                          </select>
+                        {item?.id === "location" && showLocationPopup && (
+                          <>
+                            <input
+                              className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                              type="text"
+                              placeholder="All City"
+                              onClick={(e) => handleSelectPopupLocation(e)}
+                              value={selectedCity}
+                              readOnly // Prevent editing directly
+                            />
+
+                            <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                              <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                                <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                  {cities?.map((city: any, index: number) => (
+                                    <div key={index}>
+                                      <City
+                                        city={city}
+                                        isSelected={selectedCity === city.name}
+                                        onClick={() => handleCityClick(city.name)}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                                <ThemeButton
+                                  onClick={() => setShowLocationPopup(false)}
+                                  className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                                  text="continue"
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                        {item?.id === "location" && !showLocationPopup && (
+                          <input
+                            className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                            type="text"
+                            placeholder="All City"
+                            onClick={(e) => handleSelectPopupLocation(e)}
+                            value={selectedCity}
+                            readOnly // Prevent editing directly
+                          />
                         )}
                         {item?.id === "date" && (
                           <div className="flex gap-2">
@@ -656,7 +772,7 @@ export default function Home() {
                             }
                           /> */}
                             <DatePicker
-                              className="cursor-pointer"
+                              className="cursor-pointer datepickerinput"
                               selected={
                                 item?.heading === "Pick Up Date"
                                   ? startDate
@@ -671,6 +787,7 @@ export default function Home() {
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
+                                 placeholderText="Enter Date & Time"
                               onKeyDown={(event) => event?.preventDefault()}
                               minDate={new Date()}
                             />
@@ -683,7 +800,7 @@ export default function Home() {
                 <div>
                   <ThemeButton
                     text="Search"
-                    className="px-8 !py-[10px] relative right-6"
+                    className="px-8 !py-[10px] relative right-6 ml-4"
                     onClick={() => saveLocationData()}
                   />
                 </div>
@@ -698,6 +815,36 @@ export default function Home() {
                   </div>
                 </div>
               )}
+              <div onClick={(e) => handleDropSelectPopupLocation(e)}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+                Drop in different city?
+              </div>
+
+              {showDropLocationPopup && (
+                <>
+
+                  <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                        {cities?.map((city: any, index: number) => (
+                          <div key={index}>
+                            <City
+                              city={city}
+                              isSelected={dropSelectedCity === city.name}
+                              onClick={() => handleDropOffCity(city.name)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <ThemeButton
+                        onClick={() => setShowDropLocationPopup(false)}
+                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                        text="continue"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </>
         )}
@@ -708,9 +855,8 @@ export default function Home() {
                 return (
                   <div
                     key={index}
-                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${
-                      index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
-                    }`}
+                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
+                      }`}
                   >
                     <div className="mt-2 flex-none">
                       <Image
@@ -724,29 +870,52 @@ export default function Home() {
                       <h3 className="lg:text-xl text-lg font-semibold">
                         {item?.heading}
                       </h3>
-                      {item?.id === "location" && (
-                        <select
-                          name="location"
-                          id="location"
-                          className="w-full outline-red-500 h-8 text-xs"
-                          onChange={
-                            item?.heading === "Pick-up Location"
-                              ? (e) => handlePickupLocation(e)
-                              : (ev) => handleDropOffLocation(ev)
-                          }
-                        >
-                          <option value={item?.desc}>{item?.desc}</option>
-                          {cities?.map((value: any, ind) => {
-                            return (
-                              <option key={ind} value={value?.name}>
-                                {value?.name}
-                              </option>
-                            );
-                          })}
-                        </select>
+                      {item?.id === "location" && showLocationPopup && (
+                        <>
+                          <input
+                            className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                            type="text"
+                            placeholder="All City"
+                            onClick={(e) => handleSelectPopupLocation(e)}
+                            value={selectedCity}
+                            readOnly // Prevent editing directly
+                          />
+
+                          <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                            <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                              <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                {cities?.map((city: any, index: number) => (
+                                  <div key={index}>
+                                    <City
+                                      city={city}
+                                      isSelected={selectedCity === city.name}
+                                      onClick={() => handleCityClick(city.name)}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                              <ThemeButton
+                                onClick={() => setShowLocationPopup(false)}
+                                className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                                text="continue"
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {item?.id === "location" && !showLocationPopup && (
+                        <input
+                          className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                          type="text"
+                          placeholder="All City"
+                          onClick={(e) => handleSelectPopupLocation(e)}
+                          value={selectedCity}
+                          readOnly // Prevent editing directly
+                        />
                       )}
                       {item?.id === "date" && (
-                        <div className="flex flex-col gap-2 mt-2">
+                        <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
                           {/* <input
 
                           type="date"
@@ -772,7 +941,7 @@ export default function Home() {
                         /> */}
 
                           <DatePicker
-                            className="cursor-pointer"
+                            className="cursor-pointer datepickerinput"
                             selected={
                               item?.heading === "Pick Up Date"
                                 ? startDate
@@ -789,11 +958,12 @@ export default function Home() {
                             dateFormat="MMMM d, yyyy h:mm aa"
                             placeholderText={
                               item?.heading === "Pick Up Date" && !startDate
-                                ? "DD-MM-YYYY"
+                                ? "Enter Date & Time"
                                 : item?.heading !== "Pick Up Date" && !dropDate
-                                ? "DD-MM-YYYY"
-                                : ""
+                                  ? "Enter Date & Time"
+                                  : ""
                             }
+                            
                             onKeyDown={(event) => event?.preventDefault()}
                             minDate={new Date()}
                           />
@@ -806,7 +976,7 @@ export default function Home() {
 
               <div className="lg:block hidden">
                 <ThemeButton
-                  className="px-8 !py-[10px] relative right-6"
+                  className="px-8 !py-[10px] relative right-6 ml-4"
                   text="Search"
                   onClick={() => saveLocationData()}
                 />
@@ -822,11 +992,41 @@ export default function Home() {
                 </div>
               </div>
             )}
+            <div onClick={(e) => handleDropSelectPopupLocation(e)}
+              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+              Drop in different city?
+            </div>
+
+            {showDropLocationPopup && (
+              <>
+
+                <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                      {cities?.map((city: any, index: number) => (
+                        <div key={index}>
+                          <City
+                            city={city}
+                            isSelected={dropSelectedCity === city.name}
+                            onClick={() => handleDropOffCity(city.name)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <ThemeButton
+                      onClick={() => setShowDropLocationPopup(false)}
+                      className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                      text="continue"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
         <div className="lg:hidden block mt-4">
           <ThemeButton
-            className="px-8 !py-[10px] relative right-6 m-auto"
+            className="px-8 !py-[10px] relative right-6 ml-4 m-auto"
             text="Search"
             onClick={() => saveLocationData()}
           />
@@ -837,21 +1037,19 @@ export default function Home() {
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
-              className={`${
-                mobileTabValue === "Rentals"
-                  ? "bg-white text-black shadow-custom-shadow"
-                  : ""
-              } rounded-xl px-4 py-[8px] text-center text-sm`}
+              className={`${mobileTabValue === "Rentals"
+                ? "bg-white text-black shadow-custom-shadow"
+                : ""
+                } rounded-xl px-4 py-[8px] text-center text-sm`}
               onClick={() => setMobileTabValue("Rentals")}
             >
               Rentals
             </div>
             <div
-              className={`${
-                mobileTabValue === "Subscriptions"
-                  ? "bg-white text-black shadow-custom-shadow"
-                  : "text-white"
-              } rounded-xl px-4 py-[8px] text-center text-sm `}
+              className={`${mobileTabValue === "Subscriptions"
+                ? "bg-white text-black shadow-custom-shadow"
+                : "text-white"
+                } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => setMobileTabValue("Subscriptions")}
             >
               Subscriptions
@@ -861,11 +1059,10 @@ export default function Home() {
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
             <div
-              className={`${
-                switchRadio === "Self Driven"
-                  ? "bg-black text-white"
-                  : "text-black"
-              } p-2 rounded-l-full text-center px-4 flex items-center`}
+              className={`${switchRadio === "Self Driven"
+                ? "bg-black text-white"
+                : "text-black"
+                } p-2 rounded-l-full text-center px-4 flex items-center`}
               onClick={() => setSwitchRadio("Self Driven")}
             >
               <input
@@ -880,9 +1077,8 @@ export default function Home() {
               </label>
             </div>
             <div
-              className={`p-2 text-center px-4 flex items-center justify-center ${
-                switchRadio === "Driver" ? "bg-black text-white" : "text-black"
-              }`}
+              className={`p-2 text-center px-4 flex items-center justify-center ${switchRadio === "Driver" ? "bg-black text-white" : "text-black"
+                }`}
               onClick={() => setSwitchRadio("Driver")}
             >
               <input
@@ -932,8 +1128,8 @@ export default function Home() {
             {radioToggle === "Local"
               ? "Pick-up location"
               : switchRadio === "Self Driven"
-              ? "Pick-up location"
-              : "Pick-up City"}
+                ? "Pick-up location"
+                : "Pick-up City"}
           </label>
           <div className="border rounded-xl p-2 flex gap-2 mt-2">
             <Image
@@ -974,9 +1170,9 @@ export default function Home() {
                   selected={
                     mobileStartDate
                       ? moment(
-                          `${mobileStartDate} ${mobileStartTime}`,
-                          "YYYY-MM-DD HH:mm"
-                        ).toDate()
+                        `${mobileStartDate} ${mobileStartTime}`,
+                        "YYYY-MM-DD HH:mm"
+                      ).toDate()
                       : null
                   }
                   onChange={handleStartDateTimeChange}
@@ -1032,9 +1228,9 @@ export default function Home() {
                   selected={
                     mobileEndDate
                       ? moment(
-                          `${mobileEndDate} ${mobileEndTime}`,
-                          "YYYY-MM-DD HH:mm"
-                        ).toDate()
+                        `${mobileEndDate} ${mobileEndTime}`,
+                        "YYYY-MM-DD HH:mm"
+                      ).toDate()
                       : null
                   }
                   onChange={handleDateTimeChange}
@@ -1055,30 +1251,27 @@ export default function Home() {
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
             onClick={() => saveLocationDataMobile()}
-            // rightArrowIcon
-            // image={"/svg/race.svg"}
+          // rightArrowIcon
+          // image={"/svg/race.svg"}
           />
         </div>
-      </div> 
-       {/* <SelectOption/> */}
-    
+      </div>
+
       <div className="max-w-[1250px] w-full m-auto">
         <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
           Trending <span className="text-primary"> offers</span>
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
-              offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
-            } text-white rounded-l-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+              } text-white rounded-l-full cursor-pointer`}
             onClick={() => setOffer("Daily Offers")}
           >
             Daily Offers
           </div>
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
-              offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
-            } text-white rounded-r-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+              } text-white rounded-r-full cursor-pointer`}
             onClick={() => setOffer("Monthly Offers")}
           >
             Monthly Offers
@@ -1147,9 +1340,8 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${
-                  index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
-                } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
+                  } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
@@ -1160,11 +1352,10 @@ export default function Home() {
                     alt="image"
                     width={62}
                     height={62}
-                    className={`${
-                      item?.imageUrl === "/svg/car-vector.svg"
-                        ? "w-[130px]"
-                        : "w-auto"
-                    } sm:h-[62px] h-[40px] m-auto mb-4`}
+                    className={`${item?.imageUrl === "/svg/car-vector.svg"
+                      ? "w-[130px]"
+                      : "w-auto"
+                      } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
                     <h3 className="font-semibold text-xl sm:leading-[26px] leading-none">
@@ -1452,29 +1643,6 @@ const outstation = [
     desc: "Enter pickup date",
   },
   {
-    id: "location",
-    imageUrl: "/svg/location.svg",
-    heading: "Drop-off City",
-    desc: "Enter drop-off city",
-    cities: [
-      {
-        city: "Noida",
-      },
-      {
-        city: "Meerut",
-      },
-      {
-        city: "Ghaziabad",
-      },
-      {
-        city: "Agra",
-      },
-      {
-        city: "Kanpur",
-      },
-    ],
-  },
-  {
     id: "date",
     imageUrl: "/svg/calender.svg",
     heading: "Drop-off Date",
@@ -1528,29 +1696,7 @@ const localDriverArray = [
       },
     ],
   },
-  {
-    id: "location",
-    imageUrl: "/svg/location.svg",
-    heading: "Drop-off Location",
-    desc: "Enter drop-off Location",
-    cities: [
-      {
-        city: "Noida",
-      },
-      {
-        city: "Meerut",
-      },
-      {
-        city: "Ghaziabad",
-      },
-      {
-        city: "Agra",
-      },
-      {
-        city: "Kanpur",
-      },
-    ],
-  },
+
   {
     id: "date",
     imageUrl: "/svg/calender.svg",
