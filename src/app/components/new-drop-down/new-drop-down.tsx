@@ -20,12 +20,12 @@ const SelectOption = ({ cities = locations }) => {
         e.preventDefault();
         setToggle(!toggle);
 
-        if(heading == "pickup"){
+        if (heading == "pickup") {
             setHeading("dropOff");
-        }else{
+        } else {
             setHeading("pickup");
         }
-    
+
 
     };
 

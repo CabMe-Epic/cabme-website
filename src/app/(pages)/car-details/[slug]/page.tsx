@@ -472,13 +472,14 @@ const CarDetails = () => {
                   <span className="text-center">Booking Summary</span>
                 </div>
                 <div className="my-5 flex justify-between w-full px-8">
-                  <span className="font-bold text-[24px]">Fare Details</span>
-                  <select
+                  <span className="font-semibold ml-2">Package Name</span>
+                  <select 
                     name="package"
                     id="package"
+                    className="cursor-pointer w-[160px] p-2 rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
                   >
-                    <option value="package">change package</option>
+                    <option  value={packagePrice}>{packagePrice !== undefined ? packagePrice : "Select Package"}</option>
                     <option value={currentPackage?.package1?.price}>
                       {currentPackage?.package1?.price}
                     </option>
@@ -492,7 +493,7 @@ const CarDetails = () => {
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                   <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">Base Fare</span>
+                    <span className="w-[220px] ml-10">Package Amount</span>
                     <span className="w-[220px] ml-10 w-fit">
                       ₹{packagePrice} * {days} Days and {hours} Hours
                     </span>
