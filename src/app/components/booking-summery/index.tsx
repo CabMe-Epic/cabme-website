@@ -1,16 +1,9 @@
 "use client";
-import ProductSlider from "@/app/components/product-slider/product-slider";
-import Specifications from "@/app/components/specifications/specifications";
-import BookingDetailsCard from "@/app/components/booking-details-card/booking-details-card";
 import Image from "next/image";
-import CarFeatures from "@/app/components/car-features/car-features";
-import ExtraCharges from "@/app/components/extra-charges/extra-charges";
-import DescCar from "@/app/components/desc-car/desc-car";
-import Video from "@/app/components/video/video";
-import FleetsSlider from "@/app/components/slider/slider-components";
+
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../networkRequests/hooks/useVehicleById";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { searchVehicle } from "../../../../networkRequests/hooks/api";
 import { useRouter } from 'next/navigation'
 import axios from "axios";
@@ -20,55 +13,61 @@ import useReservationDateTime from "../../../../networkRequests/hooks/useReserva
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../networkRequests/hooks/promocodes";
+import ApplyCoupon from "../ApplyCoupon/apply-coupon";
+
+interface PromoCode {
+    code: string;
+    promocodeType: string;
+    promocodeDescription: string;
+    couponExpiryDate: Date;
+    usageLimits: number;
+    couponAmount: number;
+    maximumDiscount: number;
+    selectDiscount: string;
+    couponStartDate: Date;
+    minimumBookingDay: number;
+    usageRestriction: string;
+    promotionClassification: string;
+    customerContact?: string;
+}
 
 const BookingSummery = () => {
     const router = useRouter();
-    const [userId, setUserId] = useState<string | null>(null);
+    const { slug } = useParams();
     const [token, setToken] = useState<string | null>(null);
+
+    const [userId, setUserId] = useState<string | null>(null);
+    const [carDetails, setCarDetails] = useState<any>();
+    const [bookingOpt, setBookingOpt] = useState<any>();
+    const [currentPackage, setCurrentPackage] = useState<any>();
     const [pickupTime, setPickupTime] = useState<string | null>(null);
-    const [dropoffTime, setDropoffTime] = useState<string | null>(null);
-    const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
+    const [pickupDate, setPickupDate] = useState<any>();
+    const [packagePrice, setPackagePrice] = useState<any>();
+    const [discountAmount, setDiscountAmount] = useState<number>(0);
     const [promoCodes, setPromoCodes] = useState([]);
 
-    const [currentPackage, setCurrentPackage] = useState<any>();
-
-    const [carDetails, setCarDetails] = useState<any>();
-    const [pickupDate, setPickupDate] = useState<any>();
+    const [dropoffTime, setDropoffTime] = useState<string | null>(null);
     const [dropoffDate, setDropoffDate] = useState<any>();
-    const [packagePrice, setPackagePrice] = useState<any>();
-    const [bookingOpt, setBookingOpt] = useState<any>();
+    const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<string | any>();
+    const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
 
+    const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
-    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
+    const handleChangePromocodeOption = (e: any) => {
+        setSelectedPromocodeOption(e.target.value)
+    }
+    const [sessionSlug, setFromSessionSlug] = useState('');
+    const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
+    const [bookingSuccess, setBookingSuccess] = useState(false);
+
+    const [applyCoupon, setApplyCoupon] = React.useState(false);
+    const { vehicle, loading, error } = useVehicleById(slug as string);
     const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
-
-    const { days, hours } = extractDaysAndHours(duration)
-    const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
-
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storedPickupTime = localStorage.getItem('pickupTime');
-            const storedDropoffTime = localStorage.getItem('dropoffTime');
-            const storedTabValue = localStorage.getItem('tabValue');
-            setPickupTime(storedPickupTime);
-            setDropoffTime(storedDropoffTime);
-            setSelectedTabValue(storedTabValue)
-        }
-    }, []);
-    console.log(pickupTime, dropoffTime, "lkkk");
-
+    const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
     const pickupDateTimeString = pickupTime ? `${pickupDate}T${pickupTime}:00.000Z` : null;
     const droppingDateTimeString = dropoffTime ? `${dropoffDate}T${dropoffTime}:00.000Z` : null;
-
-    React.useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storedUserId = localStorage.getItem('userId');
-            const storedToken = localStorage.getItem('token');
-            setUserId(storedUserId);
-            setToken(storedToken);
-        }
-    }, []);
+    const { days, hours } = extractDaysAndHours(duration)
+    const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
 
     const bookingData = {
         userId: userId,
@@ -85,13 +84,69 @@ const BookingSummery = () => {
         fuel: carDetails?.extraService?.fuel,
         extraKmsCharge: carDetails?.extraService?.extraKmCharges,
         tollsParking: "",
-        promocode: "",
-        totalAmount: Number(totalPrice.toFixed(2)),
+        promocode: {
+            code: selectedPromocodeOption ? selectedPromocodeOption : null,
+            discountType: selectedDiscountType ? selectedDiscountType : null,
+            discountAmount: Number(discountAppliedAmount.toFixed(2)),
+        },
+        totalAmount: discountAmount > 0 ? Number(discountAmount.toFixed(2)) : Number(totalPrice.toFixed(2)),
         bookingDuration: duration,
         bufferTime: 0,
         kilometers: 0,
         createdByUser: userId
     };
+
+    const handleApplyPromoCode = () => {
+        if (selectedPromocodeOption) {
+            const selectedPromoCode = promoCodes.find((code: PromoCode) => code.code === selectedPromocodeOption) as PromoCode | undefined;
+            // console.log({ selectedPromoCode });
+            if (selectedPromoCode) {
+                if (selectedPromoCode.selectDiscount === 'Percentage') {
+                    const discount = (selectedPromoCode.couponAmount / 100) * totalPrice;
+                    const discountedPrice = totalPrice - discount;
+                    setDiscountAmount(discountedPrice);
+                    setDiscountAppliedAmount(discount);
+                    setSelectedDiscountType(selectedPromoCode.selectDiscount)
+                } else if (selectedPromoCode.selectDiscount === 'Fixed') {
+                    const discountedPrice = totalPrice - selectedPromoCode.couponAmount;
+                    setDiscountAmount(discountedPrice);
+                    setDiscountAppliedAmount(selectedPromoCode.couponAmount);
+                    setSelectedDiscountType(selectedPromoCode.selectDiscount)
+                }
+            } else {
+                setDiscountAmount(0);
+                setDiscountAppliedAmount(0);
+                setSelectedPromocodeOption(null)
+                setSelectedDiscountType(null)
+                alert("Clear coupon");
+            }
+        } else {
+            alert("Please select a promo code first.");
+        }
+    };
+
+    const getCarDetails = useCallback(async () => {
+        const getSearchCarData = await searchVehicle();
+        const carData = getSearchCarData?.data?.vehicles;
+        carData?.forEach((item: any) => {
+            if (item?._id === sessionSlug) {
+                setCarDetails(item);
+            }
+        });
+    }, [sessionSlug]);
+
+    useEffect(() => {
+        getCarDetails();
+    }, [getCarDetails]);
+
+    useEffect(() => {
+        if (carDetails?.bookingOptions?.selfDrive?.name === bookingOpt) {
+            setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price);
+        }
+    }, [carDetails, bookingOpt]);
+
+    // console.log(sessionSlug, "sessionSlug")
+
 
     async function handleBooking() {
         try {
@@ -100,11 +155,12 @@ const BookingSummery = () => {
                     'Content-Type': 'application/json'
                 }
             });
-            console.log('Booking response:', { response });
+            // console.log('Booking response:', { response });
             toast.success(response?.data?.message)
             if (response?.data?.success) {
+                setBookingSuccess(true);
                 setTimeout(() => {
-                    router.push("/payment")
+                    // router.push("/payment")
                 }, 2000);
             }
         } catch (error: any) {
@@ -112,57 +168,19 @@ const BookingSummery = () => {
         }
     }
 
+    const handlePriceChange = (updatedPrice: any) => {
+        localStorage.setItem("selectedPackagePrice", updatedPrice);
+        setPackagePrice(updatedPrice)
+    }
+
     React.useEffect(() => {
-        const getPromoCodes = async () => {
-            try {
-                const data = await fetchPromoCodes();
-                setPromoCodes(data);
-            } catch (error) {
-                console.log({ error })
-            }
-        };
-
-        getPromoCodes();
-    }, [])
-
-    console.log({ promoCodes })
-
-    const { slug } = useParams();
-
-
-    const getCarDetails = useCallback(async () => {
-        const getSearchCarData = await searchVehicle();
-        const carData = getSearchCarData?.data?.vehicles;
-        carData?.map((item: any) => {
-            return (
-                item?._id === slug ? setCarDetails(item) : ""
-            );
-        });
-        carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
-            ? setCurrentPackage(
-                carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
-            )
-            : "";
+        if (typeof window !== 'undefined') {
+            const storedUserId = localStorage.getItem('userId');
+            const storedToken = localStorage.getItem('token');
+            setUserId(storedUserId);
+            setToken(storedToken);
+        }
     }, []);
-
-    React.useEffect(() => {
-        const getPickup = localStorage.getItem("pickupDate");
-        const getDropoff = localStorage.getItem("dropOffDate");
-        const storedPickupTime = localStorage.getItem('pickupTime');
-        const storedDropoffTime = localStorage.getItem('dropoffTime');
-        const selectedPackagePrice = localStorage.getItem("selectedPackagePrice")
-
-        setPackagePrice(selectedPackagePrice)
-        setPickupDate(getPickup);
-        setDropoffDate(getDropoff)
-        setDropoffTime(storedDropoffTime)
-        setPickupTime(storedPickupTime)
-        getCarDetails();
-    }, [getCarDetails]);
-
-    console.log({ carDetails });
-
-    const { vehicle, loading, error } = useVehicleById(slug as string);
 
     React.useEffect(() => {
         const getPickup = localStorage.getItem("pickupDate");
@@ -175,8 +193,9 @@ const BookingSummery = () => {
         setBookingOpt(bookingOption);
         getCarDetails();
         // price();
+
     }, []);
-    console.log(typeof packagePrice, "pppppp");
+
     React.useEffect(() => {
         {
             carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
@@ -190,126 +209,290 @@ const BookingSummery = () => {
                         : "";
         }
     }, [carDetails]);
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
+    useEffect(() => {
+        // Retrieve slug from session storage
+        const storedSlug = sessionStorage.getItem('slug');
+        if (storedSlug) {
+            setFromSessionSlug(storedSlug);
+        }
+    }, []);
 
-    const handlePriceChange = (updatedPrice: any) => {
-        localStorage.setItem("selectedPackagePrice", updatedPrice);
-        setPackagePrice(updatedPrice)
-    }
+    React.useEffect(() => {
+        const getPromoCodes = async () => {
+            try {
+                const data = await fetchPromoCodes();
+                setPromoCodes(data?.promocodes);
+            } catch (error) {
+                console.log({ error })
+            }
+        };
+
+        getPromoCodes();
+    }, [])
+
+    // console.log(carDetails, "carDetails")
+    React.useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedPickupTime = localStorage.getItem('pickupTime');
+            const storedDropoffTime = localStorage.getItem('dropoffTime');
+            const storedTabValue = localStorage.getItem('tabValue');
+            setPickupTime(storedPickupTime);
+            setDropoffTime(storedDropoffTime);
+            setSelectedTabValue(storedTabValue)
+        }
+    }, []);
 
     return (
-        <div>  <main className="max-w-[511px] px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
-            <div className="max-w-[376px] h-[50px] w-full bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
-                <span className="text-center">Booking Summary</span>
-            </div>
-            <div className="m-auto my-5">
-                <span className="font-bold text-[24px]">Fare Details</span>
-            </div>
-            <div className="grid grid-cols-1 w-full items-start justify-between gap-4 font-semibold">
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Base Fare</span>
-                    <span className="">
-                        ₹ {packagePrice}
-                    </span>
+        <div>
+            <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+                <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
+                    <span className="text-center">Booking Summary</span>
                 </div>
-
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Doorstep delivery & pickup</span>
-                    <span className="">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
-                </div>
-
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Insurance & GST</span>
-                    <span className="">{carDetails?.extraService?.insurance}</span>
-                </div>
-
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Refundable Deposit</span>
-                    <span className="">₹ {currentPackage?.refundableDeposit}</span>
-                </div>
-
-                <div className="flex px-2 py-2 text-md justify-between gap-2 shadow-custom-inner font-bold">
-                    <span className="">TOTAL</span>
-                    <span className=" text-[#ff0000]">₹ {total}</span>
-                </div>
-
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Kms Limit</span>
-                    <span className="">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
-                </div>
-
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Fuel</span>
-                    <span className="">{currentPackage?.fuel}</span>
-                </div>
-
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Extra kms charge</span>
-                    <span className="">{currentPackage?.extraKmsCharge}</span>
-                </div>
-
-                <div className="flex justify-between gap-2 text-sm">
-                    <span className="">
-                        Tolls,Parking & <br /> Inner-state taxes
-                    </span>
-                    <span className="">{currentPackage?.tollsParkingTaxes}</span>
-                </div>
-            </div>
-            <div className="w-full">
-                <span className="flex flex-row my-5 mt-10">
-                    <Image
-                        src="/png/offer.png"
-                        width={20}
-                        height={20}
-                        alt="offer"
-                    />
+                <div className="my-5 flex justify-between w-full px-8">
+                    <span className="font-bold text-[24px]">Fare Details</span>
                     <select
-                        name="offer"
-                        id="offer"
-                        className="border-0 outline-0 bg-transparent max-w-[405px] text-sm"
+                        name="package"
+                        id="package"
+                        onChange={(event) => handlePriceChange(event?.target?.value)}
                     >
-                        <option value="View all promo coupons">
-                            View all promo coupons
+                        <option value="package">change package</option>
+                        <option value={currentPackage?.package1?.price}>
+                            {currentPackage?.package1?.price}
+                        </option>
+                        <option value={currentPackage?.package2?.price}>
+                            {currentPackage?.package2?.price}
+                        </option>
+                        <option value={currentPackage?.package3?.price}>
+                            {currentPackage?.package3?.price}
                         </option>
                     </select>
-                </span>
-
-                <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
-                    <input
-                        type="text"
-                        placeholder="DJF4D4F"
-                        className="w-full border-0 outline-none pr-4 text-[#888787]"
-                    />
-                    <button className="text-[#ff0000]">Apply</button>
                 </div>
-
-                <div className="my-6 h-[69px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
-                    <div className="flex flex-col">
-                        <span>Total Amount</span>
-                        <span className="text-[#ff0000] p-0 text-xl font-semibold">
-                            ₹ 15,000
+                <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className="w-[220px] ml-10">Base Fare</span>
+                        <span className=" w-fit word-wrap ml-10 w-fit">
+                            ₹{packagePrice} * {days} Days and {hours} Hours
                         </span>
                     </div>
-                    <div>
-                        <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">
-                            Proceed
-                        </button>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className=" w-fit word-wrap ml-10">
+                            Doorstep delivery & pickup
+                        </span>
+                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className=" w-fit word-wrap ml-10">Insurance & GST</span>
+                        <span className=" w-fit word-wrap ml-10">{carDetails?.extraService?.insurance}</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className=" w-fit word-wrap ml-10">Refundable Deposit</span>
+                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.refundableDeposit}</span>
+                    </div>
+
+                    {/* DESKTOP ...  */}
+                    {discountAmount > 0 ? (
+                        <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
+                            <span className=" w-fit word-wrap ml-10">TOTAL</span>
+                            <span className=" w-fit word-wrap ml-10 text-[#ff0000]">
+                                ₹ {totalPrice.toFixed(2)}
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
+                            <span className=" w-fit word-wrap ml-10">TOTAL</span>
+                            <span className=" w-fit word-wrap ml-10 text-[#ff0000]">
+                                ₹ {totalPrice.toFixed(2)}
+                            </span>
+                        </div>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className=" w-fit word-wrap ml-10">Kms Limit</span>
+                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className=" w-fit word-wrap ml-10">Fuel</span>
+                        <span className=" w-fit word-wrap ml-10">{currentPackage?.fuel}</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className=" w-fit word-wrap ml-10">Extra kms charge</span>
+                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.extraKmsCharge}</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center">
+                        <span className=" w-fit word-wrap ml-10">
+                            Tolls,Parking & Inner-state taxes
+                        </span>
+                        <span className=" w-fit word-wrap ml-10">{currentPackage?.tollsParkingTaxes}</span>
                     </div>
                 </div>
-            </div>
-            <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
-                <span className="font-bold text-md">Pay ₹10,000 Now</span>
-                <span className="text-[#ff0000] font-semibold text-[15px]">
-                    Balance on Delivery
-                </span>
-            </div>
-        </main></div>
+                <div>
+                    {/* <span className="flex flex-row my-5 mt-10">
+                        <Image
+                            src="/png/offer.png"
+                            width={20}
+                            height={20}
+                            alt="offer"
+                        />
+                        <select
+                            name="offer"
+                            id="offer"
+                            className="border-0 outline-0 bg-transparent w-[405px]"
+                            onChange={(e) => handleChangePromocodeOption(e)}
+                        >
+
+                            <option value="View all promo coupons">
+                                View all promo coupons
+                            </option>
+                            {promoCodes?.map((item: any, index: number) => (
+                                <option key={index} value={item.code}>
+                                    {item.code}
+                                </option>
+                            ))}
+
+                        </select>
+                    </span> */}
+
+                    {/* <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
+                        <input
+                            type="text"
+                            placeholder="DJF4D4F"
+                            className="w-full border-0 outline-none pr-4 text-[#888787]"
+                            value={selectedPromocodeOption}
+                            readOnly
+                        />
+                        <button className="text-[#ff0000]" onClick={handleApplyPromoCode}>Apply</button>
+                    </div> */}
+
+                    {/* DESKTOP TOTAL AMOUNT  */}
+                    <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4  w-full py-5 rounded-3xl">
+                        {discountAmount > 0 ? (
+                            <div className="flex flex-col">
+                                <span>Total Amount </span>
+                                <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                                    ₹ {discountAmount.toFixed(2)}
+                                </span>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col">
+                                <span>Total Amount</span>
+                                <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                                    ₹ {totalPrice.toFixed(2)}
+                                </span>
+                            </div>
+                        )}
+
+                        <div>
+
+                            {/* Desktop button ... */}
+                            {/* {userId && token ? (
+                        <button
+                          onClick={handleBooking}
+                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                          Checkout
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => router.push("/check-out")}
+                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                          Proceed
+                        </button>
+                      )} */}
+
+                            {/* Dynamic buttons ...  */}
+
+                            <>
+                                {userId && token ? (
+                                    bookingSuccess ? (
+                                        <button
+                                            // onClick={() => router.push("/payment")}
+                                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                                            Payment
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={handleBooking}
+                                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                                            Checkout
+                                        </button>
+                                    )
+                                ) : (
+                                    <button
+                                        onClick={() => router.push("/check-out")}
+                                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                                        Proceed
+                                    </button>
+                                )}
+                            </>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-full">
+                    <span className="flex flex-row my-5 mt-10">
+                        <div>
+                            <Image
+                                src="/png/offer.png"
+                                width={20}
+                                height={20}
+                                alt="offer"
+                            />
+                        </div>
+                        <div className="flex gap-2 ml-2 items-center">
+                            <h3 className="font-semibold text-sm">Have a coupon?</h3>
+                            <h4 className="font-semibold text-xs text-primary cursor-pointer" onClick={() => setApplyCoupon(true)}>Click here to enter your code</h4>
+                        </div>
+                        {/* <select
+                            name="offer"
+                            id="offer"
+                            className="border-0 outline-0 bg-transparent max-w-[405px] text-sm"
+                        >
+                            <option value="View all promo coupons">
+                                View all promo coupons
+                            </option>
+                        </select> */}
+                    </span>
+
+                    {/* <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
+                        <input
+                            type="text"
+                            placeholder="DJF4D4F"
+                            className="w-full border-0 outline-none pr-4 text-[#888787]"
+                        />
+                        <button className="text-[#ff0000]">Apply</button>
+                    </div> */}
+
+                    <div className="my-6 h-[69px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
+                        <div className="flex flex-row items-center gap-4">
+                            <span className="text-2xl font-bold">Total Amount</span>
+                            <span className="text-[#ff0000] p-0 text-xl font-semibold">
+                                ₹ 15,000
+                            </span>
+                        </div>
+                        <div>
+                            {/* <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">
+                                Proceed
+                            </button> */}
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col items-center border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                    <span className="font-bold text-md">Pay ₹10,000 Now</span>
+                    <span className="text-[#ff0000] font-semibold text-[15px]">
+                        Balance on Delivery
+                    </span>
+                </div>
+            </main>
+            {applyCoupon &&
+
+                <ApplyCoupon onClick={() => setApplyCoupon(false)} />
+            }
+        </div>
     )
 }
 

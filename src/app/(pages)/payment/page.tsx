@@ -4,6 +4,7 @@ import ThemeButton from '@/app/components/theme-button/theme-button';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import CountryInput from '@/app/components/country-input/country-Input';
+import BookingSummery from '@/app/components/booking-summery';
 
 const PaymentPage = (props: any) => {
     const [openOption, setOpenOption] = useState(null);
@@ -20,8 +21,8 @@ const PaymentPage = (props: any) => {
             <main className='max-w-[1250px] m-auto'>
                 {/*  */}
                 <div className="flex relative items-center justify-center mt-10 w-[100%] overflow-hidden pr-5">
-                    <div className="border-b-[1px] absolute -z-10 left-[47px] sm:left-[65px] top-4 border-black w-[290px] sm:w-[1100px]"></div>
-                    <div className="flex  items-center justify-between w-[1200px] space-x-4 ">
+                    <div className="border-b-[1px] absolute -z-10 left-[47px] sm:left-[65px] top-4 border-black w-[87%]"></div>
+                    <div className="flex relative items-center justify-between w-[1200px] space-x-4 ">
                           {/* Step 1 */}
                           <div className="flex items-center">
                             <div className="relative flex flex-col gap-2 items-center">
@@ -32,7 +33,7 @@ const PaymentPage = (props: any) => {
                             </div>
                         </div>
                         {/* Step 2 */}
-                        <div className="flex items-center">
+                        <div className="items-center absolute right-0 left-0 m-auto">
                             <div className="relative flex flex-col gap-2 items-center">
                                 <div className="w-8 h-8 border-[1px] border-red-500 rounded-full bg-white flex items-center justify-center">
                                     <Image src="/carDetails/done.png" width={20} height={20} alt="" />
@@ -41,7 +42,7 @@ const PaymentPage = (props: any) => {
                             </div>
                         </div>
                         {/* Step 3 */}
-                        <div className="flex items-center">
+                        <div className="flex items-center absolute right-0">
                             <div className="relative flex flex-col gap-2 items-center">
                                 <div className="w-8 h-8 border-[1px] border-red-500 rounded-full bg-white flex items-center justify-center">
                                     <div className="w-3 h-3 p-2 bg-[#ff0000] rounded-full"></div>
@@ -55,12 +56,12 @@ const PaymentPage = (props: any) => {
                 {/*  */}
                 
 
-                <div className=' grid sm:grid-cols-[55%_45%] justify-center gap-10 mt-10'>
+                <div className=' grid lg:grid-cols-[60%_40%] justify-center gap-10 mt-10'>
 
                     <section className='px-4'>
                         <div className='sm:my-6 sm:p-6 sm:p-10 border flex flex-col items-center justify-center gap-6 sm:gap-10 rounded-lg shadow-custom-shadow'>
                             <div>
-                                <h1 className="text-xl sm:text-3xl xs:text-2xl lg:text-[36px] font-bold text-center sm:mt-0 mt-6">CHOOSE PAYMENT METHOD</h1>
+                                <h1 className="text-xl sm:text-3xl xs:text-2xl lg:text-[26px] font-bold text-center sm:mt-0 mt-6 px-4">CHOOSE PAYMENT METHOD</h1>
                             </div>
 
                             <div className="max-w-full sm:max-w-[588px] w-full mx-auto bg-white rounded-lg p-4">
@@ -140,8 +141,8 @@ const PaymentPage = (props: any) => {
                         </div>
                     </section>
 
-
-                    <section className='px-4'>
+                    <BookingSummery />
+                    {/* <section className='px-4'>
                         <main className="flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md p-4 shadow-custom-shadow border">
                             <div className='w-[280px] sm:w-[376px] h-[50px] bg-black text-white font-semibold text-[18px] sm:text-[20px] flex justify-center items-center rounded-xl'>
                                 <span className="text-center">Booking Summary</span>
@@ -226,7 +227,7 @@ const PaymentPage = (props: any) => {
                                 <span className="text-[#ff0000] font-semibold text-[18px] sm:text-[20px]">Balance on Delivery</span>
                             </div>
                         </main>
-                    </section>
+                    </section> */}
 
 
 

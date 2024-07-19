@@ -28,7 +28,7 @@ const AboutUs = () => {
           className="h-auto w-[70%] m-auto"
         />
       </div>
-      <div className="max-w-[1250px] m-auto sm:grid grid-cols-2 gap-12 items-center my-16 sm:px-0 px-8">
+      <div className="max-w-[1250px] m-auto sm:grid grid-cols-2 gap-12 items-center sm:my-16 my-8 sm:px-0 px-8">
         <div>
           <h2 className="text-primary font-semibold sm:text-3xl text-2xl">
             About Us
@@ -62,7 +62,7 @@ const AboutUs = () => {
                     height={18}
                   />
                   <Link
-                    className="font-semibold text-black"
+                    className="font-semibold text-black sm:text-md text-sm"
                     href={"tel:18001216162"}
                   >
                     1800 121 6162{" "}
@@ -75,7 +75,7 @@ const AboutUs = () => {
                     width={24}
                     height={24}
                   />
-                  <Link className="font-semibold text-black" href={"#"}>
+                  <Link className="font-semibold text-black sm:text-md text-sm" href={"#"}>
                     {" "}
                     +91-7240004072{" "}
                   </Link>
@@ -280,7 +280,7 @@ const AboutUs = () => {
                   height={18}
                 />
                 <Link
-                  className="font-semibold text-black"
+                  className="font-semibold text-black sm:text-md text-sm"
                   href={"tel:18001216162"}
                 >
                   1800 121 6162{" "}
@@ -293,7 +293,7 @@ const AboutUs = () => {
                   width={24}
                   height={24}
                 />
-                <Link className="font-semibold text-black" href={"#"}>
+                <Link className="font-semibold text-black sm:text-md text-sm" href={"#"}>
                   {" "}
                   +91-7240004072{" "}
                 </Link>
@@ -436,7 +436,7 @@ const AboutUs = () => {
       <div className="sm:mx-8 mx-2 sm:mt-64 sm:mb-24 bg-primary-color rounded-2xl sm:pt-12 pt-4 pb-8 sm:px-16 px-8">
         <div className="text-white sm:grid grid-cols-2 gap-8">
           <div>
-            <h2 className="sm:text-5xl text-3xl font-semibold leading-normal">
+            <h2 className="sm:text-5xl text-2xl font-semibold leading-normal">
               Have Any Questions <br /> About Us?
             </h2>
             <div className="flex gap-4 mt-8 mb-4 z-[99] relative bottom-0">

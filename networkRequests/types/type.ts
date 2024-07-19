@@ -35,6 +35,7 @@ interface Vehicle {
      
     };
     carFeatures: {
+      type: any;
       multiZoneAC: boolean;
       premiumSoundSystem: boolean;
       cylinders: number;
@@ -59,6 +60,7 @@ interface Vehicle {
     };
     city: string;
     carName: string;
+    brandName: string;
     seatingCapacity: string;
     vehicleDescriptions: string;
     vehicleRegistrationNumber: string;

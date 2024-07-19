@@ -23,10 +23,12 @@ interface offerProp {
 
 const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isTab, setIsTab] = useState(false)
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 576);
+      setIsTab(window.innerWidth<1250);
+      setIsMobile(window.innerWidth < 800);
     };
 
     handleResize();
@@ -41,38 +43,38 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
   return (
     <Swiper
       modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
-      spaceBetween={50}
-      slidesPerView={isMobile ? 1 : 3}
+      spaceBetween={10}
+      slidesPerView={isMobile ? 1 : isTab ? 2 : 3}
       navigation
       pagination={{ clickable: true }}
       loop={true}
-      autoplay={{
-        delay: 2000,
-        disableOnInteraction: false,
-      }}
+      // autoplay={{
+      //   delay: 2000,
+      //   disableOnInteraction: false,
+      // }}
     >
       {dailyOffer===true ? (
         <div className="grid grid-cols-3 gap-6">
           {offerCardsArray?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <div className="w-[400px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+                <div className="sm:w-[400px] w-[340px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
                   <div className="flex flex-col content-between bg-white">
-                    <div className="p-2">
-                      <h3 className="font-bold text-5xl h-fit mb-2">
+                    <div className="sm:px-2 sm:py-2 px-2 py-[7px]">
+                      <h3 className="font-bold sm:text-5xl text-3xl h-fit sm:mb-2 mb-0">
                         {item?.percent}{" "}
                         <span className="font-normal text-[22px]">OFF</span>
                       </h3>
                       <strong className="text-[12px] font-normal h-fit">
                         TERMS & CONDITIONS*
                       </strong>
-                      <p className="text-[8px]">{item?.desc}</p>
+                      <p className="text-[8px] line-clamp-2">{item?.desc}</p>
                     </div>
-                    <div className="bg-primary-color text-white h-full mt-1 text-center">
+                    <div className="bg-primary-color text-white h-full sm:mt-1 text-center flex justify-center items-center">
                       {item?.couponCode}
                     </div>
                   </div>
-                  <div className="w-full h-[160px]">
+                  <div className="w-full sm:h-[160px] h-[125px]">
                     <Image
                       src={item?.imageURl}
                       alt="offer"
@@ -93,10 +95,10 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
           {monthlyOfferCard?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <div className="w-[400px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+                <div className="sm:w-[400px] w-[340px] m-auto grid grid-cols-2 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
                   <div className="flex flex-col content-between bg-white relative">
                     <div className="p-2">
-                      <h3 className="font-bold text-2xl h-fit mb-2">
+                      <h3 className="font-bold sm:text-2xl text-xl h-fit sm:mb-2">
                         {item?.percent}{" "}
                         <span className="font-normal text-[22px]">OFF</span>
                       </h3>
@@ -109,7 +111,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
                       {item?.couponCode}
                     </div>
                   </div>
-                  <div className="w-full h-[160px]">
+                  <div className="w-full sm:h-[160px] h-[125px]">
                     <Image
                       src={item?.imageURl}
                       alt="offer"

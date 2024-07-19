@@ -6,8 +6,6 @@ import Image from "next/image";
 import CarFeatures from "@/app/components/car-features/car-features";
 import ExtraCharges from "@/app/components/extra-charges/extra-charges";
 import DescCar from "@/app/components/desc-car/desc-car";
-import Video from "@/app/components/video/video";
-import FleetsSlider from "@/app/components/slider/slider-components";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useState } from "react";
@@ -20,7 +18,6 @@ import useReservationDateTime from "../../../../../networkRequests/hooks/useRese
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
-import BookingSummery from "@/app/components/booking-summery";
 
 interface PromoCode {
   code: string;
@@ -37,13 +34,6 @@ interface PromoCode {
   promotionClassification: string;
   customerContact?: string;
 }
-
-const initialDiscountState = {
-  selectedPromocodeOption: null,
-  discountAmount: 0,
-  discountAppliedAmount: 0,
-  selectedDiscountType: null
-};
 
 const CarDetails = () => {
   const router = useRouter();
@@ -74,6 +64,8 @@ const CarDetails = () => {
 
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
+
+  const ThirtyDiscount = (totalPrice * 30) / 100
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -125,6 +117,8 @@ const CarDetails = () => {
     createdByUser: userId
   };
 
+  const [bookingSuccess, setBookingSuccess] = useState(false);
+
   async function handleBooking() {
     try {
       const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`, bookingData, {
@@ -135,8 +129,9 @@ const CarDetails = () => {
       console.log('Booking response:', { response });
       toast.success(response?.data?.message)
       if (response?.data?.success) {
+        setBookingSuccess(true);
         setTimeout(() => {
-          router.push("/payment")
+          // router.push("/payment")
         }, 2000);
       }
     } catch (error: any) {
@@ -192,7 +187,7 @@ const CarDetails = () => {
   };
 
 
-  const { slug } = useParams();
+  const { slug }: any = useParams();
 
 
   const getCarDetails = useCallback(async () => {
@@ -266,6 +261,10 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice)
   }
 
+  const handleProceed = () => {
+    sessionStorage.setItem('slug', slug);
+    router.push("/check-out");
+  }
   return (
     <>
       <div className="py-6">
@@ -275,125 +274,167 @@ const CarDetails = () => {
           <span className="cursor-pointer">Listing</span>/
           <span className="cursor-pointer">Car Details</span>
         </div>
-        <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
-          <div className="px-4">
+        <div className="max-w-[1250px] m-auto sm:my-12 lg:grid rounded-xl items-start grid-cols-[60%_40%] gap-6 ">
+          <div className="px-4 lg:max-w-auto max-w-[700px] -mt-1 rounded-xl m-auto">
             <ProductSlider
               featuredImage={carDetails?.featuredImage as any}
               imageGallery={carDetails?.imageGallery as any}
             />
             {/* mobile view */}
-            <div className="sm:hidden block my-4">
+            <div className="lg:hidden block my-4">
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* mobile view */}
-            <div className="sm:hidden block">
-              <main className="max-w-[511px] px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
-                <div className="max-w-[376px] h-[50px] w-full bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
+            <div className="lg:hidden block">
+              <main className="max-w-[90vw] mx-auto flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+                <div className="w-full max-w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl mb-5">
                   <span className="text-center">Booking Summary</span>
                 </div>
-                <div className="m-auto my-5">
+                <div className="w-full max-w-[376px] mb-5 px-2 flex justify-between">
                   <span className="font-bold text-[24px]">Fare Details</span>
+                  <select
+                    name="package"
+                    id="package"
+                    onChange={(event) => handlePriceChange(event?.target?.value)}
+                    className="w-[50%] max-w-[180px]"
+                  >
+                    <option value="package">change package</option>
+                    <option value={currentPackage?.package1?.price}>
+                      {currentPackage?.package1?.price}
+                    </option>
+                    <option value={currentPackage?.package2?.price}>
+                      {currentPackage?.package2?.price}
+                    </option>
+                    <option value={currentPackage?.package3?.price}>
+                      {currentPackage?.package3?.price}
+                    </option>
+                  </select>
                 </div>
-                <div className="grid grid-cols-1 w-full items-start justify-between gap-4 font-semibold">
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Base Fare</span>
-                    <span className="">
-                      ₹ {packagePrice}
+                <div className="grid grid-cols-1 gap-4 w-full max-w-full px-2 font-semibold">
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">Base Fare</span>
+                    <span>
+                      ₹{packagePrice} * {days} Days and {hours} Hours
                     </span>
                   </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Doorstep delivery & pickup</span>
-                    <span className="">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Insurance & GST</span>
-                    <span className="">{carDetails?.extraService?.insurance}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Refundable Deposit</span>
-                    <span className="">₹ {currentPackage?.refundableDeposit}</span>
-                  </div>
-
-                  <div className="flex px-2 py-2 text-md justify-between gap-2 shadow-custom-inner font-bold">
-                    <span className="">TOTAL</span>
-                    <span className=" text-[#ff0000]">₹ {total}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Kms Limit</span>
-                    <span className="">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Fuel</span>
-                    <span className="">{currentPackage?.fuel}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">Extra kms charge</span>
-                    <span className="">{currentPackage?.extraKmsCharge}</span>
-                  </div>
-
-                  <div className="flex justify-between gap-2 text-sm">
-                    <span className="">
-                      Tolls,Parking & <br /> Inner-state taxes
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Doorstep delivery & pickup
                     </span>
-                    <span className="">{currentPackage?.tollsParkingTaxes}</span>
+                    <span>
+                      ₹ {currentPackage?.DoorstepDeliveryPickup}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Insurance & GST
+                    </span>
+                    <span>
+                      {carDetails?.extraService?.insurance}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Refundable Deposit
+                    </span>
+                    <span>
+                      ₹ {currentPackage?.refundableDeposit}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      TOTAL
+                    </span>
+                    <span className="text-[#ff0000]">
+                      ₹ {totalPrice.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Kms Limit
+                    </span>
+                    <span>
+                      ₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Fuel
+                    </span>
+                    <span>
+                      {currentPackage?.fuel}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Extra kms charge
+                    </span>
+                    <span>
+                      ₹ {currentPackage?.extraKmsCharge}
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <span className="ml-2">
+                      Tolls, Parking & Inner-state taxes
+                    </span>
+                    <span>
+                      {currentPackage?.tollsParkingTaxes}
+                    </span>
                   </div>
                 </div>
-                <div className="w-full">
-                  <span className="flex flex-row my-5 mt-10">
-                    <Image
-                      src="/png/offer.png"
-                      width={20}
-                      height={20}
-                      alt="offer"
-                    />
-                    <select
-                      name="offer"
-                      id="offer"
-                      className="border-0 outline-0 bg-transparent max-w-[405px] text-sm"
-                    >
-                      <option value="View all promo coupons">
-                        View all promo coupons
-                      </option>
-                    </select>
-                  </span>
-
-                  <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
-                    <input
-                      type="text"
-                      placeholder="DJF4D4F"
-                      className="w-full border-0 outline-none pr-4 text-[#888787]"
-                    />
-                    <button className="text-[#ff0000]">Apply</button>
-                  </div>
-
-                  <div className="my-6 h-[69px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
+                <div className="w-full max-w-[376px] mb-6  mt-6">
+                  <div className="flex justify-between items-center bg-[#E7E7E7] p-4 rounded-3xl shadow-lg">
                     <div className="flex flex-col">
-                      <span>Total Amount</span>
-                      <span className="text-[#ff0000] p-0 text-xl font-semibold">
-                        ₹ 15,000
+                      <span>
+                        Total Amount
+                      </span>
+                      <span className="text-[#ff0000] text-2xl font-bold">
+                        ₹ {discountAmount > 0 ? discountAmount.toFixed(2) : totalPrice.toFixed(2)}
                       </span>
                     </div>
                     <div>
-                      <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">
-                        Proceed
-                      </button>
+                      {userId && token ? (
+                        bookingSuccess ? (
+                          <button
+                            // onClick={() => router.push("/payment")}
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                            Payment
+                          </button>
+                        ) : (
+                          <button
+                            onClick={handleBooking}
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                            Checkout
+                          </button>
+                        )
+                      ) : (
+                        <button
+                          onClick={handleProceed}
+                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                          Proceed
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
-                  <span className="font-bold text-md">Pay ₹10,000 Now</span>
-                  <span className="text-[#ff0000] font-semibold text-[15px]">
-                    Balance on Delivery
-                  </span>
+                <div className="w-full max-w-[376px] flex justify-around items-center border-[1.5px] rounded-3xl border-[#ff0000] cursor-pointer">
+                  <div className="flex flex-col items-start p-4">
+                    <span className="font-bold text-md">
+                      Pay ₹{ThirtyDiscount >= 2000 ? ThirtyDiscount.toFixed(2) : totalPrice.toFixed(2)} Now
+                    </span>
+                    <span className="text-[#ff0000] font-semibold text-[15px]">
+                      Balance on Delivery
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleProceed}
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-sm font-semibold text-white w-[78.31px] h-[53.08px] rounded-md drop-shadow-lg">
+                    Proceed
+                  </button>
                 </div>
               </main>
-              <div className="flex flex-row items-start gap-2 ml-4">
+
+              <div className="sm:max-w-[511px] lg:max-w-full m-auto flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">
                   <Image
                     src="/png/waiting.png"
@@ -402,7 +443,7 @@ const CarDetails = () => {
                     alt="offer"
                   />
                 </span>
-                <span className="text-[18px] font-semibold text-[#6CAE39]">
+                <span className="sm:text-[18px] text-[14px] font-semibold text-[#6CAE39]">
                   50% Refund <br /> Until 06June2024, 2:00PM <br />
                   <span className="text-[#737373] text-sm font-light">
                     Convince fees is not refundable
@@ -420,11 +461,11 @@ const CarDetails = () => {
           </div>
           {/*  */}
           <div>
-            <div className="sm:block hidden">
+            <div className="lg:block hidden">
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* booking summary */}
-            <div className="sm:block hidden">
+            <div className="lg:block hidden">
               {/* <BookingSummery/> */}
               <main className=" w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
@@ -479,7 +520,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                       <span className="w-[220px] ml-10">TOTAL</span>
                       <span className="w-[220px] ml-10 text-[#ff0000]">
-                        ₹ {discountAmount.toFixed(2)}
+                        ₹ {totalPrice.toFixed(2)}
                       </span>
                     </div>
                   ) : (
@@ -514,7 +555,7 @@ const CarDetails = () => {
                   </div>
                 </div>
                 <div>
-                  <span className="flex flex-row my-5 mt-10">
+                  {/* <span className="flex flex-row my-5 mt-10">
                     <Image
                       src="/png/offer.png"
                       width={20}
@@ -538,9 +579,9 @@ const CarDetails = () => {
                       ))}
 
                     </select>
-                  </span>
+                  </span> */}
 
-                  <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
+                  {/* <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
                     <input
                       type="text"
                       placeholder="DJF4D4F"
@@ -549,12 +590,13 @@ const CarDetails = () => {
                       readOnly
                     />
                     <button className="text-[#ff0000]" onClick={handleApplyPromoCode}>Apply</button>
-                  </div>
+                  </div> */}
 
-                  <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
+                  {/* DESKTOP TOTAL AMOUNT  */}
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[420px] py-5 rounded-3xl">
                     {discountAmount > 0 ? (
                       <div className="flex flex-col">
-                        <span>Total Amount</span>
+                        <span>Total Amount </span>
                         <span className="text-[#ff0000] p-0 text-2xl font-bold">
                           ₹ {discountAmount.toFixed(2)}
                         </span>
@@ -571,7 +613,7 @@ const CarDetails = () => {
                     <div>
 
                       {/* Desktop button ... */}
-                      {userId && token ? (
+                      {/* {userId && token ? (
                         <button
                           onClick={handleBooking}
                           className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
@@ -579,19 +621,54 @@ const CarDetails = () => {
                         </button>
                       ) : (
                         <button
-                          onClick={() => router.push("/sign-in")}
+                          onClick={() => router.push("/check-out")}
                           className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
                           Proceed
                         </button>
-                      )}
+                      )} */}
+
+                      {/* Dynamic buttons ...  */}
+
+                      <>
+                        {userId && token ? (
+                          bookingSuccess ? (
+                            <button
+                              // onClick={() => router.push("/payment")}
+                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                              Payment
+                            </button>
+                          ) : (
+                            <button
+                              onClick={handleBooking}
+                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                              Checkout
+                            </button>
+                          )
+                        ) : (
+                          <button
+                            onClick={handleProceed}
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                            Proceed
+                          </button>
+                        )}
+                      </>
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
-                  <span className="font-bold text-md">Pay ₹10,000 Now</span>
-                  <span className="text-[#ff0000] font-semibold text-[15px]">
-                    Balance on Delivery
-                  </span>
+
+                {/* DESKTOP  */}
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                  <div className="flex flex-col items-start">
+                    <span className="font-bold text-md">Pay ₹{ThirtyDiscount >= 2000 ? ThirtyDiscount.toFixed(2) : totalPrice.toFixed(2)} Now </span>
+                    <span className="text-[#ff0000] font-semibold text-[15px]">
+                      Balance on Delivery
+                    </span>
+                  </div>
+                  <button
+                    onClick={handleProceed}
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-sm font-semibold text-white w-[78.31px] h-[53.08px] rounded-md drop-shadow-lg">
+                    Proceed
+                  </button>
                 </div>
               </main>
               <div className="flex flex-row items-start gap-2 ml-4">
@@ -622,11 +699,11 @@ const CarDetails = () => {
           <DescCar desc={carDetails?.vehicleDescriptions as any} />
         </div>
         <div>
-          <Video />
+          {/* <Video /> */}
         </div>
         <div className="mx-10 top-button">
           {/* <InterestedSlider/> */}
-          <FleetsSlider showButton={false} showRatingStar={false} />
+          {/* <FleetsSlider showButton={false} showRatingStar={false} /> */}
         </div>
       </div>
     </>

@@ -24,19 +24,19 @@ const Subscription = () => {
           <span className="cursor-pointer">Listing</span>/
           <span className="cursor-pointer">Subscription</span>
         </div>
-        <div className="max-w-[1250px] m-auto sm:my-12 sm:grid grid-cols-[60%_40%] gap-6">
+        <div className="lg:max-w-[1250px] max-w-[600px] m-auto sm:my-12 lg:grid grid-cols-[60%_40%] gap-6">
           <div>
             <ProductSlider featuredImage={{
               image: "",
               alt: ""
             }} />
 
-            <div className="sm:hidden block my-4">
+            <div className="lg:hidden block my-4">
               <BookingDetailsCard />
             </div>
             {/* booking summary */}
-            <div className="sm:hidden block">
-              <main className="max-w-[504px] flex flex-col items-center bg-[#FAFAFA] my-6 rounded-md">
+            <div className="lg:hidden block">
+              <main className="max-w-[504px] flex flex-col items-center bg-[#FAFAFA] my-6 rounded-md m-auto p-4">
                 <div className="max-w-[376px] w-full h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center tracking-wide">Booking Summary</span>
                 </div>
@@ -179,11 +179,11 @@ const Subscription = () => {
           </div>
           {/*  */}
           <div>
-            <div className="sm:block hidden">
+            <div className="lg:block hidden">
               <BookingDetailsCard />
             </div>
             {/* booking summary */}
-            <div className="sm:block hidden">
+            <div className="lg:block hidden">
               <main className="w-[504px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>

@@ -29,7 +29,7 @@ const FaqSection = ({ key, ques, ans }: faqProp) => {
           />
         </span>
       </h3>
-      {showAns === ques && <p className="text-sm">{ans}</p>}
+      {showAns === ques && <p className="sm:text-sm text-xs">{ans}</p>}
     </div>
   );
 };
