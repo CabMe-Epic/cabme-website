@@ -75,7 +75,7 @@ export default function Home() {
     setDropoffLocation(event);
   };
 
-  
+
 
   console.log(pickupLocation, "213 pickup location");
   console.log(dropOffLocation, "213 dropOff location");
@@ -319,14 +319,14 @@ export default function Home() {
     setSelectedCity(cityName);
     // setPickupLocation(cityName);
     handlePickupLocation(cityName)
-    setShowLocationPopup(false);
+    // setShowLocationPopup(false);
   };
 
   const handleDropOffCity = (cityName: any) => {
     setDropSelectedCity(cityName);
     // setDropoffLocation(cityName);
     handleDropOffLocation(cityName)
-    setShowLocationPopup(false);
+    // setShowDropLocationPopup(false);
   }
 
   console.log(selectedCity, "selectedCity");
@@ -523,7 +523,7 @@ export default function Home() {
                   <div>
                     <ThemeButton
                       text="Search"
-                      className="px-8 !py-[10px] relative right-6 ml-4"
+                      className="px-8 !py-[10px] relative right-6 ml-4 ml-4"
                       onClick={() => saveLocationData()}
                     />
                   </div>
@@ -574,7 +574,7 @@ export default function Home() {
                             </select>
                           )}
                           {item?.id === "date" && (
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -597,7 +597,7 @@ export default function Home() {
                               }
                             /> */}
                               <DatePicker
-                                className="cursor-pointer"
+                                className="cursor-pointer datepickerinput"
                                 selected={
                                   item?.heading === "Pick Up Date"
                                     ? startDate
@@ -612,6 +612,7 @@ export default function Home() {
                                 showTimeSelect
                                 filterTime={filterPassedTime}
                                 dateFormat="MMMM d, yyyy h:mm aa"
+                                placeholderText="Enter Date & Time"
                                 onKeyDown={(event) => event?.preventDefault()}
                               />
                             </div>
@@ -624,7 +625,7 @@ export default function Home() {
                   <div>
                     <ThemeButton
                       text="Search"
-                      className="px-8 !py-[10px] relative right-6"
+                      className="px-8 !py-[10px] relative right-6 ml-4"
                       onClick={() => saveLocationData()}
                     />
                   </div>
@@ -703,26 +704,49 @@ export default function Home() {
                         <h3 className="text-xl font-semibold">
                           {item?.heading}
                         </h3>
-                        {item?.id === "location" && (
-                          <select
-                            name="pickup"
-                            id="pickup"
-                            className="w-full outline-red-500 h-8 text-xs"
-                            onChange={
-                              item?.heading === "Pick-up Location"
-                                ? (e) => handlePickupLocation(e)
-                                : (ev) => handleDropOffLocation(ev)
-                            }
-                          >
-                            <option value={item?.desc}>{item?.desc}</option>
-                            {cities?.map((value: any, ind) => {
-                              return (
-                                <option key={ind} value={value?.name}>
-                                  {value?.name}
-                                </option>
-                              );
-                            })}
-                          </select>
+                        {item?.id === "location" && showLocationPopup && (
+                          <>
+                            <input
+                              className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                              type="text"
+                              placeholder="All City"
+                              onClick={(e) => handleSelectPopupLocation(e)}
+                              value={selectedCity}
+                              readOnly // Prevent editing directly
+                            />
+
+                            <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                              <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                                <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                  {cities?.map((city: any, index: number) => (
+                                    <div key={index}>
+                                      <City
+                                        city={city}
+                                        isSelected={selectedCity === city.name}
+                                        onClick={() => handleCityClick(city.name)}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                                <ThemeButton
+                                  onClick={() => setShowLocationPopup(false)}
+                                  className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                                  text="continue"
+                                />
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                        {item?.id === "location" && !showLocationPopup && (
+                          <input
+                            className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                            type="text"
+                            placeholder="All City"
+                            onClick={(e) => handleSelectPopupLocation(e)}
+                            value={selectedCity}
+                            readOnly // Prevent editing directly
+                          />
                         )}
                         {item?.id === "date" && (
                           <div className="flex gap-2">
@@ -748,7 +772,7 @@ export default function Home() {
                             }
                           /> */}
                             <DatePicker
-                              className="cursor-pointer"
+                              className="cursor-pointer datepickerinput"
                               selected={
                                 item?.heading === "Pick Up Date"
                                   ? startDate
@@ -763,6 +787,7 @@ export default function Home() {
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
+                                 placeholderText="Enter Date & Time"
                               onKeyDown={(event) => event?.preventDefault()}
                               minDate={new Date()}
                             />
@@ -775,7 +800,7 @@ export default function Home() {
                 <div>
                   <ThemeButton
                     text="Search"
-                    className="px-8 !py-[10px] relative right-6"
+                    className="px-8 !py-[10px] relative right-6 ml-4"
                     onClick={() => saveLocationData()}
                   />
                 </div>
@@ -789,6 +814,36 @@ export default function Home() {
                     </h3>
                   </div>
                 </div>
+              )}
+              <div onClick={(e) => handleDropSelectPopupLocation(e)}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+                Drop in different city?
+              </div>
+
+              {showDropLocationPopup && (
+                <>
+
+                  <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                        {cities?.map((city: any, index: number) => (
+                          <div key={index}>
+                            <City
+                              city={city}
+                              isSelected={dropSelectedCity === city.name}
+                              onClick={() => handleDropOffCity(city.name)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <ThemeButton
+                        onClick={() => setShowDropLocationPopup(false)}
+                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                        text="continue"
+                      />
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </>
@@ -815,29 +870,52 @@ export default function Home() {
                       <h3 className="lg:text-xl text-lg font-semibold">
                         {item?.heading}
                       </h3>
-                      {item?.id === "location" && (
-                        <select
-                          name="location"
-                          id="location"
-                          className="w-full outline-red-500 h-8 text-xs"
-                          onChange={
-                            item?.heading === "Pick-up Location"
-                              ? (e) => handlePickupLocation(e)
-                              : (ev) => handleDropOffLocation(ev)
-                          }
-                        >
-                          <option value={item?.desc}>{item?.desc}</option>
-                          {cities?.map((value: any, ind) => {
-                            return (
-                              <option key={ind} value={value?.name}>
-                                {value?.name}
-                              </option>
-                            );
-                          })}
-                        </select>
+                      {item?.id === "location" && showLocationPopup && (
+                        <>
+                          <input
+                            className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                            type="text"
+                            placeholder="All City"
+                            onClick={(e) => handleSelectPopupLocation(e)}
+                            value={selectedCity}
+                            readOnly // Prevent editing directly
+                          />
+
+                          <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                            <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                              <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                {cities?.map((city: any, index: number) => (
+                                  <div key={index}>
+                                    <City
+                                      city={city}
+                                      isSelected={selectedCity === city.name}
+                                      onClick={() => handleCityClick(city.name)}
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                              <ThemeButton
+                                onClick={() => setShowLocationPopup(false)}
+                                className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                                text="continue"
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {item?.id === "location" && !showLocationPopup && (
+                        <input
+                          className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                          type="text"
+                          placeholder="All City"
+                          onClick={(e) => handleSelectPopupLocation(e)}
+                          value={selectedCity}
+                          readOnly // Prevent editing directly
+                        />
                       )}
                       {item?.id === "date" && (
-                        <div className="flex flex-col gap-2 mt-2">
+                        <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
                           {/* <input
 
                           type="date"
@@ -863,7 +941,7 @@ export default function Home() {
                         /> */}
 
                           <DatePicker
-                            className="cursor-pointer"
+                            className="cursor-pointer datepickerinput"
                             selected={
                               item?.heading === "Pick Up Date"
                                 ? startDate
@@ -880,11 +958,12 @@ export default function Home() {
                             dateFormat="MMMM d, yyyy h:mm aa"
                             placeholderText={
                               item?.heading === "Pick Up Date" && !startDate
-                                ? "DD-MM-YYYY"
+                                ? "Enter Date & Time"
                                 : item?.heading !== "Pick Up Date" && !dropDate
-                                  ? "DD-MM-YYYY"
+                                  ? "Enter Date & Time"
                                   : ""
                             }
+                            
                             onKeyDown={(event) => event?.preventDefault()}
                             minDate={new Date()}
                           />
@@ -897,7 +976,7 @@ export default function Home() {
 
               <div className="lg:block hidden">
                 <ThemeButton
-                  className="px-8 !py-[10px] relative right-6"
+                  className="px-8 !py-[10px] relative right-6 ml-4"
                   text="Search"
                   onClick={() => saveLocationData()}
                 />
@@ -913,11 +992,41 @@ export default function Home() {
                 </div>
               </div>
             )}
+            <div onClick={(e) => handleDropSelectPopupLocation(e)}
+              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+              Drop in different city?
+            </div>
+
+            {showDropLocationPopup && (
+              <>
+
+                <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                      {cities?.map((city: any, index: number) => (
+                        <div key={index}>
+                          <City
+                            city={city}
+                            isSelected={dropSelectedCity === city.name}
+                            onClick={() => handleDropOffCity(city.name)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <ThemeButton
+                      onClick={() => setShowDropLocationPopup(false)}
+                      className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                      text="continue"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
         <div className="lg:hidden block mt-4">
           <ThemeButton
-            className="px-8 !py-[10px] relative right-6 m-auto"
+            className="px-8 !py-[10px] relative right-6 ml-4 m-auto"
             text="Search"
             onClick={() => saveLocationData()}
           />
@@ -1587,29 +1696,7 @@ const localDriverArray = [
       },
     ],
   },
-  {
-    id: "location",
-    imageUrl: "/svg/location.svg",
-    heading: "Drop-off Location",
-    desc: "Enter drop-off Location",
-    cities: [
-      {
-        city: "Noida",
-      },
-      {
-        city: "Meerut",
-      },
-      {
-        city: "Ghaziabad",
-      },
-      {
-        city: "Agra",
-      },
-      {
-        city: "Kanpur",
-      },
-    ],
-  },
+
   {
     id: "date",
     imageUrl: "/svg/calender.svg",
