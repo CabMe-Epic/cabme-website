@@ -164,13 +164,16 @@
 
 
 .react-datepicker {
-  width: 126% !important;
+  width: 114% !important;
   margin: 0 !important;
   background: #FCFBFB !important;
   border: 0 !important;
   margin-top: 10px !important;
-  /* margin-left: 50px !important; */
+  margin-left: -30px !important;
+}
+.react-datepicker{
   z-index: 998 !important;
+  
 }
 
 .datepickerinput {

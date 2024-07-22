@@ -135,9 +135,6 @@ export default function Home() {
       return;
     }
 
-
-
-
     const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
     const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
 
@@ -233,8 +230,6 @@ export default function Home() {
     localStorage.setItem("dropoffTime", dropoffTime);
   }
 
-
-
   const [offer, setOffer] = useState("Daily Offers");
   console.log(switchRadio, "tabValue");
   console.log(tabValue, "tabValue");
@@ -308,7 +303,7 @@ export default function Home() {
   return (
     <>
       <div
-        className=" rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
+        className="z-[-9] relative rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         ref={topFleetForm}
       >
         <BannerSlider />
@@ -328,17 +323,19 @@ export default function Home() {
         </div> */}
       </div>
       <div
-        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative ${tabValue === "Driver" ? "h-[290px]" : "h-[230px]"
-          }`}
+        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative ${
+          tabValue === "Driver" ? "h-[290px]" : "h-[230px]"
+        }`}
       >
-        <div className="max-w-[700px] z-[9] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
+        <div className="max-w-[700px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-6 text-lg ${value?.tabsValue === tabValue
-                  ? "bg-primary-color text-white font-semibold"
-                  : "bg-[#EFF1FB]"
-                  }`}
+                className={`cursor-pointer w-full text-center py-6 text-lg ${
+                  value?.tabsValue === tabValue
+                    ? "bg-primary-color text-white font-semibold"
+                    : "bg-[#EFF1FB]"
+                }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -370,8 +367,9 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                          }`}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                       >
                         <div className="mt-2">
                           <Image
@@ -387,7 +385,6 @@ export default function Home() {
                           </h3>
                           {item?.id === "location" && (
                             <select
-
                               name="loc"
                               id="loc"
                               className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
@@ -409,10 +406,8 @@ export default function Home() {
                             </select>
                           )}
 
-
-
                           {item?.id === "date" && (
-                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
+                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker1 mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -454,7 +449,9 @@ export default function Home() {
                                 minDate={
                                   item?.heading === "Pick Up Date"
                                     ? new Date() // For pickup date, prevent selecting past dates
-                                    : startDate ? new Date(startDate) : new Date() // For drop-off date, prevent selecting before pickup date
+                                    : startDate
+                                    ? new Date(startDate)
+                                    : new Date() // For drop-off date, prevent selecting before pickup date
                                 }
                                 maxDate={
                                   item?.heading === "Pick Up Date"
@@ -462,7 +459,6 @@ export default function Home() {
                                     : null // For drop-off date, no upper limit unless specified
                                 }
                               />
-
                             </div>
                           )}
                         </div>
@@ -485,8 +481,9 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                          }`}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                       >
                         <div className="mt-2">
                           <Image
@@ -524,7 +521,7 @@ export default function Home() {
                             </select>
                           )}
                           {item?.id === "date" && (
-                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
+                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker1 mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -566,7 +563,9 @@ export default function Home() {
                                 minDate={
                                   item?.heading === "Pick Up Date"
                                     ? new Date() // For pickup date, start from today or any other logic
-                                    : startDate ? new Date(startDate) : new Date() // For drop-off date, start from pickup date
+                                    : startDate
+                                    ? new Date(startDate)
+                                    : new Date() // For drop-off date, start from pickup date
                                 }
                                 maxDate={
                                   item?.heading === "Pick Up Date"
@@ -574,7 +573,6 @@ export default function Home() {
                                     : null // For drop-off date, no upper limit unless specified
                                 }
                               />
-
                             </div>
                           )}
                         </div>
@@ -603,8 +601,9 @@ export default function Home() {
               )}
               <div
                 onClick={(e) => handleDropSelectPopupLocation(e)}
-                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"
-                  }`}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
+                  durationFormat ? "mt-0" : "mt-5"
+                }`}
               >
                 Drop in different city?
               </div>
@@ -653,8 +652,9 @@ export default function Home() {
                   return (
                     <div
                       key={index}
-                      className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                        }`}
+                      className={`flex w-full gap-4 ${
+                        index < 3 ? "border-r-2 mr-6 border-black" : ""
+                      }`}
                     >
                       <div className="mt-2">
                         <Image
@@ -696,7 +696,9 @@ export default function Home() {
                                       <City
                                         city={city}
                                         isSelected={selectedCity === city.name}
-                                        onClick={() => handleCityClick(city.name)}
+                                        onClick={() =>
+                                          handleCityClick(city.name)
+                                        }
                                       />
                                     </div>
                                   ))}
@@ -765,8 +767,8 @@ export default function Home() {
                                 item?.heading === "Pick Up Date"
                                   ? new Date() // or any custom logic for minDate
                                   : startDate
-                                    ? new Date(startDate)
-                                    : new Date() // prevent selecting before pickup date
+                                  ? new Date(startDate)
+                                  : new Date() // prevent selecting before pickup date
                               }
                               maxDate={
                                 item?.heading === "Pick Up Date"
@@ -800,8 +802,9 @@ export default function Home() {
               )}
               <div
                 onClick={(e) => handleDropSelectPopupLocation(e)}
-                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"
-                  }`}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
+                  durationFormat ? "mt-0" : "mt-5"
+                }`}
               >
                 Drop in different city?
               </div>
@@ -848,8 +851,9 @@ export default function Home() {
                 return (
                   <div
                     key={index}
-                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
-                      }`}
+                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${
+                      index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
+                    }`}
                   >
                     <div className="mt-2 flex-none">
                       <Image
@@ -907,7 +911,7 @@ export default function Home() {
 
                       {item?.id === "location" && !showLocationPopup && (
                         <input
-                          className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                          className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-full"
                           type="text"
                           placeholder="All City"
                           onClick={(e) => handleSelectPopupLocation(e)}
@@ -916,7 +920,7 @@ export default function Home() {
                         />
                       )}
                       {item?.id === "date" && (
-                        <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
+                        <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker1 mt-2 ml-[-20px]">
                           {/* <input
 
                           type="date"
@@ -960,16 +964,16 @@ export default function Home() {
                               item?.heading === "Pick Up Date" && !startDate
                                 ? "Enter Date & Time"
                                 : item?.heading !== "Pick Up Date" && !dropDate
-                                  ? "Enter Date & Time"
-                                  : ""
+                                ? "Enter Date & Time"
+                                : ""
                             }
                             onKeyDown={(event) => event?.preventDefault()}
                             minDate={
                               item?.heading === "Pick Up Date"
                                 ? new Date() // Or any other logic to set minDate for pickup
                                 : startDate
-                                  ? new Date(startDate)
-                                  : new Date() // Prevent selection before pickup date for drop-off
+                                ? new Date(startDate)
+                                : new Date() // Prevent selection before pickup date for drop-off
                             }
                             maxDate={
                               item?.heading === "Pick Up Date"
@@ -983,6 +987,24 @@ export default function Home() {
                   </div>
                 );
               })}
+              {dropOffLocation && (
+                <div className=" h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                  <div className="grid">
+                    <label
+                      htmlFor="dropoff"
+                      className="lg:text-xl text-lg font-semibold"
+                    >
+                      Drop-off location
+                    </label>
+                    <input
+                      type="text"
+                      value={dropOffLocation}
+                      className="bg-[#FCFBFB] outline-none p-[8px]"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              )}
 
               <div className="lg:block hidden">
                 <ThemeButton
@@ -1004,8 +1026,9 @@ export default function Home() {
             )}
             <div
               onClick={(e) => handleDropSelectPopupLocation(e)}
-              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"
-                }`}
+              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
+                durationFormat ? "mt-0" : "mt-5"
+              }`}
             >
               Drop in different city?
             </div>
@@ -1057,19 +1080,21 @@ export default function Home() {
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
-              className={`${mobileTabValue === "Rentals"
-                ? "bg-white text-black shadow-custom-shadow"
-                : ""
-                } rounded-xl px-4 py-[8px] text-center text-sm`}
+              className={`${
+                mobileTabValue === "Rentals"
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : ""
+              } rounded-xl px-4 py-[8px] text-center text-sm`}
               onClick={() => setMobileTabValue("Rentals")}
             >
               Rentals
             </div>
             <div
-              className={`${mobileTabValue === "Subscriptions"
-                ? "bg-white text-black shadow-custom-shadow"
-                : "text-white"
-                } rounded-xl px-4 py-[8px] text-center text-sm `}
+              className={`${
+                mobileTabValue === "Subscriptions"
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : "text-white"
+              } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => setMobileTabValue("Subscriptions")}
             >
               Subscriptions
@@ -1079,10 +1104,11 @@ export default function Home() {
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
             <div
-              className={`${switchRadio === "Self Driven"
-                ? "bg-black text-white"
-                : "text-black"
-                } p-2 rounded-l-full text-center px-4 flex items-center`}
+              className={`${
+                switchRadio === "Self Driven"
+                  ? "bg-black text-white"
+                  : "text-black"
+              } p-2 rounded-l-full text-center px-4 flex items-center`}
               onClick={() => setSwitchRadio("Self Driven")}
             >
               <input
@@ -1097,8 +1123,9 @@ export default function Home() {
               </label>
             </div>
             <div
-              className={`p-2 text-center px-4 flex items-center justify-center ${switchRadio === "Driver" ? "bg-black text-white" : "text-black"
-                }`}
+              className={`p-2 text-center px-4 flex items-center justify-center ${
+                switchRadio === "Driver" ? "bg-black text-white" : "text-black"
+              }`}
               onClick={() => setSwitchRadio("Driver")}
             >
               <input
@@ -1148,10 +1175,10 @@ export default function Home() {
             {radioToggle === "Local"
               ? "Pick-up location"
               : switchRadio === "Self Driven"
-                ? "Pick-up location"
-                : "Pick-up City"}
+              ? "Pick-up location"
+              : "Pick-up City"}
           </label>
-          <div className="border rounded-xl p-2 flex gap-2 mt-2">
+          <div className="border rounded-xl bg-[#FCFBFB] p-[4px] pl-2 flex gap-2 mt-2">
             <Image
               src={"/svg/location-gray.svg"}
               alt="location"
@@ -1161,7 +1188,7 @@ export default function Home() {
             <div className="w-full flex items-center">
               {!showMobileLocationPopup && (
                 <input
-                  className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                  className="bg-transparent px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
                   type="text"
                   placeholder="All City"
                   onClick={(e) => handleSelectMobilePopupLocation(e)}
@@ -1218,7 +1245,7 @@ export default function Home() {
               <label htmlFor="pickupDate" className="font-semibold">
                 Pickup date
               </label>
-              <div className="border rounded-xl p-2 flex items-center gap-2">
+              <div className="border bg-[#FCFBFB] rounded-xl p-2 flex items-center gap-2">
                 <Image
                   src={"/date.svg"}
                   alt="location"
@@ -1241,11 +1268,10 @@ export default function Home() {
                   // placeholderText="Select date and time"
                   // onKeyDown={(event) => event?.preventDefault()}
 
-
                   className="cursor-pointer border-0 datepickerinput"
                   selected={startDate}
-                  onChange={(date) =>
-                    hanldepickupTime(date)
+                  onChange={
+                    (date) => hanldepickupTime(date)
 
                     // (date) => setStartDate(date)
                   }
@@ -1292,7 +1318,7 @@ export default function Home() {
               <label htmlFor="dropoffDate" className="font-semibold">
                 Dropoff date
               </label>
-              <div className="border rounded-xl p-2 flex items-center gap-2">
+              <div className="border bg-[#FCFBFB] rounded-xl p-2 flex items-center gap-2">
                 <Image
                   src={"/date.svg"}
                   alt="location"
@@ -1315,28 +1341,48 @@ export default function Home() {
                   // placeholderText="Select date and time"
                   // onKeyDown={(event) => event?.preventDefault()}
 
-
-
                   className="cursor-pointer datepickerinput"
                   selected={dropDate}
-                  onChange={(date) => hanldedropoffTime(date)
-                  }
+                  onChange={(date) => hanldedropoffTime(date)}
                   showTimeSelect
                   filterTime={filterPassedTime}
                   dateFormat="MMMM d, yyyy h:mm aa"
                   placeholderText={"Enter Date & Time"}
-
                   onKeyDown={(event) => event?.preventDefault()}
                   minDate={new Date()}
                 />
               </div>
             </div>
           )}
+          {dropOffLocation && (
+                <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                  <div className="grid">
+                    <label
+                      htmlFor="dropoff"
+                      className="lg:text-xl text-md font-semibold"
+                    >
+                      Drop-off location
+                    </label>
+                    <input
+                      type="text"
+                      value={dropOffLocation}
+                      className="bg-[#FCFBFB] outline-none p-[8px]"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              )}
         </div>
         <div className="flex  flex-col items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
-          <strong onClick={(e) => handleDropSelectPopupLocation(e)} className="text-[#ff0000] cursor-pointer">Drop in different city?</strong> <br />
-          <strong>Duration :</strong> <p className="text-sm">{durationFormat}</p>
-
+          <strong
+            onClick={(e) => handleDropSelectPopupLocation(e)}
+            className="text-[#ff0000] cursor-pointer"
+          >
+            Drop in different city?
+          </strong>{" "}
+          <br />
+          <strong>Duration :</strong>{" "}
+          <p className="text-sm">{durationFormat}</p>
           {showDropLocationPopup && (
             <>
               <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
@@ -1375,8 +1421,8 @@ export default function Home() {
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
             onClick={() => saveLocationDataMobile()}
-          // rightArrowIcon
-          // image={"/svg/race.svg"}
+            // rightArrowIcon
+            // image={"/svg/race.svg"}
           />
         </div>
       </div>
@@ -1387,15 +1433,17 @@ export default function Home() {
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
-              } text-white rounded-l-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+              offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+            } text-white rounded-l-full cursor-pointer`}
             onClick={() => setOffer("Daily Offers")}
           >
             Daily Offers
           </div>
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
-              } text-white rounded-r-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+              offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+            } text-white rounded-r-full cursor-pointer`}
             onClick={() => setOffer("Monthly Offers")}
           >
             Monthly Offers
@@ -1464,8 +1512,9 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
-                  } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${
+                  index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
+                } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
@@ -1476,10 +1525,11 @@ export default function Home() {
                     alt="image"
                     width={62}
                     height={62}
-                    className={`${item?.imageUrl === "/svg/car-vector.svg"
-                      ? "w-[130px]"
-                      : "w-auto"
-                      } sm:h-[62px] h-[40px] m-auto mb-4`}
+                    className={`${
+                      item?.imageUrl === "/svg/car-vector.svg"
+                        ? "w-[130px]"
+                        : "w-auto"
+                    } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
                     <h3 className="font-semibold text-xl sm:leading-[26px] leading-none">

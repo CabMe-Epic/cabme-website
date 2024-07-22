@@ -15,7 +15,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-import { useEffect, useState } from "react";
 const BannerSlider = () => {
  
 
@@ -45,6 +44,7 @@ const BannerSlider = () => {
                   width={1650}
                   height={850}
                   className="w-full h-auto rounded-xl"
+                  priority
                 />
               </div>
             </SwiperSlide>
