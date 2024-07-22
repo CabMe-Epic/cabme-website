@@ -125,25 +125,18 @@ export default function Home() {
   };
 
   const saveLocationDataMobile = () => {
-    if (!mobileStartTime) {
+    if (!startDate) {
       alert("Please select the Pickup Time");
       return;
     }
 
-    if (!mobileEndTime) {
+    if (!dropDate) {
       alert("Please select the Drop Off Time");
       return;
     }
 
-    if (!mobileStartDate) {
-      alert("Please select the Pickup Date");
-      return;
-    }
+   
 
-    if (!mobileEndDate) {
-      alert("Please select the Drop Off Date");
-      return;
-    }
 
     const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
     const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
@@ -240,57 +233,7 @@ export default function Home() {
     localStorage.setItem("dropoffTime", dropoffTime);
   }
 
-  const handleStartDateTimeChange = (date: any) => {
-    if (date) {
-      setMobileStartDate(moment(date).format("YYYY-MM-DD") as any);
-      setMobileStartTime(moment(date).format("HH:mm") as any);
-      console.log(mobileStartDate, "lelo start date");
-      console.log(mobileStartTime, "lelo time");
-    } else {
-      setMobileStartDate(null);
-      setMobileStartTime(null);
-    }
-  };
-  const [duration, setDuration] = useState<any>();
-  const handleDateTimeChange = (date: any) => {
-    if (date) {
-      setMobileEndDate(moment(date).format("YYYY-MM-DD") as any);
-      setMobileEndTime(moment(date).format("HH:mm") as any);
-      console.log(mobileEndDate, "lelo end date");
-      console.log(mobileEndTime, "lelo end time");
-      if (mobileEndTime !== null) {
-        const pickupDateTime: any = new Date(
-          `${mobileStartDate?.split("-").join("-")}T${mobileStartTime}:00`
-        );
-        const droppingDateTime: any = new Date(
-          `${mobileEndDate?.split("-").join("-")}T${mobileEndTime}:00`
-        );
-        const diffInMs = Math.abs(droppingDateTime - pickupDateTime);
-        const diffInSeconds = Math.floor(diffInMs / 1000);
-        const days = Math.floor(diffInSeconds / (3600 * 24));
-        const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
-        // const minutes = Math.floor((diffInSeconds % 3600) / 60);
 
-        setDuration(`${days}days, ${hours}hours`);
-      }
-
-      console.log(duration, "durraa");
-    } else {
-      setMobileEndDate(null);
-      setMobileEndTime(null);
-    }
-  };
-
-  const handleDateChange = (date: any, setDate: any) => {
-    setDate(moment(date).format("YYYY-MM-DD"));
-  };
-  console.log(duration, "dura");
-  const handleTimeChange = (time: any, setTime: any) => {
-    setTime(moment(time).format("HH:mm"));
-  };
-
-  console.log(mobilestartCity, mobileStartDate, mobileStartTime, "mobile");
-  console.log(mobileEndCity, mobileEndDate, mobileEndTime, "mobilee");
 
   const [offer, setOffer] = useState("Daily Offers");
   console.log(switchRadio, "tabValue");
@@ -1283,20 +1226,35 @@ export default function Home() {
                   height={18}
                 />
                 <DatePicker
-                  selected={
-                    mobileStartDate
-                      ? moment(
-                        `${mobileStartDate} ${mobileStartTime}`,
-                        "YYYY-MM-DD HH:mm"
-                      ).toDate()
-                      : null
+                //mahadev
+                  // selected={
+                  //   mobileStartDate
+                  //     ? moment(
+                  //       `${mobileStartDate} ${mobileStartTime}`,
+                  //       "YYYY-MM-DD HH:mm"
+                  //     ).toDate()
+                  //     : null
+                  // }
+                  // onChange={handleStartDateTimeChange}
+                  // showTimeSelect
+                  // dateFormat="yyyy-MM-dd HH:mm"
+                  // placeholderText="Select date and time"
+                  // onKeyDown={(event) => event?.preventDefault()}
+
+
+                  className="cursor-pointer border-0 datepickerinput"
+                  selected={startDate}
+                  onChange={(date)=>
+                    hanldepickupTime(date)
+                      
+                    // (date) => setStartDate(date)
                   }
-                  onChange={handleStartDateTimeChange}
                   showTimeSelect
-                  dateFormat="yyyy-MM-dd HH:mm"
-                  placeholderText="Select date and time"
+                  filterTime={filterPassedTime}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  placeholderText="Enter Date & Time"
                   onKeyDown={(event) => event?.preventDefault()}
-                  minDate={moment().format('YYYY-MM-DD HH:mm') as any}
+                  minDate={new Date()}
                 />
               </div>
             </div>
@@ -1342,34 +1300,43 @@ export default function Home() {
                   height={18}
                 />
                 <DatePicker
-                  selected={
-                    mobileEndDate
-                      ? moment(
-                        `${mobileEndDate} ${mobileEndTime}`,
-                        "YYYY-MM-DD HH:mm"
-                      ).toDate()
-                      : null
-                  }
-                  onChange={handleDateTimeChange}
-                  showTimeSelect
-                  dateFormat="yyyy-MM-dd HH:mm"
-                  placeholderText="Select date and time"
-                  onKeyDown={(event) => event?.preventDefault()}
-                  minDate={mobileStartDate || moment().format('YYYY-MM-DD HH:mm') as any}
+                  // selected={
+                  //   mobileEndDate
+                  //     ? moment(
+                  //       `${mobileEndDate} ${mobileEndTime}`,
+                  //       "YYYY-MM-DD HH:mm"
+                  //     ).toDate()
+                  //     : null
+                  // }
+                  
+                  // onChange={handleDateTimeChange}
+                  // showTimeSelect
+                  // dateFormat="yyyy-MM-dd HH:mm"
+                  // placeholderText="Select date and time"
+                  // onKeyDown={(event) => event?.preventDefault()}
+
+
+
+                  className="cursor-pointer datepickerinput"
+                            selected={dropDate}
+                            onChange={(date) => hanldedropoffTime(date)
+                            }
+                            showTimeSelect
+                            filterTime={filterPassedTime}
+                            dateFormat="MMMM d, yyyy h:mm aa"
+                            placeholderText={"Enter Date & Time"}
+
+                            onKeyDown={(event) => event?.preventDefault()}
+                            minDate={new Date()}
                 />
               </div>
             </div>
           )}
         </div>
         <div className="flex  flex-col items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
-          <strong
-            onClick={(e) => handleDropSelectPopupLocation(e)}
-            className="text-[#ff0000] cursor-pointer"
-          >
-            Drop in different city?
-          </strong>{" "}
-          <br />
-          <strong>Duration :</strong> <p className="text-sm">{duration}</p>
+          <strong onClick={(e) => handleDropSelectPopupLocation(e)} className="text-[#ff0000] cursor-pointer">Drop in different city?</strong> <br />
+          <strong>Duration :</strong> <p className="text-sm">{durationFormat}</p>
+
           {showDropLocationPopup && (
             <>
               <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">

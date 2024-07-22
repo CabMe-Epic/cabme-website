@@ -61,26 +61,29 @@ const Header = () => {
           </Link>
           {/* <ThemeButton text="Sign In" /> */}
         </div>
-        <div
-          className="sm:hidden block"
-          onClick={() => setMobileMenu(!mobileMenu)}
-        >
-          <Image
-            src={mobileMenu === true ? "/svg/close-red.svg" : "/svg/nav.svg"}
-            alt="nav"
-            width={26}
-            height={26}
-          />
-          {mobileMenu && (
-            <div className="fixed top-14 right-0 z-[99]">
-              <div className=" z-[10] right-0 bg-white w-[200px] px-4 pb-4 h-[100vh] border-b">
-                <p className="text-sm mb-4">About Us</p>
-                <p className="text-sm mb-4">Contact Us</p>
-                <p className="text-sm">Blog</p>
-              </div>
-            </div>
-          )}
-        </div>
+        {url==="/check-out" ? "" :
+         <div
+         className="sm:hidden block"
+         onClick={() => setMobileMenu(!mobileMenu)}
+       >
+         <Image
+           src={mobileMenu === true ? "/svg/close-red.svg" : "/svg/nav.svg"}
+           alt="nav"
+           width={26}
+           height={26}
+         />
+         {mobileMenu && (
+           <div className="fixed top-14 right-0 z-[99]">
+             <div className=" z-[10] right-0 bg-white w-[200px] px-4 pb-4 h-[100vh] border-b">
+               <p className="text-sm mb-4">About Us</p>
+               <p className="text-sm mb-4">Contact Us</p>
+               <p className="text-sm">Blog</p>
+             </div>
+           </div>
+         )}
+       </div>
+        }
+       
       </div>
     </>
   );
