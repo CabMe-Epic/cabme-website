@@ -28,7 +28,7 @@ const BookingDetailsCard = ({ city }: any) => {
     const days = Math.floor(diffInSeconds / (3600 * 24));
     const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
     const minutes = Math.floor((diffInSeconds % 3600) / 60);
-    setDuration(`${days}days, ${hours}hours, ${minutes}minutes`);
+    setDuration(`${days} days ${hours} hours ${minutes} minutes`);
   }, [dropoffDate, dropoffTime, pickupDate, pickupTime])
 
   // console.log({ duration })
