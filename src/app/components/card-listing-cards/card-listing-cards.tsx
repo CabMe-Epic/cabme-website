@@ -69,34 +69,49 @@ const CardListingCards = ({ data }: any) => {
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
+  const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
 
 
   return (
     <>
       {showImg ? (
-        <div className=" w-[100%] sm:w-screen h-[100vh] fixed !top-0 !left-0 backdrop-blur-xl	 z-20 flex justify-center items-center overflow-hidden">
+        // backdrop-blur-xl
+        <div className="w-[100%] sm:w-screen h-[100vh] fixed !top-0 !left-0   backdrop-blur-md z-[999] flex justify-center items-center overflow-hidden ">
           <div
             onClick={() => setShowImg(!showImg)}
-            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 "
+            className="absolute top-20 right-1 transform -translate-x-1/2 "
           >
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
-          <div className="overflow-auto   sm:flex sm:w-[80%] sm:justify-start sm:items-center h-[70%] overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
-            {data?.imageGallery?.map((item: any, index: number) => {
-              console.log(item?.image, "url");
-              return (
-                <Image
-                  src={item?.image}
-                  key={index}
-                  width={500}
-                  objectFit={"contain"}
-                  height={500}
-                  className="bg-white m-10 cursor-pointer drop-shadow h-[300px] w-[300px] object-contain rounded-xl"
-                  alt="Tag Icon"
-                />
-              );
-            })}
+          <div className="flex flex-col items-center ">
+            <Image
+              src={currentImage}
+              key={data?.featuredImage?.alt}
+              width={800}
+              objectFit={"contain"}
+              height={600}
+              className="bg-white m-10 shadow-xl cursor-pointer  transition-all h-[400px] w-[700px] object-cover rounded-xl"
+              alt="Tag Icon"
+            />
+            <div className=" sm:flex sm:w-[100%] h-[70%] sm:justify-center sm:items-start gap-0 overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
+              {data?.imageGallery?.map((item: any, index: number) => {
+                console.log(item?.image, "url");
+                return (
+                  <Image
+                    src={item?.image}
+                    key={index}
+                    width={200}
+                    height={200}
+                    onClick={() => setCurrentImage(item?.image)}
+                    className="bg-white m-2 cursor-pointer hover:scale-[110%] duration-75 transition-all hover:shadow-xl gap-0 h-[160px] w-[160px] object-cover rounded-xl"
+                    alt="Tag Icon"
+                  />
+                );
+              })}
+            </div>
           </div>
+
+
         </div>
       ) : (
         ""
@@ -189,8 +204,8 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
                           <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
-                             {data?.bookingOptions?.selfDrive?.packageType
-                                ?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
+                            {data?.bookingOptions?.selfDrive?.packageType
+                              ?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit : "0"} Free kms
                           </p>
                         </span>
@@ -227,7 +242,7 @@ const CardListingCards = ({ data }: any) => {
                           <hr className="border-[#000000] border-[1.2px]" />
                           <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
                             {data?.bookingOptions?.selfDrive?.packageType
-                                ?.package2?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
+                              ?.package2?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.kmsLimit : "0"} Free kms
                           </p>
                         </span>
@@ -265,7 +280,7 @@ const CardListingCards = ({ data }: any) => {
                           <hr className="border-[#000000] border-[1.2px]" />
                           <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
                             {data?.bookingOptions?.selfDrive?.packageType
-                                ?.package3?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
+                              ?.package3?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.kmsLimit : "0"} Free kms
                           </p>
                         </span>
@@ -491,7 +506,7 @@ const CardListingCards = ({ data }: any) => {
                         <hr className="border-[#000000] border-[1.2px]" />
                         <p className="text-[#FF0000] font-[500] text-[14px]">
                           {data?.bookingOptions?.subscription?.packageType
-                              ?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
+                            ?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit : "0"} Free kms
                         </p>
                       </span>
@@ -522,7 +537,7 @@ const CardListingCards = ({ data }: any) => {
                         <hr className="border-[#000000] border-[1.2px]" />
                         <p className="text-[#FF0000] font-[500] text-[14px]">
                           {data?.bookingOptions?.subscription?.packageType
-                              ?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
+                            ?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit : "0"} Free kms
                         </p>
                       </span>
@@ -553,7 +568,7 @@ const CardListingCards = ({ data }: any) => {
                         <hr className="border-[#000000] border-[1.2px]" />
                         <p className="text-[#FF0000] font-[500] text-[14px]">
                           {data?.bookingOptions?.subscription?.packageType
-                              ?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
+                            ?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit : "0"} Free kms
                         </p>
                       </span>
@@ -764,7 +779,7 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px]" />
                               <p className="text-[#FF0000] font-[500] text-[14px]">
                                 {data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package1?.kmsLimit : "0"} Free kms
                               </p>
                             </span>
@@ -795,7 +810,7 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px]" />
                               <p className="text-[#FF0000] font-[500] text-[14px]">
                                 {data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package2?.kmsLimit : "0"} Free kms
                               </p>
                             </span>
@@ -826,7 +841,7 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px]" />
                               <p className="text-[#FF0000] font-[500] text-[14px]">
                                 {data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package3?.kmsLimit : "0"} Free kms
                               </p>
                             </span>
@@ -1495,8 +1510,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1537,8 +1552,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1578,8 +1593,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package3
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                 </div>
@@ -1848,8 +1863,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1875,8 +1890,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1902,8 +1917,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package3
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                 </div>
@@ -2162,8 +2177,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -2189,8 +2204,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -2216,8 +2231,8 @@ const CardListingCards = ({ data }: any) => {
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package3
-                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
-                          ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
+                        ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                 </div>

@@ -20,8 +20,6 @@ const CarListing = () => {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
 
-
-
   // const { vehicles, loading, error } = useVehicles();
   // console.log("vehicles", vehicles);
 
