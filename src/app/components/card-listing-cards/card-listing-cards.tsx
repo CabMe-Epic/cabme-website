@@ -107,23 +107,23 @@ const CardListingCards = ({ data }: any) => {
             <Image
               src={currentImage}
               key={data?.featuredImage?.alt}
-              width={800}
+              width={330}
               objectFit={"contain"}
-              height={600}
-              className="bg-white m-10 shadow-xl cursor-pointer  transition-all h-[400px] w-[700px] object-cover rounded-xl"
+              height={300}
+              className="bg-white m-10 shadow-xl cursor-pointer  transition-all sm:h-[400px] sm:w-[700px] object-cover rounded-xl"
               alt="Tag Icon"
             />
-            <div className=" sm:flex sm:w-[100%] overflow-x-auto h-[70%] sm:justify-center sm:items-start gap-0 overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
+            <div className="flex sm:flex w-[95%] sm:w-[100%] overflow-x-auto h-[70%] sm:justify-center sm:items-start gap-0  overflowX-auto sm:overflowY-hidden">
               {data?.imageGallery?.map((item: any, index: number) => {
                 console.log(item?.image, "url");
                 return (
                   <Image
                     src={item?.image}
                     key={index}
-                    width={200}
-                    height={200}
+                    width={100}
+                    height={100}
                     onClick={() => setCurrentImage(item?.image)}
-                    className="bg-white m-2 cursor-pointer hover:scale-[110%] duration-75 transition-all hover:shadow-xl gap-0 h-[160px] w-[160px] object-cover rounded-xl"
+                    className="bg-white m-2 cursor-pointer hover:scale-[110%] duration-75 transition-all hover:shadow-xl gap-0 sm:h-[160px] sm:w-[160px] object-cover rounded-xl"
                     alt={item?.alt}
                   />
                 );

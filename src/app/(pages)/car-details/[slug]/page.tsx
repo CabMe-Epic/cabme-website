@@ -473,21 +473,21 @@ const CarDetails = () => {
                 </div>
                 <div className="my-5 flex justify-between w-full px-8">
                   <span className="font-semibold ml-2">Package Name</span>
-                  <select 
+                  <select
                     name="package"
                     id="package"
                     className="cursor-pointer w-[160px] p-2 rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
                   >
-                    <option  value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
+                    <option value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
                     <option value={currentPackage?.package1?.price}>
-                    ₹{currentPackage?.package1?.price}
+                      ₹{currentPackage?.package1?.price}
                     </option>
                     <option value={currentPackage?.package2?.price}>
-                    ₹{currentPackage?.package2?.price}
+                      ₹{currentPackage?.package2?.price}
                     </option>
                     <option value={currentPackage?.package3?.price}>
-                    ₹{currentPackage?.package3?.price}
+                      ₹{currentPackage?.package3?.price}
                     </option>
                   </select>
                 </div>
