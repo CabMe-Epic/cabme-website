@@ -189,7 +189,9 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
                           <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
-                            360 Free kms
+                             {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.kmsLimit : "0"} Free kms
                           </p>
                         </span>
                       </div>
@@ -224,7 +226,9 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
                           <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
-                            360 Free kms
+                            {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.kmsLimit : "0"} Free kms
                           </p>
                         </span>
                       </div>
@@ -260,7 +264,9 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
                           <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
-                            360 Free kms
+                            {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.kmsLimit : "0"} Free kms
                           </p>
                         </span>
                       </div>
@@ -484,7 +490,9 @@ const CardListingCards = ({ data }: any) => {
                         </p>
                         <hr className="border-[#000000] border-[1.2px]" />
                         <p className="text-[#FF0000] font-[500] text-[14px]">
-                          360 Free kms
+                          {data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.kmsLimit : "0"} Free kms
                         </p>
                       </span>
                     </div>
@@ -513,7 +521,9 @@ const CardListingCards = ({ data }: any) => {
                         </p>
                         <hr className="border-[#000000] border-[1.2px]" />
                         <p className="text-[#FF0000] font-[500] text-[14px]">
-                          360 Free kms
+                          {data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.kmsLimit : "0"} Free kms
                         </p>
                       </span>
                     </div>
@@ -542,7 +552,9 @@ const CardListingCards = ({ data }: any) => {
                         </p>
                         <hr className="border-[#000000] border-[1.2px]" />
                         <p className="text-[#FF0000] font-[500] text-[14px]">
-                          360 Free kms
+                          {data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.kmsLimit : "0"} Free kms
                         </p>
                       </span>
                     </div>
@@ -751,7 +763,9 @@ const CardListingCards = ({ data }: any) => {
                               </p>
                               <hr className="border-[#000000] border-[1.2px]" />
                               <p className="text-[#FF0000] font-[500] text-[14px]">
-                                360 Free kms
+                                {data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package1?.kmsLimit : "0"} Free kms
                               </p>
                             </span>
                           </div>
@@ -780,7 +794,9 @@ const CardListingCards = ({ data }: any) => {
                               </p>
                               <hr className="border-[#000000] border-[1.2px]" />
                               <p className="text-[#FF0000] font-[500] text-[14px]">
-                                360 Free kms
+                                {data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package2?.kmsLimit : "0"} Free kms
                               </p>
                             </span>
                           </div>
@@ -809,7 +825,9 @@ const CardListingCards = ({ data }: any) => {
                               </p>
                               <hr className="border-[#000000] border-[1.2px]" />
                               <p className="text-[#FF0000] font-[500] text-[14px]">
-                                360 Free kms
+                                {data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package3?.kmsLimit : "0"} Free kms
                               </p>
                             </span>
                           </div>
@@ -1476,7 +1494,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1516,7 +1536,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1555,7 +1577,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                 </div>
@@ -1823,7 +1847,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1848,7 +1874,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1873,7 +1901,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                 </div>
@@ -2131,7 +2161,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -2156,7 +2188,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -2181,7 +2215,9 @@ const CardListingCards = ({ data }: any) => {
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      360 Free kms
+                      {data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
+                          ?.kmsLimit : "0"} Free kms
                     </p>
                   </div>
                 </div>
