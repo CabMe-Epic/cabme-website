@@ -18,7 +18,6 @@ import BannerSlider from "./components/banner-slider/banner-slider";
 import SelectOption from "./components/new-drop-down/new-drop-down";
 import City from "./components/city-selection/city-selection";
 
-
 export default function Home() {
   // const [startDate, setStartDate] = useState(
   //   setHours(setMinutes(new Date(), 0), 9),
@@ -74,8 +73,6 @@ export default function Home() {
   const handleDropOffLocation = (event: any) => {
     setDropoffLocation(event);
   };
-
-
 
   console.log(pickupLocation, "213 pickup location");
   console.log(dropOffLocation, "213 dropOff location");
@@ -256,36 +253,36 @@ export default function Home() {
   console.log("durationFormat", { durationFormat });
 
   const [selectedCity, setSelectedCity] = useState("");
-  const [selectedMobileCity, setSelectedMobileCity] = useState("")
+  const [selectedMobileCity, setSelectedMobileCity] = useState("");
   const [dropSelectedCity, setDropSelectedCity] = useState("");
   const [dropSelectedMobileCity, setDropSelectedMobileCity] = useState("");
 
   const handleCityClick = (cityName: any) => {
     setSelectedCity(cityName);
     // setPickupLocation(cityName);
-    handlePickupLocation(cityName)
+    handlePickupLocation(cityName);
     // setShowLocationPopup(false);
   };
   const handleMobileCityClick = (cityName: any) => {
     setSelectedMobileCity(cityName);
     // setPickupLocation(cityName);
-    handlePickupLocation(cityName)
+    handlePickupLocation(cityName);
     // setShowLocationPopup(false);
   };
 
   const handleDropOffCity = (cityName: any) => {
     setDropSelectedCity(cityName);
     // setDropoffLocation(cityName);
-    handleDropOffLocation(cityName)
+    handleDropOffLocation(cityName);
     // setShowDropLocationPopup(false);
-  }
+  };
 
   const handleDropOffMobileCity = (cityName: any) => {
     setDropSelectedMobileCity(cityName);
     // setDropoffLocation(cityName);
-    handleDropOffLocation(cityName)
+    handleDropOffLocation(cityName);
     // setShowDropLocationPopup(false);
-  }
+  };
 
   console.log(selectedCity, "selectedCity");
 
@@ -400,14 +397,26 @@ export default function Home() {
                               />
 
                               <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                  <Image
+                                    src={"/svg/close-red.svg"}
+                                    alt="nav"
+                                    width={26}
+                                    height={26}
+                                    className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                    onClick={() => setShowLocationPopup(false)}
+                                  />
                                   <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
                                     {cities?.map((city: any, index: number) => (
                                       <div key={index}>
                                         <City
                                           city={city}
-                                          isSelected={selectedCity === city.name}
-                                          onClick={() => handleCityClick(city.name)}
+                                          isSelected={
+                                            selectedCity === city.name
+                                          }
+                                          onClick={() =>
+                                            handleCityClick(city.name)
+                                          }
                                         />
                                       </div>
                                     ))}
@@ -432,7 +441,6 @@ export default function Home() {
                               readOnly // Prevent editing directly
                             />
                           )}
-
 
                           {item?.id === "date" && (
                             <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
@@ -468,15 +476,24 @@ export default function Home() {
                                   item?.heading === "Pick Up Date"
                                     ? (date) => hanldepickupTime(date)
                                     : (date) => hanldedropoffTime(date)
-                                  // (date) => setStartDate(date)
                                 }
                                 showTimeSelect
                                 filterTime={filterPassedTime}
                                 dateFormat="MMMM d, yyyy h:mm aa"
                                 placeholderText="Enter Date & Time"
                                 onKeyDown={(event) => event?.preventDefault()}
-                                minDate={new Date()}
+                                minDate={
+                                  item?.heading === "Pick Up Date"
+                                    ? new Date() // For pickup date, prevent selecting past dates
+                                    : startDate ? new Date(startDate) : new Date() // For drop-off date, prevent selecting before pickup date
+                                }
+                                maxDate={
+                                  item?.heading === "Pick Up Date"
+                                    ? dropDate || null // For pickup date, prevent selecting after drop-off date
+                                    : null // For drop-off date, no upper limit unless specified
+                                }
                               />
+
                             </div>
                           )}
                         </div>
@@ -487,7 +504,7 @@ export default function Home() {
                   <div>
                     <ThemeButton
                       text="Search"
-                      className="px-8 !py-[10px] relative right-6 ml-4 ml-4"
+                      className="px-8 !py-[10px] relative right-6 ml-4"
                       onClick={() => saveLocationData()}
                     />
                   </div>
@@ -571,14 +588,24 @@ export default function Home() {
                                   item?.heading === "Pick Up Date"
                                     ? (date) => hanldepickupTime(date)
                                     : (date) => hanldedropoffTime(date)
-                                  // (date) => setStartDate(date)
                                 }
                                 showTimeSelect
                                 filterTime={filterPassedTime}
                                 dateFormat="MMMM d, yyyy h:mm aa"
                                 placeholderText="Enter Date & Time"
                                 onKeyDown={(event) => event?.preventDefault()}
+                                minDate={
+                                  item?.heading === "Pick Up Date"
+                                    ? new Date() // For pickup date, start from today or any other logic
+                                    : startDate ? new Date(startDate) : new Date() // For drop-off date, start from pickup date
+                                }
+                                maxDate={
+                                  item?.heading === "Pick Up Date"
+                                    ? dropDate || null // For pickup date, cannot select after drop-off date
+                                    : null // For drop-off date, no upper limit unless specified
+                                }
                               />
+
                             </div>
                           )}
                         </div>
@@ -594,8 +621,6 @@ export default function Home() {
                     />
                   </div>
                 </div>
-
-
               )}
               {durationFormat && (
                 <div className="w-fit m-auto">
@@ -605,22 +630,29 @@ export default function Home() {
                       <span className="font-[400]"> {durationFormat} </span>
                     </h3>
                   </div>
-
-
-
                 </div>
               )}
-              <div onClick={(e) => handleDropSelectPopupLocation(e)}
-                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+              <div
+                onClick={(e) => handleDropSelectPopupLocation(e)}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"
+                  }`}
+              >
                 Drop in different city?
               </div>
 
               {showDropLocationPopup && (
                 <>
-
                   <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
-                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                      <Image
+                        src={"/svg/close-red.svg"}
+                        alt="nav"
+                        width={26}
+                        height={26}
+                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                        onClick={() => setShowDropLocationPopup(false)}
+                      />
+                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4 ">
                         {cities?.map((city: any, index: number) => (
                           <div key={index}>
                             <City
@@ -640,7 +672,6 @@ export default function Home() {
                   </div>
                 </>
               )}
-
             </div>
           </>
         )}
@@ -680,14 +711,24 @@ export default function Home() {
                             />
 
                             <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                              <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                              <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                <Image
+                                  src={"/svg/close-red.svg"}
+                                  alt="nav"
+                                  width={26}
+                                  height={26}
+                                  className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                  onClick={() => setShowLocationPopup(false)}
+                                />
                                 <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
                                   {cities?.map((city: any, index: number) => (
                                     <div key={index}>
                                       <City
                                         city={city}
                                         isSelected={selectedCity === city.name}
-                                        onClick={() => handleCityClick(city.name)}
+                                        onClick={() =>
+                                          handleCityClick(city.name)
+                                        }
                                       />
                                     </div>
                                   ))}
@@ -746,14 +787,24 @@ export default function Home() {
                                 item?.heading === "Pick Up Date"
                                   ? (date) => hanldepickupTime(date)
                                   : (date) => hanldedropoffTime(date)
-                                // (date) => setStartDate(date)
                               }
                               showTimeSelect
                               filterTime={filterPassedTime}
                               dateFormat="MMMM d, yyyy h:mm aa"
                               placeholderText="Enter Date & Time"
                               onKeyDown={(event) => event?.preventDefault()}
-                              minDate={new Date()}
+                              minDate={
+                                item?.heading === "Pick Up Date"
+                                  ? new Date() // or any custom logic for minDate
+                                  : startDate
+                                    ? new Date(startDate)
+                                    : new Date() // prevent selecting before pickup date
+                              }
+                              maxDate={
+                                item?.heading === "Pick Up Date"
+                                  ? dropDate || null // prevent selecting after drop-off date
+                                  : null
+                              }
                             />
                           </div>
                         )}
@@ -779,16 +830,26 @@ export default function Home() {
                   </div>
                 </div>
               )}
-              <div onClick={(e) => handleDropSelectPopupLocation(e)}
-                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+              <div
+                onClick={(e) => handleDropSelectPopupLocation(e)}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"
+                  }`}
+              >
                 Drop in different city?
               </div>
 
               {showDropLocationPopup && (
                 <>
-
                   <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                      <Image
+                        src={"/svg/close-red.svg"}
+                        alt="nav"
+                        width={26}
+                        height={26}
+                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                        onClick={() => setShowDropLocationPopup(false)}
+                      />
                       <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
                         {cities?.map((city: any, index: number) => (
                           <div key={index}>
@@ -846,7 +907,15 @@ export default function Home() {
                           />
 
                           <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                            <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                            <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                              <Image
+                                src={"/svg/close-red.svg"}
+                                alt="nav"
+                                width={26}
+                                height={26}
+                                className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                onClick={() => setShowLocationPopup(false)}
+                              />
                               <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
                                 {cities?.map((city: any, index: number) => (
                                   <div key={index}>
@@ -915,7 +984,6 @@ export default function Home() {
                               item?.heading === "Pick Up Date"
                                 ? (date) => hanldepickupTime(date)
                                 : (date) => hanldedropoffTime(date)
-                              // (date) => setStartDate(date)
                             }
                             showTimeSelect
                             filterTime={filterPassedTime}
@@ -927,9 +995,19 @@ export default function Home() {
                                   ? "Enter Date & Time"
                                   : ""
                             }
-
                             onKeyDown={(event) => event?.preventDefault()}
-                            minDate={new Date()}
+                            minDate={
+                              item?.heading === "Pick Up Date"
+                                ? new Date() // Or any other logic to set minDate for pickup
+                                : startDate
+                                  ? new Date(startDate)
+                                  : new Date() // Prevent selection before pickup date for drop-off
+                            }
+                            maxDate={
+                              item?.heading === "Pick Up Date"
+                                ? dropDate // Prevent selection after drop-off date for pickup
+                                : null
+                            }
                           />
                         </div>
                       )}
@@ -956,16 +1034,26 @@ export default function Home() {
                 </div>
               </div>
             )}
-            <div onClick={(e) => handleDropSelectPopupLocation(e)}
-              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"}`}>
+            <div
+              onClick={(e) => handleDropSelectPopupLocation(e)}
+              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-0" : "mt-5"
+                }`}
+            >
               Drop in different city?
             </div>
 
             {showDropLocationPopup && (
               <>
-
                 <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                    <Image
+                      src={"/svg/close-red.svg"}
+                      alt="nav"
+                      width={26}
+                      height={26}
+                      className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                      onClick={() => setShowDropLocationPopup(false)}
+                    />
                     <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
                       {cities?.map((city: any, index: number) => (
                         <div key={index}>
@@ -1113,39 +1201,49 @@ export default function Home() {
                   readOnly // Prevent editing directly
                 />
               )}
-              {showMobileLocationPopup && <>
-                <input
-                  className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                  type="text"
-                  placeholder="All City"
-                  onClick={(e) => handleSelectMobilePopupLocation(e)}
-                  value={selectedCity}
-                  readOnly // Prevent editing directly
-                />
+              {showMobileLocationPopup && (
+                <>
+                  <input
+                    className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                    type="text"
+                    placeholder="All City"
+                    onClick={(e) => handleSelectMobilePopupLocation(e)}
+                    value={selectedCity}
+                    readOnly // Prevent editing directly
+                  />
 
-                <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
-                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1">
-                      {cities?.map((city: any, index: number) => (
-                        <div key={index}>
-                          <City
-                            city={city}
-                            isSelected={selectedMobileCity === city.name}
-                            onClick={() => handleMobileCityClick(city.name)}
-                          />
-                        </div>
-                      ))}
+                  <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                      <Image
+                        src={"/svg/close-red.svg"}
+                        alt="nav"
+                        width={26}
+                        height={26}
+                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                        onClick={() => setShowMobileLocationPopup(false)}
+                      />
+
+                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1 overflow-auto mb-2 no-scrollbar max-h-[300px]">
+                        {cities?.map((city: any, index: number) => (
+                          <div key={index}>
+                            <City
+                              city={city}
+                              isSelected={selectedMobileCity === city.name}
+                              onClick={() => handleMobileCityClick(city.name)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <ThemeButton
+                        onClick={() => setShowMobileLocationPopup(false)}
+                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                        text="continue"
+                      />
                     </div>
-                    <ThemeButton
-                      onClick={() => setShowMobileLocationPopup(false)}
-                      className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                      text="continue"
-                    />
                   </div>
-                </div>
-              </>}
+                </>
+              )}
             </div>
-
           </div>
           {mobilestartCity !== "" && (
             <div className="mt-2">
@@ -1272,30 +1370,37 @@ export default function Home() {
           <strong>Duration :</strong> <p className="text-sm">{durationFormat}</p>
 
           {showDropLocationPopup && (
-                <>
-
-                  <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
-                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1">
-                        {cities?.map((city: any, index: number) => (
-                          <div key={index}>
-                            <City
-                              city={city}
-                              isSelected={dropSelectedMobileCity === city.name}
-                              onClick={() => handleDropOffMobileCity(city.name)}
-                            />
-                          </div>
-                        ))}
+            <>
+              <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                  <Image
+                    src={"/svg/close-red.svg"}
+                    alt="nav"
+                    width={26}
+                    height={26}
+                    className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                    onClick={() => setShowDropLocationPopup(false)}
+                  />
+                  <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1 overflow-auto mb-2 no-scrollbar max-h-[300px] ">
+                    {cities?.map((city: any, index: number) => (
+                      <div key={index}>
+                        <City
+                          city={city}
+                          isSelected={dropSelectedMobileCity === city.name}
+                          onClick={() => handleDropOffMobileCity(city.name)}
+                        />
                       </div>
-                      <ThemeButton
-                        onClick={() => setShowDropLocationPopup(false)}
-                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                        text="continue"
-                      />
-                    </div>
+                    ))}
                   </div>
-                </>
-              )}
+                  <ThemeButton
+                    onClick={() => setShowDropLocationPopup(false)}
+                    className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                    text="continue"
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton

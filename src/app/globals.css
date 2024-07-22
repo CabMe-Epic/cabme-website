@@ -170,13 +170,13 @@
   border: 0 !important;
   margin-top: 10px !important;
   /* margin-left: 50px !important; */
-  z-index: 999 !important;
+  z-index: 998 !important;
 }
 
 .datepickerinput {
   border: 0 !important;
   outline: 0;
-  z-index: 999 !important;
+  z-index: 998 !important;
 }
 
 .react-datepicker-wrapper input {
@@ -258,4 +258,12 @@
 
 .no-scroll {
   overflow: hidden;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
