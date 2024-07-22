@@ -1220,8 +1220,8 @@ const CarListing = () => {
                   {dateOnly === pickUpDate && (
                     <CardListingCards key={`card-date-${item.id}`} data={item} />
                   )}
-                  {cardCount % 2 === 0 && <CardListingBanner count={cardCount}  />}
-           
+                  {cardCount % 2 === 0 && <CardListingBanner count={cardCount} />}
+
                 </div>
               );
             })}

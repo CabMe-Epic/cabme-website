@@ -135,7 +135,7 @@ export default function Home() {
       return;
     }
 
-   
+
 
 
     const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
@@ -647,7 +647,7 @@ export default function Home() {
 
         {tabValue === "Subscription" && (
           <>
-            <div className="grid z-50"> 
+            <div className="grid z-50">
               <div className="flex items-center mt-6 w-full">
                 {outstation?.map((item, index) => {
                   return (
@@ -1226,7 +1226,7 @@ export default function Home() {
                   height={18}
                 />
                 <DatePicker
-                //mahadev
+                  //mahadev
                   // selected={
                   //   mobileStartDate
                   //     ? moment(
@@ -1244,9 +1244,9 @@ export default function Home() {
 
                   className="cursor-pointer border-0 datepickerinput"
                   selected={startDate}
-                  onChange={(date)=>
+                  onChange={(date) =>
                     hanldepickupTime(date)
-                      
+
                     // (date) => setStartDate(date)
                   }
                   showTimeSelect
@@ -1308,7 +1308,7 @@ export default function Home() {
                   //     ).toDate()
                   //     : null
                   // }
-                  
+
                   // onChange={handleDateTimeChange}
                   // showTimeSelect
                   // dateFormat="yyyy-MM-dd HH:mm"
@@ -1318,16 +1318,16 @@ export default function Home() {
 
 
                   className="cursor-pointer datepickerinput"
-                            selected={dropDate}
-                            onChange={(date) => hanldedropoffTime(date)
-                            }
-                            showTimeSelect
-                            filterTime={filterPassedTime}
-                            dateFormat="MMMM d, yyyy h:mm aa"
-                            placeholderText={"Enter Date & Time"}
+                  selected={dropDate}
+                  onChange={(date) => hanldedropoffTime(date)
+                  }
+                  showTimeSelect
+                  filterTime={filterPassedTime}
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  placeholderText={"Enter Date & Time"}
 
-                            onKeyDown={(event) => event?.preventDefault()}
-                            minDate={new Date()}
+                  onKeyDown={(event) => event?.preventDefault()}
+                  minDate={new Date()}
                 />
               </div>
             </div>
