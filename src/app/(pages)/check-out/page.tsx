@@ -415,7 +415,7 @@ const Checkout = () => {
             {/*-------------------------------------------------------- section one start */}
             <div className="h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
               <h6 className="text-[12px] font-bold" style={{ color: 'red' }}>{otp ? "" : errorMessage}</h6>
-              <h2 className="text-[20px] font-semibold">1. Start Your Order</h2>
+              <h2 className="sm:text-[20px] text-lg font-semibold">1. Start Your Order</h2>
               {one ? (
                 <div>
                   <div className="mt-4 sm:flex gap-6 items-center">
@@ -433,7 +433,7 @@ const Checkout = () => {
                       </div>
                     ) : (
                       <button
-                        className="w-[209px] font-semibold h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all sm:mt-0 mt-4"
+                        className="w-[209px] font-semibold sm:h-[55px] h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all sm:mt-0 mt-4"
                         onClick={handleSendOtp}
                       >
                         Generate OTP
@@ -467,7 +467,7 @@ const Checkout = () => {
             {/*-------------------------------------------------------- section one end */}
             {/*-------------------------------------------------------- section two start */}
             <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-              <h2 className="text-[20px] font-semibold">2. About you</h2>
+              <h2 className="sm:text-[20px] text-lg font-semibold">2. About you</h2>
               {!two ? (
                 <div>
                   <div className="mt-4 flex gap-10 items-center">
@@ -540,7 +540,7 @@ const Checkout = () => {
             {/*-------------------------------------------------------- section two end */}
             {/*-------------------------------------------------------- section three start */}
             <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-              <h2 className="text-[20px] font-semibold">3. KYC Verification</h2>
+              <h2 className="sm:text-[20px] text-lg font-semibold">3. KYC Verification</h2>
               {!three ? (
                 <div>
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
