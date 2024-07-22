@@ -11,6 +11,26 @@ import { calculatePrice } from "@/app/utils/calculatePrice ";
 import useReservationDateTime from "@../../../networkRequests/hooks/useReservationDateTime";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 
+
+const Tooltip = ({ children, tooltipText }: any) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  return (
+    <div
+      className="tooltip-container"
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+    >
+      {children}
+      {showTooltip && (
+        <div className="tooltip-text">
+          {tooltipText}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
 
@@ -93,7 +113,7 @@ const CardListingCards = ({ data }: any) => {
               className="bg-white m-10 shadow-xl cursor-pointer  transition-all h-[400px] w-[700px] object-cover rounded-xl"
               alt="Tag Icon"
             />
-            <div className=" sm:flex sm:w-[100%] h-[70%] sm:justify-center sm:items-start gap-0 overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
+            <div className=" sm:flex sm:w-[100%] overflow-x-auto h-[70%] sm:justify-center sm:items-start gap-0 overflowX-hidden sm:overflowX-auto sm:overflowY-hidden">
               {data?.imageGallery?.map((item: any, index: number) => {
                 console.log(item?.image, "url");
                 return (
@@ -104,7 +124,7 @@ const CardListingCards = ({ data }: any) => {
                     height={200}
                     onClick={() => setCurrentImage(item?.image)}
                     className="bg-white m-2 cursor-pointer hover:scale-[110%] duration-75 transition-all hover:shadow-xl gap-0 h-[160px] w-[160px] object-cover rounded-xl"
-                    alt="Tag Icon"
+                    alt={item?.alt}
                   />
                 );
               })}
@@ -331,7 +351,7 @@ const CardListingCards = ({ data }: any) => {
 
                     {/*  */}
 
-                    <div className="flex flex-row justify-between items-center mr-10">
+                    <div className="flex flex-row justify-between items-center mr-10 relative">
                       <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4">
                         {data?.carFeatures?.bluetooth === true && (
                           <div className="flex flex-row items-center gap-2">
@@ -361,7 +381,7 @@ const CardListingCards = ({ data }: any) => {
                           </span>
                         </div>
                         {data?.carFeatures?.navigationSystem === true && (
-                          <div className="flex flex-row items-center gap-2">
+                          <div className="flex flex-row items-center gap-2 cursor-pointer">
                             <Image
                               src="/carListing/gps.png"
                               width={20}
@@ -369,9 +389,13 @@ const CardListingCards = ({ data }: any) => {
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="lg:text-[15px] text-[11px]">
-                              GPS Navigation
-                            </span>
+                            {/* <span className="lg:text-[15px] text-[11px]">
+                              GPS
+                            </span> */}
+
+                            <Tooltip tooltipText="GPS Navigation">
+                              <span className="lg:text-[15px] text-[11px]">GPS Nav...</span>
+                            </Tooltip>
                           </div>
                         )}
                         <div className="flex flex-row items-center gap-2">

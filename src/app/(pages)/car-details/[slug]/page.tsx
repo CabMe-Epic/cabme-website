@@ -479,15 +479,15 @@ const CarDetails = () => {
                     className="cursor-pointer w-[160px] p-2 rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
                   >
-                    <option  value={packagePrice}>{packagePrice !== undefined ? packagePrice : "Select Package"}</option>
+                    <option  value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
                     <option value={currentPackage?.package1?.price}>
-                      {currentPackage?.package1?.price}
+                    ₹{currentPackage?.package1?.price}
                     </option>
                     <option value={currentPackage?.package2?.price}>
-                      {currentPackage?.package2?.price}
+                    ₹{currentPackage?.package2?.price}
                     </option>
                     <option value={currentPackage?.package3?.price}>
-                      {currentPackage?.package3?.price}
+                    ₹{currentPackage?.package3?.price}
                     </option>
                   </select>
                 </div>
@@ -495,7 +495,7 @@ const CarDetails = () => {
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Package Amount</span>
                     <span className="w-[220px] ml-10 w-fit">
-                      ₹{packagePrice} * {days} Days and {hours} Hours
+                      ₹{packagePrice} <br /> {days} Days and {hours} Hours
                     </span>
                   </div>
 

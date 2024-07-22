@@ -9,7 +9,7 @@ const ExtraCharges = ({ details }: any) => {
         </h2>
         <div className="grid sm:grid-cols-3 gap-4">
           <div className="flex flex-col items-center justify-center gap-4 pr-3 sm:border-r-[2px]">
-            <div className="flex items-center sm:flex-col sm:justify-center justify-between w-full sm:text-md text-sm gap-4">
+            <div className="flex items-center sm:justify-center justify-between w-full sm:text-md text-sm gap-4">
               <span className="text-[#161616]">Package Type</span>
               <span className="text-[#ff0000] text-center">
                 {details?.extraService.packageType}
