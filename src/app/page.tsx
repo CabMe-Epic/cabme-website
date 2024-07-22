@@ -677,6 +677,7 @@ export default function Home() {
 
                   <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
                     <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+
                       <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
                         {cities?.map((city: any, index: number) => (
                           <div key={index}>
@@ -1181,8 +1182,18 @@ export default function Home() {
                 />
 
                 <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
-                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1">
+                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                    <Image
+                      src={"/svg/close-red.svg"}
+                      alt="nav"
+                      width={26}
+                      height={26}
+                      className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                      onClick={() => setShowMobileLocationPopup(false)}
+                    />
+
+                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1 overflow-auto mb-2 no-scrollbar max-h-[300px] ">
+
                       {cities?.map((city: any, index: number) => (
                         <div key={index}>
                           <City
@@ -1298,30 +1309,38 @@ export default function Home() {
           <strong>Duration :</strong> <p className="text-sm">{duration}</p>
 
           {showDropLocationPopup && (
-                <>
+            <>
 
-                  <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
-                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1">
-                        {cities?.map((city: any, index: number) => (
-                          <div key={index}>
-                            <City
-                              city={city}
-                              isSelected={dropSelectedMobileCity === city.name}
-                              onClick={() => handleDropOffMobileCity(city.name)}
-                            />
-                          </div>
-                        ))}
+              <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                  <Image
+                    src={"/svg/close-red.svg"}
+                    alt="nav"
+                    width={26}
+                    height={26}
+                    className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                    onClick={() => setShowDropLocationPopup(false)}
+                  />
+                  <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1 overflow-auto mb-2 no-scrollbar max-h-[300px] ">
+                    {cities?.map((city: any, index: number) => (
+                      <div key={index}>
+                        <City
+                          city={city}
+                          isSelected={dropSelectedMobileCity === city.name}
+                          onClick={() => handleDropOffMobileCity(city.name)}
+                        />
                       </div>
-                      <ThemeButton
-                        onClick={() => setShowDropLocationPopup(false)}
-                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                        text="continue"
-                      />
-                    </div>
+                    ))}
                   </div>
-                </>
-              )}
+                  <ThemeButton
+                    onClick={() => setShowDropLocationPopup(false)}
+                    className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                    text="continue"
+                  />
+                </div>
+              </div>
+            </>
+          )}
         </div>
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
