@@ -442,62 +442,31 @@ export default function Home() {
                           <h3 className="text-xl font-semibold">
                             {item?.heading}
                           </h3>
-                          {item?.id === "location" && showLocationPopup && (
-                            <>
-                              <input
-                                className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                                type="text"
-                                placeholder="All City"
-                                onClick={(e) => handleSelectPopupLocation(e)}
-                                value={selectedCity}
-                                readOnly // Prevent editing directly
-                              />
+                          {item?.id === "location" && (
+                            <select
 
-                              <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                  <Image
-                                    src={"/svg/close-red.svg"}
-                                    alt="nav"
-                                    width={26}
-                                    height={26}
-                                    className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                    onClick={() => setShowLocationPopup(false)}
-                                  />
-                                  <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                    {cities?.map((city: any, index: number) => (
-                                      <div key={index}>
-                                        <City
-                                          city={city}
-                                          isSelected={
-                                            selectedCity === city.name
-                                          }
-                                          onClick={() =>
-                                            handleCityClick(city.name)
-                                          }
-                                        />
-                                      </div>
-                                    ))}
-                                  </div>
-                                  <ThemeButton
-                                    onClick={() => setShowLocationPopup(false)}
-                                    className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                                    text="continue"
-                                  />
-                                </div>
-                              </div>
-                            </>
-                          )}
-
-                          {item?.id === "location" && !showLocationPopup && (
-                            <input
+                              name="loc"
+                              id="loc"
                               className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                              type="text"
-                              placeholder="All City"
-                              onClick={(e) => handleSelectPopupLocation(e)}
-                              value={selectedCity}
-                              readOnly // Prevent editing directly
-                            />
+                              onChange={
+                                item?.heading === "Pick-up Location"
+                                  ? (e) => handlePickupLocation(e)
+                                  : (ev) => handleDropOffLocation(ev)
+                              }
+                            >
+                              <option value={item?.desc}>{item?.desc}</option>
+
+                              {cities?.map((value: any, ind) => {
+                                return (
+                                  <option key={ind} value={value?.name}>
+                                    {value?.name}
+                                  </option>
+                                );
+                              })}
+                            </select>
                           )}
+
+
 
                           {item?.id === "date" && (
                             <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker mt-2">
@@ -593,7 +562,7 @@ export default function Home() {
                             <select
                               name="loc"
                               id="loc"
-                              className="w-full outline-red-500 h-8 text-xs"
+                              className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
                               onChange={
                                 item?.heading === "Pick-up Location"
                                   ? (e) => handlePickupLocation(e)
@@ -756,6 +725,7 @@ export default function Home() {
                         <h3 className="text-xl font-semibold">
                           {item?.heading}
                         </h3>
+
                         {item?.id === "location" && showLocationPopup && (
                           <>
                             <input
@@ -783,9 +753,7 @@ export default function Home() {
                                       <City
                                         city={city}
                                         isSelected={selectedCity === city.name}
-                                        onClick={() =>
-                                          handleCityClick(city.name)
-                                        }
+                                        onClick={() => handleCityClick(city.name)}
                                       />
                                     </div>
                                   ))}
