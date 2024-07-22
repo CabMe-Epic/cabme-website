@@ -313,10 +313,18 @@ export default function Home() {
   console.log("durationFormat", { durationFormat });
 
   const [selectedCity, setSelectedCity] = useState("");
+  const [selectedMobileCity, setSelectedMobileCity] = useState("")
   const [dropSelectedCity, setDropSelectedCity] = useState("");
+  const [dropSelectedMobileCity, setDropSelectedMobileCity] = useState("");
 
   const handleCityClick = (cityName: any) => {
     setSelectedCity(cityName);
+    // setPickupLocation(cityName);
+    handlePickupLocation(cityName)
+    // setShowLocationPopup(false);
+  };
+  const handleMobileCityClick = (cityName: any) => {
+    setSelectedMobileCity(cityName);
     // setPickupLocation(cityName);
     handlePickupLocation(cityName)
     // setShowLocationPopup(false);
@@ -329,14 +337,27 @@ export default function Home() {
     // setShowDropLocationPopup(false);
   }
 
+  const handleDropOffMobileCity = (cityName: any) => {
+    setDropSelectedMobileCity(cityName);
+    // setDropoffLocation(cityName);
+    handleDropOffLocation(cityName)
+    // setShowDropLocationPopup(false);
+  }
+
   console.log(selectedCity, "selectedCity");
 
   const [showLocationPopup, setShowLocationPopup] = useState(false);
+  const [showMobileLocationPopup, setShowMobileLocationPopup] = useState(false);
   const [showDropLocationPopup, setShowDropLocationPopup] = useState(false);
 
   const handleSelectPopupLocation = (e: any) => {
     e.preventDefault();
     setShowLocationPopup(!showLocationPopup);
+  };
+
+  const handleSelectMobilePopupLocation = (e: any) => {
+    e.preventDefault();
+    setShowMobileLocationPopup(!showLocationPopup);
   };
 
   const handleDropSelectPopupLocation = (e: any) => {
@@ -1138,23 +1159,52 @@ export default function Home() {
               width={16}
               height={18}
             />
-            <div className="w-full">
-              <select
-                name="city"
-                id="city"
-                className="w-full outline-none text-sm"
-                onChange={(event) => setMobilestartCity(event.target.value)}
-              >
-                <option value="select">Select your city</option>
-                {cities?.map((value: any, ind) => (
-                  <option key={ind} value={value.name}>
-                    {value.name}
-                  </option>
-                ))}
-              </select>
+            <div className="w-full flex items-center">
+              {!showMobileLocationPopup && (
+                <input
+                  className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                  type="text"
+                  placeholder="All City"
+                  onClick={(e) => handleSelectMobilePopupLocation(e)}
+                  value={selectedMobileCity}
+                  readOnly // Prevent editing directly
+                />
+              )}
+              {showMobileLocationPopup && <>
+                <input
+                  className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                  type="text"
+                  placeholder="All City"
+                  onClick={(e) => handleSelectMobilePopupLocation(e)}
+                  value={selectedCity}
+                  readOnly // Prevent editing directly
+                />
+
+                <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1">
+                      {cities?.map((city: any, index: number) => (
+                        <div key={index}>
+                          <City
+                            city={city}
+                            isSelected={selectedMobileCity === city.name}
+                            onClick={() => handleMobileCityClick(city.name)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <ThemeButton
+                      onClick={() => setShowMobileLocationPopup(false)}
+                      className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                      text="continue"
+                    />
+                  </div>
+                </div>
+              </>}
             </div>
+
           </div>
-          {mobilestartCity !== "select" && (
+          {mobilestartCity !== "" && (
             <div className="mt-2">
               <label htmlFor="pickupDate" className="font-semibold">
                 Pickup date
@@ -1184,7 +1234,7 @@ export default function Home() {
               </div>
             </div>
           )}
-          {mobileStartDate && (
+          {/* {mobileStartDate && (
             <div className="mt-2 mb-2">
               <label htmlFor="dropoffCity" className="font-semibold">
                 Drop-off City
@@ -1211,8 +1261,8 @@ export default function Home() {
                 </select>
               </div>
             </div>
-          )}
-          {mobileEndCity !== "select" && (
+          )} */}
+          {mobileStartDate !== "select" && (
             <div className="mt-2">
               <label htmlFor="dropoffDate" className="font-semibold">
                 Dropoff date
@@ -1243,8 +1293,35 @@ export default function Home() {
             </div>
           )}
         </div>
-        <div className="flex items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
+        <div className="flex  flex-col items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
+          <strong onClick={(e) => handleDropSelectPopupLocation(e)} className="text-[#ff0000] cursor-pointer">Drop in different city?</strong> <br />
           <strong>Duration :</strong> <p className="text-sm">{duration}</p>
+
+          {showDropLocationPopup && (
+                <>
+
+                  <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md">
+                      <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1">
+                        {cities?.map((city: any, index: number) => (
+                          <div key={index}>
+                            <City
+                              city={city}
+                              isSelected={dropSelectedMobileCity === city.name}
+                              onClick={() => handleDropOffMobileCity(city.name)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <ThemeButton
+                        onClick={() => setShowDropLocationPopup(false)}
+                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
+                        text="continue"
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
         </div>
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
