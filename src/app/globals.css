@@ -234,6 +234,8 @@
   .react-datepicker {
     /* margin-left: 50px !important; */
     width: 100% !important;
+    position: relative;
+    left: -20px;
   }
 
   .review-slider .swiper-slide {
