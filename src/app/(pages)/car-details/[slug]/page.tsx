@@ -59,9 +59,8 @@ const CarDetails = () => {
   const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const total = Number(packagePrice) + Number(currentPackage?.DoorstepDeliveryPickup as number) + Number(currentPackage?.refundableDeposit as number);
+  const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
   const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
-  console.log(currentPackage?.refundableDeposit,total,"total")
 
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
