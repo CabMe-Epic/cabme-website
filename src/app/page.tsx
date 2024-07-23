@@ -124,6 +124,8 @@ export default function Home() {
     router.push("/car-listing");
   };
 
+  const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+
   const saveLocationDataMobile = () => {
     if (!startDate) {
       alert("Please select the Pickup Time");
@@ -202,40 +204,28 @@ export default function Home() {
     const getpickupTime = convertTime(event);
     setPickupTime(getpickupTime);
     console.log(getpickupTime, "pkk");
-
     console.log(result, "resss");
+
   };
-  //extracting date from calender
 
   const hanldedropoffTime = (event: any) => {
-
-
     console.log(event, "joo");
     const result = convert(event);
-    const momentTime = moment(event);
-    const momentDate = moment(event);
-    const timeFormatted = momentTime.format('HH:mm');
-    const dateFormatted = momentDate.format('YYYY-MM-DD')
-
+    const getDropoffTime = convertTime(event);
+  
     if (pickupDate === undefined || pickupTime === undefined) {
       alert("Please Select the Pickup Date & Time");
       return;
-    }
-    else if (pickupTime >= timeFormatted && pickupDate > dateFormatted) {
-      alert("Drop-off date and time should be later than Pickup date and time");
-      return;
-    }
-    else {
+    } else {
       setDropDate(event);
       setDropoffDate(result);
-      const getDropoffTime = convertTime(event);
       setDropoffTime(getDropoffTime);
       console.log(getDropoffTime, "drrrr");
     }
-
-    console.log(pickupDate, pickupTime, " dropoff- date");
-    console.log(dateFormatted, timeFormatted, " dropoff- time");
   };
+  
+
+  
 
   if (typeof window !== "undefined") {
     localStorage.setItem("pickupTime", pickupTime);
@@ -293,6 +283,9 @@ export default function Home() {
 
   console.log(selectedCity, "selectedCity");
 
+
+ 
+
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [showMobileLocationPopup, setShowMobileLocationPopup] = useState(false);
   const [showDropLocationPopup, setShowDropLocationPopup] = useState(false);
@@ -311,6 +304,8 @@ export default function Home() {
     e.preventDefault();
     setShowDropLocationPopup(!showLocationPopup);
   };
+
+  console.log(pickupDate, "pickupLocation")
 
   return (
     <>
@@ -1239,7 +1234,7 @@ export default function Home() {
               )}
             </div>
           </div>
-          {mobilestartCity !== "" && (
+          {pickupLocation !== undefined && (
             <div className="mt-2">
               <label htmlFor="pickupDate" className="font-semibold">
                 Pickup date
@@ -1312,7 +1307,7 @@ export default function Home() {
               </div>
             </div>
           )} */}
-          {mobileStartDate !== "select" && (
+          {pickupDate !== undefined && (
             <div className="mt-2">
               <label htmlFor="dropoffDate" className="font-semibold">
                 Dropoff date
@@ -1325,31 +1320,17 @@ export default function Home() {
                   height={18}
                 />
                 <DatePicker
-                  // selected={
-                  //   mobileEndDate
-                  //     ? moment(
-                  //       `${mobileEndDate} ${mobileEndTime}`,
-                  //       "YYYY-MM-DD HH:mm"
-                  //     ).toDate()
-                  //     : null
-                  // }
-
-                  // onChange={handleDateTimeChange}
-                  // showTimeSelect
-                  // dateFormat="yyyy-MM-dd HH:mm"
-                  // placeholderText="Select date and time"
-                  // onKeyDown={(event) => event?.preventDefault()}
-
                   className="cursor-pointer datepickerinput"
                   selected={dropDate}
                   onChange={(date) => hanldedropoffTime(date)}
                   showTimeSelect
                   filterTime={filterPassedTime}
                   dateFormat="MMMM d, yyyy h:mm aa"
-                  placeholderText={"Enter Date & Time"}
+                  placeholderText="Enter Date & Time"
                   onKeyDown={(event) => event?.preventDefault()}
-                  minDate={new Date()}
+                  minDate={pickupDateTime}
                 />
+
               </div>
             </div>
           )}
