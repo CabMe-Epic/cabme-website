@@ -197,7 +197,7 @@ export default function Home() {
     return [hours, minutes].join(":");
     
   }
-  const CustomInput = React.forwardRef(({ value, onClick, onChange,ref } :any) => (
+  const CustomInput = (({ value, onClick, onChange,ref } :any) => (
     <input
       className="cursor-pointer border-0 datepickerinput"
       placeholder="Enter Date & Time"
