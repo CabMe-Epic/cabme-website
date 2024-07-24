@@ -424,12 +424,16 @@ const CarListing = () => {
 
 
         <section className="sm:flex flex-row items-start xl:justify-between justify-center gap-10">
-          <div className="sticky sm:hidden top-8 z-20 cursor-pointer">
-            <Image onClick={() => setShowFilter(!showFilter)} src="/filter.svg" alt="filter" width={50} height={50} />
+          <div className="sticky sm:hidden top-16 z-20 cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white"  onClick={() => setShowFilter(!showFilter)}>
+            <Image className="mb-[-6px]" src="/svg/filter.svg" alt="filter" width={16} height={12} />
+              <span className="text-xs">Filters</span>
           </div>
+          {/* <div onClick={() => setShowFilter(!showFilter)}>
+            <Image src={"/svg/filter.svg"} alt="filter" width={32} height={22} />
+          </div> */}
           {
             showFilter ?
-              <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8 xl:hidden  sticky left-0 top-20 bg-white z-20 sm:hidden ">
+              <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8 xl:hidden  sticky left-0 top-24 bg-white z-20 sm:hidden ">
                 <div>
                   <h1 className="text-center font-bold">
                     What Are You Looking For

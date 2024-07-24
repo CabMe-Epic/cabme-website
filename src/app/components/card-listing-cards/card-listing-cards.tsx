@@ -1550,7 +1550,7 @@ const CardListingCards = ({ data }: any) => {
                     }}
                     className={`${clicked2
                       ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                      : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
+                      : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md bg-white"
                       }`}
                   >
                     <p
@@ -1592,7 +1592,7 @@ const CardListingCards = ({ data }: any) => {
                     }}
                     className={`${clicked3
                       ? "border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
-                      : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md"
+                      : "border border-[#FF0000] text-center py-[3px] px-2 rounded-md bg-white"
                       }`}
                   >
                     <p

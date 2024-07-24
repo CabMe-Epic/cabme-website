@@ -195,8 +195,21 @@ export default function Home() {
     const hours = ("0" + date.getHours()).slice(-2);
     const minutes = ("0" + date.getMinutes()).slice(-2);
     return [hours, minutes].join(":");
+    
   }
+  const CustomInput = React.forwardRef(({ value, onClick, onChange,ref } :any) => (
+    <input
+      className="cursor-pointer border-0 datepickerinput"
+      placeholder="Enter Date & Time"
+      value={value}
+      onClick={onClick}
+      onChange={onChange}
+      readOnly
+      ref={ref}
+    />
+  ));
   const hanldepickupTime = (event: any) => {
+   
     console.log(event, "pickup date");
     setStartDate(event);
     const result = convert(event);
@@ -320,6 +333,11 @@ export default function Home() {
   };
 
   console.log(pickupDate, "pickupLocation");
+
+
+  const handeFoucous = ((e:any)=>{
+    e.target.blur()
+  })
 
   return (
     <>
@@ -1194,10 +1212,10 @@ export default function Home() {
         <div className="mt-4">
           <label htmlFor="city" className="font-semibold">
             {radioToggle === "Local"
-              ? "Pick-up location"
+              ? "Select your city"
               : switchRadio === "Self Driven"
-              ? "Pick-up location"
-              : "Pick-up City"}
+              ? "Select your city"
+              : "Select your city"}
           </label>
           <div className="border rounded-xl bg-[#FCFBFB] p-[4px] pl-2 flex gap-2 mt-2">
             <Image
@@ -1274,35 +1292,20 @@ export default function Home() {
                   height={18}
                 />
                 <DatePicker
-                  //mahadev
-                  // selected={
-                  //   mobileStartDate
-                  //     ? moment(
-                  //       `${mobileStartDate} ${mobileStartTime}`,
-                  //       "YYYY-MM-DD HH:mm"
-                  //     ).toDate()
-                  //     : null
-                  // }
-                  // onChange={handleStartDateTimeChange}
-                  // showTimeSelect
-                  // dateFormat="yyyy-MM-dd HH:mm"
-                  // placeholderText="Select date and time"
-                  // onKeyDown={(event) => event?.preventDefault()}
-
-                  className="cursor-pointer border-0 datepickerinput"
+                  
+                  customInput={<CustomInput />}
+                  className="cursor-pointer border-0 datepickerinput"                  
                   selected={startDate}
                   onChange={
-                    (date) => hanldepickupTime(date)
-
-                    // (date) => setStartDate(date)
+                    (date) => hanldepickupTime(date)                
                   }
                   showTimeSelect
                   filterTime={filterPassedTime}
                   dateFormat="MMMM d, yyyy h:mm aa"
                   placeholderText="Enter Date & Time"
-                  onKeyDown={(event) => event?.preventDefault()}
-                  minDate={new Date()}
-                />
+                  onKeyDown={(event :any) => event?.preventDefault()}                  
+                  minDate={new Date()}             
+                  />
               </div>
             </div>
           )}
@@ -1386,9 +1389,14 @@ export default function Home() {
           >
             Drop in different city?
           </strong>{" "}
-          <br />
-          <strong>Duration :</strong>{" "}
-          <p className="text-sm">{durationFormat}</p>
+          
+          {durationFormat &&
+          <>
+            <strong>Duration :</strong>{" "}
+            <p className="text-sm">{durationFormat}</p>
+          </>
+          }
+          
           {showDropLocationPopup && (
             <>
               <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
@@ -1796,7 +1804,7 @@ const outstation = [
   {
     id: "location",
     imageUrl: "/svg/location.svg",
-    heading: "Pick-up City",
+    heading: "Select your city",
     desc: "Enter pick-up city",
     cities: [
       {
@@ -1833,7 +1841,7 @@ const localDriverArray = [
   {
     id: "location",
     imageUrl: "/svg/location.svg",
-    heading: "Pick-up Location",
+    heading: "Select your city",
     desc: "Enter pick-up Location",
     cities: [
       {
