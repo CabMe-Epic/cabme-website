@@ -339,7 +339,7 @@ const CarListing = () => {
         </div>
 
         {/* filters */}
-        <div className=" listing-filter sm:my-14 my-4 lg:flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
+        <div className=" listing-filter hidden sm:my-14 my-4 lg:flex sm:flex-row flex-col flex-col-reverse items-center text-[#5F5D5D]  justify-between">
           {/* <div className="sm:flex hidden  w-full sm:w-auto mt-4 lg:mb-0 mb-4 lg:justify-start justify-center">
             <div className="sm:text-[16px] text-xs">
               Showing 1-8 of 10 Results

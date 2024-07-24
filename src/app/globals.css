@@ -272,7 +272,11 @@
     width: 101% !important;
     margin-left: 0px !important;
   }
-
+.modify-search .react-datepicker-wrapper input{
+  font-size: 10px !important;
+  width: fit-content !important; border: 0;
+  margin-right: 5px !important;
+}
   .react-datepicker {
     width: 138% !important;
     margin-left: 0 !important;

@@ -88,7 +88,7 @@ const ModifySearch: React.FC = () => {
 
   return (
     <div
-      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between my-12 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 pb-[20px]  items-center rounded-md bg-[url('/png/search-bg.png')]"
+      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 pb-[20px]  items-center rounded-md bg-[url('/png/search-bg.png')]"
       style={{ backgroundSize: "100% 100%" }}
     >
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-2 sm:mb-0">
@@ -114,11 +114,12 @@ const ModifySearch: React.FC = () => {
         </div>
       </div>
       <div className="sm:flex grid grid-cols-2 flex-col items-start sm:items-center sm:flex-row gap-6">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2">
           <div className="whitespace-nowrap">Pickup Date</div>
-          <div className="relative date-picker m-0 w-[100%] sm:min-[200px]">
+          <div className="relative date-picker modify-search m-0 w-[100%] sm:min-[200px]">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
+              
               selected={startDate}
               onChange={handleStartDateTimeChange}
               showTimeSelect
@@ -134,9 +135,9 @@ const ModifySearch: React.FC = () => {
             />
           </div>
         </div>
-        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-2">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2">
           <div className="whitespace-nowrap">Return Date</div>
-          <div className="relative date-picker m-0 w-[100%] sm:min-[200px]">
+          <div className="relative date-picker modify-search m-0 w-[100%] sm:min-[200px]">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={endDate}
