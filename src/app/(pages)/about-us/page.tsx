@@ -362,7 +362,7 @@ const AboutUs = () => {
             </div>
             <div className="mt-6 border rounded-xl p-2 flex gap-2">
               <Image
-                src={"/svg/location-gray.svg"}
+                src={"/svg/city-new.svg"}
                 alt="location"
                 width={16}
                 height={18}
@@ -375,7 +375,7 @@ const AboutUs = () => {
             </div>
             <div className="mt-6 border rounded-xl p-2 flex gap-2">
               <Image
-                src={"/svg/location-gray.svg"}
+                src={"/svg/city-new.svg"}
                 alt="location"
                 width={16}
                 height={18}

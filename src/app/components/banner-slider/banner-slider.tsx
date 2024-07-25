@@ -57,12 +57,19 @@ const BannerSlider = () => {
 export default BannerSlider;
 const bannerCollection = [
   {
-    imageUrl: "/svg/home-banner-01.svg",
+    imageUrl: "/png/banner/banner01.png",
   },
   {
-    imageUrl: "/svg/home-banner-02.svg",
+    imageUrl: "/png/banner/banner02.png",
   },
   {
-    imageUrl: "/svg/home-banner-03.svg",
+    imageUrl: "/png/banner/banner03.png",
   },
+  {
+    imageUrl: "/png/banner/banner04.png",
+  },
+  {
+    imageUrl: "/png/banner/banner05.png",
+  },
+  
 ];

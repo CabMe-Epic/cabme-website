@@ -199,8 +199,8 @@ export default function Home() {
   }
   const CustomInput = (({ value, onClick, onChange,ref } :any) => (
     <input
-      className="cursor-pointer border-0 datepickerinput"
-      placeholder="Enter Date & Time"
+      className="cursor-pointer border-0 datepickerinput sm:text-md !text-sm"
+      placeholder="Pickup date"
       value={value}
       onClick={onClick}
       onChange={onChange}
@@ -273,7 +273,7 @@ export default function Home() {
       const diffInSeconds = Math.floor(diffInMs / 1000);
       const days = Math.floor(diffInSeconds / (3600 * 24));
       const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
-      return `${days} days, ${hours} hours`;
+      return `${days} days and ${hours} hours`;
     }
   }, [startDate, dropDate]);
 
@@ -362,17 +362,17 @@ export default function Home() {
         </div> */}
       </div>
       <div
-        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-xl border rounded-xl px-6 py-12 relative ${
-          tabValue === "Driver" ? "h-[290px]" : "h-[230px]"
+        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${
+          tabValue === "Driver" ? "h-[290px]" : "h-[260px]"
         }`}
       >
-        <div className="max-w-[700px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
+        <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-6 text-lg ${
+                className={`cursor-pointer w-full text-center py-[28px] text-lg ${
                   value?.tabsValue === tabValue
-                    ? "bg-primary-color text-white font-semibold"
+                    ? "bg-primary-color text-white font-bold"
                     : "bg-[#EFF1FB]"
                 }`}
                 key={ind}
@@ -418,15 +418,15 @@ export default function Home() {
                             height={16}
                           />
                         </div>
-                        <div className="leading-none">
-                          <h3 className="text-xl font-semibold">
+                        <div className="leading-none w-full">
+                          <h3 className="text-lg font-semibold">
                             {item?.heading}
                           </h3>
                           {item?.id === "location" && (
                             <select
                               name="loc"
                               id="loc"
-                              className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                              className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[90%]"
                               onChange={
                                 item?.heading === "Pick-up Location"
                                   ? (e) => handlePickupLocation(e)
@@ -446,7 +446,7 @@ export default function Home() {
                           )}
 
                           {item?.id === "date" && (
-                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker1 mt-2">
+                            <div className="flex gap-2 p-2 px-4 w-[80%] bg-[#FCFBFB] react-datepicker1 mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -508,7 +508,7 @@ export default function Home() {
                   <div>
                     <ThemeButton
                       text="Search"
-                      className="px-8 !py-[10px] relative right-6 ml-4"
+                      className="px-8 !py-[12px] relative right-6 ml-4"
                       onClick={() => saveLocationData()}
                     />
                   </div>
@@ -533,7 +533,7 @@ export default function Home() {
                           />
                         </div>
                         <div className="leading-none">
-                          <h3 className="text-xl font-semibold">
+                          <h3 className="text-lg font-semibold">
                             {item?.heading}
                           </h3>
 
@@ -631,7 +631,7 @@ export default function Home() {
               {durationFormat && (
                 <div className="w-fit m-auto">
                   <div className="mt-4">
-                    <h3 className="font-semibold text-lg ">
+                    <h3 className="font-semibold text-lg bg-[#FCFBFB] p-2 rounded-md">
                       Duration:{" "}
                       <span className="font-[400]"> {durationFormat} </span>
                     </h3>
@@ -641,7 +641,7 @@ export default function Home() {
               <div
                 onClick={(e) => handleDropSelectPopupLocation(e)}
                 className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
-                  durationFormat ? "mt-0" : "mt-5"
+                  durationFormat ? "mt-4" : "mt-5"
                 }`}
               >
                 Drop in different city?
@@ -686,7 +686,7 @@ export default function Home() {
         {tabValue === "Subscription" && (
           <>
             <div className="grid z-50">
-              <div className="flex items-center mt-6 w-full">
+              <div className="flex items-center mt-10 w-full">
                 {outstation?.map((item, index) => {
                   return (
                     <div
@@ -695,7 +695,7 @@ export default function Home() {
                         index < 3 ? "border-r-2 mr-6 border-black" : ""
                       }`}
                     >
-                      <div className="mt-2">
+                      <div className="flex-none">
                         <Image
                           src={item?.imageUrl}
                           alt="icon"
@@ -703,8 +703,8 @@ export default function Home() {
                           height={16}
                         />
                       </div>
-                      <div className="leading-none">
-                        <h3 className="text-xl font-semibold">
+                      <div className="leading-none w-full">
+                        <h3 className="text-md font-[600]">
                           {item?.heading}
                         </h3>
 
@@ -753,17 +753,21 @@ export default function Home() {
                         )}
 
                         {item?.id === "location" && !showLocationPopup && (
+                          <div className="relative">
                           <input
-                            className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                            className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
                             type="text"
                             placeholder="All City"
                             onClick={(e) => handleSelectPopupLocation(e)}
                             value={selectedCity}
                             readOnly // Prevent editing directly
                           />
+                          <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12}  className="absolute right-8 top-6"/>
+
+                          </div>
                         )}
                         {item?.id === "date" && (
-                          <div className="flex gap-2">
+                          <div className=" gap-2 mt-2 w-[100%]">
                             {/* <input
                             type="date"
                             name="date"
@@ -786,7 +790,7 @@ export default function Home() {
                             }
                           /> */}
                             <DatePicker
-                              className="cursor-pointer datepickerinput"
+                              className="cursor-pointer datepickerinput w-full !p-2"
                               selected={
                                 item?.heading === "Pick Up Date"
                                   ? startDate
@@ -824,14 +828,23 @@ export default function Home() {
                 <div>
                   <ThemeButton
                     text="Search"
-                    className="px-8 !py-[10px] relative right-6 ml-4"
+                    className="px-8 !py-[12px] relative right-6 ml-4"
                     onClick={() => saveLocationData()}
                   />
                 </div>
               </div>
+              
+              <div
+                onClick={(e) => handleDropSelectPopupLocation(e)}
+                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
+                  durationFormat ? "mt-4" : "mt-5"
+                }`}
+              >
+                Drop in different city?
+              </div>
               {durationFormat && (
                 <div className="w-fit m-auto">
-                  <div className="mt-4">
+                  <div className="mt-2">
                     <h3 className="font-semibold text-lg ">
                       Duration:{" "}
                       <span className="font-[400]"> {durationFormat} </span>
@@ -839,14 +852,6 @@ export default function Home() {
                   </div>
                 </div>
               )}
-              <div
-                onClick={(e) => handleDropSelectPopupLocation(e)}
-                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
-                  durationFormat ? "mt-0" : "mt-5"
-                }`}
-              >
-                Drop in different city?
-              </div>
 
               {showDropLocationPopup && (
                 <>
@@ -885,7 +890,7 @@ export default function Home() {
         )}
         {tabValue === "Self-Driving" && (
           <div className="grid">
-            <div className="flex items-center mt-6 w-full">
+            <div className="flex items-center mt-10 w-full">
               {localDriverArray?.map((item, index) => {
                 return (
                   <div
@@ -894,7 +899,7 @@ export default function Home() {
                       index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
                     }`}
                   >
-                    <div className="mt-2 flex-none">
+                    <div className=" flex-none">
                       <Image
                         src={item?.imageUrl}
                         alt="icon"
@@ -902,8 +907,8 @@ export default function Home() {
                         height={16}
                       />
                     </div>
-                    <div className="leading-none">
-                      <h3 className="lg:text-xl text-lg font-semibold">
+                    <div className="leading-none w-full">
+                      <h3 className="lg:text-md text-md font-[600]">
                         {item?.heading}
                       </h3>
                       {item?.id === "location" && showLocationPopup && (
@@ -949,17 +954,20 @@ export default function Home() {
                       )}
 
                       {item?.id === "location" && !showLocationPopup && (
+                        <div className="w-full relative">
                         <input
-                          className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-full"
+                          className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
                           type="text"
                           placeholder="All City"
                           onClick={(e) => handleSelectPopupLocation(e)}
                           value={selectedCity}
                           readOnly // Prevent editing directly
                         />
+                        <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12}  className="absolute right-8 top-6"/>
+                        </div>
                       )}
                       {item?.id === "date" && (
-                        <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker1 mt-2 ml-[-20px]">
+                        <div className="flex gap-2 p-2 px-2 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
                           {/* <input
 
                           type="date"
@@ -1029,12 +1037,20 @@ export default function Home() {
               {dropOffLocation && (
                 <div className=" h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
                   <div className="grid">
+                    <div className="flex gap-2 ">
+                  <Image
+                  src={"/svg/city-new.svg"}
+                  alt="location"
+                  width={16}
+                  height={18}
+                />
                     <label
                       htmlFor="dropoff"
-                      className="lg:text-xl text-lg font-semibold"
+                      className="lg:text-md  font-semibold"
                     >
                       Drop-off location
                     </label>
+                    </div>
                     <input
                       type="text"
                       value={dropOffLocation}
@@ -1047,30 +1063,31 @@ export default function Home() {
 
               <div className="lg:block hidden">
                 <ThemeButton
-                  className="px-8 !py-[10px] relative right-6 ml-4"
+                  className="px-8 !py-[12px] relative right-6 ml-4"
                   text="Search"
                   onClick={() => saveLocationData()}
                 />
               </div>
             </div>
+            <div
+              onClick={(e) => handleDropSelectPopupLocation(e)}
+              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${
+                durationFormat ? "mt-2" : "mt-5"
+              }`}
+            >
+              Drop in different city?
+            </div>
             {durationFormat && (
               <div className="w-fit m-auto">
-                <div className="mt-4">
-                  <h3 className="font-semibold text-lg ">
+                <div className="mt-2">
+                  <h3 className="font-semibold text-lg bg-[#FCFBFB] p-2 rounded-md">
                     Duration:{" "}
                     <span className="font-[400]"> {durationFormat} </span>
                   </h3>
                 </div>
               </div>
             )}
-            <div
-              onClick={(e) => handleDropSelectPopupLocation(e)}
-              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
-                durationFormat ? "mt-0" : "mt-5"
-              }`}
-            >
-              Drop in different city?
-            </div>
+            
 
             {showDropLocationPopup && (
               <>
@@ -1115,7 +1132,7 @@ export default function Home() {
         </div>
       </div>
       {/* Only mobile section subsription */}
-      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-xl shadow-custom-shadow w-full px-4 pt-16 pb-4 sm:my-6 my-4 z-[9]">
+      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-lg shadow-custom-shadow w-full px-4 sm:pt-16 pt-11 pb-4 sm:my-6 my-4 z-[9]">
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
@@ -1141,7 +1158,7 @@ export default function Home() {
           </div>
         </div>
         {mobileTabValue === "Rentals" && (
-          <div className="max-w-[260px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
+          <div className="max-w-[220px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
             <div
               className={`${
                 switchRadio === "Self Driven"
@@ -1157,7 +1174,7 @@ export default function Home() {
                 className="accent-red-500"
                 checked={switchRadio === "Self Driven" ? true : false}
               />
-              <label className="ml-2 text-sm" htmlFor="self">
+              <label className="ml-2 text-[10px]" htmlFor="self">
                 Self Driven
               </label>
             </div>
@@ -1173,7 +1190,7 @@ export default function Home() {
                 id="driver"
                 className="accent-red-500"
               />
-              <label className="ml-2 text-sm" htmlFor="driver">
+              <label className="ml-2 text-[10px]" htmlFor="driver">
                 Driver
               </label>
             </div>
@@ -1209,17 +1226,17 @@ export default function Home() {
           </>
         )}
 
-        <div className="mt-4">
-          <label htmlFor="city" className="font-semibold">
+        <div className="sm:mt-4 mt-3">
+          {/* <label htmlFor="city" className="font-semibold">
             {radioToggle === "Local"
               ? "Select your city"
               : switchRadio === "Self Driven"
               ? "Select your city"
               : "Select your city"}
-          </label>
-          <div className="border rounded-xl bg-[#FCFBFB] p-[4px] pl-2 flex gap-2 mt-2">
+          </label> */}
+          <div className="border rounded-xl bg-[#FCFBFB] p-[4px] pl-2 flex gap-2 sm:mt-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
             <Image
-              src={"/svg/location-gray.svg"}
+              src={"/svg/city-new.svg"}
               alt="location"
               width={16}
               height={18}
@@ -1227,9 +1244,13 @@ export default function Home() {
             <div className="w-full flex items-center">
               {!showMobileLocationPopup && (
                 <input
-                  className="bg-transparent px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                  className="bg-transparent px-2 rounded-md border-0 outline-none py-1 cursor-pointer sm:text-md text-sm text-black"
                   type="text"
-                  placeholder="All City"
+                  placeholder={radioToggle === "Local"
+                    ? "Select Your City"
+                    : switchRadio === "Self Driven"
+                    ? "Select Your City"
+                    : "Select Your City"}
                   onClick={(e) => handleSelectMobilePopupLocation(e)}
                   value={selectedMobileCity}
                   readOnly // Prevent editing directly
@@ -1270,8 +1291,8 @@ export default function Home() {
                       </div>
                       <ThemeButton
                         onClick={() => setShowMobileLocationPopup(false)}
-                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                        text="continue"
+                        className="!rounded-full !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                        text="Select"
                       />
                     </div>
                   </div>
@@ -1281,12 +1302,12 @@ export default function Home() {
           </div>
           {pickupLocation !== undefined && (
             <div className="mt-2">
-              <label htmlFor="pickupDate" className="font-semibold">
+              {/* <label htmlFor="pickupDate" className="font-semibold">
                 Pickup date
-              </label>
-              <div className="border bg-[#FCFBFB] rounded-xl p-2 flex items-center gap-2">
+              </label> */}
+              <div className="border bg-[#FCFBFB] custom-picker rounded-xl p-2 flex items-center gap-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
                 <Image
-                  src={"/date.svg"}
+                  src={"/svg/date-new.svg"}
                   alt="location"
                   width={16}
                   height={18}
@@ -1302,7 +1323,7 @@ export default function Home() {
                   showTimeSelect
                   filterTime={filterPassedTime}
                   dateFormat="MMMM d, yyyy h:mm aa"
-                  placeholderText="Enter Date & Time"
+                  placeholderText="Pickup date"
                   onKeyDown={(event :any) => event?.preventDefault()}                  
                   minDate={new Date()}             
                   />
@@ -1316,7 +1337,7 @@ export default function Home() {
               </label>
               <div className="border rounded-xl p-2 flex gap-2 mt-2">
                 <Image
-                  src={"/svg/location-gray.svg"}
+                  src={"/svg/city-new.svg"}
                   alt="location"
                   width={16}
                   height={18}
@@ -1339,12 +1360,12 @@ export default function Home() {
           )} */}
           {pickupDate !== undefined && (
             <div className="mt-2">
-              <label htmlFor="dropoffDate" className="font-semibold">
+              {/* <label htmlFor="dropoffDate" className="font-semibold">
                 Dropoff date
-              </label>
-              <div className="border bg-[#FCFBFB] rounded-xl p-2 flex items-center gap-2">
+              </label> */}
+              <div className="border bg-[#FCFBFB] custom-picker rounded-xl p-2 flex items-center gap-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
                 <Image
-                  src={"/date.svg"}
+                  src={"/svg/date-new.svg"}
                   alt="location"
                   width={16}
                   height={18}
@@ -1356,7 +1377,7 @@ export default function Home() {
                   showTimeSelect
                   filterTime={filterPassedTime}
                   dateFormat="MMMM d, yyyy h:mm aa"
-                  placeholderText="Enter Date & Time"
+                  placeholderText="Dropoff date"
                   onKeyDown={(event) => event?.preventDefault()}
                   minDate={pickupDateTime}
                 />
@@ -1365,36 +1386,44 @@ export default function Home() {
           )}
           {dropOffLocation && (
             <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-              <div className="grid">
+              <div className="grid ml-[14px] mt-2">
                 <label
                   htmlFor="dropoff"
                   className="lg:text-xl text-md font-semibold"
                 >
                   Drop-off location
                 </label>
+                <div className="flex">
+                <Image
+                  src={"/svg/city-new.svg"}
+                  alt="location"
+                  width={16}
+                  height={18}
+                />
                 <input
                   type="text"
                   value={dropOffLocation}
-                  className="bg-[#FCFBFB] outline-none p-[8px]"
+                  className="outline-none p-[8px] max-w-[280px] sm:text-md text-sm"
                   readOnly
                 />
+                </div>
               </div>
             </div>
           )}
         </div>
-        <div className="flex  flex-col items-center gap-1 bg-[#FCFBFB] w-fit py-2 px-6 rounded-md m-auto mt-4">
+        <div className="flex sm:gap-4 flex-col items-center gap-1 w-fit py-2 sm:px-6 rounded-md m-auto sm:mt-4">
           <strong
             onClick={(e) => handleDropSelectPopupLocation(e)}
-            className="text-[#ff0000] cursor-pointer"
+            className="text-[#ff0000] cursor-pointer sm:text-md text-sm"
           >
             Drop in different city?
           </strong>{" "}
           
           {durationFormat &&
-          <>
+          <div className="flex items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
             <strong>Duration :</strong>{" "}
-            <p className="text-sm">{durationFormat}</p>
-          </>
+            <p className="text-sm font-semibold mt-[2px]">{durationFormat}</p>
+          </div>
           }
           
           {showDropLocationPopup && (
@@ -1422,15 +1451,15 @@ export default function Home() {
                   </div>
                   <ThemeButton
                     onClick={() => setShowDropLocationPopup(false)}
-                    className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                    text="continue"
+                    className="!rounded-full !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                    text="Select"
                   />
                 </div>
               </div>
             </>
           )}
         </div>
-        <div className="m-auto w-[80%] mt-4">
+        <div className="m-auto w-[80%] sm:mt-4 mt-2">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
@@ -1518,7 +1547,7 @@ export default function Home() {
         </div>
       </div>
       <div className="lg:max-w-[1250px] max-w-[750px] m-auto sm:my-16 my-10 mx-auto">
-        <h2 className="sm:text-4xl text-2xl font-semibold text-center">
+        <h2 className="sm:text-4xl text-xl font-semibold text-center">
           Make <span className="text-primary"> 4 steps</span> to rent a car
         </h2>
         <div className="grid lg:grid-cols-4 sm:grid-cols-2 gap-8 sm:mt-12 mt-6">

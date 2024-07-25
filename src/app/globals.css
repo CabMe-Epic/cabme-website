@@ -209,6 +209,9 @@
   outline: 0;
   z-index: 998 !important;
 }
+.react-datepicker-wrapper{
+  width: 95% !important;
+}
 
 .react-datepicker-wrapper input {
   font-size: 15px !important;
@@ -237,7 +240,9 @@
     position: relative;
     left: -20px;
   }
-
+.custom-picker .react-datepicker-wrapper input{
+  font-size: 13px !important;
+}
   .review-slider .swiper-slide {
     opacity: 1;
   }

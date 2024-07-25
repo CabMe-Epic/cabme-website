@@ -1652,19 +1652,19 @@ const CardListingCards = ({ data }: any) => {
                     <div className="gap-2 xs:mt-0 mt-2">
                       <div
                         onClick={() => setShowImg(!showImg)}
-                        className="flex gap-2 cursor-pointer px-2 py-[3px] rounded-md border border-red-500 w-fit m-auto"
+                        className="flex gap-2 cursor-pointer px-2 py-[3px] rounded-md border border-[#FF0000] w-fit m-auto"
                       >
                         <div className="flex-none ">
                           <Image
-                            src="/carListing/view.png"
+                            src="/svg/view.svg"
                             width={14}
                             objectFit={"contain"}
                             height={14}
                             alt="Car Icon"
                           />
                         </div>
-                        <span className="text-[#ff0000] text-xs whitespace-nowrap">
-                          View Real Car Images
+                        <span className="font-semibold text-xs whitespace-nowrap">
+                          View Real <span className="text-[#FF0000]"> Car</span> Images
                         </span>
                       </div>
                     </div>

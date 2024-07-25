@@ -24,7 +24,9 @@ const config: Config = {
         'product-shadow':'0px 4px 23.9px 0px #0000001F',
         'image-shadow':'0px 4px 8px 0px #00000040',
         'features-shadow':'0px 4px 20.7px 0px #0000001F',
-        'sign-button' : '0px 4px 4px 0px #FF000040 inset'
+        'sign-button' : '0px 4px 4px 0px #FF000040 inset',
+        'location-shadow' : '0px 4px 22.4px 0px #00000026'
+
       }
     },
     screens:{
