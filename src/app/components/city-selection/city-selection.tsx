@@ -20,7 +20,7 @@ const City = ({ city, isSelected, onClick }: any) => {
                 height={100}
                 className="w-12 h-12 p-.5 border rounded-md"
             />
-            <p className="mt-2 text-sm font-[600]">{city?.name}</p>
+            <p className="mt-2 text-sm font-[600]">{city?.name}</p> 
         </div>
     );
 };
