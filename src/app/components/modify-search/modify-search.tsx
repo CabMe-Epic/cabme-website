@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import ThemeButton from "../theme-button/theme-button";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
 import moment from "moment";
-import City from "../city-selection/city-selection";
+import City from "../city-selection-2/city-selection-2";
 
 const ModifySearch: React.FC = () => {
   const [cities, setCities] = useState<{ name: string }[] | undefined>([]);
