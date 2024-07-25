@@ -424,8 +424,8 @@ const CarListing = () => {
 
 
         <section className="flex  sm:flex-col  sm:m-auto xl:flex-row flex-col items-start xl:justify-between justify-center gap-10">
-         <div className="md:mx-[5%] lg:mx-0">
-         <div className="sticky xl:hidden top-16 z-20 cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white"  onClick={() => setShowFilter(!showFilter)}>
+         <div className="md:mx-[5%] lg:mx-0 !sticky top-16 z-20">
+         <div className=" cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white xl:hidden "  onClick={() => setShowFilter(!showFilter)}>
             <Image className="mb-[-6px]" src="/svg/filter.svg" alt="filter" width={16} height={12} />
               <span className="text-xs">Filters</span>
           </div>
