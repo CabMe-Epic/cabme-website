@@ -26,19 +26,19 @@ const CarListing = () => {
   const [carData, setCarData] = useState<any>();
   const [showFilter, setShowFilter] = useState(false);
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (showFilter) {
-      document.body.classList.add('no-scroll');
-    } else {
-      document.body.classList.remove('no-scroll');
-    }
+  //   if (showFilter) {
+  //     document.body.classList.add('no-scroll');
+  //   } else {
+  //     document.body.classList.remove('no-scroll');
+  //   }
 
-    // Cleanup function to remove the class when the component is unmounted or the state changes
-    return () => {
-      document.body.classList.remove('no-scroll');
-    };
-  }, [showFilter]);
+  //   // Cleanup function to remove the class when the component is unmounted or the state changes
+  //   return () => {
+  //     document.body.classList.remove('no-scroll');
+  //   };
+  // }, [showFilter]);
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicle();
@@ -423,17 +423,15 @@ const CarListing = () => {
         {/* filters */}
 
 
-        <section className="sm:flex flex-row items-start xl:justify-between justify-center gap-10">
-          <div className="sticky sm:hidden top-16 z-20 cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white"  onClick={() => setShowFilter(!showFilter)}>
+        <section className="flex  sm:flex-col  sm:m-auto xl:flex-row flex-col items-start xl:justify-between justify-center gap-10">
+         <div className="md:mx-[5%] lg:mx-0">
+         <div className="sticky xl:hidden top-16 z-20 cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white"  onClick={() => setShowFilter(!showFilter)}>
             <Image className="mb-[-6px]" src="/svg/filter.svg" alt="filter" width={16} height={12} />
               <span className="text-xs">Filters</span>
           </div>
-          {/* <div onClick={() => setShowFilter(!showFilter)}>
-            <Image src={"/svg/filter.svg"} alt="filter" width={32} height={22} />
-          </div> */}
           {
             showFilter ?
-              <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8 xl:hidden  sticky left-0 top-24 bg-white z-20 sm:hidden ">
+              <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8  sticky left-0 top-24 bg-white z-20 xl:hidden ">
                 <div>
                   <h1 className="text-center font-bold">
                     What Are You Looking For
@@ -821,6 +819,8 @@ const CarListing = () => {
               </aside>
               : ""
           }
+         </div>
+         
           <aside className="basis-1 hidden xl:block w-[300px] h-full shadow-filter-shadow p-8  left-0 top-20 bg-white sm:hidden ">
             <div>
               <h1 className="text-center font-bold">
@@ -1207,7 +1207,7 @@ const CarListing = () => {
               />
             </div>
           </aside>
-          <div className="basis-2/3">
+          <div className="basis-2/3 m-auto">
             {paginatedItems?.map((item: { bookingDate: string | number | Date; id: any; }, index: any) => {
               const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
               let dateOnly = '';
