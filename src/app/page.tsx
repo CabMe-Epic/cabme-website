@@ -407,7 +407,7 @@ export default function Home() {
                         className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
                           }`}
                       >
-                        <div className="mt-2">
+                        <div className="mt-2 flex-none">
                           <Image
                             src={item?.imageUrl}
                             alt="icon"
@@ -476,7 +476,7 @@ export default function Home() {
                           )}
 
                           {item?.id === "date" && (
-                            <div className="flex gap-2 p-2 px-4 w-[80%] bg-[#FCFBFB] react-datepicker1 mt-2">
+                            <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -534,7 +534,32 @@ export default function Home() {
                       </div>
                     );
                   })}
-
+                      {dropOffLocation && (
+                <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                  <div className="grid">
+                    <div className="flex gap-2 ">
+                      <Image
+                        src={"/svg/city-new.svg"}
+                        alt="location"
+                        width={16}
+                        height={18}
+                      />
+                      <label
+                        htmlFor="dropoff"
+                        className="lg:text-md  font-semibold items-center mt-[2px]"
+                      >
+                        Drop-off location
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      value={dropOffLocation}
+                      className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              )}
                   <div>
                     <ThemeButton
                       text="Search"
@@ -553,7 +578,7 @@ export default function Home() {
                         className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
                           }`}
                       >
-                        <div className="mt-2">
+                        <div className="mt-2 flex-none">
                           <Image
                             src={item?.imageUrl}
                             alt="icon"
@@ -622,7 +647,7 @@ export default function Home() {
                         </div>
                       )}
                           {item?.id === "date" && (
-                            <div className="flex gap-2 p-2 px-4 w-[100%] bg-[#FCFBFB] react-datepicker1 mt-2">
+                            <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
                               {/* <input
                               type="date"
                               name="date"
@@ -680,11 +705,36 @@ export default function Home() {
                       </div>
                     );
                   })}
-
+                      {dropOffLocation && (
+                <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                  <div className="grid">
+                    <div className="flex gap-2 ">
+                      <Image
+                        src={"/svg/city-new.svg"}
+                        alt="location"
+                        width={16}
+                        height={18}
+                      />
+                      <label
+                        htmlFor="dropoff"
+                        className="lg:text-md  font-semibold items-center mt-[2px]"
+                      >
+                        Drop-off location
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      value={dropOffLocation}
+                      className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              )}
                   <div>
                     <ThemeButton
                       text="Search"
-                      className="px-8 !py-[10px] relative right-6 ml-4"
+                      className="px-8 !py-[12px] relative right-6 ml-4"
                       onClick={() => saveLocationData()}
                     />
                   </div>
@@ -885,6 +935,32 @@ export default function Home() {
                     </div>
                   );
                 })}
+                 {dropOffLocation && (
+                <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                  <div className="grid">
+                    <div className="flex gap-2 ">
+                      <Image
+                        src={"/svg/city-new.svg"}
+                        alt="location"
+                        width={16}
+                        height={18}
+                      />
+                      <label
+                        htmlFor="dropoff"
+                        className="lg:text-md  font-semibold items-center mt-[2px]"
+                      >
+                        Drop-off location
+                      </label>
+                    </div>
+                    <input
+                      type="text"
+                      value={dropOffLocation}
+                      className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                      readOnly
+                    />
+                  </div>
+                </div>
+              )}
                 <div>
                   <ThemeButton
                     text="Search"
@@ -1095,7 +1171,7 @@ export default function Home() {
               {dropOffLocation && (
                 <div className=" h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
                   <div className="grid">
-                    <div className="flex gap-2 ">
+                    <div className="flex gap-2 items-center">
                       <Image
                         src={"/svg/city-new.svg"}
                         alt="location"
@@ -1104,7 +1180,7 @@ export default function Home() {
                       />
                       <label
                         htmlFor="dropoff"
-                        className="lg:text-md  font-semibold"
+                        className="lg:text-md  font-semibold h-fit"
                       >
                         Drop-off location
                       </label>
@@ -1112,7 +1188,7 @@ export default function Home() {
                     <input
                       type="text"
                       value={dropOffLocation}
-                      className="bg-[#FCFBFB] outline-none p-[8px]"
+                      className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
                       readOnly
                     />
                   </div>
@@ -1182,7 +1258,7 @@ export default function Home() {
         )}
         <div className="lg:hidden block mt-4">
           <ThemeButton
-            className="px-8 !py-[10px] relative right-6 ml-4 m-auto"
+            className="px-8 !py-[12px] relative right-6 ml-4 m-auto"
             text="Search"
             onClick={() => saveLocationData()}
           />
@@ -1573,7 +1649,7 @@ export default function Home() {
                       alt="image"
                       width={value?.width}
                       height={value?.height}
-                      className="m-auto sm:h-[80px] h-auto sm:w-auto w-[90px]"
+                      className="m-auto sm:h-[93px] h-auto sm:w-auto w-[132px]"
                     />
                   </div>
                   <div className="sm:px-4">
@@ -2000,58 +2076,58 @@ const tabsArray = [
 ];
 const chooseArray = [
   {
-    imageUrl: "/png/car01.png",
-    width: 139,
-    height: 132,
+    imageUrl: "/png/car01.svg",
+    width: 132,
+    height: 93,
     title: "Safe and Sanitized Car",
     desc: "Your safety is our priority, with a car that's sanitized for purity.",
   },
   {
-    imageUrl: "/png/car02.png",
-    width: 164,
-    height: 132,
+    imageUrl: "/png/car02.svg",
+    width: 132,
+    height: 93,
     title: "No Hidden Charges",
     desc: "What you see is what you get, no hidden charges to fret.",
   },
   {
-    imageUrl: "/png/car03.png",
-    width: 127,
-    height: 95,
+    imageUrl: "/png/car03.svg",
+    width: 132,
+    height:93,
     title: "Doorstep Delivery",
     desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
-    imageUrl: "/png/car04.png",
-    width: 136,
-    height: 132,
+    imageUrl: "/png/car04.svg",
+    width: 132,
+    height: 93,
     title: "Insurance included",
     desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
-    imageUrl: "/png/car05.png",
-    width: 197,
-    height: 132,
+    imageUrl: "/png/car05.svg",
+    width: 132,
+    height: 93,
     title: "Brand New Fleets",
     desc: "Your safety is our priority, with a car that's sanitized for purity.",
   },
   {
-    imageUrl: "/png/car06.png",
-    width: 164,
-    height: 132,
+    imageUrl: "/png/car06.svg",
+    width: 132,
+    height: 93,
     title: "Road Side Assistance",
     desc: "What you see is what you get, no hidden charges to fret.",
   },
   {
-    imageUrl: "/png/car07.png",
-    width: 95,
-    height: 95,
+    imageUrl: "/png/car07.svg",
+    width: 32,
+    height:93,
     title: "Flexible Kms",
     desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
-    imageUrl: "/png/car08.png",
-    width: 191,
-    height: 73,
+    imageUrl: "/png/car08.svg",
+    width: 132,
+    height:93,
     title: "Vehicle Health Check",
     desc: "Your new ride, right to your door, with service you'll adore.",
   },
