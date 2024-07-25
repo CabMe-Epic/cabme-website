@@ -17,14 +17,14 @@ const ModifySearch: React.FC = () => {
   const handleStartDateTimeChange = (date: Date | null) => {
     if (date) {
       setStartDate(date);
-      setStartTime(moment(date).format('HH:mm'));
+      setStartTime(moment(date).format("HH:mm"));
     }
   };
 
   const handleEndDateTimeChange = (date: Date | null) => {
     if (date) {
       setEndDate(date);
-      setEndTime(moment(date).format('HH:mm'));
+      setEndTime(moment(date).format("HH:mm"));
     }
   };
 
@@ -51,8 +51,11 @@ const ModifySearch: React.FC = () => {
     if (selectedCity && startDate && endDate) {
       // Save data to localStorage
       localStorage.setItem("pickupLocation", selectedCity);
-      localStorage.setItem("pickupDate", moment(startDate).format('YYYY-MM-DD'));
-      localStorage.setItem("dropOffDate", moment(endDate).format('YYYY-MM-DD'));
+      localStorage.setItem(
+        "pickupDate",
+        moment(startDate).format("YYYY-MM-DD")
+      );
+      localStorage.setItem("dropOffDate", moment(endDate).format("YYYY-MM-DD"));
       localStorage.setItem("pickupTime", startTime || "");
       localStorage.setItem("dropoffTime", endTime || "");
 
@@ -73,13 +76,13 @@ const ModifySearch: React.FC = () => {
       if (pickupdate && pickUpTime) {
         const startDateTime = new Date(`${pickupdate}T${pickUpTime}`);
         setStartDate(startDateTime);
-        setStartTime(moment(startDateTime).format('HH:mm'));
+        setStartTime(moment(startDateTime).format("HH:mm"));
       }
 
       if (dropoffDate && dropOffTime) {
         const endDateTime = new Date(`${dropoffDate}T${dropOffTime}`);
         setEndDate(endDateTime);
-        setEndTime(moment(endDateTime).format('HH:mm'));
+        setEndTime(moment(endDateTime).format("HH:mm"));
       }
     };
 
@@ -88,38 +91,53 @@ const ModifySearch: React.FC = () => {
 
   return (
     <div
-      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 pb-[20px]  items-center rounded-md bg-[url('/png/search-bg.png')]"
+      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 pb-[30px] items-center rounded-md bg-[url('/png/search-bg.png')]"
       style={{ backgroundSize: "100% 100%" }}
     >
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-2 sm:mb-0">
-        <div className="text-3xl cursor-pointer w-fit hidden sm:block">&larr;</div>
+        <div className="text-3xl cursor-pointer w-fit hidden sm:block">
+          &larr;
+        </div>
         <div className="flex flex-col sm:flex-col sm:items-start gap-2">
           {/* <div className="text-3xl cursor-pointer w-fit sm:hidden block">&larr;</div> */}
-          <div className="flex gap-2 sm:ml-1"><span className="block sm:hidden ">&larr;</span>Showing Cars</div>
-          <select
-            onChange={handleCity}
-            name="city"
-            id="city"
-            className="font-semibold w-[100%] sm:min-[200px]"
-            value={selectedCity || ""}
-
-          >
-            <option value="" disabled>Select a city</option>
-            {cities?.map((item, index) => (
-              <option key={index} value={item.name}>
-                {item.name}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-2 sm:ml-1">
+            <span className="block sm:hidden ">&larr;</span> <span className="sm:text-[16px] text-xs"> Showing Cars</span>
+          </div>
+          <div>
+            <div className="flex justify-between">
+              <select
+                onChange={handleCity}
+                name="city"
+                id="city"
+                className="font-semibold w-fit min-[200px] sm:text-[14px] text-xs"
+                value={selectedCity || ""}
+              >
+                <option value="" disabled>
+                  Select a city
+                </option>
+                {cities?.map((item, index) => (
+                  <option key={index} value={item.name}>
+                    {item.name}
+                  </option>
+                ))}
+              </select>
+              <div className="sm:ml-auto sm:my-10 sm:hidden block">
+                <ThemeButton
+                  onClick={handleModifySearch}
+                  text="Modify Search"
+                  className="!rounded-full !px-4 sm:text-md text-xs"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="sm:flex grid grid-cols-2 flex-col items-start sm:items-center sm:flex-row gap-6">
+      <div className="sm:flex grid grid-cols-2 flex-col sm:mt-0 mt-2 items-start sm:items-center sm:flex-row gap-6">
         <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2">
-          <div className="whitespace-nowrap">Pickup Date</div>
+          <div className="whitespace-nowrap sm:text-[14px] text-xs">Pickup Date</div>
           <div className="relative date-picker modify-search m-0 w-[100%] sm:min-[200px]">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
-              
               selected={startDate}
               onChange={handleStartDateTimeChange}
               showTimeSelect
@@ -131,12 +149,12 @@ const ModifySearch: React.FC = () => {
               alt="edit"
               width={12}
               height={12}
-              className="absolute top-[9px] right-[5px] z-[-9]"
+              className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
             />
           </div>
         </div>
         <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2">
-          <div className="whitespace-nowrap">Return Date</div>
+          <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
           <div className="relative date-picker modify-search m-0 w-[100%] sm:min-[200px]">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
@@ -151,12 +169,12 @@ const ModifySearch: React.FC = () => {
               alt="edit"
               width={12}
               height={12}
-              className="absolute top-[9px] right-[5px] z-[-9]"
+              className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
             />
           </div>
         </div>
       </div>
-      <div className="sm:ml-auto sm:my-10 my-4 sm:m-4">
+      <div className="sm:ml-auto sm:my-10 my-4 sm:m-4 sm:block hidden">
         <ThemeButton
           onClick={handleModifySearch}
           text="Modify Search"
@@ -164,7 +182,6 @@ const ModifySearch: React.FC = () => {
         />
       </div>
     </div>
-
   );
 };
 
