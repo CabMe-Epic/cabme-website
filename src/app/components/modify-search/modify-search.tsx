@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import ThemeButton from "../theme-button/theme-button";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
 import moment from "moment";
+import City from "../city-selection/city-selection";
 
 const ModifySearch: React.FC = () => {
   const [cities, setCities] = useState<{ name: string }[] | undefined>([]);
@@ -88,7 +89,28 @@ const ModifySearch: React.FC = () => {
 
     getData();
   }, []);
+  const [showLocationPopup, setShowLocationPopup] = useState(false);
+  const [pickupLocation, setPickupLocation] = useState<any>();
 
+
+  const handleSelectPopupLocation = (e: any) => {
+    e.preventDefault();
+    setShowLocationPopup(!showLocationPopup);
+  };
+
+
+  const handlePickupLocation = (event: any) => {
+    setPickupLocation(event);
+  };
+
+
+
+  const handleCityClick = (cityName: any) => {
+    setSelectedCity(cityName);
+    // setPickupLocation(cityName);
+    handlePickupLocation(cityName);
+    // setShowLocationPopup(false);
+  };
   return (
     <div
       className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 pb-[30px] items-center rounded-md bg-[url('/png/search-bg.png')]"
@@ -105,7 +127,7 @@ const ModifySearch: React.FC = () => {
           </div>
           <div>
             <div className="flex justify-between">
-              <select
+              {/* <select
                 onChange={handleCity}
                 name="city"
                 id="city"
@@ -120,7 +142,53 @@ const ModifySearch: React.FC = () => {
                     {item.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
+              { (
+                <>
+                  <input
+                    className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                    type="text"
+                    placeholder="All City"
+                    onClick={(e) => handleSelectPopupLocation(e)}
+                    value={selectedCity}
+                    readOnly // Prevent editing directly
+                  />
+                  {
+                    showLocationPopup &&
+                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 w-full">
+                    <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
+                      <div className="bg-[#FF0000] w-full py-3 px-10 rounded-t-xl"><h1 className="text-white font-bold text-center text-2xl">Select City</h1></div>
+                      <Image
+                        src={"/svg/close-red.svg"}
+                        alt="nav"
+                        width={26}
+                        height={26}
+                        className="absolute top-3.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
+                        onClick={() => setShowLocationPopup(false)}
+                      />
+                      <div className="city-list max-w-[1095px] max-h-[60vh] overflow-auto w-full flex-col justify-start items-start m-auto  grid grid-cols-1 py-3 px-6">
+                        {cities?.map((city: any, index: number) => (
+                          <div key={index}>
+                            <City
+                              city={city}
+                              isSelected={selectedCity === city.name}
+                              onClick={() => handleCityClick(city.name)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <ThemeButton
+                        onClick={() => setShowLocationPopup(false)}
+                        className="!rounded-full !py-4 mt-6 !w-[200px] !font-semibold"
+                        text="continue"
+                      />
+                    </div>
+                  </div>
+                  }
+
+                
+                </>
+              )}
               <div className="sm:ml-auto sm:my-10 sm:hidden block">
                 <ThemeButton
                   onClick={handleModifySearch}
