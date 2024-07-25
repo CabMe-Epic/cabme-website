@@ -254,14 +254,16 @@
   .swiper-initialized {
     padding-bottom: 10px !important;
   }
-
+.review-slider .swiper-initialized{
+  padding-bottom: 40px !important;
+}
   .offerCards .swiper-initialized {
     height: 215px;
   }
 
-  .fleets .swiper-initialized {
+  /* .fleets .swiper-initialized {
     height: 620px;
-  }
+  } */
 
   .react-datepicker__day-name,
   .react-datepicker__day,

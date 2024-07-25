@@ -74,12 +74,12 @@ const FleetsSlider = ({
         spaceBetween={20}
         slidesPerView={isMobile ? 1 : isTab ? 2 : 3}
         navigation
-        pagination={{ clickable: true }}
+        // pagination={{ clickable: true }}
         loop={true}
-        autoplay={{
-          delay: 2000,
-          disableOnInteraction: false,
-        }}
+        // autoplay={{
+        //   delay: 2000,
+        //   disableOnInteraction: false,
+        // }}
         onSwiper={(swiper) => console.log()}
       >
         <div className="grid grid-cols-3 gap-6 my-12">
@@ -122,15 +122,16 @@ const FleetsSlider = ({
                       </div>
                     )}
                   </div>
-                  <div className="sm:h-[185px]">
+                  <div className="sm:!h-[165px]">
                     <Image
                       src={item?.featuredImage?.image}
                       alt={item?.featuredImage?.alt}
                       width={400}
                       height={185}
+                      className="sm:h-[170px] w-auto h-[130px] w-auto m-auto mt-4"
                     />
                   </div>
-                  <h3 className="font-semibold text-2xl text-center border-b pb-2 mt-14">
+                  <h3 className="font-semibold text-2xl text-center border-b pb-2 sm:mt-14 mt-4">
                     {item?.carName}
                   </h3>
                   <div className="grid sm:grid-cols-3 grid-cols-2 gap-6 mt-4">
