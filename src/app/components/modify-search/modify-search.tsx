@@ -126,7 +126,7 @@ const ModifySearch: React.FC = () => {
             <span className="block sm:hidden ">&larr;</span> <span className="sm:text-[16px] text-xs"> Showing Cars</span>
           </div>
           <div>
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               {/* <select
                 onChange={handleCity}
                 name="city"
@@ -146,7 +146,7 @@ const ModifySearch: React.FC = () => {
               { (
                 <>
                   <input
-                    className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                    className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
                     type="text"
                     placeholder="All City"
                     onClick={(e) => handleSelectPopupLocation(e)}

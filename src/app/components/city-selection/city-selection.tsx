@@ -6,7 +6,7 @@ const City = ({ city, isSelected, onClick }: any) => {
 
     return (
         <div
-            className={`flex flex-row gap-4 bg-[#F9F9F9] m-1 items-center p-2 cursor-pointer rounded-lg w-auto sm:w-[500px] `}
+            className={`flex flex-row gap-4 bg-[#F9F9F9] m-1 items-center p-2 cursor-pointer rounded-lg w-auto `}
             onClick={() => onClick(city.name)}
         >
             <span className={`border-2 flex justify-center items-center  border-[#FF0000] w-[30px] h-[30px] rounded-full`}>
