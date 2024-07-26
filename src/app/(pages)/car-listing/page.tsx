@@ -8,10 +8,7 @@ import Image from "next/image";
 import CardListingCards from "@/app/components/card-listing-cards/card-listing-cards";
 import ThemeButton from "../../components/theme-button/theme-button";
 import CardListingBanner from "@/app/components/car-listing-banner/card-listing-banner";
-import useVehicles from "../../../../networkRequests/hooks/useVehicles";
-import { useImmer } from "use-immer";
 import "../../../../networkRequests/types/type";
-import axios from "axios";
 import { searchVehicle } from "../../../../networkRequests/hooks/api";
 import ModifySearch from "@/app/components/modify-search/modify-search";
 
@@ -19,26 +16,9 @@ const ITEMS_PER_PAGE = 8;
 const CarListing = () => {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
-
-  // const { vehicles, loading, error } = useVehicles();
-  // console.log("vehicles", vehicles);
-
   const [carData, setCarData] = useState<any>();
   const [showFilter, setShowFilter] = useState(false);
 
-  // useEffect(() => {
-
-  //   if (showFilter) {
-  //     document.body.classList.add('no-scroll');
-  //   } else {
-  //     document.body.classList.remove('no-scroll');
-  //   }
-
-  //   // Cleanup function to remove the class when the component is unmounted or the state changes
-  //   return () => {
-  //     document.body.classList.remove('no-scroll');
-  //   };
-  // }, [showFilter]);
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicle();

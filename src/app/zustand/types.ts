@@ -35,3 +35,16 @@ export interface UserState {
   logout: () => void;
   updateUserData: (newData: Partial<User>) => void;
 }
+
+
+export interface CarsStore {
+  package1Price: number | null
+  package2Price: number | null
+  package3Price: number | null
+
+  setPackage1Price: (price: number | null) => void;
+  setPackage2Price: (price: number | null) => void;
+  setPackage3Price: (price: number | null) => void;
+
+  getPackagePrices: () => (number | null)[];
+}
