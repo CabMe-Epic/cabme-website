@@ -504,7 +504,7 @@ const CarDetails = () => {
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Package Amount</span>
                     <span className="w-[220px] ml-10 w-fit">
-                      ₹{roundPrice(package1Price)}
+                      ₹{roundPrice(packagePrice)}
                     </span>
                   </div>
 
