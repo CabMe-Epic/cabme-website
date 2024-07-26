@@ -1,11 +1,26 @@
+"use client";
 import FaqSection from "@/app/components/faq/faq";
+import InputField from "@/app/components/input-field/input-field";
 import OurBlogs from "@/app/components/our-blogs/our-blogs";
 import ReviewCard from "@/app/components/review-card/review-card";
 import ThemeButton from "@/app/components/theme-button/theme-button";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
+import { getAllCities } from "../../../../networkRequests/hooks/api";
 
 const AboutUs = () => {
+  const [cities, setCities] = React.useState<[]>();
+
+  const getRecords = React.useCallback(async () => {
+    const citiesResponse = await getAllCities();
+    const cities = citiesResponse?.data?.response;
+    setCities(cities);
+    console.log("citiesResponse", { cities });
+  }, []);
+  React.useEffect(() => {
+    getRecords();
+  }, []);
   return (
     <div className="py-6">
       <div className="sm:flex hidden px-16 text-[#5F5D5D]">
@@ -38,16 +53,16 @@ const AboutUs = () => {
           </h3>
           <div className="text-[#7C7575] grid gap-4 mt-6">
             <p>
-              We are India&apos;s leading Car Rental Company with an innovative way
-              of servicing the requirements of the ever growing car rental
+              We are India&apos;s leading Car Rental Company with an innovative
+              way of servicing the requirements of the ever growing car rental
               industry in India as compared to other such service providers.
             </p>
             <p>
               The company was incorporated in year 2020 with a small fleet of 10
               cars. Today with its strong determination and strong competition
               edge over other car rentals companies, it has managed to grab a
-              large share in car rental industry. Over the years Cabme&apos;s fleet
-              has exponentially grown. 
+              large share in car rental industry. Over the years Cabme&apos;s
+              fleet has exponentially grown. 
             </p>
             <div className="mt-6">
               <h4 className="text-primary font-bold sm:mb-0 mb-2">
@@ -68,18 +83,20 @@ const AboutUs = () => {
                     1800 121 6162{" "}
                   </Link>
                 </div>
-                <div className="flex gap-2">
+                <Link
+                  href={"https://wa.link/l86m7r"}
+                  className="flex gap-2 items-center"
+                >
                   <Image
                     src={"/svg/whatsapp.svg"}
                     alt="whatsapp"
                     width={24}
                     height={24}
                   />
-                  <Link className="font-semibold text-black sm:text-md text-sm" href={"#"}>
-                    {" "}
-                    +91-7240004072{" "}
-                  </Link>
-                </div>
+                  <span className="font-semibold text-black sm:text-md text-sm">
+                    +91-7240004072
+                  </span>
+                </Link>
               </div>
             </div>
           </div>
@@ -293,7 +310,10 @@ const AboutUs = () => {
                   width={24}
                   height={24}
                 />
-                <Link className="font-semibold text-black sm:text-md text-sm" href={"#"}>
+                <Link
+                  className="font-semibold text-black sm:text-md text-sm"
+                  href={"#"}
+                >
                   {" "}
                   +91-7240004072{" "}
                 </Link>
@@ -325,87 +345,27 @@ const AboutUs = () => {
           </div>
         </div>
         <div>
-          <div className="relative max-w-[480px]  mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
-            <div className="absolute top-[-25px] left-0 right-0">
-              <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2">
-                <div className="bg-white rounded-xl px-4 py-[8px] text-center">
-                  Rentals
-                </div>
-                <div className="rounded-xl px-4 py-[8px] text-center text-white">
-                  Subscriptions
-                </div>
-              </div>
+          <div className="relative max-w-[480px]  mb-16 m-auto border rounded-xl shadow-xl w-full px-4 py-8 my-6">
+            <h2 className="text-2xl font-semibold text-center mb-8">
+              Submit your details
+            </h2>
+            <div className="grid gap-4">
+              <InputField placeholder="Full Name" className="h-[48px]" />
+              <InputField placeholder="Phone number" className="h-[48px]" />
+              <InputField placeholder="Email Id" className="h-[48px]" />
+              <select name="city" id="city" className="outline-none w-full pl-4 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB] h-[48px]">
+              <option value="Select Your City">Select Your City</option>
+                {cities?.map((city: any, index: number) => (
+                  <option key={index} value={city?.name}>
+                    {city?.name}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full">
-              <div className="bg-black text-white p-2 rounded-l-full text-center px-4">
-                <input
-                  type="radio"
-                  name="select"
-                  id="self"
-                  className="accent-red-500"
-                />
-                <label className="ml-2" htmlFor="self">
-                  Self Driven
-                </label>
-              </div>
-              <div className="p-2 rounded-full text-center px-4">
-                <input
-                  type="radio"
-                  name="select"
-                  id="driver"
-                  className="accent-red-500"
-                />
-                <label className="ml-2" htmlFor="driver">
-                  Driver
-                </label>
-              </div>
-            </div>
-            <div className="mt-6 border rounded-xl p-2 flex gap-2">
-              <Image
-                src={"/svg/city-new.svg"}
-                alt="location"
-                width={16}
-                height={18}
-              />
-              <input
-                type="text"
-                placeholder="Select Your City"
-                className="w-full border-none outline-none"
-              />
-            </div>
-            <div className="mt-6 border rounded-xl p-2 flex gap-2">
-              <Image
-                src={"/svg/city-new.svg"}
-                alt="location"
-                width={16}
-                height={18}
-              />
-              <input
-                type="text"
-                placeholder="Shimla,Himachal Pardesh"
-                className="w-full border-none outline-none"
-              />
-            </div>
-            <div className="flex jusitfy-between gap-4">
-              <div className="mt-6 border rounded-xl p-2 flex gap-2 w-full">
-                <input type="date" name="" id="" className="w-full" />
-              </div>
-              <div className="mt-6 border rounded-xl p-2 flex gap-2 w-full">
-                <input type="time" name="" id="" className="w-full" />
-              </div>
-            </div>
-            <div className="mt-8 mb-4">
-              <p className="w-fit p-4 bg-[#F2F7F6] rounded-xl m-auto">
-                {" "}
-                <span className="font-semibold"> Duration:</span>{" "}
-                2days,12hours,12minutes
-              </p>
-            </div>
-            <div className="absolute bottom-[-20px] left-0 right-0 m-auto w-fit">
+            <div className="mt-8">
               <ThemeButton
-                className="font-semibold text-sm rounded-xl !py-2 shadow-xl gap-2"
-                text="Start Your Journey"
-                image={"/svg/race.svg"}
+                text="Submit"
+                className="w-full sm:!py-3 !py-2 !font-bold text-lg tracking-wide"
               />
             </div>
           </div>
@@ -511,7 +471,6 @@ const AboutUs = () => {
       <div className="sm:my-24 my-12">
         <OurBlogs />
       </div>
-     
     </div>
   );
 };
