@@ -82,7 +82,7 @@ const CardListingCards = ({ data }: any) => {
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : data?.imageGallery?.length - 1));
@@ -92,82 +92,113 @@ const CardListingCards = ({ data }: any) => {
     setCurrentIndex((prevIndex) => (prevIndex < data?.imageGallery?.length - 1 ? prevIndex + 1 : 0));
   };
 
-  const currentImage = data?.imageGallery?.[currentIndex]?.image;
+  useEffect(() => {
+    const handleKeyDown = (event: any) => {
+      if (event.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (event.key === 'ArrowRight') {
+        handleNext();
+      }
+    };
+
+    // const handleScroll = (event: any) => {
+    //   const scrollDirection = event.deltaY > 0 ? 'down' : 'up';
+    //   if (scrollDirection === 'down') {
+    //     handleNext();
+    //   } else {
+    //     handlePrev();
+    //   }
+    // };
+
+    window.addEventListener('keydown', handleKeyDown);
+    // window.addEventListener('wheel', handleScroll);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      // window.removeEventListener('wheel', handleScroll);
+    };
+  }, []);
   // const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
 
   //please don't touch this function, It is for the default package select when user does not select any package...!!
- 
-    const selectDefaultPackage = (data:any) =>{
-      if(selectedPackagePrice===undefined){
-      bookingOptionsHome===(data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price) 
-      : bookingOptionsHome===(data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price) 
-      : driverType===(data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
-       : driverType===(data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) : 
-       console.log("Something went wrong in package selection");
+
+  const selectDefaultPackage = (data: any) => {
+    if (selectedPackagePrice === undefined) {
+      bookingOptionsHome === (data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price)
+        : bookingOptionsHome === (data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price)
+          : driverType === (data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
+            : driverType === (data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) :
+              console.log("Something went wrong in package selection");
 
     }
-    }
-    
+  }
 
-  console.log(selectedPackagePrice,"hello");
+
+  console.log(selectedPackagePrice, "hello");
 
   return (
     <>
       {showImg ? (
-        // backdrop-blur-xl
-        <div className="w-[100%] sm:w-screen h-[100vh] fixed !top-0 !left-0   backdrop-blur-md z-[999] flex justify-center items-center overflow-hidden ">
+        <div className="sm:w-screen h-screen fixed !top-0 !left-0 backdrop-blur-md z-[999] flex justify-center w-screen sm:h-screen items-center overflow-hidden">
           <div
             onClick={() => setShowImg(!showImg)}
-            className="absolute top-20 right-1 transform -translate-x-1/2 "
+            className="absolute top-4 right-4 transform -translate-x-1/2 cursor-pointer"
           >
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
-          <div className="flex flex-col items-center relative">
-            <Image
-              src={currentImage}
-              key={data?.imageGallery?.[currentIndex]?.alt}
-              width={330}
-              objectFit={"contain"}
-              height={300}
-              className="bg-white m-10 shadow-xl cursor-pointer transition-all sm:h-[400px] sm:w-[700px] object-cover rounded-xl"
-              alt={data?.imageGallery?.[currentIndex]?.alt || "Tag Icon"}
-            />
-
-            <button onClick={handlePrev} className="absolute left-0 top-52 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2">
+          <div className="relative flex flex-col items-center">
+            <div className="relative">
               <Image
-                src="/png/left-arrow-red.png"
-                alt="arrow"
-                width={24}
-                height={16}
-                className="sm:w-[100%] w-[5=100%] "
+                src={data?.imageGallery?.[currentIndex]?.image}
+                key={data?.imageGallery?.[currentIndex]?.alt}
+                width={330}
+                height={300}
+                objectFit="contain"
+                className="bg-white sm:m-4 shadow-xl cursor-pointer transition-all w-[320px] sm:w-[700px] sm:h-[400px] object-cover rounded-xl  m-auto "
+                alt={data?.imageGallery?.[currentIndex]?.alt || "Tag Icon"}
               />
-            </button>
-            <button onClick={handleNext} className="absolute right-0 top-52 z-10 flex justify-center items-center  w-[40px] h-[40px] bg-white rounded-full shadow-md p-2">
-              <Image
-                src="/png/right-arrow-red.png"
-                alt="arrow"
-                width={24}
-                height={16}
-                className="sm:w-[100%] w-[5=100%]"
-              />
-            </button>
-
-            <div className="flex sm:flex w-[95%] sm:w-[100%] overflow-x-auto h-[70%] sm:justify-center sm:items-start gap-0 overflowX-auto sm:overflowY-hidden">
+              <button
+                onClick={handlePrev}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2"
+              >
+                <Image
+                  src="/png/left-arrow-red.png"
+                  alt="arrow"
+                  width={24}
+                  height={16}
+                  className="w-[24px] h-[16px]"
+                />
+              </button>
+              <button
+                onClick={handleNext}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2"
+              >
+                <Image
+                  src="/png/right-arrow-red.png"
+                  alt="arrow"
+                  width={24}
+                  height={16}
+                  className="w-[24px] h-[16px]"
+                />
+              </button>
+            </div>
+            <div className="flex sm:flex-row flex-row w-[100%] sm:w-[95%] overflow-x-auto h-[70%] sm:justify-center items-center sm:items-start gap-2 py-10">
               {data?.imageGallery?.map((item: any, index: number) => (
                 <Image
                   src={item?.image}
                   key={index}
-                  width={100}
-                  height={100}
+                  width={110}
+                  height={110}
                   onClick={() => setCurrentIndex(index)}
-                  className="bg-white m-2 cursor-pointer hover:scale-[110%] duration-75 transition-all hover:shadow-xl gap-0 sm:h-[160px] sm:w-[160px] object-cover rounded-xl"
+                  className={`bg-white m-2 cursor-pointer transition-transform duration-300 rounded-md ${index === currentIndex ? 'scale-110 shadow-xl' : ''
+                    }`}
                   alt={item?.alt}
                 />
               ))}
             </div>
           </div>
-
         </div>
+
       ) : (
         ""
       )}
@@ -260,11 +291,16 @@ const CardListingCards = ({ data }: any) => {
                             }
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
-                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
-                            {data?.bookingOptions?.selfDrive?.packageType
-                              ?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
-                                ?.package1?.kmsLimit : "0"} Free kms
-                          </p>
+                          <span className="relative flex flex-row  group text-[#FF0000]">
+                            <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap w-[80px] overflow-hidden">
+                              {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit : "0"} Free kms
+                            </p>...
+                            <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2">
+                              {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit : "0"} Free kms
+                            </div>
+                          </span>
+
+
                         </span>
                       </div>
                       <div
@@ -290,20 +326,25 @@ const CardListingCards = ({ data }: any) => {
                             data?.bookingOptions?.selfDrive?.packageType
                               ?.package2?.price)?.toFixed(0)}
                         </span>
-                        <span className="flex flex-col gap-0">
+                        <span className="relative flex flex-col gap-0 group">
                           <p className="text-[#565454] font-[500] text-[14px] text-center whitespace-nowrap">
-                            {
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package2?.duration
-                            }
+                            {data?.bookingOptions?.selfDrive?.packageType?.package2?.duration}
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
-                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
-                            {data?.bookingOptions?.selfDrive?.packageType
-                              ?.package2?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
-                                ?.package2?.kmsLimit : "0"} Free kms
-                          </p>
+                          <span className="text-[#FF0000] flex flex-row">
+                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap overflow-hidden w-[80px]">
+                            {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                              ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                              : "0"} Free kms
+                          </p>...
+                          </span>
+                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                              ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                              : "0"} Free kms
+                          </div>
                         </span>
+
                       </div>
                       <div
                         onClick={() => {
@@ -330,20 +371,25 @@ const CardListingCards = ({ data }: any) => {
                                 ?.package3?.price)?.toFixed(0)
                           }
                         </span>
-                        <span className="flex flex-col gap-0">
+                        <span className="relative flex flex-col gap-0 group">
                           <p className="text-[#565454] font-[500] text-[14px] text-center whitespace-nowrap">
-                            {
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package3?.duration
-                            }
+                            {data?.bookingOptions?.selfDrive?.packageType?.package3?.duration}
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
-                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap">
-                            {data?.bookingOptions?.selfDrive?.packageType
-                              ?.package3?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType
-                                ?.package3?.kmsLimit : "0"} Free kms
-                          </p>
+                          <span className="flex flex-row text-[#FF0000]">
+                            <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap overflow-hidden w-[80px]">
+                              {data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
+                                ? data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
+                                : "0"} Free kms
+                            </p>...
+                          </span>
+                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
+                              ? data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
+                              : "0"} Free kms
+                          </div>
                         </span>
+
                       </div>
 
                       {/* <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#000000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
@@ -477,9 +523,9 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="m-0">
                         <ThemeButton
-                          onClick={() =>
-                          {Navigation.push(`/car-details/${data._id}`);
-                          selectDefaultPackage(data);
+                          onClick={() => {
+                            Navigation.push(`/car-details/${data._id}`);
+                            selectDefaultPackage(data);
 
                           }}
                           text="Book Now"
@@ -755,11 +801,10 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <div className="m-0">
                       <ThemeButton
-                        onClick={() =>
-                        {
+                        onClick={() => {
 
                           Navigation.push(`/car-details/${data._id}`),
-                          selectDefaultPackage(data);
+                            selectDefaultPackage(data);
 
                         }
                         }
@@ -1033,10 +1078,9 @@ const CardListingCards = ({ data }: any) => {
                           </div>
                           <div className="m-0">
                             <ThemeButton
-                              onClick={() =>
-                              {
+                              onClick={() => {
                                 Navigation.push(`/car-details/${data._id}`),
-                          selectDefaultPackage(data);
+                                  selectDefaultPackage(data);
 
                               }
                               }
@@ -1345,10 +1389,9 @@ const CardListingCards = ({ data }: any) => {
                           </div>
                           <div className="m-0">
                             <ThemeButton
-                              onClick={() =>
-                              {
+                              onClick={() => {
                                 Navigation.push(`/car-details/${data._id}`),
-                                selectDefaultPackage(data)
+                                  selectDefaultPackage(data)
                               }
                               }
                               text="Book Now"
@@ -1797,12 +1840,11 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <ThemeButton
-                      onClick={() =>
-                      {
+                      onClick={() => {
 
-                      
+
                         Navigation.push(`/car-details/${data._id}`),
-                        console.log("maaaa");
+                          console.log("maaaa");
                       }
                       }
                       text="Book Now"

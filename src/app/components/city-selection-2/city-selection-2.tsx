@@ -9,10 +9,7 @@ const City = ({ city, isSelected, onClick }: any) => {
             className={`flex flex-row gap-4 bg-[#F9F9F9] m-1 items-center p-2 cursor-pointer rounded-lg w-auto sm:w-[500px] `}
             onClick={() => onClick(city.name)}
         >
-            <span className={`border-2 flex justify-center items-center  border-[#FF0000] w-[30px] h-[30px] rounded-full`}>
-                <span className={`m-auto ${isSelected ? '   w-[20px] h-[20px] rounded-full bg-[#FF0000] ' : 'border-2 border-transparent  '}`}>
-                </span>
-            </span>
+                <input className='accent-[#ff0000] w-[30px]' type="radio" name="example" value="1" checked={isSelected} />
             <Image
                 src={city?.image}
                 alt={city.name}
