@@ -157,13 +157,13 @@ const ModifySearch: React.FC = () => {
                     showLocationPopup &&
                     <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 w-full">
                     <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
-                      <div className="bg-[#FF0000] w-full py-3 px-10 rounded-t-xl"><h1 className="text-white font-bold text-center text-2xl">Select City</h1></div>
+                      <div className="bg-[#FF0000] w-full py-2 px-10 rounded-t-xl"><h1 className="text-white font-semibold text-center text-xl">Select City</h1></div>
                       <Image
                         src={"/svg/close-red.svg"}
                         alt="nav"
                         width={26}
                         height={26}
-                        className="absolute top-3.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
+                        className="absolute top-2.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
                         onClick={() => setShowLocationPopup(false)}
                       />
                       <div className="city-list max-w-[1095px] max-h-[60vh] overflow-auto w-full flex-col justify-start items-start m-auto  grid grid-cols-1 py-3 px-6">
@@ -179,8 +179,8 @@ const ModifySearch: React.FC = () => {
                       </div>
                       <ThemeButton
                         onClick={() => setShowLocationPopup(false)}
-                        className="!rounded-full !py-4 mt-6 !w-[200px] !font-semibold"
-                        text="continue"
+                        className="!rounded-full !py-2 mt-6 !w-[200px] !font-semibold"
+                        text="Select"
                       />
                     </div>
                   </div>

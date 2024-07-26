@@ -10,7 +10,7 @@ const City = ({ city, isSelected, onClick }: any) => {
             onClick={() => onClick(city.name)}
         >
             <span className={`border-2 flex justify-center items-center  border-[#FF0000] w-[30px] h-[30px] rounded-full`}>
-                <span className={`m-auto ${isSelected ? '   w-[18px] h-[18px] rounded-full bg-[#FF0000] ' : 'border-2 border-transparent  '}`}>
+                <span className={`m-auto ${isSelected ? '   w-[20px] h-[20px] rounded-full bg-[#FF0000] ' : 'border-2 border-transparent  '}`}>
                 </span>
             </span>
             <Image
@@ -20,7 +20,7 @@ const City = ({ city, isSelected, onClick }: any) => {
                 height={100}
                 className="w-12 h-12 p-.5 border rounded-md"
             />
-            <p className="mt-2 text-sm font-[600]">{city?.name}</p> 
+            <p className="mt-2 text-sm font-[600]">{city?.name}</p>
         </div>
     );
 };

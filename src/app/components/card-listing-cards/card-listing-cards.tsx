@@ -82,7 +82,18 @@ const CardListingCards = ({ data }: any) => {
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
-  const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : data?.imageGallery?.length - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex < data?.imageGallery?.length - 1 ? prevIndex + 1 : 0));
+  };
+
+  const currentImage = data?.imageGallery?.[currentIndex]?.image;
+  // const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
 
   //please don't touch this function, It is for the default package select when user does not select any package...!!
 
@@ -109,34 +120,50 @@ const CardListingCards = ({ data }: any) => {
           >
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center relative">
             <Image
               src={currentImage}
-              key={data?.featuredImage?.alt}
+              key={data?.imageGallery?.[currentIndex]?.alt}
               width={330}
               objectFit={"contain"}
               height={300}
-              className="bg-white m-10 shadow-xl cursor-pointer  transition-all sm:h-[400px] sm:w-[700px] object-cover rounded-xl"
-              alt="Tag Icon"
+              className="bg-white m-10 shadow-xl cursor-pointer transition-all sm:h-[400px] sm:w-[700px] object-cover rounded-xl"
+              alt={data?.imageGallery?.[currentIndex]?.alt || "Tag Icon"}
             />
-            <div className="flex sm:flex w-[95%] sm:w-[100%] overflow-x-auto h-[70%] sm:justify-center sm:items-start gap-0  overflowX-auto sm:overflowY-hidden">
-              {data?.imageGallery?.map((item: any, index: number) => {
-                console.log(item?.image, "url");
-                return (
-                  <Image
-                    src={item?.image}
-                    key={index}
-                    width={100}
-                    height={100}
-                    onClick={() => setCurrentImage(item?.image)}
-                    className="bg-white m-2 cursor-pointer hover:scale-[110%] duration-75 transition-all hover:shadow-xl gap-0 sm:h-[160px] sm:w-[160px] object-cover rounded-xl"
-                    alt={item?.alt}
-                  />
-                );
-              })}
+
+            <button onClick={handlePrev} className="absolute left-0 top-52 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2">
+              <Image
+                src="/png/left-arrow-red.png"
+                alt="arrow"
+                width={24}
+                height={16}
+                className="sm:w-[100%] w-[5=100%] "
+              />
+            </button>
+            <button onClick={handleNext} className="absolute right-0 top-52 z-10 flex justify-center items-center  w-[40px] h-[40px] bg-white rounded-full shadow-md p-2">
+              <Image
+                src="/png/right-arrow-red.png"
+                alt="arrow"
+                width={24}
+                height={16}
+                className="sm:w-[100%] w-[5=100%]"
+              />
+            </button>
+
+            <div className="flex sm:flex w-[95%] sm:w-[100%] overflow-x-auto h-[70%] sm:justify-center sm:items-start gap-0 overflowX-auto sm:overflowY-hidden">
+              {data?.imageGallery?.map((item: any, index: number) => (
+                <Image
+                  src={item?.image}
+                  key={index}
+                  width={100}
+                  height={100}
+                  onClick={() => setCurrentIndex(index)}
+                  className="bg-white m-2 cursor-pointer hover:scale-[110%] duration-75 transition-all hover:shadow-xl gap-0 sm:h-[160px] sm:w-[160px] object-cover rounded-xl"
+                  alt={item?.alt}
+                />
+              ))}
             </div>
           </div>
-
 
         </div>
       ) : (
@@ -1766,12 +1793,17 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <ThemeButton
                       onClick={() =>
-                        Navigation.push(`/car-details/${data._id}`)
+                      {
+
+                      
+                        Navigation.push(`/car-details/${data._id}`),
+                        console.log("maaaa");
+                      }
                       }
                       text="Book Now"
-                      className="ml-auto mt-4 shadow-custom-shadow grad-button !px-4 !font-semibold"
+                      className="ml-auto mt-4 shadow-custom-shadow grad-button !px-4 !font-semibold z-[9]"
                     />
-                    <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
+                    <div className="flex flex-row items-center sm:w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2 w-fit">
                       <span
                         className="text-[#ff0000] text-xs"
                         onClick={() => setShowOptionsMobile(!showOptionsMobile)}
