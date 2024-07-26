@@ -35,7 +35,7 @@ const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
 
   const [showImg, setShowImg] = useState(false);
-  const condition = true; // Replace with your actual condition
+  const condition = true;
 
   useEffect(() => {
     if (showImg) {
@@ -51,20 +51,15 @@ const CardListingCards = ({ data }: any) => {
     };
   }, [showImg]);
 
-  console.log("item", data);
-
   const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
   const [selectedPackagePrice, setPackagePrice] = useState<any>();
 
   const setPrice = (price: number) => {
     setPackagePrice(price);
-    // setClicked1(true);
-
-    //  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
   };
   localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
-  console.log(selectedPackagePrice, "selected price");
+  console.log({ selectedPackagePrice });
 
   const tabs = [
     { name: "Exclusion", content: "Exclusion Content" },
@@ -83,8 +78,6 @@ const CardListingCards = ({ data }: any) => {
     setBookingOptionsHome(bookingOptions);
     setDriverType(driverType);
   }, []);
-  console.log("type on card section", bookingOptionsHome);
-  console.log(data?.bookingOptions?.selfDrive, "dtaaaaaaaaaaaaaaaaa");
   const [clicked1, setClicked1] = useState(true);
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
@@ -198,13 +191,15 @@ const CardListingCards = ({ data }: any) => {
                     <div className="mt-5 flex flex-row items-center lg:gap-4 gap-2 mr-4 justify-end">
                       <div
                         onClick={() => {
-                          setPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package1?.price
-                          );
-                          setClicked1(true);
-                          setClicked2(false);
-                          setClicked3(false);
+                          const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price);
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(true);
+                            setClicked2(false);
+                            setClicked3(false);
+                          } else {
+                            console.error("Failed to calculate the total price");
+                          }
                         }}
                         className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
@@ -232,13 +227,15 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
-                          setPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package2?.price
-                          );
-                          setClicked1(false);
-                          setClicked2(true);
-                          setClicked3(false);
+                          const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package2?.price);
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(false);
+                            setClicked2(true);
+                            setClicked3(false);
+                          } else {
+                            console.error("Failed to calculate the total price");
+                          }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
@@ -249,8 +246,7 @@ const CardListingCards = ({ data }: any) => {
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
-                              ?.package2?.price)?.toFixed(0)
-                          }
+                              ?.package2?.price)?.toFixed(0)}
                         </span>
                         <span className="flex flex-col gap-0">
                           <p className="text-[#565454] font-[500] text-[14px] text-center whitespace-nowrap">
@@ -269,13 +265,15 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
-                          setPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package3?.price
-                          );
-                          setClicked1(false);
-                          setClicked2(false);
-                          setClicked3(true);
+                          const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package3?.price);
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(false);
+                            setClicked2(false);
+                            setClicked3(true);
+                          } else {
+                            console.error("Failed to calculate the total price");
+                          }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
