@@ -127,9 +127,9 @@ const CardListingCards = ({ data }: any) => {
   const selectDefaultPackage = (data: any) => {
     if (selectedPackagePrice === undefined) {
       bookingOptionsHome === (data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price))
-        : bookingOptionsHome === (data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price)
-          : driverType === (data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
-            : driverType === (data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) :
+        : bookingOptionsHome === (data?.bookingOptions?.subscription?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.subscription?.packageType?.package1?.price))
+          : driverType === (data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price))
+            : driverType === (data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price)) :
               console.log("Something went wrong in package selection");
     }
     else {
