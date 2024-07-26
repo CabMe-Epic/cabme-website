@@ -91,6 +91,21 @@ const CardListingCards = ({ data }: any) => {
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
   const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
 
+  //please don't touch this function, It is for the default package select when user does not select any package...!!
+ 
+    const selectDefaultPackage = (data:any) =>{
+      if(selectedPackagePrice===undefined){
+      bookingOptionsHome===(data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price) 
+      : bookingOptionsHome===(data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price) 
+      : driverType===(data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
+       : driverType===(data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) : 
+       console.log("Something went wrong in package selection");
+
+    }
+    }
+    
+
+  console.log(selectedPackagePrice,"hello");
 
   return (
     <>
@@ -438,8 +453,10 @@ const CardListingCards = ({ data }: any) => {
                       <div className="m-0">
                         <ThemeButton
                           onClick={() =>
-                            Navigation.push(`/car-details/${data._id}`)
-                          }
+                          {Navigation.push(`/car-details/${data._id}`);
+                          selectDefaultPackage(data);
+
+                          }}
                           text="Book Now"
                           className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md text-xs w-[140px] h-[50px] text-center flex flex-row justify-center !font-bold !text-[20px]"
                         />
@@ -714,7 +731,12 @@ const CardListingCards = ({ data }: any) => {
                     <div className="m-0">
                       <ThemeButton
                         onClick={() =>
-                          Navigation.push(`/car-details/${data._id}`)
+                        {
+
+                          Navigation.push(`/car-details/${data._id}`),
+                          selectDefaultPackage(data);
+
+                        }
                         }
                         text="Book Now"
                         className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]"
@@ -987,7 +1009,11 @@ const CardListingCards = ({ data }: any) => {
                           <div className="m-0">
                             <ThemeButton
                               onClick={() =>
-                                Navigation.push(`/car-details/${data._id}`)
+                              {
+                                Navigation.push(`/car-details/${data._id}`),
+                          selectDefaultPackage(data);
+
+                              }
                               }
                               text="Book Now"
                               className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]"
@@ -1295,7 +1321,10 @@ const CardListingCards = ({ data }: any) => {
                           <div className="m-0">
                             <ThemeButton
                               onClick={() =>
-                                Navigation.push(`/car-details/${data._id}`)
+                              {
+                                Navigation.push(`/car-details/${data._id}`),
+                                selectDefaultPackage(data)
+                              }
                               }
                               text="Book Now"
                               className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]"
