@@ -453,8 +453,8 @@ export default function Home() {
                                   </div>
                                   <ThemeButton
                                     onClick={() => setShowLocationPopup(false)}
-                                    className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                                    text="continue"
+                                    className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                                    text="Select"
                                   />
                                 </div>
                               </div>
@@ -625,8 +625,8 @@ export default function Home() {
                               </div>
                               <ThemeButton
                                 onClick={() => setShowLocationPopup(false)}
-                                className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                                text="continue"
+                                className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                                text="Select"
                               />
                             </div>
                           </div>
@@ -783,8 +783,8 @@ export default function Home() {
                       </div>
                       <ThemeButton
                         onClick={() => setShowDropLocationPopup(false)}
-                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                        text="continue"
+                        className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                        text="Select"
                       />
                     </div>
                   </div>
@@ -854,8 +854,8 @@ export default function Home() {
                                 </div>
                                 <ThemeButton
                                   onClick={() => setShowLocationPopup(false)}
-                                  className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                                  text="continue"
+                                  className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                                  text="Select"
                                 />
                               </div>
                             </div>
@@ -1013,8 +1013,8 @@ export default function Home() {
                       </div>
                       <ThemeButton
                         onClick={() => setShowDropLocationPopup(false)}
-                        className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                        text="continue"
+                        className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                        text="Select"
                       />
                     </div>
                   </div>
@@ -1079,8 +1079,8 @@ export default function Home() {
                               </div>
                               <ThemeButton
                                 onClick={() => setShowLocationPopup(false)}
-                                className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                                text="continue"
+                                className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                                text="Select"
                               />
                             </div>
                           </div>
@@ -1247,8 +1247,8 @@ export default function Home() {
                     </div>
                     <ThemeButton
                       onClick={() => setShowDropLocationPopup(false)}
-                      className="!rounded-full !py-4 !w-[200px] !font-semibold"
-                      text="continue"
+                      className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                      text="Select"
                     />
                   </div>
                 </div>
@@ -1649,7 +1649,7 @@ export default function Home() {
                       alt="image"
                       width={value?.width}
                       height={value?.height}
-                      className="m-auto sm:h-[93px] h-auto sm:w-auto w-[132px]"
+                      className="m-auto h-[93px] sm:w-auto w-[132px]"
                     />
                   </div>
                   <div className="sm:px-4">
@@ -1765,20 +1765,19 @@ export default function Home() {
       </div>
       {/* app section */}
       <div
-        className="grid sm:grid-cols-2 gap-4 px-4 py-8 rounded-xl m-4 bg-[#FCE2E2] sm:my-16 my-10"
-        style={{ boxShadow: "0px 1px 18.1px 2px #FF000080" }}
+        className="grid sm:grid-cols-2 gap-4 sm:px-10 px-4 sm:py-8 pt-8 pb-4 rounded-xl sm:bg-[url('/svg/taj.svg')] bg-[url('/png/taj-mobile.png')] bg-no-repeat bg-cover m-4 sm:my-16 my-10"
+        style={{ backgroundSize:"100% 100%" }}
       >
         <div className="max-w-[550px] m-auto">
-          <h3 className="font-bold lg:text-3xl text-2xl">
-            <span className="text-primary">Download</span> our app to get <br />
-            most out of it
+          <h3 className="font-semibold lg:text-3xl text-2xl">
+          Best App for <span className="text-primary font-bold">CAR RENTAL</span>
           </h3>
-          <p className="lg:my-8 my-4 sm:text-md text-sm">
+          <p className="lg:my-8 sm:my-4 sm:text-[14px] text-xs">
             Thrown shy denote ten ladies though ask saw. Or by to he going think
             order event music. Incommode so intention defective at convinced.
             Led income months itself and houses you.
           </p>
-          <div className="flex sm:justify-start justify-center sm:gap-12 gap-4">
+          <div className="flex sm:justify-start justify-center sm:gap-12 gap-4 sm:mt-0 mt-2">
             <button>
               <Image
                 src={"/png/play-store.png"}
@@ -1801,11 +1800,11 @@ export default function Home() {
         </div>
         <div className="sm:block hidden">
           <Image
-            src={"/png/app.png"}
+            src={"/png/mobile.png"}
             alt="app"
             width={700}
             height={550}
-            className="w-full lg:h-[532px]"
+            className="w-full auto"
           />
         </div>
       </div>
