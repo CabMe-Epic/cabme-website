@@ -58,8 +58,8 @@ const CardListingCards = ({ data }: any) => {
   const setPrice = (price: number) => {
     setPackagePrice(price);
   };
-  localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
-  console.log({ selectedPackagePrice });
+  // localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
+  // console.log({ selectedPackagePrice });
 
   const tabs = [
     { name: "Exclusion", content: "Exclusion Content" },
@@ -85,20 +85,18 @@ const CardListingCards = ({ data }: any) => {
   const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
 
   //please don't touch this function, It is for the default package select when user does not select any package...!!
- 
-    const selectDefaultPackage = (data:any) =>{
-      if(selectedPackagePrice===undefined){
-      bookingOptionsHome===(data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price) 
-      : bookingOptionsHome===(data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price) 
-      : driverType===(data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
-       : driverType===(data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) : 
-       console.log("Something went wrong in package selection");
 
+  const selectDefaultPackage = (data: any) => {
+    if (selectedPackagePrice === undefined) {
+      bookingOptionsHome === (data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price)
+        : bookingOptionsHome === (data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price)
+          : driverType === (data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
+            : driverType === (data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) :
+              console.log("Something went wrong in package selection");
     }
-    }
-    
+  }
 
-  console.log(selectedPackagePrice,"hello");
+
 
   return (
     <>
@@ -450,9 +448,9 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="m-0">
                         <ThemeButton
-                          onClick={() =>
-                          {Navigation.push(`/car-details/${data._id}`);
-                          selectDefaultPackage(data);
+                          onClick={() => {
+                            Navigation.push(`/car-details/${data._id}`);
+                            selectDefaultPackage(data);
 
                           }}
                           text="Book Now"
@@ -728,11 +726,10 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <div className="m-0">
                       <ThemeButton
-                        onClick={() =>
-                        {
+                        onClick={() => {
 
                           Navigation.push(`/car-details/${data._id}`),
-                          selectDefaultPackage(data);
+                            selectDefaultPackage(data);
 
                         }
                         }
@@ -1006,10 +1003,9 @@ const CardListingCards = ({ data }: any) => {
                           </div>
                           <div className="m-0">
                             <ThemeButton
-                              onClick={() =>
-                              {
+                              onClick={() => {
                                 Navigation.push(`/car-details/${data._id}`),
-                          selectDefaultPackage(data);
+                                  selectDefaultPackage(data);
 
                               }
                               }
@@ -1318,10 +1314,9 @@ const CardListingCards = ({ data }: any) => {
                           </div>
                           <div className="m-0">
                             <ThemeButton
-                              onClick={() =>
-                              {
+                              onClick={() => {
                                 Navigation.push(`/car-details/${data._id}`),
-                                selectDefaultPackage(data)
+                                  selectDefaultPackage(data)
                               }
                               }
                               text="Book Now"

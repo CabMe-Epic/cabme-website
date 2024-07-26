@@ -54,22 +54,21 @@ const CarDetails = () => {
   const [packagePrice, setPackagePrice] = useState<any>();
   const [bookingOpt, setBookingOpt] = useState<any>();
 
+  const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>();
+
   const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<string | any>();
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
   const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
-
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice)
-  const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
 
-  console.log({ total })
+  const { duration } = useReservationDateTime();
   const { days, hours } = extractDaysAndHours(duration)
-  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
-  // console.log({ totalPrice })
+  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
+  console.log({ totalPrice })
 
   const ThirtyDiscount = (total * 30) / 100
-
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedPickupTime = localStorage.getItem('pickupTime');
@@ -259,7 +258,10 @@ const CarDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  console.log({ selectedPackageAmount })
   const handlePriceChange = (updatedPrice: any) => {
+    setSelectedPackageAmount(updatedPrice)
+    console.log({ updatedPrice })
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice)
   }
@@ -273,11 +275,10 @@ const CarDetails = () => {
   const package2Price = calculateTotalPrice(currentPackage?.package2?.price) || 0;
   const package3Price = calculateTotalPrice(currentPackage?.package3?.price) || 0;
 
-  const allPrices = [packagePrice, roundPrice(package1Price), roundPrice(package2Price), roundPrice(package3Price)];
+  const allPrices = [roundPrice(package1Price), roundPrice(package2Price), roundPrice(package3Price)];
   const roundedPrices = allPrices?.map(roundPrice);
 
   const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
-  console.log({ uniquePrices })
   return (
     <>
       <div className="py-6">
@@ -491,7 +492,6 @@ const CarDetails = () => {
                     id="package"
                     className="cursor-pointer w-[160px] p-2 rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
-                    defaultValue={roundPrice(packagePrice)}
                   >
                     {uniquePrices?.map(price => (
                       <option key={price} value={price}>
@@ -504,7 +504,7 @@ const CarDetails = () => {
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Package Amount</span>
                     <span className="w-[220px] ml-10 w-fit">
-                      ₹{roundPrice(packagePrice)}
+                      ₹{roundPrice(package1Price)}
                     </span>
                   </div>
 
@@ -528,7 +528,7 @@ const CarDetails = () => {
                   {/* DESKTOP ...  */}
                   {discountAmount > 0 ? (
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                      <span className="w-[220px] ml-10">TOTAL Aasif</span>
+                      <span className="w-[220px] ml-10">TOTAL</span>
                       <span className="w-[220px] ml-10 text-[#ff0000]">
                         ₹ {totalPrice.toFixed(2)}
                       </span>
@@ -537,7 +537,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                       <span className="w-[220px] ml-10">TOTAL</span>
                       <span className="w-[220px] ml-10 text-[#ff0000]">
-                        ₹ {roundPrice(total)}
+                        ₹ {selectedPackageAmount ? selectedPackageAmount : roundPrice(total)}
                       </span>
                     </div>
                   )}
