@@ -493,11 +493,16 @@ const CarDetails = () => {
                     className="cursor-pointer w-[160px] p-2 rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
                   >
-                    {uniquePrices?.map(price => (
-                      <option key={price} value={price}>
-                        ₹{price}
-                      </option>
-                    ))}
+                    <option value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
+                    <option value={roundPrice(package1Price)}>
+                      ₹{roundPrice(package1Price)}
+                    </option>
+                    <option value={roundPrice(package2Price)}>
+                      ₹{roundPrice(package2Price)}
+                    </option>
+                    <option value={roundPrice(package3Price)}>
+                      ₹{roundPrice(package3Price)}
+                    </option>
                   </select>
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
