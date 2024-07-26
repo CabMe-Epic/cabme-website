@@ -58,7 +58,7 @@ const CardListingCards = ({ data }: any) => {
   const setPrice = (price: number) => {
     setPackagePrice(price);
   };
-  // localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
+  localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
   // console.log({ selectedPackagePrice });
 
   const tabs = [
@@ -104,6 +104,9 @@ const CardListingCards = ({ data }: any) => {
           : driverType === (data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
             : driverType === (data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) :
               console.log("Something went wrong in package selection");
+    }
+    else{
+      console.log("done");
     }
   }
 
