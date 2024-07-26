@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"
 import { postAadharBack, postAadharFront, postPanCard } from "../../../../networkRequests/hooks/api";
 import { getSessionData, setSessionData } from "@/app/utils/sessionStorageUtil";
-import { useStore } from "@/app/zustand/store";
+import { useStore } from "@/app/zustand/store/store";
 
 interface SelectedUser {
   firstName: string;

@@ -35,7 +35,7 @@ const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
 
   const [showImg, setShowImg] = useState(false);
-  const condition = true; // Replace with your actual condition
+  const condition = true;
 
   useEffect(() => {
     if (showImg) {
@@ -51,20 +51,15 @@ const CardListingCards = ({ data }: any) => {
     };
   }, [showImg]);
 
-  console.log("item", data);
-
   const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
   const [selectedPackagePrice, setPackagePrice] = useState<any>();
 
   const setPrice = (price: number) => {
     setPackagePrice(price);
-    // setClicked1(true);
-
-    //  localStorage.setItem("selectedPackagePrice",selectedPackagePrice)
   };
   localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
-  console.log(selectedPackagePrice, "selected price");
+  console.log({ selectedPackagePrice });
 
   const tabs = [
     { name: "Exclusion", content: "Exclusion Content" },
@@ -83,8 +78,6 @@ const CardListingCards = ({ data }: any) => {
     setBookingOptionsHome(bookingOptions);
     setDriverType(driverType);
   }, []);
-  console.log("type on card section", bookingOptionsHome);
-  console.log(data?.bookingOptions?.selfDrive, "dtaaaaaaaaaaaaaaaaa");
   const [clicked1, setClicked1] = useState(true);
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
@@ -100,6 +93,23 @@ const CardListingCards = ({ data }: any) => {
   };
 
   const currentImage = data?.imageGallery?.[currentIndex]?.image;
+  // const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
+
+  //please don't touch this function, It is for the default package select when user does not select any package...!!
+ 
+    const selectDefaultPackage = (data:any) =>{
+      if(selectedPackagePrice===undefined){
+      bookingOptionsHome===(data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price) 
+      : bookingOptionsHome===(data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price) 
+      : driverType===(data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
+       : driverType===(data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) : 
+       console.log("Something went wrong in package selection");
+
+    }
+    }
+    
+
+  console.log(selectedPackagePrice,"hello");
 
   return (
     <>
@@ -223,13 +233,15 @@ const CardListingCards = ({ data }: any) => {
                     <div className="mt-5 flex flex-row items-center lg:gap-4 gap-2 mr-4 justify-end">
                       <div
                         onClick={() => {
-                          setPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package1?.price
-                          );
-                          setClicked1(true);
-                          setClicked2(false);
-                          setClicked3(false);
+                          const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price);
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(true);
+                            setClicked2(false);
+                            setClicked3(false);
+                          } else {
+                            console.error("Failed to calculate the total price");
+                          }
                         }}
                         className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
@@ -257,13 +269,15 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
-                          setPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package2?.price
-                          );
-                          setClicked1(false);
-                          setClicked2(true);
-                          setClicked3(false);
+                          const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package2?.price);
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(false);
+                            setClicked2(true);
+                            setClicked3(false);
+                          } else {
+                            console.error("Failed to calculate the total price");
+                          }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
@@ -274,8 +288,7 @@ const CardListingCards = ({ data }: any) => {
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
-                              ?.package2?.price)?.toFixed(0)
-                          }
+                              ?.package2?.price)?.toFixed(0)}
                         </span>
                         <span className="flex flex-col gap-0">
                           <p className="text-[#565454] font-[500] text-[14px] text-center whitespace-nowrap">
@@ -294,13 +307,15 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
-                          setPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package3?.price
-                          );
-                          setClicked1(false);
-                          setClicked2(false);
-                          setClicked3(true);
+                          const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package3?.price);
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(false);
+                            setClicked2(false);
+                            setClicked3(true);
+                          } else {
+                            console.error("Failed to calculate the total price");
+                          }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
@@ -463,8 +478,10 @@ const CardListingCards = ({ data }: any) => {
                       <div className="m-0">
                         <ThemeButton
                           onClick={() =>
-                            Navigation.push(`/car-details/${data._id}`)
-                          }
+                          {Navigation.push(`/car-details/${data._id}`);
+                          selectDefaultPackage(data);
+
+                          }}
                           text="Book Now"
                           className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md text-xs w-[140px] h-[50px] text-center flex flex-row justify-center !font-bold !text-[20px]"
                         />
@@ -739,7 +756,12 @@ const CardListingCards = ({ data }: any) => {
                     <div className="m-0">
                       <ThemeButton
                         onClick={() =>
-                          Navigation.push(`/car-details/${data._id}`)
+                        {
+
+                          Navigation.push(`/car-details/${data._id}`),
+                          selectDefaultPackage(data);
+
+                        }
                         }
                         text="Book Now"
                         className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]"
@@ -1012,7 +1034,11 @@ const CardListingCards = ({ data }: any) => {
                           <div className="m-0">
                             <ThemeButton
                               onClick={() =>
-                                Navigation.push(`/car-details/${data._id}`)
+                              {
+                                Navigation.push(`/car-details/${data._id}`),
+                          selectDefaultPackage(data);
+
+                              }
                               }
                               text="Book Now"
                               className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]"
@@ -1320,7 +1346,10 @@ const CardListingCards = ({ data }: any) => {
                           <div className="m-0">
                             <ThemeButton
                               onClick={() =>
-                                Navigation.push(`/car-details/${data._id}`)
+                              {
+                                Navigation.push(`/car-details/${data._id}`),
+                                selectDefaultPackage(data)
+                              }
                               }
                               text="Book Now"
                               className=" sm:px-6 !px-2 sm:text-md text-xs w-[140px] h-[50px] text-center shadow-lg flex flex-row justify-center !font-bold !text-[20px]"
@@ -1769,12 +1798,17 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <ThemeButton
                       onClick={() =>
-                        Navigation.push(`/car-details/${data._id}`)
+                      {
+
+                      
+                        Navigation.push(`/car-details/${data._id}`),
+                        console.log("maaaa");
+                      }
                       }
                       text="Book Now"
-                      className="ml-auto mt-4 shadow-custom-shadow grad-button !px-4 !font-semibold"
+                      className="ml-auto mt-4 shadow-custom-shadow grad-button !px-4 !font-semibold z-[9]"
                     />
-                    <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
+                    <div className="flex flex-row items-center sm:w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2 w-fit">
                       <span
                         className="text-[#ff0000] text-xs"
                         onClick={() => setShowOptionsMobile(!showOptionsMobile)}
