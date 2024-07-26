@@ -1771,12 +1771,17 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <ThemeButton
                       onClick={() =>
-                        Navigation.push(`/car-details/${data._id}`)
+                      {
+
+                      
+                        Navigation.push(`/car-details/${data._id}`),
+                        console.log("maaaa");
+                      }
                       }
                       text="Book Now"
-                      className="ml-auto mt-4 shadow-custom-shadow grad-button !px-4 !font-semibold"
+                      className="ml-auto mt-4 shadow-custom-shadow grad-button !px-4 !font-semibold z-[9]"
                     />
-                    <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
+                    <div className="flex flex-row items-center sm:w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2 w-fit">
                       <span
                         className="text-[#ff0000] text-xs"
                         onClick={() => setShowOptionsMobile(!showOptionsMobile)}
