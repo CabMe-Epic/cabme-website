@@ -18,8 +18,6 @@ import useReservationDateTime from "../../../../../networkRequests/hooks/useRese
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
-import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
-import { roundPrice } from "@/app/utils/roundPrice ";
 
 interface PromoCode {
   code: string;
@@ -54,21 +52,21 @@ const CarDetails = () => {
   const [packagePrice, setPackagePrice] = useState<any>();
   const [bookingOpt, setBookingOpt] = useState<any>();
 
-  const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>();
 
   const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<string | any>();
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
   const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
+
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const total = Number(packagePrice)
+  const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup[0]?.price) + (currentPackage?.refundableDeposit);
+  const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
 
-  const { duration } = useReservationDateTime();
   const { days, hours } = extractDaysAndHours(duration)
-  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
-  console.log({ totalPrice })
+  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total))
 
-  const ThirtyDiscount = (total * 30) / 100
+  const ThirtyDiscount = (totalPrice * 30) / 100
+
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedPickupTime = localStorage.getItem('pickupTime');
@@ -258,10 +256,7 @@ const CarDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log({ selectedPackageAmount })
   const handlePriceChange = (updatedPrice: any) => {
-    setSelectedPackageAmount(updatedPrice)
-    console.log({ updatedPrice })
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice)
   }
@@ -270,15 +265,6 @@ const CarDetails = () => {
     sessionStorage.setItem('slug', slug);
     router.push("/check-out");
   }
-
-  const package1Price = calculateTotalPrice(currentPackage?.package1?.price) || 0;
-  const package2Price = calculateTotalPrice(currentPackage?.package2?.price) || 0;
-  const package3Price = calculateTotalPrice(currentPackage?.package3?.price) || 0;
-
-  const allPrices = [roundPrice(package1Price), roundPrice(package2Price), roundPrice(package3Price)];
-  const roundedPrices = allPrices?.map(roundPrice);
-
-  const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
   return (
     <>
       <div className="py-6">
@@ -336,7 +322,7 @@ const CarDetails = () => {
                       Doorstep delivery & pickup
                     </span>
                     <span>
-                      ₹ {currentPackage?.DoorstepDeliveryPickup}
+                      ₹ {currentPackage?.DoorstepDeliveryPickup[0]?.price}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -434,7 +420,7 @@ const CarDetails = () => {
                 <div className="w-full max-w-[376px] flex justify-around items-center border-[1.5px] rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start p-4">
                     <span className="font-bold text-md">
-                      Pay ₹{roundPrice(ThirtyDiscount) >= 2000 ? roundPrice(ThirtyDiscount) : roundPrice(total)} Now
+                      Pay ₹{ThirtyDiscount >= 2000 ? ThirtyDiscount.toFixed(2) : totalPrice.toFixed(2)} Now
                     </span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
                       Balance on Delivery
@@ -493,18 +479,23 @@ const CarDetails = () => {
                     className="cursor-pointer w-[160px] p-2 rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
                   >
-                    {uniquePrices?.map(price => (
-                      <option key={price} value={price}>
-                        ₹{price}
-                      </option>
-                    ))}
+                    <option value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
+                    <option value={currentPackage?.package1?.price}>
+                      ₹{currentPackage?.package1?.price}
+                    </option>
+                    <option value={currentPackage?.package2?.price}>
+                      ₹{currentPackage?.package2?.price}
+                    </option>
+                    <option value={currentPackage?.package3?.price}>
+                      ₹{currentPackage?.package3?.price}
+                    </option>
                   </select>
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Package Amount</span>
                     <span className="w-[220px] ml-10 w-fit">
-                      ₹{roundPrice(packagePrice)}
+                      ₹{packagePrice} <br /> {days} Days and {hours} Hours
                     </span>
                   </div>
 
@@ -512,7 +503,7 @@ const CarDetails = () => {
                     <span className="w-[220px] ml-10">
                       Doorstep delivery & pickup
                     </span>
-                    <span className="w-[220px] ml-10">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
+                    <span className="w-[220px] ml-10">₹ {currentPackage?.DoorstepDeliveryPickup[0]?.price}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
@@ -537,7 +528,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                       <span className="w-[220px] ml-10">TOTAL</span>
                       <span className="w-[220px] ml-10 text-[#ff0000]">
-                        ₹ {selectedPackageAmount ? selectedPackageAmount : roundPrice(total)}
+                        ₹ {totalPrice.toFixed(2)}
                       </span>
                     </div>
                   )}
@@ -669,7 +660,7 @@ const CarDetails = () => {
                 {/* DESKTOP  */}
                 <div className="flex flex-row items-center justify-around border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
-                    <span className="font-bold text-md">Pay ₹{roundPrice(ThirtyDiscount) >= 2000 ? roundPrice(ThirtyDiscount) : roundPrice(total)} Now </span>
+                    <span className="font-bold text-md">Pay ₹{ThirtyDiscount >= 2000 ? ThirtyDiscount.toFixed(2) : totalPrice.toFixed(2)} Now </span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
                       Balance on Delivery
                     </span>
