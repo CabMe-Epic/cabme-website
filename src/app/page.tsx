@@ -1271,8 +1271,8 @@ export default function Home() {
             <div
               className={`${mobileTabValue === "Rentals"
                   ? "bg-white text-black shadow-custom-shadow"
-                  : ""
-                } rounded-xl px-4 py-[8px] text-center text-sm`}
+                  : "!text-white"
+                } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => setMobileTabValue("Rentals")}
             >
               Rentals

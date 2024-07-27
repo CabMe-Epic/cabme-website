@@ -1734,7 +1734,7 @@ const CardListingCards = ({ data }: any) => {
                     {data?.brandName}
                   </span>
                 </div>
-                <div className="xs:grid grid-cols-[1fr_1.7fr] gap-2 mt-4">
+                <div className="xs:grid xs:grid-cols-[1fr_1.7fr] gap-2 mt-4">
                   <div>
                     <p className="font-semibold text-xl">{data?.carName}</p>
 
@@ -1847,7 +1847,8 @@ const CardListingCards = ({ data }: any) => {
 
 
                         Navigation.push(`/car-details/${data._id}`),
-                          console.log("maaaa");
+                        selectDefaultPackage(data);
+
                       }
                       }
                       text="Book Now"
@@ -2062,7 +2063,7 @@ const CardListingCards = ({ data }: any) => {
                     {data?.brandName}
                   </span>
                 </div>
-                <div className="xs:grid grid-cols-[1fr_1.7fr] gap-2 mt-4">
+                <div className="xs:grid xs:grid-cols-[1fr_1.7fr] gap-2 mt-4">
                   <div>
                     <p className="font-semibold text-xl">{data?.carName}</p>
 
@@ -2166,7 +2167,11 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <ThemeButton onClick={() =>
+                    {
                       Navigation.push(`/car-details/${data._id}`)
+                      selectDefaultPackage(data);
+
+                    }
                     } text="Book Now" className="ml-auto mt-4" />
                     <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
                       <span
@@ -2376,7 +2381,7 @@ const CardListingCards = ({ data }: any) => {
                     {data?.brandName}
                   </span>
                 </div>
-                <div className="xs:grid grid-cols-[1fr_1.7fr] gap-2 mt-4">
+                <div className="xs:grid xs:grid-cols-[1fr_1.7fr] gap-2 mt-4">
                   <div>
                     <p className="font-semibold text-xl">{data?.carName}</p>
 
@@ -2480,7 +2485,11 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <ThemeButton onClick={() =>
+                    {
                       Navigation.push(`/car-details/${data._id}`)
+                      selectDefaultPackage(data);
+
+                    }
                     } text="Book Now" className="ml-auto mt-4" />
                     <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
                       <span
