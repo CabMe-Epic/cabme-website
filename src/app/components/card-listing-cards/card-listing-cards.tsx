@@ -10,6 +10,7 @@ import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import useReservationDateTime from "@../../../networkRequests/hooks/useReservationDateTime";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
+import { roundPrice } from "@/app/utils/roundPrice ";
 
 
 const Tooltip = ({ children, tooltipText }: any) => {
@@ -58,8 +59,9 @@ const CardListingCards = ({ data }: any) => {
   const setPrice = (price: number) => {
     setPackagePrice(price);
   };
-  localStorage.setItem("selectedPackagePrice", selectedPackagePrice);
-  // console.log({ selectedPackagePrice });
+  //@ts-ignore
+  localStorage.setItem("selectedPackagePrice", roundPrice(selectedPackagePrice));
+  console.log({ selectedPackagePrice });
 
   const tabs = [
     { name: "Exclusion", content: "Exclusion Content" },
@@ -124,13 +126,13 @@ const CardListingCards = ({ data }: any) => {
 
   const selectDefaultPackage = (data: any) => {
     if (selectedPackagePrice === undefined) {
-      bookingOptionsHome === (data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price)
-        : bookingOptionsHome === (data?.bookingOptions?.subscription?.name) ? setPackagePrice(data?.bookingOptions?.subscription?.packageType?.package1?.price)
-          : driverType === (data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price)
-            : driverType === (data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price) :
+      bookingOptionsHome === (data?.bookingOptions?.selfDrive?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.selfDrive?.packageType?.package1?.price))
+        : bookingOptionsHome === (data?.bookingOptions?.subscription?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.subscription?.packageType?.package1?.price))
+          : driverType === (data?.bookingOptions?.withDriver?.local?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price))
+            : driverType === (data?.bookingOptions?.withDriver?.outstation?.name) ? setPackagePrice(calculateTotalPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.price)) :
               console.log("Something went wrong in package selection");
     }
-    else{
+    else {
       console.log("done");
     }
   }
@@ -333,11 +335,11 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px]" />
                           <span className="text-[#FF0000] flex flex-row">
-                          <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap overflow-hidden w-[80px]">
-                            {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
-                              ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
-                              : "0"} Free kms
-                          </p>...
+                            <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap overflow-hidden w-[80px]">
+                              {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                                ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                                : "0"} Free kms
+                            </p>...
                           </span>
                           <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
@@ -1732,7 +1734,7 @@ const CardListingCards = ({ data }: any) => {
                     {data?.brandName}
                   </span>
                 </div>
-                <div className="xs:grid grid-cols-[1fr_1.7fr] gap-2 mt-4">
+                <div className="xs:grid xs:grid-cols-[1fr_1.7fr] gap-2 mt-4">
                   <div>
                     <p className="font-semibold text-xl">{data?.carName}</p>
 
@@ -1845,7 +1847,8 @@ const CardListingCards = ({ data }: any) => {
 
 
                         Navigation.push(`/car-details/${data._id}`),
-                          console.log("maaaa");
+                        selectDefaultPackage(data);
+
                       }
                       }
                       text="Book Now"
@@ -2060,7 +2063,7 @@ const CardListingCards = ({ data }: any) => {
                     {data?.brandName}
                   </span>
                 </div>
-                <div className="xs:grid grid-cols-[1fr_1.7fr] gap-2 mt-4">
+                <div className="xs:grid xs:grid-cols-[1fr_1.7fr] gap-2 mt-4">
                   <div>
                     <p className="font-semibold text-xl">{data?.carName}</p>
 
@@ -2164,7 +2167,11 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <ThemeButton onClick={() =>
+                    {
                       Navigation.push(`/car-details/${data._id}`)
+                      selectDefaultPackage(data);
+
+                    }
                     } text="Book Now" className="ml-auto mt-4" />
                     <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
                       <span
@@ -2374,7 +2381,7 @@ const CardListingCards = ({ data }: any) => {
                     {data?.brandName}
                   </span>
                 </div>
-                <div className="xs:grid grid-cols-[1fr_1.7fr] gap-2 mt-4">
+                <div className="xs:grid xs:grid-cols-[1fr_1.7fr] gap-2 mt-4">
                   <div>
                     <p className="font-semibold text-xl">{data?.carName}</p>
 
@@ -2478,7 +2485,11 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <ThemeButton onClick={() =>
+                    {
                       Navigation.push(`/car-details/${data._id}`)
+                      selectDefaultPackage(data);
+
+                    }
                     } text="Book Now" className="ml-auto mt-4" />
                     <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
                       <span
