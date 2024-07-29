@@ -21,6 +21,7 @@ import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
 import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
+import { calculateGST } from "@/app/utils/calculateGST";
 
 interface PromoCode {
   code: string;
@@ -58,7 +59,6 @@ const CarDetails = () => {
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
 
   const handleSelectItemDoorStep = (arr: any) => {
-    console.log(arr, "selectedDoorStepObject");
     setSelectedDoorStepObject([{ ...arr }]);
     setShowDoorStep(false);
   };
@@ -79,15 +79,26 @@ const CarDetails = () => {
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
   const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Inculded/Excluded GST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  console.log({ currentPackage })
+
+  const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
+  // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
+
+  const doorStepAmount = selectedDoorStepObject?.[0]?.price ?? 0;
+  const totalExcludedGSTAmount = Number(packagePrice) + Number(result?.gstAmount) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
+  const totalIncludedGSTAmount = Number(packagePrice) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
+
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice)
 
   const { duration } = useReservationDateTime();
   const { days, hours } = extractDaysAndHours(duration)
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
-  console.log({ totalPrice })
+  // console.log({ totalPrice })
 
-  const ThirtyDiscount = (total * 30) / 100
+  const ThirtyDiscount = (totalExcludedGSTAmount * 30) / 100
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedPickupTime = localStorage.getItem('pickupTime');
@@ -147,7 +158,6 @@ const CarDetails = () => {
           'Content-Type': 'application/json'
         }
       });
-      console.log('Booking response:', { response });
       toast.success(response?.data?.message)
       if (response?.data?.success) {
         setBookingSuccess(true);
@@ -277,10 +287,9 @@ const CarDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log({ selectedPackageAmount })
+  // console.log({ selectedPackageAmount })
   const handlePriceChange = (updatedPrice: any) => {
     setSelectedPackageAmount(updatedPrice)
-    console.log({ updatedPrice })
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice)
   }
@@ -298,8 +307,6 @@ const CarDetails = () => {
   const roundedPrices = allPrices?.map(roundPrice);
 
   const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
-
-  // const [return ]
 
 
 
@@ -478,7 +485,7 @@ const CarDetails = () => {
                 <div className="w-full max-w-[376px] flex justify-around items-center border-[1.5px] rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start p-4">
                     <span className="font-bold text-md">
-                      Pay ₹{roundPrice(ThirtyDiscount) >= 2000 ? roundPrice(ThirtyDiscount) : roundPrice(total)} Now
+                      Pay ₹{roundPrice(ThirtyDiscount) >= 2000 ? roundPrice(ThirtyDiscount) : roundPrice(totalExcludedGSTAmount)} Now
                     </span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
                       Balance on Delivery
@@ -571,7 +578,6 @@ const CarDetails = () => {
                         <DropLocation onSelectItem={handleSelectItemDoorStep} currentPackage={currentPackage?.DoorstepDeliveryPickup} />
                       </div>
                     }
-
                   </div>
                   {/* <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-10">
                     {
@@ -580,8 +586,8 @@ const CarDetails = () => {
                   </div> */}
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">GST</span>
-                    <span className="w-[220px] ml-10">{carDetails?.extraService?.insurance}</span>
+                    <span className="w-[220px] ml-10">GST ({currentPackage?.package1?.gstRate}%)</span>
+                    <span className="w-[220px] ml-10">{roundPrice(Number(result?.gstAmount))}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
@@ -590,7 +596,26 @@ const CarDetails = () => {
                   </div>
 
                   {/* DESKTOP ...  */}
-                  {discountAmount > 0 ? (
+                  {currentPackage?.gst === "Excluded" &&
+                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
+                      <span className="w-[220px] ml-10">TOTAL</span>
+                      <span className="w-[220px] ml-10 text-[#ff0000]">
+                        {roundPrice(totalExcludedGSTAmount)}
+                      </span>
+                    </div>
+                  }
+                  {currentPackage?.gst === "Included" &&
+                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
+                      <span className="w-[220px] ml-10">TOTAL</span>
+                      <span className="w-[220px] ml-10 text-[#ff0000]">
+                        {roundPrice(totalIncludedGSTAmount)}
+                      </span>
+                    </div>
+                  }
+
+
+
+                  {/* {discountAmount > 0 ? (
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                       <span className="w-[220px] ml-10">TOTAL</span>
                       <span className="w-[220px] ml-10 text-[#ff0000]">
@@ -599,12 +624,12 @@ const CarDetails = () => {
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                      <span className="w-[220px] ml-10">TOTAL</span>
+                      <span className="w-[220px] ml-10">TOTAL Aasif</span>
                       <span className="w-[220px] ml-10 text-[#ff0000]">
-                        ₹ {selectedPackageAmount ? selectedPackageAmount : roundPrice(total)}
+                        {roundPrice(totalExcludedGSTAmount)}
                       </span>
                     </div>
-                  )}
+                  )} */}
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Kms Limit</span>
