@@ -193,7 +193,7 @@ const CardListingCards = ({ data }: any) => {
                   width={110}
                   height={110}
                   onClick={() => setCurrentIndex(index)}
-                  className={`bg-white m-2 cursor-pointer transition-transform duration-300 rounded-md ${index === currentIndex ? 'scale-110 shadow-xl' : ''
+                  className={`bg-white m-2 cursor-pointer transition-transform duration-300 rounded-md h-[73px] object-cover ${index === currentIndex ? 'scale-110 shadow-xl' : ''
                     }`}
                   alt={item?.alt}
                 />
