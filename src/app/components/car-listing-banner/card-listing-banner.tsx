@@ -22,7 +22,7 @@ const CardListingBanner: React.FC<CardListingBannerProps> = ({ count }) => {
     return isInSequence1(x) || isInSequence2(x) || isInSequence3(x);
   }
 
-  let imageSrc = "/carListingBanner/car.png";
+  let imageSrc = "";
   if (isInSequence1(count)) {
     imageSrc = "/carListingBanner/car.png";
   } else if (isInSequence2(count)) {

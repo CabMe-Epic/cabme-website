@@ -64,7 +64,7 @@ const BookingSummery = () => {
     const [applyCoupon, setApplyCoupon] = React.useState(false);
     const { vehicle, loading, error } = useVehicleById(slug as string);
     const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
-    const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup.reduce((acc: any, item: any) => acc + item.price, 0)) + (currentPackage?.refundableDeposit);
+    const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)) + (currentPackage?.refundableDeposit);
     const pickupDateTimeString = pickupTime ? `${pickupDate}T${pickupTime}:00.000Z` : null;
     const droppingDateTimeString = dropoffTime ? `${dropoffDate}T${dropoffTime}:00.000Z` : null;
     const { days, hours } = extractDaysAndHours(duration)
@@ -281,7 +281,7 @@ const BookingSummery = () => {
                         <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
                             Doorstep delivery & pickup
                         </span>
-                        <span className=" w-fit word-wrap sm:ml-10">₹ {currentPackage?.DoorstepDeliveryPickup.reduce((acc: any, item: any) => acc + item.price, 0)}</span>
+                        <span className=" w-fit word-wrap sm:ml-10">₹ {currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)}</span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
