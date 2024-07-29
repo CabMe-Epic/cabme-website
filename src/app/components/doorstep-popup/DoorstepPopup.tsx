@@ -22,7 +22,7 @@ const DropLocation: React.FC<DropLocationProps> = ({ currentPackage, onSelectIte
     };
 
     return (
-        <div className="bg-white shadow-md max-w-[900px] w-[340px] md:w-[600px] rounded-xl">
+        <div className="bg-white shadow-md max-w-[900px] w-[340px] lg:w-[600px] rounded-xl">
             <h2 className="text-xl font-semibold text-black mb-4 p-4 pb-0">Drop Location</h2>
             <div className="bg-[#ff0000] text-white p-2 py-4">
                 <div className="flex justify-between text-xl mx-4">
