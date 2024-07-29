@@ -16,6 +16,8 @@ import { roundPrice } from "@/app/utils/roundPrice ";
 const Tooltip = ({ children, tooltipText }: any) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
+
+
   return (
     <div
       className="tooltip-container"
@@ -34,7 +36,9 @@ const Tooltip = ({ children, tooltipText }: any) => {
 
 const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
-
+  const { duration } = useReservationDateTime();
+  const { days, hours } = extractDaysAndHours(duration);
+  console.log(days, "days");
   const [showImg, setShowImg] = useState(false);
   const condition = true;
 
@@ -103,6 +107,8 @@ const CardListingCards = ({ data }: any) => {
       }
     };
 
+
+
     // const handleScroll = (event: any) => {
     //   const scrollDirection = event.deltaY > 0 ? 'down' : 'up';
     //   if (scrollDirection === 'down') {
@@ -152,12 +158,12 @@ const CardListingCards = ({ data }: any) => {
           <div className="relative flex flex-col items-center">
             <div className="relative">
               <Image
-                src={data?.imageGallery?.[currentIndex]?.image}
-                key={data?.imageGallery?.[currentIndex]?.alt}
+                src={data?.imageGallery?.[currentIndex]?.image || '/default-image.png'} // Fallback image if none exists
+                key={data?.imageGallery?.[currentIndex]?.alt || 'default-alt'}
                 width={330}
                 height={300}
                 objectFit="contain"
-                className="bg-white sm:m-4 shadow-xl cursor-pointer transition-all w-[320px] sm:w-[700px] sm:h-[400px] object-cover rounded-xl  m-auto "
+                className="bg-white sm:m-4 shadow-xl cursor-pointer transition-all w-[320px] sm:w-[700px] sm:h-[400px] object-cover rounded-xl m-auto"
                 alt={data?.imageGallery?.[currentIndex]?.alt || "Tag Icon"}
               />
               <button
@@ -166,7 +172,7 @@ const CardListingCards = ({ data }: any) => {
               >
                 <Image
                   src="/png/left-arrow-red.png"
-                  alt="arrow"
+                  alt="Previous"
                   width={24}
                   height={16}
                   className="w-[24px] h-[16px]"
@@ -178,7 +184,7 @@ const CardListingCards = ({ data }: any) => {
               >
                 <Image
                   src="/png/right-arrow-red.png"
-                  alt="arrow"
+                  alt="Next"
                   width={24}
                   height={16}
                   className="w-[24px] h-[16px]"
@@ -189,17 +195,17 @@ const CardListingCards = ({ data }: any) => {
               {data?.imageGallery?.map((item: any, index: number) => (
                 <Image
                   src={item?.image}
-                  key={index}
+                  key={item?.alt || index} // Use a unique key if possible
                   width={110}
                   height={110}
                   onClick={() => setCurrentIndex(index)}
-                  className={`bg-white m-2 cursor-pointer transition-transform duration-300 rounded-md h-[73px] object-cover ${index === currentIndex ? 'scale-110 shadow-xl' : ''
-                    }`}
-                  alt={item?.alt}
+                  className={`bg-white m-2 cursor-pointer transition-transform duration-300 rounded-md h-[73px] object-cover ${index === currentIndex ? 'scale-110 shadow-xl' : ''}`}
+                  alt={item?.alt || "Thumbnail Image"}
                 />
               ))}
             </div>
           </div>
+
         </div>
 
       ) : (
@@ -296,10 +302,10 @@ const CardListingCards = ({ data }: any) => {
                           <hr className="border-[#000000] border-[1.2px]" />
                           <span className="relative flex flex-row  group text-[#FF0000]">
                             <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap w-[80px] overflow-hidden">
-                              {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit : "0"} Free kms
+                              {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                             </p>...
                             <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                              {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit : "0"} Free kms
+                              {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                             </div>
                           </span>
 
@@ -337,13 +343,13 @@ const CardListingCards = ({ data }: any) => {
                           <span className="text-[#FF0000] flex flex-row">
                             <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap overflow-hidden w-[80px]">
                               {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
-                                ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                                ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit * (days as number)
                                 : "0"} Free kms
                             </p>...
                           </span>
                           <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
-                              ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
+                              ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit * (days as number)
                               : "0"} Free kms
                           </div>
                         </span>
@@ -382,13 +388,13 @@ const CardListingCards = ({ data }: any) => {
                           <span className="flex flex-row text-[#FF0000]">
                             <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap overflow-hidden w-[80px]">
                               {data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
-                                ? data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
+                                ? data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit * (days as number)
                                 : "0"} Free kms
                             </p>...
                           </span>
                           <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
-                              ? data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
+                              ? data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit * (days as number)
                               : "0"} Free kms
                           </div>
                         </span>
@@ -621,10 +627,10 @@ const CardListingCards = ({ data }: any) => {
                         <hr className="border-[#000000] border-[1.2px]" />
                         <span className="relative flex flex-row group text-[#FF0000]">
                           <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
-                            {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit : "0"} Free kms
+                            {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                           </p>...
                           <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                            {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit : "0"} Free kms
+                            {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                           </div>
                         </span>
 
@@ -656,10 +662,10 @@ const CardListingCards = ({ data }: any) => {
                         <hr className="border-[#000000] border-[1.2px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                           <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
-                            {data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit : "0"} Free kms
+                            {data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit * (days as number) : "0"} Free kms
                           </p>...
                           <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                            {data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit : "0"} Free kms
+                            {data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit * (days as number) : "0"} Free kms
                           </div>
                         </span>
 
@@ -691,10 +697,10 @@ const CardListingCards = ({ data }: any) => {
                         <hr className="border-[#000000] border-[1.2px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                           <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
-                            {data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit : "0"} Free kms
+                            {data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit * (days as number) : "0"} Free kms
                           </p>...
                           <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                            {data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit : "0"} Free kms
+                            {data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit * (days as number) : "0"} Free kms
                           </div>
                         </span>
 
@@ -980,10 +986,10 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                                 <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit * (days as number) : "0"} Free kms
                                 </p>...
                                 <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit * (days as number) : "0"} Free kms
                                 </div>
                               </span>
 
