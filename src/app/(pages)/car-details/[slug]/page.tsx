@@ -564,12 +564,6 @@ const CarDetails = () => {
                       </div>
 
                     }
-
-
-
-
-
-
                   </div>
                   <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-10">
                     {
