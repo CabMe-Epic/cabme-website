@@ -84,18 +84,19 @@ const CarFeatures = ({ carFeatures }: any) => {
             </div>
           </>
         )}
-{carFeatures?.cylinders!=="" &&
-
-        <div className="flex items-center gap-4">
-          <Image src="/carDetails/check.png" width={30} height={30} alt="" />
-<div>
-          <span className="text-[#6B6767] sm:text-md text-sm">
-            {carFeatures?.cylinders}
-          </span>
-          <span className="text-[#6B6767] sm:text-md text-sm">cylinders</span>
+        {carFeatures?.cylinders !== 0 && (
+          <div className="flex items-center gap-4">
+            <Image src="/carDetails/check.png" width={30} height={30} alt="" />
+            <div>
+              <span className="text-[#6B6767] sm:text-md text-sm">
+                {carFeatures?.cylinders}
+              </span>
+              <span className="text-[#6B6767] sm:text-md text-sm">
+                cylinders
+              </span>
+            </div>
           </div>
-        </div>
-}
+        )}
         {carFeatures?.heatedFrontSeats && (
           <>
             <div className="flex items-center gap-4">
@@ -177,7 +178,7 @@ const CarFeatures = ({ carFeatures }: any) => {
             </span>
           </div>
         )}
-        {carFeatures?.powerWindows && (
+        {carFeatures?.powerWindows!==0 && (
           <div className="flex items-center gap-4">
             <Image src="/carDetails/check.png" width={30} height={30} alt="" />
 

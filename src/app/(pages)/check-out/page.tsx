@@ -547,7 +547,7 @@ const Checkout = () => {
                     Upload Aadhar Card{" "}
 
                     {/* {data?.verificationResponse?.statusCode} */}
-                    <span className="flex items-center gap-2 text-[#01A601]">
+                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                       <Image
                         src="/greendone.svg"
                         width={20}
@@ -557,7 +557,7 @@ const Checkout = () => {
                       Verified Account
                     </span>
                   </h4>
-                  <div className="mt-4 flex gap-6 items-center">
+                  <div className="mt-4 sm:flex grid gap-6 items-center">
                     <InputField
                       placeholder="Enter Aadhar card number*"
                       onChange={(e: any) => setAadhar(e.target.value)}
@@ -569,7 +569,7 @@ const Checkout = () => {
                           <div className="relative">
                             <span
                               onClick={handleRemoveFrontAadhar}
-                              className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                              className="absolute w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
                             >
                               {" "}
                               Remove
@@ -579,7 +579,7 @@ const Checkout = () => {
                               alt="Front"
                               width={100}
                               height={55}
-                              className="w-full h-full object-cover rounded-md cursor-pointer"
+                              className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                             />
                           </div>
                         ) : (
@@ -617,7 +617,7 @@ const Checkout = () => {
                               alt="Back"
                               width={100}
                               height={55}
-                              className="w-full h-full object-cover rounded-md cursor-pointer"
+                              className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                             />
                           </div>
                         ) : (
@@ -644,7 +644,7 @@ const Checkout = () => {
                   </div>
                   <button
                     onClick={handleGenerateAadharOTP}
-                    className="w-[209px] mt-5 h-[55px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all">
+                    className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all">
                     Generate OTP
                   </button>
                   {aadharGenerate ? (
@@ -666,7 +666,7 @@ const Checkout = () => {
                   )}
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Driving License/PAN Card{" "}
-                    <span className="flex items-center gap-2 text-[#01A601]">
+                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                       <Image
                         src="/greendone.svg"
                         width={20}
@@ -693,7 +693,7 @@ const Checkout = () => {
                     <div>
                       <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         Driving License{" "}
-                        <span className="flex items-center gap-2 text-[#01A601]">
+                        <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                           <Image
                             src="/greendone.svg"
                             width={20}
@@ -703,10 +703,10 @@ const Checkout = () => {
                           Verified Account
                         </span>
                       </h4>
-                      <div className="flex items-center gap-4 ">
+                      <div className="sm:flex items-center gap-4 ">
                         <InputField
                           placeholder="Driving License Number"
-                          className="border-0 bg-white !w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                          className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
                         />
                         <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
                           {dlFrontImage ? (
@@ -723,7 +723,7 @@ const Checkout = () => {
                                 alt="Front"
                                 width={100}
                                 height={55}
-                                className="w-full h-full object-cover rounded-md cursor-pointer"
+                                className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                               />
                             </div>
                           ) : (
@@ -752,7 +752,7 @@ const Checkout = () => {
                           setThree(true)
                           setFour(false)
                         }}
-                        className="w-[209px] mt-5 h-[55px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                       >
                         Continue
                       </button>
@@ -772,11 +772,11 @@ const Checkout = () => {
                         </span>
                       </h4>
 
-                      <div className="flex items-center gap-4 ">
+                      <div className="sm:flex items-center gap-4 ">
                         <InputField
                           placeholder="PAN Number"
                           onChange={(e: any) => setPanCard(e.target.value)}
-                          className="border-0 bg-white !w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                          className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
                         />
                         <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
                           {panFrontImage ? (
@@ -793,7 +793,7 @@ const Checkout = () => {
                                 alt="Front"
                                 width={100}
                                 height={55}
-                                className="w-full h-full object-cover rounded-md cursor-pointer"
+                                className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                               />
                             </div>
                           ) : (
@@ -819,7 +819,7 @@ const Checkout = () => {
                       </div>
                       <button
                         onClick={handleVerifiedPan}
-                        className="w-[209px] mt-5 h-[55px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                       >
                         Continue
                       </button>
@@ -836,10 +836,10 @@ const Checkout = () => {
 
 
         {
-          ((one == false) && two && three) ? <div>   <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] p-8 mt-6 rounded-md shadow-xl">
+          ((one == false) && two && three) ? <div>   <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] p-8 sm:mt-6 rounded-md shadow-xl">
             <h2 className="text-[20px] font-bold">About You</h2>
 
-            <div className="mt-3 flex justify-between">
+            <div className="mt-3 sm:flex justify-between">
               <div>
                 <span className="text-[#FF0000] font-semibold">
                   Personal Information
@@ -857,7 +857,7 @@ const Checkout = () => {
                   <span className="text-[#878787]">{user?.phone}</span>
                 </div>
               </div>
-              <div className="max-w-[300px] ">
+              <div className="max-w-[300px] sm:mt-0 mt-4">
                 <span className="text-[#FF0000] font-semibold ">Address</span>
                 <div className="flex items-center gap-5 mt-4  text-sm">
                   <Image src="/location.svg" alt="user" width={20} height={20} />
@@ -877,10 +877,10 @@ const Checkout = () => {
             </div>
             <div>
               <div className="mt-6 text-sm">
-                <span className="text-[#FF0000] font-semibold">Documents</span>
-                <div className="flex justify-between items-center gap-5 mt-4 ">
+                <span className="text-[#FF0000] font-semibold text-[16px]">Documents</span>
+                <div className="sm:flex justify-between items-center gap-5 mt-4 ">
                   <span className="text-[#878787] w-[200px]">PAN Number</span>:{" "}
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 sm:my-0 my-2">
                     {" "}
                     <span className="text-[#878787]">{user?.panNumber}</span>{" "}
                     <Image src="/pancard.svg" alt="user" width={60} height={60} />{" "}
@@ -896,12 +896,12 @@ const Checkout = () => {
                     Verified Account
                   </span>
                 </div>
-                <div className="flex justify-between items-center gap-5 mt-4">
+                <div className="sm:flex justify-between items-center gap-5 mt-4">
                   <span className="text-[#878787] w-[200px]">
                     Driving License Number
                   </span>
                   :{" "}
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 sm:my-0 my-2">
                     {" "}
                     <span className="text-[#878787]">{user?.drivingLicenseNumber}</span>{" "}
                     <Image src="/dlcard.svg" alt="user" width={60} height={60} />{" "}
@@ -917,9 +917,9 @@ const Checkout = () => {
                     Verified Account
                   </span>
                 </div>
-                <div className="flex justify-between items-center gap-5 mt-4">
+                <div className="sm:flex justify-between items-center gap-5 mt-4">
                   <span className="text-[#878787] w-[200px]">Aadhar Number</span>:{" "}
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2 sm:my-0 my-2">
                     {" "}
                     <span className="text-[#878787]">{user?.aadharNumber}</span>{" "}
                     <Image
