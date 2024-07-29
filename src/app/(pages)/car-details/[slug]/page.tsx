@@ -20,6 +20,7 @@ import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
+import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
 
 interface PromoCode {
   code: string;
@@ -47,6 +48,24 @@ const CarDetails = () => {
   const [promoCodes, setPromoCodes] = useState([]);
 
   const [currentPackage, setCurrentPackage] = useState<any>();
+  const [showDoorStep, setShowDoorStep] = useState(false);
+
+  const handleShowDoorstepPopup = () => {
+    setShowDoorStep(true);
+
+  }
+
+  const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
+
+  const handleSelectItemDoorStep = (arr: any) => {
+    console.log(arr, "selectedDoorStepObject");
+    setSelectedDoorStepObject([{ ...arr }]);
+    setShowDoorStep(false);
+  };
+
+  React.useEffect(() => {
+    console.log(selectedDoorStepObject, "selectedDoorStepObject");
+  }, [selectedDoorStepObject]);
 
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
@@ -279,6 +298,10 @@ const CarDetails = () => {
   const roundedPrices = allPrices?.map(roundPrice);
 
   const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
+
+  // const [return ]
+
+
   return (
     <>
       <div className="py-6">
@@ -331,17 +354,30 @@ const CarDetails = () => {
                       ₹{packagePrice} * {days} Days and {hours} Hours
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <span className="ml-2">
+                  <div className="grid grid-cols-2 gap-4 w-full max-w-full px-2 font-semibold">
+                    <span className="w-[220px]">
                       Doorstep delivery & pickup
                     </span>
-                    <span>
-                      ₹ {currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)}
+                    <span className="" onClick={handleShowDoorstepPopup}>
+
+                      <textarea className="w-[100%]" value={(selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) || "Select"} />
+                      {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
+                    {showDoorStep &&
+                      <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full m-auto flex items-center justify-center">
+                        <DropLocation onSelectItem={handleSelectItemDoorStep} currentPackage={currentPackage?.DoorstepDeliveryPickup} />
+                      </div>
+                    }
+
                   </div>
+                  {/* <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-2">
+                    {
+                      selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
+                    }
+                  </div> */}
                   <div className="grid grid-cols-2 gap-4">
                     <span className="ml-2">
-                      Insurance & GST
+                      GST
                     </span>
                     <span>
                       {carDetails?.extraService?.insurance}
@@ -517,11 +553,32 @@ const CarDetails = () => {
                     <span className="w-[220px] ml-10">
                       Doorstep delivery & pickup
                     </span>
-                    <span className="w-[220px] ml-10">₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)}</span>
+                    <span className="w-[220px] ml-10" onClick={handleShowDoorstepPopup}>
+
+                      <textarea className="w-[80%]" value={(selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) || "Select"} />
+                      {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
+                    </span>
+                    {showDoorStep &&
+                      <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
+                        <DropLocation onSelectItem={handleSelectItemDoorStep} currentPackage={currentPackage?.DoorstepDeliveryPickup} />
+                      </div>
+
+                    }
+
+
+
+
+
+
+                  </div>
+                  <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-10">
+                    {
+                      selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
+                    }
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">Insurance & GST</span>
+                    <span className="w-[220px] ml-10">GST</span>
                     <span className="w-[220px] ml-10">{carDetails?.extraService?.insurance}</span>
                   </div>
 
@@ -686,7 +743,7 @@ const CarDetails = () => {
                   </button>
                 </div>
               </main>
-              <div className="flex flex-row items-start gap-2 ml-4">
+              {/* <div className="flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">
                   <Image
                     src="/png/waiting.png"
@@ -701,7 +758,7 @@ const CarDetails = () => {
                     Convince fees is not refundable
                   </span>
                 </span>
-              </div>
+              </div> */}
             </div>
 
             {/* booking summary */}
