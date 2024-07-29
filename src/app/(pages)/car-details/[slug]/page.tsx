@@ -336,7 +336,7 @@ const CarDetails = () => {
                       Doorstep delivery & pickup
                     </span>
                     <span>
-                      ₹ {currentPackage?.DoorstepDeliveryPickup[0]?.price}
+                      ₹ {currentPackage?.DoorstepDeliveryPickup.reduce((acc: any, item: any) => acc + item.price, 0) }
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -517,7 +517,7 @@ const CarDetails = () => {
                     <span className="w-[220px] ml-10">
                       Doorstep delivery & pickup
                     </span>
-                    <span className="w-[220px] ml-10">₹ {currentPackage?.DoorstepDeliveryPickup[0]?.price}</span>
+                    <span className="w-[220px] ml-10">₹{currentPackage?.DoorstepDeliveryPickup.reduce((acc: any, item: any) => acc + item.price, 0)}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
