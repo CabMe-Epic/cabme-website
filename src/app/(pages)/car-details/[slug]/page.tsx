@@ -22,6 +22,7 @@ import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
 import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
 import { calculateGST } from "@/app/utils/calculateGST";
+import { useStore } from "@/app/zustand/store/store";
 
 interface PromoCode {
   code: string;
@@ -40,6 +41,8 @@ interface PromoCode {
 }
 
 const CarDetails = () => {
+  const userData = useStore((state) => state);
+  console.log("USER DATA", { userData })
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -57,7 +60,6 @@ const CarDetails = () => {
   }
 
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
-
   const handleSelectItemDoorStep = (arr: any) => {
     setSelectedDoorStepObject([{ ...arr }]);
     setShowDoorStep(false);
@@ -123,16 +125,18 @@ const CarDetails = () => {
   }, []);
 
   const bookingData = {
-    userId: userId,
+    userId: userData?.userData?._id,
     vehicleId: carDetails?._id,
     option: selectedTabValue,
     location: carDetails?.city,
     pickUpDateTime: pickupDateTimeString,
     dropOffDateTime: droppingDateTimeString,
     baseFare: packagePrice,
-    doorstepDelivery: 0,
+    doorstepDelivery: roundPrice(Number(selectedDoorStepObject[0]?.price)),
+    gstRate: currentPackage?.package1?.gstRate,
+    gstAmount: roundPrice(Number(result?.gstAmount)),
     insuranceGST: carDetails?.extraService?.insurance,
-    refundableDeposit: 0,
+    refundableDeposit: currentPackage?.refundableDeposit,
     kmsLimit: 0,
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
@@ -142,11 +146,11 @@ const CarDetails = () => {
       discountType: selectedDiscountType ? selectedDiscountType : null,
       discountAmount: Number(discountAppliedAmount.toFixed(2)),
     },
-    totalAmount: discountAmount > 0 ? Number(discountAmount.toFixed(2)) : Number(totalPrice.toFixed(2)),
+    totalAmount: (currentPackage?.gst === "Excluded" && totalExcludedGSTAmount) || (currentPackage?.gst === "Included" && totalIncludedGSTAmount),
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
-    createdByUser: userId
+    createdByUser: userData?.userData?._id
   };
 
   const [bookingSuccess, setBookingSuccess] = useState(false);
@@ -606,7 +610,6 @@ const CarDetails = () => {
                   }
 
 
-
                   {/* {discountAmount > 0 ? (
                     <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
                       <span className="w-[220px] ml-10">TOTAL</span>
@@ -623,10 +626,10 @@ const CarDetails = () => {
                     </div>
                   )} */}
 
-                  <div className="grid grid-cols-2 gap-14  justify-center">
+                  {/* <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Kms Limit</span>
                     <span className="w-[220px] ml-10">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
-                  </div>
+                  </div> */}
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Fuel</span>
@@ -685,43 +688,26 @@ const CarDetails = () => {
 
                   {/* DESKTOP TOTAL AMOUNT  */}
                   <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[420px] py-5 rounded-3xl">
-                    {discountAmount > 0 ? (
+                    {currentPackage?.gst === "Excluded" &&
                       <div className="flex flex-col">
                         <span>Total Amount </span>
                         <span className="text-[#ff0000] p-0 text-2xl font-bold">
-                          ₹ {discountAmount.toFixed(2)}
+                          ₹ {roundPrice(totalExcludedGSTAmount)}
                         </span>
                       </div>
-                    ) : (
+                    }
+                    {currentPackage?.gst === "Included" &&
                       <div className="flex flex-col">
-                        <span>Total Amount</span>
+                        <span>Total Amount </span>
                         <span className="text-[#ff0000] p-0 text-2xl font-bold">
-                          ₹ {totalPrice.toFixed(2)}
+                          ₹ {roundPrice(totalIncludedGSTAmount)}
                         </span>
                       </div>
-                    )}
-
+                    }
                     <div>
 
-                      {/* Desktop button ... */}
-                      {/* {userId && token ? (
-                        <button
-                          onClick={handleBooking}
-                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
-                          Checkout
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => router.push("/check-out")}
-                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
-                          Proceed
-                        </button>
-                      )} */}
-
-                      {/* Dynamic buttons ...  */}
-
                       <>
-                        {userId && token ? (
+                        {userData?.isLoggedIn ? (
                           bookingSuccess ? (
                             <button
                               // onClick={() => router.push("/payment")}
