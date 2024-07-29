@@ -360,7 +360,7 @@ const CarDetails = () => {
                     </span>
                     <span className="" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className="w-[100%]" value={(selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) || "Select"} />
+                      <textarea className="w-[100%]" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
@@ -555,27 +555,21 @@ const CarDetails = () => {
                     </span>
                     <span className="w-[220px] ml-10" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className="w-[80%]" value={(selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) || "Select"} />
+                      <textarea className="w-[80%]" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
                       <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
                         <DropLocation onSelectItem={handleSelectItemDoorStep} currentPackage={currentPackage?.DoorstepDeliveryPickup} />
                       </div>
-
                     }
 
-
-
-
-
-
                   </div>
-                  <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-10">
+                  {/* <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-10">
                     {
                       selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
                     }
-                  </div>
+                  </div> */}
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">GST</span>
