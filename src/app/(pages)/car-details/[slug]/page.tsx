@@ -302,6 +302,7 @@ const CarDetails = () => {
   // const [return ]
 
 
+
   return (
     <>
       <div className="py-6">
@@ -360,7 +361,14 @@ const CarDetails = () => {
                     </span>
                     <span className="" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className="w-[100%] p-1" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
+                      <textarea
+                        className="w-full h-full p-1"
+                        value={selectedDoorStepObject[0]?.location
+                          ? `${selectedDoorStepObject[0]?.location} ${selectedDoorStepObject[0]?.subLocation} - ${selectedDoorStepObject[0]?.price}`
+                          : "Select"}
+                        readOnly
+                      />
+
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
@@ -555,7 +563,7 @@ const CarDetails = () => {
                     </span>
                     <span className="w-[220px] ml-8" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className="w-[80%] p-1" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
+                      <textarea className="w-[80%] h-[100%] p-1" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&

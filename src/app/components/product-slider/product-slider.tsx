@@ -58,7 +58,7 @@ const ProductSlider = ({
       >
         {finalArray.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className="shadow-image-shadow rounded-[8px] overflow-hidden sm:my-0 sm:mx-0 my-[0px] mx-[5px]">
+            <div className="shadow-image-shadow rounded-[8px] overflow-hidden sm:my-0 mb-4 sm:mx-0 my-[0px] mx-[5px]">
               <Image
                 src={item?.image}
                 alt={item?.alt || "image"}
