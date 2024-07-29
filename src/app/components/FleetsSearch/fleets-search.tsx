@@ -289,27 +289,27 @@ export default function Home() {
         setSelectedCity(cityName);
         // setPickupLocation(cityName);
         handlePickupLocation(cityName);
-        // setShowLocationPopup(false);
+        setShowLocationPopup(false);
     };
     const handleMobileCityClick = (cityName: any) => {
         setSelectedMobileCity(cityName);
         // setPickupLocation(cityName);
         handlePickupLocation(cityName);
-        // setShowLocationPopup(false);
+        setShowMobileLocationPopup(false);
     };
 
     const handleDropOffCity = (cityName: any) => {
         setDropSelectedCity(cityName);
         // setDropoffLocation(cityName);
         handleDropOffLocation(cityName);
-        // setShowDropLocationPopup(false);
+        setShowDropLocationPopup(false);
     };
 
     const handleDropOffMobileCity = (cityName: any) => {
         setDropSelectedMobileCity(cityName);
         // setDropoffLocation(cityName);
         handleDropOffLocation(cityName);
-        // setShowDropLocationPopup(false);
+        setShowDropLocationPopup(false);
     };
 
     console.log(selectedCity, "selectedCity");
@@ -433,11 +433,11 @@ export default function Home() {
                                                                             </div>
                                                                         ))}
                                                                     </div>
-                                                                    <ThemeButton
+                                                                    {/* <ThemeButton
                                                                         onClick={() => setShowLocationPopup(false)}
                                                                         className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                                         text="Select"
-                                                                    />
+                                                                    /> */}
                                                                 </div>
                                                             </div>
                                                         </>
@@ -605,11 +605,11 @@ export default function Home() {
                                                                             </div>
                                                                         ))}
                                                                     </div>
-                                                                    <ThemeButton
+                                                                    {/* <ThemeButton
                                                                         onClick={() => setShowLocationPopup(false)}
                                                                         className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                                         text="Select"
-                                                                    />
+                                                                    /> */}
                                                                 </div>
                                                             </div>
                                                         </>
@@ -763,11 +763,11 @@ export default function Home() {
                                                     </div>
                                                 ))}
                                             </div>
-                                            <ThemeButton
+                                            {/* <ThemeButton
                                                 onClick={() => setShowDropLocationPopup(false)}
                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                 text="Select"
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 </>
@@ -834,11 +834,11 @@ export default function Home() {
                                                                         </div>
                                                                     ))}
                                                                 </div>
-                                                                <ThemeButton
+                                                                {/* <ThemeButton
                                                                     onClick={() => setShowLocationPopup(false)}
                                                                     className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                                     text="Select"
-                                                                />
+                                                                /> */}
                                                             </div>
                                                         </div>
                                                     </>
@@ -993,11 +993,11 @@ export default function Home() {
                                                     </div>
                                                 ))}
                                             </div>
-                                            <ThemeButton
+                                            {/* <ThemeButton
                                                 onClick={() => setShowDropLocationPopup(false)}
                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                 text="Select"
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 </>
@@ -1059,11 +1059,11 @@ export default function Home() {
                                                                     </div>
                                                                 ))}
                                                             </div>
-                                                            <ThemeButton
+                                                            {/* <ThemeButton
                                                                 onClick={() => setShowLocationPopup(false)}
                                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                                 text="Select"
-                                                            />
+                                                            /> */}
                                                         </div>
                                                     </div>
                                                 </>
@@ -1227,11 +1227,11 @@ export default function Home() {
                                                 </div>
                                             ))}
                                         </div>
-                                        <ThemeButton
+                                        {/* <ThemeButton
                                             onClick={() => setShowDropLocationPopup(false)}
                                             className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                             text="Select"
-                                        />
+                                        /> */}
                                     </div>
                                 </div>
                             </>
@@ -1400,11 +1400,11 @@ export default function Home() {
                                                     </div>
                                                 ))}
                                             </div>
-                                            <ThemeButton
+                                            {/* <ThemeButton
                                                 onClick={() => setShowMobileLocationPopup(false)}
                                                 className="!rounded-full !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                 text="Select"
-                                            />
+                                            /> */}
                                         </div>
                                     </div>
                                 </>
@@ -1560,11 +1560,11 @@ export default function Home() {
                                             </div>
                                         ))}
                                     </div>
-                                    <ThemeButton
+                                    {/* <ThemeButton
                                         onClick={() => setShowDropLocationPopup(false)}
                                         className="!rounded-full !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                         text="Select"
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </>

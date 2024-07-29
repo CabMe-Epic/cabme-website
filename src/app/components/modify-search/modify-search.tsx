@@ -109,7 +109,7 @@ const ModifySearch: React.FC = () => {
     setSelectedCity(cityName);
     // setPickupLocation(cityName);
     handlePickupLocation(cityName);
-    // setShowLocationPopup(false);
+    setShowLocationPopup(false);
   };
   return (
     <div
@@ -177,11 +177,11 @@ const ModifySearch: React.FC = () => {
                           </div>
                         ))}
                       </div>
-                      <ThemeButton
+                      {/* <ThemeButton
                         onClick={() => setShowLocationPopup(false)}
                         className="!rounded-full !py-2 mt-6 !w-[200px] !font-semibold"
                         text="Select"
-                      />
+                      /> */}
                     </div>
                   </div>
                   }

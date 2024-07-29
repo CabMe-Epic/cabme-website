@@ -298,7 +298,7 @@ const CardListingCards = ({ data }: any) => {
                             <p className="text-[#FF0000] font-[500] lg:text-[14px] text-[11px] whitespace-nowrap w-[80px] overflow-hidden">
                               {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit : "0"} Free kms
                             </p>...
-                            <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2">
+                            <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                               {data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1?.kmsLimit : "0"} Free kms
                             </div>
                           </span>
@@ -341,7 +341,7 @@ const CardListingCards = ({ data }: any) => {
                                 : "0"} Free kms
                             </p>...
                           </span>
-                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2">
+                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType?.package2?.kmsLimit
                               : "0"} Free kms
@@ -386,7 +386,7 @@ const CardListingCards = ({ data }: any) => {
                                 : "0"} Free kms
                             </p>...
                           </span>
-                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2">
+                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType?.package3?.kmsLimit
                               : "0"} Free kms
@@ -604,7 +604,7 @@ const CardListingCards = ({ data }: any) => {
                         : ""
                         }`}
                     >
-                      <span className="font-bold text-[20px] ">
+                      <span className="font-bold text-[18px] ">
                         ₹{" "}
                         {
                           data?.bookingOptions?.subscription?.packageType
@@ -619,11 +619,15 @@ const CardListingCards = ({ data }: any) => {
                           }
                         </p>
                         <hr className="border-[#000000] border-[1.2px]" />
-                        <p className="text-[#FF0000] font-[500] text-[14px]">
-                          {data?.bookingOptions?.subscription?.packageType
-                            ?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
-                              ?.package1?.kmsLimit : "0"} Free kms
-                        </p>
+                        <span className="relative flex flex-row group text-[#FF0000]">
+                          <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
+                            {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit : "0"} Free kms
+                          </p>...
+                          <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit : "0"} Free kms
+                          </div>
+                        </span>
+
                       </span>
                     </div>
                     <div
@@ -635,7 +639,7 @@ const CardListingCards = ({ data }: any) => {
                       }
                       className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                     >
-                      <span className="font-bold text-[20px] ">
+                      <span className="font-bold text-[18px] ">
                         ₹{" "}
                         {
                           data?.bookingOptions?.subscription?.packageType
@@ -650,11 +654,15 @@ const CardListingCards = ({ data }: any) => {
                           }
                         </p>
                         <hr className="border-[#000000] border-[1.2px]" />
-                        <p className="text-[#FF0000] font-[500] text-[14px]">
-                          {data?.bookingOptions?.subscription?.packageType
-                            ?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
-                              ?.package2?.kmsLimit : "0"} Free kms
-                        </p>
+                        <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                          <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
+                            {data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit : "0"} Free kms
+                          </p>...
+                          <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package2?.kmsLimit : "0"} Free kms
+                          </div>
+                        </span>
+
                       </span>
                     </div>
                     <div
@@ -666,7 +674,7 @@ const CardListingCards = ({ data }: any) => {
                       }
                       className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                     >
-                      <span className="font-bold text-[20px] ">
+                      <span className="font-bold text-[18px] ">
                         ₹{" "}
                         {
                           data?.bookingOptions?.subscription?.packageType
@@ -681,11 +689,15 @@ const CardListingCards = ({ data }: any) => {
                           }
                         </p>
                         <hr className="border-[#000000] border-[1.2px]" />
-                        <p className="text-[#FF0000] font-[500] text-[14px]">
-                          {data?.bookingOptions?.subscription?.packageType
-                            ?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType
-                              ?.package3?.kmsLimit : "0"} Free kms
-                        </p>
+                        <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                          <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
+                            {data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit : "0"} Free kms
+                          </p>...
+                          <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package3?.kmsLimit : "0"} Free kms
+                          </div>
+                        </span>
+
                       </span>
                     </div>
 
@@ -880,7 +892,7 @@ const CardListingCards = ({ data }: any) => {
                             }
                             className=" sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
-                            <span className="font-bold text-[20px] ">
+                            <span className="font-bold text-[18px] ">
                               {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                               ₹{" "}
                               {
@@ -896,11 +908,15 @@ const CardListingCards = ({ data }: any) => {
                                 }
                               </p>
                               <hr className="border-[#000000] border-[1.2px]" />
-                              <p className="text-[#FF0000] font-[500] text-[14px]">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package1?.kmsLimit : "0"} Free kms
-                              </p>
+                              <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                                <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit : "0"} Free kms
+                                </p>...
+                                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit : "0"} Free kms
+                                </div>
+                              </span>
+
                             </span>
                           </div>
                           <div
@@ -912,7 +928,7 @@ const CardListingCards = ({ data }: any) => {
                             }
                             className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
-                            <span className="font-bold text-[20px] ">
+                            <span className="font-bold text-[18px] ">
                               ₹{" "}
                               {
                                 data?.bookingOptions?.withDriver?.local
@@ -927,11 +943,15 @@ const CardListingCards = ({ data }: any) => {
                                 }
                               </p>
                               <hr className="border-[#000000] border-[1.2px]" />
-                              <p className="text-[#FF0000] font-[500] text-[14px]">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package2?.kmsLimit : "0"} Free kms
-                              </p>
+                              <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                                <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit : "0"} Free kms
+                                </p>...
+                                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit : "0"} Free kms
+                                </div>
+                              </span>
+
                             </span>
                           </div>
                           <div
@@ -943,7 +963,7 @@ const CardListingCards = ({ data }: any) => {
                             }
                             className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
-                            <span className="font-bold text-[20px] ">
+                            <span className="font-bold text-[18px] ">
                               ₹{" "}
                               {
                                 data?.bookingOptions?.withDriver?.local
@@ -958,11 +978,15 @@ const CardListingCards = ({ data }: any) => {
                                 }
                               </p>
                               <hr className="border-[#000000] border-[1.2px]" />
-                              <p className="text-[#FF0000] font-[500] text-[14px]">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package3?.kmsLimit : "0"} Free kms
-                              </p>
+                              <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                                <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit : "0"} Free kms
+                                </p>...
+                                <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3?.kmsLimit : "0"} Free kms
+                                </div>
+                              </span>
+
                             </span>
                           </div>
 
@@ -1847,7 +1871,7 @@ const CardListingCards = ({ data }: any) => {
 
 
                         Navigation.push(`/car-details/${data._id}`),
-                        selectDefaultPackage(data);
+                          selectDefaultPackage(data);
 
                       }
                       }
@@ -2166,8 +2190,7 @@ const CardListingCards = ({ data }: any) => {
                         <span className="text-[10px]">Boot Space</span>
                       </div>
                     </div>
-                    <ThemeButton onClick={() =>
-                    {
+                    <ThemeButton onClick={() => {
                       Navigation.push(`/car-details/${data._id}`)
                       selectDefaultPackage(data);
 
@@ -2484,8 +2507,7 @@ const CardListingCards = ({ data }: any) => {
                         <span className="text-[10px]">Boot Space</span>
                       </div>
                     </div>
-                    <ThemeButton onClick={() =>
-                    {
+                    <ThemeButton onClick={() => {
                       Navigation.push(`/car-details/${data._id}`)
                       selectDefaultPackage(data);
 
