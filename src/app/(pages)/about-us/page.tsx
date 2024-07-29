@@ -28,7 +28,7 @@ const AboutUs = () => {
         <span className="cursor-pointer">About us</span>
       </div>
       <div>
-        <div className="text-center sm:text-4xl text-xl sm:mb-12 mb-6">
+        <div className="text-center sm:text-4xl text-xl sm:mb-12 mb-6 px-4">
           <p>We Are Proud Of Our Business. </p>
           <p>
             {" "}
@@ -43,7 +43,7 @@ const AboutUs = () => {
           className="h-auto w-[70%] m-auto"
         />
       </div>
-      <div className="max-w-[1250px] m-auto sm:grid grid-cols-2 gap-12 items-center sm:my-16 my-8 sm:px-0 px-8">
+      <div className="max-w-[1250px] m-auto sm:grid grid-cols-2 gap-12 items-center sm:my-16 my-8 sm:px-4 px-8">
         <div>
           <h2 className="text-primary font-semibold sm:text-3xl text-2xl">
             About Us
@@ -273,7 +273,7 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
-      <div className="sm:grid grid-cols-2 sm:px-0 px-8 gap-12 mb-12 sm:mt-20 mt-6 items-center max-w-[1250px] m-auto">
+      <div className="sm:grid grid-cols-2 sm:px-4 px-8 gap-12 mb-12 sm:mt-20 mt-6 items-center max-w-[1250px] m-auto">
         <div>
           <h3 className="sm:text-4xl text-2xl font-[500]">
             Use our <span className="text-primary"> quick booking from</span> to
@@ -303,21 +303,24 @@ const AboutUs = () => {
                   1800 121 6162{" "}
                 </Link>
               </div>
-              <div className="flex gap-2">
+              <Link 
+                  href={"https://wa.link/l86m7r"}
+              
+              className="flex gap-2">
                 <Image
                   src={"/svg/whatsapp.svg"}
                   alt="whatsapp"
                   width={24}
                   height={24}
                 />
-                <Link
+                <span
                   className="font-semibold text-black sm:text-md text-sm"
-                  href={"#"}
+                  // href={"#"}
                 >
                   {" "}
                   +91-7240004072{" "}
-                </Link>
-              </div>
+                </span>
+              </Link>
             </div>
           </div>
           <p className="mt-8 font-[500] text-lg sm:block hidden">

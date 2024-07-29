@@ -344,7 +344,7 @@ export default function Home() {
         <>
 
             <div
-                className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${tabValue === "Driver" ? "h-[290px]" : "h-[260px]"
+                className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${tabValue === "Driver" ? "h-[320px]" : "h-[260px]"
                     }`}
             >
                 <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
@@ -722,6 +722,13 @@ export default function Home() {
                                     </div>
                                 </div>
                             )}
+                             <div
+                                onClick={(e) => handleDropSelectPopupLocation(e)}
+                                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
+                                    }`}
+                            >
+                                Drop in different city?
+                            </div>
                             {durationFormat && (
                                 <div className="w-fit m-auto">
                                     <div className="mt-4">
@@ -732,13 +739,7 @@ export default function Home() {
                                     </div>
                                 </div>
                             )}
-                            <div
-                                onClick={(e) => handleDropSelectPopupLocation(e)}
-                                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
-                                    }`}
-                            >
-                                Drop in different city?
-                            </div>
+                           
 
                             {showDropLocationPopup && (
                                 <>

@@ -198,6 +198,7 @@
   border: 0 !important;
   margin-top: 10px !important;
   margin-left: -30px !important;
+  display: flex !important;
 }
 .react-datepicker{
   z-index: 998 !important;
