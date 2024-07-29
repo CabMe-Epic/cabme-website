@@ -295,7 +295,7 @@ export default function Home() {
         setSelectedMobileCity(cityName);
         // setPickupLocation(cityName);
         handlePickupLocation(cityName);
-        setShowLocationPopup(false);
+        setShowMobileLocationPopup(false);
     };
 
     const handleDropOffCity = (cityName: any) => {
