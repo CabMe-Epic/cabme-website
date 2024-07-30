@@ -931,24 +931,24 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                                 <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                                 </p>...
                                 <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit* (days as number) : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                                 </div>
                               </span>
 
                             </span>
                           </div>
                           <div
-                           onClick={() => {
-                            const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package2?.price);
-                            if (calculatedPrice) {
-                              setPrice(Math.round(calculatedPrice));
-                            } else {
-                              console.error("Failed to calculate the total price");
-                            }
-                          }}
+                            onClick={() => {
+                              const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package2?.price);
+                              if (calculatedPrice) {
+                                setPrice(Math.round(calculatedPrice));
+                              } else {
+                                console.error("Failed to calculate the total price");
+                              }
+                            }}
                             className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
                             <span className="font-bold text-[18px] ">
@@ -970,24 +970,24 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                                 <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit* (days as number) : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit * (days as number) : "0"} Free kms
                                 </p>...
                                 <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit* (days as number) : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit * (days as number) : "0"} Free kms
                                 </div>
                               </span>
 
                             </span>
                           </div>
                           <div
-                           onClick={() => {
-                            const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package3?.price);
-                            if (calculatedPrice) {
-                              setPrice(Math.round(calculatedPrice));
-                            } else {
-                              console.error("Failed to calculate the total price");
-                            }
-                          }}
+                            onClick={() => {
+                              const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package3?.price);
+                              if (calculatedPrice) {
+                                setPrice(Math.round(calculatedPrice));
+                              } else {
+                                console.error("Failed to calculate the total price");
+                              }
+                            }}
                             className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
                             <span className="font-bold text-[18px] ">
@@ -1687,7 +1687,7 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package1
                         ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
-                        ?.kmsLimit* (days as number) : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1729,7 +1729,7 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package2
                         ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
-                        ?.kmsLimit* (days as number) : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1770,7 +1770,7 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package3
                         ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
-                        ?.kmsLimit* (days as number) : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                 </div>
@@ -2375,7 +2375,365 @@ const CardListingCards = ({ data }: any) => {
             </>
           ) : bookingOptionsHome === data?.bookingOptions?.withDriver?.name ? (
             <>
-              <div
+              {driverType ===
+                data?.bookingOptions?.withDriver?.local?.name && (<div
+                  className="sm:hidden block p-4 pb-0  relative pb-6 bg-[url('/carListing/listing-card-bg.png')]"
+                  style={{ backgroundSize: "100% 100%" }}
+                >
+                  <div className="grid grid-cols-3 gap-2 mt-10">
+                    <div
+                      // className={`border text-center py-[3px] px-2 rounded-md`}
+                      onClick={() => {
+                        setPrice(
+                          data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                            ?.price
+                        );
+                        setClicked1(true);
+                        setClicked2(false);
+                        setClicked3(false);
+                      }}
+                      className={`${clicked1
+                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                        }`}
+                    >
+                      <p
+                        className={` ${data?.bookingOptions?.withDriver?.local?.packageType
+                          ?.package1?.duration === "Unlimited"
+                          ? "text-[#939393]"
+                          : "text-[#565454]"
+                          } sm:text-sm text-[10px]`}
+                      >
+                        {
+                          data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                            ?.duration
+                        }
+                      </p>
+                      <strong className="block text-sm">
+                        {
+                          calculateTotalPrice(
+                            data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                              ?.price)?.toFixed(0)
+                        }
+                      </strong>
+                      <p className="text-primary sm:text-xs text-[8px]">
+                        {data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                          ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                            ?.kmsLimit * (days as number) : "0"} Free kms
+                      </p>
+                    </div>
+                    <div
+                      // className={`border text-center py-[3px] px-2 rounded-md`}
+                      onClick={() => {
+                        setPrice(
+                          data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                            ?.price
+                        );
+                        setClicked1(false);
+                        setClicked2(true);
+                        setClicked3(false);
+                      }}
+                      className={`${clicked2
+                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                        }`}
+                    >
+                      <p
+                        className={` ${data?.bookingOptions?.withDriver?.local?.packageType
+                          ?.package2?.duration === "Unlimited"
+                          ? "text-[#939393]"
+                          : "text-[#565454]"
+                          } sm:text-sm text-[10px]`}
+                      >
+                        {
+                          data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                            ?.duration
+                        }
+                      </p>
+                      <strong className="block text-sm">
+                        {
+                          calculateTotalPrice(
+                            data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                              ?.price)?.toFixed(0)
+                        }
+                      </strong>
+                      <p className="text-primary sm:text-xs text-[8px]">
+                        {data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                          ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                            ?.kmsLimit * (days as number) : "0"} Free kms
+                      </p>
+                    </div>
+                    <div
+                      // className={`border text-center py-[3px] px-2 rounded-md`}
+                      onClick={() => {
+                        setPrice(
+                          data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                            ?.price
+                        );
+                        setClicked1(false);
+                        setClicked2(false);
+                        setClicked3(true);
+                      }}
+                      className={`${clicked3
+                        ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                        : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                        }`}
+                    >
+                      <p
+                        className={` ${data?.bookingOptions?.withDriver?.local?.packageType
+                          ?.package3?.duration === "Unlimited"
+                          ? "text-[#939393]"
+                          : "text-[#565454]"
+                          } sm:text-sm text-[10px]`}
+                      >
+                        {
+                          data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                            ?.duration
+                        }
+                      </p>
+                      <strong className="block text-sm">
+                        {
+                          calculateTotalPrice(
+                            data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                              ?.price)?.toFixed(0)
+                        }
+                      </strong>
+                      <p className="text-primary sm:text-xs text-[8px]">
+                        {data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                          ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                            ?.kmsLimit * (days as number) : "0"} Free kms
+                      </p>
+                    </div>
+                  </div>
+                  <div className="absolute top-4 left-[-8px]">
+                    <Image
+                      src="/png/red-design.png"
+                      width={133}
+                      objectFit={"contain"}
+                      height={46}
+                      alt="Tag Icon"
+                    />
+                    <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+                      {data?.brandName}
+                    </span>
+                  </div>
+                  <div className="xs:grid xs:grid-cols-[1fr_1.7fr] gap-2 mt-4">
+                    <div>
+                      <p className="font-semibold text-xl">{data?.carName}</p>
+
+                      <span>
+                        <Image
+                          src={data?.featuredImage.image}
+                          alt={data?.featuredImage.alt}
+                          width={350}
+                          height={350}
+                          className="xs:w-full w-[60%] h-auto xs:m-0 m-auto"
+                        />
+                      </span>
+                    </div>
+                    <div className="relative">
+                      <div className="gap-2 xs:mt-0 mt-2">
+                        <div
+                          onClick={() => setShowImg(!showImg)}
+                          className="flex gap-2 cursor-pointer px-2 py-[3px] rounded-md border border-red-500 w-fit m-auto"
+                        >
+                          <div className="flex-none ">
+                            <Image
+                              src="/carListing/view.png"
+                              width={14}
+                              objectFit={"contain"}
+                              height={14}
+                              alt="Car Icon"
+                            />
+                          </div>
+                          <span className="text-[#ff0000] text-xs whitespace-nowrap">
+                            View Real Car Images
+                          </span>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 mt-6">
+                        {data?.carFeatures?.bluetooth === true && (
+                          <div className="flex flex-row items-center gap-2">
+                            <Image
+                              src="/carListing/bluetooth.png"
+                              width={15}
+                              objectFit={"contain"}
+                              height={15}
+                              alt="bluetooth"
+                            />
+                            <span className="text-[10px]">Bluetooth</span>
+                          </div>
+                        )}
+
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/manual.png"
+                            width={15}
+                            objectFit={"contain"}
+                            height={15}
+                            alt="bluetooth"
+                          />
+                          <span className="text-[10px]">Manual</span>
+                        </div>
+                        {data?.carFeatures?.navigationSystem === true && (
+                          <div className="flex flex-row items-center gap-2">
+                            <Image
+                              src="/carListing/gps.png"
+                              width={15}
+                              objectFit={"contain"}
+                              height={15}
+                              alt="bluetooth"
+                            />
+                            <span className="text-[10px]">GPS Navigation</span>
+                          </div>
+                        )}
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/seats.png"
+                            width={15}
+                            objectFit={"contain"}
+                            height={15}
+                            alt="bluetooth"
+                          />
+                          <span className="text-[10px]">{data?.seatingCapacity} Person</span>
+                        </div>
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/gas.png"
+                            width={15}
+                            objectFit={"contain"}
+                            height={15}
+                            alt="bluetooth"
+                          />
+                          <span className="text-[10px]">
+                            {data?.vehicleSpecifications?.fuelType}
+                          </span>
+                        </div>
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/bootspace.png"
+                            width={15}
+                            objectFit={"contain"}
+                            height={15}
+                            alt="bluetooth"
+                          />
+                          <span className="text-[10px]">Boot Space</span>
+                        </div>
+                      </div>
+                      <ThemeButton onClick={() => {
+                        Navigation.push(`/car-details/${data._id}`)
+                        selectDefaultPackage(data);
+                      }
+                      } text="Book Now" className="ml-auto mt-4" />
+                      <div className="flex flex-row items-center w-full xs:!pr-10 absolute bottom-2 left-4 gap-2 cursor-pointer mt-2">
+                        <span
+                          className="text-[#ff0000] text-xs"
+                          onClick={() => setShowOptionsMobile(!showOptionsMobile)}
+                        >
+                          View Details{" "}
+                        </span>
+                        <Image
+                          src="/carListing/arrow.png"
+                          width={10}
+                          objectFit={"contain"}
+                          height={10}
+                          alt="bluetooth"
+                          className={showOptions ? "" : "rotate-180"}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  {showOptionsMobile && (
+                    <div className="flex flex-col w-full z-10 rounded-xl drop-shadow mt-2">
+                      <div className="flex justify-between sm:px-4 items-center sm:gap-[30px] bg-white sm:rounded-lg rounded-xs overflow-hidden shadow-lg">
+                        {tabs.map((tab) => (
+                          <button
+                            key={tab.name}
+                            className={`sm:py-2 sm:px-4 rounded-t-xl mt-2 w-full text-xs px-2 py-[7px] ${activeTab === tab.name
+                              ? "bg-white text-primary font-bold"
+                              : "bg-black text-white"
+                              }`}
+                            onClick={() => setActiveTab(tab.name)}
+                          >
+                            {tab.name}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="mt-0 flex w-full justify-between">
+                        <div className="bg-white px-4 py-4 rounded-bl-xl rounded-br-xl flex justify-around items-center w-full">
+                          {activeTab === "Inclusions" && (
+                            <div className="grid sm:grid-cols-4 gap-4 w-full">
+                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                                <Image
+                                  src="/carListingBanner/baseCar.png"
+                                  width={25}
+                                  height={25}
+                                  objectFit="contain"
+                                  alt="car"
+                                />
+                                <span className="text-xs font-semibold">
+                                  Base Fare
+                                </span>
+                              </div>
+                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                                <Image
+                                  src="/carListingBanner/trip.png"
+                                  width={25}
+                                  height={25}
+                                  objectFit="contain"
+                                  alt="car"
+                                />
+                                <span className="text-xs font-semibold">
+                                  Trip Insurance
+                                </span>
+                              </div>
+                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                                <Image
+                                  src="/carListingBanner/gst.png"
+                                  width={25}
+                                  height={10}
+                                  objectFit="contain"
+                                  alt="car"
+                                />
+                                <span className="text-xs font-semibold">GST</span>
+                              </div>
+                              <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
+                                <Image
+                                  src="/carListingBanner/deposit.png"
+                                  width={25}
+                                  height={25}
+                                  objectFit="contain"
+                                  alt="car"
+                                />
+                                <span className="font-semibold text-xs">
+                                  Refundable Security Deposit
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          {activeTab === "Exclusion" && (
+                            <div className="w-full">
+                              <ExclusionComponent />
+                            </div>
+                          )}
+                          {activeTab === "Facilities" && (
+                            <div className="w-full">
+                              <FacilityComponent />
+                            </div>
+                          )}
+                          {activeTab === "T&C" && (
+                            <div className="w-full">
+                              <TermsAndConditions />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>)}
+              {driverType ===
+                data?.bookingOptions?.withDriver?.outstation?.name && (
+                  <div
                 className="sm:hidden block p-4 pb-0  relative pb-6 bg-[url('/carListing/listing-card-bg.png')]"
                 style={{ backgroundSize: "100% 100%" }}
               >
@@ -2384,8 +2742,8 @@ const CardListingCards = ({ data }: any) => {
                     // className={`border text-center py-[3px] px-2 rounded-md`}
                     onClick={() => {
                       setPrice(
-                        data?.bookingOptions?.withDriver?.local?.packageType?.package1
-                            ?.price
+                        data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
+                          ?.price
                       );
                       setClicked1(true);
                       setClicked2(false);
@@ -2396,37 +2754,36 @@ const CardListingCards = ({ data }: any) => {
                       : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
                       }`}
                   >
-                    <p
-                      className={` ${data?.bookingOptions?.withDriver?.local?.packageType
+                    {/* <p
+                      className={` ${data?.bookingOptions?.withDriver?.outstation?.packageType
                         ?.package1?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
                         } sm:text-sm text-[10px]`}
                     >
                       {
-                        data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                        data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
                           ?.duration
                       }
-                    </p>
+                    </p> */}
                     <strong className="block text-sm">
                       {
                         calculateTotalPrice(
-                          data?.bookingOptions?.withDriver?.local?.packageType?.package1
-                            ?.price)?.toFixed(0)
+                          data?.bookingOptions.withDriver.outstation.packageType.package1.ratePerKm)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      {data?.bookingOptions?.withDriver?.local?.packageType?.package1
-                        ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1
-                          ?.kmsLimit*(days as number) : "0"} Free kms
+                      {data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
+                        ?.kmsLimit ? data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
                     // className={`border text-center py-[3px] px-2 rounded-md`}
                     onClick={() => {
                       setPrice(
-                        data?.bookingOptions?.withDriver?.local?.packageType?.package2
-                            ?.price
+                        data?.bookingOptions?.withDriver?.outstation?.packageType?.package2
+                          ?.price
                       );
                       setClicked1(false);
                       setClicked2(true);
@@ -2437,28 +2794,27 @@ const CardListingCards = ({ data }: any) => {
                       : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
                       }`}
                   >
-                    <p
-                      className={` ${data?.bookingOptions?.withDriver?.local?.packageType
+                    {/* <p
+                      className={` ${data?.bookingOptions?.withDriver?.outstation?.packageType
                         ?.package2?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
                         } sm:text-sm text-[10px]`}
                     >
                       {
-                        data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                        data?.bookingOptions?.withDriver?.outstation?.packageType?.package2
                           ?.duration
                       }
-                    </p>
+                    </p> */}
                     <strong className="block text-sm">
                       {
                         calculateTotalPrice(
-                          data?.bookingOptions?.withDriver?.local?.packageType?.package2
-                            ?.price)?.toFixed(0)
+                          data?.bookingOptions.withDriver.outstation.packageType.package2.ratePerKm)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      {data?.bookingOptions?.withDriver?.local?.packageType?.package2
-                        ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                      {data?.bookingOptions?.withDriver?.outstation?.packageType?.package2
+                        ?.kmsLimit ? data?.bookingOptions?.withDriver?.outstation?.packageType?.package2
                           ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
@@ -2466,8 +2822,8 @@ const CardListingCards = ({ data }: any) => {
                     // className={`border text-center py-[3px] px-2 rounded-md`}
                     onClick={() => {
                       setPrice(
-                        data?.bookingOptions?.withDriver?.local?.packageType?.package3
-                            ?.price
+                        data?.bookingOptions?.withDriver?.outstation?.packageType?.package3
+                          ?.price
                       );
                       setClicked1(false);
                       setClicked2(false);
@@ -2478,28 +2834,27 @@ const CardListingCards = ({ data }: any) => {
                       : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
                       }`}
                   >
-                    <p
-                      className={` ${data?.bookingOptions?.withDriver?.local?.packageType
+                    {/* <p
+                      className={` ${data?.bookingOptions?.withDriver?.outstation?.packageType
                         ?.package3?.duration === "Unlimited"
                         ? "text-[#939393]"
                         : "text-[#565454]"
                         } sm:text-sm text-[10px]`}
                     >
                       {
-                        data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                        data?.bookingOptions?.withDriver?.outstation?.packageType?.package3
                           ?.duration
                       }
-                    </p>
+                    </p> */}
                     <strong className="block text-sm">
                       {
                         calculateTotalPrice(
-                          data?.bookingOptions?.withDriver?.local?.packageType?.package3
-                            ?.price)?.toFixed(0)
+                          data?.bookingOptions.withDriver.outstation.packageType.package3.ratePerKm)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
-                      {data?.bookingOptions?.withDriver?.local?.packageType?.package3
-                        ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                      {data?.bookingOptions?.withDriver?.outstation?.packageType?.package3
+                        ?.kmsLimit ? data?.bookingOptions?.withDriver?.outstation?.packageType?.package3
                           ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
@@ -2730,6 +3085,9 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                 )}
               </div>
+                )}
+
+
             </>
           ) : (
             ""

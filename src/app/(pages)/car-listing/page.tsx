@@ -11,6 +11,7 @@ import CardListingBanner from "@/app/components/car-listing-banner/card-listing-
 import "../../../../networkRequests/types/type";
 import { searchVehicle } from "../../../../networkRequests/hooks/api";
 import ModifySearch from "@/app/components/modify-search/modify-search";
+import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 
 const ITEMS_PER_PAGE = 8;
 const CarListing = () => {
@@ -18,12 +19,15 @@ const CarListing = () => {
   const breadcrumbs = getBreadcrumbs(pathname);
   const [carData, setCarData] = useState<any>();
   const [showFilter, setShowFilter] = useState(false);
+  const [loader, setLoader] = useState(false);
 
 
   const getCarDetails = useCallback(async () => {
+    setLoader(true);
     const getSearchCarData = await searchVehicle();
     console.log(getSearchCarData, "mmmmmmmmmmm");
     setCarData(getSearchCarData?.data?.vehicles);
+    setLoader(false);
   }, []);
   useEffect(() => {
     getCarDetails();
@@ -253,6 +257,9 @@ const CarListing = () => {
 
   return (
     <div className="max-w-[1400px] m-auto">
+      {
+        loader && <BlinkerLoader />
+      }
       {/* <div
         className="sm:hidden xs:flex p-4 justify-between items-center bg-[url('/png/red-bg.png')] relative"
         style={{ backgroundSize: "100% 100%" }}

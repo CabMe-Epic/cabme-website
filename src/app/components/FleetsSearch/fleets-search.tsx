@@ -18,12 +18,14 @@ import BannerSlider from "@/app/components/banner-slider/banner-slider";
 import SelectOption from "@/app/components/new-drop-down/new-drop-down";
 import City from "@/app/components/city-selection/city-selection";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
+import BlinkerLoader from "../blinker-loader/blinkerLoader";
 
 export default function Home() {
     // const [startDate, setStartDate] = useState(
     //   setHours(setMinutes(new Date(), 0), 9),
     // );
     const [startDate, setStartDate] = useState<any>();
+    const [loader, setLoader] = useState(false);
 
     console.log("startDate pick", { startDate });
     const [dropDate, setDropDate] = useState<any>();
@@ -69,7 +71,7 @@ export default function Home() {
 
     const handlePickupLocation = (event: any) => {
         setPickupLocation(event);
-        console.log(pickupLocation,"joo");
+        console.log(pickupLocation, "joo");
     };
 
     const handleDropOffLocation = (event: any) => {
@@ -82,6 +84,7 @@ export default function Home() {
     console.log(dropOffDate, "213dropOff date");
 
     const saveLocationData = () => {
+        setLoader(true);
         if (!pickupTime) {
             alert("Please select the Pickup Time");
             return;
@@ -124,11 +127,13 @@ export default function Home() {
         }
 
         router.push("/car-listing");
+        setLoader(false);
     };
 
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
 
     const saveLocationDataMobile = () => {
+        setLoader(true);
         if (!startDate) {
             alert("Please select the Pickup Time");
             return;
@@ -162,18 +167,19 @@ export default function Home() {
         }
 
         router.push("/car-listing");
+        setLoader(false);
     };
 
     console.log(pickupTime, dropoffTime, "pickupTime");
 
-    // location section work end
-
     const [cities, setCities] = useState<[]>();
 
     const getRecords = React.useCallback(async () => {
+        setLoader(true);
         const citiesResponse = await getAllCities();
         const cities = citiesResponse?.data?.response;
         setCities(cities);
+        setLoader(false);
         console.log("citiesResponse", { cities });
     }, []);
 
@@ -343,125 +349,129 @@ export default function Home() {
 
     return (
         <>
+            {
+                loader ? <BlinkerLoader />
+                    :
 
-            <div
-                className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${tabValue === "Driver" ? "h-[320px]" : "h-[260px]"
-                    }`}
-            >
-                <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
-                    {tabsArray?.map((value, ind) => {
-                        return (
-                            <div
-                                className={`cursor-pointer w-full text-center py-[28px] text-lg ${value?.tabsValue === tabValue
-                                    ? "bg-primary-color text-white font-bold"
-                                    : "bg-[#EFF1FB]"
-                                    }`}
-                                key={ind}
-                                onClick={() => setTabsValue(value?.tabsValue)}
-                            >
-                                {value?.tabsValue}
-                            </div>
-                        );
-                    })}
-                </div>
-                {tabValue === "Driver" && (
-                    <>
-                        <div className="grid">
-                            <div className="flex gap-6 w-fit m-auto mt-6 w-fit h-fit">
-                                {driverRadioButton?.map((driver, ind) => {
-                                    return (
-                                        <div className="w-fit" key={ind}>
-                                            <RadioButton
-                                                onClick={() => setRadioToggle(driver.content)}
-                                                content={driver?.content}
-                                                name={driver?.name}
-                                                id={driver?.id}
-                                                
-                                            />
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                            {radioToggle === "Out-station" && (
-                                <div className="flex items-center mt-6">
-                                    {outstation?.map((item, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                                                    }`}
-                                            >
-                                                <div className="mt-2 flex-none">
-                                                    <Image
-                                                        src={item?.imageUrl}
-                                                        alt="icon"
-                                                        width={16}
-                                                        height={16}
+
+                    <div
+                        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${tabValue === "Driver" ? "h-[320px]" : "h-[260px]"
+                            }`}
+                    >
+                        <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
+                            {tabsArray?.map((value, ind) => {
+                                return (
+                                    <div
+                                        className={`cursor-pointer w-full text-center py-[28px] text-lg ${value?.tabsValue === tabValue
+                                            ? "bg-primary-color text-white font-bold"
+                                            : "bg-[#EFF1FB]"
+                                            }`}
+                                        key={ind}
+                                        onClick={() => setTabsValue(value?.tabsValue)}
+                                    >
+                                        {value?.tabsValue}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        {tabValue === "Driver" && (
+                            <>
+                                <div className="grid">
+                                    <div className="flex gap-6 w-fit m-auto mt-6 w-fit h-fit">
+                                        {driverRadioButton?.map((driver, ind) => {
+                                            return (
+                                                <div className="w-fit" key={ind}>
+                                                    <RadioButton
+                                                        onClick={() => setRadioToggle(driver.content)}
+                                                        content={driver?.content}
+                                                        name={driver?.name}
+                                                        id={driver?.id}
+
                                                     />
                                                 </div>
-                                                <div className="leading-none w-full">
-                                                    <h3 className="text-lg font-semibold">
-                                                        {item?.heading}
-                                                    </h3>
-                                                    {item?.id === "location" && showLocationPopup && (
-                                                        <>
-                                                            <input
-                                                                className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                                                                type="text"
-                                                                placeholder="All City"
-                                                                onClick={(e) => handleSelectPopupLocation(e)}
-                                                                value={selectedCity}
-                                                                readOnly // Prevent editing directly
+                                            );
+                                        })}
+                                    </div>
+                                    {radioToggle === "Out-station" && (
+                                        <div className="flex items-center mt-6">
+                                            {outstation?.map((item, index) => {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                                                            }`}
+                                                    >
+                                                        <div className="mt-2 flex-none">
+                                                            <Image
+                                                                src={item?.imageUrl}
+                                                                alt="icon"
+                                                                width={16}
+                                                                height={16}
                                                             />
-
-                                                            <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                                                    <Image
-                                                                        src={"/svg/close-red.svg"}
-                                                                        alt="nav"
-                                                                        width={26}
-                                                                        height={26}
-                                                                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                                                        onClick={() => setShowLocationPopup(false)}
+                                                        </div>
+                                                        <div className="leading-none w-full">
+                                                            <h3 className="text-lg font-semibold">
+                                                                {item?.heading}
+                                                            </h3>
+                                                            {item?.id === "location" && showLocationPopup && (
+                                                                <>
+                                                                    <input
+                                                                        className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                                                                        type="text"
+                                                                        placeholder="All City"
+                                                                        onClick={(e) => handleSelectPopupLocation(e)}
+                                                                        value={selectedCity}
+                                                                        readOnly // Prevent editing directly
                                                                     />
-                                                                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                                                        {cities?.map((city: any, index: number) => (
-                                                                            <div key={index}>
-                                                                                <City
-                                                                                    city={city}
-                                                                                    isSelected={selectedCity === city.name}
-                                                                                    onClick={() => handleCityClick(city.name)}
-                                                                                />
+
+                                                                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                                                        <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                                                            <Image
+                                                                                src={"/svg/close-red.svg"}
+                                                                                alt="nav"
+                                                                                width={26}
+                                                                                height={26}
+                                                                                className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                                                                onClick={() => setShowLocationPopup(false)}
+                                                                            />
+                                                                            <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                                                                {cities?.map((city: any, index: number) => (
+                                                                                    <div key={index}>
+                                                                                        <City
+                                                                                            city={city}
+                                                                                            isSelected={selectedCity === city.name}
+                                                                                            onClick={() => handleCityClick(city.name)}
+                                                                                        />
+                                                                                    </div>
+                                                                                ))}
                                                                             </div>
-                                                                        ))}
-                                                                    </div>
-                                                                    {/* <ThemeButton
+                                                                            {/* <ThemeButton
                                                                         onClick={() => setShowLocationPopup(false)}
                                                                         className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                                         text="Select"
                                                                     /> */}
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                            )}
+
+                                                            {item?.id === "location" && !showLocationPopup && (
+                                                                <div className="w-full relative">
+                                                                    <input
+                                                                        className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
+                                                                        type="text"
+                                                                        placeholder="All City"
+                                                                        onClick={(e) => handleSelectPopupLocation(e)}
+                                                                        value={selectedCity}
+                                                                        readOnly // Prevent editing directly
+                                                                    />
+                                                                    <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
                                                                 </div>
-                                                            </div>
-                                                        </>
-                                                    )}
+                                                            )}
 
-                                                    {item?.id === "location" && !showLocationPopup && (
-                                                        <div className="w-full relative">
-                                                            <input
-                                                                className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
-                                                                type="text"
-                                                                placeholder="All City"
-                                                                onClick={(e) => handleSelectPopupLocation(e)}
-                                                                value={selectedCity}
-                                                                readOnly // Prevent editing directly
-                                                            />
-                                                            <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
-                                                        </div>
-                                                    )}
-
-                                                    {item?.id === "date" && (
-                                                        <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
-                                                            {/* <input
+                                                            {item?.id === "date" && (
+                                                                <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
+                                                                    {/* <input
                               type="date"
                               name="date"
                               id="date"
@@ -482,388 +492,388 @@ export default function Home() {
                                   : (event) => hanldedropoffTime(event)
                               }
                             /> */}
-                                                            <DatePicker
-                                                                className="cursor-pointer border-0 datepickerinput"
-                                                                selected={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? startDate
-                                                                        : dropDate
-                                                                }
-                                                                onChange={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? (date) => hanldepickupTime(date)
-                                                                        : (date) => hanldedropoffTime(date)
-                                                                }
-                                                                showTimeSelect
-                                                                filterTime={filterPassedTime}
-                                                                dateFormat="MMMM d, yyyy h:mm aa"
-                                                                placeholderText="Enter Date & Time"
-                                                                onKeyDown={(event) => event?.preventDefault()}
-                                                                minDate={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? new Date() // For pickup date, prevent selecting past dates
-                                                                        : startDate
-                                                                            ? new Date(startDate)
-                                                                            : new Date() // For drop-off date, prevent selecting before pickup date
-                                                                }
-                                                                maxDate={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? dropDate || null // For pickup date, prevent selecting after drop-off date
-                                                                        : null // For drop-off date, no upper limit unless specified
-                                                                }
-                                                            />
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                    {dropOffLocation && (
-                                        <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-                                            <div className="grid">
-                                                <div className="flex gap-2 ">
-                                                    <Image
-                                                        src={"/svg/city-new.svg"}
-                                                        alt="location"
-                                                        width={16}
-                                                        height={18}
-                                                    />
-                                                    <label
-                                                        htmlFor="dropoff"
-                                                        className="lg:text-md  font-semibold items-center mt-[2px]"
-                                                    >
-                                                        Drop-off location
-                                                    </label>
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    value={dropOffLocation}
-                                                    className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
-                                                    readOnly
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                    <div>
-                                        <ThemeButton
-                                            text="Search"
-                                            className="px-8 !py-[12px] relative right-6 ml-4"
-                                            onClick={() => saveLocationData()}
-                                        />
-                                    </div>
-                                </div>
-                            )}
-                            {radioToggle === "Local" && (
-                                <div className="flex items-center mt-6">
-                                    {localDriverArray?.map((item, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                                                    }`}
-                                            >
-                                                <div className="mt-2 flex-none">
-                                                    <Image
-                                                        src={item?.imageUrl}
-                                                        alt="icon"
-                                                        width={16}
-                                                        height={16}
-                                                    />
-                                                </div>
-                                                <div className="leading-none">
-                                                    <h3 className="text-lg font-semibold">
-                                                        {item?.heading}
-                                                    </h3>
-
-                                                    {item?.id === "location" && showLocationPopup && (
-                                                        <>
-                                                            <input
-                                                                className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                                                                type="text"
-                                                                placeholder="All City"
-                                                                onClick={(e) => handleSelectPopupLocation(e)}
-                                                                value={selectedCity}
-                                                                readOnly // Prevent editing directly
-                                                            />
-
-                                                            <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                                                    <Image
-                                                                        src={"/svg/close-red.svg"}
-                                                                        alt="nav"
-                                                                        width={26}
-                                                                        height={26}
-                                                                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                                                        onClick={() => setShowLocationPopup(false)}
+                                                                    <DatePicker
+                                                                        className="cursor-pointer border-0 datepickerinput"
+                                                                        selected={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? startDate
+                                                                                : dropDate
+                                                                        }
+                                                                        onChange={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? (date) => hanldepickupTime(date)
+                                                                                : (date) => hanldedropoffTime(date)
+                                                                        }
+                                                                        showTimeSelect
+                                                                        filterTime={filterPassedTime}
+                                                                        dateFormat="MMMM d, yyyy h:mm aa"
+                                                                        placeholderText="Enter Date & Time"
+                                                                        onKeyDown={(event) => event?.preventDefault()}
+                                                                        minDate={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? new Date() // For pickup date, prevent selecting past dates
+                                                                                : startDate
+                                                                                    ? new Date(startDate)
+                                                                                    : new Date() // For drop-off date, prevent selecting before pickup date
+                                                                        }
+                                                                        maxDate={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? dropDate || null // For pickup date, prevent selecting after drop-off date
+                                                                                : null // For drop-off date, no upper limit unless specified
+                                                                        }
                                                                     />
-                                                                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                                                        {cities?.map((city: any, index: number) => (
-                                                                            <div key={index}>
-                                                                                <City
-                                                                                    city={city}
-                                                                                    isSelected={selectedCity === city.name}
-                                                                                    onClick={() => handleCityClick(city.name)}
-                                                                                />
-                                                                            </div>
-                                                                        ))}
-                                                                    </div>
-                                                                    {/* <ThemeButton
-                                                                        onClick={() => setShowLocationPopup(false)}
-                                                                        className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
-                                                                        text="Select"
-                                                                    /> */}
                                                                 </div>
-                                                            </div>
-                                                        </>
-                                                    )}
-
-                                                    {item?.id === "location" && !showLocationPopup && (
-                                                        <div className="w-full relative">
-                                                            <input
-                                                                className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
-                                                                type="text"
-                                                                placeholder="All City"
-                                                                onClick={(e) => handleSelectPopupLocation(e)}
-                                                                value={selectedCity}
-                                                                readOnly // Prevent editing directly
-                                                            />
-                                                            <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
+                                                            )}
                                                         </div>
-                                                    )}
-                                                    {item?.id === "date" && (
-                                                        <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
-                                                            {/* <input
-                              type="date"
-                              name="date"
-                              id="date"
-                              className="outline-red-500 w-fit h-8"
-                            // onChange={
-                            //   item?.heading === "Pick Up Date"
-                            //     ? (e) => handlePickupDate(e)
-                            //     : (ev) => handleDropOffDate(ev)
-                            // }
-                            />
-                            <input
-                              type="time"
-                              name="pickup"
-                              id=""
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (event) => hanldepickupTime(event)
-                                  : (event) => hanldedropoffTime(event)
-                              }
-                            /> */}
-                                                            <DatePicker
-                                                                className="cursor-pointer datepickerinput"
-                                                                selected={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? startDate
-                                                                        : dropDate
-                                                                }
-                                                                onChange={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? (date) => hanldepickupTime(date)
-                                                                        : (date) => hanldedropoffTime(date)
-                                                                }
-                                                                showTimeSelect
-                                                                filterTime={filterPassedTime}
-                                                                dateFormat="MMMM d, yyyy h:mm aa"
-                                                                placeholderText="Enter Date & Time"
-                                                                onKeyDown={(event) => event?.preventDefault()}
-                                                                minDate={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? new Date() // For pickup date, start from today or any other logic
-                                                                        : startDate
-                                                                            ? new Date(startDate)
-                                                                            : new Date() // For drop-off date, start from pickup date
-                                                                }
-                                                                maxDate={
-                                                                    item?.heading === "Pick Up Date"
-                                                                        ? dropDate || null // For pickup date, cannot select after drop-off date
-                                                                        : null // For drop-off date, no upper limit unless specified
-                                                                }
+                                                    </div>
+                                                );
+                                            })}
+                                            {dropOffLocation && (
+                                                <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                                                    <div className="grid">
+                                                        <div className="flex gap-2 ">
+                                                            <Image
+                                                                src={"/svg/city-new.svg"}
+                                                                alt="location"
+                                                                width={16}
+                                                                height={18}
                                                             />
+                                                            <label
+                                                                htmlFor="dropoff"
+                                                                className="lg:text-md  font-semibold items-center mt-[2px]"
+                                                            >
+                                                                Drop-off location
+                                                            </label>
                                                         </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                    {dropOffLocation && (
-                                        <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-                                            <div className="grid">
-                                                <div className="flex gap-2 ">
-                                                    <Image
-                                                        src={"/svg/city-new.svg"}
-                                                        alt="location"
-                                                        width={16}
-                                                        height={18}
-                                                    />
-                                                    <label
-                                                        htmlFor="dropoff"
-                                                        className="lg:text-md  font-semibold items-center mt-[2px]"
-                                                    >
-                                                        Drop-off location
-                                                    </label>
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    value={dropOffLocation}
-                                                    className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
-                                                    readOnly
-                                                />
-                                            </div>
-                                        </div>
-                                    )}
-                                    <div>
-                                        <ThemeButton
-                                            text="Search"
-                                            className="px-8 !py-[12px] relative right-6 ml-4"
-                                            onClick={() => saveLocationData()}
-                                        />
-                                    </div>
-                                </div>
-                            )}
-                             <div
-                                onClick={(e) => handleDropSelectPopupLocation(e)}
-                                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
-                                    }`}
-                            >
-                                Drop in different city?
-                            </div>
-                            {durationFormat && (
-                                <div className="w-fit m-auto">
-                                    <div className="mt-4">
-                                        <h3 className="font-semibold text-lg bg-[#FCFBFB] p-2 rounded-md">
-                                            Duration:{" "}
-                                            <span className="font-[400]"> {durationFormat} </span>
-                                        </h3>
-                                    </div>
-                                </div>
-                            )}
-                           
-
-                            {showDropLocationPopup && (
-                                <>
-                                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                        <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                            <Image
-                                                src={"/svg/close-red.svg"}
-                                                alt="nav"
-                                                width={26}
-                                                height={26}
-                                                className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                                onClick={() => setShowDropLocationPopup(false)}
-                                            />
-                                            <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4 ">
-                                                {cities?.map((city: any, index: number) => (
-                                                    <div key={index}>
-                                                        <City
-                                                            city={city}
-                                                            isSelected={dropSelectedCity === city.name}
-                                                            onClick={() => handleDropOffCity(city.name)}
+                                                        <input
+                                                            type="text"
+                                                            value={dropOffLocation}
+                                                            className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                                                            readOnly
                                                         />
                                                     </div>
-                                                ))}
+                                                </div>
+                                            )}
+                                            <div>
+                                                <ThemeButton
+                                                    text="Search"
+                                                    className="px-8 !py-[12px] relative right-6 ml-4"
+                                                    onClick={() => saveLocationData()}
+                                                />
                                             </div>
-                                            {/* <ThemeButton
+                                        </div>
+                                    )}
+                                    {radioToggle === "Local" && (
+                                        <div className="flex items-center mt-6">
+                                            {localDriverArray?.map((item, index) => {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                                                            }`}
+                                                    >
+                                                        <div className="mt-2 flex-none">
+                                                            <Image
+                                                                src={item?.imageUrl}
+                                                                alt="icon"
+                                                                width={16}
+                                                                height={16}
+                                                            />
+                                                        </div>
+                                                        <div className="leading-none">
+                                                            <h3 className="text-lg font-semibold">
+                                                                {item?.heading}
+                                                            </h3>
+
+                                                            {item?.id === "location" && showLocationPopup && (
+                                                                <>
+                                                                    <input
+                                                                        className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                                                                        type="text"
+                                                                        placeholder="All City"
+                                                                        onClick={(e) => handleSelectPopupLocation(e)}
+                                                                        value={selectedCity}
+                                                                        readOnly // Prevent editing directly
+                                                                    />
+
+                                                                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                                                        <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                                                            <Image
+                                                                                src={"/svg/close-red.svg"}
+                                                                                alt="nav"
+                                                                                width={26}
+                                                                                height={26}
+                                                                                className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                                                                onClick={() => setShowLocationPopup(false)}
+                                                                            />
+                                                                            <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                                                                {cities?.map((city: any, index: number) => (
+                                                                                    <div key={index}>
+                                                                                        <City
+                                                                                            city={city}
+                                                                                            isSelected={selectedCity === city.name}
+                                                                                            onClick={() => handleCityClick(city.name)}
+                                                                                        />
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                            {/* <ThemeButton
+                                                                        onClick={() => setShowLocationPopup(false)}
+                                                                        className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
+                                                                        text="Select"
+                                                                    /> */}
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                            )}
+
+                                                            {item?.id === "location" && !showLocationPopup && (
+                                                                <div className="w-full relative">
+                                                                    <input
+                                                                        className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
+                                                                        type="text"
+                                                                        placeholder="All City"
+                                                                        onClick={(e) => handleSelectPopupLocation(e)}
+                                                                        value={selectedCity}
+                                                                        readOnly // Prevent editing directly
+                                                                    />
+                                                                    <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
+                                                                </div>
+                                                            )}
+                                                            {item?.id === "date" && (
+                                                                <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
+                                                                    {/* <input
+                              type="date"
+                              name="date"
+                              id="date"
+                              className="outline-red-500 w-fit h-8"
+                            // onChange={
+                            //   item?.heading === "Pick Up Date"
+                            //     ? (e) => handlePickupDate(e)
+                            //     : (ev) => handleDropOffDate(ev)
+                            // }
+                            />
+                            <input
+                              type="time"
+                              name="pickup"
+                              id=""
+                              onChange={
+                                item?.heading === "Pick Up Date"
+                                  ? (event) => hanldepickupTime(event)
+                                  : (event) => hanldedropoffTime(event)
+                              }
+                            /> */}
+                                                                    <DatePicker
+                                                                        className="cursor-pointer datepickerinput"
+                                                                        selected={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? startDate
+                                                                                : dropDate
+                                                                        }
+                                                                        onChange={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? (date) => hanldepickupTime(date)
+                                                                                : (date) => hanldedropoffTime(date)
+                                                                        }
+                                                                        showTimeSelect
+                                                                        filterTime={filterPassedTime}
+                                                                        dateFormat="MMMM d, yyyy h:mm aa"
+                                                                        placeholderText="Enter Date & Time"
+                                                                        onKeyDown={(event) => event?.preventDefault()}
+                                                                        minDate={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? new Date() // For pickup date, start from today or any other logic
+                                                                                : startDate
+                                                                                    ? new Date(startDate)
+                                                                                    : new Date() // For drop-off date, start from pickup date
+                                                                        }
+                                                                        maxDate={
+                                                                            item?.heading === "Pick Up Date"
+                                                                                ? dropDate || null // For pickup date, cannot select after drop-off date
+                                                                                : null // For drop-off date, no upper limit unless specified
+                                                                        }
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                            {dropOffLocation && (
+                                                <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                                                    <div className="grid">
+                                                        <div className="flex gap-2 ">
+                                                            <Image
+                                                                src={"/svg/city-new.svg"}
+                                                                alt="location"
+                                                                width={16}
+                                                                height={18}
+                                                            />
+                                                            <label
+                                                                htmlFor="dropoff"
+                                                                className="lg:text-md  font-semibold items-center mt-[2px]"
+                                                            >
+                                                                Drop-off location
+                                                            </label>
+                                                        </div>
+                                                        <input
+                                                            type="text"
+                                                            value={dropOffLocation}
+                                                            className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                                                            readOnly
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <div>
+                                                <ThemeButton
+                                                    text="Search"
+                                                    className="px-8 !py-[12px] relative right-6 ml-4"
+                                                    onClick={() => saveLocationData()}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+                                    <div
+                                        onClick={(e) => handleDropSelectPopupLocation(e)}
+                                        className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
+                                            }`}
+                                    >
+                                        Drop in different city?
+                                    </div>
+                                    {durationFormat && (
+                                        <div className="w-fit m-auto">
+                                            <div className="mt-4">
+                                                <h3 className="font-semibold text-lg bg-[#FCFBFB] p-2 rounded-md">
+                                                    Duration:{" "}
+                                                    <span className="font-[400]"> {durationFormat} </span>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    )}
+
+
+                                    {showDropLocationPopup && (
+                                        <>
+                                            <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                                    <Image
+                                                        src={"/svg/close-red.svg"}
+                                                        alt="nav"
+                                                        width={26}
+                                                        height={26}
+                                                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                                        onClick={() => setShowDropLocationPopup(false)}
+                                                    />
+                                                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4 ">
+                                                        {cities?.map((city: any, index: number) => (
+                                                            <div key={index}>
+                                                                <City
+                                                                    city={city}
+                                                                    isSelected={dropSelectedCity === city.name}
+                                                                    onClick={() => handleDropOffCity(city.name)}
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    {/* <ThemeButton
                                                 onClick={() => setShowDropLocationPopup(false)}
                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                 text="Select"
                                             /> */}
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </>
-                )}
-
-                {tabValue === "Subscription" && (
-                    <>
-                        <div className="grid z-50">
-                            <div className="flex items-center mt-10 w-full">
-                                {outstation?.map((item, index) => {
-                                    return (
-                                        <div
-                                            key={index}
-                                            className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                                                }`}
-                                        >
-                                            <div className="flex-none">
-                                                <Image
-                                                    src={item?.imageUrl}
-                                                    alt="icon"
-                                                    width={16}
-                                                    height={16}
-                                                />
+                                                </div>
                                             </div>
-                                            <div className="leading-none w-full">
-                                                <h3 className="text-md font-[600]">
-                                                    {item?.heading}
-                                                </h3>
+                                        </>
+                                    )}
+                                </div>
+                            </>
+                        )}
 
-                                                {item?.id === "location" && showLocationPopup && (
-                                                    <>
-                                                        <input
-                                                            className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                                                            type="text"
-                                                            placeholder="All City"
-                                                            onClick={(e) => handleSelectPopupLocation(e)}
-                                                            value={selectedCity}
-                                                            readOnly // Prevent editing directly
+                        {tabValue === "Subscription" && (
+                            <>
+                                <div className="grid z-50">
+                                    <div className="flex items-center mt-10 w-full">
+                                        {outstation?.map((item, index) => {
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
+                                                        }`}
+                                                >
+                                                    <div className="flex-none">
+                                                        <Image
+                                                            src={item?.imageUrl}
+                                                            alt="icon"
+                                                            width={16}
+                                                            height={16}
                                                         />
+                                                    </div>
+                                                    <div className="leading-none w-full">
+                                                        <h3 className="text-md font-[600]">
+                                                            {item?.heading}
+                                                        </h3>
 
-                                                        <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                                            <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                                                <Image
-                                                                    src={"/svg/close-red.svg"}
-                                                                    alt="nav"
-                                                                    width={26}
-                                                                    height={26}
-                                                                    className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                                                    onClick={() => setShowLocationPopup(false)}
+                                                        {item?.id === "location" && showLocationPopup && (
+                                                            <>
+                                                                <input
+                                                                    className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                                                                    type="text"
+                                                                    placeholder="All City"
+                                                                    onClick={(e) => handleSelectPopupLocation(e)}
+                                                                    value={selectedCity}
+                                                                    readOnly // Prevent editing directly
                                                                 />
-                                                                <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                                                    {cities?.map((city: any, index: number) => (
-                                                                        <div key={index}>
-                                                                            <City
-                                                                                city={city}
-                                                                                isSelected={selectedCity === city.name}
-                                                                                onClick={() =>
-                                                                                    handleCityClick(city.name)
-                                                                                }
-                                                                            />
+
+                                                                <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                                                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                                                        <Image
+                                                                            src={"/svg/close-red.svg"}
+                                                                            alt="nav"
+                                                                            width={26}
+                                                                            height={26}
+                                                                            className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                                                            onClick={() => setShowLocationPopup(false)}
+                                                                        />
+                                                                        <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                                                            {cities?.map((city: any, index: number) => (
+                                                                                <div key={index}>
+                                                                                    <City
+                                                                                        city={city}
+                                                                                        isSelected={selectedCity === city.name}
+                                                                                        onClick={() =>
+                                                                                            handleCityClick(city.name)
+                                                                                        }
+                                                                                    />
+                                                                                </div>
+                                                                            ))}
                                                                         </div>
-                                                                    ))}
-                                                                </div>
-                                                                {/* <ThemeButton
+                                                                        {/* <ThemeButton
                                                                     onClick={() => setShowLocationPopup(false)}
                                                                     className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                                     text="Select"
                                                                 /> */}
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        )}
+
+                                                        {item?.id === "location" && !showLocationPopup && (
+                                                            <div className="relative">
+                                                                <input
+                                                                    className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
+                                                                    type="text"
+                                                                    placeholder="All City"
+                                                                    onClick={(e) => handleSelectPopupLocation(e)}
+                                                                    value={selectedCity}
+                                                                    readOnly // Prevent editing directly
+                                                                />
+                                                                <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
+
                                                             </div>
-                                                        </div>
-                                                    </>
-                                                )}
-
-                                                {item?.id === "location" && !showLocationPopup && (
-                                                    <div className="relative">
-                                                        <input
-                                                            className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
-                                                            type="text"
-                                                            placeholder="All City"
-                                                            onClick={(e) => handleSelectPopupLocation(e)}
-                                                            value={selectedCity}
-                                                            readOnly // Prevent editing directly
-                                                        />
-                                                        <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
-
-                                                    </div>
-                                                )}
-                                                {item?.id === "date" && (
-                                                    <div className=" gap-2 mt-2 w-[100%]">
-                                                        {/* <input
+                                                        )}
+                                                        {item?.id === "date" && (
+                                                            <div className=" gap-2 mt-2 w-[100%]">
+                                                                {/* <input
                             type="date"
                             name="date"
                             id="date"
@@ -884,211 +894,211 @@ export default function Home() {
                                 : (event) => hanldedropoffTime(event)
                             }
                           /> */}
-                                                        <DatePicker
-                                                            className="cursor-pointer datepickerinput w-full !p-2"
-                                                            selected={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? startDate
-                                                                    : dropDate
-                                                            }
-                                                            onChange={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? (date) => hanldepickupTime(date)
-                                                                    : (date) => hanldedropoffTime(date)
-                                                            }
-                                                            showTimeSelect
-                                                            filterTime={filterPassedTime}
-                                                            dateFormat="MMMM d, yyyy h:mm aa"
-                                                            placeholderText="Enter Date & Time"
-                                                            onKeyDown={(event) => event?.preventDefault()}
-                                                            minDate={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? new Date() // or any custom logic for minDate
-                                                                    : startDate
-                                                                        ? new Date(startDate)
-                                                                        : new Date() // prevent selecting before pickup date
-                                                            }
-                                                            maxDate={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? dropDate || null // prevent selecting after drop-off date
-                                                                    : null
-                                                            }
-                                                        />
+                                                                <DatePicker
+                                                                    className="cursor-pointer datepickerinput w-full !p-2"
+                                                                    selected={
+                                                                        item?.heading === "Pick Up Date"
+                                                                            ? startDate
+                                                                            : dropDate
+                                                                    }
+                                                                    onChange={
+                                                                        item?.heading === "Pick Up Date"
+                                                                            ? (date) => hanldepickupTime(date)
+                                                                            : (date) => hanldedropoffTime(date)
+                                                                    }
+                                                                    showTimeSelect
+                                                                    filterTime={filterPassedTime}
+                                                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                                                    placeholderText="Enter Date & Time"
+                                                                    onKeyDown={(event) => event?.preventDefault()}
+                                                                    minDate={
+                                                                        item?.heading === "Pick Up Date"
+                                                                            ? new Date() // or any custom logic for minDate
+                                                                            : startDate
+                                                                                ? new Date(startDate)
+                                                                                : new Date() // prevent selecting before pickup date
+                                                                    }
+                                                                    maxDate={
+                                                                        item?.heading === "Pick Up Date"
+                                                                            ? dropDate || null // prevent selecting after drop-off date
+                                                                            : null
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                )}
+                                                </div>
+                                            );
+                                        })}
+                                        {dropOffLocation && (
+                                            <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                                                <div className="grid">
+                                                    <div className="flex gap-2 ">
+                                                        <Image
+                                                            src={"/svg/city-new.svg"}
+                                                            alt="location"
+                                                            width={16}
+                                                            height={18}
+                                                        />
+                                                        <label
+                                                            htmlFor="dropoff"
+                                                            className="lg:text-md  font-semibold items-center mt-[2px]"
+                                                        >
+                                                            Drop-off location
+                                                        </label>
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        value={dropOffLocation}
+                                                        className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                                                        readOnly
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
-                                {dropOffLocation && (
-                                    <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-                                        <div className="grid">
-                                            <div className="flex gap-2 ">
-                                                <Image
-                                                    src={"/svg/city-new.svg"}
-                                                    alt="location"
-                                                    width={16}
-                                                    height={18}
-                                                />
-                                                <label
-                                                    htmlFor="dropoff"
-                                                    className="lg:text-md  font-semibold items-center mt-[2px]"
-                                                >
-                                                    Drop-off location
-                                                </label>
-                                            </div>
-                                            <input
-                                                type="text"
-                                                value={dropOffLocation}
-                                                className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
-                                                readOnly
+                                        )}
+                                        <div>
+                                            <ThemeButton
+                                                text="Search"
+                                                className="px-8 !py-[12px] relative right-6 ml-4"
+                                                onClick={() => saveLocationData()}
                                             />
                                         </div>
                                     </div>
-                                )}
-                                <div>
-                                    <ThemeButton
-                                        text="Search"
-                                        className="px-8 !py-[12px] relative right-6 ml-4"
-                                        onClick={() => saveLocationData()}
-                                    />
-                                </div>
-                            </div>
 
-                            <div
-                                onClick={(e) => handleDropSelectPopupLocation(e)}
-                                className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
-                                    }`}
-                            >
-                                Drop in different city?
-                            </div>
-                            {durationFormat && (
-                                <div className="w-fit m-auto">
-                                    <div className="mt-2">
-                                        <h3 className="font-semibold text-lg ">
-                                            Duration:{" "}
-                                            <span className="font-[400]"> {durationFormat} </span>
-                                        </h3>
+                                    <div
+                                        onClick={(e) => handleDropSelectPopupLocation(e)}
+                                        className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
+                                            }`}
+                                    >
+                                        Drop in different city?
                                     </div>
-                                </div>
-                            )}
-
-                            {showDropLocationPopup && (
-                                <>
-                                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                        <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                            <Image
-                                                src={"/svg/close-red.svg"}
-                                                alt="nav"
-                                                width={26}
-                                                height={26}
-                                                className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                                onClick={() => setShowDropLocationPopup(false)}
-                                            />
-                                            <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                                {cities?.map((city: any, index: number) => (
-                                                    <div key={index}>
-                                                        <City
-                                                            city={city}
-                                                            isSelected={dropSelectedCity === city.name}
-                                                            onClick={() => handleDropOffCity(city.name)}
-                                                        />
-                                                    </div>
-                                                ))}
+                                    {durationFormat && (
+                                        <div className="w-fit m-auto">
+                                            <div className="mt-2">
+                                                <h3 className="font-semibold text-lg ">
+                                                    Duration:{" "}
+                                                    <span className="font-[400]"> {durationFormat} </span>
+                                                </h3>
                                             </div>
-                                            
-                                            {/* <ThemeButton
+                                        </div>
+                                    )}
+
+                                    {showDropLocationPopup && (
+                                        <>
+                                            <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                                    <Image
+                                                        src={"/svg/close-red.svg"}
+                                                        alt="nav"
+                                                        width={26}
+                                                        height={26}
+                                                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                                        onClick={() => setShowDropLocationPopup(false)}
+                                                    />
+                                                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                                        {cities?.map((city: any, index: number) => (
+                                                            <div key={index}>
+                                                                <City
+                                                                    city={city}
+                                                                    isSelected={dropSelectedCity === city.name}
+                                                                    onClick={() => handleDropOffCity(city.name)}
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+
+                                                    {/* <ThemeButton
                                                 onClick={() => setShowDropLocationPopup(false)}
                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                 text="Select"
                                             /> */}
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    </>
-                )}
-                {tabValue === "Self-Driving" && (
-                    <div className="grid">
-                        <div className="flex items-center mt-10 w-full">
-                            {localDriverArray?.map((item, index) => {
-                                return (
-                                    <div
-                                        key={index}
-                                        className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
-                                            }`}
-                                    >
-                                        <div className=" flex-none">
-                                            <Image
-                                                src={item?.imageUrl}
-                                                alt="icon"
-                                                width={16}
-                                                height={16}
-                                            />
-                                        </div>
-                                        <div className="leading-none w-full">
-                                            <h3 className="lg:text-md text-md font-[600]">
-                                                {item?.heading}
-                                            </h3>
-                                            {item?.id === "location" && showLocationPopup && (
-                                                <>
-                                                    <input
-                                                        className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                                                        type="text"
-                                                        placeholder="All City"
-                                                        onClick={(e) => handleSelectPopupLocation(e)}
-                                                        value={selectedCity}
-                                                        readOnly // Prevent editing directly
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </>
+                        )}
+                        {tabValue === "Self-Driving" && (
+                            <div className="grid">
+                                <div className="flex items-center mt-10 w-full">
+                                    {localDriverArray?.map((item, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
+                                                    }`}
+                                            >
+                                                <div className=" flex-none">
+                                                    <Image
+                                                        src={item?.imageUrl}
+                                                        alt="icon"
+                                                        width={16}
+                                                        height={16}
                                                     />
-
-                                                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                                        <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                                            <Image
-                                                                src={"/svg/close-red.svg"}
-                                                                alt="nav"
-                                                                width={26}
-                                                                height={26}
-                                                                className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                                                onClick={() => setShowLocationPopup(false)}
+                                                </div>
+                                                <div className="leading-none w-full">
+                                                    <h3 className="lg:text-md text-md font-[600]">
+                                                        {item?.heading}
+                                                    </h3>
+                                                    {item?.id === "location" && showLocationPopup && (
+                                                        <>
+                                                            <input
+                                                                className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                                                                type="text"
+                                                                placeholder="All City"
+                                                                onClick={(e) => handleSelectPopupLocation(e)}
+                                                                value={selectedCity}
+                                                                readOnly // Prevent editing directly
                                                             />
-                                                            <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                                                {cities?.map((city: any, index: number) => (
-                                                                    <div key={index}>
-                                                                        <City
-                                                                            city={city}
-                                                                            isSelected={selectedCity === city.name}
-                                                                            onClick={() => handleCityClick(city.name)}
-                                                                        />
+
+                                                            <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                                                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                                                    <Image
+                                                                        src={"/svg/close-red.svg"}
+                                                                        alt="nav"
+                                                                        width={26}
+                                                                        height={26}
+                                                                        className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                                                        onClick={() => setShowLocationPopup(false)}
+                                                                    />
+                                                                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                                                        {cities?.map((city: any, index: number) => (
+                                                                            <div key={index}>
+                                                                                <City
+                                                                                    city={city}
+                                                                                    isSelected={selectedCity === city.name}
+                                                                                    onClick={() => handleCityClick(city.name)}
+                                                                                />
+                                                                            </div>
+                                                                        ))}
                                                                     </div>
-                                                                ))}
-                                                            </div>
-                                                            {/* <ThemeButton
+                                                                    {/* <ThemeButton
                                                                 onClick={() => setShowLocationPopup(false)}
                                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                                                 text="Select"
                                                             /> */}
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
+                                                                </div>
+                                                            </div>
+                                                        </>
+                                                    )}
 
-                                            {item?.id === "location" && !showLocationPopup && (
-                                                <div className="w-full relative">
-                                                    <input
-                                                        className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
-                                                        type="text"
-                                                        placeholder="All City"
-                                                        onClick={(e) => handleSelectPopupLocation(e)}
-                                                        value={selectedCity}
-                                                        readOnly // Prevent editing directly
-                                                    />
-                                                    <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
-                                                </div>
-                                            )}
-                                            {item?.id === "date" && (
-                                                <div className="flex gap-2 p-2 px-2 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
-                                                    {/* <input
+                                                    {item?.id === "location" && !showLocationPopup && (
+                                                        <div className="w-full relative">
+                                                            <input
+                                                                className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
+                                                                type="text"
+                                                                placeholder="All City"
+                                                                onClick={(e) => handleSelectPopupLocation(e)}
+                                                                value={selectedCity}
+                                                                readOnly // Prevent editing directly
+                                                            />
+                                                            <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
+                                                        </div>
+                                                    )}
+                                                    {item?.id === "date" && (
+                                                        <div className="flex gap-2 p-2 px-2 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
+                                                            {/* <input
 
                           type="date"
                           name="date"
@@ -1101,7 +1111,7 @@ export default function Home() {
                           }
                         /> */}
 
-                                                    {/* <input
+                                                            {/* <input
                           type="time"
                           name="pickup"
                           id=""
@@ -1112,139 +1122,140 @@ export default function Home() {
                           }
                         /> */}
 
-                                                    <DatePicker
-                                                        className="cursor-pointer datepickerinput"
-                                                        selected={
-                                                            item?.heading === "Pick Up Date"
-                                                                ? startDate
-                                                                : dropDate
-                                                        }
-                                                        onChange={
-                                                            item?.heading === "Pick Up Date"
-                                                                ? (date) => hanldepickupTime(date)
-                                                                : (date) => hanldedropoffTime(date)
-                                                        }
-                                                        showTimeSelect
-                                                        filterTime={filterPassedTime}
-                                                        dateFormat="MMMM d, yyyy h:mm aa"
-                                                        placeholderText={
-                                                            item?.heading === "Pick Up Date" && !startDate
-                                                                ? "Enter Date & Time"
-                                                                : item?.heading !== "Pick Up Date" && !dropDate
-                                                                    ? "Enter Date & Time"
-                                                                    : ""
-                                                        }
-                                                        onKeyDown={(event) => event?.preventDefault()}
-                                                        minDate={
-                                                            item?.heading === "Pick Up Date"
-                                                                ? new Date() // Or any other logic to set minDate for pickup
-                                                                : startDate
-                                                                    ? new Date(startDate)
-                                                                    : new Date() // Prevent selection before pickup date for drop-off
-                                                        }
-                                                        maxDate={
-                                                            item?.heading === "Pick Up Date"
-                                                                ? dropDate // Prevent selection after drop-off date for pickup
-                                                                : null
-                                                        }
-                                                    />
+                                                            <DatePicker
+                                                                className="cursor-pointer datepickerinput"
+                                                                selected={
+                                                                    item?.heading === "Pick Up Date"
+                                                                        ? startDate
+                                                                        : dropDate
+                                                                }
+                                                                onChange={
+                                                                    item?.heading === "Pick Up Date"
+                                                                        ? (date) => hanldepickupTime(date)
+                                                                        : (date) => hanldedropoffTime(date)
+                                                                }
+                                                                showTimeSelect
+                                                                filterTime={filterPassedTime}
+                                                                dateFormat="MMMM d, yyyy h:mm aa"
+                                                                placeholderText={
+                                                                    item?.heading === "Pick Up Date" && !startDate
+                                                                        ? "Enter Date & Time"
+                                                                        : item?.heading !== "Pick Up Date" && !dropDate
+                                                                            ? "Enter Date & Time"
+                                                                            : ""
+                                                                }
+                                                                onKeyDown={(event) => event?.preventDefault()}
+                                                                minDate={
+                                                                    item?.heading === "Pick Up Date"
+                                                                        ? new Date() // Or any other logic to set minDate for pickup
+                                                                        : startDate
+                                                                            ? new Date(startDate)
+                                                                            : new Date() // Prevent selection before pickup date for drop-off
+                                                                }
+                                                                maxDate={
+                                                                    item?.heading === "Pick Up Date"
+                                                                        ? dropDate // Prevent selection after drop-off date for pickup
+                                                                        : null
+                                                                }
+                                                            />
+                                                        </div>
+                                                    )}
                                                 </div>
-                                            )}
+                                            </div>
+                                        );
+                                    })}
+
+                                    {dropOffLocation && (
+                                        <div className=" h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                                            <div className="grid">
+                                                <div className="flex gap-2 items-center">
+                                                    <Image
+                                                        src={"/svg/city-new.svg"}
+                                                        alt="location"
+                                                        width={16}
+                                                        height={18}
+                                                    />
+                                                    <label
+                                                        htmlFor="dropoff"
+                                                        className="lg:text-md  font-semibold h-fit"
+                                                    >
+                                                        Drop-off location
+                                                    </label>
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    value={dropOffLocation}
+                                                    className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                                                    readOnly
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
-                            
-                            {dropOffLocation && (
-                                <div className=" h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-                                    <div className="grid">
-                                        <div className="flex gap-2 items-center">
-                                            <Image
-                                                src={"/svg/city-new.svg"}
-                                                alt="location"
-                                                width={16}
-                                                height={18}
-                                            />
-                                            <label
-                                                htmlFor="dropoff"
-                                                className="lg:text-md  font-semibold h-fit"
-                                            >
-                                                Drop-off location
-                                            </label>
-                                        </div>
-                                        <input
-                                            type="text"
-                                            value={dropOffLocation}
-                                            className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
-                                            readOnly
+                                    )}
+
+                                    <div className="sm:block hidden">
+                                        <ThemeButton
+                                            className="px-8 !py-[12px] relative right-6 ml-4"
+                                            text="Search"
+                                            onClick={() => saveLocationData()}
                                         />
                                     </div>
                                 </div>
-                            )}
-
-                            <div className="sm:block hidden">
-                                <ThemeButton
-                                    className="px-8 !py-[12px] relative right-6 ml-4"
-                                    text="Search"
-                                    onClick={() => saveLocationData()}
-                                />
-                            </div>
-                        </div>
-                        <div
-                            onClick={(e) => handleDropSelectPopupLocation(e)}
-                            className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${durationFormat ? "mt-2" : "mt-5"
-                                }`}
-                        >
-                            Drop in different city?
-                        </div>
-                        {durationFormat && (
-                            <div className="w-fit m-auto">
-                                <div className="mt-2">
-                                    <h3 className="font-semibold text-lg bg-[#FCFBFB] p-2 rounded-md">
-                                        Duration:{" "}
-                                        <span className="font-[400]"> {durationFormat} </span>
-                                    </h3>
+                                <div
+                                    onClick={(e) => handleDropSelectPopupLocation(e)}
+                                    className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${durationFormat ? "mt-2" : "mt-5"
+                                        }`}
+                                >
+                                    Drop in different city?
                                 </div>
-                            </div>
-                        )}
-
-
-                        {showDropLocationPopup && (
-                            <>
-                                <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                                    <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                        <Image
-                                            src={"/svg/close-red.svg"}
-                                            alt="nav"
-                                            width={26}
-                                            height={26}
-                                            className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                            onClick={() => setShowDropLocationPopup(false)}
-                                        />
-                                        <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                            {cities?.map((city: any, index: number) => (
-                                                <div key={index}>
-                                                    <City
-                                                        city={city}
-                                                        isSelected={dropSelectedCity === city.name}
-                                                        onClick={() => handleDropOffCity(city.name)}
-                                                    />
-                                                </div>
-                                            ))}
+                                {durationFormat && (
+                                    <div className="w-fit m-auto">
+                                        <div className="mt-2">
+                                            <h3 className="font-semibold text-lg bg-[#FCFBFB] p-2 rounded-md">
+                                                Duration:{" "}
+                                                <span className="font-[400]"> {durationFormat} </span>
+                                            </h3>
                                         </div>
-                                        {/* <ThemeButton
+                                    </div>
+                                )}
+
+
+                                {showDropLocationPopup && (
+                                    <>
+                                        <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                            <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                                <Image
+                                                    src={"/svg/close-red.svg"}
+                                                    alt="nav"
+                                                    width={26}
+                                                    height={26}
+                                                    className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                                    onClick={() => setShowDropLocationPopup(false)}
+                                                />
+                                                <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                                    {cities?.map((city: any, index: number) => (
+                                                        <div key={index}>
+                                                            <City
+                                                                city={city}
+                                                                isSelected={dropSelectedCity === city.name}
+                                                                onClick={() => handleDropOffCity(city.name)}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                {/* <ThemeButton
                                             onClick={() => setShowDropLocationPopup(false)}
                                             className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                             text="Select"
                                         /> */}
-                                    </div>
-                                </div>
-                            </>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
+
+                            </div>
                         )}
-                
                     </div>
-                )}
-            </div>
+            }
             {/* Only mobile section subsription */}
             <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-lg shadow-custom-shadow w-full px-4 sm:pt-16 pt-11 pb-4 sm:my-6 my-4 z-[9]">
                 <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">

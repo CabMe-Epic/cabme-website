@@ -18,9 +18,11 @@ import BannerSlider from "./components/banner-slider/banner-slider";
 import SelectOption from "./components/new-drop-down/new-drop-down";
 import City from "./components/city-selection/city-selection";
 import FleetsSearch from "@/app/components/FleetsSearch/fleets-search"
+import BlinkerLoader from "./components/blinker-loader/blinkerLoader";
 
 export default function Home() {
   const [offer, setOffer] = useState("Daily Offers");
+
 
   const filterPassedTime = (time: any) => {
     const currentDate = new Date();
@@ -48,6 +50,7 @@ export default function Home() {
 
   return (
     <>
+
       <div
         className="z-[-9] relative rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         ref={topFleetForm}

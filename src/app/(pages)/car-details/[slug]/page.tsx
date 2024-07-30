@@ -23,6 +23,7 @@ import { roundPrice } from "@/app/utils/roundPrice ";
 import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
 import { calculateGST } from "@/app/utils/calculateGST";
 import { useStore } from "@/app/zustand/store/store";
+import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 
 interface PromoCode {
   code: string;
@@ -286,7 +287,7 @@ const CarDetails = () => {
     }
   }, [carDetails]);
   if (loading) {
-    return <div>Loading...</div>;
+    return <div><BlinkerLoader /></div>;
   }
 
   if (error) {
@@ -650,7 +651,7 @@ const CarDetails = () => {
                   <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" &&
                       <div className="flex flex-col">
-                        <span>Total Amount </span>
+                        <span>Total Amountd </span>
                         <span className="text-[#ff0000] p-0 text-2xl font-bold">
                           ₹ {roundPrice(totalExcludedGSTAmount)}
                         </span>
