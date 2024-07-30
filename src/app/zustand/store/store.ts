@@ -5,12 +5,13 @@ import { User, UserState } from '../types';
 export const useStore = create<UserState>()(
   persist(
     (set, get) => ({
-      isLoggedIn: true,
+      isLoggedIn: false,
       userData: null,
       login: (userData: User) => set({ isLoggedIn: true, userData }),
       logout: () => set({ isLoggedIn: false, userData: null }),
       updateUserData: (newData: Partial<User>) =>
         set((state) => ({
+           isLoggedIn: true,
           userData: { ...state.userData!, ...newData },
         })),
       getUserData: () => get().userData,

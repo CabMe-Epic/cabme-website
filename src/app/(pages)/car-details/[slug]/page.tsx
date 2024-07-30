@@ -50,14 +50,52 @@ const CarDetails = () => {
   const [dropoffTime, setDropoffTime] = useState<string | null>(null);
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
   const [promoCodes, setPromoCodes] = useState([]);
+  const [message, setMessage] = useState<string | null>("");
 
   const [currentPackage, setCurrentPackage] = useState<any>();
   const [showDoorStep, setShowDoorStep] = useState(false);
 
   const handleShowDoorstepPopup = () => {
     setShowDoorStep(true);
-
   }
+
+  // const secretKey = 'your-secret-key';
+  // const [encryptedData, setEncryptedData] = useState('');
+  // const [decryptedData, setDecryptedData] = useState('');
+  // console.log({ encryptedData }, { decryptedData })
+
+  // const data = {
+  //   surldata: 'Aasif',
+  //   rentalTypeName: 'Aahaan',
+  //   usersMobile: '9997747030',
+  // };
+
+  // const encryptData = (data: any, secretKey: string) => {
+  //   return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
+  // };
+
+  // const decryptData = (encryptedData: any, secretKey: string) => {
+  //   const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
+  //   return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+  // };
+
+  // const handleEncrypt = () => {
+  //   const encrypted = encryptData(data, secretKey);
+  //   setEncryptedData(encrypted);
+  //   return encrypted;
+  // };
+
+  // const handleDecrypt = (encrypted: any) => {
+  //   const decrypted = decryptData(encrypted, secretKey);
+  //   setDecryptedData(decrypted);
+  // };
+
+  // React.useEffect(() => {
+  //   const encrypted = handleEncrypt();
+  //   handleDecrypt(encrypted);
+  // }, []);
+
+
 
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
   const handleSelectItemDoorStep = (arr: any) => {
@@ -165,6 +203,7 @@ const CarDetails = () => {
         }
       });
       toast.success(response?.data?.message)
+      setMessage(response?.data?.message)
       if (response?.data?.success) {
         setBookingSuccess(true);
         setTimeout(() => {
@@ -313,7 +352,6 @@ const CarDetails = () => {
   const roundedPrices = allPrices?.map(roundPrice);
 
   const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
-
 
 
   return (
@@ -487,6 +525,7 @@ const CarDetails = () => {
                       )}
                     </div>
                   </div>
+
                 </div>
                 <div className="w-full max-w-[376px] flex justify-around items-center border-[1.5px] rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start p-4">
@@ -511,6 +550,7 @@ const CarDetails = () => {
                     Proceed
                   </button>
                 </div>
+
               </main>
 
               <div className="sm:max-w-[511px] lg:max-w-full m-auto flex flex-row items-start gap-2 ml-4">
@@ -718,6 +758,7 @@ const CarDetails = () => {
                 </div>
               </main>
             </div>
+            {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
 
             {/* booking summary */}
           </div>
