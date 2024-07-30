@@ -90,7 +90,7 @@ const CarFeatures = ({ carFeatures }: any) => {
             <div>
               <span className="text-[#6B6767] sm:text-md text-sm">
                 {carFeatures?.cylinders}
-              </span>
+              </span>{" "}
               <span className="text-[#6B6767] sm:text-md text-sm">
                 cylinders
               </span>
@@ -178,22 +178,20 @@ const CarFeatures = ({ carFeatures }: any) => {
             </span>
           </div>
         )}
-        {carFeatures?.powerWindows!==0 && (
+        {carFeatures?.powerWindows !== 0 && (
           <div className="flex items-center gap-4">
             <Image src="/carDetails/check.png" width={30} height={30} alt="" />
-
+            {/* <span className="text-[#6B6767] sm:text-md text-sm">
+              
+            </span> */}
             <span className="text-[#6B6767] sm:text-md text-sm">
-              Power Windows
-            </span>
-            <span className="text-[#6B6767] sm:text-md text-sm">
-              {carFeatures?.powerWindows}
+              {"Power Windows ("}{carFeatures?.powerWindows}{")"}
             </span>
           </div>
         )}
         {carFeatures?.premiumSoundSystem && (
           <div className="flex items-center gap-4">
             <Image src="/carDetails/check.png" width={30} height={30} alt="" />
-
             <span className="text-[#6B6767] sm:text-md text-sm">
               Premium Sound System
             </span>
