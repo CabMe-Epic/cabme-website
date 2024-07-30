@@ -591,13 +591,17 @@ const CardListingCards = ({ data }: any) => {
                   <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                     <div
                       onClick={() => {
-                        setPrice(
-                          data?.bookingOptions?.subscription?.packageType?.package1?.price
-                        );
-                        setClicked1(true);
-                        setClicked2(false);
-                        setClicked3(false);
+                        const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.subscription?.packageType?.package1?.price);
+                        if (calculatedPrice) {
+                          setPrice(Math.round(calculatedPrice));
+                          setClicked1(true);
+                          setClicked2(false);
+                          setClicked3(false);
+                        } else {
+                          console.error("Failed to calculate the total price");
+                        }
                       }}
+
                       className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
                         ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                         : ""
@@ -631,10 +635,15 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <div
                       onClick={() => {
-                        setPrice(data?.bookingOptions?.subscription?.packageType?.package2?.price);
-                        setClicked1(false);
-                        setClicked2(true);
-                        setClicked3(false);
+                        const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.subscription?.packageType?.package2?.price);
+                        if (calculatedPrice) {
+                          setPrice(Math.round(calculatedPrice));
+                          setClicked1(true);
+                          setClicked2(false);
+                          setClicked3(false);
+                        } else {
+                          console.error("Failed to calculate the total price");
+                        }
                       }}
                       className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
                         ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
@@ -669,12 +678,15 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <div
                       onClick={() => {
-                        setPrice(
-                          data?.bookingOptions?.subscription?.packageType?.package3?.price
-                        );
-                        setClicked1(false);
-                        setClicked2(false);
-                        setClicked3(true);
+                        const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.subscription?.packageType?.package3?.price);
+                        if (calculatedPrice) {
+                          setPrice(Math.round(calculatedPrice));
+                          setClicked1(true);
+                          setClicked2(false);
+                          setClicked3(false);
+                        } else {
+                          console.error("Failed to calculate the total price");
+                        }
                       }}
                       className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
                         ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
@@ -890,19 +902,15 @@ const CardListingCards = ({ data }: any) => {
                       <div className="h-[274px] relative">
                         <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                           <div
-                              onClick={() => {
-                                setPrice(
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package1?.price
-                                );
-                                setClicked1(true);
-                                setClicked2(false);
-                                setClicked3(false);
-                              }}
-                              className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                                : ""
-                                }`}
+                            onClick={() => {
+                              const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price);
+                              if (calculatedPrice) {
+                                setPrice(Math.round(calculatedPrice));
+                              } else {
+                                console.error("Failed to calculate the total price");
+                              }
+                            }}
+                            className=" sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
                             <span className="font-bold text-[18px] ">
                               {/* {data?.bookingOptions?.subscription?.package1?.price} */}
@@ -933,19 +941,15 @@ const CardListingCards = ({ data }: any) => {
                             </span>
                           </div>
                           <div
-                             onClick={() => {
-                              setPrice(
-                                data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package2?.price
-                              );
-                              setClicked1(false);
-                              setClicked2(true);
-                              setClicked3(false);
-                            }}
-                            className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
-                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                              : ""
-                              }`}
+                           onClick={() => {
+                            const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package2?.price);
+                            if (calculatedPrice) {
+                              setPrice(Math.round(calculatedPrice));
+                            } else {
+                              console.error("Failed to calculate the total price");
+                            }
+                          }}
+                            className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
                             <span className="font-bold text-[18px] ">
                               ₹{" "}
@@ -976,19 +980,15 @@ const CardListingCards = ({ data }: any) => {
                             </span>
                           </div>
                           <div
-                              onClick={() => {
-                                setPrice(
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package3?.price
-                                );
-                                setClicked1(false);
-                                setClicked2(false);
-                                setClicked3(true);
-                              }}
-                              className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                                : ""
-                                }`}
+                           onClick={() => {
+                            const calculatedPrice = calculateTotalPrice(data?.bookingOptions?.withDriver?.local?.packageType?.package3?.price);
+                            if (calculatedPrice) {
+                              setPrice(Math.round(calculatedPrice));
+                            } else {
+                              console.error("Failed to calculate the total price");
+                            }
+                          }}
+                            className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
                           >
                             <span className="font-bold text-[18px] ">
                               ₹{" "}
