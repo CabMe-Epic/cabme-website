@@ -7,7 +7,6 @@ import ExclusionComponent from "../exclusion/exclusion";
 import FacilityComponent from "../facility/facility";
 import TermsAndConditions from "../terms-and-condition-tabs/terms-and-condition";
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
-import { calculatePrice } from "@/app/utils/calculatePrice ";
 import useReservationDateTime from "@../../../networkRequests/hooks/useReservationDateTime";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
@@ -15,8 +14,6 @@ import { roundPrice } from "@/app/utils/roundPrice ";
 
 const Tooltip = ({ children, tooltipText }: any) => {
   const [showTooltip, setShowTooltip] = useState(false);
-
-
 
   return (
     <div
@@ -38,9 +35,7 @@ const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
   const { duration } = useReservationDateTime();
   const { days, hours } = extractDaysAndHours(duration);
-  console.log(days, "days");
   const [showImg, setShowImg] = useState(false);
-  const condition = true;
 
   useEffect(() => {
     if (showImg) {
@@ -84,6 +79,7 @@ const CardListingCards = ({ data }: any) => {
     setBookingOptionsHome(bookingOptions);
     setDriverType(driverType);
   }, []);
+
   const [clicked1, setClicked1] = useState(true);
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
@@ -142,8 +138,6 @@ const CardListingCards = ({ data }: any) => {
       console.log("done");
     }
   }
-
-
 
   return (
     <>
@@ -633,7 +627,6 @@ const CardListingCards = ({ data }: any) => {
                             {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                           </div>
                         </span>
-
                       </span>
                     </div>
                     <div
@@ -832,10 +825,8 @@ const CardListingCards = ({ data }: any) => {
                     <div className="m-0">
                       <ThemeButton
                         onClick={() => {
-
                           Navigation.push(`/car-details/${data._id}`),
                             selectDefaultPackage(data);
-
                         }
                         }
                         text="Book Now"
@@ -899,13 +890,19 @@ const CardListingCards = ({ data }: any) => {
                       <div className="h-[274px] relative">
                         <div className="mt-5 flex flex-row items-center gap-4 mr-10">
                           <div
-                            onClick={() =>
-                              setPrice(
-                                data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package1?.price
-                              )
-                            }
-                            className=" sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                              onClick={() => {
+                                setPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package1?.price
+                                );
+                                setClicked1(true);
+                                setClicked2(false);
+                                setClicked3(false);
+                              }}
+                              className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                                : ""
+                                }`}
                           >
                             <span className="font-bold text-[18px] ">
                               {/* {data?.bookingOptions?.subscription?.package1?.price} */}
@@ -929,20 +926,26 @@ const CardListingCards = ({ data }: any) => {
                                   {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit : "0"} Free kms
                                 </p>...
                                 <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1?.kmsLimit* (days as number) : "0"} Free kms
                                 </div>
                               </span>
 
                             </span>
                           </div>
                           <div
-                            onClick={() =>
+                             onClick={() => {
                               setPrice(
                                 data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.price
-                              )
-                            }
-                            className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                              );
+                              setClicked1(false);
+                              setClicked2(true);
+                              setClicked3(false);
+                            }}
+                            className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
+                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                              : ""
+                              }`}
                           >
                             <span className="font-bold text-[18px] ">
                               ₹{" "}
@@ -963,23 +966,29 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                                 <p className="text-[#FF0000] font-[500] text-[14px] whitespace-nowrap w-[80px] overflow-hidden">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit* (days as number) : "0"} Free kms
                                 </p>...
                                 <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit : "0"} Free kms
+                                  {data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2?.kmsLimit* (days as number) : "0"} Free kms
                                 </div>
                               </span>
 
                             </span>
                           </div>
                           <div
-                            onClick={() =>
-                              setPrice(
-                                data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package3?.price
-                              )
-                            }
-                            className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                              onClick={() => {
+                                setPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package3?.price
+                                );
+                                setClicked1(false);
+                                setClicked2(false);
+                                setClicked3(true);
+                              }}
+                              className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                                : ""
+                                }`}
                           >
                             <span className="font-bold text-[18px] ">
                               ₹{" "}
@@ -1678,7 +1687,7 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package1
                         ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package1
-                        ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit* (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1720,7 +1729,7 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package2
                         ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package2
-                        ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit* (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -1761,7 +1770,7 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.selfDrive?.packageType?.package3
                         ?.kmsLimit ? data?.bookingOptions?.selfDrive?.packageType?.package3
-                        ?.kmsLimit : "0"} Free kms
+                        ?.kmsLimit* (days as number) : "0"} Free kms
                     </p>
                   </div>
                 </div>
@@ -2043,14 +2052,15 @@ const CardListingCards = ({ data }: any) => {
                     </p>
                     <strong className="block text-sm">
                       {
-                        data?.bookingOptions?.subscription?.packageType?.package1
-                          ?.price
+                        calculateTotalPrice(
+                          data?.bookingOptions?.subscription?.packageType?.package1
+                            ?.price)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.subscription?.packageType?.package1
                         ?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1
-                        ?.kmsLimit : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -2083,14 +2093,15 @@ const CardListingCards = ({ data }: any) => {
                     </p>
                     <strong className="block text-sm">
                       {
-                        data?.bookingOptions?.subscription?.packageType?.package2
-                          ?.price
+                        calculateTotalPrice(
+                          data?.bookingOptions?.subscription?.packageType?.package2
+                            ?.price)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.subscription?.packageType?.package2
                         ?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package2
-                        ?.kmsLimit : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
@@ -2123,14 +2134,15 @@ const CardListingCards = ({ data }: any) => {
                     </p>
                     <strong className="block text-sm">
                       {
-                        data?.bookingOptions?.subscription?.packageType?.package3
-                          ?.price
+                        calculateTotalPrice(
+                          data?.bookingOptions?.subscription?.packageType?.package3
+                            ?.price)?.toFixed(0)
                       }
                     </strong>
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.subscription?.packageType?.package3
                         ?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package3
-                        ?.kmsLimit : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                 </div>
@@ -2369,7 +2381,20 @@ const CardListingCards = ({ data }: any) => {
               >
                 <div className="grid grid-cols-3 gap-2 mt-10">
                   <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
+                    // className={`border text-center py-[3px] px-2 rounded-md`}
+                    onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                            ?.price
+                      );
+                      setClicked1(true);
+                      setClicked2(false);
+                      setClicked3(false);
+                    }}
+                    className={`${clicked1
+                      ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                      : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                      }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.withDriver?.local?.packageType
@@ -2393,11 +2418,24 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.withDriver?.local?.packageType?.package1
                         ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package1
-                        ?.kmsLimit : "0"} Free kms
+                          ?.kmsLimit*(days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
+                    // className={`border text-center py-[3px] px-2 rounded-md`}
+                    onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.withDriver?.local?.packageType?.package2
+                            ?.price
+                      );
+                      setClicked1(false);
+                      setClicked2(true);
+                      setClicked3(false);
+                    }}
+                    className={`${clicked2
+                      ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                      : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                      }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.withDriver?.local?.packageType
@@ -2421,11 +2459,24 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.withDriver?.local?.packageType?.package2
                         ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package2
-                        ?.kmsLimit : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                   <div
-                    className={`border text-center py-[3px] px-2 rounded-md`}
+                    // className={`border text-center py-[3px] px-2 rounded-md`}
+                    onClick={() => {
+                      setPrice(
+                        data?.bookingOptions?.withDriver?.local?.packageType?.package3
+                            ?.price
+                      );
+                      setClicked1(false);
+                      setClicked2(false);
+                      setClicked3(true);
+                    }}
+                    className={`${clicked3
+                      ? " border border-black bg-gradient-to-r from-[#FFD7D7] transition-all text-center to-[#fff] py-[3px] px-2 rounded-md"
+                      : "border-[#FF0000] border text-center py-[3px] px-2 rounded-md"
+                      }`}
                   >
                     <p
                       className={` ${data?.bookingOptions?.withDriver?.local?.packageType
@@ -2449,7 +2500,7 @@ const CardListingCards = ({ data }: any) => {
                     <p className="text-primary sm:text-xs text-[8px]">
                       {data?.bookingOptions?.withDriver?.local?.packageType?.package3
                         ?.kmsLimit ? data?.bookingOptions?.withDriver?.local?.packageType?.package3
-                        ?.kmsLimit : "0"} Free kms
+                          ?.kmsLimit * (days as number) : "0"} Free kms
                     </p>
                   </div>
                 </div>

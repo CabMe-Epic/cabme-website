@@ -69,6 +69,7 @@ export default function Home() {
 
     const handlePickupLocation = (event: any) => {
         setPickupLocation(event);
+        console.log(pickupLocation,"joo");
     };
 
     const handleDropOffLocation = (event: any) => {
@@ -375,6 +376,7 @@ export default function Home() {
                                                 content={driver?.content}
                                                 name={driver?.name}
                                                 id={driver?.id}
+                                                
                                             />
                                         </div>
                                     );
@@ -994,6 +996,7 @@ export default function Home() {
                                                     </div>
                                                 ))}
                                             </div>
+                                            
                                             {/* <ThemeButton
                                                 onClick={() => setShowDropLocationPopup(false)}
                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
@@ -1151,6 +1154,7 @@ export default function Home() {
                                     </div>
                                 );
                             })}
+                            
                             {dropOffLocation && (
                                 <div className=" h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
                                     <div className="grid">
@@ -1178,7 +1182,7 @@ export default function Home() {
                                 </div>
                             )}
 
-                            <div className="lg:block hidden">
+                            <div className="sm:block hidden">
                                 <ThemeButton
                                     className="px-8 !py-[12px] relative right-6 ml-4"
                                     text="Search"
@@ -1237,15 +1241,9 @@ export default function Home() {
                                 </div>
                             </>
                         )}
+                
                     </div>
                 )}
-                <div className="lg:hidden block mt-4">
-                    <ThemeButton
-                        className="px-8 !py-[12px] relative right-6 ml-4 m-auto"
-                        text="Search"
-                        onClick={() => saveLocationData()}
-                    />
-                </div>
             </div>
             {/* Only mobile section subsription */}
             <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-lg shadow-custom-shadow w-full px-4 sm:pt-16 pt-11 pb-4 sm:my-6 my-4 z-[9]">

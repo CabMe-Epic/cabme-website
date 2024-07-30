@@ -1203,7 +1203,6 @@ const CarListing = () => {
                     <CardListingCards key={`card-date-${item.id}`} data={item} />
                   )}
                   {cardCount % 2 === 0 && <CardListingBanner count={cardCount} />}
-
                 </div>
               );
             })}
@@ -1237,9 +1236,6 @@ const CarListing = () => {
 
 
         </section>
-        <div className="">
-
-        </div>
       </main>
     </div>
   );

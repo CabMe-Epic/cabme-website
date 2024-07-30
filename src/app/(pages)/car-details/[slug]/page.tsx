@@ -591,7 +591,7 @@ const CarDetails = () => {
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">GST ({currentPackage?.package1?.gstRate}%)</span>
-                    <span className="w-[220px] ml-10">{roundPrice(Number(result?.gstAmount))}</span>
+                    <span className="w-[220px] ml-10">₹{roundPrice(Number(result?.gstAmount))}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
@@ -617,28 +617,6 @@ const CarDetails = () => {
                     </div>
                   }
 
-
-                  {/* {discountAmount > 0 ? (
-                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                      <span className="w-[220px] ml-10">TOTAL</span>
-                      <span className="w-[220px] ml-10 text-[#ff0000]">
-                        ₹ {totalPrice.toFixed(2)}
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                      <span className="w-[220px] ml-10">TOTAL Aasif</span>
-                      <span className="w-[220px] ml-10 text-[#ff0000]">
-                        {roundPrice(totalExcludedGSTAmount)}
-                      </span>
-                    </div>
-                  )} */}
-
-                  {/* <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">Kms Limit</span>
-                    <span className="w-[220px] ml-10">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
-                  </div> */}
-
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Fuel</span>
                     <span className="w-[220px] ml-10">{currentPackage?.fuel}</span>
@@ -657,43 +635,7 @@ const CarDetails = () => {
                   </div>
                 </div>
                 <div>
-                  {/* <span className="flex flex-row my-5 mt-10">
-                    <Image
-                      src="/png/offer.png"
-                      width={20}
-                      height={20}
-                      alt="offer"
-                    />
-                    <select
-                      name="offer"
-                      id="offer"
-                      className="border-0 outline-0 bg-transparent w-[405px]"
-                      onChange={(e) => handleChangePromocodeOption(e)}
-                    >
-
-                      <option value="View all promo coupons">
-                        View all promo coupons
-                      </option>
-                      {promoCodes?.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.code}
-                        </option>
-                      ))}
-
-                    </select>
-                  </span> */}
-
-                  {/* <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
-                    <input
-                      type="text"
-                      placeholder="DJF4D4F"
-                      className="w-full border-0 outline-none pr-4 text-[#888787]"
-                      value={selectedPromocodeOption}
-                      readOnly
-                    />
-                    <button className="text-[#ff0000]" onClick={handleApplyPromoCode}>Apply</button>
-                  </div> */}
-
+                 
                   {/* DESKTOP TOTAL AMOUNT  */}
                   <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" &&
@@ -756,22 +698,6 @@ const CarDetails = () => {
                   </button>
                 </div>
               </main>
-              {/* <div className="flex flex-row items-start gap-2 ml-4">
-                <span className="mt-1">
-                  <Image
-                    src="/png/waiting.png"
-                    width={20}
-                    height={20}
-                    alt="offer"
-                  />
-                </span>
-                <span className="text-[18px] font-semibold text-[#6CAE39]">
-                  50% Refund <br /> Until 06June2024, 2:00PM <br />
-                  <span className="text-[#737373] text-sm font-light">
-                    Convince fees is not refundable
-                  </span>
-                </span>
-              </div> */}
             </div>
 
             {/* booking summary */}
