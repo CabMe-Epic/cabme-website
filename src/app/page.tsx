@@ -206,7 +206,7 @@ export default function Home() {
             </h3>
             <div className="border-b border-black lg:text-xl sm:text-lg text-[12px] sm:my-2 sm:pb-4 text-[#909090]">
               <span>Car Rental Discount</span> <br />
-              <span>until May 21st 2024</span>
+              <span>until August 21st 2024</span>
             </div>
             <h4 className="font-semibold text-sm sm:text-[28px]">
               DISCOUNT CODE : <span className="text-primary">NEW5</span>
@@ -247,9 +247,7 @@ export default function Home() {
             Best App for <span className="text-primary font-bold">CAR RENTAL</span>
           </h3>
           <p className="lg:my-8 sm:my-4 sm:text-[14px] text-xs">
-            Thrown shy denote ten ladies though ask saw. Or by to he going think
-            order event music. Incommode so intention defective at convinced.
-            Led income months itself and houses you.
+          The application is available on both apple store and play store. Download Now.
           </p>
           <div className="flex sm:justify-start justify-center sm:gap-12 gap-4 sm:mt-0 mt-2">
             <button>
@@ -353,10 +351,7 @@ export default function Home() {
               </span>{" "}
             </h2>
             <p className="mb-6 sm:block hidden">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea{" "}
+            If you got any questions that is not in FAQs, please go through the Terms and Conditions. Or reach us at 1800 121 6162 or mail us at enquiry.cabme@gmail.com
             </p>
           </div>
           <Image
@@ -382,10 +377,10 @@ export default function Home() {
         <h2 className="text-center font-bold sm:text-4xl text-2xl text-white">
           Facts By The <span className="text-primary"> Numbers</span>
         </h2>
-        <p className="text-[#E5DADA] text-center my-2 sm:text-md text-xs">
+        {/* <p className="text-[#E5DADA] text-center my-2 sm:text-md text-xs">
           Lorem Ipsum has been the industry&apos;s standard <br /> dummy text
           ever since the 1500s,
-        </p>
+        </p> */}
         <div className="grid lg:grid-cols-4 grid-cols-2 sm:gap-10 gap-2 sm:p-8 p-2">
           {factsArray?.map((item, index) => {
             return (
@@ -574,35 +569,35 @@ const chooseArray = [
     width: 132,
     height: 93,
     title: "Insurance included",
-    desc: "Your new ride, right to your door, with service you'll adore.",
+    desc: "Drive hassle free with our completely insured vehicles.",
   },
   {
     imageUrl: "/png/car05.svg",
     width: 132,
     height: 93,
     title: "Brand New Fleets",
-    desc: "Your safety is our priority, with a car that's sanitized for purity.",
+    desc: "Drive our latest car models with wide variety to choose from.",
   },
   {
     imageUrl: "/png/car06.svg",
     width: 132,
     height: 93,
     title: "Road Side Assistance",
-    desc: "What you see is what you get, no hidden charges to fret.",
+    desc: "Support at time of vehicle breaks down or has a mechanical failure.",
   },
   {
     imageUrl: "/png/car07.svg",
     width: 32,
     height: 93,
     title: "Flexible Kms",
-    desc: "Your new ride, right to your door, with service you'll adore.",
+    desc: "Freedom to choose from Kms as per your travel plan.",
   },
   {
     imageUrl: "/png/car08.svg",
     width: 132,
     height: 93,
     title: "Vehicle Health Check",
-    desc: "Your new ride, right to your door, with service you'll adore.",
+    desc: "Complete checkup and quick service of the vehicle for hassle free drive.",
   },
 ];
 const rentCollection = [
@@ -636,24 +631,28 @@ const rentCollection = [
 ];
 const faqCollection = [
   {
-    ques: "What are my liabilities in case of damage / accident ?",
-    ans: "Your car will be covered by comprehensive insurance, to take care of damage cases. On every case of damage, your liability would be limited to the difference between the costs incurred to repair the damage and the proceeds from insurance claim with maximum liability limited.",
+    ques: "Is there a speed limit?",
+    ans: "Cabme allows up to 105 km/hr. However it is 80 km/hr in a few cities where some cars might be equipped with speed governors as per government directives. Cabme strictly advises to follow local speed limits.",
   },
   {
-    ques: "Can I end my subscription early, or choose to keep the car longer?",
-    ans: "Will update you soon.",
+    ques: "Can I extend/ cancel/ modify?",
+    ans: "Yes, extensions are possible subject to availability & charges. Cancellations & modifications will attract nominal charges as per our policy.",
   },
   {
-    ques: "Are there any restrictions on what can I use the car for?",
-    ans: "Will update you soon.",
+    ques: "Can I Drop The Vehlcle In Multlple Citles?",
+    ans: "Yes, you can pick the car in one city and drop it in another. You can select the option  'Drop in different city'. The charges for drop is different for each city.",
   },
   {
-    ques: "What are the benefits of Subscriptions?",
-    ans: "Will update you soon.",
+    ques: "Booking criteria & documents?",
+    ans: "Min. 21 years old, have a valid original government ID (Aadhar or Passport) and an original hard copy or a DigiLocker of a driving license for “Light Motor Vehicles,” which is at least 6 months old at the time of starting the trip. We may ask for additional documents for verification in some cases, e.g., local ID or proof of travel.",
   },
   {
-    ques: "What will be the car registration type and whose name will it be registered in?",
-    ans: "Will update you soon.",
+    ques: "Is the Fastag Available?",
+    ans: "All vehicles is attached with the fastag. The customer have to recharge the fastag itself. The remaining fastag balance will be added with the security refund amount.",
+  },
+  {
+    ques: "How long does it takes for security refund?",
+    ans: "It generally takes upto 24- 48 hrs for the security refund. The time can be extend in case of bank holidays.",
   },
 ];
 const factsArray = [

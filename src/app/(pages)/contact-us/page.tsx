@@ -151,10 +151,7 @@ const ContactUs = () => {
               </span>{" "}
             </h2>
             <p className="mb-6 sm:block hidden">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea{" "}
+            If you got any questions that is not in FAQs, please go through the Terms and Conditions. Or reach us at 1800 121 6162 or mail us at enquiry.cabme@gmail.com
             </p>
           </div>
           <Image
@@ -249,23 +246,27 @@ const pickUpDropArray = [
 ];
 const faqCollection = [
   {
-    ques: "What are my liabilities in case of damage / accident ?",
-    ans: "Your car will be covered by comprehensive insurance, to take care of damage cases. On every case of damage, your liability would be limited to the difference between the costs incurred to repair the damage and the proceeds from insurance claim with maximum liability limited.",
+    ques: "Is there a speed limit?",
+    ans: "Cabme allows up to 105 km/hr. However it is 80 km/hr in a few cities where some cars might be equipped with speed governors as per government directives. Cabme strictly advises to follow local speed limits.",
   },
   {
-    ques: "Can I end my subscription early, or choose to keep the car longer?",
-    ans: "Will update you soon.",
+    ques: "Can I extend/ cancel/ modify?",
+    ans: "Yes, extensions are possible subject to availability & charges. Cancellations & modifications will attract nominal charges as per our policy.",
   },
   {
-    ques: "Are there any restrictions on what can I use the car for?",
-    ans: "Will update you soon.",
+    ques: "Can I Drop The Vehlcle In Multlple Citles?",
+    ans: "Yes, you can pick the car in one city and drop it in another. You can select the option 'Drop in different city'. The charges for drop is different for each city.",
   },
   {
-    ques: "What are the benefits of Subscriptions?",
-    ans: "Will update you soon.",
+    ques: "Booking criteria & documents?",
+    ans: "Min. 21 years old, have a valid original government ID (Aadhar or Passport) and an original hard copy or a DigiLocker of a driving license for “Light Motor Vehicles,” which is at least 6 months old at the time of starting the trip. We may ask for additional documents for verification in some cases, e.g., local ID or proof of travel.",
   },
   {
-    ques: "What will be the car registration type and whose name will it be registered in?",
-    ans: "Will update you soon.",
+    ques: "Is the Fastag Available?",
+    ans: "All vehicles is attached with the fastag. The customer have to recharge the fastag itself. The remaining fastag balance will be added with the security refund amount.",
+  },
+  {
+    ques: "How long does it takes for security refund?",
+    ans: "It generally takes upto 24- 48 hrs for the security refund. The time can be extend in case of bank holidays.",
   },
 ];
