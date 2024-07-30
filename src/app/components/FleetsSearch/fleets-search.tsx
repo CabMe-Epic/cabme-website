@@ -49,7 +49,7 @@ export default function Home() {
     const [mobilePickuptime, setMobilepickuptime] = useState("");
     const [mobileDroplocation, setMobiledropCities] = useState("");
     const [mobilDropdate, setMobiledropdate] = useState("");
-    const [switchRadio, setSwitchRadio] = useState("Self Driven");
+    // const [switchRadio, setSwitchRadio] = useState("Self Driven");
     const [radioToggle, setRadioToggle] = useState("Out-station");
     console.log(radioToggle, "radio");
 
@@ -114,7 +114,7 @@ export default function Home() {
         localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
         localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
         localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
-        localStorage.setItem("tabValue", tabValue || switchRadio);
+        localStorage.setItem("tabValue", tabValue);
         localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
         localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
         console.log(pickupDate, pickupTime, "ddd");
@@ -151,7 +151,7 @@ export default function Home() {
         localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
         localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
         localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
-        localStorage.setItem("tabValue", tabValue || switchRadio);
+        localStorage.setItem("tabValue", tabValue);
         localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
         localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
 
@@ -265,7 +265,7 @@ export default function Home() {
     }
 
     const [offer, setOffer] = useState("Daily Offers");
-    console.log(switchRadio, "tabValue");
+    // console.log(switchRadio, "tabValue");
     console.log(tabValue, "tabValue");
     console.log(dropDate, "dropDate sahil");
 
@@ -1250,49 +1250,49 @@ export default function Home() {
                 <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
                     <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
                         <div
-                            className={`${mobileTabValue === "Rentals"
+                            className={`${mobileTabValue === "Rentals" || tabValue==="Self-Driving" || tabValue==="Driver"
                                 ? "bg-white text-black shadow-custom-shadow"
                                 : ""
                                 } rounded-xl px-4 py-[8px] text-center text-sm`}
-                            onClick={() => setMobileTabValue("Rentals")}
+                            onClick={() => {setMobileTabValue("Rentals"),setTabsValue("")}}
                         >
                             Rentals
                         </div>
                         <div
-                            className={`${mobileTabValue === "Subscriptions"
+                            className={`${tabValue === "Subscription"
                                 ? "bg-white text-black shadow-custom-shadow"
                                 : "text-white"
                                 } rounded-xl px-4 py-[8px] text-center text-sm `}
-                            onClick={() => setMobileTabValue("Subscriptions")}
+                            onClick={() => {setTabsValue("Subscription"), setMobileTabValue("")}}
                         >
-                            Subscriptions
+                            Subscription
                         </div>
                     </div>
                 </div>
                 {mobileTabValue === "Rentals" && (
-                    <div className="max-w-[220px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
+                    <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
                         <div
-                            className={`${switchRadio === "Self Driven"
+                            className={`${tabValue === "Self-Driving"
                                 ? "bg-black text-white"
                                 : "text-black"
                                 } p-2 rounded-l-full text-center px-4 flex items-center`}
-                            onClick={() => setSwitchRadio("Self Driven")}
+                            onClick={() => setTabsValue("Self-Driving")}
                         >
                             <input
                                 type="radio"
                                 name="select"
                                 id="self"
                                 className="accent-red-500"
-                                checked={switchRadio === "Self Driven" ? true : false}
+                                checked={tabValue === "Self-Driving" ? true : false}
                             />
                             <label className="ml-2 text-[10px]" htmlFor="self">
-                                Self Driven
+                            Self-Driving
                             </label>
                         </div>
                         <div
-                            className={`p-2 text-center px-4 flex items-center justify-center ${switchRadio === "Driver" ? "bg-black text-white" : "text-black"
+                            className={`p-2 text-center px-4 flex items-center justify-center ${tabValue === "Driver" ? "bg-black text-white" : "text-black"
                                 }`}
-                            onClick={() => setSwitchRadio("Driver")}
+                            onClick={() => setTabsValue("Driver")}
                         >
                             <input
                                 type="radio"
@@ -1306,9 +1306,9 @@ export default function Home() {
                         </div>
                     </div>
                 )}
-                {mobileTabValue === "Rentals" && (
+                {tabValue === "Rentals" && (
                     <>
-                        {switchRadio === "Driver" && (
+                        {tabValue === "Driver" && (
                             <div className="flex gap-6 w-fit m-auto mt-4">
                                 {driverRadioButton?.map((driver, ind) => {
                                     return (
@@ -1358,21 +1358,23 @@ export default function Home() {
                                     type="text"
                                     placeholder={radioToggle === "Local"
                                         ? "Select Your City"
-                                        : switchRadio === "Self Driven"
+                                        : tabValue === "Self-Driving"
                                             ? "Select Your City"
                                             : "Select Your City"}
-                                    onClick={(e) => handleSelectMobilePopupLocation(e)}
-                                    value={selectedMobileCity}
+                                    // onClick={(e) => handleSelectMobilePopupLocation(e)}
+                                    onClick={(e) => handleSelectPopupLocation(e)}
+
+                                    value={selectedCity}
                                     readOnly // Prevent editing directly
                                 />
                             )}
-                            {showMobileLocationPopup && (
+                            {showLocationPopup && (
                                 <>
                                     <input
                                         className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
                                         type="text"
                                         placeholder="All City"
-                                        onClick={(e) => handleSelectMobilePopupLocation(e)}
+                                        onClick={(e) => handleSelectPopupLocation(e)}
                                         value={selectedCity}
                                         readOnly // Prevent editing directly
                                     />
@@ -1385,7 +1387,7 @@ export default function Home() {
                                                 width={26}
                                                 height={26}
                                                 className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                                onClick={() => setShowMobileLocationPopup(false)}
+                                                onClick={() => setShowLocationPopup(false)}
                                             />
 
                                             <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1 overflow-auto mb-2 no-scrollbar max-h-[300px]">
@@ -1394,7 +1396,8 @@ export default function Home() {
                                                         <City
                                                             city={city}
                                                             isSelected={selectedMobileCity === city.name}
-                                                            onClick={() => handleMobileCityClick(city.name)}
+                                                            onClick={() => handleCityClick(city.name)}
+
                                                         />
                                                     </div>
                                                 ))}
