@@ -100,7 +100,9 @@ const CarDetails = () => {
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
   // console.log({ totalPrice })
 
-  const ThirtyDiscount = (totalExcludedGSTAmount * 30) / 100
+  const ThirtyDiscountForInculdedTax = (totalIncludedGSTAmount * 30) / 100
+  const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100
+
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedPickupTime = localStorage.getItem('pickupTime');
@@ -279,7 +281,7 @@ const CarDetails = () => {
             carDetails?.bookingOptions?.subscription?.packageType
           )
           : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage("")
+            ? setCurrentPackage(carDetails?.bookingOptions?.withDriver?.local?.packageType)
             : "";
     }
   }, [carDetails]);
@@ -407,7 +409,7 @@ const CarDetails = () => {
                       Refundable Deposit
                     </span>
                     <span>
-                      ₹ {currentPackage?.refundableDeposit}
+                      ₹{currentPackage?.refundableDeposit}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -488,9 +490,17 @@ const CarDetails = () => {
                 </div>
                 <div className="w-full max-w-[376px] flex justify-around items-center border-[1.5px] rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start p-4">
-                    <span className="font-bold text-md">
-                      Pay ₹{roundPrice(ThirtyDiscount) >= 2000 ? roundPrice(ThirtyDiscount) : roundPrice(totalExcludedGSTAmount)} Now
-                    </span>
+                    {currentPackage?.gst === "Included" &&
+                      <span className="font-bold text-md">
+                        Pay ₹{roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)} Now
+                      </span>
+                    }
+                    {currentPackage?.gst === "Excluded" &&
+                      <span className="font-bold text-md">
+                        Aasi f 100
+                        Pay ₹{roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now
+                      </span>
+                    }
                     <span className="text-[#ff0000] font-semibold text-[15px]">
                       Balance on Delivery
                     </span>
@@ -596,7 +606,7 @@ const CarDetails = () => {
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Refundable Deposit</span>
-                    <span className="w-[220px] ml-10">₹ {currentPackage?.refundableDeposit}</span>
+                    <span className="w-[220px] ml-10">₹{currentPackage?.refundableDeposit}</span>
                   </div>
 
                   {/* DESKTOP ...  */}
@@ -624,7 +634,7 @@ const CarDetails = () => {
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
                     <span className="w-[220px] ml-10">Extra kms charge</span>
-                    <span className="w-[220px] ml-10">₹ {currentPackage?.extraKmsCharge}</span>
+                    <span className="w-[220px] ml-10">₹{currentPackage?.extraKmsCharge}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center">
@@ -635,7 +645,7 @@ const CarDetails = () => {
                   </div>
                 </div>
                 <div>
-                 
+
                   {/* DESKTOP TOTAL AMOUNT  */}
                   <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" &&
@@ -686,7 +696,16 @@ const CarDetails = () => {
                 {/* DESKTOP  */}
                 <div className="flex flex-row items-center justify-around border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
-                    <span className="font-bold text-md">Pay ₹{roundPrice(ThirtyDiscount) >= 2000 ? roundPrice(ThirtyDiscount) : roundPrice(total)} Now </span>
+                    {currentPackage?.gst === "Included" &&
+                      <span className="font-bold text-md">
+                        Pay ₹{roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)} Now
+                      </span>
+                    }
+                    {currentPackage?.gst === "Excluded" &&
+                      <span className="font-bold text-md">
+                        Pay ₹{roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now
+                      </span>
+                    }
                     <span className="text-[#ff0000] font-semibold text-[15px]">
                       Balance on Delivery
                     </span>
