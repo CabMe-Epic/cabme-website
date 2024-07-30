@@ -7,7 +7,6 @@ import ExclusionComponent from "../exclusion/exclusion";
 import FacilityComponent from "../facility/facility";
 import TermsAndConditions from "../terms-and-condition-tabs/terms-and-condition";
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
-import { calculatePrice } from "@/app/utils/calculatePrice ";
 import useReservationDateTime from "@../../../networkRequests/hooks/useReservationDateTime";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
@@ -15,8 +14,6 @@ import { roundPrice } from "@/app/utils/roundPrice ";
 
 const Tooltip = ({ children, tooltipText }: any) => {
   const [showTooltip, setShowTooltip] = useState(false);
-
-
 
   return (
     <div
@@ -38,9 +35,7 @@ const CardListingCards = ({ data }: any) => {
   const Navigation = useRouter();
   const { duration } = useReservationDateTime();
   const { days, hours } = extractDaysAndHours(duration);
-  console.log(days, "days");
   const [showImg, setShowImg] = useState(false);
-  const condition = true;
 
   useEffect(() => {
     if (showImg) {
@@ -84,6 +79,7 @@ const CardListingCards = ({ data }: any) => {
     setBookingOptionsHome(bookingOptions);
     setDriverType(driverType);
   }, []);
+
   const [clicked1, setClicked1] = useState(true);
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
@@ -142,8 +138,6 @@ const CardListingCards = ({ data }: any) => {
       console.log("done");
     }
   }
-
-
 
   return (
     <>
@@ -633,7 +627,6 @@ const CardListingCards = ({ data }: any) => {
                             {data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit ? data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit * (days as number) : "0"} Free kms
                           </div>
                         </span>
-
                       </span>
                     </div>
                     <div
@@ -823,10 +816,8 @@ const CardListingCards = ({ data }: any) => {
                     <div className="m-0">
                       <ThemeButton
                         onClick={() => {
-
                           Navigation.push(`/car-details/${data._id}`),
                             selectDefaultPackage(data);
-
                         }
                         }
                         text="Book Now"
