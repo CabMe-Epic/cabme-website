@@ -598,23 +598,23 @@ const CardListingCards = ({ data }: any) => {
                     <div
                       onClick={() => {
                         setPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package1?.price
+                          data?.bookingOptions?.subscription?.packageType?.package1?.price
                         );
                         setClicked1(true);
                         setClicked2(false);
                         setClicked3(false);
                       }}
-                      className={` sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
-                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                      className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                         : ""
                         }`}
                     >
                       <span className="font-bold text-[18px] ">
                         ₹{" "}
                         {
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package1?.price
+                          calculateTotalPrice(data?.bookingOptions?.subscription?.packageType
+                            ?.package1?.price)?.toFixed(0)
+                          
                         }
                       </span>
                       <span className="flex flex-col gap-0">
@@ -637,19 +637,22 @@ const CardListingCards = ({ data }: any) => {
                       </span>
                     </div>
                     <div
-                      onClick={() =>
-                        setPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package2?.price
-                        )
-                      }
-                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                      onClick={() => {
+                        setPrice(data?.bookingOptions?.subscription?.packageType?.package2?.price);
+                        setClicked1(false);
+                        setClicked2(true);
+                        setClicked3(false);
+                      }}
+                      className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
+                        }`}
                     >
                       <span className="font-bold text-[18px] ">
                         ₹{" "}
                         {
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package2?.price
+                         calculateTotalPrice( data?.bookingOptions?.subscription?.packageType
+                            ?.package2?.price)?.toFixed(0)
                         }
                       </span>
                       <span className="flex flex-col gap-0">
@@ -672,19 +675,25 @@ const CardListingCards = ({ data }: any) => {
                       </span>
                     </div>
                     <div
-                      onClick={() =>
+                      onClick={() => {
                         setPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package3?.price
-                        )
-                      }
-                      className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                          data?.bookingOptions?.subscription?.packageType?.package3?.price
+                        );
+                        setClicked1(false);
+                        setClicked2(false);
+                        setClicked3(true);
+                      }}
+                      className={`sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
+                        }`}
                     >
                       <span className="font-bold text-[18px] ">
                         ₹{" "}
                         {
+                          calculateTotalPrice(
                           data?.bookingOptions?.subscription?.packageType
-                            ?.package3?.price
+                            ?.package3?.price)?.toFixed(0)
                         }
                       </span>
                       <span className="flex flex-col gap-0">

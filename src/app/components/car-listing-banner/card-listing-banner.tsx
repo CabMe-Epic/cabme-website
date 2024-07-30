@@ -24,7 +24,7 @@ const CardListingBanner: React.FC<CardListingBannerProps> = ({ count }) => {
 
   let imageSrc = "";
   if (isInSequence1(count)) {
-    imageSrc = "/carListingBanner/car.png";
+    imageSrc = "/carListingBanner/car.svg";
   } else if (isInSequence2(count)) {
     imageSrc = "/carListingBanner/girl2.svg";
   } else if (isInSequence3(count)) {
