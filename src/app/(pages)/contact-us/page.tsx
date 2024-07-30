@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
+import FleetSearch from "../../components/FleetsSearch/fleets-search"
 import {
   Navigation,
   Pagination,
@@ -137,91 +137,7 @@ const ContactUs = () => {
         </Swiper>
       </div>
       <div className="my-24 px-4">
-      <PickupDropOff />
-      <div className="relative sm:hidden block max-w-[480px]  mb-16 m-auto border rounded-xl shadow-xl w-full px-4 pt-16 pb-12 my-6">
-            <div className="absolute top-[-25px] left-0 right-0">
-              <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-semibold p-2">
-                <div className="bg-white rounded-xl px-4 py-[8px] text-center">
-                  Rentals
-                </div>
-                <div className="rounded-xl px-4 py-[8px] text-center text-white">
-                  Subscriptions
-                </div>
-              </div>
-            </div>
-            <div className="max-w-[280px] m-auto grid grid-cols-2 border rounded-full">
-              <div className="bg-black text-white p-2 rounded-l-full text-center px-4">
-                <input
-                  type="radio"
-                  name="select"
-                  id="self"
-                  className="accent-red-500"
-                />
-                <label className="ml-2" htmlFor="self">
-                  Self Driven
-                </label>
-              </div>
-              <div className="p-2 rounded-full text-center px-4">
-                <input
-                  type="radio"
-                  name="select"
-                  id="driver"
-                  className="accent-red-500"
-                />
-                <label className="ml-2" htmlFor="driver">
-                  Driver
-                </label>
-              </div>
-            </div>
-            <div className="mt-6 border rounded-xl p-2 flex gap-2">
-              <Image
-                src={"/svg/location-gray.svg"}
-                alt="location"
-                width={16}
-                height={18}
-              />
-              <input
-                type="text"
-                placeholder="Select Your City"
-                className="w-full border-none outline-none"
-              />
-            </div>
-            <div className="mt-6 border rounded-xl p-2 flex gap-2">
-              <Image
-                src={"/svg/location-gray.svg"}
-                alt="location"
-                width={16}
-                height={18}
-              />
-              <input
-                type="text"
-                placeholder="Shimla,Himachal Pardesh"
-                className="w-full border-none outline-none"
-              />
-            </div>
-            <div className="flex jusitfy-between gap-4">
-              <div className="mt-6 border rounded-xl p-2 flex gap-2 w-full">
-                <input type="date" name="" id="" className="w-full" />
-              </div>
-              <div className="mt-6 border rounded-xl p-2 flex gap-2 w-full">
-                <input type="time" name="" id="" className="w-full" />
-              </div>
-            </div>
-            <div className="mt-8 mb-4">
-              <p className="w-fit p-4 bg-[#F2F7F6] rounded-xl m-auto">
-                {" "}
-                <span className="font-semibold"> Duration:</span>{" "}
-                2days,12hours,12minutes
-              </p>
-            </div>
-            <div className="absolute bottom-[-20px] left-0 right-0 m-auto w-fit">
-              <ThemeButton
-                className="font-semibold text-sm rounded-xl !py-2 shadow-xl gap-2"
-                text="Start Your Journey"
-                image={"/svg/race.svg"}
-              />
-            </div>
-          </div>
+      <FleetSearch/>
       </div>
       <div className="grid sm:grid-cols-[1.5fr_2fr] gap-8 p-8 sm:my-12">
         <div>

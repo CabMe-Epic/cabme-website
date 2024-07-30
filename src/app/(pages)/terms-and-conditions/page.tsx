@@ -466,14 +466,15 @@ const TermsAndConditions = () => {
                             from OAIS
                           </p>
                           <p>
-                            (w) I will follow the owner&apos;s manual instructions,
-                            if provided in the Vehicle&apos;s glove compartment,
-                            while using the Vehicle. If a problem arises, that
-                            prevents or limits the use of the Vehicle or that
-                            may compromise people&apos;s safety, I will immediately
-                            notify at Coordinates and follow instructions as
-                            provided. I may have to pay for towing, repairs, and
-                            other expenses in some circumstances.
+                            (w) I will follow the owner&apos;s manual
+                            instructions, if provided in the Vehicle&apos;s
+                            glove compartment, while using the Vehicle. If a
+                            problem arises, that prevents or limits the use of
+                            the Vehicle or that may compromise people&apos;s
+                            safety, I will immediately notify at Coordinates and
+                            follow instructions as provided. I may have to pay
+                            for towing, repairs, and other expenses in some
+                            circumstances.
                           </p>
                           <p>
                             (x) I will notify You immediately on Coordinates, If
@@ -1167,17 +1168,17 @@ const TermsAndConditions = () => {
                             (b) The license plate numbers of any other vehicles
                             involved, their make and year, their identification
                             number (serial number), and the insurance
-                            certificate&apos;s number (with name, address and phone
-                            number of the insurance agent);
+                            certificate&apos;s number (with name, address and
+                            phone number of the insurance agent);
                           </li>
                           <li>
                             (c) The names, addresses, and driver&apos;s license
                             numbers of the persons involved in the incident;
                           </li>
                           <li>
-                            (d) The name, address, and driver&apos;s license number
-                            of the owner of the vehicle (if he or she is not the
-                            driver);
+                            (d) The name, address, and driver&apos;s license
+                            number of the owner of the vehicle (if he or she is
+                            not the driver);
                           </li>
                           <li>
                             (e) The name, addresses, and phone number of
@@ -1366,77 +1367,389 @@ const TermsAndConditions = () => {
                     )}
                   </>
                 )}
-                {toggle === "SHARING OF INFORMATION:" &&
-                    <>
-                        {toggle === item?.heading &&
-                            <div className="text-sm pb-4 pl-2 grid gap-2">
-                                <p>I fully understand and acknowledge that You are under obligation to cooperate with government and law enforcement officials and private parties to enforce and comply with the Applicable Law. Thus, You may access, use, preserve, transfer and disclose any information (including
-                                    personal information) provided by Me to any government or law enforcement officials or private parties as You may reasonably determine is necessary and appropriate:</p>
-                                    <p>
-                                        <ul className="grid gap-2">
-                                            <li>(a) To satisfy any Applicable Law or other regulation, subpoenas, governmental requests or legal process</li>
-                                            <li>(b) To protect Your safety, rights, property or security or that of public for any reason.</li>
-                                            <li>(c) To detect, prevent or otherwise address fraud. Such disclosures may be carried out without notice to Me</li>
-                                        </ul>
-                                    </p>
-                             </div>
-                        }
-                    </>
-                }
-                {toggle === "FORCE MAJEURE:" &&
-                    <>
-                        {toggle === item?.heading &&
-                            <div className="text-sm pb-4 pl-2 grid gap-2">
-                                <p>Neither Party shall be liable for any breach of this Agreement caused by Force Majeure events which is not within reasonable control of a Party (whose performance is affected by such event) including without limitation, insurrection, restraint imposed by the Government, act of legislative or other authority, war, hostilities, acts of the public enemy, civil, commotion, sabotage, explosions, epidemics, quarantine restrictions, strike, lockout or acts of God, that affects the ability of a Party to perform its obligations as envisaged herein. Provided however the non-payment of amounts due from a Party under this Agreement (for any reason) shall not be considered as an event of Force Majeure.</p>
-                            </div>
-                        }
-                    </>
-                }
-                {toggle === "AUTHORITY TO EXECUTE THE DOCUMENT" &&
-                    <>
-                        {toggle===item?.heading &&
-                            <p className="mb-4">The Parties hereby confirm that they have full power and authority to enter into this document and honor their respective obligations under this document</p>
-                        }
-                    </>
-                }
-                {toggle === "TIME OF ESSENCE" &&
-                    <>
-                        {toggle===item?.heading &&
-                            <p className="mb-4">In relation to any time, date or period fixed under this document, time shall be of the essence.</p>
-                        }
-                    </>
-                }
-                {toggle==="ARBITRATION" &&
-                    <>
-                        {toggle===item?.heading &&
-                            <div className="text-sm pb-4 pl-2 grid gap-2">
-                                <p>28.1 If any dispute arises amongst Parties hereto during the subsistence of this document or thereafter, in connection with the validity, interpretation, implementation or alleged breach of any provision of the Agreement or regarding a question, including the questions as to whether the termination of this document has been legitimate, the Parties shall endeavor to settle such dispute amicably.</p>
-                                <p>28.2 In the case of any dispute or any difference between the Parties arising out of or in relation to this document including dispute or difference as to the validity of this document or interpretation or any of the provision of this document, the same shall be resolved by mutual discussion. If the Parties fail to settle the dispute or difference mutually within 15 days after the dispute shall have arisen then the same shall be referred to Arbitration or the sole arbitrator to be appointed by You and such arbitration shall be governed by the Arbitration and Conciliation Act, 1996 or any statutory modification or re-enactment thereof for the time being in force. The provisions of this clause shall survive the termination of this document. Each Party shall bear its own costs; all common costs shall be shared equally by both the Parties. The venue of the arbitration shall be New Delhi. The language of arbitration shall be English.</p>
-                                <p>28.3 Subject to Clause 28.2 above, wherever judicial intervention is possible, the parties herein agree that the Courts at New Delhi shall have jurisdiction to the exclusion of all other Courts</p>
-                            </div>
-                        }
-                    </>
-                }
-                {toggle === "GOVERNING LAW" &&
-                    <>
-                        {toggle === item?.heading &&
-                            <div className="text-sm pb-4 pl-2 grid gap-2">
-                                <p>29.1 This document shall be governed by and construed and interpreted in accordance with the laws of India.</p>
-                                <p>29.2 If any term or provision of this document should be declared invalid by a court of competent jurisdiction, the remaining terms and provisions of this document shall remain unimpaired and in full force and effect</p>
-                            </div>
-                        }
-                    </>
-                }
-                {toggle==="Annexure-A SCHEDULE OF CHARGES" &&
-                    <>
-                        {toggle===item?.heading &&
-                            <div className="text-sm pb-4 pl-2 grid gap-2">
-                                <h3 className="font-semibold">Annexure-A</h3>
-                                <p>SCHEDULE OF CHARGES:</p>
-                            </div>
-                        }
-                    </>
-                }
+                {toggle === "SHARING OF INFORMATION:" && (
+                  <>
+                    {toggle === item?.heading && (
+                      <div className="text-sm pb-4 pl-2 grid gap-2">
+                        <p>
+                          I fully understand and acknowledge that You are under
+                          obligation to cooperate with government and law
+                          enforcement officials and private parties to enforce
+                          and comply with the Applicable Law. Thus, You may
+                          access, use, preserve, transfer and disclose any
+                          information (including personal information) provided
+                          by Me to any government or law enforcement officials
+                          or private parties as You may reasonably determine is
+                          necessary and appropriate:
+                        </p>
+                        <p>
+                          <ul className="grid gap-2">
+                            <li>
+                              (a) To satisfy any Applicable Law or other
+                              regulation, subpoenas, governmental requests or
+                              legal process
+                            </li>
+                            <li>
+                              (b) To protect Your safety, rights, property or
+                              security or that of public for any reason.
+                            </li>
+                            <li>
+                              (c) To detect, prevent or otherwise address fraud.
+                              Such disclosures may be carried out without notice
+                              to Me
+                            </li>
+                          </ul>
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+                {toggle === "FORCE MAJEURE:" && (
+                  <>
+                    {toggle === item?.heading && (
+                      <div className="text-sm pb-4 pl-2 grid gap-2">
+                        <p>
+                          Neither Party shall be liable for any breach of this
+                          Agreement caused by Force Majeure events which is not
+                          within reasonable control of a Party (whose
+                          performance is affected by such event) including
+                          without limitation, insurrection, restraint imposed by
+                          the Government, act of legislative or other authority,
+                          war, hostilities, acts of the public enemy, civil,
+                          commotion, sabotage, explosions, epidemics, quarantine
+                          restrictions, strike, lockout or acts of God, that
+                          affects the ability of a Party to perform its
+                          obligations as envisaged herein. Provided however the
+                          non-payment of amounts due from a Party under this
+                          Agreement (for any reason) shall not be considered as
+                          an event of Force Majeure.
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+                {toggle === "AUTHORITY TO EXECUTE THE DOCUMENT" && (
+                  <>
+                    {toggle === item?.heading && (
+                      <p className="mb-4">
+                        The Parties hereby confirm that they have full power and
+                        authority to enter into this document and honor their
+                        respective obligations under this document
+                      </p>
+                    )}
+                  </>
+                )}
+                {toggle === "TIME OF ESSENCE" && (
+                  <>
+                    {toggle === item?.heading && (
+                      <p className="mb-4">
+                        In relation to any time, date or period fixed under this
+                        document, time shall be of the essence.
+                      </p>
+                    )}
+                  </>
+                )}
+                {toggle === "ARBITRATION" && (
+                  <>
+                    {toggle === item?.heading && (
+                      <div className="text-sm pb-4 pl-2 grid gap-2">
+                        <p>
+                          28.1 If any dispute arises amongst Parties hereto
+                          during the subsistence of this document or thereafter,
+                          in connection with the validity, interpretation,
+                          implementation or alleged breach of any provision of
+                          the Agreement or regarding a question, including the
+                          questions as to whether the termination of this
+                          document has been legitimate, the Parties shall
+                          endeavor to settle such dispute amicably.
+                        </p>
+                        <p>
+                          28.2 In the case of any dispute or any difference
+                          between the Parties arising out of or in relation to
+                          this document including dispute or difference as to
+                          the validity of this document or interpretation or any
+                          of the provision of this document, the same shall be
+                          resolved by mutual discussion. If the Parties fail to
+                          settle the dispute or difference mutually within 15
+                          days after the dispute shall have arisen then the same
+                          shall be referred to Arbitration or the sole
+                          arbitrator to be appointed by You and such arbitration
+                          shall be governed by the Arbitration and Conciliation
+                          Act, 1996 or any statutory modification or
+                          re-enactment thereof for the time being in force. The
+                          provisions of this clause shall survive the
+                          termination of this document. Each Party shall bear
+                          its own costs; all common costs shall be shared
+                          equally by both the Parties. The venue of the
+                          arbitration shall be New Delhi. The language of
+                          arbitration shall be English.
+                        </p>
+                        <p>
+                          28.3 Subject to Clause 28.2 above, wherever judicial
+                          intervention is possible, the parties herein agree
+                          that the Courts at New Delhi shall have jurisdiction
+                          to the exclusion of all other Courts
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+                {toggle === "GOVERNING LAW" && (
+                  <>
+                    {toggle === item?.heading && (
+                      <div className="text-sm pb-4 pl-2 grid gap-2">
+                        <p>
+                          29.1 This document shall be governed by and construed
+                          and interpreted in accordance with the laws of India.
+                        </p>
+                        <p>
+                          29.2 If any term or provision of this document should
+                          be declared invalid by a court of competent
+                          jurisdiction, the remaining terms and provisions of
+                          this document shall remain unimpaired and in full
+                          force and effect
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+                {toggle === "Annexure-A SCHEDULE OF CHARGES" && (
+                  <>
+                    {toggle === item?.heading && (
+                      <>
+                        <div className="text-sm pb-4 pl-2 grid gap-2">
+                          <h3 className="font-semibold">Annexure-A</h3>
+                          <p>SCHEDULE OF CHARGES:</p>
+                        </div>
+                        <div>
+                          <table className="w-full">
+                            <thead>
+                              <tr>
+                                <th className="border text-left pl-2">SR.NO</th>
+                                <th className="border text-left pl-2">
+                                  NON-COMPLIANCE
+                                </th>
+                                <th className="border text-left pl-2">
+                                  CHARGES
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody className="text-sm">
+                              {scheduleChargesArray?.map((item, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td className="border p-2">{item?.key}</td>
+                                    <td className="border p-2">
+                                      {item?.noneCompliance}
+                                    </td>
+
+                                    <td className="border p-2">
+                                      {item?.key === 30 ? (
+                                        <div className="grid gap-2">
+                                          <tr>
+                                            <td>Early Return Policy</td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              Hirer would be liable to pay the
+                                              differential rental, between
+                                              rental paid and the rental
+                                              applicable in case of early
+                                              returns. For example:
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              For initial contracted term of 6
+                                              months, and foreclosure request in
+                                              2nd month. Foreclosure charges
+                                              will be calculated as under:-
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              Initial Contracted Term - 6 mos.
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              Actual completed term - 2mos
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              Monthly Rental as per contracted
+                                              term – INR 26000
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              Monthly Rental as per revised term
+                                              – INR 29000
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              Recovery - 3000*2 = INR 6000
+                                              (exclusive of applicable taxes)
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              Above charges are exclusive of
+                                              taxes and taxes as applicable
+                                              shall be levied extra.
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>OPPORTUNITY COST</td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              For vehicle returned with damages,
+                                              contracted hire charges in
+                                              addition to the damage charges is
+                                              payable until the vehicle is
+                                              immobilized
+                                            </td>
+                                          </tr>
+                                        </div>
+                                      ) : (
+                                        <>
+                                          {item?.charges?.map((value, ind) => {
+                                            return (
+                                              <div
+                                                key={ind}
+                                                className="grid gap-2"
+                                              >
+                                                <tr>{value?.content1}</tr>
+                                                {value?.content2 && (
+                                                  <tr>{value?.content2}</tr>
+                                                )}
+                                              </div>
+                                            );
+                                          })}
+                                        </>
+                                      )}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                          <h3 className="font-semibold my-6">DAMAGE CHARGES:</h3>
+                          <table className="text-sm w-full">
+                            <thead>
+                          
+                              <th className="p-2 border">
+                                <td>S No</td>
+                               
+                              </th>
+                              <th className="p-2 border">
+                                <td> <td>Variant Details</td></td>
+                               
+                              </th>
+                            </thead>
+                            <tbody>
+                              {damageCharges?.map((item, index) => {
+                                return (
+                                  <tr key={index}>
+                                    <td className="p-2 border">{item?.serialNumber}</td>
+                                    <td className="p-2 border">{item?.details}</td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                          <h3 className="font-semibold my-6">Charges:</h3>
+                          <table className="w-full text-sm">
+                            <thead>
+                                <th className="border p-2">
+                                    <td>S No.</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>Panel Name</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>A</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>B</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>C</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>D</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>E</td>
+                                </th>
+                            </thead>
+                            <tbody>
+                                {ChargesArray?.map((item,index)=>{
+                                    return(
+                                        <tr key={index}>
+                                    <td className="p-2 border">{item?.serialNumber}</td>
+                                    <td className="p-2 border">{item?.panelName}</td>
+                                    <td className="p-2 border">{item?.A}</td>
+                                    <td className="p-2 border">{item?.B}</td>
+                                    <td className="p-2 border">{item?.C}</td>
+                                    <td className="p-2 border">{item?.D}</td>
+                                    <td className="p-2 border">{item?.E}</td>
+                                </tr>
+                                    )
+                                })}
+                                
+                            </tbody>
+                          </table>
+                          <h3 className="font-semibold my-6">Remove and Fit Charges</h3>
+                          <table className="text-sm w-full">
+                            <thead>
+                                <th className="border p-2">
+                                    <td>S No.</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>Panel Name</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>A</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>B</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>C</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>D</td>
+                                </th>
+                                <th className="border p-2">
+                                    <td>E</td>
+                                </th>
+                            </thead>
+                            <tbody>
+                                {fittingCollection?.map((item,index)=>{
+                                    return(
+<tr key={index}>
+                                    <td className="border p-2">{item?.serialNumber}</td>
+                                    <td className="border p-2">{item?.panelName}</td>
+                                    <td className="border p-2">{item?.A}</td>
+                                    <td className="border p-2">{item?.B}</td>
+                                    <td className="border p-2">{item?.C}</td>
+                                    <td className="border p-2">{item?.D}</td>
+                                    <td className="border p-2">{item?.E}</td>
+                                </tr>
+                                    )
+                                })}
+                                
+                            </tbody>
+                          </table>
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
               </div>
             );
           })}
@@ -1539,3 +1852,635 @@ const termsArray = [
     heading: "Annexure-A SCHEDULE OF CHARGES",
   },
 ];
+const scheduleChargesArray = [
+  {
+    key: 1,
+    noneCompliance: "Driving at a speed above the maximum speed of 105 km/hr.",
+    charges: [
+      {
+        content1:
+          "1st Instance >= 105 km/hr. - INR 2500 + GOVT. fines (if any) plus expulsion from CABME if it happens again in the next booking",
+        content2:
+          "2nd Instance >= 105 km/hr. - INR 2500 + GOVT. fines (if any) plus expulsion from CABME >= 105 km/hr. - INR 2500 + GOVT. fines (if any) plus expulsion from CABME",
+      },
+    ],
+  },
+  {
+    key: 2,
+    noneCompliance: "Traffic violation",
+    charges: [
+      {
+        content1:
+          "INR 1000 in addition to the actual fine charged due to traffic violation will be charged from the User",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 3,
+    noneCompliance: "Car spare part changed",
+    charges: [
+      {
+        content1:
+          "The User will be charged a penalty of INR 5000 over and above the cost of spare part.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 4,
+    noneCompliance: "Tyre misuse",
+    charges: [
+      {
+        content1:
+          "In case of any tyre damages resulting from driving in bad terrain and continued driving in case of tyre puncture, customers will be charged for the cost of tyre on actuals",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 5,
+    noneCompliance:
+      "Performing any unauthorized activity such as carrying arms and ammunition, any intoxication, commercial activity",
+    charges: [
+      {
+        content1:
+          "INR 5000 will be charged as penalty .The user will be held liable for any legal action arising out of these activities",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 6,
+    noneCompliance: "External branding",
+    charges: [
+      {
+        content1:
+          "INR 5000 will be charged as penalty. Any expenses arising out of repair cost or such damages will be charged to the User along with the penalty.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 7,
+    noneCompliance: "Tampering with the devices such as GPS etc.",
+    charges: [
+      {
+        content1:
+          "INR 5000 plus the actual cost of the repair or the fitment will be charged from the User.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 8,
+    noneCompliance: "Failure to return the car at the scheduled location",
+    charges: [
+      {
+        content1:
+          "You will be charged INR 2000 plus the full hourly rate and the late fees until the vehicle is returned to the correct location.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 9,
+    noneCompliance:
+      "In case the vehicle is dropped outside city limits of the pickup location",
+    charges: [
+      {
+        content1:
+          "Actual cost for transporting the car to the correct location plus INR 2000 plus the full hourly rate and the late fees until the vehicle is returned to the correct location.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 10,
+    noneCompliance: "Delay in returning of car beyond the scheduled time",
+    charges: [
+      {
+        content1:
+          "Pay contracted Hire Charges in addition to Rs 300/- per hour",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 11,
+    noneCompliance: "Extension of car usage beyond the scheduled time",
+    charges: [
+      {
+        content1:
+          "Pay the contracted Hire Charges for the Additional Term in addition to Rs 300/- per hour",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 12,
+    noneCompliance: "Loss of car accessories such as [Luggage Carrier]",
+    charges: [
+      {
+        content1:
+          "INR 5000 or actual cost of the accessory whichever is higher.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 13,
+    noneCompliance: "Unclean Car or littering /dirtying the car",
+    charges: [
+      {
+        content1:
+          "Unclean cars will attract cleaning charge of Rs. 350/- for a minor cleaning & a charge of Rs. 500/- for a major cleaning as penalty.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 14,
+    noneCompliance: "Causing any damage to the car",
+    charges: [
+      {
+        content1:
+          "The User will be obligated to pay the repair cost and the standard insurance deductible along with any losses. In the event the user is found to violate CABME T & C",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 15,
+    noneCompliance: "Failure to return car keys",
+    charges: [
+      {
+        content1:
+          "A fine of Rs. 2500/- will be charged plus replacement cost incurred will be charged to the User",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 16,
+    noneCompliance: "Failure to return the original car documents",
+    charges: [
+      {
+        content1:
+          "A fine of INR 10,000 will be charged along with the actual charges incurred for re-documentation.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 17,
+    noneCompliance:
+      "Incorrect KYC documents produced at the time of picking up the car.",
+    charges: [
+      {
+        content1: "1 day rental will be charged",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 18,
+    noneCompliance: "The User does not turn up to pick up the car/No Show",
+    charges: [
+      {
+        content1:
+          "For Self-Drive: Complete Hire Charges shall be forfeited and security deposit be refunded.",
+        content2:
+          "For Subscription, one day hire charges along with security deposit will be forfeited as a penalty.",
+      },
+    ],
+  },
+  {
+    key: 19,
+    noneCompliance:
+      "Driving under the influence of alcohol or drugs or is suffering from any disease or disability, which may cause his / her driving ability or which is likely to cause a source of danger to the public and/or to the Vehicle.",
+    charges: [
+      {
+        content1:
+          "Complete Security Deposit will be forfeited over and above the actual damage, cost and losses incurred.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 20,
+    noneCompliance:
+      "Any intentional damage such as continuing to drive after accident or under extreme conditions or rash driving etc.",
+    charges: [
+      {
+        content1:
+          "Complete Security Deposit will be forfeited over and above the actual damage cost incurred.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 21,
+    noneCompliance: "The User not driving himself",
+    charges: [
+      {
+        content1:
+          "Complete Security Deposit will be forfeited over and above the actual damage cost if incurred.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 22,
+    noneCompliance: "Cancellation",
+    charges: [
+      {
+        content1: "Please refer clause III (14)",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 23,
+    noneCompliance: "Fuel",
+    charges: [
+      {
+        content1:
+          "We offer the cars with fuel in tank and accept it back with the same quantity of fuel in tank as provided to the Hirer at the time of handing over the possession of the Vehicle. However, in case the quantity of fuel at the time of returning the Vehicle to CABME is less than the fuel level at time of rent start date and time, a 10% refuelling charge will be levied over and above the differential refuelling cost. The charges for differential refuelling along with service charge shall be deducted from the Security Deposit.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 24,
+    noneCompliance:
+      "Carrying number of persons (excluding the driver) exceeding the permissible number as specified in Motor Vehicle Act, 1988 and Rules framed thereunder (the Act)",
+    charges: [
+      {
+        content1:
+          "Rs. 5000/- will be charged as penalty .The user will be held liable for any legal action arising out of these activities",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 25,
+    noneCompliance:
+      "If ferrying passengers or any goods for consideration or reward whether expressed or implied.",
+    charges: [
+      {
+        content1:
+          "Rs. 5000/- will be charged as penalty .The user will be held liable for any legal action arising out of these activities",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 26,
+    noneCompliance: "Carrying pets or any type of animals",
+    charges: [
+      {
+        content1: "A charge of Rs.1500/- will be levied as penalty",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 27,
+    noneCompliance: "Towing Charges",
+    charges: [
+      {
+        content1:
+          "No Charges up to 50 KMs. Additional charges at INR 80/KM, taxes and tolls extra.",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 28,
+    noneCompliance:
+      "Extra Chauffeur charges in case of a S/D car is taken with a chauffeur",
+    charges: [
+      {
+        content1: "Rs. 150/- per hour with a minimum billing of 8 hrs",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 29,
+    noneCompliance: "Smoking",
+    charges: [
+      {
+        content1: "Rs. 1000/- + applicable damages to vehicle interiors",
+        content2: "",
+      },
+    ],
+  },
+  {
+    key: 30,
+    noneCompliance: "Liquidate Charges",
+    charges: [
+      {
+        content1: "Early Return Policy",
+        content2:
+          "Hirer would be liable to pay the differential rental, between rental paid and the rental applicable in case of early returns. For example:",
+        content3:
+          "For initial contracted term of 6 months, and foreclosure request in 2nd month. Foreclosure charges will be calculated as under:-",
+        content4: "Initial Contracted Term - 6 mos.",
+        content5: "Actual completed term - 2mos",
+        content6: "Monthly Rental as per contracted term – INR 26000",
+        content7: "Monthly Rental as per revised term – INR 29000",
+        content8:
+          "Recovery - 3000*2 = INR 6000 (exclusive of applicable taxes)",
+        content9:
+          "Above charges are exclusive of taxes and taxes as applicable shall be levied extra.",
+        content10: "OPPORTUNITY COST",
+        content11:
+          "For vehicle returned with damages, contracted hire charges in addition to the damage charges is payable until the vehicle is immobilized",
+      },
+    ],
+  },
+];
+const damageCharges = [
+  {
+    serialNumber: "A",
+    details: "WagonR, Celerio, Hyundai i10, KUV 1OO, Maruti Swift,",
+  },
+  {
+    serialNumber: "B",
+    details: "Hyundai i20, Baleno, Tiago, Etios, Dzire, Amaze, Aspire",
+  },
+  {
+    serialNumber: "C",
+    details:
+      "Ecosport, Brezza, Altroz, XUV 3OO, Sonnet, Nexon, Venue, Honda City, Ciaz, Sunny, Creta , Kicks, TUV 3OO, Seltos, Ertiga",
+  },
+  {
+    serialNumber: "D",
+    details:
+      "XUV 5OO, Innova Crysta, Jeep Compass, Corolla Altis, Hexa, Marazzo, Scorpio",
+  },
+  {
+    serialNumber: "E",
+    details: "Endeavour, Fortuner, Harrier",
+  },
+];
+const ChargesArray = [
+    {
+        serialNumber:1,
+        panelName:"Front Bumper Or Rear Bumper",
+        A:2500,
+        B:2500,
+        C:3000,
+        D:4000,
+        E:4500,
+    },
+    {
+        serialNumber:2,
+        panelName:"Bonnet Hood / Boot Lid",
+        
+        A:2500,
+        B:2500,
+        C:3000,
+        D:3500,
+        E:5000,
+    },
+    {
+        serialNumber:3,
+        panelName:"Fender",
+
+        A:2500,
+        B:2500,
+        C:3000,
+        D:4000,
+        E:4500,
+    },
+    {
+        serialNumber:4,
+        panelName:"Single Door",
+        A:2500,
+        B:2500,
+        C:3000,
+        D:4000,
+        E:4500,
+    },
+    {
+        serialNumber:5,
+        panelName:"Quarter Panel",
+        A:2500,
+        B:2500,
+        C:3000,
+        D:4000,
+        E:4500,
+    },
+    {
+        serialNumber:6,
+        panelName:"Front Windshield",
+        A:4500,
+        B:4500,
+        C:5500,
+        D:8000,
+        E:9000,
+    },
+    {
+        serialNumber:7,
+        panelName:"Rear Windshield",
+        A:3500,
+        B:4500,
+        C:5000,
+        D:6000,
+        E:9000,
+    },
+    {
+        serialNumber:8,
+        panelName:"Roof",
+        A:2500,
+        B:2500,
+        C:3500,
+        D:4000,
+        E:5000,
+    },
+    {
+        serialNumber:9,
+        panelName:"Side Mirror",
+        A:3500,
+        B:4000,
+        C:6000,
+        D:9000,
+        E:10000,
+    },
+    {
+        serialNumber:10,
+        panelName:"Mirror Lens Or Mirror Cover",
+        A:500,
+        B:500,
+        C:1000,
+        D:1500,
+        E:1500,
+    },
+    {
+        serialNumber:11,
+        panelName:"Running Board",
+        A:2500,
+        B:2500,
+        C:3000,
+        D:3500,
+        E:4500,
+    },
+    {
+        serialNumber:12,
+        panelName:"Side Pillar (Any)",
+        A:2000,
+        B:2000,
+        C:2000,
+        D:2500,
+        E:3000,
+    },
+    {
+        serialNumber:13,
+        panelName:"Wheel Cap (Any)",
+        A:500,
+        B:500,
+        C:750,
+        D:750,
+        E:750,
+    },
+    {
+        serialNumber:14,
+        panelName:"Tails Lamp",
+        A:3000,
+        B:3000,
+        C:4500,
+        D:4500,
+        E:7500,
+    },
+    {
+        serialNumber:15,
+        panelName:"Fog Lamp",
+        A:2000,
+        B:2000,
+        C:3000,
+        D:4000,
+        E:8000,
+    },
+    {
+        serialNumber:16,
+        panelName:"Number Plate",
+        A:1000,
+        B:1000,
+        C:1000,
+        D:1000,
+        E:1000,
+    },
+    {
+        serialNumber:17,
+        panelName:"Roof Mirror / Sunvisor Roof",
+        A:1000,
+        B:1000,
+        C:1000,
+        D:2000,
+        E:2000,
+    },
+    {
+        serialNumber:18,
+        panelName:"Seat Cover",
+        A:2000,
+        B:2000,
+        C:2500,
+        D:4500,
+        E:4500,
+    },
+    {
+        serialNumber:19,
+        panelName:"Foot Mat",
+        A:1200,
+        B:1200,
+        C:1500,
+        D:2500,
+        E:4000,
+    },
+    {
+        serialNumber:20,
+        panelName:"Any Tool",
+        A:2000,
+        B:2000,
+        C:2000,
+        D:2500,
+        E:2500,
+    },
+    {
+        serialNumber:21,
+        panelName:"Jack",
+        A:2500,
+        B:2500,
+        C:4000,
+        D:5000,
+        E:8000,
+    },
+    {
+        serialNumber:22,
+        panelName:"Door Sticker",
+        A:1000,
+        B:1000,
+        C:1000,
+        D:1000,
+        E:1000,
+    },
+    {
+        serialNumber:23,
+        panelName:"Head Light",
+        A:3500,
+        B:3500,
+        C:4000,
+        D:4500,
+        E:10000,
+    },
+    {
+        serialNumber:24,
+        panelName:"Music System*( Repair Cost )",
+        A:1000,
+        B:1000,
+        C:1000,
+        D:1000,
+        E:1000,
+    },
+    {
+        serialNumber:25,
+        panelName:"Head Rest / Arm Rest",
+        A:2000,
+        B:2000,
+        C:3000,
+        D:4000,
+        E:6000,
+    },
+]
+const fittingCollection = [
+    {
+        serialNumber:1,
+        panelName:"Rear View Mirror",
+        A:500,
+        B:500,
+        C:1000,
+        D:1000,
+        E:1500,
+    },
+    {
+        serialNumber:2,
+        panelName:"Front Windshield",
+        A:2500,
+        B:3000,
+        C:3500,
+        D:4500,
+        E:6000,
+    },
+    {
+        serialNumber:3,
+        panelName:"Rear Windshield",
+        A:2500,
+        B:3000,
+        C:3500,
+        D:4500,
+        E:6000,
+    },
+]

@@ -22,9 +22,9 @@ const CardListingBanner: React.FC<CardListingBannerProps> = ({ count }) => {
     return isInSequence1(x) || isInSequence2(x) || isInSequence3(x);
   }
 
-  let imageSrc = "/carListingBanner/placeholder.png";
+  let imageSrc = "";
   if (isInSequence1(count)) {
-    imageSrc = "/carListingBanner/car.png";
+    imageSrc = "/carListingBanner/car.svg";
   } else if (isInSequence2(count)) {
     imageSrc = "/carListingBanner/girl2.svg";
   } else if (isInSequence3(count)) {
@@ -75,19 +75,19 @@ const CardListingBanner: React.FC<CardListingBannerProps> = ({ count }) => {
 
   console.log(isInAnySequence(count), "isInSeq");
 
-  let bgColor = "bg-[#FDF9F9]"; 
+  let bgColor = "bg-[#FDF9F9]";
   if (isInSequence1(count)) {
-    bgColor = "bg-[#FDF9F9]"; 
+    bgColor = "bg-[#FDF9F9]";
   } else if (isInSequence2(count)) {
-    bgColor = "bg-[#F6FAFB]"; 
+    bgColor = "bg-[#F6FAFB]";
   } else if (isInSequence3(count)) {
     bgColor = "bg-[#fcefd4]";
   }
 
   return (
     <div>
-      <main 
-      className={`sm:h-[141px] my-10 flex gap-4 flex-row sm:justify-between items-center ${bgColor} p-4 pr-0 rounded-[12px]`}>
+      <main
+        className={`sm:h-[141px] my-10 flex gap-4 flex-row sm:justify-between items-center ${bgColor} p-4 pr-0 rounded-[12px]`}>
         <div className="w-fit">
           <Image
             src={imageSrc}

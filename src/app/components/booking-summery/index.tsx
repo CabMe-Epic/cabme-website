@@ -29,6 +29,7 @@ interface PromoCode {
     usageRestriction: string;
     promotionClassification: string;
     customerContact?: string;
+
 }
 
 const BookingSummery = () => {
@@ -63,7 +64,7 @@ const BookingSummery = () => {
     const [applyCoupon, setApplyCoupon] = React.useState(false);
     const { vehicle, loading, error } = useVehicleById(slug as string);
     const { reservationDateTime, setReservationDateTime, duration } = useReservationDateTime();
-    const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup) + (currentPackage?.refundableDeposit);
+    const total = Number(packagePrice) + (currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)) + (currentPackage?.refundableDeposit);
     const pickupDateTimeString = pickupTime ? `${pickupDate}T${pickupTime}:00.000Z` : null;
     const droppingDateTimeString = dropoffTime ? `${dropoffDate}T${dropoffTime}:00.000Z` : null;
     const { days, hours } = extractDaysAndHours(duration)
@@ -246,11 +247,11 @@ const BookingSummery = () => {
     return (
         <div>
             <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
-                <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
-                    <span className="text-center">Booking Summary</span>
+                <div className="max-w-[376px] w-full h-[50px] bg-black text-white font-semibold text-[20px] flex justify-center items-center rounded-xl">
+                    <span className="text-center tracking-wide sm:text-md text-[18px]">Booking Summary</span>
                 </div>
-                <div className="my-5 flex justify-between w-full px-8">
-                    <span className="font-bold text-[24px]">Fare Details</span>
+                <div className="my-5 flex justify-between w-full sm:px-4">
+                    <span className="font-bold sm:text-lg">Fare Details</span>
                     <select
                         name="package"
                         id="package"
@@ -270,69 +271,69 @@ const BookingSummery = () => {
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className="w-[220px] ml-10">Base Fare</span>
-                        <span className=" w-fit word-wrap ml-10 w-fit">
+                        <span className="w-[220px] sm:ml-4 sm:text-[16px] text-sm">Base Fare</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
                             ₹{packagePrice} * {days} Days and {hours} Hours
                         </span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className=" w-fit word-wrap ml-10">
+                        <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
                             Doorstep delivery & pickup
                         </span>
-                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.DoorstepDeliveryPickup}</span>
+                        <span className=" w-fit word-wrap sm:ml-10">₹ {currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)}</span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className=" w-fit word-wrap ml-10">Insurance & GST</span>
-                        <span className=" w-fit word-wrap ml-10">{carDetails?.extraService?.insurance}</span>
+                        <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">Insurance & GST</span>
+                        <span className=" w-fit word-wrap sm:ml-10">{carDetails?.extraService?.insurance}</span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className=" w-fit word-wrap ml-10">Refundable Deposit</span>
-                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.refundableDeposit}</span>
+                        <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">Refundable Deposit</span>
+                        <span className=" w-fit word-wrap sm:ml-10">₹ {currentPackage?.refundableDeposit}</span>
                     </div>
 
                     {/* DESKTOP ...  */}
                     {discountAmount > 0 ? (
-                        <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                            <span className=" w-fit word-wrap ml-10">TOTAL</span>
+                        <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
+                            <span className=" w-fit word-wrap ml-4">TOTAL</span>
                             <span className=" w-fit word-wrap ml-10 text-[#ff0000]">
                                 ₹ {totalPrice.toFixed(2)}
                             </span>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                            <span className=" w-fit word-wrap ml-10">TOTAL</span>
-                            <span className=" w-fit word-wrap ml-10 text-[#ff0000]">
+                        <div className="grid grid-cols-2 w-fit sm:gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
+                            <span className=" w-fit word-wrap sm:ml-4 ml-2">TOTAL</span>
+                            <span className=" w-fit word-wrap sm:ml-10 text-[#ff0000]">
                                 ₹ {totalPrice.toFixed(2)}
                             </span>
                         </div>
                     )}
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className=" w-fit word-wrap ml-10">Kms Limit</span>
-                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">Kms Limit</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">₹ {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"} kms</span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className=" w-fit word-wrap ml-10">Fuel</span>
-                        <span className=" w-fit word-wrap ml-10">{currentPackage?.fuel}</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">Fuel</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">{currentPackage?.fuel}</span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className=" w-fit word-wrap ml-10">Extra kms charge</span>
-                        <span className=" w-fit word-wrap ml-10">₹ {currentPackage?.extraKmsCharge}</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">Extra kms charge</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">₹ {currentPackage?.extraKmsCharge}</span>
                     </div>
 
                     <div className="grid grid-cols-2 gap-14  justify-center">
-                        <span className=" w-fit word-wrap ml-10">
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
                             Tolls,Parking & Inner-state taxes
                         </span>
-                        <span className=" w-fit word-wrap ml-10">{currentPackage?.tollsParkingTaxes}</span>
+                        <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">{currentPackage?.tollsParkingTaxes}</span>
                     </div>
                 </div>
-                <div>
+                <div className="w-full">
                     {/* <span className="flex flex-row my-5 mt-10">
                         <Image
                             src="/png/offer.png"
@@ -371,7 +372,7 @@ const BookingSummery = () => {
                     </div> */}
 
                     {/* DESKTOP TOTAL AMOUNT  */}
-                    <div className="my-6 h-[79px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4  w-full py-5 rounded-3xl">
+                    <div className="my-6 sm:h-[79px] h-[52px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4  w-full py-5 rounded-3xl">
                         {discountAmount > 0 ? (
                             <div className="flex flex-col">
                                 <span>Total Amount </span>
@@ -381,8 +382,8 @@ const BookingSummery = () => {
                             </div>
                         ) : (
                             <div className="flex flex-col">
-                                <span>Total Amount</span>
-                                <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                                <span className="sm:text-[16px] text-[12px]">Total Amount</span>
+                                <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                                     ₹ {totalPrice.toFixed(2)}
                                 </span>
                             </div>
@@ -425,7 +426,7 @@ const BookingSummery = () => {
                                 ) : (
                                     <button
                                         onClick={() => router.push("/check-out")}
-                                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-xl font-semibold text-white sm:w-[158.31px] w-[100px] sm:h-[48.08px] h-[36px] rounded-full drop-shadow-lg">
                                         Proceed
                                     </button>
                                 )}
@@ -434,7 +435,7 @@ const BookingSummery = () => {
                     </div>
                 </div>
                 <div className="w-full">
-                    <span className="flex flex-row my-5 mt-10">
+                    <span className="flex flex-row my-5 mt-2">
                         <div>
                             <Image
                                 src="/png/offer.png"
@@ -468,9 +469,10 @@ const BookingSummery = () => {
                     </div> */}
 
                     <div className="my-6 h-[69px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
-                        <div className="flex flex-row items-center gap-4">
-                            <span className="text-2xl font-bold">Total Amount</span>
-                            <span className="text-[#ff0000] p-0 text-xl font-semibold">
+                        <div className="flex justify-between flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
+                            <span className="sm:text-2xl font-bold">Total Amount</span>
+                            <span>:</span>
+                            <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                                 ₹ 15,000
                             </span>
                         </div>
@@ -481,7 +483,7 @@ const BookingSummery = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                     <span className="font-bold text-md">Pay ₹10,000 Now</span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
                         Balance on Delivery

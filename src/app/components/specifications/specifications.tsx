@@ -3,13 +3,13 @@ import Image from "next/image";
 const IconComponent = ({ title, subtitle, imageSrc }: any) => {
     return (
 
-        <div className="flex flex-row items-center justify-start gap-2 w-full">
-            <div className="flex justify-center items-center sm:w-16 sm:h-16 w-8 h-8 border-[1px] border-gray-100 rounded-lg flex-none">
+        <div className="flex flex-row items-center justify-start gap-1 min-w-fit w-full">
+            <div className="flex justify-center items-center sm:w-12 sm:h-12 w-8 h-8 border-[1px] border-gray-100 rounded-lg flex-none">
                 <Image src={imageSrc} width={30} height={30} alt={title} className="sm:w-[60%] w-[50%]" />
             </div>
             <div className="text-left">
                 <div className="text-[14px] font-semibold text-black">{title}</div>
-                <div className="text-[10px] text-gray-500">{subtitle}</div>
+                <div className="text-[10px] w-max text-wrap text-gray-500">{subtitle}</div>
             </div>
         </div>
     );

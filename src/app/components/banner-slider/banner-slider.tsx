@@ -15,7 +15,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-import { useEffect, useState } from "react";
 const BannerSlider = () => {
  
 
@@ -45,6 +44,7 @@ const BannerSlider = () => {
                   width={1650}
                   height={850}
                   className="w-full h-auto rounded-xl"
+                  priority
                 />
               </div>
             </SwiperSlide>
@@ -57,12 +57,19 @@ const BannerSlider = () => {
 export default BannerSlider;
 const bannerCollection = [
   {
-    imageUrl: "/svg/home-banner-01.svg",
+    imageUrl: "/png/banner/banner01.png",
   },
   {
-    imageUrl: "/svg/home-banner-02.svg",
+    imageUrl: "/png/banner/banner02.png",
   },
   {
-    imageUrl: "/svg/home-banner-03.svg",
+    imageUrl: "/png/banner/banner03.png",
   },
+  {
+    imageUrl: "/png/banner/banner04.png",
+  },
+  {
+    imageUrl: "/png/banner/banner05.png",
+  },
+  
 ];

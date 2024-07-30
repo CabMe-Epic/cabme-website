@@ -18,7 +18,8 @@
 .text-primary {
   color: var(--primary-color);
 }
-.bg-gray-500{
+
+.bg-gray-500 {
   background-color: var(--gray-500);
 }
 
@@ -137,10 +138,7 @@
   padding-bottom: 0 !important;
 }
 
-.react-datepicker {
-  margin-left: 50px !important;
-  width: auto !important;
-}
+
 
 .grad-button {
   background: linear-gradient(90deg, #f1301e 15.36%, #fa4f2f 86.07%),
@@ -148,6 +146,34 @@
       rgba(255, 230, 230, 0) 14%,
       rgba(123, 14, 14, 0.2) 100%);
 }
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  visibility: visible;
+  width: 120px;
+  background-color: #ff0000;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position above the element */
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
 
 @keyframes pulse-animation {
   0% {
@@ -161,6 +187,41 @@
 
 .custom-phone-input .react-tel-input {
   width: 50px;
+}
+
+
+
+.react-datepicker {
+  width: 114% !important;
+  margin: 0 !important;
+  background: #FCFBFB !important;
+  border: 0 !important;
+  margin-top: 10px !important;
+  margin-left: -30px !important;
+  display: flex !important;
+}
+.react-datepicker{
+  z-index: 998 !important;
+  
+}
+
+.datepickerinput {
+  border: 0 !important;
+  outline: 0;
+  z-index: 998 !important;
+}
+.react-datepicker-wrapper{
+  width: 95% !important;
+}
+
+.react-datepicker-wrapper input {
+  font-size: 15px !important;
+  color: #3c3c3c;
+  background: #FCFBFB !important;
+  ;
+  padding: 0;
+  width: 100% !important;
+  height: auto;
 }
 
 @media only screen and (max-width: 1024px) {
@@ -177,8 +238,12 @@
   .react-datepicker {
     /* margin-left: 50px !important; */
     width: 100% !important;
+    position: relative;
+    left: -20px;
   }
-
+.custom-picker .react-datepicker-wrapper input{
+  font-size: 13px !important;
+}
   .review-slider .swiper-slide {
     opacity: 1;
   }
@@ -190,14 +255,16 @@
   .swiper-initialized {
     padding-bottom: 10px !important;
   }
-
+.review-slider .swiper-initialized{
+  padding-bottom: 40px !important;
+}
   .offerCards .swiper-initialized {
     height: 215px;
   }
 
-  .fleets .swiper-initialized {
+  /* .fleets .swiper-initialized {
     height: 620px;
-  }
+  } */
 
   .react-datepicker__day-name,
   .react-datepicker__day,
@@ -213,7 +280,11 @@
     width: 101% !important;
     margin-left: 0px !important;
   }
-
+.modify-search .react-datepicker-wrapper input{
+  font-size: 10px !important;
+  width: fit-content !important; border: 0;
+  margin-right: 5px !important;
+}
   .react-datepicker {
     width: 138% !important;
     margin-left: 0 !important;
@@ -232,4 +303,12 @@
 
 .no-scroll {
   overflow: hidden;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
