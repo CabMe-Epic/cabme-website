@@ -12,7 +12,7 @@ const RadioButton = ({name,id,content,checked,onClick,className}:radioProps) => 
       {id==="self" ?
       <input className="radio-button" type="radio" name={name} id={id} checked />
       :
-      <input className="radio-button" type="radio" name={name} id={id} />
+      <input className="radio-button" type="radio" name={name} id={id}  />
       }
       <label htmlFor={id} className={className}>{content}</label>
     </div>
