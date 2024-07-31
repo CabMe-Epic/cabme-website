@@ -547,7 +547,7 @@ const CarDetails = () => {
 
               </main> */}
 
-              <div className="sm:max-w-[511px] lg:max-w-full m-auto flex flex-row items-start gap-2 ml-4">
+              {/* <div className="sm:max-w-[511px] lg:max-w-full m-auto flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">
                   <Image
                     src="/png/waiting.png"
@@ -562,7 +562,7 @@ const CarDetails = () => {
                     Convince fees is not refundable
                   </span>
                 </span>
-              </div>
+              </div> */}
             </div>
 
             <div className="my-12">
@@ -580,16 +580,16 @@ const CarDetails = () => {
             {/* booking summary */}
             <div className="lg:block m-auto flex justify-center w-full">
               {/* <BookingSummery/> */}
-              <main className="w-[320px] sm:w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+              <main className="w-[380px] px-4 sm:w-[511px] flex flex-col items-center bg-[#f5f5f5] py-10 my-6 rounded-xl">
                 <div className="w-[320px] sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
                 </div>
-                <div className="my-5 flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
+                <div className="my-5  flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
                   <span className="font-semibold sm:ml-2">Package Name</span>
                   <select
                     name="package"
                     id="package"
-                    className="cursor-pointer w-[160px] p-2 rounded-md font-semibold outline-none"
+                    className="cursor-pointer w-[140px] p-2  rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
                   >
                     <option value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
@@ -618,7 +618,7 @@ const CarDetails = () => {
                     </span>
                     <span className="sm:w-[220px]  sm:ml-8" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className=" w-[80%] sm:w-[80%] h-[100%] p-1" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
+                      <textarea className=" w-[80%] sm:w-[80%] h-[100%] p-1  rounded-md" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
