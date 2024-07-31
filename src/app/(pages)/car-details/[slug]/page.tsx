@@ -371,12 +371,10 @@ const CarDetails = () => {
               imageGallery={carDetails?.imageGallery as any}
             />
             {/* mobile view */}
-            <div className="lg:hidden block my-4">
-              <BookingDetailsCard city={carDetails?.city as any} />
-            </div>
+
             {/* mobile view */}
             <div className="lg:hidden block">
-              <main className="max-w-[90vw] mx-auto flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+              {/* <main className="max-w-[90vw] mx-auto flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
                 <div className="w-full max-w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl mb-5">
                   <span className="text-center">Booking Summary</span>
                 </div>
@@ -421,7 +419,6 @@ const CarDetails = () => {
                         readOnly
                       />
 
-                      {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
                       <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full m-auto flex items-center justify-center">
@@ -430,11 +427,7 @@ const CarDetails = () => {
                     }
 
                   </div>
-                  {/* <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-2">
-                    {
-                      selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
-                    }
-                  </div> */}
+             
                   <div className="grid grid-cols-2 gap-4">
                     <span className="ml-2">
                       GST
@@ -552,7 +545,7 @@ const CarDetails = () => {
                   </button>
                 </div>
 
-              </main>
+              </main> */}
 
               <div className="sm:max-w-[511px] lg:max-w-full m-auto flex flex-row items-start gap-2 ml-4">
                 <span className="mt-1">
@@ -581,18 +574,18 @@ const CarDetails = () => {
           </div>
           {/*  */}
           <div>
-            <div className="lg:block hidden">
+            <div className="lg:block">
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* booking summary */}
-            <div className="lg:block hidden">
+            <div className="lg:block m-auto flex justify-center w-full">
               {/* <BookingSummery/> */}
-              <main className=" w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
-                <div className="w-[376px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
+              <main className="w-[320px] sm:w-[511px] flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+                <div className="w-[320px] sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
                 </div>
-                <div className="my-5 flex justify-between w-full px-8">
-                  <span className="font-semibold ml-2">Package Name</span>
+                <div className="my-5 flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
+                  <span className="font-semibold sm:ml-2">Package Name</span>
                   <select
                     name="package"
                     id="package"
@@ -612,20 +605,20 @@ const CarDetails = () => {
                   </select>
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
-                  <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">Package Amount</span>
-                    <span className="w-[220px] ml-10 w-fit">
+                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                    <span className="sm:w-[220px] sm:ml-10">Package Amount</span>
+                    <span className="sm:w-[220px] sm:ml-10 w-fit">
                       ₹{roundPrice(packagePrice)}
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">
+                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                    <span className="sm:w-[220px] sm:ml-10">
                       Doorstep delivery & pickup
                     </span>
-                    <span className="w-[220px] ml-8" onClick={handleShowDoorstepPopup}>
+                    <span className="sm:w-[220px]  sm:ml-8" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className="w-[80%] h-[100%] p-1" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
+                      <textarea className=" w-[80%] sm:w-[80%] h-[100%] p-1" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
@@ -634,98 +627,97 @@ const CarDetails = () => {
                       </div>
                     }
                   </div>
-                  {/* <div className="text-sm font-semibold text-[#5c5c5c] w-[220px] ml-10">
+                  {/* <div className="text-sm font-semibold text-[#5c5c5c] sm:w-[220px] sm:ml-10">
                     {
                       selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
                     }
                   </div> */}
 
-                  <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">GST ({currentPackage?.package1?.gstRate}%)</span>
-                    <span className="w-[220px] ml-10">₹{roundPrice(Number(result?.gstAmount))}</span>
+                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                    <span className="sm:w-[220px] sm:ml-10">GST ({currentPackage?.package1?.gstRate}%)</span>
+                    <span className="sm:w-[220px] sm:ml-10">₹{roundPrice(Number(result?.gstAmount))}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">Refundable Deposit</span>
-                    <span className="w-[220px] ml-10">₹{currentPackage?.refundableDeposit}</span>
+                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                    <span className="sm:w-[220px] sm:ml-10">Refundable Deposit</span>
+                    <span className="sm:w-[220px] sm:ml-10">₹{currentPackage?.refundableDeposit}</span>
                   </div>
 
                   {/* DESKTOP ...  */}
                   {currentPackage?.gst === "Excluded" &&
-                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                      <span className="w-[220px] ml-10">TOTAL</span>
-                      <span className="w-[220px] ml-10 text-[#ff0000]">
+                    <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+                      <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
+                      <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                         {roundPrice(totalExcludedGSTAmount)}
                       </span>
                     </div>
                   }
                   {currentPackage?.gst === "Included" &&
-                    <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl">
-                      <span className="w-[220px] ml-10">TOTAL</span>
-                      <span className="w-[220px] ml-10 text-[#ff0000]">
+                    <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+                      <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
+                      <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                         {roundPrice(totalIncludedGSTAmount)}
                       </span>
                     </div>
                   }
 
-                  <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">Fuel</span>
-                    <span className="w-[220px] ml-10">{currentPackage?.fuel}</span>
+                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                    <span className="sm:w-[220px] sm:ml-10">Fuel</span>
+                    <span className="sm:w-[220px] sm:ml-10">{currentPackage?.fuel}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">Extra kms charge</span>
-                    <span className="w-[220px] ml-10">₹{currentPackage?.extraKmsCharge}</span>
+                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                    <span className="sm:w-[220px] sm:ml-10">Extra kms charge</span>
+                    <span className="sm:w-[220px] sm:ml-10">₹{currentPackage?.extraKmsCharge}</span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-14  justify-center">
-                    <span className="w-[220px] ml-10">
+                  <div className="grid grid-cols-2 gap-14 text-[14px] sm:text-[18px] justify-center">
+                    <span className="sm:w-[220px] sm:ml-10">
                       Tolls,Parking & Inner-state taxes
                     </span>
-                    <span className="w-[220px] ml-10">{currentPackage?.tollsParkingTaxes}</span>
+                    <span className="sm:w-[220px] sm:ml-10">{currentPackage?.tollsParkingTaxes}</span>
                   </div>
                 </div>
                 <div>
 
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[420px] py-5 rounded-3xl">
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[320px] sm:w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" &&
                       <div className="flex flex-col">
-                        <span>Total Amountd </span>
-                        <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                        <span>Total Amount </span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalExcludedGSTAmount)}
                         </span>
                       </div>
                     }
                     {currentPackage?.gst === "Included" &&
                       <div className="flex flex-col">
-                        <span>Total Amount </span>
-                        <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                        <span>Total Amount</span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalIncludedGSTAmount)}
                         </span>
                       </div>
                     }
-                    <div>
-
+                    <div >
                       <>
                         {userData?.isLoggedIn ? (
                           bookingSuccess ? (
                             <button
                               // onClick={() => router.push("/payment")}
-                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] rounded-full drop-shadow-lg">
                               Payment
                             </button>
                           ) : (
                             <button
                               onClick={handleBooking}
-                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] p-3 rounded-md lg:rounded-full drop-shadow-lg">
                               Checkout
                             </button>
                           )
                         ) : (
                           <button
                             onClick={handleProceed}
-                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] rounded-full drop-shadow-lg">
                             Proceed
                           </button>
                         )}
@@ -735,7 +727,7 @@ const CarDetails = () => {
                 </div>
 
                 {/* DESKTOP  */}
-                <div className="flex flex-row items-center justify-around border-[1.5px] w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[320px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" &&
                       <span className="font-bold text-md">

@@ -35,8 +35,8 @@ const BookingDetailsCard = ({ city }: any) => {
 
   return (
     <div>
-      <main className="bg-[url('/png/details-bg.png')] bg-no-repeat bg-cover max-w-[511px] m-auto px-2 rounded-xl flex bg-[#f7f7f7] flex-col items-center justify-center py-6" style={{backgroundSize:"100% 100%"}}>
-        <div className="max-w-[376px] sm:py-0 sm:px-0 px-4">
+      <main className="bg-[url('/png/details-bg.png')] bg-no-repeat bg-cover max-w-[511px] m-auto sm:px-2 rounded-xl flex bg-[#f7f7f7] flex-col items-center justify-center py-6 w-[340px]" style={{ backgroundSize: "100% 100%" }}>
+        <div className="max-w-[376px]  sm:py-0 sm:px-0 px-4">
           <div className="sm:h-[50px] h-[43px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl w-[80%] m-auto sm:w-[100%]">
             <span className="text-center sm:text-md text-[18px]">Booking Details</span>
           </div>
