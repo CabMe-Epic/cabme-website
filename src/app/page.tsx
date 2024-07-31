@@ -250,11 +250,17 @@ export default function Home() {
             Best App for <span className="text-primary font-bold">CAR RENTAL</span>
           </h3>
           <p className="lg:my-8 sm:my-4 sm:text-[14px] text-xs">
-          The application is available on both apple store and play store. Download Now.
+            The application is available on both apple store and play store. Download Now.
           </p>
           <div className="flex sm:justify-start justify-center sm:gap-12 gap-4 sm:mt-0 mt-2">
             <button>
               <Image
+                onClick={() =>
+                  window.open(
+                    "https://play.google.com/store/apps/details?id=com.cabme.in&hl=en_IN",
+                    "_blank"
+                  )
+                }
                 src={"/png/play-store.png"}
                 alt="play-store"
                 width={179}
@@ -264,6 +270,10 @@ export default function Home() {
             </button>
             <button>
               <Image
+                onClick={() => window.open(
+                  "https://apps.apple.com/in/app/cabme-self-drive-car-rentals/id1670293597",
+                  "_blank"
+                )}
                 src={"/png/apple.png"}
                 alt="apple"
                 width={179}
@@ -354,7 +364,7 @@ export default function Home() {
               </span>{" "}
             </h2>
             <p className="mb-6 sm:block hidden">
-            If you got any questions that is not in FAQs, please go through the Terms and Conditions. Or reach us at 1800 121 6162 or mail us at enquiry.cabme@gmail.com
+              If you got any questions that is not in FAQs, please go through the Terms and Conditions. Or reach us at 1800 121 6162 or mail us at enquiry.cabme@gmail.com
             </p>
           </div>
           <Image

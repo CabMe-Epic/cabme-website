@@ -681,7 +681,7 @@ const CarDetails = () => {
                 <div>
 
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#fff] flex flex-row items-center justify-between px-4 w-[320px] sm:w-[420px] py-5 rounded-3xl">
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[320px] sm:w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" &&
                       <div className="flex flex-col">
                         <span>Total Amount </span>
@@ -717,7 +717,7 @@ const CarDetails = () => {
                         ) : (
                           <button
                             onClick={handleProceed}
-                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] rounded-full drop-shadow-lg">
+                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] sm:rounded-full p-3 rounded-md  drop-shadow-lg">
                             Proceed
                           </button>
                         )}

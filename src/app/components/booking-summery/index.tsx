@@ -250,7 +250,7 @@ const BookingSummery = () => {
                 <div className="max-w-[376px] w-full h-[50px] bg-black text-white font-semibold text-[20px] flex justify-center items-center rounded-xl">
                     <span className="text-center tracking-wide sm:text-md text-[18px]">Booking Summary</span>
                 </div>
-                <div className="my-5 flex justify-between w-full sm:px-4">
+                {/* <div className="my-5 flex justify-between w-full sm:px-4">
                     <span className="font-bold sm:text-lg">Fare Details</span>
                     <select
                         name="package"
@@ -268,8 +268,8 @@ const BookingSummery = () => {
                             {currentPackage?.package3?.price}
                         </option>
                     </select>
-                </div>
-                <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
+                </div> */}
+                <div className="grid grid-cols-1 items-start justify-center gap-4 mt-4 font-semibold">
                     <div className="grid grid-cols-2 gap-14  justify-center">
                         <span className="w-[220px] sm:ml-4 sm:text-[16px] text-sm">Base Fare</span>
                         <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
