@@ -496,27 +496,11 @@ const CarDetails = () => {
                       </span>
                     </div>
                     <div>
-                      {userId && token ? (
-                        bookingSuccess ? (
-                          <button
-                            // onClick={() => router.push("/payment")}
-                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
-                            Payment
-                          </button>
-                        ) : (
-                          <button
-                            onClick={handleBooking}
-                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
-                            Checkout
-                          </button>
-                        )
-                      ) : (
-                        <button
-                          onClick={handleProceed}
-                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
-                          Proceed
-                        </button>
-                      )}
+                      <button
+                        onClick={handleProceed}
+                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                        Proceed
+                      </button>
                     </div>
                   </div>
 
@@ -698,30 +682,12 @@ const CarDetails = () => {
                         </span>
                       </div>
                     }
-                    <div >
-                      <>
-                        {userData?.isLoggedIn ? (
-                          bookingSuccess ? (
-                            <button
-                              // onClick={() => router.push("/payment")}
-                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] rounded-full drop-shadow-lg">
-                              Payment
-                            </button>
-                          ) : (
-                            <button
-                              onClick={handleBooking}
-                              className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] p-3 rounded-md lg:rounded-full drop-shadow-lg">
-                              Checkout
-                            </button>
-                          )
-                        ) : (
-                          <button
-                            onClick={handleProceed}
-                            className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] sm:h-[53.08px] sm:rounded-full p-3 rounded-md  drop-shadow-lg">
-                            Proceed
-                          </button>
-                        )}
-                      </>
+                    <div>
+                      <button
+                        onClick={handleProceed}
+                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                        Proceed
+                      </button>
                     </div>
                   </div>
                 </div>

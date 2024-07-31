@@ -60,3 +60,16 @@ export const postPanCard = async (data: any) => {
   }
 }
 
+
+export const DLUploading = async (data: any) => {
+  try {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/website-license-front`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+}

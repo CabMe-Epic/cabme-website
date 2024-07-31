@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios"
-import { postAadharBack, postAadharFront, postPanCard } from "../../../../networkRequests/hooks/api";
+import { DLUploading, postAadharBack, postAadharFront, postPanCard } from "../../../../networkRequests/hooks/api";
 import { getSessionData, setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 
@@ -56,13 +56,20 @@ const Checkout = () => {
       setTwo(false);
       setOne(false);
     }
-  }, []);
+
+    if (userData?.aadharVerified && userData?.panVerified && userData?.drivingLicenseVerified) {
+      setThree(true)
+      setTwo(true)
+    }
+  }, [userData]);
 
   const [phone, setPhoneNumber] = useState("");
 
 
   const [aadharFrontPost, setAadharFrontPost] = useState<string | null>(null);
   const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
+
+  const [dlPost, setDLPost] = useState<string | null>(null);
 
   const [panCardPost, setPanCardPost] = useState<string | null>(null);
 
@@ -79,14 +86,9 @@ const Checkout = () => {
     state: '',
   });
 
-  console.log({ selectedUser })
-
-
-
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log("USER", { user })
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -202,9 +204,11 @@ const Checkout = () => {
       const data = await response.json();
       console.log({ data })
       const session = getSessionData('user');
-      if (data?.otpResponse?.data?.requestId) {
+      if (data?.otpResponse?.statusCode === 200) {
         setAadharGenerate(true)
         setAadharData(data)
+      } else {
+        toast.error(data?.otpResponse?.error?.message)
       }
     } catch (error) {
       console.error('Error fetching OTP:', error);
@@ -221,7 +225,7 @@ const Checkout = () => {
         },
         body: JSON.stringify({
           //@ts-ignore
-          currentUserId: currentUser?.id as any || session?.id as any,
+          currentUserId: userData?._id,
           otp: aadharOtp,
           //@ts-ignore
           requestId: aadharData?.otpResponse?.data?.requestId,
@@ -235,6 +239,8 @@ const Checkout = () => {
       if (data?.verificationResponse?.statusCode === 200) {
         const value = data?.user
         setSessionData("user", value)
+        setAadharGenerate(false)
+        updateUserData(value)
         toast.success("Aadhar card has been verified.")
       }
     } catch (error) {
@@ -278,46 +284,37 @@ const Checkout = () => {
   };
 
   const [panCard, setPanCard] = useState('');
+  const [dl, setDL] = useState('');
 
   const handleVerifiedPan = async () => {
-    setThree(true)
-    setFour(false)
-    const panData = {
-      panNumber: 'cjzpa1072n',
-      panVerified: true,
-      panImageUrl: 'https://beta.cabme.in/car-listing',
-    };
-    // updateUserData(panData);
-    // setThree(true)
-    // setFour(false)
-    // try {
-    //   const session = getSessionData('user');
-    //   console.log({ session })
-    //   const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //       panNumber: panCard,
-    //       //@ts-ignore
-    //       currentUserId: currentUser?._id || session?.id,
-    //       panImageUrl: panCardPost
-    //     })
-    //   });
-    //   const data = await response.json();
-    //   console.log({ data })
-    //   if (data?.success) {
-    //     const update = data?.user
-    //     setSessionData("user", update)
-    // setCurrentUser(update)
-    //     toast.success("Pan card has been verified.")
-    //     setThree(true)
-    //     setFour(false)
-    //   }
-    // } catch (error) {
-    //   console.error('Error fetching OTP:', error);
-    // }
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          pan: panCard,
+          name: "Anupam Singh",
+          dob: "10/08/1988",
+          //@ts-ignore
+          currentUserId: userData?._id,
+          panImageUrl: panCardPost
+        })
+      });
+      const data = await response.json();
+      console.log({ data })
+      if (data?.success === false) {
+        return toast.error("The provided PAN number is invalid. Please check and try again.");
+      }
+      if (data?.success) {
+        const update = data?.user
+        updateUserData(update)
+        toast.success("The PAN card has been successfully verified.");
+      }
+    } catch (error) {
+      console.error('Error fetching OTP:', error);
+    }
   }
 
   const [frontImage, setFrontImage] = useState<any>(null);
@@ -326,6 +323,8 @@ const Checkout = () => {
   const [panFrontImage, setPanFrontImage] = useState<any>(null);
   const [showDocSelect, setShowDocSelect] = useState<any>("DrivingLicense");
 
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Aadhar Images Uploading Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const handleFrontImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -361,10 +360,15 @@ const Checkout = () => {
     }
   };
 
-  const handleDlFrontImageChange = (e: any) => {
-    const file = e.target.files[0];
-    setDlFrontImage(URL.createObjectURL(file));
+  const handleRemoveFrontAadhar = () => {
+    setFrontImage(null);
   };
+
+  const handleRemoveBackAadhar = () => {
+    setBackImage(null);
+  };
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Aadhar Images Uploading End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const handlePanFrontImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
@@ -383,22 +387,65 @@ const Checkout = () => {
     }
   };
 
-
-  const handleRemoveFrontAadhar = () => {
-    setFrontImage(null);
-  };
-
-  const handleRemoveBackAadhar = () => {
-    setBackImage(null);
-  };
-  const handleRemoveDlFront = () => {
-    setDlFrontImage(null);
-  };
-
   const handleRemovePanFront = () => {
     setPanFrontImage(null);
   };
 
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PAN Images Uploading >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+  const handleDlFrontImageChange = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = URL.createObjectURL(event.target.files[0]);
+      const imagePayload: any = {
+        files: event.target.files[0]
+      }
+      setDlFrontImage(file);
+      try {
+        const res = await DLUploading(imagePayload);
+        const cleanUrl = res.replace(/\n/g, '');
+        setDLPost(cleanUrl);
+      } catch (error) {
+        console.error('Error uploading Aadhar front image:', error);
+      }
+    }
+  };
+
+  const handleRemoveDlFront = () => {
+    setDlFrontImage(null);
+  };
+
+  const handleVerifyDrivingLicence = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/driving-based-search`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          number: dl,
+          dob: "10/08/1988",
+          frontImage: dlPost,
+          //@ts-ignore
+          currentUserId: userData?._id,
+        })
+      });
+      const data = await response.json();
+      console.log({ data })
+      if (data?.success === false) {
+        toast.error("The provided driving license is invalid. Please check and try again.");
+      }
+      if (data?.success) {
+        const update = data?.user
+        updateUserData(update)
+        toast.success("The driving license has been successfully verified.");
+      }
+    } catch (error) {
+      console.error('Error fetching OTP:', error);
+    }
+  }
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DL Images Uploading >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const handleDocSelect = (e: any) => {
     console.log(e.target.value, "ee");
@@ -545,17 +592,19 @@ const Checkout = () => {
                 <div>
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Upload Aadhar Card{" "}
-
-                    {/* {data?.verificationResponse?.statusCode} */}
-                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                      <Image
-                        src="/greendone.svg"
-                        width={20}
-                        height={20}
-                        alt={"img"}
-                      />{" "}
-                      Verified Account
-                    </span>
+                    {userData?.aadharVerified ? (
+                      <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                        <Image
+                          src="/greendone.svg"
+                          width={20}
+                          height={20}
+                          alt={"img"}
+                        />{" "}
+                        Verified Account
+                      </span>
+                    ) : (
+                      <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                    )}
                   </h4>
                   <div className="mt-4 sm:flex grid gap-6 items-center">
                     <InputField
@@ -647,7 +696,8 @@ const Checkout = () => {
                     className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all">
                     Generate OTP
                   </button>
-                  {aadharGenerate ? (
+
+                  {aadharGenerate &&
                     <div className="mt-4 flex gap-4 items-center">
                       <InputField
                         type="number"
@@ -661,20 +711,22 @@ const Checkout = () => {
                         Submit
                       </button>
                     </div>
-                  ) : (
-                    ""
-                  )}
+                  }
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Driving License/PAN Card{" "}
-                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                      <Image
-                        src="/greendone.svg"
-                        width={20}
-                        height={20}
-                        alt={"img"}
-                      />{" "}
-                      Verified Account
-                    </span>
+                    {userData?.drivingLicenseVerified && userData?.panVerified ? (
+                      <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                        <Image
+                          src="/greendone.svg"
+                          width={20}
+                          height={20}
+                          alt={"img"}
+                        />{" "}
+                        Verified Account
+                      </span>
+                    ) : (
+                      <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                    )}
                   </h4>
 
                   <div>
@@ -693,20 +745,25 @@ const Checkout = () => {
                     <div>
                       <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         Driving License{" "}
-                        <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                          <Image
-                            src="/greendone.svg"
-                            width={20}
-                            height={20}
-                            alt={"img"}
-                          />{" "}
-                          Verified Account
-                        </span>
+                        {userData?.drivingLicenseVerified ? (
+                          <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                            <Image
+                              src="/greendone.svg"
+                              width={20}
+                              height={20}
+                              alt={"img"}
+                            />{" "}
+                            Verified Account
+                          </span>
+                        ) : (
+                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                        )}
                       </h4>
                       <div className="sm:flex items-center gap-4 ">
                         <InputField
                           placeholder="Driving License Number"
                           className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                          onChange={(e: any) => setDL(e.target.value)}
                         />
                         <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
                           {dlFrontImage ? (
@@ -747,22 +804,29 @@ const Checkout = () => {
                           )}
                         </div>
                       </div>
-                  
+
 
 
                       <div className="flex items-center justify-between w-[73%] ">
-                      <button
-                        onClick={() => {
-                          setThree(true)
-                          setFour(false)
-                        }}
-                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                      >
-                        Continue
-                      </button>
-                      <div className="mt-4">
-                        <Image src="/arrow.svg" alt=""  width={30} height={30} />
-                      </div>
+                        <button
+                          onClick={() => {
+                            handleVerifyDrivingLicence()
+                          }}
+                          className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                        >
+                          Continue
+                        </button>
+                        {userData?.drivingLicenseVerified && userData?.panVerified && (
+                          <div
+                            className="mt-4 cursor-pointer"
+                            onClick={() => {
+                              setThree(true)
+                              setFour(false)
+                            }}
+                          >
+                            <Image src="/arrow.svg" alt="" width={30} height={30} />
+                          </div>
+                        )}
                       </div>
 
                     </div>
@@ -770,15 +834,19 @@ const Checkout = () => {
                     <div>
                       <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         PAN Card{" "}
-                        <span className="flex items-center gap-2 text-[#01A601]">
-                          <Image
-                            src="/greendone.svg"
-                            width={20}
-                            height={20}
-                            alt={"img"}
-                          />{" "}
-                          Verified Account
-                        </span>
+                        {userData?.panVerified ? (
+                          <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                            <Image
+                              src="/greendone.svg"
+                              width={20}
+                              height={20}
+                              alt={"img"}
+                            />{" "}
+                            Verified Account
+                          </span>
+                        ) : (
+                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                        )}
                       </h4>
 
                       <div className="sm:flex items-center gap-4 ">
@@ -826,20 +894,27 @@ const Checkout = () => {
                           )}
                         </div>
                       </div>
-                     
+
 
                       <div className="flex items-center justify-between w-[73%] ">
-                      <button
-                        onClick={handleVerifiedPan}
-                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                      >
-                        Continue
-                      </button>
-                      <div className="mt-4">
-                        <Image src="/arrow.svg" alt=""  width={30} height={30} />
+                        <button
+                          onClick={handleVerifiedPan}
+                          className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                        >
+                          Continue
+                        </button>
+                        {userData?.drivingLicenseVerified && userData?.panVerified && (
+                          <div
+                            className="mt-4 cursor-pointer"
+                            onClick={() => {
+                              setThree(true)
+                              setFour(false)
+                            }}
+                          >
+                            <Image src="/arrow.svg" alt="" width={30} height={30} />
+                          </div>
+                        )}
                       </div>
-                      </div>
-                     
                     </div>
                   )}
                 </div>
@@ -853,9 +928,8 @@ const Checkout = () => {
 
 
         {
-          ((one == false) && two && three) ? <div>   <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] p-8 sm:mt-6 rounded-md shadow-xl">
+          ((one == false) && two && three) ? <div> <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] p-8 sm:mt-6 rounded-md shadow-xl">
             <h2 className="text-[20px] font-bold">About You</h2>
-
             <div className="mt-3 sm:flex justify-between">
               <div>
                 <span className="text-[#FF0000] font-semibold">
@@ -899,19 +973,23 @@ const Checkout = () => {
                   <span className="text-[#878787] w-[200px]">PAN Number</span>:{" "}
                   <span className="flex items-center gap-2 sm:my-0 my-2">
                     {" "}
-                    <span className="text-[#878787]">{user?.panNumber}</span>{" "}
-                    <Image src="/pancard.svg" alt="user" width={60} height={60} />{" "}
-                    <Image src="/pancard.svg" alt="user" width={60} height={60} />
+                    <span className="text-[#878787]">{userData?.panNumber}</span>{" "}
+                    <Image src={userData?.panImageUrl || "/pancard.svg"} alt="user" width={60} height={60} />{" "}
+                    {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
                   </span>
-                  <span className="flex items-center gap-2 text-sm text-[#01A601]">
-                    <Image
-                      src="/greendone.svg"
-                      width={20}
-                      height={20}
-                      alt={"img"}
-                    />{" "}
-                    Verified Account
-                  </span>
+                  {userData?.panVerified ? (
+                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                      <Image
+                        src="/greendone.svg"
+                        width={20}
+                        height={20}
+                        alt={"img"}
+                      />{" "}
+                      Verified Account
+                    </span>
+                  ) : (
+                    <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                  )}
                 </div>
                 <div className="sm:flex justify-between items-center gap-5 mt-4">
                   <span className="text-[#878787] w-[200px]">
@@ -920,51 +998,60 @@ const Checkout = () => {
                   :{" "}
                   <span className="flex items-center gap-2 sm:my-0 my-2">
                     {" "}
-                    <span className="text-[#878787]">{user?.drivingLicenseNumber}</span>{" "}
-                    <Image src="/dlcard.svg" alt="user" width={60} height={60} />{" "}
-                    <Image src="/dlcard.svg" alt="user" width={60} height={60} />
+                    <span className="text-[#878787]">{userData?.drivingLicenseNumber}</span>{" "}
+                    <Image src={userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"} alt="user" width={60} height={60} />{" "}
+                    {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
                   </span>
-                  <span className="flex items-center gap-2 text-sm text-[#01A601]">
-                    <Image
-                      src="/greendone.svg"
-                      width={20}
-                      height={20}
-                      alt={"img"}
-                    />{" "}
-                    Verified Account
-                  </span>
+                  {userData?.drivingLicenseVerified ? (
+                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                      <Image
+                        src="/greendone.svg"
+                        width={20}
+                        height={20}
+                        alt={"img"}
+                      />{" "}
+                      Verified Account
+                    </span>
+                  ) : (
+                    <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                  )}
                 </div>
                 <div className="sm:flex justify-between items-center gap-5 mt-4">
                   <span className="text-[#878787] w-[200px]">Aadhar Number</span>:{" "}
                   <span className="flex items-center gap-2 sm:my-0 my-2">
                     {" "}
-                    <span className="text-[#878787]">{user?.aadharNumber}</span>{" "}
+                    <span className="text-[#878787]">{userData?.aadharNumber}</span>{" "}
                     <Image
-                      src="/aadharCard.svg"
+                      src={userData?.aadharCardFrontImageUrl || "/aadharCard.svg"}
                       alt="user"
                       width={60}
                       height={60}
                     />{" "}
                     <Image
-                      src="/aadharCard.svg"
+                      src={userData?.aadharCardBackImageUrl || "/aadharCard.svg"}
                       alt="user"
                       width={60}
                       height={60}
                     />
                   </span>
-                  <span className="flex items-center gap-2 text-sm text-[#01A601]">
-                    <Image
-                      src="/greendone.svg"
-                      width={20}
-                      height={20}
-                      alt={"img"}
-                    />{" "}
-                    Verified Account
-                  </span>
+                  {userData?.aadharVerified ? (
+                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                      <Image
+                        src="/greendone.svg"
+                        width={20}
+                        height={20}
+                        alt={"img"}
+                      />{" "}
+                      Verified Account
+                    </span>
+                  ) : (
+                    <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                  )}
                 </div>
               </div>
             </div>
-          </div></div> : ""
+          </div>
+          </div> : ""
         }
 
         <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
