@@ -197,9 +197,8 @@ export default function Home() {
         const hours = ("0" + date.getHours()).slice(-2);
         const minutes = ("0" + date.getMinutes()).slice(-2);
         return [hours, minutes].join(":");
-
     }
-    const CustomInput = (({ value, onClick, onChange, ref }: any) => (
+    const CustomInput = ({ value, onClick, onChange, ref }: any) => (
         <input
             className="cursor-pointer border-0 datepickerinput sm:text-md !text-sm"
             placeholder="Pickup date"
@@ -209,9 +208,8 @@ export default function Home() {
             readOnly
             ref={ref}
         />
-    ));
+    );
     const hanldepickupTime = (event: any) => {
-
         console.log(event, "pickup date");
         setStartDate(event);
         const result = convert(event);
@@ -336,10 +334,9 @@ export default function Home() {
 
     console.log(pickupDate, "pickupLocation");
 
-
-    const handeFoucous = ((e: any) => {
-        e.target.blur()
-    })
+    const handeFoucous = (e: any) => {
+        e.target.blur();
+    };
 
     return (
         <>
@@ -403,6 +400,7 @@ export default function Home() {
                                                     <h3 className="text-lg font-semibold">
                                                         {item?.heading}
                                                     </h3>
+
                                                     {item?.id === "location" && showLocationPopup && (
                                                         <>
                                                             <input
@@ -429,8 +427,12 @@ export default function Home() {
                                                                             <div key={index}>
                                                                                 <City
                                                                                     city={city}
-                                                                                    isSelected={selectedCity === city.name}
-                                                                                    onClick={() => handleCityClick(city.name)}
+                                                                                    isSelected={
+                                                                                        selectedCity === city.name
+                                                                                    }
+                                                                                    onClick={() =>
+                                                                                        handleCityClick(city.name)
+                                                                                    }
                                                                                 />
                                                                             </div>
                                                                         ))}
@@ -618,7 +620,7 @@ export default function Home() {
                                                     )}
 
                                                     {item?.id === "location" && !showLocationPopup && (
-                                                        <div className="w-full relative">
+                                                        <div className="relative">
                                                             <input
                                                                 className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
                                                                 type="text"
@@ -627,7 +629,13 @@ export default function Home() {
                                                                 value={selectedCity}
                                                                 readOnly // Prevent editing directly
                                                             />
-                                                            <Image src="/svg/arrow-down.svg" alt="arrowDown" width={12} height={12} className="absolute right-8 top-6" />
+                                                            <Image
+                                                                src="/svg/arrow-down.svg"
+                                                                alt="arrowDown"
+                                                                width={12}
+                                                                height={12}
+                                                                className="absolute right-8 top-6"
+                                                            />
                                                         </div>
                                                     )}
                                                     {item?.id === "date" && (
@@ -654,7 +662,7 @@ export default function Home() {
                               }
                             /> */}
                                                             <DatePicker
-                                                                className="cursor-pointer datepickerinput"
+                                                                className="cursor-pointer datepickerinput w-full !p-2"
                                                                 selected={
                                                                     item?.heading === "Pick Up Date"
                                                                         ? startDate
@@ -1250,20 +1258,26 @@ export default function Home() {
                 <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
                     <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
                         <div
-                            className={`${mobileTabValue === "Rentals" || tabValue==="Self-Driving" || tabValue==="Driver"
-                                ? "bg-white text-black shadow-custom-shadow"
-                                : ""
+                            className={`${mobileTabValue === "Rentals" ||
+                                    tabValue === "Self-Driving" ||
+                                    tabValue === "Driver"
+                                    ? "bg-white text-black shadow-custom-shadow"
+                                    : ""
                                 } rounded-xl px-4 py-[8px] text-center text-sm`}
-                            onClick={() => {setMobileTabValue("Rentals"),setTabsValue("")}}
+                            onClick={() => {
+                                setMobileTabValue("Rentals"), setTabsValue("");
+                            }}
                         >
                             Rentals
                         </div>
                         <div
                             className={`${tabValue === "Subscription"
-                                ? "bg-white text-black shadow-custom-shadow"
-                                : "text-white"
+                                    ? "bg-white text-black shadow-custom-shadow"
+                                    : "text-white"
                                 } rounded-xl px-4 py-[8px] text-center text-sm `}
-                            onClick={() => {setTabsValue("Subscription"), setMobileTabValue("")}}
+                            onClick={() => {
+                                setTabsValue("Subscription"), setMobileTabValue("");
+                            }}
                         >
                             Subscription
                         </div>
@@ -1273,8 +1287,8 @@ export default function Home() {
                     <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
                         <div
                             className={`${tabValue === "Self-Driving"
-                                ? "bg-black text-white"
-                                : "text-black"
+                                    ? "bg-black text-white"
+                                    : "text-black"
                                 } p-2 rounded-l-full text-center px-4 flex items-center`}
                             onClick={() => setTabsValue("Self-Driving")}
                         >
@@ -1286,7 +1300,7 @@ export default function Home() {
                                 checked={tabValue === "Self-Driving" ? true : false}
                             />
                             <label className="ml-2 text-[10px]" htmlFor="self">
-                            Self-Driving
+                                Self-Driving
                             </label>
                         </div>
                         <div
@@ -1345,6 +1359,7 @@ export default function Home() {
               : "Select your city"}
           </label> */}
                     <div className="border rounded-xl bg-[#FCFBFB] p-[4px] pl-2 flex gap-2 sm:mt-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
+                        
                         <Image
                             src={"/svg/city-new.svg"}
                             alt="location"
@@ -1356,32 +1371,35 @@ export default function Home() {
                                 <input
                                     className="bg-transparent px-2 rounded-md border-0 outline-none py-1 cursor-pointer sm:text-md text-sm text-black"
                                     type="text"
-                                    placeholder={radioToggle === "Local"
-                                        ? "Select Your City"
-                                        : tabValue === "Self-Driving"
+                                    placeholder={
+                                        radioToggle === "Local"
                                             ? "Select Your City"
-                                            : "Select Your City"}
+                                            : tabValue === "Self-Driving"
+                                                ? "Select Your City"
+                                                : "Select Your City"
+                                    }
                                     // onClick={(e) => handleSelectMobilePopupLocation(e)}
                                     onClick={(e) => handleSelectPopupLocation(e)}
-
                                     value={selectedCity}
                                     readOnly // Prevent editing directly
                                 />
                             )}
                             {showLocationPopup && (
                                 <>
-                                    <input
-                                        className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                                    {/* <input
+                                        className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[300px]"
                                         type="text"
                                         placeholder="All City"
                                         onClick={(e) => handleSelectPopupLocation(e)}
                                         value={selectedCity}
                                         readOnly // Prevent editing directly
-                                    />
+                                    /> */}
 
-                                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                                    <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 ">
                                         <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                            
                                             <Image
+
                                                 src={"/svg/close-red.svg"}
                                                 alt="nav"
                                                 width={26}
@@ -1397,7 +1415,6 @@ export default function Home() {
                                                             city={city}
                                                             isSelected={selectedMobileCity === city.name}
                                                             onClick={() => handleCityClick(city.name)}
-
                                                         />
                                                     </div>
                                                 ))}
@@ -1426,13 +1443,10 @@ export default function Home() {
                                     height={18}
                                 />
                                 <DatePicker
-
                                     customInput={<CustomInput />}
                                     className="cursor-pointer border-0 datepickerinput"
                                     selected={startDate}
-                                    onChange={
-                                        (date) => hanldepickupTime(date)
-                                    }
+                                    onChange={(date) => hanldepickupTime(date)}
                                     showTimeSelect
                                     filterTime={filterPassedTime}
                                     dateFormat="MMMM d, yyyy h:mm aa"
@@ -1531,14 +1545,12 @@ export default function Home() {
                     >
                         Drop in different city?
                     </strong>{" "}
-
-                    {durationFormat &&
+                    {durationFormat && (
                         <div className="flex items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
                             <strong>Duration :</strong>{" "}
                             <p className="text-sm font-semibold mt-[2px]">{durationFormat}</p>
                         </div>
-                    }
-
+                    )}
                     {showDropLocationPopup && (
                         <>
                             <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
@@ -1582,12 +1594,6 @@ export default function Home() {
                     />
                 </div>
             </div>
-
-
-
-
-
-
         </>
     );
 }
