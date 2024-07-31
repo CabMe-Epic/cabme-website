@@ -36,7 +36,16 @@ const url = usePathname();
 // console.log(url, "footer");
   return (
     <>
-    {url==="/check-out" ? "" : 
+    {url==="/check-out" ? 
+    
+    <div className="flex items-center gap-6 justify-center my-10">
+      <Image src="/checkOutFooter/masterCard.svg" width={45} height={45} alt="cabme_master_card" />
+      <Image src="/checkOutFooter/gpay.svg" width={45} height={45} alt="cabme_master_card" />
+      <Image src="/checkOutFooter/visa.svg" width={45} height={45} alt="cabme_master_card" />
+      <Image src="/checkOutFooter/upi.svg" width={45} height={45} alt="cabme_master_card" />
+    </div>
+
+    : 
       <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8">
       <div className="max-w-[330px] m-auto sm:text-left text-center">
         <Image
@@ -225,6 +234,8 @@ const url = usePathname();
       </div>
     </div>
     }
+
+
       
       <p className="p-4 bg-primary-color text-white font-semibold text-center sm:text-md text-xs">
         Copyright, Cabme 2024. All Right Reserved.
