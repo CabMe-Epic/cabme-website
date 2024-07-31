@@ -618,7 +618,7 @@ const CarDetails = () => {
                     </span>
                     <span className="sm:w-[220px]  sm:ml-8" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className=" w-[80%] sm:w-[80%] h-[100%] p-1  rounded-md" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
+                      <textarea className=" w-[100%] sm:w-[80%] h-[100%] p-1  rounded-md" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
@@ -681,7 +681,7 @@ const CarDetails = () => {
                 <div>
 
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 w-[320px] sm:w-[420px] py-5 rounded-3xl">
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#fff] flex flex-row items-center justify-between px-4 w-[320px] sm:w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" &&
                       <div className="flex flex-col">
                         <span>Total Amount </span>
