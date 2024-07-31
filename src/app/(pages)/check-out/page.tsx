@@ -761,7 +761,7 @@ const Checkout = () => {
                         Continue
                       </button>
                       <div className="mt-4">
-                        <Image src="/notVerified.svg" alt=""  width={30} height={30} />
+                        <Image src="/arrow.svg" alt=""  width={30} height={30} />
                       </div>
                       </div>
 
@@ -836,7 +836,7 @@ const Checkout = () => {
                         Continue
                       </button>
                       <div className="mt-4">
-                        <Image src="/notVerified.svg" alt=""  width={30} height={30} />
+                        <Image src="/arrow.svg" alt=""  width={30} height={30} />
                       </div>
                       </div>
                      
