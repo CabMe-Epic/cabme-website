@@ -358,8 +358,8 @@ export default function Home() {
                             return (
                                 <div
                                     className={`cursor-pointer w-full text-center py-[28px] text-lg ${value?.tabsValue === tabValue
-                                            ? "bg-primary-color text-white font-bold"
-                                            : "bg-[#EFF1FB]"
+                                        ? "bg-primary-color text-white font-bold"
+                                        : "bg-[#EFF1FB]"
                                         }`}
                                     key={ind}
                                     onClick={() => setTabsValue(value?.tabsValue)}
@@ -1297,10 +1297,10 @@ export default function Home() {
                     <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
                         <div
                             className={`${mobileTabValue === "Rentals" ||
-                                    tabValue === "Self-Driving" ||
-                                    tabValue === "Driver"
-                                    ? "bg-white text-black shadow-custom-shadow"
-                                    : ""
+                                tabValue === "Self-Driving" ||
+                                tabValue === "Driver"
+                                ? "bg-white text-black shadow-custom-shadow"
+                                : ""
                                 } rounded-xl px-4 py-[8px] text-center text-sm`}
                             onClick={() => {
                                 setMobileTabValue("Rentals"), setTabsValue("");
@@ -1310,8 +1310,8 @@ export default function Home() {
                         </div>
                         <div
                             className={`${tabValue === "Subscription"
-                                    ? "bg-white text-black shadow-custom-shadow"
-                                    : "text-white"
+                                ? "bg-white text-black shadow-custom-shadow"
+                                : "text-white"
                                 } rounded-xl px-4 py-[8px] text-center text-sm `}
                             onClick={() => {
                                 setTabsValue("Subscription"), setMobileTabValue("");
@@ -1325,8 +1325,8 @@ export default function Home() {
                     <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
                         <div
                             className={`${tabValue === "Self-Driving"
-                                    ? "bg-black text-white"
-                                    : "text-black"
+                                ? "bg-black text-white"
+                                : "text-black"
                                 } p-2 rounded-l-full text-center px-4 flex items-center`}
                             onClick={() => setTabsValue("Self-Driving")}
                         >
@@ -1397,7 +1397,7 @@ export default function Home() {
               : "Select your city"}
           </label> */}
                     <div className="border rounded-xl bg-[#FCFBFB] p-[4px] pl-2 flex gap-2 sm:mt-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
-                        
+
                         <Image
                             src={"/svg/city-new.svg"}
                             alt="location"
@@ -1435,7 +1435,7 @@ export default function Home() {
 
                                     <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 ">
                                         <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                            
+
                                             <Image
 
                                                 src={"/svg/close-red.svg"}
