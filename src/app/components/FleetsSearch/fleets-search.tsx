@@ -18,12 +18,14 @@ import BannerSlider from "@/app/components/banner-slider/banner-slider";
 import SelectOption from "@/app/components/new-drop-down/new-drop-down";
 import City from "@/app/components/city-selection/city-selection";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
+import BlinkerLoader from "../blinker-loader/blinkerLoader";
 
 export default function Home() {
     // const [startDate, setStartDate] = useState(
     //   setHours(setMinutes(new Date(), 0), 9),
     // );
     const [startDate, setStartDate] = useState<any>();
+    const [loader, setLoader] = useState(false);
 
     console.log("startDate pick", { startDate });
     const [dropDate, setDropDate] = useState<any>();
@@ -69,7 +71,7 @@ export default function Home() {
 
     const handlePickupLocation = (event: any) => {
         setPickupLocation(event);
-        console.log(pickupLocation,"joo");
+        console.log(pickupLocation, "joo");
     };
 
     const handleDropOffLocation = (event: any) => {
@@ -171,9 +173,11 @@ export default function Home() {
     const [cities, setCities] = useState<[]>();
 
     const getRecords = React.useCallback(async () => {
+        setLoader(true);
         const citiesResponse = await getAllCities();
         const cities = citiesResponse?.data?.response;
         setCities(cities);
+        setLoader(false);
         console.log("citiesResponse", { cities });
     }, []);
 
@@ -340,6 +344,12 @@ export default function Home() {
 
     return (
         <>
+            {
+                loader &&
+                <div>
+                    <BlinkerLoader />
+                </div>
+            }
 
             <div
                 className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${tabValue === "Driver" ? "h-[320px]" : "h-[260px]"
@@ -373,7 +383,7 @@ export default function Home() {
                                                 content={driver?.content}
                                                 name={driver?.name}
                                                 id={driver?.id}
-                                                
+
                                             />
                                         </div>
                                     );
@@ -732,7 +742,7 @@ export default function Home() {
                                     </div>
                                 </div>
                             )}
-                             <div
+                            <div
                                 onClick={(e) => handleDropSelectPopupLocation(e)}
                                 className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
                                     }`}
@@ -749,7 +759,7 @@ export default function Home() {
                                     </div>
                                 </div>
                             )}
-                           
+
 
                             {showDropLocationPopup && (
                                 <>
@@ -1004,7 +1014,7 @@ export default function Home() {
                                                     </div>
                                                 ))}
                                             </div>
-                                            
+
                                             {/* <ThemeButton
                                                 onClick={() => setShowDropLocationPopup(false)}
                                                 className="!rounded-full sm:!py-4 !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
@@ -1162,7 +1172,7 @@ export default function Home() {
                                     </div>
                                 );
                             })}
-                            
+
                             {dropOffLocation && (
                                 <div className=" h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
                                     <div className="grid">
@@ -1249,7 +1259,7 @@ export default function Home() {
                                 </div>
                             </>
                         )}
-                
+
                     </div>
                 )}
             </div>
