@@ -372,8 +372,8 @@ const BookingSummery = () => {
                     </div> */}
 
                     {/* DESKTOP TOTAL AMOUNT  */}
-                    <div className="my-6 sm:h-[79px] h-[52px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4  w-full py-5 rounded-3xl">
-                        {discountAmount > 0 ? (
+                    {/* <div className="my-6 sm:h-[79px] h-[52px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4  w-full py-5 rounded-3xl"> */}
+                        {/* {discountAmount > 0 ? (
                             <div className="flex flex-col">
                                 <span>Total Amount </span>
                                 <span className="text-[#ff0000] p-0 text-2xl font-bold">
@@ -387,7 +387,7 @@ const BookingSummery = () => {
                                     ₹ {totalPrice.toFixed(2)}
                                 </span>
                             </div>
-                        )}
+                        )} */}
 
                         <div>
 
@@ -408,11 +408,10 @@ const BookingSummery = () => {
 
                             {/* Dynamic buttons ...  */}
 
-                            <>
+                            {/* <>
                                 {userId && token ? (
                                     bookingSuccess ? (
                                         <button
-                                            // onClick={() => router.push("/payment")}
                                             className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
                                             Payment
                                         </button>
@@ -430,9 +429,9 @@ const BookingSummery = () => {
                                         Proceed
                                     </button>
                                 )}
-                            </>
+                            </> */}
                         </div>
-                    </div>
+                    {/* </div> */}
                 </div>
                 <div className="w-full">
                     <span className="flex flex-row my-5 mt-2">
@@ -483,12 +482,12 @@ const BookingSummery = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                {/* <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                     <span className="font-bold text-md">Pay ₹10,000 Now</span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
                         Balance on Delivery
                     </span>
-                </div>
+                </div> */}
             </main>
             {applyCoupon &&
 
