@@ -373,7 +373,7 @@ const BookingSummery = () => {
 
                     {/* DESKTOP TOTAL AMOUNT  */}
                     {/* <div className="my-6 sm:h-[79px] h-[52px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4  w-full py-5 rounded-3xl"> */}
-                        {/* {discountAmount > 0 ? (
+                    {/* {discountAmount > 0 ? (
                             <div className="flex flex-col">
                                 <span>Total Amount </span>
                                 <span className="text-[#ff0000] p-0 text-2xl font-bold">
@@ -389,10 +389,10 @@ const BookingSummery = () => {
                             </div>
                         )} */}
 
-                        <div>
+                    <div>
 
-                            {/* Desktop button ... */}
-                            {/* {userId && token ? (
+                        {/* Desktop button ... */}
+                        {/* {userId && token ? (
                         <button
                           onClick={handleBooking}
                           className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
@@ -406,9 +406,9 @@ const BookingSummery = () => {
                         </button>
                       )} */}
 
-                            {/* Dynamic buttons ...  */}
+                        {/* Dynamic buttons ...  */}
 
-                            {/* <>
+                        {/* <>
                                 {userId && token ? (
                                     bookingSuccess ? (
                                         <button
@@ -430,7 +430,7 @@ const BookingSummery = () => {
                                     </button>
                                 )}
                             </> */}
-                        </div>
+                    </div>
                     {/* </div> */}
                 </div>
                 <div className="w-full">
