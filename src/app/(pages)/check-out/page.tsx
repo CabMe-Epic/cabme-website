@@ -406,7 +406,7 @@ const Checkout = () => {
   };
 
   return (
-    <div className="py-6 lg:flex max-w-[1300px] gap-8 m-auto px-4">
+    <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
       <div className="max-w-[765px] w-full mx-auto">
         {(one == false) && two && three ? (""
@@ -747,6 +747,10 @@ const Checkout = () => {
                           )}
                         </div>
                       </div>
+                  
+
+
+                      <div className="flex items-center justify-between w-[73%] ">
                       <button
                         onClick={() => {
                           setThree(true)
@@ -756,6 +760,11 @@ const Checkout = () => {
                       >
                         Continue
                       </button>
+                      <div className="mt-4">
+                        <Image src="/notVerified.svg" alt=""  width={30} height={30} />
+                      </div>
+                      </div>
+
                     </div>
                   ) : (
                     <div>
@@ -817,12 +826,20 @@ const Checkout = () => {
                           )}
                         </div>
                       </div>
+                     
+
+                      <div className="flex items-center justify-between w-[73%] ">
                       <button
                         onClick={handleVerifiedPan}
                         className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                       >
                         Continue
                       </button>
+                      <div className="mt-4">
+                        <Image src="/notVerified.svg" alt=""  width={30} height={30} />
+                      </div>
+                      </div>
+                     
                     </div>
                   )}
                 </div>
@@ -957,7 +974,7 @@ const Checkout = () => {
           </button>
         </div>
       </div>
-      <div className="max-w-[450px] w-full m-auto">
+      <div className="max-w-[450px] w-full mx-auto">
         <BookingSummery />
       </div>
     </div>
