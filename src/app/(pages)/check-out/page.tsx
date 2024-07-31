@@ -579,17 +579,19 @@ const Checkout = () => {
                 <div>
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Upload Aadhar Card{" "}
-
-                    {/* {data?.verificationResponse?.statusCode} */}
-                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                      <Image
-                        src="/greendone.svg"
-                        width={20}
-                        height={20}
-                        alt={"img"}
-                      />{" "}
-                      Verified Account
-                    </span>
+                    {userData?.aadharVerified ? (
+                      <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                        <Image
+                          src="/greendone.svg"
+                          width={20}
+                          height={20}
+                          alt={"img"}
+                        />{" "}
+                        Verified Account
+                      </span>
+                    ) : (
+                      <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                    )}
                   </h4>
                   <div className="mt-4 sm:flex grid gap-6 items-center">
                     <InputField
@@ -699,15 +701,19 @@ const Checkout = () => {
                   }
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Driving License/PAN Card{" "}
-                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                      <Image
-                        src="/greendone.svg"
-                        width={20}
-                        height={20}
-                        alt={"img"}
-                      />{" "}
-                      Verified Account
-                    </span>
+                    {userData?.drivingLicenseVerified && userData.drivingLicenseVerified ? (
+                      <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                        <Image
+                          src="/greendone.svg"
+                          width={20}
+                          height={20}
+                          alt={"img"}
+                        />{" "}
+                        Verified Account
+                      </span>
+                    ) : (
+                      <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                    )}
                   </h4>
 
                   <div>
@@ -726,15 +732,19 @@ const Checkout = () => {
                     <div>
                       <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         Driving License{" "}
-                        <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                          <Image
-                            src="/greendone.svg"
-                            width={20}
-                            height={20}
-                            alt={"img"}
-                          />{" "}
-                          Verified Account
-                        </span>
+                        {userData?.drivingLicenseVerified ? (
+                          <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                            <Image
+                              src="/greendone.svg"
+                              width={20}
+                              height={20}
+                              alt={"img"}
+                            />{" "}
+                            Verified Account
+                          </span>
+                        ) : (
+                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                        )}
                       </h4>
                       <div className="sm:flex items-center gap-4 ">
                         <InputField
@@ -781,23 +791,23 @@ const Checkout = () => {
                           )}
                         </div>
                       </div>
-                  
+
 
 
                       <div className="flex items-center justify-between w-[73%] ">
-                      <button
-                        onClick={() => {
-                          handleVerifyDrivingLicence()
-                          // setThree(true)
-                          // setFour(false)
-                        }}
-                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                      >
-                        Continue
-                      </button>
-                      <div className="mt-4">
-                        <Image src="/notVerified.svg" alt=""  width={30} height={30} />
-                      </div>
+                        <button
+                          onClick={() => {
+                            handleVerifyDrivingLicence()
+                            // setThree(true)
+                            // setFour(false)
+                          }}
+                          className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                        >
+                          Continue
+                        </button>
+                        <div className="mt-4">
+                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                        </div>
                       </div>
 
                     </div>
@@ -805,15 +815,19 @@ const Checkout = () => {
                     <div>
                       <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         PAN Card{" "}
-                        <span className="flex items-center gap-2 text-[#01A601]">
-                          <Image
-                            src="/greendone.svg"
-                            width={20}
-                            height={20}
-                            alt={"img"}
-                          />{" "}
-                          Verified Account
-                        </span>
+                        {userData?.drivingLicenseVerified ? (
+                          <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                            <Image
+                              src="/greendone.svg"
+                              width={20}
+                              height={20}
+                              alt={"img"}
+                            />{" "}
+                            Verified Account
+                          </span>
+                        ) : (
+                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                        )}
                       </h4>
 
                       <div className="sm:flex items-center gap-4 ">
@@ -861,20 +875,20 @@ const Checkout = () => {
                           )}
                         </div>
                       </div>
-                     
+
 
                       <div className="flex items-center justify-between w-[73%] ">
-                      <button
-                        onClick={handleVerifiedPan}
-                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                      >
-                        Continue
-                      </button>
-                      <div className="mt-4">
-                        <Image src="/notVerified.svg" alt=""  width={30} height={30} />
+                        <button
+                          onClick={handleVerifiedPan}
+                          className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                        >
+                          Continue
+                        </button>
+                        <div className="mt-4">
+                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                        </div>
                       </div>
-                      </div>
-                     
+
                     </div>
                   )}
                 </div>
