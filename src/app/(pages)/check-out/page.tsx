@@ -759,7 +759,7 @@ const Checkout = () => {
                     </div>
                   ) : (
                     <div>
-                      {/* <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                      <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         PAN Card{" "}
                         <span className="flex items-center gap-2 text-[#01A601]">
                           <Image
@@ -822,7 +822,7 @@ const Checkout = () => {
                         className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                       >
                         Continue
-                      </button> */}
+                      </button>
                     </div>
                   )}
                 </div>
