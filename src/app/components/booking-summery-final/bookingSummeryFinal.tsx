@@ -1,0 +1,538 @@
+"use client";
+import Image from "next/image";
+
+import { useParams } from "next/navigation";
+import useVehicleById from "../../../../networkRequests/hooks/useVehicleById";
+import React, { useCallback, useEffect, useState } from "react";
+import { searchVehicle } from "../../../../networkRequests/hooks/api";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import useReservationDateTime from "../../../../networkRequests/hooks/useReservationDateTime";
+import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
+import { calculatePrice } from "@/app/utils/calculatePrice ";
+import { fetchPromoCodes } from "../../../../networkRequests/hooks/promocodes";
+import ApplyCoupon from "../ApplyCoupon/apply-coupon";
+import { roundPrice } from "@/app/utils/roundPrice ";
+import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
+import DropLocation from "../doorstep-popup/DoorstepPopup";
+import { calculateGST } from "@/app/utils/calculateGST";
+
+interface PromoCode {
+    code: string;
+    promocodeType: string;
+    promocodeDescription: string;
+    couponExpiryDate: Date;
+    usageLimits: number;
+    couponAmount: number;
+    maximumDiscount: number;
+    selectDiscount: string;
+    couponStartDate: Date;
+    minimumBookingDay: number;
+    usageRestriction: string;
+    promotionClassification: string;
+    customerContact?: string;
+}
+
+const BookingSummeryFinal = () => {
+    const router = useRouter();
+    //   const { slug } = useParams() || {};
+    const [token, setToken] = useState<string | null>(null);
+
+    const [userId, setUserId] = useState<string | null>(null);
+    const [carDetails, setCarDetails] = useState<any>();
+    const [bookingOpt, setBookingOpt] = useState<any>();
+    const [currentPackage, setCurrentPackage] = useState<any>();
+    const [pickupTime, setPickupTime] = useState<string | null>(null);
+    const [pickupDate, setPickupDate] = useState<any>();
+    const [packagePrice, setPackagePrice] = useState<any>();
+    const [discountAmount, setDiscountAmount] = useState<number>(0);
+    const [promoCodes, setPromoCodes] = useState([]);
+    //   const [currentPackage, setCurrentPackage] = useState<any>();
+    const [showDoorStep, setShowDoorStep] = useState(false);
+
+    const [dropoffTime, setDropoffTime] = useState<string | null>(null);
+    const [dropoffDate, setDropoffDate] = useState<any>();
+    const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<
+        string | any
+    >();
+    const [selectedDiscountType, setSelectedDiscountType] = useState<
+        string | any
+    >();
+
+    const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
+
+    const handleChangePromocodeOption = (e: any) => {
+        setSelectedPromocodeOption(e.target.value);
+    };
+    const [sessionSlug, setFromSessionSlug] = useState("");
+    const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
+    const [bookingSuccess, setBookingSuccess] = useState(false);
+
+    const [applyCoupon, setApplyCoupon] = React.useState(false);
+    const { vehicle, loading, error } = useVehicleById(sessionSlug as string);
+    const { reservationDateTime, setReservationDateTime, duration } =
+        useReservationDateTime();
+    const total =
+        Number(packagePrice) +
+        currentPackage?.DoorstepDeliveryPickup?.reduce(
+            (acc: any, item: any) => acc + item?.price,
+            0
+        ) +
+        currentPackage?.refundableDeposit;
+    const pickupDateTimeString = pickupTime
+        ? `${pickupDate}T${pickupTime}:00.000Z`
+        : null;
+    const droppingDateTimeString = dropoffTime
+        ? `${dropoffDate}T${dropoffTime}:00.000Z`
+        : null;
+    const { days, hours } = extractDaysAndHours(duration);
+    const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
+
+    const bookingData = {
+        userId: userId,
+        vehicleId: carDetails?._id,
+        option: selectedTabValue,
+        location: carDetails?.city,
+        pickUpDateTime: pickupDateTimeString,
+        dropOffDateTime: droppingDateTimeString,
+        baseFare: packagePrice,
+        doorstepDelivery: 0,
+        insuranceGST: carDetails?.extraService?.insurance,
+        refundableDeposit: 0,
+        kmsLimit: 0,
+        fuel: carDetails?.extraService?.fuel,
+        extraKmsCharge: carDetails?.extraService?.extraKmCharges,
+        tollsParking: "",
+        promocode: {
+            code: selectedPromocodeOption ? selectedPromocodeOption : null,
+            discountType: selectedDiscountType ? selectedDiscountType : null,
+            discountAmount: Number(discountAppliedAmount.toFixed(2)),
+        },
+        totalAmount:
+            discountAmount > 0
+                ? Number(discountAmount.toFixed(2))
+                : Number(totalPrice.toFixed(2)),
+        bookingDuration: duration,
+        bufferTime: 0,
+        kilometers: 0,
+        createdByUser: userId,
+    };
+
+    const handleApplyPromoCode = () => {
+        if (selectedPromocodeOption) {
+            const selectedPromoCode = promoCodes.find(
+                (code: PromoCode) => code.code === selectedPromocodeOption
+            ) as PromoCode | undefined;
+            // console.log({ selectedPromoCode });
+            if (selectedPromoCode) {
+                if (selectedPromoCode.selectDiscount === "Percentage") {
+                    const discount = (selectedPromoCode.couponAmount / 100) * totalPrice;
+                    const discountedPrice = totalPrice - discount;
+                    setDiscountAmount(discountedPrice);
+                    setDiscountAppliedAmount(discount);
+                    setSelectedDiscountType(selectedPromoCode.selectDiscount);
+                } else if (selectedPromoCode.selectDiscount === "Fixed") {
+                    const discountedPrice = totalPrice - selectedPromoCode.couponAmount;
+                    setDiscountAmount(discountedPrice);
+                    setDiscountAppliedAmount(selectedPromoCode.couponAmount);
+                    setSelectedDiscountType(selectedPromoCode.selectDiscount);
+                }
+            } else {
+                setDiscountAmount(0);
+                setDiscountAppliedAmount(0);
+                setSelectedPromocodeOption(null);
+                setSelectedDiscountType(null);
+                alert("Clear coupon");
+            }
+        } else {
+            alert("Please select a promo code first.");
+        }
+    };
+
+    const handleProceed = () => {
+        sessionStorage.setItem("slug", sessionSlug);
+        router.push("/check-out");
+    };
+
+    const getCarDetails = useCallback(async () => {
+        const getSearchCarData = await searchVehicle();
+        const carData = getSearchCarData?.data?.vehicles;
+        carData?.forEach((item: any) => {
+            if (item?._id === sessionSlug) {
+                setCarDetails(item);
+            }
+        });
+    }, [sessionSlug]);
+
+    useEffect(() => {
+        getCarDetails();
+    }, [getCarDetails]);
+
+    useEffect(() => {
+        if (carDetails?.bookingOptions?.selfDrive?.name === bookingOpt) {
+            setCurrentPackage(
+                carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
+            );
+        }
+    }, [carDetails, bookingOpt]);
+
+    // console.log(sessionSlug, "sessionSlug")
+
+    async function handleBooking() {
+        try {
+            const response = await axios.post(
+                `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`,
+                bookingData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+            // console.log('Booking response:', { response });
+            toast.success(response?.data?.message);
+            if (response?.data?.success) {
+                setBookingSuccess(true);
+                setTimeout(() => {
+                    // router.push("/payment")
+                }, 2000);
+            }
+        } catch (error: any) {
+            console.error("Error booking cab:", { error });
+        }
+    }
+
+    const handlePriceChange = (updatedPrice: any) => {
+        localStorage.setItem("selectedPackagePrice", updatedPrice);
+        setPackagePrice(updatedPrice);
+    };
+
+    React.useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedUserId = localStorage.getItem("userId");
+            const storedToken = localStorage.getItem("token");
+            setUserId(storedUserId);
+            setToken(storedToken);
+        }
+    }, []);
+
+    React.useEffect(() => {
+        const getPickup = localStorage.getItem("pickupDate");
+        const getDropoff = localStorage.getItem("dropOffDate");
+        const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+        const bookingOption = localStorage.getItem("tabValue");
+        setPackagePrice(selectedPackagePrice);
+        setPickupDate(getPickup);
+        setDropoffDate(getDropoff);
+        setBookingOpt(bookingOption);
+        getCarDetails();
+        // price();
+    }, []);
+
+    React.useEffect(() => {
+        {
+            carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
+                ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
+                : carDetails?.bookingOptions?.subscription?.name === bookingOpt
+                    ? setCurrentPackage(
+                        carDetails?.bookingOptions?.subscription?.packageType
+                    )
+                    : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+                        ? setCurrentPackage("")
+                        : "";
+        }
+    }, [carDetails]);
+
+    useEffect(() => {
+        // Retrieve slug from session storage
+        const storedSlug = sessionStorage.getItem("slug");
+        if (storedSlug) {
+            setFromSessionSlug(storedSlug);
+        }
+    }, []);
+
+    React.useEffect(() => {
+        const getPromoCodes = async () => {
+            try {
+                const data = await fetchPromoCodes();
+                setPromoCodes(data?.promocodes);
+            } catch (error) {
+                console.log({ error });
+            }
+        };
+
+        getPromoCodes();
+    }, []);
+
+    // console.log(carDetails, "carDetails")
+    React.useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedPickupTime = localStorage.getItem("pickupTime");
+            const storedDropoffTime = localStorage.getItem("dropoffTime");
+            const storedTabValue = localStorage.getItem("tabValue");
+            setPickupTime(storedPickupTime);
+            setDropoffTime(storedDropoffTime);
+            setSelectedTabValue(storedTabValue);
+        }
+    }, []);
+
+    const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
+    const handleSelectItemDoorStep = (arr: any) => {
+        setSelectedDoorStepObject([{ ...arr }]);
+        setShowDoorStep(false);
+    };
+
+    React.useEffect(() => {
+        console.log(selectedDoorStepObject, "selectedDoorStepObject");
+    }, [selectedDoorStepObject]);
+
+    const handleShowDoorstepPopup = () => {
+        setShowDoorStep(true);
+    };
+
+    const result = calculateGST(
+        packagePrice,
+        parseFloat(currentPackage?.package1?.gstRate),
+        currentPackage?.gst
+    );
+
+    const doorStepAmount = selectedDoorStepObject?.[0]?.price ?? 0;
+    const totalExcludedGSTAmount =
+        Number(packagePrice) +
+        Number(result?.gstAmount) +
+        Number(currentPackage?.refundableDeposit) +
+        doorStepAmount;
+    const totalIncludedGSTAmount =
+        Number(packagePrice) +
+        Number(currentPackage?.refundableDeposit) +
+        doorStepAmount;
+
+    // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    //   const total = Number(packagePrice)
+
+    // console.log({ totalPrice })
+
+    const ThirtyDiscountForInculdedTax = (totalIncludedGSTAmount * 30) / 100;
+    const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100;
+
+    const package1Price =
+        calculateTotalPrice(currentPackage?.package1?.price) || 0;
+    const package2Price =
+        calculateTotalPrice(currentPackage?.package2?.price) || 0;
+    const package3Price =
+        calculateTotalPrice(currentPackage?.package3?.price) || 0;
+
+    const allPrices = [
+        roundPrice(package1Price),
+        roundPrice(package2Price),
+        roundPrice(package3Price),
+    ];
+    const roundedPrices = allPrices?.map(roundPrice);
+
+    const uniquePrices = Array.from(
+        new Set(roundedPrices.filter((price) => price !== 0))
+    );
+
+    return (
+        <div>
+            <main className="w-[380px] px-4 sm:w-[511px] flex flex-col items-center bg-[#f5f5f5] py-10 my-6 rounded-xl">
+                <div className="w-[320px] sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
+                    <span className="text-center">Booking Summary</span>
+                </div>
+                <div className="my-5  flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
+                    <span className="font-semibold sm:ml-2">Package Name</span>
+                    <select
+                        name="package"
+                        id="package"
+                        className="cursor-pointer w-[140px] p-2  rounded-md font-semibold outline-none"
+                        onChange={(event) => handlePriceChange(event?.target?.value)}
+                    >
+                        <option value={packagePrice}>
+                            {packagePrice !== undefined
+                                ? `₹${packagePrice}`
+                                : "Select Package"}
+                        </option>
+                        <option value={roundPrice(package1Price)}>
+                            ₹{roundPrice(package1Price)}
+                        </option>
+                        <option value={roundPrice(package2Price)}>
+                            ₹{roundPrice(package2Price)}
+                        </option>
+                        <option value={roundPrice(package3Price)}>
+                            ₹{roundPrice(package3Price)}
+                        </option>
+                    </select>
+                </div>
+                <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                        <span className="sm:w-[220px] sm:ml-10">Package Amount</span>
+                        <span className="sm:w-[220px] sm:ml-10 w-fit">
+                            ₹{roundPrice(packagePrice)}
+                        </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                        <span className="sm:w-[220px] sm:ml-10">
+                            Doorstep delivery & pickup
+                        </span>
+                        <span
+                            className="sm:w-[220px]  sm:ml-8"
+                            onClick={handleShowDoorstepPopup}
+                        >
+                            <textarea
+                                className=" w-[100%] sm:w-[80%] h-[100%] p-1  rounded-md"
+                                value={
+                                    selectedDoorStepObject[0]?.location
+                                        ? selectedDoorStepObject[0]?.location +
+                                        " " +
+                                        selectedDoorStepObject[0]?.subLocation +
+                                        " - " +
+                                        selectedDoorStepObject[0]?.price
+                                        : "Select"
+                                }
+                            />
+                            {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
+                        </span>
+                        {showDoorStep && (
+                            <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
+                                <DropLocation
+                                    onSelectItem={handleSelectItemDoorStep}
+                                    currentPackage={currentPackage?.DoorstepDeliveryPickup}
+                                />
+                            </div>
+                        )}
+                    </div>
+                    {/* <div className="text-sm font-semibold text-[#5c5c5c] sm:w-[220px] sm:ml-10">
+                    {
+                      selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
+                    }
+                  </div> */}
+
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                        <span className="sm:w-[220px] sm:ml-10">
+                            GST ({currentPackage?.package1?.gstRate}%)
+                        </span>
+                        <span className="sm:w-[220px] sm:ml-10">
+                            ₹{roundPrice(Number(result?.gstAmount))}
+                        </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                        <span className="sm:w-[220px] sm:ml-10">Refundable Deposit</span>
+                        <span className="sm:w-[220px] sm:ml-10">
+                            ₹{currentPackage?.refundableDeposit}
+                        </span>
+                    </div>
+
+                    {/* DESKTOP ...  */}
+                    {currentPackage?.gst === "Excluded" && (
+                        <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+                            <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
+                            <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
+                                {roundPrice(totalExcludedGSTAmount)}
+                            </span>
+                        </div>
+                    )}
+                    {currentPackage?.gst === "Included" && (
+                        <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+                            <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
+                            <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
+                                {roundPrice(totalIncludedGSTAmount)}
+                            </span>
+                        </div>
+                    )}
+
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                        <span className="sm:w-[220px] sm:ml-10">Fuel</span>
+                        <span className="sm:w-[220px] sm:ml-10">
+                            {currentPackage?.fuel}
+                        </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                        <span className="sm:w-[220px] sm:ml-10">Extra kms charge</span>
+                        <span className="sm:w-[220px] sm:ml-10">
+                            ₹{currentPackage?.extraKmsCharge}
+                        </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-14 text-[14px] sm:text-[18px] justify-center">
+                        <span className="sm:w-[220px] sm:ml-10">
+                            Tolls,Parking & Inner-state taxes
+                        </span>
+                        <span className="sm:w-[220px] sm:ml-10">
+                            {currentPackage?.tollsParkingTaxes}
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    {/* DESKTOP TOTAL AMOUNT  */}
+                    <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[320px] sm:w-[420px] py-5 rounded-3xl">
+                        {currentPackage?.gst === "Excluded" && (
+                            <div className="flex flex-col">
+                                <span>Total Amount </span>
+                                <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                                    ₹ {roundPrice(totalExcludedGSTAmount)}
+                                </span>
+                            </div>
+                        )}
+                        {currentPackage?.gst === "Included" && (
+                            <div className="flex flex-col">
+                                <span>Total Amount</span>
+                                <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                                    ₹ {roundPrice(totalIncludedGSTAmount)}
+                                </span>
+                            </div>
+                        )}
+                        <div>
+                            <button
+                                onClick={handleProceed}
+                                className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg"
+                            >
+                                Proceed
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* DESKTOP  */}
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[320px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                    <div className="flex flex-col items-start">
+                        {currentPackage?.gst === "Included" && (
+                            <span className="font-bold text-md">
+                                Pay ₹
+                                {roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000
+                                    ? roundPrice(Number(ThirtyDiscountForInculdedTax))
+                                    : roundPrice(totalIncludedGSTAmount)}{" "}
+                                Now
+                            </span>
+                        )}
+                        {currentPackage?.gst === "Excluded" && (
+                            <span className="font-bold text-md">
+                                Pay ₹
+                                {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
+                                    ? roundPrice(Number(ThirtyDiscountForExcludedTax))
+                                    : roundPrice(totalExcludedGSTAmount)}{" "}
+                                Now
+                            </span>
+                        )}
+                        <span className="text-[#ff0000] font-semibold text-[15px]">
+                            Balance on Delivery
+                        </span>
+                    </div>
+                    <button
+                        onClick={handleProceed}
+                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"
+                    >
+                        Proceed
+                    </button>
+                </div>
+            </main>
+            {applyCoupon && <ApplyCoupon onClick={() => setApplyCoupon(false)} />}
+        </div>
+    );
+};
+
+export default BookingSummeryFinal;
