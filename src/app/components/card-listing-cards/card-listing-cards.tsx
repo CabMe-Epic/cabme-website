@@ -1032,7 +1032,7 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative">
+                    <div className="sm:h-[274px] relative max-w-[600px]">
                       <div className="mt-5 flex flex-row items-center sm:gap-4 gap-2 sm:mr-10 px-4">
                         <div
                           onClick={() => {
@@ -1402,7 +1402,7 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative">
+                    <div className="sm:h-[274px] relative max-w-[600px]">
                       <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 sm:px-0 px-2">
                         <div onClick={()=>{
                           setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm);
