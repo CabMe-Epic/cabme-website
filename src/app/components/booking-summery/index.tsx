@@ -57,6 +57,8 @@ const BookingSummery = () => {
 
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
+  console.log({ selectedPromocodeOption })
+
   const handleChangePromocodeOption = (e: any) => {
     setSelectedPromocodeOption(e.target.value);
   };
@@ -400,31 +402,31 @@ const BookingSummery = () => {
           </div>
         </div>
         <div className="w-full">
-          {/* <span className="flex flex-row my-5 mt-10">
-                        <Image
-                            src="/png/offer.png"
-                            width={20}
-                            height={20}
-                            alt="offer"
-                        />
-                        <select
-                            name="offer"
-                            id="offer"
-                            className="border-0 outline-0 bg-transparent w-[405px]"
-                            onChange={(e) => handleChangePromocodeOption(e)}
-                        >
+          <span className="flex flex-row my-5 mt-10">
+            <Image
+              src="/png/offer.png"
+              width={20}
+              height={20}
+              alt="offer"
+            />
+            <select
+              name="offer"
+              id="offer"
+              className="border-0 outline-0 bg-transparent w-[405px]"
+              onChange={(e) => handleChangePromocodeOption(e)}
+            >
 
-                            <option value="View all promo coupons">
-                                View all promo coupons
-                            </option>
-                            {promoCodes?.map((item: any, index: number) => (
-                                <option key={index} value={item.code}>
-                                    {item.code}
-                                </option>
-                            ))}
+              <option value="View all promo coupons">
+                View all promo coupons
+              </option>
+              {promoCodes?.map((item: any, index: number) => (
+                <option key={index} value={item.code}>
+                  {item.code}
+                </option>
+              ))}
 
-                        </select>
-                    </span> */}
+            </select>
+          </span>
 
           {/* <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
                         <input
