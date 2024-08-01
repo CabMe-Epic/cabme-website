@@ -141,17 +141,17 @@ const CardListingCards = ({ data }: any) => {
           )
         : driverType === data?.bookingOptions?.withDriver?.outstation?.name
         ? setPackagePrice(
-            calculateTotalPrice(
+            
               data?.bookingOptions?.withDriver?.outstation?.packageType
-                ?.package1?.price
-            )
+                ?.package1?.ratePerKm
+            
           )
         : console.log("Something went wrong in package selection");
     } else {
       console.log("done");
     }
   };
-
+console.log(selectedPackagePrice,"selected pack");
   return (
     <>
       {showImg ? (
@@ -329,7 +329,7 @@ const CardListingCards = ({ data }: any) => {
                               Free kms
                             </p>
                            <span className="sm:block hidden"> ...</span>
-                            <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -379,7 +379,7 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                           <div className="text-[#FF0000] flex flex-row">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px]">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px] m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -389,7 +389,7 @@ const CardListingCards = ({ data }: any) => {
                             </p>
                           <span className="sm:block hidden">  ...</span>
                           </div>
-                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                          <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType
@@ -438,7 +438,7 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                           <div className="flex flex-row text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px]">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px] m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -448,7 +448,7 @@ const CardListingCards = ({ data }: any) => {
                             </p>
                           <span className="sm:block hidden">  ...</span>
                           </div>
-                          <div className="tooltip absolute left-0 top-full mt-1 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                          <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType
@@ -711,7 +711,7 @@ const CardListingCards = ({ data }: any) => {
                             Free kms
                           </p>
                         <span className="sm:block hidden">  ...</span>
-                          <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                          <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
@@ -771,7 +771,7 @@ const CardListingCards = ({ data }: any) => {
                             Free kms
                           </p>
                         <span className="sm:block hidden">  ...</span>
-                          <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                          <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
@@ -831,7 +831,7 @@ const CardListingCards = ({ data }: any) => {
                             Free kms
                           </p>
                          <span className="sm:block hidden"> ...</span>
-                          <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                          <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
@@ -1077,7 +1077,7 @@ const CardListingCards = ({ data }: any) => {
                                 Free kms
                               </p>
                             <span className="sm:block hidden">  ...</span>
-                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                              <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package1?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1131,7 +1131,7 @@ const CardListingCards = ({ data }: any) => {
                                 Free kms
                               </p>
                             <span className="sm:block hidden">  ...</span>
-                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                              <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1185,7 +1185,7 @@ const CardListingCards = ({ data }: any) => {
                                 Free kms
                               </p>
                              <span className="sm:block hidden"> ...</span>
-                              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                              <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package3?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1385,63 +1385,56 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                     <div className="sm:h-[274px] relative">
                       <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 sm:px-0 px-2">
-                        <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
-                          <span className="font-bold text-[18px] ">
+                        <div onClick={()=>{
+                          setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm);
+                          setClicked1(true);
+                          setClicked2(false);
+                          setClicked3(false);
+                        }} className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked1
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""}`}>
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
-                            {/* {data?.bookingOptions?.withDriver?.outstation?.packageType?.package2?.price} */}
-                          <span className="sm:block hidden">  --</span>
-                          </span>
-                          <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] text-[14px] text-center">
-                              {/* {
-                            data?.bookingOptions?.withDriver?.packageType
-                              ?.package1?.duration
-                          } */}
-                              --
-                            </p>
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
-                            <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px]">
-                              360 Free kms
-                            </p>
-                          </span>
+                            ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm}/<span className="text-primary">Km</span>
+                            
+                          </p>
+                          
                         </div>
-                        <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
-                          <span className="font-bold text-[18px] ">
-                            {/* {data?.bookingOptions?.subscription?.package2?.price} */}
-                           <span className="sm:block hidden"> --</span>
-                          </span>
-                          <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] text-[14px] text-center">
-                              {/* {
-                            data?.bookingOptions?.subscription?.package2
-                              ?.duration
-                          } */}
-                              --
-                            </p>
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
-                            <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px]">
-                              360 Free kms
-                            </p>
-                          </span>
+                        <div
+                        onClick={()=>{
+                          setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package2?.ratePerKm);
+
+                          setClicked1(false);
+                          setClicked2(true);
+                          setClicked3(false);
+                        }}
+                         className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked2
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""}`}>
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                            {/* {data?.bookingOptions?.subscription?.package1?.price} */}
+                            ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package2?.ratePerKm}/<span className="text-primary">Km</span>
+                            
+                          </p>
+                          
                         </div>
-                        <div className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]">
-                          <span className="font-bold text-[18px] ">
-                            {/* {data?.bookingOptions?.subscription?.package3?.price} */}
-                           <span className="sm:block hidden"> --</span>
-                          </span>
-                          <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] text-[14px] text-center">
-                              {/* {
-                            data?.bookingOptions?.subscription?.package3
-                              ?.duration
-                          } */}
-                              --
-                            </p>
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
-                            <p className="text-[#FF0000] font-[500] lg:text-[14px] sm:text-[11px] text-[10px]">
-                              360 Free kms
-                            </p>
-                          </span>
+                        <div
+                        onClick={()=>{
+                          setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package3?.ratePerKm);
+
+                          setClicked1(false);
+                          setClicked2(false);
+                          setClicked3(true);
+                        }}
+                        className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked3
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""}`}>
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                            {/* {data?.bookingOptions?.subscription?.package1?.price} */}
+                            ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package3?.ratePerKm}/<span className="text-primary">Km</span>
+                            
+                          </p>
+                          
                         </div>
 
                       </div>
@@ -1479,18 +1472,18 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                       {/*  */}
 
-                      <div className="flex flex-row justify-end mr-10 my-5 sm:block hidden">
+                      {/* <div className="flex flex-row justify-end mr-10 my-5 sm:block hidden">
                         <span>
                           ₹ Extra kms will be charged at{" "}
                           <span className="text-[#FF0000]">
-                            {/* {data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm} */}
+                            {data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm}
                           </span>
                         </span>
-                      </div>
+                      </div> */}
 
                       {/*  */}
 
-                      <div className="sm:flex flex-row justify-between items-center sm:mr-10 mr-4">
+                      <div className="sm:flex flex-row justify-between items-center sm:mr-10 mr-4 sm:mt-6">
                         <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 sm:text-[15px] xs:text-xs text-[10px] sm:mb-0 mb-4">
                           {data?.carFeatures?.bluetooth === true && (
                             <div className="flex flex-row items-center gap-2">
@@ -1527,6 +1520,7 @@ const CardListingCards = ({ data }: any) => {
                               <span>GPS Navigation</span>
                             </div>
                           )}
+                          {/* seating capacity */}
                           <div className="flex flex-row items-center gap-2">
                             <Image
                               src="/carListing/seats.png"
@@ -1537,16 +1531,19 @@ const CardListingCards = ({ data }: any) => {
                             />
                             <span>{data?.seatingCapacity} Person </span>
                           </div>
-                          <div className="flex flex-row items-center gap-2">
-                            <Image
-                              src="/carListing/gas.png"
-                              width={20}
-                              objectFit={"contain"}
-                              height={20}
-                              alt="bluetooth"
-                            />
-                            <span>{data?.vehicleSpecifications?.fuelType}</span>
-                          </div>
+                          {data?.vehicleSpecifications?.fuelType &&
+                              <div className="flex flex-row items-center gap-2">
+                              <Image
+                                src="/carListing/gas.png"
+                                width={20}
+                                objectFit={"contain"}
+                                height={20}
+                                alt="bluetooth"
+                              />
+                              <span>{data?.vehicleSpecifications?.fuelType}</span>
+                            </div>
+                          }
+                          
                           <div className="flex flex-row items-center gap-2">
                             <Image
                               src="/carListing/bootspace.png"
