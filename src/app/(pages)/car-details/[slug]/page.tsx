@@ -468,7 +468,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                        {roundPrice(totalExcludedGSTAmount)}
+                      ₹     {roundPrice(totalExcludedGSTAmount)}
                       </span>
                     </div>
                   }
@@ -476,7 +476,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                        {roundPrice(totalIncludedGSTAmount)}
+                      ₹   {roundPrice(totalIncludedGSTAmount)}
                       </span>
                     </div>
                   }
