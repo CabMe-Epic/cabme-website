@@ -62,9 +62,10 @@ const Checkout = () => {
     }
 
     if (
-      userData?.aadharVerified &&
-      userData?.panVerified &&
-      userData?.drivingLicenseVerified
+      userData?.aadharVerified 
+      // &&
+      // userData?.panVerified &&
+      // userData?.drivingLicenseVerified
     ) {
       setThree(true);
       setTwo(true);
@@ -97,25 +98,25 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        if (userData?._id) {
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`
-          );
-          setUser(response?.data?.result);
-        }
-      } catch (err: any) {
-        throw err;
-        // setErrorMessage(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       if (userData?._id) {
+  //         const response = await axios.get(
+  //           `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`
+  //         );
+  //         setUser(response?.data?.result);
+  //       }
+  //     } catch (err: any) {
+  //       throw err;
+  //       // setErrorMessage(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -479,37 +480,35 @@ const Checkout = () => {
   /// payment intrigation
   console.log("USER DATA", { userData });
 
-  const PAYU_BASE_URL = "https://test.payu.in";
+  const PAYU_BASE_URL = 'https://test.payu.in'
 
-  const [payment, setPayment] = useState({
-    amount: 10,
-    productInfo: "test",
-    firstName: "sahil",
-    email: "test@gmail.com",
-    phone: "9999999999",
-  });
+  const payload = {
+    firstname: "Aasif Alvi",
+    email: "aasifalvi8888@gmail.com",
+    amount: 1,
+    productinfo: "Fleet for booking"
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:9003/pay", payment);
-      console.log("Payment response", response);
-      const { data } = response;
-      // window.location.href = `${PAYU_BASE_URL}/_payment?${data}`;
-      const resData = {
-        key: data.key,
-        txnid: data.txnid,
-        amount: data.amount,
-        productinfo: data.productinfo,
-        firstname: data.firstname,
-        email: data.email,
-        phone: data.phone,
-        surl: data.surl,
-        furl: data.furl,
-        hash: data.hash,
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/payment`, payload);
+      console.log("Payment response", { response });
+      const result = response?.data
+      const data = {
+        key: result.key,
+        txnid: result.txnid,
+        amount: result.amount,
+        productinfo: result.productinfo,
+        firstname: result.firstname,
+        email: result.email,
+        surl: result.surl,
+        furl: result.furl,
+        hash: result.hash,
       };
-      const resDataPrti = new URLSearchParams(resData).toString();
-
+      console.log({ data })
+      const resDataPrti = new URLSearchParams(data).toString();
+      console.log({ resDataPrti })
       window.location.href = `${PAYU_BASE_URL}/_payment?${resDataPrti}`;
     } catch (error) {
       console.error("Error processing payment", error);
@@ -519,12 +518,6 @@ const Checkout = () => {
   return (
     <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
-      <button
-        className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
-        onClick={handleSubmit}
-      >
-        Continue
-      </button>
       <div className="max-w-[765px] w-full mx-auto">
         {one == false && two && three ? (
           ""
@@ -1050,16 +1043,16 @@ const Checkout = () => {
                   <div className="flex items-center gap-5 mt-4 text-sm">
                     <Image src="/user.svg" alt="user" width={20} height={20} />
                     <span className="text-[#878787]">
-                      {user?.firstName} {user?.lastName}
+                      {userData?.firstName} {userData?.lastName}
                     </span>
                   </div>
                   <div className="flex items-center gap-5 mt-4 text-sm">
                     <Image src="/email.svg" alt="user" width={20} height={20} />
-                    <span className="text-[#878787]">{user?.email}</span>
+                    <span className="text-[#878787]">{userData?.email}</span>
                   </div>
                   <div className="flex items-center gap-5 mt-4 text-sm">
                     <Image src="/phone.svg" alt="user" width={20} height={20} />
-                    <span className="text-[#878787]">{user?.phone}</span>
+                    <span className="text-[#878787]">{userData?.phone}</span>
                   </div>
                 </div>
                 <div className="max-w-[300px] sm:mt-0 mt-4">
@@ -1071,7 +1064,7 @@ const Checkout = () => {
                       width={20}
                       height={20}
                     />
-                    <span className="text-[#878787]">{user?.address}</span>
+                    <span className="text-[#878787]">{userData?.address}</span>
                   </div>
                   <div className="flex items-center gap-5 mt-4 text-sm">
                     <Image
@@ -1080,7 +1073,7 @@ const Checkout = () => {
                       width={20}
                       height={20}
                     />
-                    <span className="text-[#878787]">{user?.city}</span>
+                    <span className="text-[#878787]">{userData?.city}</span>
                   </div>
                   <div className="flex items-center gap-5 mt-4 text-sm">
                     <Image
@@ -1089,7 +1082,7 @@ const Checkout = () => {
                       width={20}
                       height={20}
                     />
-                    <span className="text-[#878787]">{user?.state}</span>
+                    <span className="text-[#878787]">{userData?.state}</span>
                   </div>
                 </div>
               </div>
@@ -1098,23 +1091,23 @@ const Checkout = () => {
                   <span className="text-[#FF0000] font-semibold text-[16px]">
                     Documents
                   </span>
-                  <div className="sm:flex justify-between items-center gap-5 mt-4 ">
-                    <span className="text-[#878787] w-[200px]">PAN Number</span>
-                    :{" "}
-                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4 "> */}
+                    {/* <span className="text-[#878787] w-[200px]">PAN Number</span> */}
+                    {/* :{" "} */}
+                    {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
                       {" "}
-                      <span className="text-[#878787]">
+                      {/* <span className="text-[#878787]">
                         {userData?.panNumber}
-                      </span>{" "}
-                      <Image
+                      </span>{" "} */}
+                      {/* <Image
                         src={userData?.panImageUrl || "/pancard.svg"}
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "}
+                      />{" "} */}
                       {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
-                    </span>
-                    {userData?.panVerified ? (
+                    {/* </span> */}
+                    {/* {userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1131,29 +1124,29 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )}
-                  </div>
-                  <div className="sm:flex justify-between items-center gap-5 mt-4">
-                    <span className="text-[#878787] w-[200px]">
+                    )} */}
+                  {/* </div> */}
+                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4"> */}
+                    {/* <span className="text-[#878787] w-[200px]">
                       Driving License Number
-                    </span>
-                    :{" "}
-                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                    </span> */}
+                    {/* :{" "} */}
+                    {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
                       {" "}
-                      <span className="text-[#878787]">
+                      {/* <span className="text-[#878787]">
                         {userData?.drivingLicenseNumber}
-                      </span>{" "}
-                      <Image
+                      </span>{" "} */}
+                      {/* <Image
                         src={
                           userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"
                         }
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "}
+                      />{" "} */}
                       {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
-                    </span>
-                    {userData?.drivingLicenseVerified ? (
+                    {/* </span> */}
+                    {/* {userData?.drivingLicenseVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1170,8 +1163,8 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )}
-                  </div>
+                    )} */}
+                  {/* </div> */}
                   <div className="sm:flex justify-between items-center gap-5 mt-4">
                     <span className="text-[#878787] w-[200px]">
                       Aadhar Number
@@ -1228,12 +1221,12 @@ const Checkout = () => {
 
         <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
           <h2 className="text-[20px] font-bold">4. Payment</h2>
-          {/* <button
+          <button
             className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
             onClick={handleSubmit}
           >
             Continue
-          </button> */}
+          </button>
         </div>
       </div>
       <div className="max-w-[450px] w-full mx-auto">
