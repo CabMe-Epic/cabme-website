@@ -270,6 +270,8 @@ const BookingSummery = () => {
     getPromoCodes();
   }, []);
 
+
+
   // console.log(carDetails, "carDetails")
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -284,15 +286,37 @@ const BookingSummery = () => {
 
   console.log({ currentPackage });
 
-  
+  React.useEffect(() => {
+    {
+      carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
+        ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
+        : carDetails?.bookingOptions?.subscription?.name === bookingOpt
+          ? setCurrentPackage(
+            carDetails?.bookingOptions?.subscription?.packageType
+          )
+          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+            ? setCurrentPackage(carDetails?.bookingOptions?.withDriver?.local?.packageType)
+            : "";
+    }
+  }, [carDetails]);
 
-  const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
+  // const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
 
   const totalCheckoutPrice =
     Number(packagePrice) +
     Number(doorStepPrice) +
-    Number(result?.gstAmount) +
+    // Number(result?.gstAmount) +
     Number(currentPackage?.refundableDeposit);
+
+  const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
+  // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
+
+  const doorStepAmount = doorStepPrice || 0;
+  const totalExcludedGSTAmount = Number(packagePrice) + Number(result?.gstAmount) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
+  const totalIncludedGSTAmount = Number(packagePrice) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
+
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 
   return (
@@ -369,21 +393,22 @@ const BookingSummery = () => {
           </div>
 
           {/* DESKTOP ...  */}
-          {discountAmount > 0 ? (
-            <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
-              <span className=" w-fit word-wrap ml-4">TOTAL</span>
-              <span className=" w-fit word-wrap ml-10 text-[#ff0000]">
-                ₹ {(totalCheckoutPrice).toFixed(0)}
+          {currentPackage?.gst === "Excluded" &&
+            <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+              <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
+              <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
+                {roundPrice(totalExcludedGSTAmount)}
               </span>
             </div>
-          ) : (
-            <div className="grid grid-cols-2 w-fit sm:gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
-              <span className=" w-fit word-wrap sm:ml-4 ml-2">TOTAL</span>
-              <span className=" w-fit word-wrap sm:ml-10 text-[#ff0000]">
-                ₹ {(totalCheckoutPrice).toFixed(0)}
+          }
+          {currentPackage?.gst === "Included" &&
+            <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+              <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
+              <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
+                {roundPrice(totalIncludedGSTAmount)}
               </span>
             </div>
-          )}
+          }
 
           {/* <div className="grid grid-cols-2 gap-14  justify-center">
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
@@ -559,7 +584,10 @@ const BookingSummery = () => {
               <span className="sm:text-2xl font-bold">Total Amount</span>
               <span>:</span>
               <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                ₹ {(totalCheckoutPrice).toFixed(0)}
+                ₹ {currentPackage?.gst === "Included" &&
+                  roundPrice(totalIncludedGSTAmount)}
+                {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
+
               </span>
             </div>
             <div>
