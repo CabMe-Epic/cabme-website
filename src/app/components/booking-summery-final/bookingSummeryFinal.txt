@@ -530,7 +530,9 @@ const BookingSummeryFinal = () => {
                     </button>
                 </div>
             </main>
-            {applyCoupon && <ApplyCoupon onClick={() => setApplyCoupon(false)} />}
+            {applyCoupon && <ApplyCoupon hide={() => setApplyCoupon(false)} handleChangePromocodeOption={function (e: any): void {
+                throw new Error("Function not implemented.");
+            } } />}
         </div>
     );
 };

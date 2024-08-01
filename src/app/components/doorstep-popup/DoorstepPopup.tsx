@@ -32,7 +32,7 @@ const DropLocation: React.FC<DropLocationProps> = ({ currentPackage, onSelectIte
             </div>
             <div className="bg-white divide-y divide-gray-200 rounded-xl">
                 {currentPackage?.map((item, index) => (
-                    <div 
+                    <div
                         key={index}
                         onClick={() => handleSelectItem(item)} // Handle item selection
                         className={`p-4 mx-2 flex justify-between cursor-pointer text-sm ${selectedItem === item ? 'bg-gray-100' : ''}`}
