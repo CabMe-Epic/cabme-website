@@ -1042,13 +1042,20 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                             if (calculatedPrice) {
                               setPrice(Math.round(calculatedPrice));
+                              
+
                             } else {
                               console.error(
                                 "Failed to calculate the total price"
                               );
                             }
+                            setClicked1(true);
+                              setClicked2(false);
+                              setClicked3(false);
                           }}
-                          className=" sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                            : ""}`}
                         >
                           <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
@@ -1097,13 +1104,19 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                             if (calculatedPrice) {
                               setPrice(Math.round(calculatedPrice));
+                              
                             } else {
                               console.error(
                                 "Failed to calculate the total price"
                               );
                             }
+                            setClicked1(false);
+                              setClicked2(true);
+                              setClicked3(false);
                           }}
-                          className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                            ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                            : ""}`}
                         >
                           <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none">
                             ₹{" "}
@@ -1151,13 +1164,19 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                             if (calculatedPrice) {
                               setPrice(Math.round(calculatedPrice));
+                              
                             } else {
                               console.error(
                                 "Failed to calculate the total price"
                               );
                             }
+                            setClicked1(false);
+                              setClicked2(false);
+                              setClicked3(true);
                           }}
-                          className="sm:flex flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px]"
+                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
+                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                            : ""}`}
                         >
                           <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none">
                             ₹{" "}
