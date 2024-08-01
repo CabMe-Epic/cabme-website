@@ -225,12 +225,12 @@ const BookingSummery = () => {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-        ? setCurrentPackage(
+          ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-        ? setCurrentPackage("")
-        : "";
+          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+            ? setCurrentPackage("")
+            : "";
     }
   }, [carDetails]);
 
@@ -267,6 +267,15 @@ const BookingSummery = () => {
     }
   }, []);
 
+  console.log({ currentPackage })
+
+  const doorStep = currentPackage?.DoorstepDeliveryPickup?.reduce(
+    (acc: any, item: any) => acc + item?.price,
+    0
+  )
+
+  const totalCheckoutPrice = Number(packagePrice) + Number(doorStep) + Number(currentPackage?.refundableDeposit)
+
   return (
     <div>
       <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
@@ -276,8 +285,8 @@ const BookingSummery = () => {
           </span>
         </div>
         <div className="my-5 flex justify-between w-full sm:px-4">
-          <span className="font-bold sm:text-lg">Fare Details</span>
-          <select
+          {/* <span className="font-bold sm:text-lg">Fare Details</span> */}
+          {/* <select
             name="package"
             id="package"
             onChange={(event) => handlePriceChange(event?.target?.value)}
@@ -292,7 +301,7 @@ const BookingSummery = () => {
             <option value={currentPackage?.package3?.price}>
               {currentPackage?.package3?.price}
             </option>
-          </select>
+          </select> */}
         </div>
         <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
           <div className="grid grid-cols-2 gap-14  justify-center">
@@ -300,7 +309,7 @@ const BookingSummery = () => {
               Base Fare
             </span>
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
-              ₹{packagePrice} * {days} Days and {hours} Hours
+              ₹{packagePrice}
             </span>
           </div>
 
@@ -340,14 +349,14 @@ const BookingSummery = () => {
             <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
               <span className=" w-fit word-wrap ml-4">TOTAL</span>
               <span className=" w-fit word-wrap ml-10 text-[#ff0000]">
-                ₹ {totalPrice.toFixed(2)}
+                ₹ {totalCheckoutPrice}
               </span>
             </div>
           ) : (
             <div className="grid grid-cols-2 w-fit sm:gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
               <span className=" w-fit word-wrap sm:ml-4 ml-2">TOTAL</span>
               <span className=" w-fit word-wrap sm:ml-10 text-[#ff0000]">
-                ₹ {totalPrice.toFixed(2)}
+                ₹ {totalCheckoutPrice}
               </span>
             </div>
           )}
@@ -519,7 +528,7 @@ const BookingSummery = () => {
               <span className="sm:text-2xl font-bold">Total Amount</span>
               <span>:</span>
               <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                ₹ {totalPrice.toFixed(2)}
+                ₹ {totalCheckoutPrice}
               </span>
             </div>
             <div>

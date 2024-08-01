@@ -98,25 +98,25 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        if (userData?._id) {
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`
-          );
-          setUser(response?.data?.result);
-        }
-      } catch (err: any) {
-        throw err;
-        // setErrorMessage(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       if (userData?._id) {
+  //         const response = await axios.get(
+  //           `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`
+  //         );
+  //         setUser(response?.data?.result);
+  //       }
+  //     } catch (err: any) {
+  //       throw err;
+  //       // setErrorMessage(err.message);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchUser();
-  }, []);
+  //   fetchUser();
+  // }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -1091,23 +1091,23 @@ const Checkout = () => {
                   <span className="text-[#FF0000] font-semibold text-[16px]">
                     Documents
                   </span>
-                  <div className="sm:flex justify-between items-center gap-5 mt-4 ">
-                    <span className="text-[#878787] w-[200px]">PAN Number</span>
-                    :{" "}
-                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4 "> */}
+                    {/* <span className="text-[#878787] w-[200px]">PAN Number</span> */}
+                    {/* :{" "} */}
+                    {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
                       {" "}
-                      <span className="text-[#878787]">
+                      {/* <span className="text-[#878787]">
                         {userData?.panNumber}
-                      </span>{" "}
-                      <Image
+                      </span>{" "} */}
+                      {/* <Image
                         src={userData?.panImageUrl || "/pancard.svg"}
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "}
+                      />{" "} */}
                       {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
-                    </span>
-                    {userData?.panVerified ? (
+                    {/* </span> */}
+                    {/* {userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1124,29 +1124,29 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )}
-                  </div>
-                  <div className="sm:flex justify-between items-center gap-5 mt-4">
-                    <span className="text-[#878787] w-[200px]">
+                    )} */}
+                  {/* </div> */}
+                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4"> */}
+                    {/* <span className="text-[#878787] w-[200px]">
                       Driving License Number
-                    </span>
-                    :{" "}
-                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                    </span> */}
+                    {/* :{" "} */}
+                    {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
                       {" "}
-                      <span className="text-[#878787]">
+                      {/* <span className="text-[#878787]">
                         {userData?.drivingLicenseNumber}
-                      </span>{" "}
-                      <Image
+                      </span>{" "} */}
+                      {/* <Image
                         src={
                           userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"
                         }
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "}
+                      />{" "} */}
                       {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
-                    </span>
-                    {userData?.drivingLicenseVerified ? (
+                    {/* </span> */}
+                    {/* {userData?.drivingLicenseVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1163,8 +1163,8 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )}
-                  </div>
+                    )} */}
+                  {/* </div> */}
                   <div className="sm:flex justify-between items-center gap-5 mt-4">
                     <span className="text-[#878787] w-[200px]">
                       Aadhar Number
