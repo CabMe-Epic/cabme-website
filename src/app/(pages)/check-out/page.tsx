@@ -2,11 +2,16 @@
 import BookingSummery from "@/app/components/booking-summery";
 import InputField from "@/app/components/input-field/input-field";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios"
-import { DLUploading, postAadharBack, postAadharFront, postPanCard } from "../../../../networkRequests/hooks/api";
+import axios from "axios";
+import {
+  DLUploading,
+  postAadharBack,
+  postAadharFront,
+  postPanCard,
+} from "../../../../networkRequests/hooks/api";
 import { getSessionData, setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 
@@ -41,8 +46,7 @@ interface User extends SelectedUser {
 const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const userData = useStore((state) => state.userData);
-  console.log("USER DATA", { userData })
-
+  console.log("USER DATA", { userData });
 
   const [aadharGenerate, setAadharGenerate] = useState(false);
   const [one, setOne] = useState(true);
@@ -51,20 +55,23 @@ const Checkout = () => {
   const [four, setFour] = useState(true);
 
   useEffect(() => {
-    console.log({ userData })
+    console.log({ userData });
     if (userData?.phoneVerified) {
       setTwo(false);
       setOne(false);
     }
 
-    if (userData?.aadharVerified && userData?.panVerified && userData?.drivingLicenseVerified) {
-      setThree(true)
-      setTwo(true)
+    if (
+      userData?.aadharVerified &&
+      userData?.panVerified &&
+      userData?.drivingLicenseVerified
+    ) {
+      setThree(true);
+      setTwo(true);
     }
   }, [userData]);
 
   const [phone, setPhoneNumber] = useState("");
-
 
   const [aadharFrontPost, setAadharFrontPost] = useState<string | null>(null);
   const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
@@ -77,13 +84,13 @@ const Checkout = () => {
   // console.log({ userDetails })
 
   const [selectedUser, setSelectedUser] = useState<SelectedUser | null>({
-    firstName: '',
-    lastName: '',
-    fullName: '',
-    email: '',
-    address: '',
-    city: '',
-    state: '',
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
   });
 
   const [user, setUser] = useState<User | null>(null);
@@ -94,7 +101,9 @@ const Checkout = () => {
     const fetchUser = async () => {
       try {
         if (userData?._id) {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`);
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`
+          );
           setUser(response?.data?.result);
         }
       } catch (err: any) {
@@ -108,7 +117,6 @@ const Checkout = () => {
     fetchUser();
   }, []);
 
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setSelectedUser((prevState) => ({
@@ -119,11 +127,13 @@ const Checkout = () => {
 
   const handleSignUp = async () => {
     try {
-
       if (!selectedUser || !phone) {
-        setTwo(true)
-        setThree(false)
-        console.log("Skipping signup due to missing fields:", { selectedUser, phone });
+        setTwo(true);
+        setThree(false);
+        console.log("Skipping signup due to missing fields:", {
+          selectedUser,
+          phone,
+        });
         return;
       }
 
@@ -137,10 +147,10 @@ const Checkout = () => {
       );
       console.log("Signup successful:", { response });
       if (response?.data?.success) {
-        updateUserData(response?.data?.result?.user)
-        setOne(false)
-        setTwo(true)
-        setThree(false)
+        updateUserData(response?.data?.result?.user);
+        setOne(false);
+        setTwo(true);
+        setThree(false);
         toast.success(response?.data?.message);
       }
     } catch (error: any) {
@@ -158,7 +168,7 @@ const Checkout = () => {
 
   const handlePhoneChange = (event: any) => {
     setPhoneNumber(event.target.value);
-  }
+  };
 
   const handleSendOtp = async () => {
     try {
@@ -177,7 +187,7 @@ const Checkout = () => {
 
       if (response.ok) {
         setAadharGenerate(true);
-        setErrorMessage(result?.message)
+        setErrorMessage(result?.message);
       } else {
         toast.error(result.message || "Failed to send OTP.");
       }
@@ -190,63 +200,69 @@ const Checkout = () => {
   const [otp, setOtp] = useState("");
   const [aadhar, setAadhar] = useState("");
   const [aadharOtp, setAadharOtp] = useState("");
-  const [aadharData, setAadharData] = useState('');
+  const [aadharData, setAadharData] = useState("");
 
   const handleGenerateAadharOTP = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/getOkycOtp`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ aadhaarNumber: aadhar })
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/getOkycOtp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ aadhaarNumber: aadhar }),
+        }
+      );
       const data = await response.json();
-      console.log({ data })
-      const session = getSessionData('user');
+      console.log({ data });
+      const session = getSessionData("user");
       if (data?.otpResponse?.statusCode === 200) {
-        setAadharGenerate(true)
-        setAadharData(data)
+        setAadharGenerate(true);
+        setAadharData(data);
       } else {
-        toast.error(data?.otpResponse?.error?.message)
+        toast.error(data?.otpResponse?.error?.message);
       }
     } catch (error) {
-      console.error('Error fetching OTP:', error);
+      console.error("Error fetching OTP:", error);
     }
   };
 
   const handleVerifyAadharOTP = async () => {
     try {
-      console.log({ aadharFrontPost }, { aadharBackPost })
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchOkycData`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          //@ts-ignore
-          currentUserId: userData?._id,
-          otp: aadharOtp,
-          //@ts-ignore
-          requestId: aadharData?.otpResponse?.data?.requestId,
-          aadhaarNumber: aadhar,
-          aadharCardFrontImageUrl: aadharFrontPost,
-          aadharCardBackImageUrl: aadharBackPost
-        })
-      });
+      console.log({ aadharFrontPost }, { aadharBackPost });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchOkycData`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            //@ts-ignore
+            currentUserId: userData?._id,
+            otp: aadharOtp,
+            //@ts-ignore
+            requestId: aadharData?.otpResponse?.data?.requestId,
+            aadhaarNumber: aadhar,
+            aadharCardFrontImageUrl: aadharFrontPost,
+            aadharCardBackImageUrl: aadharBackPost,
+          }),
+        }
+      );
       const data = await response.json();
-      console.log({ data })
+      console.log({ data });
       if (data?.verificationResponse?.statusCode === 200) {
-        const value = data?.user
-        setSessionData("user", value)
-        setAadharGenerate(false)
-        updateUserData(value)
-        toast.success("Aadhar card has been verified.")
+        const value = data?.user;
+        setSessionData("user", value);
+        setAadharGenerate(false);
+        updateUserData(value);
+        toast.success("Aadhar card has been verified.");
       }
     } catch (error) {
-      console.error('Error fetching OTP:', error);
+      console.error("Error fetching OTP:", error);
     }
-  }
+  };
 
   const handleVerifyOTP = async () => {
     try {
@@ -265,14 +281,14 @@ const Checkout = () => {
       const result = response.data;
       console.log({ result });
       if (response.status === 200) {
-        const currentUser = result?.result?.user
+        const currentUser = result?.result?.user;
         const token = result?.result?.token;
-        updateUserData(currentUser)
+        updateUserData(currentUser);
         if (currentUser?.phoneVerified) {
           window.location.reload();
         }
-        setOne(false)
-        setTwo(false)
+        setOne(false);
+        setTwo(false);
         toast.success("OTP verification successfully.");
       } else {
         toast.error(result.message || "OTP verification failed.");
@@ -283,39 +299,44 @@ const Checkout = () => {
     }
   };
 
-  const [panCard, setPanCard] = useState('');
-  const [dl, setDL] = useState('');
+  const [panCard, setPanCard] = useState("");
+  const [dl, setDL] = useState("");
 
   const handleVerifiedPan = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          pan: panCard,
-          name: "Anupam Singh",
-          dob: "10/08/1988",
-          //@ts-ignore
-          currentUserId: userData?._id,
-          panImageUrl: panCardPost
-        })
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            pan: panCard,
+            name: "Anupam Singh",
+            dob: "10/08/1988",
+            //@ts-ignore
+            currentUserId: userData?._id,
+            panImageUrl: panCardPost,
+          }),
+        }
+      );
       const data = await response.json();
-      console.log({ data })
+      console.log({ data });
       if (data?.success === false) {
-        return toast.error("The provided PAN number is invalid. Please check and try again.");
+        return toast.error(
+          "The provided PAN number is invalid. Please check and try again."
+        );
       }
       if (data?.success) {
-        const update = data?.user
-        updateUserData(update)
+        const update = data?.user;
+        updateUserData(update);
         toast.success("The PAN card has been successfully verified.");
       }
     } catch (error) {
-      console.error('Error fetching OTP:', error);
+      console.error("Error fetching OTP:", error);
     }
-  }
+  };
 
   const [frontImage, setFrontImage] = useState<any>(null);
   const [backImage, setBackImage] = useState<any>(null);
@@ -323,22 +344,21 @@ const Checkout = () => {
   const [panFrontImage, setPanFrontImage] = useState<any>(null);
   const [showDocSelect, setShowDocSelect] = useState<any>("DrivingLicense");
 
-
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Aadhar Images Uploading Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const handleFrontImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
-        files: event.target.files[0]
-      }
+        files: event.target.files[0],
+      };
       setFrontImage(file);
       try {
         const res = await postAadharFront(imagePayload);
-        const cleanUrl = res.replace(/\n/g, '');
+        const cleanUrl = res.replace(/\n/g, "");
         setAadharFrontPost(cleanUrl);
       } catch (error) {
-        console.error('Error uploading Aadhar front image:', error);
+        console.error("Error uploading Aadhar front image:", error);
       }
     }
   };
@@ -347,15 +367,15 @@ const Checkout = () => {
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
-        files: event.target.files[0]
-      }
+        files: event.target.files[0],
+      };
       setBackImage(file);
       try {
         const res = await postAadharBack(imagePayload);
-        const cleanUrl = res.replace(/\n/g, '');
+        const cleanUrl = res.replace(/\n/g, "");
         setAadharBackPost(cleanUrl);
       } catch (error) {
-        console.error('Error uploading Aadhar front image:', error);
+        console.error("Error uploading Aadhar front image:", error);
       }
     }
   };
@@ -374,15 +394,15 @@ const Checkout = () => {
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
-        files: event.target.files[0]
-      }
+        files: event.target.files[0],
+      };
       setPanFrontImage(file);
       try {
         const res = await postPanCard(imagePayload);
-        const cleanUrl = res.replace(/\n/g, '');
+        const cleanUrl = res.replace(/\n/g, "");
         setPanCardPost(cleanUrl);
       } catch (error) {
-        console.error('Error uploading Aadhar front image:', error);
+        console.error("Error uploading Aadhar front image:", error);
       }
     }
   };
@@ -393,20 +413,19 @@ const Checkout = () => {
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PAN Images Uploading >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-
   const handleDlFrontImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
-        files: event.target.files[0]
-      }
+        files: event.target.files[0],
+      };
       setDlFrontImage(file);
       try {
         const res = await DLUploading(imagePayload);
-        const cleanUrl = res.replace(/\n/g, '');
+        const cleanUrl = res.replace(/\n/g, "");
         setDLPost(cleanUrl);
       } catch (error) {
-        console.error('Error uploading Aadhar front image:', error);
+        console.error("Error uploading Aadhar front image:", error);
       }
     }
   };
@@ -417,33 +436,38 @@ const Checkout = () => {
 
   const handleVerifyDrivingLicence = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/driving-based-search`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          number: dl,
-          dob: "10/08/1988",
-          frontImage: dlPost,
-          //@ts-ignore
-          currentUserId: userData?._id,
-        })
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/driving-based-search`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            number: dl,
+            dob: "10/08/1988",
+            frontImage: dlPost,
+            //@ts-ignore
+            currentUserId: userData?._id,
+          }),
+        }
+      );
       const data = await response.json();
-      console.log({ data })
+      console.log({ data });
       if (data?.success === false) {
-        toast.error("The provided driving license is invalid. Please check and try again.");
+        toast.error(
+          "The provided driving license is invalid. Please check and try again."
+        );
       }
       if (data?.success) {
-        const update = data?.user
-        updateUserData(update)
+        const update = data?.user;
+        updateUserData(update);
         toast.success("The driving license has been successfully verified.");
       }
     } catch (error) {
-      console.error('Error fetching OTP:', error);
+      console.error("Error fetching OTP:", error);
     }
-  }
+  };
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DL Images Uploading >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -452,17 +476,68 @@ const Checkout = () => {
     setShowDocSelect(e.target.value);
   };
 
+  /// payment intrigation
+  console.log("USER DATA", { userData });
+
+  const PAYU_BASE_URL = "https://test.payu.in";
+
+  const [payment, setPayment] = useState({
+    amount: 10,
+    productInfo: "test",
+    firstName: "sahil",
+    email: "test@gmail.com",
+    phone: "9999999999",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:9003/pay", payment);
+      console.log("Payment response", response);
+      const { data } = response;
+      // window.location.href = `${PAYU_BASE_URL}/_payment?${data}`;
+      const resData = {
+        key: data.key,
+        txnid: data.txnid,
+        amount: data.amount,
+        productinfo: data.productinfo,
+        firstname: data.firstname,
+        email: data.email,
+        phone: data.phone,
+        surl: data.surl,
+        furl: data.furl,
+        hash: data.hash,
+      };
+      const resDataPrti = new URLSearchParams(resData).toString();
+
+      window.location.href = `${PAYU_BASE_URL}/_payment?${resDataPrti}`;
+    } catch (error) {
+      console.error("Error processing payment", error);
+    }
+  };
+
   return (
     <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
+      <button
+        className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+        onClick={handleSubmit}
+      >
+        Continue
+      </button>
       <div className="max-w-[765px] w-full mx-auto">
-        {(one == false) && two && three ? (""
+        {one == false && two && three ? (
+          ""
         ) : (
           <div>
             {/*-------------------------------------------------------- section one start */}
             <div className="h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-              <h6 className="text-[12px] font-bold" style={{ color: 'red' }}>{otp ? "" : errorMessage}</h6>
-              <h2 className="sm:text-[20px] text-lg font-semibold">1. Start Your Order</h2>
+              <h6 className="text-[12px] font-bold" style={{ color: "red" }}>
+                {otp ? "" : errorMessage}
+              </h6>
+              <h2 className="sm:text-[20px] text-lg font-semibold">
+                1. Start Your Order
+              </h2>
               {one ? (
                 <div>
                   <div className="mt-4 sm:flex gap-6 items-center">
@@ -473,7 +548,8 @@ const Checkout = () => {
                       onChange={handlePhoneChange}
                     />
                     {aadharGenerate ? (
-                      <div className="w-[200px] text-[#FF0000] underline font-semibold cursor-pointer"
+                      <div
+                        className="w-[200px] text-[#FF0000] underline font-semibold cursor-pointer"
                         onClick={handleSendOtp}
                       >
                         Resend OTP
@@ -514,7 +590,9 @@ const Checkout = () => {
             {/*-------------------------------------------------------- section one end */}
             {/*-------------------------------------------------------- section two start */}
             <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-              <h2 className="sm:text-[20px] text-lg font-semibold">2. About you</h2>
+              <h2 className="sm:text-[20px] text-lg font-semibold">
+                2. About you
+              </h2>
               {!two ? (
                 <div>
                   <div className="mt-4 flex gap-10 items-center">
@@ -587,7 +665,9 @@ const Checkout = () => {
             {/*-------------------------------------------------------- section two end */}
             {/*-------------------------------------------------------- section three start */}
             <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-              <h2 className="sm:text-[20px] text-lg font-semibold">3. KYC Verification</h2>
+              <h2 className="sm:text-[20px] text-lg font-semibold">
+                3. KYC Verification
+              </h2>
               {!three ? (
                 <div>
                   <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
@@ -603,7 +683,12 @@ const Checkout = () => {
                         Verified Account
                       </span>
                     ) : (
-                      <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                      <Image
+                        src="/notVerified.svg"
+                        alt=""
+                        width={30}
+                        height={30}
+                      />
                     )}
                   </h4>
                   <div className="mt-4 sm:flex grid gap-6 items-center">
@@ -693,11 +778,12 @@ const Checkout = () => {
                   </div>
                   <button
                     onClick={handleGenerateAadharOTP}
-                    className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all">
+                    className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                  >
                     Generate OTP
                   </button>
 
-                  {aadharGenerate &&
+                  {aadharGenerate && (
                     <div className="mt-4 flex gap-4 items-center">
                       <InputField
                         type="number"
@@ -707,14 +793,16 @@ const Checkout = () => {
                       />
                       <button
                         onClick={handleVerifyAadharOTP}
-                        className="w-[209px] h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all">
+                        className="w-[209px] h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                      >
                         Submit
                       </button>
                     </div>
-                  }
-                  <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                  )}
+                  {/* <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Driving License/PAN Card{" "}
-                    {userData?.drivingLicenseVerified && userData?.panVerified ? (
+                    {userData?.drivingLicenseVerified &&
+                    userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -725,7 +813,12 @@ const Checkout = () => {
                         Verified Account
                       </span>
                     ) : (
-                      <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                      <Image
+                        src="/notVerified.svg"
+                        alt=""
+                        width={30}
+                        height={30}
+                      />
                     )}
                   </h4>
 
@@ -739,9 +832,9 @@ const Checkout = () => {
                       <option value="DrivingLicense">Driving License</option>
                       <option value="PanCard">PAN Card</option>
                     </select>
-                  </div>
+                  </div> */}
 
-                  {showDocSelect === "DrivingLicense" ? (
+                  {/* {showDocSelect === "DrivingLicense" ? (
                     <div>
                       <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         Driving License{" "}
@@ -756,7 +849,12 @@ const Checkout = () => {
                             Verified Account
                           </span>
                         ) : (
-                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                          <Image
+                            src="/notVerified.svg"
+                            alt=""
+                            width={30}
+                            height={30}
+                          />
                         )}
                       </h4>
                       <div className="sm:flex items-center gap-4 ">
@@ -805,30 +903,33 @@ const Checkout = () => {
                         </div>
                       </div>
 
-
-
                       <div className="flex items-center justify-between w-[73%] ">
                         <button
                           onClick={() => {
-                            handleVerifyDrivingLicence()
+                            handleVerifyDrivingLicence();
                           }}
                           className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                         >
                           Continue
                         </button>
-                        {userData?.drivingLicenseVerified && userData?.panVerified && (
-                          <div
-                            className="mt-4 cursor-pointer"
-                            onClick={() => {
-                              setThree(true)
-                              setFour(false)
-                            }}
-                          >
-                            <Image src="/arrow.svg" alt="" width={30} height={30} />
-                          </div>
-                        )}
+                        {userData?.drivingLicenseVerified &&
+                          userData?.panVerified && (
+                            <div
+                              className="mt-4 cursor-pointer"
+                              onClick={() => {
+                                setThree(true);
+                                setFour(false);
+                              }}
+                            >
+                              <Image
+                                src="/arrow.svg"
+                                alt=""
+                                width={30}
+                                height={30}
+                              />
+                            </div>
+                          )}
                       </div>
-
                     </div>
                   ) : (
                     <div>
@@ -845,7 +946,12 @@ const Checkout = () => {
                             Verified Account
                           </span>
                         ) : (
-                          <Image src="/notVerified.svg" alt="" width={30} height={30} />
+                          <Image
+                            src="/notVerified.svg"
+                            alt=""
+                            width={30}
+                            height={30}
+                          />
                         )}
                       </h4>
 
@@ -895,7 +1001,6 @@ const Checkout = () => {
                         </div>
                       </div>
 
-
                       <div className="flex items-center justify-between w-[73%] ">
                         <button
                           onClick={handleVerifiedPan}
@@ -903,20 +1008,26 @@ const Checkout = () => {
                         >
                           Continue
                         </button>
-                        {userData?.drivingLicenseVerified && userData?.panVerified && (
-                          <div
-                            className="mt-4 cursor-pointer"
-                            onClick={() => {
-                              setThree(true)
-                              setFour(false)
-                            }}
-                          >
-                            <Image src="/arrow.svg" alt="" width={30} height={30} />
-                          </div>
-                        )}
+                        {userData?.drivingLicenseVerified &&
+                          userData?.panVerified && (
+                            <div
+                              className="mt-4 cursor-pointer"
+                              onClick={() => {
+                                setThree(true);
+                                setFour(false);
+                              }}
+                            >
+                              <Image
+                                src="/arrow.svg"
+                                alt=""
+                                width={30}
+                                height={30}
+                              />
+                            </div>
+                          )}
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               ) : (
                 ""
@@ -926,139 +1037,203 @@ const Checkout = () => {
           </div>
         )}
 
-
-        {
-          ((one == false) && two && three) ? <div> <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] p-8 sm:mt-6 rounded-md shadow-xl">
-            <h2 className="text-[20px] font-bold">About You</h2>
-            <div className="mt-3 sm:flex justify-between">
-              <div>
-                <span className="text-[#FF0000] font-semibold">
-                  Personal Information
-                </span>
-                <div className="flex items-center gap-5 mt-4 text-sm">
-                  <Image src="/user.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">{user?.firstName} {user?.lastName}</span>
-                </div>
-                <div className="flex items-center gap-5 mt-4 text-sm">
-                  <Image src="/email.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">{user?.email}</span>
-                </div>
-                <div className="flex items-center gap-5 mt-4 text-sm">
-                  <Image src="/phone.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">{user?.phone}</span>
-                </div>
-              </div>
-              <div className="max-w-[300px] sm:mt-0 mt-4">
-                <span className="text-[#FF0000] font-semibold ">Address</span>
-                <div className="flex items-center gap-5 mt-4  text-sm">
-                  <Image src="/location.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">
-                    {user?.address}
+        {one == false && two && three ? (
+          <div>
+            {" "}
+            <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] p-8 sm:mt-6 rounded-md shadow-xl">
+              <h2 className="text-[20px] font-bold">About You</h2>
+              <div className="mt-3 sm:flex justify-between">
+                <div>
+                  <span className="text-[#FF0000] font-semibold">
+                    Personal Information
                   </span>
-                </div>
-                <div className="flex items-center gap-5 mt-4 text-sm">
-                  <Image src="/location.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">{user?.city}</span>
-                </div>
-                <div className="flex items-center gap-5 mt-4 text-sm">
-                  <Image src="/location.svg" alt="user" width={20} height={20} />
-                  <span className="text-[#878787]">{user?.state}</span>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div className="mt-6 text-sm">
-                <span className="text-[#FF0000] font-semibold text-[16px]">Documents</span>
-                <div className="sm:flex justify-between items-center gap-5 mt-4 ">
-                  <span className="text-[#878787] w-[200px]">PAN Number</span>:{" "}
-                  <span className="flex items-center gap-2 sm:my-0 my-2">
-                    {" "}
-                    <span className="text-[#878787]">{userData?.panNumber}</span>{" "}
-                    <Image src={userData?.panImageUrl || "/pancard.svg"} alt="user" width={60} height={60} />{" "}
-                    {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
-                  </span>
-                  {userData?.panVerified ? (
-                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                      <Image
-                        src="/greendone.svg"
-                        width={20}
-                        height={20}
-                        alt={"img"}
-                      />{" "}
-                      Verified Account
+                  <div className="flex items-center gap-5 mt-4 text-sm">
+                    <Image src="/user.svg" alt="user" width={20} height={20} />
+                    <span className="text-[#878787]">
+                      {user?.firstName} {user?.lastName}
                     </span>
-                  ) : (
-                    <Image src="/notVerified.svg" alt="" width={30} height={30} />
-                  )}
+                  </div>
+                  <div className="flex items-center gap-5 mt-4 text-sm">
+                    <Image src="/email.svg" alt="user" width={20} height={20} />
+                    <span className="text-[#878787]">{user?.email}</span>
+                  </div>
+                  <div className="flex items-center gap-5 mt-4 text-sm">
+                    <Image src="/phone.svg" alt="user" width={20} height={20} />
+                    <span className="text-[#878787]">{user?.phone}</span>
+                  </div>
                 </div>
-                <div className="sm:flex justify-between items-center gap-5 mt-4">
-                  <span className="text-[#878787] w-[200px]">
-                    Driving License Number
-                  </span>
-                  :{" "}
-                  <span className="flex items-center gap-2 sm:my-0 my-2">
-                    {" "}
-                    <span className="text-[#878787]">{userData?.drivingLicenseNumber}</span>{" "}
-                    <Image src={userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"} alt="user" width={60} height={60} />{" "}
-                    {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
-                  </span>
-                  {userData?.drivingLicenseVerified ? (
-                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                      <Image
-                        src="/greendone.svg"
-                        width={20}
-                        height={20}
-                        alt={"img"}
-                      />{" "}
-                      Verified Account
-                    </span>
-                  ) : (
-                    <Image src="/notVerified.svg" alt="" width={30} height={30} />
-                  )}
-                </div>
-                <div className="sm:flex justify-between items-center gap-5 mt-4">
-                  <span className="text-[#878787] w-[200px]">Aadhar Number</span>:{" "}
-                  <span className="flex items-center gap-2 sm:my-0 my-2">
-                    {" "}
-                    <span className="text-[#878787]">{userData?.aadharNumber}</span>{" "}
+                <div className="max-w-[300px] sm:mt-0 mt-4">
+                  <span className="text-[#FF0000] font-semibold ">Address</span>
+                  <div className="flex items-center gap-5 mt-4  text-sm">
                     <Image
-                      src={userData?.aadharCardFrontImageUrl || "/aadharCard.svg"}
+                      src="/location.svg"
                       alt="user"
-                      width={60}
-                      height={60}
-                    />{" "}
-                    <Image
-                      src={userData?.aadharCardBackImageUrl || "/aadharCard.svg"}
-                      alt="user"
-                      width={60}
-                      height={60}
+                      width={20}
+                      height={20}
                     />
+                    <span className="text-[#878787]">{user?.address}</span>
+                  </div>
+                  <div className="flex items-center gap-5 mt-4 text-sm">
+                    <Image
+                      src="/location.svg"
+                      alt="user"
+                      width={20}
+                      height={20}
+                    />
+                    <span className="text-[#878787]">{user?.city}</span>
+                  </div>
+                  <div className="flex items-center gap-5 mt-4 text-sm">
+                    <Image
+                      src="/location.svg"
+                      alt="user"
+                      width={20}
+                      height={20}
+                    />
+                    <span className="text-[#878787]">{user?.state}</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="mt-6 text-sm">
+                  <span className="text-[#FF0000] font-semibold text-[16px]">
+                    Documents
                   </span>
-                  {userData?.aadharVerified ? (
-                    <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                  <div className="sm:flex justify-between items-center gap-5 mt-4 ">
+                    <span className="text-[#878787] w-[200px]">PAN Number</span>
+                    :{" "}
+                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                      {" "}
+                      <span className="text-[#878787]">
+                        {userData?.panNumber}
+                      </span>{" "}
                       <Image
-                        src="/greendone.svg"
-                        width={20}
-                        height={20}
-                        alt={"img"}
+                        src={userData?.panImageUrl || "/pancard.svg"}
+                        alt="user"
+                        width={60}
+                        height={60}
                       />{" "}
-                      Verified Account
+                      {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
                     </span>
-                  ) : (
-                    <Image src="/notVerified.svg" alt="" width={30} height={30} />
-                  )}
+                    {userData?.panVerified ? (
+                      <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                        <Image
+                          src="/greendone.svg"
+                          width={20}
+                          height={20}
+                          alt={"img"}
+                        />{" "}
+                        Verified Account
+                      </span>
+                    ) : (
+                      <Image
+                        src="/notVerified.svg"
+                        alt=""
+                        width={30}
+                        height={30}
+                      />
+                    )}
+                  </div>
+                  <div className="sm:flex justify-between items-center gap-5 mt-4">
+                    <span className="text-[#878787] w-[200px]">
+                      Driving License Number
+                    </span>
+                    :{" "}
+                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                      {" "}
+                      <span className="text-[#878787]">
+                        {userData?.drivingLicenseNumber}
+                      </span>{" "}
+                      <Image
+                        src={
+                          userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"
+                        }
+                        alt="user"
+                        width={60}
+                        height={60}
+                      />{" "}
+                      {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
+                    </span>
+                    {userData?.drivingLicenseVerified ? (
+                      <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                        <Image
+                          src="/greendone.svg"
+                          width={20}
+                          height={20}
+                          alt={"img"}
+                        />{" "}
+                        Verified Account
+                      </span>
+                    ) : (
+                      <Image
+                        src="/notVerified.svg"
+                        alt=""
+                        width={30}
+                        height={30}
+                      />
+                    )}
+                  </div>
+                  <div className="sm:flex justify-between items-center gap-5 mt-4">
+                    <span className="text-[#878787] w-[200px]">
+                      Aadhar Number
+                    </span>
+                    :{" "}
+                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                      {" "}
+                      <span className="text-[#878787]">
+                        {userData?.aadharNumber}
+                      </span>{" "}
+                      <Image
+                        src={
+                          userData?.aadharCardFrontImageUrl || "/aadharCard.svg"
+                        }
+                        alt="user"
+                        width={60}
+                        height={60}
+                      />{" "}
+                      <Image
+                        src={
+                          userData?.aadharCardBackImageUrl || "/aadharCard.svg"
+                        }
+                        alt="user"
+                        width={60}
+                        height={60}
+                      />
+                    </span>
+                    {userData?.aadharVerified ? (
+                      <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                        <Image
+                          src="/greendone.svg"
+                          width={20}
+                          height={20}
+                          alt={"img"}
+                        />{" "}
+                        Verified Account
+                      </span>
+                    ) : (
+                      <Image
+                        src="/notVerified.svg"
+                        alt=""
+                        width={30}
+                        height={30}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          </div> : ""
-        }
+        ) : (
+          ""
+        )}
 
         <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
           <h2 className="text-[20px] font-bold">4. Payment</h2>
-          <button className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all">
+          {/* <button
+            className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+            onClick={handleSubmit}
+          >
             Continue
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="max-w-[450px] w-full mx-auto">
