@@ -388,7 +388,7 @@ const BookingSummery = () => {
             </div>
           )}
 
-          <div className="grid grid-cols-2 gap-14  justify-center">
+          {/* <div className="grid grid-cols-2 gap-14  justify-center">
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
               Kms Limit
             </span>
@@ -397,7 +397,7 @@ const BookingSummery = () => {
               {currentPackage?.kmsLimit !== "" ? currentPackage?.kmsLimit : "0"}{" "}
               kms
             </span>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-2 gap-14  justify-center">
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">

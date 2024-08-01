@@ -12,7 +12,7 @@ const ExtraCharges = ({ details }: any) => {
             {details?.extraService.packageType && (
               <div className="grid grid-cols-[1.3fr_1fr] items-center sm:justify-center justify-between w-full sm:text-md text-sm gap-4">
                 <span className="text-[#161616]">Package Type:</span>
-                <span className="text-[#ff0000] text-center">
+                <span className="text-[#ff0000] ">
                   {details?.extraService.packageType}
                 </span>
               </div>
