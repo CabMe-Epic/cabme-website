@@ -105,7 +105,12 @@ const CarDetails = () => {
   };
 
   React.useEffect(() => {
+    if (selectedDoorStepObject.length > 0) {
+      const price = selectedDoorStepObject[0]?.price;
+      localStorage.setItem("doorStepPriceCharge", JSON.stringify(price));
+    }
     console.log(selectedDoorStepObject, "selectedDoorStepObject");
+
   }, [selectedDoorStepObject]);
 
   const [carDetails, setCarDetails] = useState<any>();
@@ -373,7 +378,7 @@ const CarDetails = () => {
             {/* mobile view */}
 
             {/* mobile view */}
-     
+
 
             <div className="my-12">
               <Specifications spec={carDetails?.vehicleSpecifications as any} />

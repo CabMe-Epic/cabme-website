@@ -14,6 +14,8 @@ import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
 import { fetchPromoCodes } from "../../../../networkRequests/hooks/promocodes";
 import ApplyCoupon from "../ApplyCoupon/apply-coupon";
+import { calculateGST } from "@/app/utils/calculateGST";
+import { roundPrice } from "@/app/utils/roundPrice ";
 
 interface PromoCode {
   code: string;
@@ -57,14 +59,20 @@ const BookingSummery = () => {
 
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
-  console.log({ selectedPromocodeOption })
+  console.log({ selectedPromocodeOption });
 
   const handleChangePromocodeOption = (e: any) => {
     setSelectedPromocodeOption(e.target.value);
+
   };
+
+  const handleHidePopUp = () => {
+    setApplyCoupon(false);
+  }
   const [sessionSlug, setFromSessionSlug] = useState("");
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [doorStepPrice, setDoorStepPrice] = useState<number | any>(0);
 
   const [applyCoupon, setApplyCoupon] = React.useState(false);
   const { vehicle, loading, error } = useVehicleById(slug as string);
@@ -72,10 +80,7 @@ const BookingSummery = () => {
     useReservationDateTime();
   const total =
     Number(packagePrice) +
-    currentPackage?.DoorstepDeliveryPickup?.reduce(
-      (acc: any, item: any) => acc + item?.price,
-      0
-    ) +
+    doorStepPrice +
     currentPackage?.refundableDeposit;
   const pickupDateTimeString = pickupTime
     ? `${pickupDate}T${pickupTime}:00.000Z`
@@ -115,6 +120,14 @@ const BookingSummery = () => {
     kilometers: 0,
     createdByUser: userId,
   };
+
+  useEffect(() => {
+    // Retrieve the price from localStorage when the component mounts
+    const storedPrice = localStorage.getItem("doorStepPriceCharge");
+    if (storedPrice) {
+      setDoorStepPrice(JSON.parse(storedPrice));
+    }
+  }, []);
 
   const handleApplyPromoCode = () => {
     if (selectedPromocodeOption) {
@@ -269,14 +282,21 @@ const BookingSummery = () => {
     }
   }, []);
 
-  console.log({ currentPackage })
+  console.log({ currentPackage });
 
   const doorStep = currentPackage?.DoorstepDeliveryPickup?.reduce(
     (acc: any, item: any) => acc + item?.price,
     0
-  )
+  );
 
-  const totalCheckoutPrice = Number(packagePrice) + Number(doorStep) + Number(currentPackage?.refundableDeposit)
+  const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
+
+  const totalCheckoutPrice =
+    Number(packagePrice) +
+    Number(doorStep) +
+    Number(result?.gstAmount) +
+    Number(currentPackage?.refundableDeposit);
+
 
   return (
     <div>
@@ -320,21 +340,26 @@ const BookingSummery = () => {
               Doorstep delivery & pickup
             </span>
             <span className=" w-fit word-wrap sm:ml-10">
-              ₹{" "}
-              {currentPackage?.DoorstepDeliveryPickup?.reduce(
+              ₹{" "} {doorStepPrice}
+              {/* {currentPackage?.DoorstepDeliveryPickup?.reduce(
                 (acc: any, item: any) => acc + item?.price,
                 0
-              )}
+              )} */}
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-14  justify-center">
+          {/* <div className="grid grid-cols-2 gap-14  justify-center">
             <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
               Insurance & GST
             </span>
             <span className=" w-fit word-wrap sm:ml-10">
               {carDetails?.extraService?.insurance}
             </span>
+          </div> */}
+
+          <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+            <span className=" sm:ml-3">GST ({currentPackage?.package1?.gstRate}%)</span>
+            <span className=" sm:ml-10">₹{roundPrice(Number(result?.gstAmount))}</span>
           </div>
 
           <div className="grid grid-cols-2 gap-14  justify-center">
@@ -351,14 +376,14 @@ const BookingSummery = () => {
             <div className="grid grid-cols-2 w-fit gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
               <span className=" w-fit word-wrap ml-4">TOTAL</span>
               <span className=" w-fit word-wrap ml-10 text-[#ff0000]">
-                ₹ {totalCheckoutPrice}
+                ₹ {(totalCheckoutPrice).toFixed(0)}
               </span>
             </div>
           ) : (
             <div className="grid grid-cols-2 w-fit sm:gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl w-full">
               <span className=" w-fit word-wrap sm:ml-4 ml-2">TOTAL</span>
               <span className=" w-fit word-wrap sm:ml-10 text-[#ff0000]">
-                ₹ {totalCheckoutPrice}
+                ₹ {(totalCheckoutPrice).toFixed(0)}
               </span>
             </div>
           )}
@@ -402,7 +427,7 @@ const BookingSummery = () => {
           </div>
         </div>
         <div className="w-full">
-          <span className="flex flex-row my-5 mt-10">
+          {/* <span className="flex flex-row my-5 mt-10">
             <Image
               src="/png/offer.png"
               width={20}
@@ -426,7 +451,7 @@ const BookingSummery = () => {
               ))}
 
             </select>
-          </span>
+          </span> */}
 
           {/* <div className="w-[418px]  h-[53px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
                         <input
@@ -500,21 +525,28 @@ const BookingSummery = () => {
           </div>
           {/* </div> */}
         </div>
-        <div className="w-full">
-          {/* <span className="flex flex-row my-5 mt-2">
-                        <div>
-                            <Image
-                                src="/png/offer.png"
-                                width={20}
-                                height={20}
-                                alt="offer"
-                            />
-                        </div>
-                        <div className="flex gap-2 ml-2 items-center">
-                            <h3 className="font-semibold text-sm">Have a coupon?</h3>
-                            <h4 className="font-semibold text-xs text-primary cursor-pointer" onClick={() => setApplyCoupon(true)}>Click here to enter your code</h4>
-                        </div> 
-                    </span> */}
+        <div className="w-full mt-10">
+          <span className="flex flex-col my-5 mt-2">
+
+            <div className="flex gap-2 ml-2 items-center">
+              <div>
+                <Image src="/png/offer.png" width={20} height={20} alt="offer" />
+              </div>
+
+              {
+                selectedPromocodeOption ? <span className="text-xs my-0 w-fit ml-2"> ({selectedPromocodeOption})</span> : <h3 className="font-semibold text-sm">Have a coupon?</h3>
+              }
+              <h4
+                className="font-semibold text-xs text-primary cursor-pointer"
+                onClick={() => setApplyCoupon(true)}
+              >
+                Click here to enter your code
+              </h4>
+
+            </div>
+
+
+          </span>
 
           {/* <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
                         <input
@@ -530,7 +562,7 @@ const BookingSummery = () => {
               <span className="sm:text-2xl font-bold">Total Amount</span>
               <span>:</span>
               <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                ₹ {totalCheckoutPrice}
+                ₹ {(totalCheckoutPrice).toFixed(0)}
               </span>
             </div>
             <div>
@@ -547,7 +579,12 @@ const BookingSummery = () => {
                     </span>
                 </div> */}
       </main>
-      {applyCoupon && <ApplyCoupon onClick={() => setApplyCoupon(false)} />}
+      {applyCoupon &&
+        <ApplyCoupon
+          promoCodes={promoCodes}
+          hide={handleHidePopUp}
+          handleChangePromocodeOption={handleChangePromocodeOption} />}
+
     </div>
   );
 };
