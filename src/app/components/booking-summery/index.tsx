@@ -75,7 +75,7 @@ const BookingSummery = () => {
   const [doorStepPrice, setDoorStepPrice] = useState<number | any>(0);
 
   const [applyCoupon, setApplyCoupon] = React.useState(false);
-  const { vehicle, loading, error } = useVehicleById(slug as string);
+  const { vehicle, loading, error } = useVehicleById(sessionSlug as string);
   const { reservationDateTime, setReservationDateTime, duration } =
     useReservationDateTime();
   const total =
@@ -284,16 +284,13 @@ const BookingSummery = () => {
 
   console.log({ currentPackage });
 
-  const doorStep = currentPackage?.DoorstepDeliveryPickup?.reduce(
-    (acc: any, item: any) => acc + item?.price,
-    0
-  );
+  
 
   const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
 
   const totalCheckoutPrice =
     Number(packagePrice) +
-    Number(doorStep) +
+    Number(doorStepPrice) +
     Number(result?.gstAmount) +
     Number(currentPackage?.refundableDeposit);
 
