@@ -8,7 +8,7 @@ import ExtraCharges from "@/app/components/extra-charges/extra-charges";
 import DescCar from "@/app/components/desc-car/desc-car";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { searchVehicle } from "../../../../../networkRequests/hooks/api";
 import { useRouter } from 'next/navigation'
 import axios from "axios";
@@ -112,6 +112,11 @@ const CarDetails = () => {
     console.log(selectedDoorStepObject, "selectedDoorStepObject");
 
   }, [selectedDoorStepObject]);
+
+
+  useEffect(() => {
+    localStorage.removeItem("doorStepPriceCharge");
+  },[])
 
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
