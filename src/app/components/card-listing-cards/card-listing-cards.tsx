@@ -664,21 +664,21 @@ console.log(selectedPackagePrice,"selected pack");
                   <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10">
                     <div
                       onClick={() => {
-                        const calculatedPrice = calculateTotalPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package1?.price
-                        );
-                        if (calculatedPrice) {
-                          setPrice(Math.round(calculatedPrice));
-                          setClicked1(true);
-                          setClicked2(false);
-                          setClicked3(false);
-                        } else {
-                          console.error("Failed to calculate the total price");
-                          setClicked1(true);
-                          setClicked2(false);
-                          setClicked3(false);
-                        }
+                        // const calculatedPrice = calculateTotalPrice(
+                        //   data?.bookingOptions?.subscription?.packageType
+                        //     ?.package1?.price
+                        // );
+                        // if (calculatedPrice) {
+                        //   setPrice(Math.round(calculatedPrice));
+                          
+                        // } else {
+                        //   console.error("Failed to calculate the total price");
+                        // }
+                        setPrice(data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.price)
+                        setClicked1(true);
+                        setClicked2(false);
+                        setClicked3(false);
                       }}
                       className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked1
@@ -688,10 +688,8 @@ console.log(selectedPackagePrice,"selected pack");
                     >
                       <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                         ₹{" "}
-                        {calculateTotalPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package1?.price
-                        )?.toFixed(0)}
+                        {data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.price}
                       </span>
                       <span className="flex flex-col gap-0">
                         <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
@@ -724,21 +722,21 @@ console.log(selectedPackagePrice,"selected pack");
                     </div>
                     <div
                       onClick={() => {
-                        const calculatedPrice = calculateTotalPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package2?.price
-                        );
-                        if (calculatedPrice) {
-                          setPrice(Math.round(calculatedPrice));
-                          setClicked1(false);
-                          setClicked2(true);
-                          setClicked3(false);
-                        } else {
-                          console.error("Failed to calculate the total price");
-                          setClicked1(false);
-                          setClicked2(true);
-                          setClicked3(false);
-                        }
+                        // const calculatedPrice = calculateTotalPrice(
+                        //   data?.bookingOptions?.subscription?.packageType
+                        //     ?.package2?.price
+                        // );
+                        // if (calculatedPrice) {
+                        //   setPrice(Math.round(calculatedPrice));
+                          
+                        // } else {
+                        //   console.error("Failed to calculate the total price");
+                        // }
+                        setPrice(data?.bookingOptions?.subscription?.packageType
+                               ?.package2?.price)
+                        setClicked1(false);
+                        setClicked2(true);
+                        setClicked3(false);
                       }}
                       className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${
                         clicked2
@@ -748,10 +746,8 @@ console.log(selectedPackagePrice,"selected pack");
                     >
                       <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                         ₹{" "}
-                        {calculateTotalPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package2?.price
-                        )?.toFixed(0)}
+                        {data?.bookingOptions?.subscription?.packageType
+                               ?.package2?.price}
                       </span>
                       <span className="flex flex-col gap-0">
                         <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
@@ -784,21 +780,21 @@ console.log(selectedPackagePrice,"selected pack");
                     </div>
                     <div
                       onClick={() => {
-                        const calculatedPrice = calculateTotalPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package3?.price
-                        );
-                        if (calculatedPrice) {
-                          setPrice(Math.round(calculatedPrice));
-                          setClicked1(false);
-                          setClicked2(false);
-                          setClicked3(true);
-                        } else {
-                          console.error("Failed to calculate the total price");
-                          setClicked1(false);
-                          setClicked2(false);
-                          setClicked3(true);
-                        }
+                        // const calculatedPrice = calculateTotalPrice(
+                        //   data?.bookingOptions?.subscription?.packageType
+                        //     ?.package3?.price
+                        // );
+                        // if (calculatedPrice) {
+                        //   setPrice(Math.round(calculatedPrice));
+                          
+                        // } else {
+                        //   console.error("Failed to calculate the total price");
+                        // }
+                        setPrice(data?.bookingOptions?.subscription?.packageType
+                          ?.package3?.price)
+                        setClicked1(false);
+                        setClicked2(false);
+                        setClicked3(true);
                       }}
                       className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked3
@@ -807,11 +803,10 @@ console.log(selectedPackagePrice,"selected pack");
                       }`}
                     >
                       <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap">
-                        ₹{" "}
-                        {calculateTotalPrice(
-                          data?.bookingOptions?.subscription?.packageType
-                            ?.package3?.price
-                        )?.toFixed(0)}
+                        ₹
+                          {data?.bookingOptions?.subscription?.packageType
+                            ?.package3?.price}
+                        
                       </span>
                       <span className="flex flex-col gap-0">
                         <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
@@ -1607,7 +1602,8 @@ console.log(selectedPackagePrice,"selected pack");
               </>
             ) : (
               ""
-            )}
+            )} 
+           
           </main>
           
            {showOptionsMobile && (

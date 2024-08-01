@@ -14,6 +14,7 @@ const ModifySearch: React.FC = () => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
+  const [tabValue,setTabsValue] = useState<any>()
 
   const handleStartDateTimeChange = (date: Date | null) => {
     if (date) {
@@ -71,7 +72,8 @@ const ModifySearch: React.FC = () => {
       const dropoffDate = localStorage.getItem("dropOffDate");
       const pickUpTime = localStorage.getItem("pickupTime");
       const dropOffTime = localStorage.getItem("dropoffTime");
-
+     const tabValue= localStorage.getItem("tabValue")
+setTabsValue(tabValue);
       setSelectedCity(initialLocation);
 
       if (pickupdate && pickUpTime) {
@@ -221,6 +223,8 @@ const ModifySearch: React.FC = () => {
             />
           </div>
         </div>
+        {tabValue!=="Subscription" &&
+        
         <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2">
           <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
           <div className="relative date-picker modify-search m-0 w-[100%] sm:min-[200px]">
@@ -241,6 +245,7 @@ const ModifySearch: React.FC = () => {
             />
           </div>
         </div>
+        }
       </div>
       <div className="sm:ml-auto sm:my-10 my-4 sm:m-4 sm:block hidden">
         <ThemeButton
