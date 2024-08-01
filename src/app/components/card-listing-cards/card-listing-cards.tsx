@@ -56,7 +56,7 @@ const CardListingCards = ({ data }: any) => {
   //@ts-ignore
   localStorage.setItem(
     "selectedPackagePrice",
-    roundPrice(selectedPackagePrice)
+    roundPrice((selectedPackagePrice))
   );
   console.log({ selectedPackagePrice });
 
