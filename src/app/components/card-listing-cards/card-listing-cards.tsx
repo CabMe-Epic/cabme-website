@@ -642,7 +642,7 @@ console.log(selectedPackagePrice,"selected pack");
                     objectFit={"contain"}
                     height={212}
                     alt={data?.featuredImage?.alt}
-                    className="sm:w-[95%] mb-2"
+                    className="sm:w-[250px] sm:h-[180px] sm:object-contain mb-2"
                   />
                   <div
                     onClick={() => setShowImg(!showImg)}
@@ -686,7 +686,7 @@ console.log(selectedPackagePrice,"selected pack");
                           : ""
                       }`}
                     >
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none">
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                         ₹{" "}
                         {calculateTotalPrice(
                           data?.bookingOptions?.subscription?.packageType
@@ -746,7 +746,7 @@ console.log(selectedPackagePrice,"selected pack");
                           : ""
                       }`}
                     >
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none">
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                         ₹{" "}
                         {calculateTotalPrice(
                           data?.bookingOptions?.subscription?.packageType
@@ -806,7 +806,7 @@ console.log(selectedPackagePrice,"selected pack");
                           : ""
                       }`}
                     >
-                      <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center">
+                      <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap">
                         ₹{" "}
                         {calculateTotalPrice(
                           data?.bookingOptions?.subscription?.packageType
@@ -1057,7 +1057,7 @@ console.log(selectedPackagePrice,"selected pack");
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none">
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{" "}
                             {calculateTotalPrice(
@@ -1118,7 +1118,7 @@ console.log(selectedPackagePrice,"selected pack");
                             ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none">
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
                             ₹{" "}
                             {calculateTotalPrice(
                               data?.bookingOptions?.withDriver?.local
@@ -1178,7 +1178,7 @@ console.log(selectedPackagePrice,"selected pack");
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none">
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
                             ₹{" "}
                             {calculateTotalPrice(
                               data?.bookingOptions?.withDriver?.local
