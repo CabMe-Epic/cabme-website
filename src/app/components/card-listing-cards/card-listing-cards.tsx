@@ -974,7 +974,7 @@ console.log(selectedPackagePrice,"selected pack");
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0">
+                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
                     <span
                       className="text-[#ff0000]"
                       onClick={() => setShowOptionsMobile(!showOptionsMobile)}
@@ -1028,7 +1028,7 @@ console.log(selectedPackagePrice,"selected pack");
                       </div>
                     </div>
                     <div className="sm:h-[274px] relative max-w-[600px]">
-                      <div className="mt-5 flex flex-row items-center sm:gap-4 gap-2 sm:mr-10 px-4">
+                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 px-4">
                         <div
                           onClick={() => {
                             const calculatedPrice = calculateTotalPrice(
@@ -1069,7 +1069,7 @@ console.log(selectedPackagePrice,"selected pack");
                             </p>
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package1?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1129,7 +1129,7 @@ console.log(selectedPackagePrice,"selected pack");
                             </p>
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1189,7 +1189,7 @@ console.log(selectedPackagePrice,"selected pack");
                             </p>
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package3?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1264,7 +1264,7 @@ console.log(selectedPackagePrice,"selected pack");
                       {/*  */}
 
                       <div className="sm:flex flex-row justify-between items-center sm:mr-10">
-                        <div className="grid grid-cols-3 items-center sm:w-full gap-y-6 ml-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs">
+                        <div className="grid grid-cols-3 items-center sm:w-full gap-y-6 ml-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs gap-4">
                           {data?.carFeatures?.bluetooth === true && (
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1345,7 +1345,7 @@ console.log(selectedPackagePrice,"selected pack");
                           />
                         </div>
                       </div>
-                      <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute bottom-0">
+                      <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
                         <span
                           className="text-[#ff0000] sm:text-[15px] text-sm"
                           onClick={() => setShowOptionsMobile(!showOptionsMobile)}
@@ -1580,7 +1580,7 @@ console.log(selectedPackagePrice,"selected pack");
                           />
                         </div>
                       </div>
-                      <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0 sm:text-[15px] text-sm ml-4">
+                      <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:text-[15px] text-sm ml-4">
                         <span
                           className="text-[#ff0000]"
                           onClick={() => setShowOptionsMobile(!showOptionsMobile)}
