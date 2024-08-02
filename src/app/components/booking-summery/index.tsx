@@ -16,6 +16,7 @@ import { fetchPromoCodes } from "../../../../networkRequests/hooks/promocodes";
 import ApplyCoupon from "../ApplyCoupon/apply-coupon";
 import { calculateGST } from "@/app/utils/calculateGST";
 import { roundPrice } from "@/app/utils/roundPrice ";
+import BlinkerLoader from "../blinker-loader/blinkerLoader";
 
 interface PromoCode {
   code: string;
@@ -73,7 +74,7 @@ const BookingSummery = () => {
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [doorStepPrice, setDoorStepPrice] = useState<number | any>(0);
-
+  const [loader, setLoader] = useState(false);
   const [applyCoupon, setApplyCoupon] = React.useState(false);
   const { vehicle, loading, error } = useVehicleById(sessionSlug as string);
   const { reservationDateTime, setReservationDateTime, duration } =
@@ -161,12 +162,15 @@ const BookingSummery = () => {
   };
 
   const getCarDetails = useCallback(async () => {
+    
     const getSearchCarData = await searchVehicle();
     const carData = getSearchCarData?.data?.vehicles;
     carData?.forEach((item: any) => {
       if (item?._id === sessionSlug) {
         setCarDetails(item);
+        
       }
+      
     });
   }, [sessionSlug]);
 
@@ -175,11 +179,13 @@ const BookingSummery = () => {
   }, [getCarDetails]);
 
   useEffect(() => {
+    
     if (carDetails?.bookingOptions?.selfDrive?.name === bookingOpt) {
       setCurrentPackage(
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       );
     }
+  
   }, [carDetails, bookingOpt]);
 
   // console.log(sessionSlug, "sessionSlug")
@@ -223,6 +229,7 @@ const BookingSummery = () => {
   }, []);
 
   React.useEffect(() => {
+    
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
@@ -232,6 +239,7 @@ const BookingSummery = () => {
     setDropoffDate(getDropoff);
     setBookingOpt(bookingOption);
     getCarDetails();
+    
     // price();
   }, []);
 
@@ -317,10 +325,21 @@ const BookingSummery = () => {
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+  useEffect(() => {
+    if(!result){
+      setLoader(true);
+    }else{
+      setLoader(false);
+    }
+  },[result])
+
 
 
   return (
     <div>
+      {
+        loader && <BlinkerLoader/>
+      }
       <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
         <div className="max-w-[376px] w-full h-[50px] bg-black text-white font-semibold text-[20px] flex justify-center items-center rounded-xl">
           <span className="text-center tracking-wide sm:text-md text-[18px]">
