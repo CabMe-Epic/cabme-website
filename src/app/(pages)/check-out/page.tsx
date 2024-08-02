@@ -62,7 +62,7 @@ const Checkout = () => {
     }
 
     if (
-      userData?.aadharVerified 
+      userData?.aadharVerified
       // &&
       // userData?.panVerified &&
       // userData?.drivingLicenseVerified
@@ -103,7 +103,7 @@ const Checkout = () => {
   //     try {
   //       if (userData?._id) {
   //         const response = await axios.get(
-  //           `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${userData?._id}`
+  //           `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/current-user/${response?.data?.result?.user?._id}`
   //         );
   //         setUser(response?.data?.result);
   //       }
@@ -125,6 +125,11 @@ const Checkout = () => {
       [name]: value,
     }));
   };
+
+  const handleStepThree = () => {
+    setThree(false);
+    setTwo(true);
+  }
 
   const handleSignUp = async () => {
     try {
@@ -149,9 +154,11 @@ const Checkout = () => {
       console.log("Signup successful:", { response });
       if (response?.data?.success) {
         updateUserData(response?.data?.result?.user);
+        // setOne(false);
+        // setTwo(true);
+        // setThree(false);
+        setTwo(false);
         setOne(false);
-        setTwo(true);
-        setThree(false);
         toast.success(response?.data?.message);
       }
     } catch (error: any) {
@@ -221,6 +228,9 @@ const Checkout = () => {
       if (data?.otpResponse?.statusCode === 200) {
         setAadharGenerate(true);
         setAadharData(data);
+        setTimeout(() => {
+          toast.success("An OTP has been sent to your registered mobile number for Aadhar card verification.");
+        }, 2000);
       } else {
         toast.error(data?.otpResponse?.error?.message);
       }
@@ -258,7 +268,7 @@ const Checkout = () => {
         setSessionData("user", value);
         setAadharGenerate(false);
         updateUserData(value);
-        toast.success("Aadhar card has been verified.");
+        toast.success("The Aadhar card has been successfully verified.");
       }
     } catch (error) {
       console.error("Error fetching OTP:", error);
@@ -282,7 +292,7 @@ const Checkout = () => {
       const result = response.data;
       console.log({ result });
       if (response.status === 200) {
-        const currentUser = result?.result?.user;
+        const currentUser = result?.user;
         const token = result?.result?.token;
         updateUserData(currentUser);
         if (currentUser?.phoneVerified) {
@@ -290,7 +300,7 @@ const Checkout = () => {
         }
         setOne(false);
         setTwo(false);
-        toast.success("OTP verification successfully.");
+        toast.success(result?.message);
       } else {
         toast.error(result.message || "OTP verification failed.");
       }
@@ -643,12 +653,24 @@ const Checkout = () => {
                     </div>
                   </div>
                   <div className="mt-5 flex gap-10 items-center">
-                    <button
-                      onClick={handleSignUp}
-                      className="w-[360px] h-[55px] rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
-                    >
-                      Submit
-                    </button>
+
+                    {userData?.phoneVerified ? (
+                      <button
+                        onClick={handleStepThree}
+                        className="w-[360px] h-[55px] rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                      >
+                        Continue
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleSignUp}
+                        className="w-[360px] h-[55px] rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                      >
+                        Submit
+                      </button>
+                    )}
+
+
                   </div>
                 </div>
               ) : (
@@ -1092,22 +1114,22 @@ const Checkout = () => {
                     Documents
                   </span>
                   {/* <div className="sm:flex justify-between items-center gap-5 mt-4 "> */}
-                    {/* <span className="text-[#878787] w-[200px]">PAN Number</span> */}
-                    {/* :{" "} */}
-                    {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
-                      {" "}
-                      {/* <span className="text-[#878787]">
+                  {/* <span className="text-[#878787] w-[200px]">PAN Number</span> */}
+                  {/* :{" "} */}
+                  {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
+                  {" "}
+                  {/* <span className="text-[#878787]">
                         {userData?.panNumber}
                       </span>{" "} */}
-                      {/* <Image
+                  {/* <Image
                         src={userData?.panImageUrl || "/pancard.svg"}
                         alt="user"
                         width={60}
                         height={60}
                       />{" "} */}
-                      {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
-                    {/* </span> */}
-                    {/* {userData?.panVerified ? (
+                  {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
+                  {/* </span> */}
+                  {/* {userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1127,16 +1149,16 @@ const Checkout = () => {
                     )} */}
                   {/* </div> */}
                   {/* <div className="sm:flex justify-between items-center gap-5 mt-4"> */}
-                    {/* <span className="text-[#878787] w-[200px]">
+                  {/* <span className="text-[#878787] w-[200px]">
                       Driving License Number
                     </span> */}
-                    {/* :{" "} */}
-                    {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
-                      {" "}
-                      {/* <span className="text-[#878787]">
+                  {/* :{" "} */}
+                  {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
+                  {" "}
+                  {/* <span className="text-[#878787]">
                         {userData?.drivingLicenseNumber}
                       </span>{" "} */}
-                      {/* <Image
+                  {/* <Image
                         src={
                           userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"
                         }
@@ -1144,9 +1166,9 @@ const Checkout = () => {
                         width={60}
                         height={60}
                       />{" "} */}
-                      {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
-                    {/* </span> */}
-                    {/* {userData?.drivingLicenseVerified ? (
+                  {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
+                  {/* </span> */}
+                  {/* {userData?.drivingLicenseVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"

@@ -60,41 +60,7 @@ const CarDetails = () => {
     setShowDoorStep(true);
   }
 
-  // const secretKey = 'your-secret-key';
-  // const [encryptedData, setEncryptedData] = useState('');
-  // const [decryptedData, setDecryptedData] = useState('');
-  // console.log({ encryptedData }, { decryptedData })
-
-  // const data = {
-  //   surldata: 'Aasif',
-  //   rentalTypeName: 'Aahaan',
-  //   usersMobile: '9997747030',
-  // };
-
-  // const encryptData = (data: any, secretKey: string) => {
-  //   return CryptoJS.AES.encrypt(JSON.stringify(data), secretKey).toString();
-  // };
-
-  // const decryptData = (encryptedData: any, secretKey: string) => {
-  //   const bytes = CryptoJS.AES.decrypt(encryptedData, secretKey);
-  //   return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-  // };
-
-  // const handleEncrypt = () => {
-  //   const encrypted = encryptData(data, secretKey);
-  //   setEncryptedData(encrypted);
-  //   return encrypted;
-  // };
-
-  // const handleDecrypt = (encrypted: any) => {
-  //   const decrypted = decryptData(encrypted, secretKey);
-  //   setDecryptedData(decrypted);
-  // };
-
-  // React.useEffect(() => {
-  //   const encrypted = handleEncrypt();
-  //   handleDecrypt(encrypted);
-  // }, []);
+ 
 
 
 
