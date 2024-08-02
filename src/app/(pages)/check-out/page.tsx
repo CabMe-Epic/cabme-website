@@ -569,7 +569,7 @@ const Checkout = () => {
       });
       const payU = await fetch("https://test.payu.in/_payment", {
         method: "POST",
-        body: form,
+        body: form, 
       });
       console.log("payU", { payU });
     } catch (error) {
