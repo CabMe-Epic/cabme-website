@@ -1031,7 +1031,7 @@ console.log(selectedPackagePrice,"selected pack");
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
+                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:right-[16px]">
                     <span
                       className="text-[#ff0000]"
                       onClick={() => setShowOptionsMobile(!showOptionsMobile)}
@@ -1109,6 +1109,14 @@ console.log(selectedPackagePrice,"selected pack");
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
+                          {/* for mobile */}
+                          <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              {
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package1?.duration
+                              }
+                            </p>
+                          {/* mobile end */}
                           <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{" "}
@@ -1118,12 +1126,14 @@ console.log(selectedPackagePrice,"selected pack");
                             )?.toFixed(0)}
                           </span>
                           <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {/* for desktop */}
+                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                               {
                                 data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package1?.duration
                               }
                             </p>
+                            {/* desktop end */}
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                               <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
@@ -1170,6 +1180,14 @@ console.log(selectedPackagePrice,"selected pack");
                             ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
+                          {/* for mobile */}
+                          <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              {
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.duration
+                              }
+                            </p>
+                          {/* mobile end */}
                           <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
                             ₹{" "}
                             {calculateTotalPrice(
@@ -1178,12 +1196,14 @@ console.log(selectedPackagePrice,"selected pack");
                             )?.toFixed(0)}
                           </span>
                           <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {/* for desktop */}
+                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                               {
                                 data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.duration
                               }
                             </p>
+                            {/* desktop end */}
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                               <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
@@ -1230,6 +1250,14 @@ console.log(selectedPackagePrice,"selected pack");
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
+                          {/* for mobile */}
+                          <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              {
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.duration
+                              }
+                            </p>
+                            {/* mobile end */}
                           <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
                             ₹{" "}
                             {calculateTotalPrice(
@@ -1238,12 +1266,14 @@ console.log(selectedPackagePrice,"selected pack");
                             )?.toFixed(0)}
                           </span>
                           <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {/* for desktop */}
+                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                               {
                                 data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package3?.duration
                               }
                             </p>
+                            {/* desktop end */}
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                               <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
