@@ -6,42 +6,20 @@ import ReviewCard from "./components/review-card/review-card";
 import FaqSection from "./components/faq/faq";
 import FleetsSlider from "./components/slider/slider-components";
 import OurBlogs from "./components/our-blogs/our-blogs";
-import React, { useEffect, useState } from "react";
-import RadioButton from "./components/radio-component/radio-component";
-import { getAllCities } from "../../networkRequests/hooks/api";
-import { useRouter } from "next/navigation";
-import DatePicker from "react-datepicker";
+import React, { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Datepicker.css";
-import moment from "moment";
 import BannerSlider from "./components/banner-slider/banner-slider";
-import SelectOption from "./components/new-drop-down/new-drop-down";
-import City from "./components/city-selection/city-selection";
+
 import FleetsSearch from "@/app/components/FleetsSearch/fleets-search"
-import BlinkerLoader from "./components/blinker-loader/blinkerLoader";
+
 
 export default function Home() {
   const [offer, setOffer] = useState("Daily Offers");
 
-
-  const filterPassedTime = (time: any) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(time);
-
-    return currentDate.getTime() < selectedDate.getTime();
-  };
-
-  const router = useRouter();
+  // const router = useRouter();
 
   const topFleetForm = React.useRef<HTMLDivElement>(null);
-
-
-
-  const [selectedCity, setSelectedCity] = useState("");
-
-
-
-  console.log(selectedCity, "selectedCity");
 
   const scrollToFleet = () => {
     topFleetForm?.current?.scrollIntoView({ behavior: "smooth" });
@@ -56,20 +34,7 @@ export default function Home() {
         ref={topFleetForm}
       >
         <BannerSlider />
-        {/* <Image src={"/latest-home.png"} alt="banner" width={1650} height={950} className="w-full h-auto" /> */}
-        {/* <div className="sm:max-w-[1250px] max-w-[250px] w-full sm:m-auto px-4">
-          <h1 className="sm:text-4xl text-[20px] font-semibold sm:mt-8 mt-2">
-            Experience innovation on
-          </h1>
-          <div className="sm:mt-2">
-            <p className="text-[12px]">
-              <span>wheels with our</span>{" "}
-              <b className="text-primary sm:text-xl text-[12px]">
-                brand-new selection of cars.
-              </b>
-            </p>
-          </div>
-        </div> */}
+        
       </div>
 
       {/* Only mobile section subsription */}
@@ -423,138 +388,138 @@ export default function Home() {
   );
 }
 
-const driverRadioButton = [
-  {
-    content: "Local",
-    id: "local",
-    name: "driver",
-  },
-  {
-    content: "Out-station",
-    id: "outstation",
-    name: "driver",
-  },
-];
-const outstation = [
-  {
-    id: "location",
-    imageUrl: "/svg/location.svg",
-    heading: "Select your city",
-    desc: "Enter pick-up city",
-    cities: [
-      {
-        city: "Noida",
-      },
-      {
-        city: "Meerut",
-      },
-      {
-        city: "Ghaziabad",
-      },
-      {
-        city: "Agra",
-      },
-      {
-        city: "Kanpur",
-      },
-    ],
-  },
-  {
-    id: "date",
-    imageUrl: "/svg/calender.svg",
-    heading: "Pick Up Date",
-    desc: "Enter pickup date",
-  },
-  {
-    id: "date",
-    imageUrl: "/svg/calender.svg",
-    heading: "Drop-off Date",
-    desc: "Enter drop-off date",
-  },
-];
-const localDriverArray = [
-  {
-    id: "location",
-    imageUrl: "/svg/location.svg",
-    heading: "Select your city",
-    desc: "Enter pick-up Location",
-    cities: [
-      {
-        city: "Noida",
-      },
-      {
-        city: "Meerut",
-      },
-      {
-        city: "Ghaziabad",
-      },
-      {
-        city: "Agra",
-      },
-      {
-        city: "Kanpur",
-      },
-    ],
-  },
-  {
-    id: "date",
-    imageUrl: "/svg/calender.svg",
-    heading: "Pick Up Date",
-    desc: "Enter pickup date",
-    cities: [
-      {
-        city: "Noida",
-      },
-      {
-        city: "Meerut",
-      },
-      {
-        city: "Ghaziabad",
-      },
-      {
-        city: "Agra",
-      },
-      {
-        city: "Kanpur",
-      },
-    ],
-  },
+// const driverRadioButton = [
+//   {
+//     content: "Local",
+//     id: "local",
+//     name: "driver",
+//   },
+//   {
+//     content: "Out-station",
+//     id: "outstation",
+//     name: "driver",
+//   },
+// ];
+// const outstation = [
+//   {
+//     id: "location",
+//     imageUrl: "/svg/location.svg",
+//     heading: "Select your city",
+//     desc: "Enter pick-up city",
+//     cities: [
+//       {
+//         city: "Noida",
+//       },
+//       {
+//         city: "Meerut",
+//       },
+//       {
+//         city: "Ghaziabad",
+//       },
+//       {
+//         city: "Agra",
+//       },
+//       {
+//         city: "Kanpur",
+//       },
+//     ],
+//   },
+//   {
+//     id: "date",
+//     imageUrl: "/svg/calender.svg",
+//     heading: "Pick Up Date",
+//     desc: "Enter pickup date",
+//   },
+//   {
+//     id: "date",
+//     imageUrl: "/svg/calender.svg",
+//     heading: "Drop-off Date",
+//     desc: "Enter drop-off date",
+//   },
+// ];
+// const localDriverArray = [
+//   {
+//     id: "location",
+//     imageUrl: "/svg/location.svg",
+//     heading: "Select your city",
+//     desc: "Enter pick-up Location",
+//     cities: [
+//       {
+//         city: "Noida",
+//       },
+//       {
+//         city: "Meerut",
+//       },
+//       {
+//         city: "Ghaziabad",
+//       },
+//       {
+//         city: "Agra",
+//       },
+//       {
+//         city: "Kanpur",
+//       },
+//     ],
+//   },
+//   {
+//     id: "date",
+//     imageUrl: "/svg/calender.svg",
+//     heading: "Pick Up Date",
+//     desc: "Enter pickup date",
+//     cities: [
+//       {
+//         city: "Noida",
+//       },
+//       {
+//         city: "Meerut",
+//       },
+//       {
+//         city: "Ghaziabad",
+//       },
+//       {
+//         city: "Agra",
+//       },
+//       {
+//         city: "Kanpur",
+//       },
+//     ],
+//   },
 
-  {
-    id: "date",
-    imageUrl: "/svg/calender.svg",
-    heading: "Drop-off Date",
-    desc: "Enter drop-off date",
-    cities: [
-      {
-        city: "Noida",
-      },
-      {
-        city: "Meerut",
-      },
-      {
-        city: "Ghaziabad",
-      },
-      {
-        city: "Agra",
-      },
-      {
-        city: "Kanpur",
-      },
-    ],
-  },
-];
-const tabsArray = [
-  {
-    tabsValue: "Driver",
-  },
-  {
-    tabsValue: "Self-Driving",
-  },
-  {
-    tabsValue: "Subscription",
-  },
-];
+//   {
+//     id: "date",
+//     imageUrl: "/svg/calender.svg",
+//     heading: "Drop-off Date",
+//     desc: "Enter drop-off date",
+//     cities: [
+//       {
+//         city: "Noida",
+//       },
+//       {
+//         city: "Meerut",
+//       },
+//       {
+//         city: "Ghaziabad",
+//       },
+//       {
+//         city: "Agra",
+//       },
+//       {
+//         city: "Kanpur",
+//       },
+//     ],
+//   },
+// ];
+// const tabsArray = [
+//   {
+//     tabsValue: "Driver",
+//   },
+//   {
+//     tabsValue: "Self-Driving",
+//   },
+//   {
+//     tabsValue: "Subscription",
+//   },
+// ];
 const chooseArray = [
   {
     imageUrl: "/png/car01.svg",

@@ -46,7 +46,7 @@ const CardListingCards = ({ data }: any) => {
     };
   }, [showImg]);
 
-  const [showOptions, setShowOptions] = useState(false);
+  // const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
   const [selectedPackagePrice, setPackagePrice] = useState<any>();
 
