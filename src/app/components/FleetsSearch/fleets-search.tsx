@@ -1307,7 +1307,7 @@ if(tabValue!=="Subscription"){
         )}
       </div>
       {/* Only mobile section subsription */}
-      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-lg shadow-custom-shadow w-full px-4 sm:pt-16 pt-11 pb-4 sm:my-6 my-4 z-[9]">
+      <div className="relative max-w-[340px] sm:hidden block sm:mb-16 mb-10 m-auto border rounded-lg shadow-custom-shadow w-full px-4 sm:pt-16 sm:pt-11 pt-8 pb-4 sm:my-6 my-4 z-[9]">
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
@@ -1339,10 +1339,10 @@ if(tabValue!=="Subscription"){
           </div>
         </div>
         {mobileTabValue === "Rentals" && (
-          <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden">
+          <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden sm:mt-0 mt-2">
             <div
               className={`${
-                tabValue === "Self-Driving"
+                tabValue === "Self-Driving" || tabValue!=="Driver"
                   ? "bg-black text-white"
                   : "text-black"
               } p-2 rounded-l-full text-center px-4 flex items-center`}
@@ -1353,7 +1353,7 @@ if(tabValue!=="Subscription"){
                 name="select"
                 id="self"
                 className="accent-red-500"
-                checked={tabValue === "Self-Driving" ? true : false}
+                checked={tabValue !== "Driver" ? true : false}
               />
               <label className="ml-2 text-[10px]" htmlFor="self">
                 Self-Driving
@@ -1619,7 +1619,7 @@ if(tabValue!=="Subscription"){
           )}
         </div>
         }
-        <div className="m-auto w-[80%] sm:mt-4 mt-2">
+        <div className="m-auto w-[80%] mt-4">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"

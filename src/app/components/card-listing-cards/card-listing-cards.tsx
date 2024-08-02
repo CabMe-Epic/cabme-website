@@ -128,9 +128,9 @@ const CardListingCards = ({ data }: any) => {
           )
         : bookingOptionsHome === data?.bookingOptions?.subscription?.name
         ? setPackagePrice(
-            calculateTotalPrice(
+            
               data?.bookingOptions?.subscription?.packageType?.package1?.price
-            )
+            
           )
         : driverType === data?.bookingOptions?.withDriver?.local?.name
         ? setPackagePrice(
@@ -227,7 +227,7 @@ console.log(selectedPackagePrice,"selected pack");
 
         {/* --------------------------------- */}
 
-        <div className="absolute sm:block hidden -left-2 top-[20px] z-10 w-fit">
+        <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
           <Image
             src="/png/red-design.png"
             width={133}
@@ -240,7 +240,7 @@ console.log(selectedPackagePrice,"selected pack");
           </span>
         </div>
         <div
-          className="bg-[url('/png/listing-bg.png')]"
+          className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px]"
           style={{ backgroundSize: "100% 100%" }}
         >
           <main className=" sm:max-w-[928px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
@@ -320,7 +320,7 @@ console.log(selectedPackagePrice,"selected pack");
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                           <span className="relative flex flex-row  group text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -704,7 +704,7 @@ console.log(selectedPackagePrice,"selected pack");
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package1?.kmsLimit * (days as number)
+                                  ?.package1?.kmsLimit 
                               : "0"}{" "}
                             Free kms
                           </p>
@@ -713,7 +713,7 @@ console.log(selectedPackagePrice,"selected pack");
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package1?.kmsLimit * (days as number)
+                                  ?.package1?.kmsLimit 
                               : "0"}{" "}
                             Free kms
                           </div>
@@ -762,7 +762,7 @@ console.log(selectedPackagePrice,"selected pack");
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package2?.kmsLimit * (days as number)
+                                  ?.package2?.kmsLimit 
                               : "0"}{" "}
                             Free kms
                           </p>
@@ -771,7 +771,7 @@ console.log(selectedPackagePrice,"selected pack");
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package2?.kmsLimit * (days as number)
+                                  ?.package2?.kmsLimit 
                               : "0"}{" "}
                             Free kms
                           </div>
@@ -821,7 +821,7 @@ console.log(selectedPackagePrice,"selected pack");
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package3?.kmsLimit * (days as number)
+                                  ?.package3?.kmsLimit 
                               : "0"}{" "}
                             Free kms
                           </p>
@@ -830,7 +830,7 @@ console.log(selectedPackagePrice,"selected pack");
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package3?.kmsLimit * (days as number)
+                                  ?.package3?.kmsLimit
                               : "0"}{" "}
                             Free kms
                           </div>

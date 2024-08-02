@@ -76,10 +76,10 @@ const FleetsSlider = ({
         navigation
         // pagination={{ clickable: true }}
         loop={true}
-        // autoplay={{
-        //   delay: 2000,
-        //   disableOnInteraction: false,
-        // }}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
         onSwiper={(swiper) => console.log()}
       >
         <div className="grid grid-cols-3 gap-6 my-12">
@@ -157,7 +157,7 @@ const FleetsSlider = ({
                                 : ind === 4
                                 ? item?.vehicleSpecifications["make"]
                                 : ind === 5
-                                ? item?.seatingCapacity
+                                ? (item?.seatingCapacity+" Person")
                                 : ""}
                             </span>
                           </div>

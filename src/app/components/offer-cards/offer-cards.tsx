@@ -48,10 +48,10 @@ const OfferCards = ({ dailyOffer, monthlyOffer }: offerProp) => {
       navigation
       pagination={{ clickable: true }}
       loop={true}
-      // autoplay={{
-      //   delay: 2000,
-      //   disableOnInteraction: false,
-      // }}
+      autoplay={{
+        delay: 2000,
+        disableOnInteraction: false,
+      }}
     >
       {dailyOffer===true ? (
         <div className="grid grid-cols-3 gap-6">

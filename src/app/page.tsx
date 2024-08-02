@@ -118,7 +118,7 @@ export default function Home() {
               <>
                 <div
                   key={ind}
-                  className="text-center cursor-pointer content-center grid sm:gap-4 gap-2 h-[250px] sm:hover:shadow-xl sm:hover:rounded-xl sm:hover:border"
+                  className="text-center cursor-pointer content-center grid sm:gap-4 gap-2 h-[250px]"
                 >
                   <div className="flex sm:h-auto h-[100px]">
                     <Image
