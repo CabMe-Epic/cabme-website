@@ -30,18 +30,18 @@ const DropLocation: React.FC<DropLocationProps> = ({ currentPackage, onSelectIte
                     <span className="font-semibold">Cost</span>
                 </div>
             </div>
-            <div className="bg-white divide-y divide-gray-200 rounded-xl">
+            <div className="bg-white divide-y divide-gray-200 rounded-xl break-all ">
                 {currentPackage?.map((item, index) => (
                     <div
                         key={index}
                         onClick={() => handleSelectItem(item)} // Handle item selection
-                        className={`p-4 mx-2 flex justify-between cursor-pointer text-sm ${selectedItem === item ? 'bg-gray-100' : ''}`}
+                        className={`p-4 mx-2 flex gap-4 justify-between cursor-pointer text-sm ${selectedItem === item ? 'bg-gray-100' : ''}`}
                     >
-                        <div>
-                            <p className="font-semibold text-gray-700">{item.location}</p>
-                            <p className="text-gray-500 font-[400]">{item.subLocation || 'N/A'}</p>
+                        <div className=' '>
+                            <p className="font-semibold text-gray-700 ">{item.location}</p>
+                            <p className="text-gray-500 font-[400] ">{item.subLocation || 'N/A'}</p>
                         </div>
-                        <p className="text-gray-500">₹{item.price}</p>
+                        <p className="text-gray-500 min-w-[55px]" >₹{item.price}</p>
                     </div>
                 ))}
             </div>

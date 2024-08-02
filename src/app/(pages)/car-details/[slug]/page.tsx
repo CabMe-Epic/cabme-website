@@ -8,7 +8,7 @@ import ExtraCharges from "@/app/components/extra-charges/extra-charges";
 import DescCar from "@/app/components/desc-car/desc-car";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { searchVehicle } from "../../../../../networkRequests/hooks/api";
 import { useRouter } from 'next/navigation'
 import axios from "axios";
@@ -109,6 +109,8 @@ const CarDetails = () => {
       const price = selectedDoorStepObject[0]?.price;
       localStorage.setItem("doorStepPriceCharge", JSON.stringify(price));
     }
+    setTextareaHeight(textareaRef?.current?.scrollHeight + 'px');
+
     console.log(selectedDoorStepObject, "selectedDoorStepObject");
 
   }, [selectedDoorStepObject]);
@@ -116,7 +118,7 @@ const CarDetails = () => {
 
   useEffect(() => {
     localStorage.removeItem("doorStepPriceCharge");
-  },[])
+  }, [])
 
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
@@ -125,7 +127,8 @@ const CarDetails = () => {
   const [bookingOpt, setBookingOpt] = useState<any>();
 
   const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>();
-
+  const [textareaHeight, setTextareaHeight] = useState('auto');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<string | any>();
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
@@ -365,6 +368,9 @@ const CarDetails = () => {
   const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
 
 
+
+
+
   return (
     <>
       <div className="py-6">
@@ -438,7 +444,25 @@ const CarDetails = () => {
                     </span>
                     <span className="sm:w-[220px]  sm:ml-8" onClick={handleShowDoorstepPopup}>
 
-                      <textarea className=" w-[100%] sm:w-[80%] h-[100%] p-1  rounded-md" value={selectedDoorStepObject[0]?.location ? (selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price) : "Select"} />
+                      <div className="relative w-full sm:w-[80%]">
+                        <textarea
+                          ref={textareaRef}
+                          className="w-full p-1 rounded-md border resize-none overflow-hidden"
+                          style={{ height: textareaHeight }}
+                          value={
+                            selectedDoorStepObject[0]?.location
+                              ? `${selectedDoorStepObject[0]?.location} - ${selectedDoorStepObject[0]?.subLocation} - ₹${selectedDoorStepObject[0]?.price}`
+                              : "Select"
+                          }
+                          disabled
+                        />
+                        <div
+                          className="absolute top-0 left-0 w-full h-full cursor-pointer"
+                          onClick={() => handleShowDoorstepPopup()}
+                          style={{ background: "rgba(0,0,0,0)", zIndex: 1 }}
+                        />
+                      </div>
+
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
                     {showDoorStep &&
@@ -468,7 +492,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                      ₹     {roundPrice(totalExcludedGSTAmount)}
+                        ₹     {roundPrice(totalExcludedGSTAmount)}
                       </span>
                     </div>
                   }
@@ -476,7 +500,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                      ₹   {roundPrice(totalIncludedGSTAmount)}
+                        ₹   {roundPrice(totalIncludedGSTAmount)}
                       </span>
                     </div>
                   }
