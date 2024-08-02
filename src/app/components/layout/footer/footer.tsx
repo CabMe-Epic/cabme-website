@@ -31,6 +31,7 @@ const Footer = () => {
     if(value === "Shipping Policy"){
       router.push("/shipping-policy")
     }
+    {value=== "FAQs" && router.push("/faq")}
   }
 const url = usePathname();
 // console.log(url, "footer");

@@ -76,9 +76,13 @@ const Header = () => {
          {mobileMenu && (
            <div className="fixed top-14 right-0 z-[99]">
              <div className=" z-[10] right-0 bg-white w-[200px] px-4 pb-4 h-[100vh] border-b">
-               <p className="text-sm mb-4">About Us</p>
-               <p className="text-sm mb-4">Contact Us</p>
-               <p className="text-sm">Blog</p>
+              {headerMenu?.map((value,index)=>{
+                return(
+                  <p key={index} className="text-sm mb-4" onClick={(e)=>toggleMenu(value?.menu, e)}>{value?.menu}</p>
+
+                )
+              })}
+               
              </div>
            </div>
          )}
