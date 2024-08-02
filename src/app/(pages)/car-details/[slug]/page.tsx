@@ -451,7 +451,7 @@ const CarDetails = () => {
                           style={{ height: textareaHeight }}
                           value={
                             selectedDoorStepObject[0]?.location
-                              ? `${selectedDoorStepObject[0]?.location} ${selectedDoorStepObject[0]?.subLocation} - ${selectedDoorStepObject[0]?.price}`
+                              ? `${selectedDoorStepObject[0]?.location} - ${selectedDoorStepObject[0]?.subLocation} - ₹${selectedDoorStepObject[0]?.price}`
                               : "Select"
                           }
                           disabled
