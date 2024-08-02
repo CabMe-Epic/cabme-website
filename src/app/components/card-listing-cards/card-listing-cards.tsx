@@ -158,7 +158,7 @@ console.log(selectedPackagePrice,"selected pack");
         <div className="sm:w-screen h-screen fixed !top-0 !left-0 backdrop-blur-md z-[999] flex justify-center w-screen sm:h-screen items-center overflow-hidden">
           <div
             onClick={() => setShowImg(!showImg)}
-            className="absolute top-4 right-4 transform -translate-x-1/2 cursor-pointer"
+            className="absolute top-4 sm:right-4 right-0 transform -translate-x-1/2 cursor-pointer"
           >
             <ThemeButton text="Close" className="ml-auto mt-4" />
           </div>
@@ -609,7 +609,7 @@ console.log(selectedPackagePrice,"selected pack");
                         />
                       </div>
                     </div>
-                    <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 absolute bottom-0">
+                    <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 absolute sm:bottom-0 bottom-[8px]">
                       <span
                         className="text-[#ff0000] sm:text-[15px] text-sm"
                         onClick={() => setShowOptionsMobile(!showOptionsMobile)}
