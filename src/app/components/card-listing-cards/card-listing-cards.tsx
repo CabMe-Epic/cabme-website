@@ -304,6 +304,15 @@ console.log(selectedPackagePrice,"selected pack");
                             : ""
                         }`}
                       >
+                        {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+
+                        <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.duration
+                            }
+                          </p>
+                          {/* mobile end */}
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none">
                           ₹{" "}
                           {calculateTotalPrice(
@@ -312,7 +321,7 @@ console.log(selectedPackagePrice,"selected pack");
                           )?.toFixed(0)}
                         </span>
                         <span className="flex flex-col gap-0">
-                          <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.duration
@@ -363,6 +372,14 @@ console.log(selectedPackagePrice,"selected pack");
                             : ""
                         }`}
                       >
+                        {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                        <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.duration
+                            }
+                          </p>
+                          {/* for mobile price end */}
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none">
                           ₹{" "}
                           {calculateTotalPrice(
@@ -371,7 +388,7 @@ console.log(selectedPackagePrice,"selected pack");
                           )?.toFixed(0)}
                         </span>
                         <span className="relative flex flex-col gap-0 group">
-                          <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.duration
@@ -422,6 +439,14 @@ console.log(selectedPackagePrice,"selected pack");
                             : ""
                         }`}
                       >
+                        {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                        <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.duration
+                            }
+                          </p>
+                          {/* mobile end */}
                         <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none">
                           ₹{" "}
                           {calculateTotalPrice(
@@ -430,12 +455,14 @@ console.log(selectedPackagePrice,"selected pack");
                           )?.toFixed(0)}
                         </span>
                         <span className="relative flex flex-col gap-0 group">
-                          <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                          {/* for desktop duration part */}
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.duration
                             }
                           </p>
+                          {/* desktop end */}
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                           <div className="flex flex-row text-[#FF0000]">
                             <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px] m-auto">
@@ -686,18 +713,28 @@ console.log(selectedPackagePrice,"selected pack");
                           : ""
                       }`}
                     >
+                    {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                    <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] text-[10px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.duration
+                          }
+                        </p>
+                        {/* mobile end */}
                       <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                         ₹{" "}
                         {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.price}
                       </span>
                       <span className="flex flex-col gap-0">
-                        <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package1?.duration
                           }
                         </p>
+                        {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                         <span className="relative flex flex-row group text-[#FF0000]">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
@@ -744,18 +781,28 @@ console.log(selectedPackagePrice,"selected pack");
                           : ""
                       }`}
                     >
+                    {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                    <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] text-[10px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.duration
+                          }
+                        </p>
+                        {/* mobile end */}
                       <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
                         ₹{" "}
                         {data?.bookingOptions?.subscription?.packageType
                                ?.package2?.price}
                       </span>
                       <span className="flex flex-col gap-0">
-                        <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package2?.duration
                           }
                         </p>
+                        {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] whitespace-nowrap w-[60px] text-center m-auto overflow-hidden">
@@ -802,6 +849,14 @@ console.log(selectedPackagePrice,"selected pack");
                           : ""
                       }`}
                     >
+                      {/* for mobile */}
+                      <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] text-[10px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.duration
+                          }
+                        </p>
+                        {/* mobile end */}
                       <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap">
                         ₹
                           {data?.bookingOptions?.subscription?.packageType
@@ -809,12 +864,14 @@ console.log(selectedPackagePrice,"selected pack");
                         
                       </span>
                       <span className="flex flex-col gap-0">
-                        <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package3?.duration
                           }
                         </p>
+                          {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] text-center m-auto whitespace-nowrap w-[60px] overflow-hidden">

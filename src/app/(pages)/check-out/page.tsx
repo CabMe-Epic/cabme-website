@@ -580,11 +580,11 @@ const Checkout = () => {
   return (
     <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
-      <button 
+      {/* <button 
       onClick={handleSubmit}
       >
         Continue
-      </button>
+      </button> */}
       <div className="max-w-[765px] w-full mx-auto">
         {one == false && two && three ? (
           ""
