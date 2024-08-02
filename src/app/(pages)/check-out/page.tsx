@@ -55,7 +55,7 @@ const Checkout = () => {
   const [four, setFour] = useState(true);
 
   useEffect(() => {
-    console.log({ userData });
+    // console.log({ userData });
     if (userData?.phoneVerified) {
       setTwo(false);
       setOne(false);
@@ -95,7 +95,7 @@ const Checkout = () => {
   });
 
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState('');
   const [errorMessage, setErrorMessage] = useState("");
 
   // useEffect(() => {
@@ -151,7 +151,7 @@ const Checkout = () => {
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user-signup`,
         payload
       );
-      console.log("Signup successful:", { response });
+      // console.log("Signup successful:", { response });
       if (response?.data?.success) {
         updateUserData(response?.data?.result?.user);
         // setOne(false);
@@ -162,9 +162,9 @@ const Checkout = () => {
         toast.success(response?.data?.message);
       }
     } catch (error: any) {
-      console.error("Error signing up:", error);
+      // console.error("Error signing up:", error);
       if (error.response) {
-        console.log("Error response:", error.response);
+        // console.log("Error response:", error.response);
         const errorMessage = error.response.data.message;
         toast.error(errorMessage);
       } else {
@@ -191,13 +191,13 @@ const Checkout = () => {
         }
       );
       const result = await response.json();
-      console.log({ result });
+      // console.log({ result });
 
       if (response.ok) {
         setAadharGenerate(true);
         setErrorMessage(result?.message);
       } else {
-        toast.error(result.message || "Failed to send OTP.");
+        toast.error("Please enter your phone number to proceed.");
       }
     } catch (error) {
       console.error("Error sending OTP:", error);
@@ -211,6 +211,11 @@ const Checkout = () => {
   const [aadharData, setAadharData] = useState("");
 
   const handleGenerateAadharOTP = async () => {
+    if (!aadhar) {
+      toast.error("Aadhaar number is required");
+      return;
+    }
+    setLoading('generate');
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/getOkycOtp`,
@@ -223,8 +228,7 @@ const Checkout = () => {
         }
       );
       const data = await response.json();
-      console.log({ data });
-      const session = getSessionData("user");
+      // console.log({ data });
       if (data?.otpResponse?.statusCode === 200) {
         setAadharGenerate(true);
         setAadharData(data);
@@ -236,10 +240,13 @@ const Checkout = () => {
       }
     } catch (error) {
       console.error("Error fetching OTP:", error);
+    } finally {
+      setLoading('')
     }
   };
 
   const handleVerifyAadharOTP = async () => {
+    setLoading('verify');
     try {
       console.log({ aadharFrontPost }, { aadharBackPost });
       const response = await fetch(
@@ -264,6 +271,7 @@ const Checkout = () => {
       const data = await response.json();
       console.log({ data });
       if (data?.verificationResponse?.statusCode === 200) {
+
         const value = data?.user;
         setSessionData("user", value);
         setAadharGenerate(false);
@@ -272,6 +280,8 @@ const Checkout = () => {
       }
     } catch (error) {
       console.error("Error fetching OTP:", error);
+    } finally {
+      setLoading('')
     }
   };
 
@@ -579,7 +589,7 @@ const Checkout = () => {
       });
       const payU = await fetch("https://test.payu.in/_payment", {
         method: "POST",
-        body: form, 
+        body: form,
       });
       console.log("payU", { payU });
     } catch (error) {
@@ -859,10 +869,10 @@ const Checkout = () => {
                     </div>
                   </div>
                   <button
-                    onClick={handleGenerateAadharOTP}
+                    onClick={handleGenerateAadharOTP} disabled={loading === 'generate'}
                     className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                   >
-                    Generate OTP
+                    {loading === 'generate' ? 'Loading...' : 'Generate OTP'}
                   </button>
 
                   {aadharGenerate && (
@@ -874,10 +884,10 @@ const Checkout = () => {
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                       />
                       <button
-                        onClick={handleVerifyAadharOTP}
+                        onClick={handleVerifyAadharOTP} disabled={loading === 'verify'}
                         className="w-[209px] h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                       >
-                        Submit
+                        {loading === 'verify' ? 'Loading...' : 'Verify OTP'}
                       </button>
                     </div>
                   )}
