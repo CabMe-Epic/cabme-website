@@ -17,7 +17,7 @@ const ExtraCharges = ({ details }: any) => {
                 </span>
               </div>
             )}
-            {details?.extraService.freeKmsForRental !== 0 && (
+            {details?.extraService.freeKmsForRental && (
               <div className="grid grid-cols-[1.3fr_1fr] items-center sm:justify-center justify-between w-full sm:text-md text-sm gap-4">
                 <span className="text-[#161616]">Free kms for Rental:</span>
                 <span className="text-[#ff0000]">
@@ -55,7 +55,7 @@ const ExtraCharges = ({ details }: any) => {
             )}
 
 
-            {details?.extraService.extraKmCharges !== 0 && (
+            {details?.extraService.extraKmCharges && (
               <div className="grid grid-cols-[1.3fr_1fr] items-center sm:justify-center justify-between w-full sm:text-md text-sm gap-4">
                 <span className="text-[#161616]">Extra kms charges at:</span>
                 <span className="text-[#ff0000]">
