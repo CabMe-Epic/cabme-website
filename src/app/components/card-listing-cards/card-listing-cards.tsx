@@ -278,7 +278,7 @@ console.log(selectedPackagePrice,"selected pack");
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="w-full">
                   <div className="sm:h-[274px] max-w-[600px] relative">
                     <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-4 px-4 justify-end">
                       <div
@@ -298,7 +298,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -313,7 +313,7 @@ console.log(selectedPackagePrice,"selected pack");
                             }
                           </p>
                           {/* mobile end */}
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none">
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
@@ -366,7 +366,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -380,7 +380,7 @@ console.log(selectedPackagePrice,"selected pack");
                             }
                           </p>
                           {/* for mobile price end */}
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none">
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
@@ -433,7 +433,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -447,7 +447,7 @@ console.log(selectedPackagePrice,"selected pack");
                             }
                           </p>
                           {/* mobile end */}
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none">
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
@@ -687,7 +687,7 @@ console.log(selectedPackagePrice,"selected pack");
                     </span>
                   </div>
                 </div>
-                <div className="sm:h-[274px] relative px-4 max-w-[600px]">
+                <div className="sm:h-[274px] relative px-4 max-w-[600px] w-full">
                   <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10">
                     <div
                       onClick={() => {
@@ -707,7 +707,7 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
@@ -721,7 +721,7 @@ console.log(selectedPackagePrice,"selected pack");
                           }
                         </p>
                         {/* mobile end */}
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
                         ₹{" "}
                         {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.price}
@@ -775,7 +775,7 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(true);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${
+                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${
                         clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
@@ -789,7 +789,7 @@ console.log(selectedPackagePrice,"selected pack");
                           }
                         </p>
                         {/* mobile end */}
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
                         ₹{" "}
                         {data?.bookingOptions?.subscription?.packageType
                                ?.package2?.price}
@@ -843,7 +843,7 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(true);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
@@ -857,7 +857,7 @@ console.log(selectedPackagePrice,"selected pack");
                           }
                         </p>
                         {/* mobile end */}
-                      <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap">
+                      <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
                         ₹
                           {data?.bookingOptions?.subscription?.packageType
                             ?.package3?.price}
@@ -1084,7 +1084,7 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative max-w-[600px]">
+                    <div className="sm:h-[274px] relative max-w-[600px] w-full">
                       <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 px-4">
                         <div
                           onClick={() => {
@@ -1105,7 +1105,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1117,7 +1117,7 @@ console.log(selectedPackagePrice,"selected pack");
                               }
                             </p>
                           {/* mobile end */}
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{" "}
                             {calculateTotalPrice(
@@ -1176,7 +1176,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(true);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
                             ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1188,7 +1188,7 @@ console.log(selectedPackagePrice,"selected pack");
                               }
                             </p>
                           {/* mobile end */}
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
                             ₹{" "}
                             {calculateTotalPrice(
                               data?.bookingOptions?.withDriver?.local
@@ -1246,7 +1246,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(true);
                           }}
-                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
+                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1258,7 +1258,7 @@ console.log(selectedPackagePrice,"selected pack");
                               }
                             </p>
                             {/* mobile end */}
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
                             ₹{" "}
                             {calculateTotalPrice(
                               data?.bookingOptions?.withDriver?.local
@@ -1484,7 +1484,7 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative max-w-[600px]">
+                    <div className="sm:h-[274px] relative max-w-[600px] w-full">
                       <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 sm:px-0 px-2">
                         <div onClick={()=>{
                           setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm);
