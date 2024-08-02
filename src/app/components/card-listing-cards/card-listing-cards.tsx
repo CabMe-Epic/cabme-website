@@ -278,7 +278,7 @@ console.log(selectedPackagePrice,"selected pack");
                     </span>
                   </div>
                 </div>
-                <div>
+                <div className="w-full">
                   <div className="sm:h-[274px] max-w-[600px] relative">
                     <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-4 px-4 justify-end">
                       <div
@@ -298,13 +298,22 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                         }`}
                       >
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none">
+                        {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+
+                        <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.duration
+                            }
+                          </p>
+                          {/* mobile end */}
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
@@ -312,7 +321,7 @@ console.log(selectedPackagePrice,"selected pack");
                           )?.toFixed(0)}
                         </span>
                         <span className="flex flex-col gap-0">
-                          <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.duration
@@ -357,13 +366,21 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                         }`}
                       >
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none">
+                        {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                        <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.duration
+                            }
+                          </p>
+                          {/* for mobile price end */}
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
@@ -371,7 +388,7 @@ console.log(selectedPackagePrice,"selected pack");
                           )?.toFixed(0)}
                         </span>
                         <span className="relative flex flex-col gap-0 group">
-                          <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.duration
@@ -416,13 +433,21 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                         }`}
                       >
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none">
+                        {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                        <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.duration
+                            }
+                          </p>
+                          {/* mobile end */}
+                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
@@ -430,12 +455,14 @@ console.log(selectedPackagePrice,"selected pack");
                           )?.toFixed(0)}
                         </span>
                         <span className="relative flex flex-col gap-0 group">
-                          <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                          {/* for desktop duration part */}
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.duration
                             }
                           </p>
+                          {/* desktop end */}
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                           <div className="flex flex-row text-[#FF0000]">
                             <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px] m-auto">
@@ -660,7 +687,7 @@ console.log(selectedPackagePrice,"selected pack");
                     </span>
                   </div>
                 </div>
-                <div className="sm:h-[274px] relative px-4 max-w-[600px]">
+                <div className="sm:h-[274px] relative px-4 max-w-[600px] w-full">
                   <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10">
                     <div
                       onClick={() => {
@@ -680,24 +707,34 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                       }`}
                     >
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
-                        ₹{" "}
-                        {data?.bookingOptions?.subscription?.packageType
-                              ?.package1?.price}
-                      </span>
-                      <span className="flex flex-col gap-0">
-                        <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
+                    {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                    <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package1?.duration
                           }
                         </p>
+                        {/* mobile end */}
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                        ₹{" "}
+                        {data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.price}
+                      </span>
+                      <span className="flex flex-col gap-0">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.duration
+                          }
+                        </p>
+                        {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                         <span className="relative flex flex-row group text-[#FF0000]">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
@@ -738,24 +775,34 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(true);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${
+                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${
                         clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                       }`}
                     >
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
-                        ₹{" "}
-                        {data?.bookingOptions?.subscription?.packageType
-                               ?.package2?.price}
-                      </span>
-                      <span className="flex flex-col gap-0">
-                        <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
+                    {/* for mobile, price should be in the middle thats why this part is only visible in mobile devices. start */}
+                    <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package2?.duration
                           }
                         </p>
+                        {/* mobile end */}
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                        ₹{" "}
+                        {data?.bookingOptions?.subscription?.packageType
+                               ?.package2?.price}
+                      </span>
+                      <span className="flex flex-col gap-0">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.duration
+                          }
+                        </p>
+                        {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] whitespace-nowrap w-[60px] text-center m-auto overflow-hidden">
@@ -796,25 +843,35 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(true);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                       }`}
                     >
-                      <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap">
+                      {/* for mobile */}
+                      <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] text-[10px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.duration
+                          }
+                        </p>
+                        {/* mobile end */}
+                      <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
                         ₹
                           {data?.bookingOptions?.subscription?.packageType
                             ?.package3?.price}
                         
                       </span>
                       <span className="flex flex-col gap-0">
-                        <p className="text-[#565454] font-[500] sm:text-[14px] text-[10px] text-center">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package3?.duration
                           }
                         </p>
+                          {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] text-center m-auto whitespace-nowrap w-[60px] overflow-hidden">
@@ -974,7 +1031,7 @@ console.log(selectedPackagePrice,"selected pack");
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0">
+                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:right-[16px]">
                     <span
                       className="text-[#ff0000]"
                       onClick={() => setShowOptionsMobile(!showOptionsMobile)}
@@ -1027,8 +1084,8 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative max-w-[600px]">
-                      <div className="mt-5 flex flex-row items-center sm:gap-4 gap-2 sm:mr-10 px-4">
+                    <div className="sm:h-[274px] relative max-w-[600px] w-full">
+                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 px-4">
                         <div
                           onClick={() => {
                             const calculatedPrice = calculateTotalPrice(
@@ -1048,11 +1105,19 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap">
+                          {/* for mobile */}
+                          <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              {
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package1?.duration
+                              }
+                            </p>
+                          {/* mobile end */}
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{" "}
                             {calculateTotalPrice(
@@ -1061,15 +1126,17 @@ console.log(selectedPackagePrice,"selected pack");
                             )?.toFixed(0)}
                           </span>
                           <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {/* for desktop */}
+                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                               {
                                 data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package1?.duration
                               }
                             </p>
+                            {/* desktop end */}
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package1?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1109,11 +1176,19 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(true);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
                             ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
+                          {/* for mobile */}
+                          <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              {
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.duration
+                              }
+                            </p>
+                          {/* mobile end */}
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
                             ₹{" "}
                             {calculateTotalPrice(
                               data?.bookingOptions?.withDriver?.local
@@ -1121,15 +1196,17 @@ console.log(selectedPackagePrice,"selected pack");
                             )?.toFixed(0)}
                           </span>
                           <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {/* for desktop */}
+                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                               {
                                 data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.duration
                               }
                             </p>
+                            {/* desktop end */}
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1169,11 +1246,19 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(true);
                           }}
-                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
+                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[3px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
-                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap">
+                          {/* for mobile */}
+                          <p className="text-[#565454] sm:hidden block font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              {
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.duration
+                              }
+                            </p>
+                            {/* mobile end */}
+                          <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
                             ₹{" "}
                             {calculateTotalPrice(
                               data?.bookingOptions?.withDriver?.local
@@ -1181,15 +1266,17 @@ console.log(selectedPackagePrice,"selected pack");
                             )?.toFixed(0)}
                           </span>
                           <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                            {/* for desktop */}
+                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                               {
                                 data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package3?.duration
                               }
                             </p>
+                            {/* desktop end */}
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package3?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1264,7 +1351,7 @@ console.log(selectedPackagePrice,"selected pack");
                       {/*  */}
 
                       <div className="sm:flex flex-row justify-between items-center sm:mr-10">
-                        <div className="grid grid-cols-3 items-center sm:w-full gap-y-6 ml-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs">
+                        <div className="grid grid-cols-3 items-center sm:w-full gap-y-6 ml-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs gap-4">
                           {data?.carFeatures?.bluetooth === true && (
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1345,7 +1432,7 @@ console.log(selectedPackagePrice,"selected pack");
                           />
                         </div>
                       </div>
-                      <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute bottom-0">
+                      <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
                         <span
                           className="text-[#ff0000] sm:text-[15px] text-sm"
                           onClick={() => setShowOptionsMobile(!showOptionsMobile)}
@@ -1397,7 +1484,7 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative max-w-[600px]">
+                    <div className="sm:h-[274px] relative max-w-[600px] w-full">
                       <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 sm:px-0 px-2">
                         <div onClick={()=>{
                           setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm);
@@ -1580,7 +1667,7 @@ console.log(selectedPackagePrice,"selected pack");
                           />
                         </div>
                       </div>
-                      <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 absolute bottom-0 sm:text-[15px] text-sm ml-4">
+                      <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:text-[15px] text-sm ml-4">
                         <span
                           className="text-[#ff0000]"
                           onClick={() => setShowOptionsMobile(!showOptionsMobile)}

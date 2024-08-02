@@ -381,7 +381,7 @@ const CarDetails = () => {
                   <select
                     name="package"
                     id="package"
-                    className="cursor-pointer w-[140px] p-2  rounded-md font-semibold outline-none"
+                    className="cursor-pointer w-[140px] p-2 mr-2 rounded-md font-semibold outline-none"
                     onChange={(event) => handlePriceChange(event?.target?.value)}
                   >
                     <option value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
@@ -491,10 +491,10 @@ const CarDetails = () => {
                 <div>
 
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[320px] sm:w-[420px] py-5 rounded-3xl">
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" &&
                       <div className="flex flex-col">
-                        <span>Total Amount </span>
+                        <span className="text-sm md:text-md">Total Amount </span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalExcludedGSTAmount)}
                         </span>
@@ -502,7 +502,7 @@ const CarDetails = () => {
                     }
                     {currentPackage?.gst === "Included" &&
                       <div className="flex flex-col">
-                        <span>Total Amount</span>
+                        <span className="text-sm md:text-md">Total Amount</span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalIncludedGSTAmount)}
                         </span>
@@ -511,7 +511,7 @@ const CarDetails = () => {
                     <div>
                       <button
                         onClick={handleProceed}
-                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-2xl font-semibold text-white w-[178.31px] h-[53.08px] rounded-full drop-shadow-lg">
+                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] px-6 py-2  sm:h-[53.08px] rounded-full drop-shadow-lg ">
                         Proceed
                       </button>
                     </div>
@@ -519,7 +519,7 @@ const CarDetails = () => {
                 </div>
 
                 {/* DESKTOP  */}
-                <div className="flex flex-row items-center justify-around border-[1.5px] w-[320px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" &&
                       <span className="font-bold text-md">

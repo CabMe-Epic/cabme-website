@@ -499,35 +499,102 @@ const Checkout = () => {
     productinfo: "Fleet for booking"
   }
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/payment`, payload);
+  //     console.log("Payment response", { response });
+  //     const result = response?.data
+  //     const data = {
+  //       key: result.key,
+  //       txnid: result.txnid,
+  //       amount: result.amount,
+  //       productinfo: result.productinfo,
+  //       firstname: result.firstname,
+  //       email: result.email,
+  //       surl: result.surl,
+  //       furl: result.furl,
+  //       hash: result.hash,
+  //     };
+  //     console.log({ data })
+  //     const resDataPrti = new URLSearchParams(data).toString();
+  //     console.log({ resDataPrti })
+  //     window.location.href = `${PAYU_BASE_URL}/_payment?${resDataPrti}`;
+  //   } catch (error) {
+  //     console.error("Error processing payment", error);
+  //   }
+  // };
+
+  const txnId = "txn" + new Date().getTime();
+
+  const key = "EhQKWX";
+  const MERCHANT_SALT = "erM1zJcYcfTykYGSb0GAVK7VFz4sFS1S";
+
+  const [payment, setPayment] = useState<any>({
+    amount: "90.00",
+    productinfo: "Ta-123",
+    firstName: "sahil",
+    email: "test@gmail.com",
+    key: key,
+    txnid: txnId,
+    phone: "9999999999",
+    surl: "http://localhost:3000/success",
+    furl: "http://localhost:3000/failure",
+    txn_s2s_flow: 4,
+    MERCHANT_SALT: MERCHANT_SALT,
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/payment`, payload);
-      console.log("Payment response", { response });
-      const result = response?.data
-      const data = {
-        key: result.key,
-        txnid: result.txnid,
-        amount: result.amount,
-        productinfo: result.productinfo,
-        firstname: result.firstname,
-        email: result.email,
-        surl: result.surl,
-        furl: result.furl,
-        hash: result.hash,
+      const response = await axios.post(
+        "https://api.cabme.in/payment",
+        payment
+      );
+      // console.log("Payment response", { response });
+      const { data } = response;
+      console.log("data", { data });
+
+      const resData: any = {
+        key: data.key,
+        txnid: data.txnid,
+        amount: data.amount,
+        productinfo: data.productinfo,
+        firstname: data.firstName,
+        email: data.email,
+        phone: data.phone,
+        surl: data.surl,
+        furl: data.furl,
+        hash: data.hashValue,
       };
-      console.log({ data })
-      const resDataPrti = new URLSearchParams(data).toString();
-      console.log({ resDataPrti })
-      window.location.href = `${PAYU_BASE_URL}/_payment?${resDataPrti}`;
+
+      console.log("resData", { resData });
+      // setNewData(resData);
+
+      const form = new FormData();
+      const formFields = Object.keys(resData);
+      formFields.forEach((field: any) => {
+        form.append(field, resData[field]);
+        console.log("field", { field });
+      });
+      const payU = await fetch("https://test.payu.in/_payment", {
+        method: "POST",
+        body: form, 
+      });
+      console.log("payU", { payU });
     } catch (error) {
       console.error("Error processing payment", error);
     }
-  };
+  }
 
   return (
     <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
+      {/* <button 
+      onClick={handleSubmit}
+      >
+        Continue
+      </button> */}
       <div className="max-w-[765px] w-full mx-auto">
         {one == false && two && three ? (
           ""

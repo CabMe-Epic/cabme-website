@@ -189,7 +189,10 @@
   width: 50px;
 }
 
-
+.backdrop-blur-md{
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
 
 .react-datepicker {
   width: 114% !important;
