@@ -27,70 +27,70 @@ export default function Home() {
   };
 
 
-  const txnId = "txn" + new Date().getTime();
+  // const txnId = "txn" + new Date().getTime();
 
-  const test_url = "https://test.payu.in/_payment"
+  // const test_url = "https://test.payu.in/_payment"
 
-  const key = "G2R8rd";
-  const MERCHANT_SALT = "hoT1lQBczcCkFez0pvh9GwFq1JC5o1R2";
+  // const key = "EhQKWX";
+  // const MERCHANT_SALT = "erM1zJcYcfTykYGSb0GAVK7VFz4sFS1S";
 
-  const [payment, setPayment] = useState<any>({
-    amount: "1.00",
-    productinfo: "Ta-123",
-    firstName: "sahil",
-    email: "test@gmail.com",
-    key: key,
-    txnid: txnId,
-    phone: "9999999999",
-    surl: "https://beta.cabme.in/success",
-    furl: "http://localhost:3000/failure",
-    txn_s2s_flow: 4,
-    MERCHANT_SALT: MERCHANT_SALT,
-  });
+  // const [payment, setPayment] = useState<any>({
+  //   amount: "1.00",
+  //   productinfo: "Ta-123",
+  //   firstName: "sahil",
+  //   email: "test@gmail.com",
+  //   key: key,
+  //   txnid: txnId,
+  //   phone: "9999999999",
+  //   surl: "https://beta.cabme.in/success",
+  //   furl: "http://localhost:3000/failure",
+  //   txn_s2s_flow: 4,
+  //   MERCHANT_SALT: MERCHANT_SALT,
+  // });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    // e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:9003/payment",
-        payment
-      );
-      // console.log("Payment response", { response });
-      const { data } = response;
-      console.log("data", { data });
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   // e.preventDefault();
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:9003/payment",
+  //       payment
+  //     );
+  //     // console.log("Payment response", { response });
+  //     const { data } = response;
+  //     console.log("data", { data });
 
-      const resData: any = {
-        key: data.key,
-        txnid: data.txnid,
-        amount: data.amount,
-        productinfo: data.productinfo,
-        firstname: data.firstName,
-        email: data.email,
-        phone: data.phone,
-        surl: data.surl,
-        furl: data.furl,
-        hash: data.hashValue,
-      };
+  //     const resData: any = {
+  //       key: data.key,
+  //       txnid: data.txnid,
+  //       amount: data.amount,
+  //       productinfo: data.productinfo,
+  //       firstname: data.firstName,
+  //       email: data.email,
+  //       phone: data.phone,
+  //       surl: data.surl,
+  //       furl: data.furl,
+  //       hash: data.hashValue,
+  //     };
 
-      console.log("resData", { resData });
-     const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://secure.payu.in/_payment';
-      
-      Object.keys(resData).forEach((key) => {
-          const hiddenField = document.createElement('input');
-          hiddenField.type = 'hidden';
-          hiddenField.name = key;
-          hiddenField.value = resData[key];
-          form.appendChild(hiddenField);
-      });
+  //     console.log("resData", { resData });
+  //    const form = document.createElement('form');
+  //     form.method = 'POST';
+  //     form.action = 'https://test.payu.in/_payment';
 
-      document.body.appendChild(form);
-      form.submit();
-    } catch (error) {
-      console.error("Error processing payment", error);
-    }
-  }
+  //     Object.keys(resData).forEach((key) => {
+  //         const hiddenField = document.createElement('input');
+  //         hiddenField.type = 'hidden';
+  //         hiddenField.name = key;
+  //         hiddenField.value = resData[key];
+  //         form.appendChild(hiddenField);
+  //     });
+
+  //     document.body.appendChild(form);
+  //     form.submit();
+  //   } catch (error) {
+  //     console.error("Error processing payment", error);
+  //   }
+  // }
 
 
   return (
@@ -100,13 +100,10 @@ export default function Home() {
         className="z-[-9] relative rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         ref={topFleetForm}
       >
-       
         <BannerSlider />
-        
       </div>
 
       {/* Only mobile section subsription */}
-
       <FleetsSearch />
       {/* <button 
       onClick={handleSubmit}

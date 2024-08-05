@@ -500,42 +500,57 @@ const Checkout = () => {
   /// payment intrigation
   console.log("USER DATA", { userData });
 
-  const PAYU_BASE_URL = 'https://test.payu.in'
-
-  const payload = {
-    firstname: "Aasif Alvi",
-    email: "aasifalvi8888@gmail.com",
-    amount: 1,
-    productinfo: "Fleet for booking"
+  const paymentPayload = {
+    amount: "5000.00",
+    productinfo: "Ta-123",
+    firstName: "Aasif Alvi",
+    email: "aasifalvi888@gmail.com",
+    phone: "9997747030",
+    txn_s2s_flow: 4,
   }
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/payment`, payload);
-  //     console.log("Payment response", { response });
-  //     const result = response?.data
-  //     const data = {
-  //       key: result.key,
-  //       txnid: result.txnid,
-  //       amount: result.amount,
-  //       productinfo: result.productinfo,
-  //       firstname: result.firstname,
-  //       email: result.email,
-  //       surl: result.surl,
-  //       furl: result.furl,
-  //       hash: result.hash,
-  //     };
-  //     console.log({ data })
-  //     const resDataPrti = new URLSearchParams(data).toString();
-  //     console.log({ resDataPrti })
-  //     window.location.href = `${PAYU_BASE_URL}/_payment?${resDataPrti}`;
-  //   } catch (error) {
-  //     console.error("Error processing payment", error);
-  //   }
-  // };
+  const handleSubmit = async (e: React.FormEvent) => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/payment`,
+        paymentPayload
+      );
+      const data = response?.data;
+      console.log({ data })
 
- 
+      const result: any = {
+        key: data?.key,
+        txnid: data?.txnid,
+        amount: data?.amount,
+        productinfo: data?.productinfo,
+        firstName: data?.firstName,
+        email: data?.email,
+        phone: data?.phone,
+        surl: data?.surl,
+        furl: data?.furl,
+        hash: data?.hashValue,
+      };
+
+      console.log({ result });
+
+      const form = document.createElement("form");
+      form.setAttribute("method", "POST");
+      form.setAttribute("action", "https://test.payu.in/_payment");
+
+      Object.keys(result).forEach((key) => {
+        const input = document.createElement("input");
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", key);
+        input.setAttribute("value", result[key]);
+        form.appendChild(input);
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+    } catch (error) {
+      console.error("Error processing payment", error);
+    }
+  };
 
   return (
     <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
@@ -1258,7 +1273,7 @@ const Checkout = () => {
           <h2 className="text-[20px] font-bold">4. Payment</h2>
           <button
             className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
-            // onClick={handleSubmit}
+            onClick={handleSubmit}
           >
             Continue
           </button>
