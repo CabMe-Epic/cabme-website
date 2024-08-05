@@ -34,7 +34,16 @@ interface PromoCode {
   customerContact?: string;
 }
 
-const BookingSummery = () => {
+interface ChildComponentProps {
+  roundPrice: (amount: number) => number;
+  onTotalAmountChange: (amount: number) => void;
+}
+
+const BookingSummery: React.FC<ChildComponentProps> = ({
+  roundPrice,
+  onTotalAmountChange, }) => {
+
+
   const router = useRouter();
   const { slug } = useParams();
   const [token, setToken] = useState<string | null>(null);
@@ -60,7 +69,8 @@ const BookingSummery = () => {
 
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
-  console.log({ selectedPromocodeOption });
+  // console.log({ selectedPromocodeOption });
+
 
   const handleChangePromocodeOption = (e: any) => {
     setSelectedPromocodeOption(e.target.value);
@@ -162,15 +172,15 @@ const BookingSummery = () => {
   };
 
   const getCarDetails = useCallback(async () => {
-    
+
     const getSearchCarData = await searchVehicle();
     const carData = getSearchCarData?.data?.vehicles;
     carData?.forEach((item: any) => {
       if (item?._id === sessionSlug) {
         setCarDetails(item);
-        
+
       }
-      
+
     });
   }, [sessionSlug]);
 
@@ -179,13 +189,13 @@ const BookingSummery = () => {
   }, [getCarDetails]);
 
   useEffect(() => {
-    
+
     if (carDetails?.bookingOptions?.selfDrive?.name === bookingOpt) {
       setCurrentPackage(
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       );
     }
-  
+
   }, [carDetails, bookingOpt]);
 
   // console.log(sessionSlug, "sessionSlug")
@@ -229,7 +239,7 @@ const BookingSummery = () => {
   }, []);
 
   React.useEffect(() => {
-    
+
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
@@ -239,7 +249,7 @@ const BookingSummery = () => {
     setDropoffDate(getDropoff);
     setBookingOpt(bookingOption);
     getCarDetails();
-    
+
     // price();
   }, []);
 
@@ -292,7 +302,7 @@ const BookingSummery = () => {
     }
   }, []);
 
-  console.log({ currentPackage });
+  // console.log({ currentPackage });
 
   React.useEffect(() => {
     {
@@ -323,22 +333,30 @@ const BookingSummery = () => {
   const totalExcludedGSTAmount = Number(packagePrice) + Number(result?.gstAmount) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
   const totalIncludedGSTAmount = Number(packagePrice) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
 
+  useEffect(() => {
+    const amount = currentPackage?.gst === 'Included'
+      ? roundPrice(totalIncludedGSTAmount)
+      : roundPrice(totalExcludedGSTAmount);
+
+    onTotalAmountChange(amount);
+  }, [currentPackage, totalIncludedGSTAmount, totalExcludedGSTAmount, roundPrice, onTotalAmountChange]);
+
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   useEffect(() => {
-    if(!result){
+    if (!result) {
       setLoader(true);
-    }else{
+    } else {
       setLoader(false);
     }
-  },[result])
+  }, [result])
 
 
 
   return (
     <div>
       {
-        loader && <BlinkerLoader/>
+        loader && <BlinkerLoader />
       }
       <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
         <div className="max-w-[376px] w-full h-[50px] bg-black text-white font-semibold text-[20px] flex justify-center items-center rounded-xl">
@@ -371,7 +389,7 @@ const BookingSummery = () => {
               Base Fare
             </span>
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
-              ₹{packagePrice}
+              ₹ {packagePrice}
             </span>
           </div>
 
@@ -399,7 +417,7 @@ const BookingSummery = () => {
 
           <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
             <span className=" sm:ml-4">GST ({currentPackage?.package1?.gstRate}%)</span>
-            <span className=" sm:ml-10">₹{roundPrice(Number(result?.gstAmount))}</span>
+            <span className=" sm:ml-10">₹ {roundPrice(Number(result?.gstAmount))}</span>
           </div>
 
           <div className="grid grid-cols-2 gap-14  justify-center">
@@ -416,7 +434,7 @@ const BookingSummery = () => {
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-              ₹    {roundPrice(totalExcludedGSTAmount)}
+                ₹    {roundPrice(totalExcludedGSTAmount)}
               </span>
             </div>
           }
@@ -424,7 +442,7 @@ const BookingSummery = () => {
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-              ₹   {roundPrice(totalIncludedGSTAmount)}
+                ₹   {roundPrice(totalIncludedGSTAmount)}
               </span>
             </div>
           }

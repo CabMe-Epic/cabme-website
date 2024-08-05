@@ -2,7 +2,7 @@
 import BookingSummery from "@/app/components/booking-summery";
 import InputField from "@/app/components/input-field/input-field";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -43,10 +43,27 @@ interface User extends SelectedUser {
   starRating: number;
 }
 
+interface PaymentPayload {
+  amount: string;
+  productinfo: string;
+  firstName?: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+  address1?: string;
+  address2?: string;
+  country: string;
+  zipcode: number;
+  city?: string;
+  state?: string;
+}
+
 const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const userData = useStore((state) => state.userData);
   console.log("USER DATA", { userData });
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const [aadharGenerate, setAadharGenerate] = useState(false);
   const [one, setOne] = useState(true);
@@ -69,6 +86,12 @@ const Checkout = () => {
     ) {
       setThree(true);
       setTwo(true);
+    }
+
+    if (userData?.aadharVerified) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
     }
   }, [userData]);
 
@@ -491,22 +514,43 @@ const Checkout = () => {
   };
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DL Images Uploading >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
   const handleDocSelect = (e: any) => {
     console.log(e.target.value, "ee");
     setShowDocSelect(e.target.value);
   };
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+  // Back data from child component to root file... 
+
+  const [totalAmount, setTotalAmount] = useState<number>(0);
+
+  const roundPrice = (amount: number) => {
+    return Math.round(amount);
+  };
+
+  const handleBackBaseFareAmount = (amount: number) => {
+    setTotalAmount(amount);
+  };
+  console.log("BACK BASE FARE AMOUNT", { totalAmount })
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////
+
   /// payment intrigation
   console.log("USER DATA", { userData });
 
-  const paymentPayload = {
-    amount: "5000.00",
-    productinfo: "Ta-123",
-    firstName: "Aasif Alvi",
-    email: "aasifalvi888@gmail.com",
-    phone: "9997747030",
-    txn_s2s_flow: 4,
+  const paymentPayload: PaymentPayload = {
+    amount: totalAmount.toFixed(2),
+    productinfo: "Taxi Service - Trip from A to B",
+    firstName: userData?.firstName,
+    lastName: "Alvi",
+    email: userData?.email,
+    phone: userData?.phone,
+    address1: userData?.address,
+    address2: userData?.address,
+    country: "India",
+    zipcode: 201206,
+    city: userData?.city,
+    state: userData?.state,
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -524,8 +568,15 @@ const Checkout = () => {
         amount: data?.amount,
         productinfo: data?.productinfo,
         firstName: data?.firstName,
+        lastName: data?.lastName,
+        address2: data?.address2,
+        zipcode: data?.zipcode,
         email: data?.email,
         phone: data?.phone,
+        address1: data?.address1,
+        city: data?.city,
+        state: data?.state,
+        country: data?.country,
         surl: data?.surl,
         furl: data?.furl,
         hash: data?.hashValue,
@@ -552,10 +603,11 @@ const Checkout = () => {
     }
   };
 
+
   return (
     <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
-     
+
       <div className="max-w-[765px] w-full mx-auto">
         {one == false && two && three ? (
           ""
@@ -1272,15 +1324,22 @@ const Checkout = () => {
         <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
           <h2 className="text-[20px] font-bold">4. Payment</h2>
           <button
-            className="w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+            className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${isButtonDisabled
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-[#FF0000] hover:bg-black hover:text-white'
+              }`}
             onClick={handleSubmit}
+            disabled={isButtonDisabled}
           >
             Continue
           </button>
         </div>
       </div>
       <div className="max-w-[450px] w-full mx-auto">
-        <BookingSummery />
+        <BookingSummery
+          roundPrice={roundPrice}
+          onTotalAmountChange={handleBackBaseFareAmount}
+        />
       </div>
     </div>
   );
