@@ -452,7 +452,11 @@ const SignIn = () => {
                             </div>
                         </div>
                     </section> */}
-            <BookingSummery />
+            {/* <BookingSummery roundPrice={function (amount: number): number {
+            throw new Error("Function not implemented.");
+          } } onTotalAmountChange={function (amount: number): void {
+            throw new Error("Function not implemented.");
+          } } /> */}
           {/* <section className="w-full sm:mx-auto bg-grey-100 ">
             <main className=" flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md w-full sm:w-[600px] mx-auto">
               <div className=" w-[80%] sm:w-[400px] sm:h-[50px] h-[43px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">

@@ -253,7 +253,11 @@ const PersonalDetails = (props: any) => {
                         {/* DL end */}
                     </section>
 
-                            <BookingSummery />
+                            {/* <BookingSummery roundPrice={function (amount: number): number {
+                        throw new Error('Function not implemented.');
+                    } } onTotalAmountChange={function (amount: number): void {
+                        throw new Error('Function not implemented.');
+                    } } /> */}
                     {/* <section className='px-4'>
                         <main className="flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md p-4 shadow-custom-shadow border">
                             <div className='w-[280px] sm:w-[376px] h-[50px] bg-black text-white font-semibold text-[18px] sm:text-[20px] flex justify-center items-center rounded-xl'>

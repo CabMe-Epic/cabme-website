@@ -23,8 +23,8 @@ const PaymentPage = (props: any) => {
                 <div className="flex relative items-center justify-center mt-10 w-[100%] overflow-hidden pr-5">
                     <div className="border-b-[1px] absolute -z-10 left-[47px] sm:left-[65px] top-4 border-black w-[87%]"></div>
                     <div className="flex relative items-center justify-between w-[1200px] space-x-4 ">
-                          {/* Step 1 */}
-                          <div className="flex items-center">
+                        {/* Step 1 */}
+                        <div className="flex items-center">
                             <div className="relative flex flex-col gap-2 items-center">
                                 <div className="w-8 h-8 border-[1px] border-red-500 rounded-full bg-white flex items-center justify-center">
                                     <Image src="/carDetails/done.png" width={20} height={20} alt="" />
@@ -50,11 +50,11 @@ const PaymentPage = (props: any) => {
                                 <span className="ml-2 text-sm text-center">Payment Method</span>
                             </div>
                         </div>
-                  
+
                     </div>
                 </div>
                 {/*  */}
-                
+
 
                 <div className=' grid lg:grid-cols-[60%_40%] justify-center gap-10 mt-10'>
 
@@ -121,7 +121,7 @@ const PaymentPage = (props: any) => {
                                 <div className="py-2 border-b-[1px] mb-10 border-[#000000] pb-2 flex flex-row items-center gap-2">
                                     <div>
                                         <Image className="mt-1" src="/carDetails/cash.png" width={20} height={20} alt="cash" />
-                                    </div> 
+                                    </div>
                                     <div className="w-full font-[500] sm:text-md text-sm">
                                         <select className="block outline-0 w-full mt-1 rounded-md">
                                             <option value="">Cash</option>
@@ -141,7 +141,11 @@ const PaymentPage = (props: any) => {
                         </div>
                     </section>
 
-                    <BookingSummery />
+                    {/* <BookingSummery roundPrice={function (amount: number): number {
+                        throw new Error('Function not implemented.');
+                    }} onTotalAmountChange={function (amount: number): void {
+                        throw new Error('Function not implemented.');
+                    }} /> */}
                     {/* <section className='px-4'>
                         <main className="flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md p-4 shadow-custom-shadow border">
                             <div className='w-[280px] sm:w-[376px] h-[50px] bg-black text-white font-semibold text-[18px] sm:text-[20px] flex justify-center items-center rounded-xl'>
