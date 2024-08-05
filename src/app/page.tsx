@@ -108,11 +108,11 @@ export default function Home() {
       {/* Only mobile section subsription */}
 
       <FleetsSearch />
-      <button 
+      {/* <button 
       onClick={handleSubmit}
       >
         Continue
-      </button>
+      </button> */}
 
       <div className="max-w-[1250px] w-full m-auto">
         <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
