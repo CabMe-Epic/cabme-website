@@ -178,26 +178,26 @@ console.log(selectedPackagePrice,"selected pack");
               />
               <button
                 onClick={handlePrev}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2"
+                className="absolute sm:left-4 left-0 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 sm:w-[40px] w-[32px] sm:h-[40px] h-[32px] bg-transparent rounded-full shadow-md p-2"
               >
                 <Image
                   src="/png/left-arrow-red.png"
                   alt="Previous"
                   width={24}
                   height={16}
-                  className="w-[24px] h-[16px]"
+                  className="sm:w-[24px] sm:h-[16px] w-[20px] h-[12px]"
                 />
               </button>
               <button
                 onClick={handleNext}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2"
+                className="absolute sm:right-4 right-0 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 sm:w-[40px] w-[32px] sm:h-[40px] h-[32px] bg-transparent rounded-full shadow-md p-2"
               >
                 <Image
                   src="/png/right-arrow-red.png"
                   alt="Next"
                   width={24}
                   height={16}
-                  className="w-[24px] h-[16px]"
+                  className="sm:w-[24px] sm:h-[16px] w-[20px] h-[12px]"
                 />
               </button>
             </div>
@@ -298,7 +298,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -358,7 +358,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -418,7 +418,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -685,14 +685,14 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                       }`}
                     >
                     
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
                         ₹{" "}
                         {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.price}
@@ -746,7 +746,7 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(true);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${
+                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${
                         clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
@@ -807,7 +807,7 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(true);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
@@ -1062,7 +1062,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1126,7 +1126,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(true);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
                             ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1189,7 +1189,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(true);
                           }}
-                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
+                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1427,10 +1427,10 @@ console.log(selectedPackagePrice,"selected pack");
                           setClicked1(true);
                           setClicked2(false);
                           setClicked3(false);
-                        }} className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked1
+                        }} className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                           : ""}`}>
-                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm}/<span className="text-primary">Km</span>
                             
@@ -1445,10 +1445,10 @@ console.log(selectedPackagePrice,"selected pack");
                           setClicked2(true);
                           setClicked3(false);
                         }}
-                         className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked2
+                         className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                           : ""}`}>
-                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package2?.ratePerKm}/<span className="text-primary">Km</span>
                             
@@ -1463,10 +1463,10 @@ console.log(selectedPackagePrice,"selected pack");
                           setClicked2(false);
                           setClicked3(true);
                         }}
-                        className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked3
+                        className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                           : ""}`}>
-                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package3?.ratePerKm}/<span className="text-primary">Km</span>
                             
