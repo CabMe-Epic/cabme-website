@@ -256,7 +256,7 @@ const CarListing = () => {
   let cardCount = 0;
 
   return (
-    <div className="max-w-[1400px] m-auto">
+    <div className="max-w-[1450px] m-auto">
       {
         loader && <BlinkerLoader />
       }
@@ -411,8 +411,8 @@ const CarListing = () => {
 
 
         <section className="flex  sm:flex-col  sm:m-auto xl:flex-row flex-col items-start xl:justify-between justify-center gap-10">
-          <div className="md:mx-[5%] lg:mx-0 !sticky top-16 z-20">
-            <div className=" cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white xl:hidden " onClick={() => setShowFilter(!showFilter)}>
+          <div className="md:mx-[5%] lg:mx-0 !sticky top-16 z-20 xl:hidden ">
+            <div className=" cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white " onClick={() => setShowFilter(!showFilter)}>
               <Image className="mb-[-6px]" src="/svg/filter.svg" alt="filter" width={16} height={12} />
               <span className="text-xs">Filters</span>
             </div>
@@ -1194,7 +1194,7 @@ const CarListing = () => {
               />
             </div>
           </aside>
-          <div className="basis-2/3 m-auto">
+          <div className="max-w-[1037px] w-full m-auto">
             {paginatedItems?.map((item: { bookingDate: string | number | Date; id: any; }, index: any) => {
               const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
               let dateOnly = '';

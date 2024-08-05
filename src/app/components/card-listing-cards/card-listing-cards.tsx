@@ -178,26 +178,26 @@ console.log(selectedPackagePrice,"selected pack");
               />
               <button
                 onClick={handlePrev}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2"
+                className="absolute sm:left-4 left-0 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 sm:w-[40px] w-[32px] sm:h-[40px] h-[32px] bg-transparent rounded-full shadow-md p-2"
               >
                 <Image
                   src="/png/left-arrow-red.png"
                   alt="Previous"
                   width={24}
                   height={16}
-                  className="w-[24px] h-[16px]"
+                  className="sm:w-[24px] sm:h-[16px] w-[20px] h-[12px]"
                 />
               </button>
               <button
                 onClick={handleNext}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 w-[40px] h-[40px] bg-white rounded-full shadow-md p-2"
+                className="absolute sm:right-4 right-0 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 sm:w-[40px] w-[32px] sm:h-[40px] h-[32px] bg-transparent rounded-full shadow-md p-2"
               >
                 <Image
                   src="/png/right-arrow-red.png"
                   alt="Next"
                   width={24}
                   height={16}
-                  className="w-[24px] h-[16px]"
+                  className="sm:w-[24px] sm:h-[16px] w-[20px] h-[12px]"
                 />
               </button>
             </div>
@@ -243,12 +243,12 @@ console.log(selectedPackagePrice,"selected pack");
           className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px]"
           style={{ backgroundSize: "100% 100%" }}
         >
-          <main className=" sm:max-w-[928px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
+          <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
             {/* ---------------------------------------- */}
             {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
               <>
                 <div className="sm:flex hidden flex-col items-center jusitfy-center lg:w-[486px] w-[260px] h-full ">
-                  <div className="flex flex-row justify-center m-auto pr-10 pt-14">
+                  <div className="flex flex-row justify-center m-auto mt-16">
                     <h1 className="m-auto font-bold text-[24px]">
                       {data?.carName}
                     </h1>
@@ -279,8 +279,8 @@ console.log(selectedPackagePrice,"selected pack");
                   </div>
                 </div>
                 <div className="w-full">
-                  <div className="sm:h-[274px] max-w-[600px] relative">
-                    <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-4 px-4 justify-end">
+                  <div className="sm:h-[274px] max-w-[700px] relative">
+                    <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-5 pl-4 sm:pr-0 pr-4 justify-end">
                       <div
                         onClick={() => {
                           const calculatedPrice = calculateTotalPrice(
@@ -298,7 +298,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -319,9 +319,9 @@ console.log(selectedPackagePrice,"selected pack");
                                 ?.package1?.duration
                             }
                           </p>
-                          <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <span className="relative flex flex-row  group text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -329,15 +329,15 @@ console.log(selectedPackagePrice,"selected pack");
                                 : "0"}{" "}
                               Free kms
                             </p>
-                           <span className="sm:block hidden"> ...</span>
-                            <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                           {/* <span className="sm:block hidden"> ...</span> */}
+                            {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
                                     ?.package1?.kmsLimit * (days as number)
                                 : "0"}{" "}
                               Free kms
-                            </div>
+                            </div> */}
                           </span>
                         </span>
                       </div>
@@ -358,7 +358,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -379,9 +379,9 @@ console.log(selectedPackagePrice,"selected pack");
                                 ?.package2?.duration
                             }
                           </p>
-                          <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="text-[#FF0000] flex flex-row">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px] m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap overflow-hidden w-full m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -389,16 +389,16 @@ console.log(selectedPackagePrice,"selected pack");
                                 : "0"}{" "}
                               Free kms
                             </p>
-                          <span className="sm:block hidden">  ...</span>
+                          {/* <span className="sm:block hidden">  ...</span> */}
                           </div>
-                          <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                          {/* <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType
                                   ?.package2?.kmsLimit * (days as number)
                               : "0"}{" "}
                             Free kms
-                          </div>
+                          </div> */}
                         </span>
                       </div>
                       <div
@@ -418,7 +418,7 @@ console.log(selectedPackagePrice,"selected pack");
                             );
                           }
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
+                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${
                           clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
@@ -441,9 +441,9 @@ console.log(selectedPackagePrice,"selected pack");
                             }
                           </p>
                           {/* desktop end */}
-                          <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="flex flex-row text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[14px] text-[10px] whitespace-nowrap overflow-hidden w-[60px] m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap overflow-hidden w-full m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -451,16 +451,16 @@ console.log(selectedPackagePrice,"selected pack");
                                 : "0"}{" "}
                               Free kms
                             </p>
-                          <span className="sm:block hidden">  ...</span>
+                          {/* <span className="sm:block hidden">  ...</span> */}
                           </div>
-                          <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                          {/* <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType
                                   ?.package3?.kmsLimit * (days as number)
                               : "0"}{" "}
                             Free kms
-                          </div>
+                          </div> */}
                         </span>
                       </div>
 
@@ -517,8 +517,8 @@ console.log(selectedPackagePrice,"selected pack");
                    
                     {/*  */}
 
-                    <div className="sm:flex flex-row justify-between items-center sm:mr-10 relative sm:my-0 my-6">
-                      <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 sm:mb-0 mb-4">
+                    <div className="sm:flex flex-row justify-between items-center sm:mr-5 relative sm:my-0 my-6">
+                      <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center w-full gap-y-6 sm:ml-8 sm:mb-0 mb-4 sm:px-0 px-4">
                         {data?.carFeatures?.bluetooth === true && (
                           <div className="flex flex-row items-center gap-2">
                             <Image
@@ -555,15 +555,15 @@ console.log(selectedPackagePrice,"selected pack");
                               height={20}
                               alt="bluetooth"
                             />
-                            {/* <span className="lg:text-[15px] text-[11px]">
-                              GPS
-                            </span> */}
+                            <span className="lg:text-[15px] text-[11px]">
+                            GPS Navigation
+                            </span>
 
-                            <Tooltip tooltipText="GPS Navigation">
+                            {/* <Tooltip tooltipText="GPS Navigation">
                               <span className="lg:text-[15px] text-[11px]">
                                 GPS Nav...
                               </span>
-                            </Tooltip>
+                            </Tooltip> */}
                           </div>
                         )}
                         <div className="flex flex-row items-center gap-2">
@@ -636,7 +636,7 @@ console.log(selectedPackagePrice,"selected pack");
               data?.bookingOptions?.subscription?.name ? (
               <>
                 <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
-                  <div className="flex flex-row justify-center m-auto pr-10 pt-14">
+                  <div className="flex flex-row justify-center m-auto mt-16">
                     <h1 className="m-auto font-bold text-[24px]">
                       {data?.carName}
                     </h1>
@@ -665,8 +665,8 @@ console.log(selectedPackagePrice,"selected pack");
                     </span>
                   </div>
                 </div>
-                <div className="sm:h-[274px] relative px-4 max-w-[600px] w-full">
-                  <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10">
+                <div className="sm:h-[274px] relative px-4 max-w-[700px] w-full">
+                  <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5">
                     <div
                       onClick={() => {
                         // const calculatedPrice = calculateTotalPrice(
@@ -685,14 +685,14 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${
                         clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                       }`}
                     >
                     
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
                         ₹{" "}
                         {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.price}
@@ -706,9 +706,9 @@ console.log(selectedPackagePrice,"selected pack");
                           }
                         </p>
                         {/* desktop end */}
-                        <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                        <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000]">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[10px] whitespace-nowrap w-[60px] overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[10px] whitespace-nowrap w-full overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
@@ -716,15 +716,15 @@ console.log(selectedPackagePrice,"selected pack");
                               : "0"}{" "}
                             Free kms
                           </p>
-                        <span className="sm:block hidden">  ...</span>
-                          <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                        {/* <span className="sm:block hidden">  ...</span> */}
+                          {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
                                   ?.package1?.kmsLimit 
                               : "0"}{" "}
                             Free kms
-                          </div>
+                          </div> */}
                         </span>
                       </span>
                     </div>
@@ -746,7 +746,7 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(true);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${
+                      className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${
                         clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
@@ -767,9 +767,9 @@ console.log(selectedPackagePrice,"selected pack");
                           }
                         </p>
                         {/* desktop end */}
-                        <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                        <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] whitespace-nowrap w-[60px] text-center m-auto overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
@@ -777,15 +777,15 @@ console.log(selectedPackagePrice,"selected pack");
                               : "0"}{" "}
                             Free kms
                           </p>
-                        <span className="sm:block hidden">  ...</span>
-                          <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                        {/* <span className="sm:block hidden">  ...</span> */}
+                          {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
                                   ?.package2?.kmsLimit 
                               : "0"}{" "}
                             Free kms
-                          </div>
+                          </div> */}
                         </span>
                       </span>
                     </div>
@@ -807,7 +807,7 @@ console.log(selectedPackagePrice,"selected pack");
                         setClicked2(false);
                         setClicked3(true);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
+                      className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${
                         clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
@@ -829,9 +829,9 @@ console.log(selectedPackagePrice,"selected pack");
                           }
                         </p>
                           {/* desktop end */}
-                        <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                        <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] text-center m-auto whitespace-nowrap w-[60px] overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
@@ -839,15 +839,15 @@ console.log(selectedPackagePrice,"selected pack");
                               : "0"}{" "}
                             Free kms
                           </p>
-                         <span className="sm:block hidden"> ...</span>
-                          <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                         {/* <span className="sm:block hidden"> ...</span> */}
+                          {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.subscription?.packageType
                                   ?.package3?.kmsLimit
                               : "0"}{" "}
                             Free kms
-                          </div>
+                          </div> */}
                         </span>
                       </span>
                     </div>
@@ -888,7 +888,7 @@ console.log(selectedPackagePrice,"selected pack");
                 </div>
 
                   {/*  */}
-                  <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
+                  <div className="sm:flex hidden flex-row justify-end mr-5 my-5">
                     {data?.bookingOptions?.subscription?.packageType
                       ?.extraKmsCharge && (
                       <span>
@@ -906,8 +906,8 @@ console.log(selectedPackagePrice,"selected pack");
 
                   {/*  */}
 
-                  <div className="sm:flex flex-row justify-between items-center sm:mr-10 ">
-                    <div className="grid grid-cols-3 items-center sm:w-full gap-y-6 sm:ml-4 gap-2 sm:text-[15px] text-[10px] sm:mb-0 mb-4">
+                  <div className="sm:flex flex-row justify-between items-center sm:mr-5">
+                    <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-4 gap-2 sm:text-[15px] text-[10px] sm:mb-0 mb-4">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -988,7 +988,7 @@ console.log(selectedPackagePrice,"selected pack");
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:right-[16px]">
+                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:right-[8px]">
                     <span
                       className="text-[#ff0000]"
                       onClick={() => setShowOptionsMobile(!showOptionsMobile)}
@@ -1012,7 +1012,7 @@ console.log(selectedPackagePrice,"selected pack");
                   data?.bookingOptions?.withDriver?.local?.name && (
                   <>
                     <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
-                      <div className="flex flex-row justify-center m-auto pr-10 pt-14">
+                      <div className="flex flex-row justify-center m-auto mt-16">
                         <h1 className="m-auto font-bold text-[24px]">
                           {data?.carName}
                         </h1>
@@ -1041,13 +1041,13 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative max-w-[600px] w-full">
-                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 px-4">
+                    <div className="sm:h-[274px] relative max-w-[700px] w-full">
+                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5 px-4">
                         <div
                           onClick={() => {
                             const calculatedPrice = calculateTotalPrice(
                               data?.bookingOptions?.withDriver?.local
-                                ?.packageType?.package1?.price
+                                ?.packageType?.package1?.price 
                             );
                             if (calculatedPrice) {
                               setPrice(Math.round(calculatedPrice));
@@ -1062,7 +1062,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                          className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1084,9 +1084,9 @@ console.log(selectedPackagePrice,"selected pack");
                               }
                             </p>
                             {/* desktop end */}
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                            <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
+                              <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package1?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1095,8 +1095,8 @@ console.log(selectedPackagePrice,"selected pack");
                                   : "0"}{" "}
                                 Free kms
                               </p>
-                            <span className="sm:block hidden">  ...</span>
-                              <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {/* <span className="sm:block hidden">  ...</span> */}
+                              {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package1?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1104,7 +1104,7 @@ console.log(selectedPackagePrice,"selected pack");
                                     (days as number)
                                   : "0"}{" "}
                                 Free kms
-                              </div>
+                              </div> */}
                             </span>
                           </span>
                         </div>
@@ -1126,7 +1126,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(true);
                               setClicked3(false);
                           }}
-                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                          className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
                             ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1147,9 +1147,9 @@ console.log(selectedPackagePrice,"selected pack");
                               }
                             </p>
                             {/* desktop end */}
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                            <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
+                              <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1158,8 +1158,8 @@ console.log(selectedPackagePrice,"selected pack");
                                   : "0"}{" "}
                                 Free kms
                               </p>
-                            <span className="sm:block hidden">  ...</span>
-                              <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {/* <span className="sm:block hidden">  ...</span> */}
+                              {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package2?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1167,7 +1167,7 @@ console.log(selectedPackagePrice,"selected pack");
                                     (days as number)
                                   : "0"}{" "}
                                 Free kms
-                              </div>
+                              </div> */}
                             </span>
                           </span>
                         </div>
@@ -1189,7 +1189,7 @@ console.log(selectedPackagePrice,"selected pack");
                               setClicked2(false);
                               setClicked3(true);
                           }}
-                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[5px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
+                          className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""}`}
                         >
@@ -1210,9 +1210,9 @@ console.log(selectedPackagePrice,"selected pack");
                               }
                             </p>
                             {/* desktop end */}
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden" />
+                            <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[14px] xs:text-xs text-[10px] whitespace-nowrap w-[60px] overflow-hidden m-auto">
+                              <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package3?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1221,8 +1221,8 @@ console.log(selectedPackagePrice,"selected pack");
                                   : "0"}{" "}
                                 Free kms
                               </p>
-                             <span className="sm:block hidden"> ...</span>
-                              <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                             {/* <span className="sm:block hidden"> ...</span> */}
+                              {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                                 {data?.bookingOptions?.withDriver?.local
                                   ?.packageType?.package3?.kmsLimit
                                   ? data?.bookingOptions?.withDriver?.local
@@ -1230,7 +1230,7 @@ console.log(selectedPackagePrice,"selected pack");
                                     (days as number)
                                   : "0"}{" "}
                                 Free kms
-                              </div>
+                              </div> */}
                             </span>
                           </span>
                         </div>
@@ -1287,7 +1287,7 @@ console.log(selectedPackagePrice,"selected pack");
                       {/*  */}
 
                       <div className="sm:flex flex-row justify-between items-center sm:mr-10">
-                        <div className="grid grid-cols-3 items-center sm:w-full gap-y-6 ml-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs gap-4">
+                        <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-8 sm:px-0 px-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs gap-4">
                           {data?.carFeatures?.bluetooth === true && (
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1391,7 +1391,7 @@ console.log(selectedPackagePrice,"selected pack");
                   data?.bookingOptions?.withDriver?.outstation?.name && (
                   <>
                     <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
-                      <div className="flex flex-row justify-center m-auto pr-10 pt-14">
+                      <div className="flex flex-row justify-center m-auto mt-16">
                         <h1 className="m-auto font-bold text-[24px]">
                           {data?.carName}
                         </h1>
@@ -1420,17 +1420,17 @@ console.log(selectedPackagePrice,"selected pack");
                         </span>
                       </div>
                     </div>
-                    <div className="sm:h-[274px] relative max-w-[600px] w-full">
-                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-10 sm:px-0 px-2">
+                    <div className="sm:h-[274px] relative max-w-[700px] w-full px-4">
+                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5 sm:px-0 px-2">
                         <div onClick={()=>{
                           setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm);
                           setClicked1(true);
                           setClicked2(false);
                           setClicked3(false);
-                        }} className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked1
+                        }} className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                           : ""}`}>
-                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm}/<span className="text-primary">Km</span>
                             
@@ -1445,10 +1445,10 @@ console.log(selectedPackagePrice,"selected pack");
                           setClicked2(true);
                           setClicked3(false);
                         }}
-                         className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked2
+                         className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                           : ""}`}>
-                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package2?.ratePerKm}/<span className="text-primary">Km</span>
                             
@@ -1463,10 +1463,10 @@ console.log(selectedPackagePrice,"selected pack");
                           setClicked2(false);
                           setClicked3(true);
                         }}
-                        className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-2 rounded-lg sm:w-[210px] sm:h-[60px] ${clicked3
+                        className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                           : ""}`}>
-                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center">
+                          <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                             {/* {data?.bookingOptions?.subscription?.package1?.price} */}
                             ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package3?.ratePerKm}/<span className="text-primary">Km</span>
                             
@@ -1520,8 +1520,8 @@ console.log(selectedPackagePrice,"selected pack");
 
                       {/*  */}
 
-                      <div className="sm:flex flex-row justify-between items-center sm:mr-10 mr-4 sm:mt-6">
-                        <div className="grid grid-cols-3 items-center w-full gap-y-6 ml-4 sm:text-[15px] xs:text-xs text-[10px] sm:mb-0 mb-4">
+                      <div className="sm:flex flex-row justify-between items-center sm:mr-5 mr-4 sm:mt-12">
+                        <div className="grid grid-cols-3 items-center w-full gap-4 gap-y-6 ml-4 sm:text-[15px] xs:text-xs text-[10px] sm:mb-0 mb-4">
                           {data?.carFeatures?.bluetooth === true && (
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1603,7 +1603,7 @@ console.log(selectedPackagePrice,"selected pack");
                           />
                         </div>
                       </div>
-                      <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:text-[15px] text-sm ml-4">
+                      <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 sm:right-0 absolute sm:bottom-0 bottom-[10px] sm:text-[15px] text-sm ml-4">
                         <span
                           className="text-[#ff0000]"
                           onClick={() => setShowOptionsMobile(!showOptionsMobile)}
