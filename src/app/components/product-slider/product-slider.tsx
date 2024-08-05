@@ -65,6 +65,7 @@ const ProductSlider = ({
                 width={450}
                 height={450}
                 className="w-full sm:h-[450px] object-contain"
+                priority
               />
             </div>
           </SwiperSlide>

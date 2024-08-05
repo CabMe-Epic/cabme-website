@@ -12,6 +12,7 @@ import "./Datepicker.css";
 import BannerSlider from "./components/banner-slider/banner-slider";
 
 import FleetsSearch from "@/app/components/FleetsSearch/fleets-search"
+import axios from "axios";
 
 
 export default function Home() {
@@ -26,6 +27,72 @@ export default function Home() {
   };
 
 
+  // const txnId = "txn" + new Date().getTime();
+
+  // const test_url = "https://test.payu.in/_payment"
+
+  // const key = "EhQKWX";
+  // const MERCHANT_SALT = "erM1zJcYcfTykYGSb0GAVK7VFz4sFS1S";
+
+  // const [payment, setPayment] = useState<any>({
+  //   amount: "1.00",
+  //   productinfo: "Ta-123",
+  //   firstName: "sahil",
+  //   email: "test@gmail.com",
+  //   key: key,
+  //   txnid: txnId,
+  //   phone: "9999999999",
+  //   surl: "https://beta.cabme.in/success",
+  //   furl: "http://localhost:3000/failure",
+  //   txn_s2s_flow: 4,
+  //   MERCHANT_SALT: MERCHANT_SALT,
+  // });
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   // e.preventDefault();
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:9003/payment",
+  //       payment
+  //     );
+  //     // console.log("Payment response", { response });
+  //     const { data } = response;
+  //     console.log("data", { data });
+
+  //     const resData: any = {
+  //       key: data.key,
+  //       txnid: data.txnid,
+  //       amount: data.amount,
+  //       productinfo: data.productinfo,
+  //       firstname: data.firstName,
+  //       email: data.email,
+  //       phone: data.phone,
+  //       surl: data.surl,
+  //       furl: data.furl,
+  //       hash: data.hashValue,
+  //     };
+
+  //     console.log("resData", { resData });
+  //    const form = document.createElement('form');
+  //     form.method = 'POST';
+  //     form.action = 'https://test.payu.in/_payment';
+
+  //     Object.keys(resData).forEach((key) => {
+  //         const hiddenField = document.createElement('input');
+  //         hiddenField.type = 'hidden';
+  //         hiddenField.name = key;
+  //         hiddenField.value = resData[key];
+  //         form.appendChild(hiddenField);
+  //     });
+
+  //     document.body.appendChild(form);
+  //     form.submit();
+  //   } catch (error) {
+  //     console.error("Error processing payment", error);
+  //   }
+  // }
+
+
   return (
     <>
 
@@ -34,13 +101,10 @@ export default function Home() {
         ref={topFleetForm}
       >
         <BannerSlider />
-        
       </div>
 
       {/* Only mobile section subsription */}
-
       <FleetsSearch />
-
       <div className="max-w-[1250px] w-full m-auto">
         <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
           Trending <span className="text-primary"> offers</span>
