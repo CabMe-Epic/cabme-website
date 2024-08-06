@@ -24,6 +24,7 @@ import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
 import { calculateGST } from "@/app/utils/calculateGST";
 import { useStore } from "@/app/zustand/store/store";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
+import useCarsStore from "@/app/zustand/store/carsStore";
 
 interface PromoCode {
   code: string;
@@ -42,6 +43,9 @@ interface PromoCode {
 }
 
 const CarDetails = () => {
+
+  const {payableAmount,setPayableAmount} = useCarsStore()
+
   const userData = useStore((state) => state);
   console.log("USER DATA", { userData })
   const router = useRouter();
@@ -120,6 +124,9 @@ const CarDetails = () => {
 
   const ThirtyDiscountForInculdedTax = (totalIncludedGSTAmount * 30) / 100
   const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100
+  // console.log(ThirtyDiscountForInculdedTax,"advance");
+  // console.log(totalIncludedGSTAmount,"else");
+  
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -321,6 +328,14 @@ const CarDetails = () => {
 
   const handleProceed = () => {
     sessionStorage.setItem('slug', slug);
+    setPayableAmount(roundPrice(ThirtyDiscountForInculdedTax));
+    
+    router.push("/check-out");
+  }
+  const handleProceedTotal = () => {
+    sessionStorage.setItem('slug', slug);
+    setPayableAmount(roundPrice(totalIncludedGSTAmount));
+    
     router.push("/check-out");
   }
 
@@ -334,6 +349,7 @@ const CarDetails = () => {
   const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
 
 
+  console.log(payableAmount,"payable amount");
 
 
 
@@ -510,7 +526,7 @@ const CarDetails = () => {
                     }
                     <div>
                       <button
-                        onClick={handleProceed}
+                        onClick={handleProceedTotal}
                         className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] px-6 py-2  sm:h-[53.08px] rounded-full drop-shadow-lg ">
                         Proceed
                       </button>
@@ -521,6 +537,7 @@ const CarDetails = () => {
                 {/* DESKTOP  */}
                 <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
+                    
                     {currentPackage?.gst === "Included" &&
                       <span className="font-bold text-md">
                         Pay ₹{roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)} Now

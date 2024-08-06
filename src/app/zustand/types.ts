@@ -48,3 +48,8 @@ export interface CarsStore {
 
   getPackagePrices: () => (number | null)[];
 }
+// export interface CompleteFlow{
+//   pickupLocationStore:string | null;
+//   setPickuplocationStore:(pickLocation: string | null) => void;
+//   getCompleteDetails: () => (number | string | null)[];
+// }
