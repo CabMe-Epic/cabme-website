@@ -12,7 +12,7 @@ import {
   postAadharFront,
   postPanCard,
 } from "../../../../networkRequests/hooks/api";
-import { getSessionData, setSessionData } from "@/app/utils/sessionStorageUtil";
+import { setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 
 interface SelectedUser {
@@ -56,6 +56,8 @@ interface PaymentPayload {
   zipcode: number;
   city?: string;
   state?: string;
+  userId: string;
+  vehicleId: string;
 }
 
 const Checkout = () => {
@@ -70,6 +72,8 @@ const Checkout = () => {
   const [two, setTwo] = useState(true);
   const [three, setThree] = useState(true);
   const [four, setFour] = useState(true);
+
+  const [currentVehicleId, setCurrentVehicleId] = useState<string | null>()
 
   useEffect(() => {
     // console.log({ userData });
@@ -93,9 +97,14 @@ const Checkout = () => {
     } else {
       setIsButtonDisabled(true);
     }
+    const vehicleId = sessionStorage.getItem("slug")
+    if (vehicleId) {
+      setCurrentVehicleId(vehicleId)
+    }
   }, [userData]);
 
   const [phone, setPhoneNumber] = useState("");
+  console.log({ currentVehicleId })
 
   const [aadharFrontPost, setAadharFrontPost] = useState<string | null>(null);
   const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
@@ -535,9 +544,6 @@ const Checkout = () => {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
 
-  /// payment intrigation
-  console.log("USER DATA", { userData });
-
   const paymentPayload: PaymentPayload = {
     amount: totalAmount.toFixed(2),
     productinfo: "Taxi Service - Trip from A to B",
@@ -551,6 +557,8 @@ const Checkout = () => {
     zipcode: 201206,
     city: userData?.city,
     state: userData?.state,
+    userId: userData?._id as string,
+    vehicleId: currentVehicleId as string
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -577,6 +585,8 @@ const Checkout = () => {
         city: data?.city,
         state: data?.state,
         country: data?.country,
+        udf1: data?.udf1,
+        udf2: data?.udf2,
         surl: data?.surl,
         furl: data?.furl,
         hash: data?.hashValue,
@@ -1325,8 +1335,8 @@ const Checkout = () => {
           <h2 className="text-[20px] font-bold">4. Payment</h2>
           <button
             className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${isButtonDisabled
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-[#FF0000] hover:bg-black hover:text-white'
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-[#FF0000] hover:bg-black hover:text-white'
               }`}
             onClick={handleSubmit}
             disabled={isButtonDisabled}
