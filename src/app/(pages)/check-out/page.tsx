@@ -2,7 +2,7 @@
 import BookingSummery from "@/app/components/booking-summery";
 import InputField from "@/app/components/input-field/input-field";
 import Image from "next/image";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -14,6 +14,7 @@ import {
 } from "../../../../networkRequests/hooks/api";
 import { setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
+import useCarsStore from "@/app/zustand/store/carsStore";
 
 interface SelectedUser {
   firstName: string;
@@ -44,7 +45,7 @@ interface User extends SelectedUser {
 }
 
 interface PaymentPayload {
-  amount: string;
+  amount: number;
   productinfo: string;
   firstName?: string;
   lastName: string;
@@ -63,6 +64,8 @@ interface PaymentPayload {
 const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const userData = useStore((state) => state.userData);
+  const { payableAmount } = useCarsStore();
+  console.log({ payableAmount })
   console.log("USER DATA", { userData });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -71,12 +74,10 @@ const Checkout = () => {
   const [one, setOne] = useState(true);
   const [two, setTwo] = useState(true);
   const [three, setThree] = useState(true);
-  const [four, setFour] = useState(true);
 
   const [currentVehicleId, setCurrentVehicleId] = useState<string | null>()
 
   useEffect(() => {
-    // console.log({ userData });
     if (userData?.phoneVerified) {
       setTwo(false);
       setOne(false);
@@ -91,7 +92,6 @@ const Checkout = () => {
       setThree(true);
       setTwo(true);
     }
-
     if (userData?.aadharVerified) {
       setIsButtonDisabled(false);
     } else {
@@ -549,11 +549,11 @@ const Checkout = () => {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const paymentPayload: PaymentPayload = {
-    amount: totalAmount.toFixed(2),
+  const paymentPayload = {
+    amount: payableAmount?.toFixed(2),
     productinfo: "Taxi Service - Trip from A to B",
     firstName: userData?.firstName,
-    lastName: "Alvi",
+    lastName: userData?.lastName,
     email: userData?.email,
     phone: userData?.phone,
     address1: userData?.address,
