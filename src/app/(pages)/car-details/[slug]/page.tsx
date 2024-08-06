@@ -535,7 +535,7 @@ const CarDetails = () => {
                 </div>
 
                 {/* DESKTOP  */}
-                <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                {/* <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
                     
                     {currentPackage?.gst === "Included" &&
@@ -557,7 +557,7 @@ const CarDetails = () => {
                     className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg">
                     Proceed
                   </button>
-                </div>
+                </div> */}
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
