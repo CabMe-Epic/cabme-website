@@ -244,7 +244,12 @@ const Checkout = () => {
 
   const handleGenerateAadharOTP = async () => {
     if (!aadhar) {
-      toast.error("Aadhaar number is required");
+      toast.error("Aadhaar number is required. Please provide your Aadhaar number to proceed.");
+      return;
+    }
+
+    if (!aadharFrontPost && !aadharBackPost) {
+      toast.error("Please upload your Aadhar front and back images to proceed.");
       return;
     }
     setLoading('generate');
@@ -596,7 +601,7 @@ const Checkout = () => {
 
       const form = document.createElement("form");
       form.setAttribute("method", "POST");
-      form.setAttribute("action", "https://test.payu.in/_payment");
+      form.setAttribute("action", "https://secure.payu.in/_payment");
 
       Object.keys(result).forEach((key) => {
         const input = document.createElement("input");
