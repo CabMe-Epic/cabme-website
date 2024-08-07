@@ -314,6 +314,8 @@ const Checkout = () => {
         setSessionData("user", value);
         setAadharGenerate(false);
         updateUserData(value);
+        //@ts-ignore
+        updateUserData(selectedVerifiedAadhar?.verificationResponse?.data.dob)
         setSelectedVerifiedAadhar(data)
         toast.success("The Aadhar card has been successfully verified.");
       }
@@ -364,29 +366,35 @@ const Checkout = () => {
 
   const handleVerifiedPan = async () => {
     try {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
-          {
-            id: userData?._id,
-            url: panCardPost,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+      if (userData?.aadharVerified && userData?.drivingLicenseVerified) {
+        try {
+          if (!panCardPost) {
+            toast.error("Please upload your pan image to proceed.");
+            return;
           }
-        );
-        console.log({ response })
-        if (response?.data?.success) {
-          setThree(true);
-          setFour(false);
-          return
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
+            {
+              id: userData?._id,
+              url: panCardPost,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log({ response })
+          if (response?.data?.success) {
+            setThree(true);
+            setFour(false);
+            return
+          }
+        } catch (apiError) {
+          console.error("Error uploading PAN card image:", apiError);
+          toast.error("An error occurred while uploading PAN card image. Please try again.");
+          return;
         }
-      } catch (apiError) {
-        console.error("Error uploading PAN card image:", apiError);
-        toast.error("An error occurred while uploading PAN card image. Please try again.");
-        return;
       }
       if (!panCard) {
         toast.error("Pan number is required. Please provide your pan number to proceed.");
@@ -531,30 +539,36 @@ const Checkout = () => {
 
   const handleVerifyDrivingLicence = async () => {
     try {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-driving-licence`,
-          {
-            id: userData?._id,
-            fronturl: panCardPost,
-            backurl: panCardPost,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+      if (userData?.aadharVerified && userData?.panVerified) {
+        try {
+          if (!dlPost) {
+            toast.error("Please upload your Driving licence images to proceed.");
+            return;
           }
-        );
-        console.log({ response })
-        if (response?.data?.success) {
-          setThree(true);
-          setFour(false);
-          return
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-driving-licence`,
+            {
+              id: userData?._id,
+              fronturl: dlPost,
+              backurl: dlPost,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log({ response })
+          if (response?.data?.success) {
+            setThree(true);
+            setFour(false);
+            return
+          }
+        } catch (apiError) {
+          console.error("Error uploading PAN card image:", apiError);
+          toast.error("An error occurred while uploading PAN card image. Please try again.");
+          return;
         }
-      } catch (apiError) {
-        console.error("Error uploading PAN card image:", apiError);
-        toast.error("An error occurred while uploading PAN card image. Please try again.");
-        return;
       }
 
       if (!dl) {
@@ -563,7 +577,7 @@ const Checkout = () => {
       }
 
       if (!dlPost) {
-        toast.error("Please upload your Aadhar front and back images to proceed.");
+        toast.error("Please upload your Driving licence images to proceed.");
         return;
       }
       const response = await fetch(
