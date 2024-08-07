@@ -74,6 +74,7 @@ const Checkout = () => {
   const [one, setOne] = useState(true);
   const [two, setTwo] = useState(true);
   const [three, setThree] = useState(true);
+  const [four, setFour] = useState(true);
 
   const [currentVehicleId, setCurrentVehicleId] = useState<string | null>()
 
@@ -85,9 +86,9 @@ const Checkout = () => {
 
     if (
       userData?.aadharVerified
-      // &&
-      // userData?.panVerified &&
-      // userData?.drivingLicenseVerified
+      &&
+      userData?.panVerified &&
+      userData?.drivingLicenseVerified
     ) {
       setThree(true);
       setTwo(true);
@@ -241,6 +242,8 @@ const Checkout = () => {
   const [aadhar, setAadhar] = useState("");
   const [aadharOtp, setAadharOtp] = useState("");
   const [aadharData, setAadharData] = useState("");
+  const [selectedVerifiedAadhar, setSelectedVerifiedAadhar] = useState("");
+  console.log({ selectedVerifiedAadhar })
 
   const handleGenerateAadharOTP = async () => {
     if (!aadhar) {
@@ -265,7 +268,6 @@ const Checkout = () => {
         }
       );
       const data = await response.json();
-      // console.log({ data });
       if (data?.otpResponse?.statusCode === 200) {
         setAadharGenerate(true);
         setAadharData(data);
@@ -306,13 +308,13 @@ const Checkout = () => {
         }
       );
       const data = await response.json();
-      console.log({ data });
+      console.log("Aadhar data", { data });
       if (data?.verificationResponse?.statusCode === 200) {
-
         const value = data?.user;
         setSessionData("user", value);
         setAadharGenerate(false);
         updateUserData(value);
+        setSelectedVerifiedAadhar(data)
         toast.success("The Aadhar card has been successfully verified.");
       }
     } catch (error) {
@@ -362,6 +364,39 @@ const Checkout = () => {
 
   const handleVerifiedPan = async () => {
     try {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
+          {
+            id: userData?._id,
+            url: panCardPost,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log({ response })
+        if (response?.data?.success) {
+          setThree(true);
+          setFour(false);
+          return
+        }
+      } catch (apiError) {
+        console.error("Error uploading PAN card image:", apiError);
+        toast.error("An error occurred while uploading PAN card image. Please try again.");
+        return;
+      }
+      if (!panCard) {
+        toast.error("Pan number is required. Please provide your pan number to proceed.");
+        return;
+      }
+      if (!panCardPost) {
+        toast.error("Please upload your pan image to proceed.");
+        return;
+      }
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`,
         {
@@ -371,8 +406,10 @@ const Checkout = () => {
           },
           body: JSON.stringify({
             pan: panCard,
-            name: "Anupam Singh",
-            dob: "10/08/1988",
+            //@ts-ignore
+            name: selectedVerifiedAadhar?.verificationResponse?.data.full_name,
+            //@ts-ignore
+            dob: selectedVerifiedAadhar?.verificationResponse?.data.dob,
             //@ts-ignore
             currentUserId: userData?._id,
             panImageUrl: panCardPost,
@@ -494,6 +531,41 @@ const Checkout = () => {
 
   const handleVerifyDrivingLicence = async () => {
     try {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-driving-licence`,
+          {
+            id: userData?._id,
+            fronturl: panCardPost,
+            backurl: panCardPost,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log({ response })
+        if (response?.data?.success) {
+          setThree(true);
+          setFour(false);
+          return
+        }
+      } catch (apiError) {
+        console.error("Error uploading PAN card image:", apiError);
+        toast.error("An error occurred while uploading PAN card image. Please try again.");
+        return;
+      }
+
+      if (!dl) {
+        toast.error("Driving licence number is required. Please provide your Driving licence number to proceed.");
+        return;
+      }
+
+      if (!dlPost) {
+        toast.error("Please upload your Aadhar front and back images to proceed.");
+        return;
+      }
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/driving-based-search`,
         {
@@ -503,7 +575,8 @@ const Checkout = () => {
           },
           body: JSON.stringify({
             number: dl,
-            dob: "10/08/1988",
+            //@ts-ignore
+            dob: selectedVerifiedAadhar?.verificationResponse?.data.dob,
             frontImage: dlPost,
             //@ts-ignore
             currentUserId: userData?._id,
@@ -909,10 +982,10 @@ const Checkout = () => {
                       </button>
                     </div>
                   )}
-                  {/* <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                  <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                     Driving License/PAN Card{" "}
                     {userData?.drivingLicenseVerified &&
-                    userData?.panVerified ? (
+                      userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -942,9 +1015,9 @@ const Checkout = () => {
                       <option value="DrivingLicense">Driving License</option>
                       <option value="PanCard">PAN Card</option>
                     </select>
-                  </div> */}
+                  </div>
 
-                  {/* {showDocSelect === "DrivingLicense" ? (
+                  {showDocSelect === "DrivingLicense" ? (
                     <div>
                       <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                         Driving License{" "}
@@ -1137,7 +1210,7 @@ const Checkout = () => {
                           )}
                       </div>
                     </div>
-                  )} */}
+                  )}
                 </div>
               ) : (
                 ""
