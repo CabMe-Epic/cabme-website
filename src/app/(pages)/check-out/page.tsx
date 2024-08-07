@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {
   DLUploading,
+  DLUploadingBack,
   postAadharBack,
   postAadharFront,
   postPanCard,
@@ -87,8 +88,8 @@ const Checkout = () => {
     if (
       userData?.aadharVerified
       &&
-      userData?.panVerified &&
-      userData?.drivingLicenseVerified
+      (userData?.panVerified &&
+        userData?.drivingLicenseVerified)
     ) {
       setThree(true);
       setTwo(true);
@@ -111,6 +112,8 @@ const Checkout = () => {
   const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
 
   const [dlPost, setDLPost] = useState<string | null>(null);
+  const [dlPostBack, setDLPostBack] = useState<string | null>(null);
+  // console.log({ dlPostBack })
 
   const [panCardPost, setPanCardPost] = useState<string | null>(null);
 
@@ -268,6 +271,10 @@ const Checkout = () => {
         }
       );
       const data = await response.json();
+      console.log({ data })
+      if (data.otpResponse.statusCode === 422) {
+        return toast.error(data.otpResponse.data.status)
+      }
       if (data?.otpResponse?.statusCode === 200) {
         setAadharGenerate(true);
         setAadharData(data);
@@ -314,6 +321,8 @@ const Checkout = () => {
         setSessionData("user", value);
         setAadharGenerate(false);
         updateUserData(value);
+        //@ts-ignore
+        updateUserData(selectedVerifiedAadhar?.verificationResponse?.data.dob)
         setSelectedVerifiedAadhar(data)
         toast.success("The Aadhar card has been successfully verified.");
       }
@@ -364,29 +373,34 @@ const Checkout = () => {
 
   const handleVerifiedPan = async () => {
     try {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
-          {
-            id: userData?._id,
-            url: panCardPost,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+      if (userData?.aadharVerified && userData?.drivingLicenseVerified) {
+        try {
+          if (!panCardPost) {
+            toast.error("Please upload your pan image to proceed.");
+            return;
           }
-        );
-        console.log({ response })
-        if (response?.data?.success) {
-          setThree(true);
-          setFour(false);
-          return
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
+            {
+              id: userData?._id,
+              url: panCardPost,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log({ response })
+          if (response?.data?.success) {
+            toast.success(response?.data?.message)
+            return
+          }
+        } catch (apiError) {
+          console.error("Error uploading PAN card image:", apiError);
+          toast.error("An error occurred while uploading PAN card image. Please try again.");
+          return;
         }
-      } catch (apiError) {
-        console.error("Error uploading PAN card image:", apiError);
-        toast.error("An error occurred while uploading PAN card image. Please try again.");
-        return;
       }
       if (!panCard) {
         toast.error("Pan number is required. Please provide your pan number to proceed.");
@@ -436,6 +450,7 @@ const Checkout = () => {
   const [frontImage, setFrontImage] = useState<any>(null);
   const [backImage, setBackImage] = useState<any>(null);
   const [dlFrontImage, setDlFrontImage] = useState<any>(null);
+  const [dlBackImage, setDlBackImage] = useState<any>(null);
   const [panFrontImage, setPanFrontImage] = useState<any>(null);
   const [showDocSelect, setShowDocSelect] = useState<any>("DrivingLicense");
 
@@ -524,37 +539,62 @@ const Checkout = () => {
       }
     }
   };
+  const handleDlBackImageChange = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = URL.createObjectURL(event.target.files[0]);
+      const imagePayload: any = {
+        files: event.target.files[0],
+      };
+      setDlBackImage(file);
+      try {
+        const res = await DLUploadingBack(imagePayload);
+        const cleanUrl = res.replace(/\n/g, "");
+        setDLPostBack(cleanUrl);
+      } catch (error) {
+        console.error("Error uploading Aadhar front image:", error);
+      }
+    }
+  };
 
   const handleRemoveDlFront = () => {
     setDlFrontImage(null);
   };
 
+  const handleRemoveDlBack = () => {
+    setDlBackImage(null);
+  };
+
   const handleVerifyDrivingLicence = async () => {
     try {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-driving-licence`,
-          {
-            id: userData?._id,
-            fronturl: panCardPost,
-            backurl: panCardPost,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
+      if (userData?.aadharVerified && userData?.panVerified) {
+        try {
+          if (!dlPost && !dlPostBack) {
+            toast.error("Please upload your Driving licence front and back images to proceed.");
+            return;
           }
-        );
-        console.log({ response })
-        if (response?.data?.success) {
-          setThree(true);
-          setFour(false);
-          return
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-driving-licence`,
+            {
+              id: userData?._id,
+              fronturl: dlPost,
+              backurl: dlPostBack,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log({ response })
+          if (response?.data?.success) {
+            toast.success(response?.data?.message)
+            return
+          }
+        } catch (apiError) {
+          console.error("Error uploading PAN card image:", apiError);
+          toast.error("An error occurred while uploading PAN card image. Please try again.");
+          return;
         }
-      } catch (apiError) {
-        console.error("Error uploading PAN card image:", apiError);
-        toast.error("An error occurred while uploading PAN card image. Please try again.");
-        return;
       }
 
       if (!dl) {
@@ -563,7 +603,7 @@ const Checkout = () => {
       }
 
       if (!dlPost) {
-        toast.error("Please upload your Aadhar front and back images to proceed.");
+        toast.error("Please upload your Driving licence images to proceed.");
         return;
       }
       const response = await fetch(
@@ -1012,6 +1052,7 @@ const Checkout = () => {
                       id=""
                       className="border-0 bg-white font-light placeholder:text-[#312D4E] w-[100%] h-[55px] outline-0 mt-2 rounded-md cursor-pointer"
                     >
+                      <option value="select">Select</option>
                       <option value="DrivingLicense">Driving License</option>
                       <option value="PanCard">PAN Card</option>
                     </select>
@@ -1085,17 +1126,17 @@ const Checkout = () => {
                           )}
                         </div>
                         <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                          {dlFrontImage ? (
+                          {dlBackImage ? (
                             <div className="relative ">
                               <span
-                                // onClick={handleRemoveDlFront}
+                                onClick={handleRemoveDlBack}
                                 className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
                               >
                                 {" "}
                                 Remove
                               </span>
                               <Image
-                                src={"/upload.svg"}
+                                src={dlBackImage}
                                 alt="Front"
                                 width={20}
                                 height={55}
@@ -1116,7 +1157,7 @@ const Checkout = () => {
                               />
                               <input
                                 type="file"
-                                // onChange={handleDlFrontImageChange}
+                                onChange={handleDlBackImageChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                               />
                             </div>
@@ -1319,23 +1360,23 @@ const Checkout = () => {
                   <span className="text-[#FF0000] font-semibold text-[16px]">
                     Documents
                   </span>
-                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4 "> */}
-                  {/* <span className="text-[#878787] w-[200px]">PAN Number</span> */}
-                  {/* :{" "} */}
-                  {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
-                  {" "}
-                  {/* <span className="text-[#878787]">
+                  <div className="sm:flex justify-between items-center gap-5 mt-4 ">
+                    <span className="text-[#878787] w-[200px]">PAN Number</span>
+                    :{" "}
+                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                      {" "}
+                      <span className="text-[#878787]">
                         {userData?.panNumber}
-                      </span>{" "} */}
-                  {/* <Image
+                      </span>{" "}
+                      <Image
                         src={userData?.panImageUrl || "/pancard.svg"}
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "} */}
-                  {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
-                  {/* </span> */}
-                  {/* {userData?.panVerified ? (
+                      />{" "}
+                      <Image src="/pancard.svg" alt="user" width={60} height={60} />
+                    </span>
+                    {userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1352,29 +1393,29 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )} */}
-                  {/* </div> */}
-                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4"> */}
-                  {/* <span className="text-[#878787] w-[200px]">
+                    )}
+                  </div>
+                  <div className="sm:flex justify-between items-center gap-5 mt-4">
+                    <span className="text-[#878787] w-[200px]">
                       Driving License Number
-                    </span> */}
-                  {/* :{" "} */}
-                  {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
-                  {" "}
-                  {/* <span className="text-[#878787]">
+                    </span>
+                    :{" "}
+                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                      {" "}
+                      <span className="text-[#878787]">
                         {userData?.drivingLicenseNumber}
-                      </span>{" "} */}
-                  {/* <Image
+                      </span>{" "}
+                      <Image
                         src={
                           userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"
                         }
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "} */}
-                  {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
-                  {/* </span> */}
-                  {/* {userData?.drivingLicenseVerified ? (
+                      />{" "}
+                      <Image src="/dlcard.svg" alt="user" width={60} height={60} />
+                    </span>
+                    {userData?.drivingLicenseVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1391,8 +1432,8 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )} */}
-                  {/* </div> */}
+                    )}
+                  </div>
                   <div className="sm:flex justify-between items-center gap-5 mt-4">
                     <span className="text-[#878787] w-[200px]">
                       Aadhar Number
