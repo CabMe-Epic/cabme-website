@@ -709,6 +709,7 @@ const Checkout = () => {
 
 
   return (
+    <>
     <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
       <ToastContainer />
 
@@ -1626,6 +1627,13 @@ const Checkout = () => {
         />
       </div>
     </div>
+    <div className="flex items-center gap-6 justify-center my-10">
+    <Image src="/checkOutFooter/masterCard.svg" width={45} height={45} alt="mastercard" priority />
+    <Image src="/checkOutFooter/gpay.svg" width={45} height={45} alt="gpay" priority />
+    <Image src="/checkOutFooter/visa.svg" width={45} height={45} alt="visa" priority />
+    <Image src="/checkOutFooter/upi.svg" width={45} height={45} alt="upi" priority />
+  </div>
+  </>
   );
 };
 export default Checkout;
