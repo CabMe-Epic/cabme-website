@@ -1141,7 +1141,7 @@ const [trap,setTrap] = useState(false)
                                 alt="Front"
                                 width={20}
                                 height={55}
-                                className="w-[20px] !h-[55px] object-contain rounded-md cursor-pointer"
+                                className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                               />
                             </div>
                           ) : (
