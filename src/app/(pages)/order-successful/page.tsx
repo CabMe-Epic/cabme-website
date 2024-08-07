@@ -4,7 +4,8 @@ import PriceSummary from "@/app/components/price-summary/price-summary";
 import ThemeButton from "@/app/components/theme-button/theme-button";
 import Image from "next/image";
 
-const OrderSuccessful = () => {
+const OrderSuccessful = (slug:any) => {
+  console.log(slug,"slug");
   return (
     <div className="max-w-[1250px] m-auto">
       <div className="my-12 lg:flex gap-6">

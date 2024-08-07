@@ -1098,6 +1098,44 @@ const Checkout = () => {
                             </div>
                           )}
                         </div>
+                        <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                          {dlFrontImage ? (
+                            <div className="relative ">
+                              <span
+                                // onClick={handleRemoveDlFront}
+                                className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                              >
+                                {" "}
+                                Remove
+                              </span>
+                              <Image
+                                src={"/upload.svg"}
+                                alt="Front"
+                                width={20}
+                                height={55}
+                                className="w-[20px] !h-[55px] object-contain rounded-md cursor-pointer"
+                              />
+                            </div>
+                          ) : (
+                            <div className="cursor-pointer flex flex-col items-center justify-center">
+                              <span className="text-sm cursor-pointer text-[14px]">
+                                Back image
+                              </span>
+                              <Image
+                                src="/upload.svg"
+                                className="aboslute left-0 top-10"
+                                width={20}
+                                height={20}
+                                alt="upload"
+                              />
+                              <input
+                                type="file"
+                                // onChange={handleDlFrontImageChange}
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
 
                       <div className="flex items-center justify-between w-[73%] ">
