@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React, { useState } from 'react';
 
 interface PackageItem {
@@ -9,9 +10,10 @@ interface PackageItem {
 interface DropLocationProps {
     currentPackage: PackageItem[];
     onSelectItem?: (item: PackageItem | null) => void; // Add this prop
+    onClose?:any
 }
 
-const DropLocation: React.FC<DropLocationProps> = ({ currentPackage, onSelectItem }) => {
+const DropLocation: React.FC<DropLocationProps> = ({ currentPackage,onClose, onSelectItem }) => {
     const [selectedItem, setSelectedItem] = useState<PackageItem | null>(null);
 
     const handleSelectItem = (item: PackageItem) => {
@@ -22,7 +24,7 @@ const DropLocation: React.FC<DropLocationProps> = ({ currentPackage, onSelectIte
     };
 
     return (
-        <div className="bg-white shadow-md max-w-[900px] w-[340px] lg:w-[600px] rounded-xl">
+        <div className="bg-white shadow-md max-w-[900px] w-[340px] lg:w-[600px] rounded-xl relative">
             <h2 className="text-xl font-semibold text-black mb-4 p-4 pb-0">Drop Location</h2>
             <div className="bg-[#ff0000] text-white p-2 py-4">
                 <div className="flex justify-between text-xl mx-4">
@@ -44,6 +46,9 @@ const DropLocation: React.FC<DropLocationProps> = ({ currentPackage, onSelectIte
                         <p className="text-gray-500 min-w-[55px]" >₹{item.price}</p>
                     </div>
                 ))}
+            </div>
+            <div className='w-[34] h-[34] rounded-full border w-fit absolute top-4 right-4 cursor-pointer' onClick={onClose}>
+            <Image src="/svg/close-red.svg" alt='close' width={20} height={20} />
             </div>
         </div>
     );

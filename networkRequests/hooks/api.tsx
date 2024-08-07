@@ -73,3 +73,15 @@ export const DLUploading = async (data: any) => {
     throw error;
   }
 }
+export const DLUploadingBack = async (data: any) => {
+  try {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/website-license-back`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response?.data;
+  } catch (error) {
+    throw error;
+  }
+}

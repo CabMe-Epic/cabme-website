@@ -449,7 +449,7 @@ const CarDetails = () => {
                     </span>
                     {showDoorStep &&
                       <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
-                        <DropLocation onSelectItem={handleSelectItemDoorStep} currentPackage={currentPackage?.DoorstepDeliveryPickup} />
+                        <DropLocation onClose={()=>setShowDoorStep(false)} onSelectItem={handleSelectItemDoorStep} currentPackage={currentPackage?.DoorstepDeliveryPickup} />
                       </div>
                     }
                   </div>

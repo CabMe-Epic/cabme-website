@@ -26,6 +26,7 @@ export interface User extends SelectedUser {
   drivingLicenseVerified: boolean;
   role: string;
   starRating: number;
+  dob: string;
 }
 
 export interface UserState {

@@ -322,12 +322,16 @@ console.log(selectedPackagePrice,"selected pack");
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <span className="relative flex flex-row  group text-[#FF0000]">
                             <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
-                              {data?.bookingOptions?.selfDrive?.packageType
-                                ?.package1?.kmsLimit
-                                ? data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package1?.kmsLimit * (days as number)
-                                : "0"}{" "}
-                              Free kms
+                            {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
+                              
                             </p>
                            {/* <span className="sm:block hidden"> ...</span> */}
                             {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -381,13 +385,16 @@ console.log(selectedPackagePrice,"selected pack");
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="text-[#FF0000] flex flex-row">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap overflow-hidden w-full m-auto">
-                              {data?.bookingOptions?.selfDrive?.packageType
-                                ?.package2?.kmsLimit
-                                ? data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package2?.kmsLimit * (days as number)
-                                : "0"}{" "}
-                              Free kms
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap overflow-hidden min-w-[70px] w-full m-auto">
+                            {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
                             </p>
                           {/* <span className="sm:block hidden">  ...</span> */}
                           </div>
@@ -444,12 +451,15 @@ console.log(selectedPackagePrice,"selected pack");
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="flex flex-row text-[#FF0000]">
                             <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap overflow-hidden w-full m-auto">
-                              {data?.bookingOptions?.selfDrive?.packageType
-                                ?.package3?.kmsLimit
-                                ? data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package3?.kmsLimit * (days as number)
-                                : "0"}{" "}
-                              Free kms
+                            {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
                             </p>
                           {/* <span className="sm:block hidden">  ...</span> */}
                           </div>
@@ -709,12 +719,16 @@ console.log(selectedPackagePrice,"selected pack");
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000]">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[10px] whitespace-nowrap w-full overflow-hidden">
+                            
                             {data?.bookingOptions?.subscription?.packageType
-                              ?.package1?.kmsLimit
-                              ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package1?.kmsLimit 
-                              : "0"}{" "}
-                            Free kms
+                              ?.package1?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.subscription?.packageType
+                                ?.package1?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
                           </p>
                         {/* <span className="sm:block hidden">  ...</span> */}
                           {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -769,13 +783,16 @@ console.log(selectedPackagePrice,"selected pack");
                         {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
-                            {data?.bookingOptions?.subscription?.packageType
-                              ?.package2?.kmsLimit
-                              ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package2?.kmsLimit 
-                              : "0"}{" "}
-                            Free kms
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] min-w-[70px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
+                          {data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.subscription?.packageType
+                                ?.package2?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
                           </p>
                         {/* <span className="sm:block hidden">  ...</span> */}
                           {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -832,12 +849,15 @@ console.log(selectedPackagePrice,"selected pack");
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
-                            {data?.bookingOptions?.subscription?.packageType
-                              ?.package3?.kmsLimit
-                              ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package3?.kmsLimit 
-                              : "0"}{" "}
-                            Free kms
+                          {data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.subscription?.packageType
+                                ?.package3?.kmsLimit +" Free kms"
+                                }{" "}
                           </p>
                          {/* <span className="sm:block hidden"> ...</span> */}
                           {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -1087,13 +1107,16 @@ console.log(selectedPackagePrice,"selected pack");
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                               <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
+                                
                                 {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package1?.kmsLimit
-                                  ? data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package1?.kmsLimit *
-                                    (days as number)
-                                  : "0"}{" "}
-                                Free kms
+                                  ?.packageType?.package1?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package1?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.withDriver?.local
+                                ?.packageType?.package1?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
                               </p>
                             {/* <span className="sm:block hidden">  ...</span> */}
                               {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -1149,14 +1172,16 @@ console.log(selectedPackagePrice,"selected pack");
                             {/* desktop end */}
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                              <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package2?.kmsLimit
-                                  ? data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package2?.kmsLimit *
-                                    (days as number)
-                                  : "0"}{" "}
-                                Free kms
+                              <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] min-w-[70px] whitespace-nowrap w-full overflow-hidden m-auto">
+                              {data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.withDriver?.local
+                                ?.packageType?.package2?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
                               </p>
                             {/* <span className="sm:block hidden">  ...</span> */}
                               {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -1213,13 +1238,15 @@ console.log(selectedPackagePrice,"selected pack");
                             <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                             <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                               <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package3?.kmsLimit
-                                  ? data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package3?.kmsLimit *
-                                    (days as number)
-                                  : "0"}{" "}
-                                Free kms
+                              {data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.kmsLimit ==0
+                                ? "Unlimited"
+                                :
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.kmsLimit ===null ? "--"
+                                :data?.bookingOptions?.withDriver?.local
+                                ?.packageType?.package3?.kmsLimit * (days as number)+" Free kms"
+                                }{" "}
                               </p>
                              {/* <span className="sm:block hidden"> ...</span> */}
                               {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">

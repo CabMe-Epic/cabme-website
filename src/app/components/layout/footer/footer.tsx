@@ -39,12 +39,7 @@ const url = usePathname();
     <>
     {url==="/check-out" ? 
     
-    <div className="flex items-center gap-6 justify-center my-10">
-      <Image src="/checkOutFooter/masterCard.svg" width={45} height={45} alt="cabme_master_card" />
-      <Image src="/checkOutFooter/gpay.svg" width={45} height={45} alt="cabme_master_card" />
-      <Image src="/checkOutFooter/visa.svg" width={45} height={45} alt="cabme_master_card" />
-      <Image src="/checkOutFooter/upi.svg" width={45} height={45} alt="cabme_master_card" />
-    </div>
+    ""
 
     : 
       <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8">
