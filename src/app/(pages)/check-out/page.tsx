@@ -77,23 +77,26 @@ const Checkout = () => {
   const [three, setThree] = useState(true);
   const [four, setFour] = useState(true);
 
+
+  console.log({ aadharGenerate })
+
   const [currentVehicleId, setCurrentVehicleId] = useState<string | null>()
 
   useEffect(() => {
-    if (userData?.phoneVerified) {
-      setTwo(false);
-      setOne(false);
-    }
+    // if (userData?.phoneVerified) {
+    //   setTwo(false);
+    //   setOne(false);
+    // }
 
-    if (
-      userData?.aadharVerified
-      &&
-      (userData?.panVerified &&
-        userData?.drivingLicenseVerified)
-    ) {
-      setThree(true);
-      setTwo(true);
-    }
+    // if (
+    //   userData?.aadharVerified
+    //   &&
+    //   (userData?.panVerified ||
+    //     userData?.drivingLicenseVerified)
+    // ) {
+    //   setThree(true);
+    //   setTwo(true);
+    // }
     if (userData?.aadharVerified) {
       setIsButtonDisabled(false);
     } else {
@@ -163,6 +166,7 @@ const Checkout = () => {
   };
 
   const handleStepThree = () => {
+    setAadharGenerate(false);
     setThree(false);
     setTwo(true);
   }
@@ -354,7 +358,7 @@ const Checkout = () => {
         const token = result?.result?.token;
         updateUserData(currentUser);
         if (currentUser?.phoneVerified) {
-          window.location.reload();
+          // window.location.reload();
         }
         setOne(false);
         setTwo(false);
@@ -370,38 +374,38 @@ const Checkout = () => {
 
   const [panCard, setPanCard] = useState("");
   const [dl, setDL] = useState("");
-const [trap,setTrap] = useState(false)
+  const [trap, setTrap] = useState(false)
   const handleVerifiedPan = async () => {
     try {
-      if (userData?.aadharVerified && userData?.drivingLicenseVerified) {
-        try {
-          if (!panCardPost) {
-            toast.error("Please upload your pan image to proceed.");
-            return;
-          }
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
-            {
-              id: userData?._id,
-              url: panCardPost,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          console.log({ response })
-          if (response?.data?.success) {
-            toast.success(response?.data?.message)
-            return
-          }
-        } catch (apiError) {
-          console.error("Error uploading PAN card image:", apiError);
-          toast.error("An error occurred while uploading PAN card image. Please try again.");
-          return;
-        }
-      }
+      // if (userData?.aadharVerified && userData?.drivingLicenseVerified) {
+      //   try {
+      //     if (!panCardPost) {
+      //       toast.error("Please upload your pan image to proceed.");
+      //       return;
+      //     }
+      //     const response = await axios.post(
+      //       `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
+      //       {
+      //         id: userData?._id,
+      //         url: panCardPost,
+      //       },
+      //       {
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //         },
+      //       }
+      //     );
+      //     console.log({ response })
+      //     if (response?.data?.success) {
+      //       toast.success(response?.data?.message)
+      //       return
+      //     }
+      //   } catch (apiError) {
+      //     console.error("Error uploading PAN card image:", apiError);
+      //     toast.error("An error occurred while uploading PAN card image. Please try again.");
+      //     return;
+      //   }
+      // }
       if (!panCard) {
         toast.error("Pan number is required. Please provide your pan number to proceed.");
         return;
@@ -567,37 +571,6 @@ const [trap,setTrap] = useState(false)
 
   const handleVerifyDrivingLicence = async () => {
     try {
-      if (userData?.aadharVerified && userData?.panVerified) {
-        try {
-          if (!dlPost && !dlPostBack) {
-            toast.error("Please upload your Driving licence front and back images to proceed.");
-            return;
-          }
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-driving-licence`,
-            {
-              id: userData?._id,
-              fronturl: dlPost,
-              backurl: dlPostBack,
-            },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          console.log({ response })
-          if (response?.data?.success) {
-            toast.success(response?.data?.message)
-            return
-          }
-        } catch (apiError) {
-          console.error("Error uploading PAN card image:", apiError);
-          toast.error("An error occurred while uploading PAN card image. Please try again.");
-          return;
-        }
-      }
-
       if (!dl) {
         toast.error("Driving licence number is required. Please provide your Driving licence number to proceed.");
         return;
@@ -635,6 +608,8 @@ const [trap,setTrap] = useState(false)
         const update = data?.user;
         updateUserData(update);
         toast.success("The driving license has been successfully verified.");
+        setThree(true);
+        setFour(false);
       }
     } catch (error) {
       console.error("Error fetching OTP:", error);
@@ -1175,7 +1150,7 @@ const [trap,setTrap] = useState(false)
                         >
                           Continue
                         </button>
-                        {userData?.drivingLicenseVerified &&
+                        {/* {userData?.drivingLicenseVerified &&
                           userData?.panVerified && (
                             <div
                               className="mt-4 cursor-pointer"
@@ -1191,247 +1166,247 @@ const [trap,setTrap] = useState(false)
                                 height={30}
                               />
                             </div>
-                          )}
+                          )} */}
                       </div>
                     </div>
-                  ) : showDocSelect==="PanCard" ?
-                  
-                  (
-                    <>
-                   
-                    <div>
-                      <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                        PAN Card{" "}
-                        {userData?.panVerified ? (
-                          <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                            <Image
-                              src="/greendone.svg"
-                              width={20}
-                              height={20}
-                              alt={"img"}
-                            />{" "}
-                            Verified Account
-                          </span>
-                        ) : (
-                          <Image
-                            src="/notVerified.svg"
-                            alt=""
-                            width={30}
-                            height={30}
-                          />
-                        )}
-                      </h4>
+                  ) : showDocSelect === "PanCard" ?
 
-                      <div className="sm:flex items-center gap-4 ">
-                        <InputField
-                          placeholder="PAN Number"
-                          onChange={(e: any) => setPanCard(e.target.value)}
-                          className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
-                        />
-                        <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                          {panFrontImage ? (
-                            <div className="relative ">
-                              <span
-                                onClick={handleRemovePanFront}
-                                className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
-                              >
-                                {" "}
-                                Remove
-                              </span>
-                              <Image
-                                src={panFrontImage}
-                                alt="Front"
-                                width={100}
-                                height={55}
-                                className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
-                              />
-                            </div>
-                          ) : (
-                            <div className="cursor-pointer flex flex-col items-center justify-center">
-                              <span className="text-sm cursor-pointer text-[14px]">
-                                Front image
-                              </span>
-                              <Image
-                                src="/upload.svg"
-                                className="aboslute left-0 top-10"
-                                width={20}
-                                height={20}
-                                alt="upload"
-                              />
-                              <input
-                                type="file"
-                                onChange={handlePanFrontImageChange}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                    (
+                      <>
 
-                      <div className="flex items-center justify-between w-[73%] ">
-                        <button
-                          onClick={handleVerifiedPan}
-                          className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                        >
-                          Continue
-                        </button>
-                        {userData?.drivingLicenseVerified &&
-                          userData?.panVerified && (
-                            <div
-                              className="mt-4 cursor-pointer"
-                              onClick={() => {
-                                setThree(true);
-                                setFour(false);
-                              }}
-                            >
+                        <div>
+                          <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                            PAN Card{" "}
+                            {userData?.panVerified ? (
+                              <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                                <Image
+                                  src="/greendone.svg"
+                                  width={20}
+                                  height={20}
+                                  alt={"img"}
+                                />{" "}
+                                Verified Account
+                              </span>
+                            ) : (
                               <Image
-                                src="/arrow.svg"
+                                src="/notVerified.svg"
                                 alt=""
                                 width={30}
                                 height={30}
                               />
-                            </div>
-                          )}
-                      </div>
-                    </div>
-                    {trap &&
-                      <div>
-                      <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                        Driving License{" "}
-                        {userData?.drivingLicenseVerified ? (
-                          <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                            <Image
-                              src="/greendone.svg"
-                              width={20}
-                              height={20}
-                              alt={"img"}
-                            />{" "}
-                            Verified Account
-                          </span>
-                        ) : (
-                          <Image
-                            src="/notVerified.svg"
-                            alt=""
-                            width={30}
-                            height={30}
-                          />
-                        )}
-                      </h4>
-                      <div className="sm:flex items-center gap-4 ">
-                        <InputField
-                          placeholder="Driving License Number"
-                          className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
-                          onChange={(e: any) => setDL(e.target.value)}
-                        />
-                        <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                          {dlFrontImage ? (
-                            <div className="relative ">
-                              <span
-                                onClick={handleRemoveDlFront}
-                                className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
-                              >
-                                {" "}
-                                Remove
-                              </span>
-                              <Image
-                                src={dlFrontImage}
-                                alt="Front"
-                                width={100}
-                                height={55}
-                                className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
-                              />
-                            </div>
-                          ) : (
-                            <div className="cursor-pointer flex flex-col items-center justify-center">
-                              <span className="text-sm cursor-pointer text-[14px]">
-                                Front image
-                              </span>
-                              <Image
-                                src="/upload.svg"
-                                className="aboslute left-0 top-10"
-                                width={20}
-                                height={20}
-                                alt="upload"
-                              />
-                              <input
-                                type="file"
-                                onChange={handleDlFrontImageChange}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                              />
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                          {dlBackImage ? (
-                            <div className="relative ">
-                              <span
-                                onClick={handleRemoveDlBack}
-                                className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
-                              >
-                                {" "}
-                                Remove
-                              </span>
-                              <Image
-                                src={dlBackImage}
-                                alt="Front"
-                                width={20}
-                                height={55}
-                                className="w-[20px] !h-[55px] object-contain rounded-md cursor-pointer"
-                              />
-                            </div>
-                          ) : (
-                            <div className="cursor-pointer flex flex-col items-center justify-center">
-                              <span className="text-sm cursor-pointer text-[14px]">
-                                Back image
-                              </span>
-                              <Image
-                                src="/upload.svg"
-                                className="aboslute left-0 top-10"
-                                width={20}
-                                height={20}
-                                alt="upload"
-                              />
-                              <input
-                                type="file"
-                                onChange={handleDlBackImageChange}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                            )}
+                          </h4>
 
-                      <div className="flex items-center justify-between w-[73%] ">
-                        <button
-                          onClick={() => {
-                            handleVerifyDrivingLicence();
-                          }}
-                          className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                        >
-                          Continue
-                        </button>
-                        {userData?.drivingLicenseVerified &&
-                          userData?.panVerified && (
-                            <div
-                              className="mt-4 cursor-pointer"
-                              onClick={() => {
-                                setThree(true);
-                                setFour(false);
-                              }}
-                            >
-                              <Image
-                                src="/arrow.svg"
-                                alt=""
-                                width={30}
-                                height={30}
-                              />
+                          <div className="sm:flex items-center gap-4 ">
+                            <InputField
+                              placeholder="PAN Number"
+                              onChange={(e: any) => setPanCard(e.target.value)}
+                              className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                            />
+                            <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                              {panFrontImage ? (
+                                <div className="relative ">
+                                  <span
+                                    onClick={handleRemovePanFront}
+                                    className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                  >
+                                    {" "}
+                                    Remove
+                                  </span>
+                                  <Image
+                                    src={panFrontImage}
+                                    alt="Front"
+                                    width={100}
+                                    height={55}
+                                    className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="cursor-pointer flex flex-col items-center justify-center">
+                                  <span className="text-sm cursor-pointer text-[14px]">
+                                    Front image
+                                  </span>
+                                  <Image
+                                    src="/upload.svg"
+                                    className="aboslute left-0 top-10"
+                                    width={20}
+                                    height={20}
+                                    alt="upload"
+                                  />
+                                  <input
+                                    type="file"
+                                    onChange={handlePanFrontImageChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                  />
+                                </div>
+                              )}
                             </div>
-                          )}
-                      </div>
-                    </div>
-                    }
-                    </>
-                  ):""}
+                          </div>
+
+                          <div className="flex items-center justify-between w-[73%] ">
+                            <button
+                              onClick={handleVerifiedPan}
+                              className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                            >
+                              Continue
+                            </button>
+                            {/* {userData?.drivingLicenseVerified &&
+                              userData?.panVerified && (
+                                <div
+                                  className="mt-4 cursor-pointer"
+                                  onClick={() => {
+                                    setThree(true);
+                                    setFour(false);
+                                  }}
+                                >
+                                  <Image
+                                    src="/arrow.svg"
+                                    alt=""
+                                    width={30}
+                                    height={30}
+                                  />
+                                </div>
+                              )} */}
+                          </div>
+                        </div>
+                        {trap &&
+                          <div>
+                            <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                              Driving License{" "}
+                              {userData?.drivingLicenseVerified ? (
+                                <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                                  <Image
+                                    src="/greendone.svg"
+                                    width={20}
+                                    height={20}
+                                    alt={"img"}
+                                  />{" "}
+                                  Verified Account
+                                </span>
+                              ) : (
+                                <Image
+                                  src="/notVerified.svg"
+                                  alt=""
+                                  width={30}
+                                  height={30}
+                                />
+                              )}
+                            </h4>
+                            <div className="sm:flex items-center gap-4 ">
+                              <InputField
+                                placeholder="Driving License Number"
+                                className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                                onChange={(e: any) => setDL(e.target.value)}
+                              />
+                              <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                                {dlFrontImage ? (
+                                  <div className="relative ">
+                                    <span
+                                      onClick={handleRemoveDlFront}
+                                      className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                    >
+                                      {" "}
+                                      Remove
+                                    </span>
+                                    <Image
+                                      src={dlFrontImage}
+                                      alt="Front"
+                                      width={100}
+                                      height={55}
+                                      className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="cursor-pointer flex flex-col items-center justify-center">
+                                    <span className="text-sm cursor-pointer text-[14px]">
+                                      Front image
+                                    </span>
+                                    <Image
+                                      src="/upload.svg"
+                                      className="aboslute left-0 top-10"
+                                      width={20}
+                                      height={20}
+                                      alt="upload"
+                                    />
+                                    <input
+                                      type="file"
+                                      onChange={handleDlFrontImageChange}
+                                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                                {dlBackImage ? (
+                                  <div className="relative ">
+                                    <span
+                                      onClick={handleRemoveDlBack}
+                                      className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                    >
+                                      {" "}
+                                      Remove
+                                    </span>
+                                    <Image
+                                      src={dlBackImage}
+                                      alt="Front"
+                                      width={20}
+                                      height={55}
+                                      className="w-[20px] !h-[55px] object-contain rounded-md cursor-pointer"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="cursor-pointer flex flex-col items-center justify-center">
+                                    <span className="text-sm cursor-pointer text-[14px]">
+                                      Back image
+                                    </span>
+                                    <Image
+                                      src="/upload.svg"
+                                      className="aboslute left-0 top-10"
+                                      width={20}
+                                      height={20}
+                                      alt="upload"
+                                    />
+                                    <input
+                                      type="file"
+                                      onChange={handleDlBackImageChange}
+                                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between w-[73%] ">
+                              <button
+                                onClick={() => {
+                                  handleVerifyDrivingLicence();
+                                }}
+                                className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                              >
+                                Continue
+                              </button>
+                              {/* {userData?.drivingLicenseVerified &&
+                                userData?.panVerified && (
+                                  <div
+                                    className="mt-4 cursor-pointer"
+                                    onClick={() => {
+                                      setThree(true);
+                                      setFour(false);
+                                    }}
+                                  >
+                                    <Image
+                                      src="/arrow.svg"
+                                      alt=""
+                                      width={30}
+                                      height={30}
+                                    />
+                                  </div>
+                                )} */}
+                            </div>
+                          </div>
+                        }
+                      </>
+                    ) : ""}
                 </div>
               ) : (
                 ""
@@ -1516,7 +1491,7 @@ const [trap,setTrap] = useState(false)
                         width={60}
                         height={60}
                       />{" "}
-                      <Image src="/pancard.svg" alt="user" width={60} height={60} />
+                      {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
                     </span>
                     {userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
@@ -1555,7 +1530,7 @@ const [trap,setTrap] = useState(false)
                         width={60}
                         height={60}
                       />{" "}
-                      <Image src="/dlcard.svg" alt="user" width={60} height={60} />
+                      <Image src={userData?.drivingLicenseBackImageUrl || "/dlcard.svg"} alt="user" width={60} height={60} />
                     </span>
                     {userData?.drivingLicenseVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
@@ -1588,7 +1563,7 @@ const [trap,setTrap] = useState(false)
                       </span>{" "}
                       <Image
                         src={
-                          userData?.aadharCardFrontImageUrl || "/aadharCard.svg"
+                          userData?.drivingLicenseBackImageUrl || "/dlcard.svg"
                         }
                         alt="user"
                         width={60}
