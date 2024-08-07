@@ -97,11 +97,11 @@ const Checkout = () => {
     //   setThree(true);
     //   setTwo(true);
     // }
-    // if (userData?.aadharVerified) {
-    //   setIsButtonDisabled(false);
-    // } else {
-    //   setIsButtonDisabled(true);
-    // }
+    if (userData?.aadharVerified) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
     const vehicleId = sessionStorage.getItem("slug")
     if (vehicleId) {
       setCurrentVehicleId(vehicleId)
@@ -358,7 +358,7 @@ const Checkout = () => {
         const token = result?.result?.token;
         updateUserData(currentUser);
         if (currentUser?.phoneVerified) {
-          window.location.reload();
+          // window.location.reload();
         }
         setOne(false);
         setTwo(false);
