@@ -4,11 +4,12 @@ import ThemeButton from "../theme-button/theme-button";
 
 interface CouponProp {
   hide?: any;
+  onClick?:any;
   promoCodes?: any[];
   handleChangePromocodeOption: (e: any) => void;
 }
 
-const ApplyCoupon = ({ hide, promoCodes = [], handleChangePromocodeOption }: CouponProp) => {
+const ApplyCoupon = ({ hide,onClick, promoCodes = [], handleChangePromocodeOption }: CouponProp) => {
   const [selectedPromoCode, setSelectedPromoCode] = useState<string>("");
 
   const handleRadioChange = (e: any) => {
@@ -48,7 +49,7 @@ const ApplyCoupon = ({ hide, promoCodes = [], handleChangePromocodeOption }: Cou
             <ThemeButton onClick={hide} text="Apply" className="text-xs tracking-wide" />
           </div>
         </div>
-        <div className="w-fit absolute top-3 right-2 cursor-pointer" >
+        <div className="w-fit absolute top-3 right-2 cursor-pointer" onClick={onClick}>
           <Image src="/svg/cross-white.svg" alt="cross" width={18} height={18} />
         </div>
       </div>

@@ -641,10 +641,11 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                     </span>
                 </div> */}
       </main>
-      {applyCoupon &&
+      {applyCoupon===true &&
         <ApplyCoupon
           promoCodes={promoCodes}
           hide={handleHidePopUp}
+          onClick={()=>setApplyCoupon(false)}
           handleChangePromocodeOption={handleChangePromocodeOption} />}
 
     </div>
