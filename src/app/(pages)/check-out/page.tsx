@@ -1628,10 +1628,10 @@ const Checkout = () => {
       </div>
     </div>
     <div className="flex items-center gap-6 justify-center my-10">
-    <Image src="/checkOutFooter/masterCard.svg" width={45} height={45} alt="mastercard" priority />
-    <Image src="/checkOutFooter/gpay.svg" width={45} height={45} alt="gpay" priority />
-    <Image src="/checkOutFooter/visa.svg" width={45} height={45} alt="visa" priority />
-    <Image src="/checkOutFooter/upi.svg" width={45} height={45} alt="upi" priority />
+    <Image src="/checkoutFooter/masterCard.svg" width={45} height={45} alt="mastercard" priority />
+    <Image src="/checkoutFooter/gpay.svg" width={45} height={45} alt="gpay" priority />
+    <Image src="/checkoutFooter/visa.svg" width={45} height={45} alt="visa" priority />
+    <Image src="/checkoutFooter/upi.svg" width={45} height={45} alt="upi" priority />
   </div>
   </>
   );
