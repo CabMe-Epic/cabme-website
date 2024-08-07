@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import {
   DLUploading,
+  DLUploadingBack,
   postAadharBack,
   postAadharFront,
   postPanCard,
@@ -87,8 +88,8 @@ const Checkout = () => {
     if (
       userData?.aadharVerified
       &&
-      userData?.panVerified &&
-      userData?.drivingLicenseVerified
+      (userData?.panVerified &&
+        userData?.drivingLicenseVerified)
     ) {
       setThree(true);
       setTwo(true);
@@ -111,6 +112,8 @@ const Checkout = () => {
   const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
 
   const [dlPost, setDLPost] = useState<string | null>(null);
+  const [dlPostBack, setDLPostBack] = useState<string | null>(null);
+  // console.log({ dlPostBack })
 
   const [panCardPost, setPanCardPost] = useState<string | null>(null);
 
@@ -268,6 +271,10 @@ const Checkout = () => {
         }
       );
       const data = await response.json();
+      console.log({ data })
+      if (data.otpResponse.statusCode === 422) {
+        return toast.error(data.otpResponse.data.status)
+      }
       if (data?.otpResponse?.statusCode === 200) {
         setAadharGenerate(true);
         setAadharData(data);
@@ -386,8 +393,7 @@ const Checkout = () => {
           );
           console.log({ response })
           if (response?.data?.success) {
-            setThree(true);
-            setFour(false);
+            toast.success(response?.data?.message)
             return
           }
         } catch (apiError) {
@@ -444,6 +450,7 @@ const Checkout = () => {
   const [frontImage, setFrontImage] = useState<any>(null);
   const [backImage, setBackImage] = useState<any>(null);
   const [dlFrontImage, setDlFrontImage] = useState<any>(null);
+  const [dlBackImage, setDlBackImage] = useState<any>(null);
   const [panFrontImage, setPanFrontImage] = useState<any>(null);
   const [showDocSelect, setShowDocSelect] = useState<any>("DrivingLicense");
 
@@ -532,17 +539,37 @@ const Checkout = () => {
       }
     }
   };
+  const handleDlBackImageChange = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = URL.createObjectURL(event.target.files[0]);
+      const imagePayload: any = {
+        files: event.target.files[0],
+      };
+      setDlBackImage(file);
+      try {
+        const res = await DLUploadingBack(imagePayload);
+        const cleanUrl = res.replace(/\n/g, "");
+        setDLPostBack(cleanUrl);
+      } catch (error) {
+        console.error("Error uploading Aadhar front image:", error);
+      }
+    }
+  };
 
   const handleRemoveDlFront = () => {
     setDlFrontImage(null);
+  };
+
+  const handleRemoveDlBack = () => {
+    setDlBackImage(null);
   };
 
   const handleVerifyDrivingLicence = async () => {
     try {
       if (userData?.aadharVerified && userData?.panVerified) {
         try {
-          if (!dlPost) {
-            toast.error("Please upload your Driving licence images to proceed.");
+          if (!dlPost && !dlPostBack) {
+            toast.error("Please upload your Driving licence front and back images to proceed.");
             return;
           }
           const response = await axios.post(
@@ -550,7 +577,7 @@ const Checkout = () => {
             {
               id: userData?._id,
               fronturl: dlPost,
-              backurl: dlPost,
+              backurl: dlPostBack,
             },
             {
               headers: {
@@ -560,8 +587,7 @@ const Checkout = () => {
           );
           console.log({ response })
           if (response?.data?.success) {
-            setThree(true);
-            setFour(false);
+            toast.success(response?.data?.message)
             return
           }
         } catch (apiError) {
@@ -1099,17 +1125,17 @@ const Checkout = () => {
                           )}
                         </div>
                         <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                          {dlFrontImage ? (
+                          {dlBackImage ? (
                             <div className="relative ">
                               <span
-                                // onClick={handleRemoveDlFront}
+                                onClick={handleRemoveDlBack}
                                 className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
                               >
                                 {" "}
                                 Remove
                               </span>
                               <Image
-                                src={"/upload.svg"}
+                                src={dlBackImage}
                                 alt="Front"
                                 width={20}
                                 height={55}
@@ -1130,7 +1156,7 @@ const Checkout = () => {
                               />
                               <input
                                 type="file"
-                                // onChange={handleDlFrontImageChange}
+                                onChange={handleDlBackImageChange}
                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                               />
                             </div>
@@ -1333,23 +1359,23 @@ const Checkout = () => {
                   <span className="text-[#FF0000] font-semibold text-[16px]">
                     Documents
                   </span>
-                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4 "> */}
-                  {/* <span className="text-[#878787] w-[200px]">PAN Number</span> */}
-                  {/* :{" "} */}
-                  {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
-                  {" "}
-                  {/* <span className="text-[#878787]">
+                  <div className="sm:flex justify-between items-center gap-5 mt-4 ">
+                    <span className="text-[#878787] w-[200px]">PAN Number</span>
+                    :{" "}
+                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                      {" "}
+                      <span className="text-[#878787]">
                         {userData?.panNumber}
-                      </span>{" "} */}
-                  {/* <Image
+                      </span>{" "}
+                      <Image
                         src={userData?.panImageUrl || "/pancard.svg"}
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "} */}
-                  {/* <Image src="/pancard.svg" alt="user" width={60} height={60} /> */}
-                  {/* </span> */}
-                  {/* {userData?.panVerified ? (
+                      />{" "}
+                      <Image src="/pancard.svg" alt="user" width={60} height={60} />
+                    </span>
+                    {userData?.panVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1366,29 +1392,29 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )} */}
-                  {/* </div> */}
-                  {/* <div className="sm:flex justify-between items-center gap-5 mt-4"> */}
-                  {/* <span className="text-[#878787] w-[200px]">
+                    )}
+                  </div>
+                  <div className="sm:flex justify-between items-center gap-5 mt-4">
+                    <span className="text-[#878787] w-[200px]">
                       Driving License Number
-                    </span> */}
-                  {/* :{" "} */}
-                  {/* <span className="flex items-center gap-2 sm:my-0 my-2"> */}
-                  {" "}
-                  {/* <span className="text-[#878787]">
+                    </span>
+                    :{" "}
+                    <span className="flex items-center gap-2 sm:my-0 my-2">
+                      {" "}
+                      <span className="text-[#878787]">
                         {userData?.drivingLicenseNumber}
-                      </span>{" "} */}
-                  {/* <Image
+                      </span>{" "}
+                      <Image
                         src={
                           userData?.drivingLicenseFrontImageUrl || "/dlcard.svg"
                         }
                         alt="user"
                         width={60}
                         height={60}
-                      />{" "} */}
-                  {/* <Image src="/dlcard.svg" alt="user" width={60} height={60} /> */}
-                  {/* </span> */}
-                  {/* {userData?.drivingLicenseVerified ? (
+                      />{" "}
+                      <Image src="/dlcard.svg" alt="user" width={60} height={60} />
+                    </span>
+                    {userData?.drivingLicenseVerified ? (
                       <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                         <Image
                           src="/greendone.svg"
@@ -1405,8 +1431,8 @@ const Checkout = () => {
                         width={30}
                         height={30}
                       />
-                    )} */}
-                  {/* </div> */}
+                    )}
+                  </div>
                   <div className="sm:flex justify-between items-center gap-5 mt-4">
                     <span className="text-[#878787] w-[200px]">
                       Aadhar Number
