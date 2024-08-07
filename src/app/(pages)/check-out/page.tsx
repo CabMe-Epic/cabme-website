@@ -1052,6 +1052,7 @@ const Checkout = () => {
                       id=""
                       className="border-0 bg-white font-light placeholder:text-[#312D4E] w-[100%] h-[55px] outline-0 mt-2 rounded-md cursor-pointer"
                     >
+                      <option value="select">Select</option>
                       <option value="DrivingLicense">Driving License</option>
                       <option value="PanCard">PAN Card</option>
                     </select>
