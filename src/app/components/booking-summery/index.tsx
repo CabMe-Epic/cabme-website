@@ -637,7 +637,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
         {/* <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                     <span className="font-bold text-md">Pay ₹10,000 Now</span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
-                        Balance on Delivery
+                       Balance on Delivery 
                     </span>
                 </div> */}
       </main>
