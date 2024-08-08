@@ -386,10 +386,10 @@ const CarDetails = () => {
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* booking summary */}
-            <div className="lg:block m-auto flex justify-center w-full">
+            <div className="lg:block m-auto flex justify-center w-full sm:px-0 px-4">
               {/* <BookingSummery/> */}
-              <main className="w-[380px] px-4 sm:w-[511px] flex flex-col items-center bg-[#f5f5f5] py-10 my-6 rounded-xl">
-                <div className="w-[320px] sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
+              <main className="max-w-[380px] w-full px-4 sm:max-w-[511px] flex flex-col items-center bg-[#f5f5f5] sm:py-10 py-6 my-6 rounded-xl">
+                <div className="max-w-[320px] w-full sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
                 </div>
                 <div className="my-5  flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
@@ -426,7 +426,7 @@ const CarDetails = () => {
                     </span>
                     <span className="sm:w-[220px]  sm:ml-8" onClick={handleShowDoorstepPopup}>
 
-                      <div className="relative w-full sm:w-[80%]">
+                      <div className="relative sm:w-[70%] w-[90%]">
                         <textarea
                           ref={textareaRef}
                           className="w-full p-1 rounded-md border resize-none overflow-hidden"
@@ -504,13 +504,13 @@ const CarDetails = () => {
                     <span className="sm:w-[220px] sm:ml-10">{currentPackage?.tollsParkingTaxes}</span>
                   </div>
                 </div>
-                <div>
+                <div className="w-full">
 
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 max-w-[340px] w-full sm:max-w-[420px] py-5 rounded-3xl m-auto">
                     {currentPackage?.gst === "Excluded" &&
                       <div className="flex flex-col">
-                        <span className="text-sm md:text-md">Total Amount </span>
+                        <span className="text-[12px] md:text-md">Total Amount </span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalExcludedGSTAmount)}
                         </span>
@@ -518,7 +518,7 @@ const CarDetails = () => {
                     }
                     {currentPackage?.gst === "Included" &&
                       <div className="flex flex-col">
-                        <span className="text-sm md:text-md">Total Amount</span>
+                        <span className="text-[12px] md:text-md">Total Amount</span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalIncludedGSTAmount)}
                         </span>

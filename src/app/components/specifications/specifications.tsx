@@ -23,7 +23,7 @@ const Specifications = ({spec}: any) => {
                 <div><IconComponent title="Body" subtitle={spec?.body} imageSrc="/carDetails/body.png" /></div>
                 <div><IconComponent title="Make" subtitle={spec?.make} imageSrc="/carDetails/make.png" /></div>
                 <div><IconComponent title="Transmission" subtitle={spec?.transmission} imageSrc="/carDetails/transmission.png" /></div>
-                <div><IconComponent title="Carrier" subtitle={spec?.vin} imageSrc="/carDetails/vin.png" /></div>
+                <div><IconComponent title="Carrier" subtitle={spec?.carrier} imageSrc="/carDetails/vin.png" /></div>
                 <div><IconComponent title="Year" subtitle={spec?.year} imageSrc="/carDetails/year.png" /></div>
                 <div><IconComponent title="Mileage" subtitle={spec?.mileage} imageSrc="/carDetails/mileage.png" /></div>
                 <div><IconComponent title="Fuel Type" subtitle={spec?.fuelType} imageSrc="/carDetails/fuel.png" /></div>
@@ -32,6 +32,7 @@ const Specifications = ({spec}: any) => {
                 <div><IconComponent title="Brake" subtitle={spec?.brake} imageSrc="/carDetails/brake.png" /></div>
                 <div><IconComponent title="Drivetrain" subtitle={spec?.driveTrain} imageSrc="/carDetails/drive.png" /></div>
                 <div><IconComponent title="AC" subtitle={spec?.AC} imageSrc="/carDetails/ac.png" /></div>
+                <div><IconComponent title="Car Roof" subtitle={spec?.sunRoof} imageSrc="/svg/sunroof.svg" /></div>
             </div>
         </div>
     );
