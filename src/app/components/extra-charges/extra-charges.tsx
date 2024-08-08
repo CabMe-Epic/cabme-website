@@ -1,6 +1,8 @@
 import React from "react";
+import { IconComponent } from "../specifications/specifications";
 
 const ExtraCharges = ({ details }: any) => {
+  console.log(details ,"details");
   return (
     <div className="px-4">
       <div className=" mx-auto p-6 bg-white rounded-lg shadow-md max-w-[1250px] border">
@@ -74,6 +76,14 @@ const ExtraCharges = ({ details }: any) => {
                 </span>
               </div>
             )}
+            {details?.vehicleSpecifications?.carrier &&
+              <div className="grid grid-cols-[1.3fr_1fr] items-center sm:justify-center justify-between w-full sm:text-md text-sm gap-4">
+              <span className="text-[#161616]">Carrier:</span>
+              <span className="text-[#ff0000]">
+                {details?.vehicleSpecifications?.carrier}
+              </span>
+            </div>
+            }
           </div>
         </div>
       </div>
