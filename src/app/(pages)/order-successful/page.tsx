@@ -8,20 +8,20 @@ const OrderSuccessful = (slug:any) => {
   console.log(slug,"slug");
   return (
     <div className="max-w-[1250px] m-auto">
-      <div className="my-12 lg:flex gap-6">
-        <div className="bg-gray-500 w-fit pt-4 pb-8 px-6 max-w-[830px] w-full lg:m-0 m-auto">
+      <div className="sm:my-12 my-6 sm:mx-0 mx-4 lg:flex gap-6">
+        <div className="bg-gray-500 w-fit pt-4 sm:pb-8 pb-4 px-6 max-w-[830px] w-full lg:m-0 m-auto">
           <div className="flex justify-between">
-            <div className="flex gap-4">
-              <span className="font-semibold text-2xl">Creta Hyundai</span>
-              <p className="w-fit bg-[#B5E6EA] text-[#1AC3D1] px-6 py-[5px] rounded-full font-[450]">
+            <div className="sm:flex gap-4">
+              <span className="font-semibold sm:text-2xl text-lg">Creta Hyundai</span>
+              <p className="w-fit bg-[#B5E6EA] text-[#1AC3D1] px-6 py-[5px] rounded-full font-[450] sm:mt-0 mt-1 sm:text-[15px] text-sm">
                 Economy
               </p>
             </div>
-            <span className="text-primary bg-white px-2 py-[5px]">
+            <span className="text-primary bg-white px-2 py-[5px] h-fit sm:text-[15px] text-[12px]">
               Self-Driving
             </span>
           </div>
-          <div className="flex items-center gap-6 mt-8">
+          <div className="sm:flex items-center gap-6 mt-8">
             <div className="flex-none">
               <Image src="/png/creta.png" alt="car" width={317} height={186} />
             </div>
@@ -29,7 +29,7 @@ const OrderSuccessful = (slug:any) => {
               <div className="grid grid-cols-3 justify-between gap-6">
                 {speciCollection?.map((item, index) => {
                   return (
-                    <div key={index} className="flex gap-2">
+                    <div key={index} className="flex gap-2 sm:text-[15px] text-[12px]">
                       <Image
                         src={item?.imageUrl}
                         alt={item?.alt}
@@ -42,18 +42,19 @@ const OrderSuccessful = (slug:any) => {
                 })}
               </div>
               <div className="mt-4">
-                <h3 className="font-semibold mb-4 mt-6">
+                <h3 className="font-semibold sm:mb-4 mb-2 mt-6">
                   Include in the price
                 </h3>
                 <div className="grid grid-cols-2 gap-2 text-[#787878]">
                   {includeArray?.map((item, index) => {
                     return (
-                      <div key={index} className="flex gap-1">
+                      <div key={index} className="flex gap-1 items-start">
                         <Image
                           src={"/svg/green-check.svg"}
                           alt="check"
                           width={16}
                           height={12}
+                          className="flex-none sm:w-[16px] w-[12px] mt-[5px]"
                         />
                         <p className="text-sm">{item?.content}</p>
                       </div>
@@ -93,19 +94,19 @@ const OrderSuccessful = (slug:any) => {
           <h3 className="font-semibold">7 Days Booking</h3>
         </div>
       </div>
-      <div className="flex gap-6">
+      <div className="sm:flex gap-6 sm:mx-0 mx-4">
         <div className="max-w-[830px] w-full">
           <ExtraService />
         </div>
-        <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8">
+        <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8 sm:mt-0 mt-6">
           <PriceSummary />
         </div>
       </div>
-      <div className="flex gap-6 my-12">
-        <div className="max-w-[830px] w-full">
+      <div className="sm:flex gap-6 sm:my-12 my-6 sm:px-0 px-4">
+        <div className="max-w-[830px] w-full ">
           <UserDetails />
         </div>
-        <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8">
+        <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8 sm:mt-0 mt-6">
           <div>
             <h3 className="text-lg font-semibold">Expected date of delivery</h3>
             <p className="text-sm">Between 26th -  26th May</p>
@@ -120,42 +121,43 @@ const OrderSuccessful = (slug:any) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 bg-[#FBFBFB] p-6">
+      <div className="sm:px-0 px-4">
+      <div className="grid sm:grid-cols-2 bg-[#FBFBFB] p-6">
         <div className="max-w-[450px] w-full">
-          <h3 className="font-semibold text-2xl mb-4">DOCUMENT </h3>
-          <div className=" flex justify-between py-2">
-            <span className="w-[200px]">PAN Number</span>
+          <h3 className="font-semibold sm:text-2xl text-xl mb-4">DOCUMENT </h3>
+          <div className=" sm:flex grid grid-cols-[45%_10%_45%] justify-between py-2">
+            <span className="sm:w-[200px] w-auto">PAN Number</span>
             <span>:</span>
             <span>UXRG56789KO</span>
           </div>
-          <div className="my-4 flex justify-between py-2">
-            <span className="w-[200px]">Driving License Number</span>
+          <div className="sm:my-4 my-2 sm:flex grid grid-cols-[45%_10%_45%] justify-between py-2">
+            <span className="sm:w-[200px] w-auto">Driving License Number</span>
             <span>:</span>
             <span>678905443789</span>
           </div>
-          <div className=" flex justify-between py-2">
-            <span className="w-[200px]">Aadhar Number</span>
+          <div className=" sm:flex grid grid-cols-[45%_10%_45%] justify-between py-2">
+            <span className="sm:w-[200px] w-auto">Aadhar Number</span>
             <span>:</span>
             <span>3214 6788 8976</span>
           </div>
         </div>
-        <div className="border-l pl-12">
-          <h3 className="font-semibold text-2xl mb-4">DOCUMENT IMAGE  </h3>
-          <div className="flex items-center">
+        <div className="sm:border-l sm:pl-12 sm:mt-0 mt-6">
+          <h3 className="font-semibold sm:text-2xl text-xl sm:mb-4 mb-2">DOCUMENT IMAGE  </h3>
+          <div className="sm:flex items-center sm:mb-0 mb-4">
             <p className="max-w-[250px] w-full">PAN Number</p>
             <div className="flex gap-2">
               <Image src={"/png/pan-front.png"} alt="pancard" width={78} height={44} />
               <Image src={"/png/pan-back.png"} alt="pancard" width={78} height={44} />
             </div>
           </div>
-          <div className="flex my-2 items-center">
+          <div className="sm:flex my-2 items-center sm:mb-0 mb-4">
             <p className="max-w-[250px] w-full">Driving License Number</p>
             <div className="flex gap-2">
               <Image src={"/png/dl-front.png"} alt="license" width={78} height={44} />
               <Image src={"/png/dl-back.png"} alt="license" width={78} height={44} />
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="sm:flex items-center sm:mb-0 mb-4">
             <p className="max-w-[250px] w-full">Aadhar Number</p>
             <div className="flex gap-2">
               <Image src={"/png/adhar-front.png"} alt="pancard" width={78} height={44} />
@@ -163,6 +165,7 @@ const OrderSuccessful = (slug:any) => {
             </div>
           </div>
         </div>
+      </div>
       </div>
       <div className="mt-8 pb-4">
         <ThemeButton text="Continue" className="m-auto !rounded-full shadow-custom-shadow grad-button font-semibold" />

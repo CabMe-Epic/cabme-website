@@ -10,10 +10,10 @@ import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { searchVehicle } from "../../../../../networkRequests/hooks/api";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
@@ -25,6 +25,7 @@ import { calculateGST } from "@/app/utils/calculateGST";
 import { useStore } from "@/app/zustand/store/store";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
+import { set } from "react-datepicker/dist/date_utils";
 
 interface PromoCode {
   code: string;
@@ -43,11 +44,12 @@ interface PromoCode {
 }
 
 const CarDetails = () => {
-
-  const {payableAmount,setPayableAmount} = useCarsStore()
+  // context api
+  // const { data, setData } = useContextApi();
+  const { payableAmount, setPayableAmount } = useCarsStore();
 
   const userData = useStore((state) => state);
-  console.log("USER DATA", { userData })
+  console.log("USER DATA", { userData });
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -62,11 +64,7 @@ const CarDetails = () => {
 
   const handleShowDoorstepPopup = () => {
     setShowDoorStep(true);
-  }
-
- 
-
-
+  };
 
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
   const handleSelectItemDoorStep = (arr: any) => {
@@ -79,16 +77,14 @@ const CarDetails = () => {
       const price = selectedDoorStepObject[0]?.price;
       localStorage.setItem("doorStepPriceCharge", JSON.stringify(price));
     }
-    setTextareaHeight(textareaRef?.current?.scrollHeight + 'px');
+    setTextareaHeight(textareaRef?.current?.scrollHeight + "px");
 
     console.log(selectedDoorStepObject, "selectedDoorStepObject");
-
   }, [selectedDoorStepObject]);
-
 
   useEffect(() => {
     localStorage.removeItem("doorStepPriceCharge");
-  }, [])
+  }, []);
 
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
@@ -97,62 +93,83 @@ const CarDetails = () => {
   const [bookingOpt, setBookingOpt] = useState<any>();
 
   const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>();
-  const [textareaHeight, setTextareaHeight] = useState('auto');
+  const [textareaHeight, setTextareaHeight] = useState("auto");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<string | any>();
+  const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<
+    string | any
+  >();
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
-  const [selectedDiscountType, setSelectedDiscountType] = useState<string | any>();
+  const [selectedDiscountType, setSelectedDiscountType] = useState<
+    string | any
+  >();
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Inculded/Excluded GST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  console.log({ currentPackage })
+  console.log({ currentPackage });
 
-  const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
+  const result = calculateGST(
+    packagePrice,
+    parseFloat(currentPackage?.package1?.gstRate),
+    currentPackage?.gst
+  );
   // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
 
   const doorStepAmount = selectedDoorStepObject?.[0]?.price ?? 0;
-  const totalExcludedGSTAmount = Number(packagePrice) + Number(result?.gstAmount) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
-  const totalIncludedGSTAmount = Number(packagePrice) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
+  const totalExcludedGSTAmount =
+    Number(packagePrice) +
+    Number(result?.gstAmount) +
+    Number(currentPackage?.refundableDeposit) +
+    doorStepAmount;
+  const totalIncludedGSTAmount =
+    Number(packagePrice) +
+    Number(currentPackage?.refundableDeposit) +
+    doorStepAmount;
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const total = Number(packagePrice)
+  const total = Number(packagePrice);
 
   const { duration } = useReservationDateTime();
-  const { days, hours } = extractDaysAndHours(duration)
+  const { days, hours } = extractDaysAndHours(duration);
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
   // console.log({ totalPrice })
 
-  const ThirtyDiscountForInculdedTax = (totalIncludedGSTAmount * 30) / 100
-  const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100
+  const ThirtyDiscountForInculdedTax = (totalIncludedGSTAmount * 30) / 100;
+  const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100;
   // console.log(ThirtyDiscountForInculdedTax,"advance");
   // console.log(totalIncludedGSTAmount,"else");
-  
 
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedPickupTime = localStorage.getItem('pickupTime');
-      const storedDropoffTime = localStorage.getItem('dropoffTime');
-      const storedTabValue = localStorage.getItem('tabValue');
+    if (typeof window !== "undefined") {
+      const storedPickupTime = localStorage.getItem("pickupTime");
+      const storedDropoffTime = localStorage.getItem("dropoffTime");
+      const storedTabValue = localStorage.getItem("tabValue");
       setPickupTime(storedPickupTime);
       setDropoffTime(storedDropoffTime);
-      setSelectedTabValue(storedTabValue)
+      setSelectedTabValue(storedTabValue);
     }
   }, []);
 
-  const pickupDateTimeString = pickupTime ? `${pickupDate}T${pickupTime}:00.000Z` : null;
-  const droppingDateTimeString = dropoffTime ? `${dropoffDate}T${dropoffTime}:00.000Z` : null;
+  const pickupDateTimeString = pickupTime
+    ? `${pickupDate}T${pickupTime}:00.000Z`
+    : null;
+  const droppingDateTimeString = dropoffTime
+    ? `${dropoffDate}T${dropoffTime}:00.000Z`
+    : null;
 
   React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedUserId = localStorage.getItem('userId');
-      const storedToken = localStorage.getItem('token');
+    if (typeof window !== "undefined") {
+      const storedUserId = localStorage.getItem("userId");
+      const storedToken = localStorage.getItem("token");
       setUserId(storedUserId);
       setToken(storedToken);
     }
   }, []);
 
+  console.log("carDetails", { carDetails });
+  console.log("selectedTabValue", { selectedTabValue });
+
   const bookingData = {
-    userId: userData?.userData?._id,
+    // userId: userData?.userData?._id,
     vehicleId: carDetails?._id,
     option: selectedTabValue,
     location: carDetails?.city,
@@ -173,24 +190,32 @@ const CarDetails = () => {
       discountType: selectedDiscountType ? selectedDiscountType : null,
       discountAmount: Number(discountAppliedAmount.toFixed(2)),
     },
-    totalAmount: (currentPackage?.gst === "Excluded" && totalExcludedGSTAmount) || (currentPackage?.gst === "Included" && totalIncludedGSTAmount),
+    totalAmount:
+      (currentPackage?.gst === "Excluded" && totalExcludedGSTAmount) ||
+      (currentPackage?.gst === "Included" && totalIncludedGSTAmount),
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
-    createdByUser: userData?.userData?._id
+    // createdByUser: userData?.userData?._id,
   };
+
+  console.log("bookingData", { bookingData });
 
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
   async function handleBooking() {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`, bookingData, {
-        headers: {
-          'Content-Type': 'application/json'
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`,
+        bookingData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      });
-      toast.success(response?.data?.message)
-      setMessage(response?.data?.message)
+      );
+      toast.success(response?.data?.message);
+      setMessage(response?.data?.message);
       if (response?.data?.success) {
         setBookingSuccess(true);
         setTimeout(() => {
@@ -198,7 +223,7 @@ const CarDetails = () => {
         }, 2000);
       }
     } catch (error: any) {
-      console.error('Error booking cab:', { error });
+      console.error("Error booking cab:", { error });
     }
   }
 
@@ -208,40 +233,41 @@ const CarDetails = () => {
         const data = await fetchPromoCodes();
         setPromoCodes(data?.promocodes);
       } catch (error) {
-        console.log({ error })
+        console.log({ error });
       }
     };
 
     getPromoCodes();
-  }, [])
-
+  }, []);
 
   const handleChangePromocodeOption = (e: any) => {
-    setSelectedPromocodeOption(e.target.value)
-  }
+    setSelectedPromocodeOption(e.target.value);
+  };
 
   const handleApplyPromoCode = () => {
     if (selectedPromocodeOption) {
-      const selectedPromoCode = promoCodes.find((code: PromoCode) => code.code === selectedPromocodeOption) as PromoCode | undefined;
+      const selectedPromoCode = promoCodes.find(
+        (code: PromoCode) => code.code === selectedPromocodeOption
+      ) as PromoCode | undefined;
       console.log({ selectedPromoCode });
       if (selectedPromoCode) {
-        if (selectedPromoCode.selectDiscount === 'Percentage') {
+        if (selectedPromoCode.selectDiscount === "Percentage") {
           const discount = (selectedPromoCode.couponAmount / 100) * totalPrice;
           const discountedPrice = totalPrice - discount;
           setDiscountAmount(discountedPrice);
           setDiscountAppliedAmount(discount);
-          setSelectedDiscountType(selectedPromoCode.selectDiscount)
-        } else if (selectedPromoCode.selectDiscount === 'Fixed') {
+          setSelectedDiscountType(selectedPromoCode.selectDiscount);
+        } else if (selectedPromoCode.selectDiscount === "Fixed") {
           const discountedPrice = totalPrice - selectedPromoCode.couponAmount;
           setDiscountAmount(discountedPrice);
           setDiscountAppliedAmount(selectedPromoCode.couponAmount);
-          setSelectedDiscountType(selectedPromoCode.selectDiscount)
+          setSelectedDiscountType(selectedPromoCode.selectDiscount);
         }
       } else {
         setDiscountAmount(0);
         setDiscountAppliedAmount(0);
-        setSelectedPromocodeOption(null)
-        setSelectedDiscountType(null)
+        setSelectedPromocodeOption(null);
+        setSelectedDiscountType(null);
         alert("Clear coupon");
       }
     } else {
@@ -249,40 +275,35 @@ const CarDetails = () => {
     }
   };
 
-
   const { slug }: any = useParams();
-
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicle();
     const carData = getSearchCarData?.data?.vehicles;
     carData?.map((item: any) => {
-      return (
-        item?._id === slug ? setCarDetails(item) : ""
-      );
+      return item?._id === slug ? setCarDetails(item) : "";
     });
     carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
       ? setCurrentPackage(
-        carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
-      )
+          carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
+        )
       : "";
   }, []);
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
-    const storedPickupTime = localStorage.getItem('pickupTime');
-    const storedDropoffTime = localStorage.getItem('dropoffTime');
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice")
+    const storedPickupTime = localStorage.getItem("pickupTime");
+    const storedDropoffTime = localStorage.getItem("dropoffTime");
+    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
 
-    setPackagePrice(selectedPackagePrice)
+    setPackagePrice(selectedPackagePrice);
     setPickupDate(getPickup);
-    setDropoffDate(getDropoff)
-    setDropoffTime(storedDropoffTime)
-    setPickupTime(storedPickupTime)
+    setDropoffDate(getDropoff);
+    setDropoffTime(storedDropoffTime);
+    setPickupTime(storedPickupTime);
     getCarDetails();
   }, [getCarDetails]);
-
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
@@ -303,16 +324,22 @@ const CarDetails = () => {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage(carDetails?.bookingOptions?.withDriver?.local?.packageType)
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage(
+            carDetails?.bookingOptions?.withDriver?.local?.packageType
+          )
+        : "";
     }
   }, [carDetails]);
   if (loading) {
-    return <div><BlinkerLoader /></div>;
+    return (
+      <div>
+        <BlinkerLoader />
+      </div>
+    );
   }
 
   if (error) {
@@ -321,37 +348,46 @@ const CarDetails = () => {
 
   // console.log({ selectedPackageAmount })
   const handlePriceChange = (updatedPrice: any) => {
-    setSelectedPackageAmount(updatedPrice)
+    setSelectedPackageAmount(updatedPrice);
     localStorage.setItem("selectedPackagePrice", updatedPrice);
-    setPackagePrice(updatedPrice)
-  }
+    setPackagePrice(updatedPrice);
+  };
 
   const handleProceed = () => {
-    sessionStorage.setItem('slug', slug);
+    sessionStorage.setItem("slug", slug);
     setPayableAmount(roundPrice(ThirtyDiscountForInculdedTax));
-    
+
     router.push("/check-out");
-  }
+  };
   const handleProceedTotal = () => {
-    sessionStorage.setItem('slug', slug);
+    sessionStorage.setItem("slug", slug);
     setPayableAmount(roundPrice(totalIncludedGSTAmount));
-    
+
+    // for save booking data
+    // setData(bookingData);
+
+    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
     router.push("/check-out");
-  }
+  };
 
-  const package1Price = calculateTotalPrice(currentPackage?.package1?.price) || 0;
-  const package2Price = calculateTotalPrice(currentPackage?.package2?.price) || 0;
-  const package3Price = calculateTotalPrice(currentPackage?.package3?.price) || 0;
+  const package1Price =
+    calculateTotalPrice(currentPackage?.package1?.price) || 0;
+  const package2Price =
+    calculateTotalPrice(currentPackage?.package2?.price) || 0;
+  const package3Price =
+    calculateTotalPrice(currentPackage?.package3?.price) || 0;
 
-  const allPrices = [roundPrice(package1Price), roundPrice(package2Price), roundPrice(package3Price)];
+  const allPrices = [
+    roundPrice(package1Price),
+    roundPrice(package2Price),
+    roundPrice(package3Price),
+  ];
   const roundedPrices = allPrices?.map(roundPrice);
 
-  const uniquePrices = Array.from(new Set(roundedPrices.filter(price => price !== 0)));
-
-
-  console.log(payableAmount,"payable amount");
-
-
+  const uniquePrices = Array.from(
+    new Set(roundedPrices.filter((price) => price !== 0))
+  );
 
   return (
     <>
@@ -371,7 +407,6 @@ const CarDetails = () => {
             {/* mobile view */}
 
             {/* mobile view */}
-
 
             <div className="my-12">
               <Specifications spec={carDetails?.vehicleSpecifications as any} />
@@ -398,9 +433,15 @@ const CarDetails = () => {
                     name="package"
                     id="package"
                     className="cursor-pointer w-[140px] p-2 mr-2 rounded-md font-semibold outline-none"
-                    onChange={(event) => handlePriceChange(event?.target?.value)}
+                    onChange={(event) =>
+                      handlePriceChange(event?.target?.value)
+                    }
                   >
-                    <option value={packagePrice}>{packagePrice !== undefined ? `₹${packagePrice}` : "Select Package"}</option>
+                    <option value={packagePrice}>
+                      {packagePrice !== undefined
+                        ? `₹${packagePrice}`
+                        : "Select Package"}
+                    </option>
                     <option value={roundPrice(package1Price)}>
                       ₹{roundPrice(package1Price)}
                     </option>
@@ -414,7 +455,9 @@ const CarDetails = () => {
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
                   <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">Package Amount</span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      Package Amount
+                    </span>
                     <span className="sm:w-[220px] sm:ml-10 w-fit">
                       ₹{roundPrice(packagePrice)}
                     </span>
@@ -424,8 +467,10 @@ const CarDetails = () => {
                     <span className="sm:w-[220px] sm:ml-10">
                       Doorstep delivery & pickup
                     </span>
-                    <span className="sm:w-[220px]  sm:ml-8" onClick={handleShowDoorstepPopup}>
-
+                    <span
+                      className="sm:w-[220px]  sm:ml-8"
+                      onClick={handleShowDoorstepPopup}
+                    >
                       <div className="relative w-full sm:w-[80%]">
                         <textarea
                           ref={textareaRef}
@@ -447,11 +492,17 @@ const CarDetails = () => {
 
                       {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
                     </span>
-                    {showDoorStep &&
+                    {showDoorStep && (
                       <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
-                        <DropLocation onClose={()=>setShowDoorStep(false)} onSelectItem={handleSelectItemDoorStep} currentPackage={currentPackage?.DoorstepDeliveryPickup} />
+                        <DropLocation
+                          onClose={() => setShowDoorStep(false)}
+                          onSelectItem={handleSelectItemDoorStep}
+                          currentPackage={
+                            currentPackage?.DoorstepDeliveryPickup
+                          }
+                        />
                       </div>
-                    }
+                    )}
                   </div>
                   {/* <div className="text-sm font-semibold text-[#5c5c5c] sm:w-[220px] sm:ml-10">
                     {
@@ -460,74 +511,92 @@ const CarDetails = () => {
                   </div> */}
 
                   <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">GST ({currentPackage?.package1?.gstRate}%)</span>
-                    <span className="sm:w-[220px] sm:ml-10">₹{roundPrice(Number(result?.gstAmount))}</span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      GST ({currentPackage?.package1?.gstRate}%)
+                    </span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      ₹{roundPrice(Number(result?.gstAmount))}
+                    </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">Refundable Deposit</span>
-                    <span className="sm:w-[220px] sm:ml-10">₹{currentPackage?.refundableDeposit}</span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      Refundable Deposit
+                    </span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      ₹{currentPackage?.refundableDeposit}
+                    </span>
                   </div>
 
                   {/* DESKTOP ...  */}
-                  {currentPackage?.gst === "Excluded" &&
+                  {currentPackage?.gst === "Excluded" && (
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                        ₹     {roundPrice(totalExcludedGSTAmount)}
+                        ₹ {roundPrice(totalExcludedGSTAmount)}
                       </span>
                     </div>
-                  }
-                  {currentPackage?.gst === "Included" &&
+                  )}
+                  {currentPackage?.gst === "Included" && (
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                        ₹   {roundPrice(totalIncludedGSTAmount)}
+                        ₹ {roundPrice(totalIncludedGSTAmount)}
                       </span>
                     </div>
-                  }
+                  )}
 
                   <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
                     <span className="sm:w-[220px] sm:ml-10">Fuel</span>
-                    <span className="sm:w-[220px] sm:ml-10">{currentPackage?.fuel}</span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      {currentPackage?.fuel}
+                    </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">Extra kms charge</span>
-                    <span className="sm:w-[220px] sm:ml-10">₹{currentPackage?.extraKmsCharge}</span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      Extra kms charge
+                    </span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      ₹{currentPackage?.extraKmsCharge}
+                    </span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14 text-[14px] sm:text-[18px] justify-center">
                     <span className="sm:w-[220px] sm:ml-10">
                       Tolls,Parking & Inner-state taxes
                     </span>
-                    <span className="sm:w-[220px] sm:ml-10">{currentPackage?.tollsParkingTaxes}</span>
+                    <span className="sm:w-[220px] sm:ml-10">
+                      {currentPackage?.tollsParkingTaxes}
+                    </span>
                   </div>
                 </div>
                 <div>
-
                   {/* DESKTOP TOTAL AMOUNT  */}
                   <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
-                    {currentPackage?.gst === "Excluded" &&
+                    {currentPackage?.gst === "Excluded" && (
                       <div className="flex flex-col">
-                        <span className="text-sm md:text-md">Total Amount </span>
+                        <span className="text-sm md:text-md">
+                          Total Amount{" "}
+                        </span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalExcludedGSTAmount)}
                         </span>
                       </div>
-                    }
-                    {currentPackage?.gst === "Included" &&
+                    )}
+                    {currentPackage?.gst === "Included" && (
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">Total Amount</span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                           ₹ {roundPrice(totalIncludedGSTAmount)}
                         </span>
                       </div>
-                    }
+                    )}
                     <div>
                       <button
                         onClick={handleProceedTotal}
-                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] px-6 py-2  sm:h-[53.08px] rounded-full drop-shadow-lg ">
+                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] px-6 py-2  sm:h-[53.08px] rounded-full drop-shadow-lg "
+                      >
                         Proceed
                       </button>
                     </div>
@@ -571,9 +640,7 @@ const CarDetails = () => {
         <div className="mb-10">
           <DescCar desc={carDetails?.vehicleDescriptions as any} />
         </div>
-        <div>
-          {/* <Video /> */}
-        </div>
+        <div>{/* <Video /> */}</div>
         <div className="mx-10 top-button">
           {/* <InterestedSlider/> */}
           {/* <FleetsSlider showButton={false} showRatingStar={false} /> */}
