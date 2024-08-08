@@ -90,7 +90,7 @@ const BookingDetailsCard = ({ city }: any) => {
             </div>
           </div>
           <div className="my-8 text-center">
-            <span className="bg-[#F2F7F6] w-full block h-[50px] p-4 rounded-lg drop-shadow-lg m-auto sm:text-md text-sm">
+            <span className="bg-[#F2F7F6] w-full block p-4 rounded-lg drop-shadow-lg m-auto sm:text-md text-sm">
               <b> Duration: </b> {duration ? duration : ""}{" "}
             </span>
           </div>
