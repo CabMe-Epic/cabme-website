@@ -25,8 +25,8 @@ import { calculateGST } from "@/app/utils/calculateGST";
 import { useStore } from "@/app/zustand/store/store";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
-import { useContextApi } from "@/app/utils/context/AppContext";
 import { set } from "react-datepicker/dist/date_utils";
+// import { useContextApi } from "@/app/utils/context/appContext";
 
 interface PromoCode {
   code: string;
@@ -46,7 +46,7 @@ interface PromoCode {
 
 const CarDetails = () => {
   // context api
-  const { data, setData } = useContextApi();
+  // const { data, setData } = useContextApi();
   const { payableAmount, setPayableAmount } = useCarsStore();
 
   const userData = useStore((state) => state);
@@ -365,7 +365,10 @@ const CarDetails = () => {
     setPayableAmount(roundPrice(totalIncludedGSTAmount));
 
     // for save booking data
-    setData(bookingData);
+    // setData(bookingData);
+
+    // need to store data in local storage
+    localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
     router.push("/check-out");
   };

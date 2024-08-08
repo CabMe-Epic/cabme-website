@@ -16,8 +16,8 @@ import {
 import { setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 import useCarsStore from "@/app/zustand/store/carsStore";
-import { useContextApi } from "@/app/utils/context/AppContext";
-import { roundPrice } from "@/app/utils/roundPrice ";
+// eslint-disable-next-line react-hooks/exhaustive-deps
+// import { useContextApi } from "@/app/utils/context/appContext";
 
 interface SelectedUser {
   firstName: string;
@@ -65,11 +65,20 @@ interface PaymentPayload {
 }
 
 const Checkout = () => {
-  const { data } = useContextApi();
-  console.log("data______68_____", { data });
-  const updateUserData = useStore((state) => state.updateUserData);
+  //context api
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  // now i want to store the two different data in data of context api
+  // need to get data from local storage bookingData
+  const [data, setData] = React.useState<any>([]);
+  React.useEffect(() => {
+    // localStorage.getItem("bookingData");
+    const bookingData = localStorage.getItem("bookingData");
+
+    setData(JSON.parse(bookingData || ""));
+  }, []);
+  // const { data, setData } = useContextApi();
+  console.log("new data", { data });
+  const updateUserData = useStore((state) => state.updateUserData);
 
   console.log("user id", { updateUserData });
   const userData = useStore((state) => state.userData);
@@ -82,6 +91,9 @@ const Checkout = () => {
     userData,
   };
 
+  console.log("bookingData", { bookingData });
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const booking_payload = {
     // userId: userData?.userData?._id,
     userId: bookingData?.userData?._id,
