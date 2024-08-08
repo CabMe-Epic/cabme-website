@@ -25,6 +25,7 @@ import { calculateGST } from "@/app/utils/calculateGST";
 import { useStore } from "@/app/zustand/store/store";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
+import { set } from "react-datepicker/dist/date_utils";
 
 interface PromoCode {
   code: string;
@@ -43,6 +44,8 @@ interface PromoCode {
 }
 
 const CarDetails = () => {
+  // context api
+  // const { data, setData } = useContextApi();
   const { payableAmount, setPayableAmount } = useCarsStore();
 
   const userData = useStore((state) => state);
@@ -162,8 +165,11 @@ const CarDetails = () => {
     }
   }, []);
 
+  console.log("carDetails", { carDetails });
+  console.log("selectedTabValue", { selectedTabValue });
+
   const bookingData = {
-    userId: userData?.userData?._id,
+    // userId: userData?.userData?._id,
     vehicleId: carDetails?._id,
     option: selectedTabValue,
     location: carDetails?.city,
@@ -190,8 +196,10 @@ const CarDetails = () => {
     bookingDuration: duration,
     bufferTime: 0,
     kilometers: 0,
-    createdByUser: userData?.userData?._id,
+    // createdByUser: userData?.userData?._id,
   };
+
+  console.log("bookingData", { bookingData });
 
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
@@ -354,7 +362,12 @@ const CarDetails = () => {
   const handleProceedTotal = () => {
     sessionStorage.setItem("slug", slug);
     setPayableAmount(roundPrice(totalIncludedGSTAmount));
+
+    // for save booking data
+    // setData(bookingData);
+
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
     router.push("/check-out");
   };
 
@@ -375,8 +388,6 @@ const CarDetails = () => {
   const uniquePrices = Array.from(
     new Set(roundedPrices.filter((price) => price !== 0))
   );
-
-  console.log(payableAmount, "payable amount");
 
   return (
     <>

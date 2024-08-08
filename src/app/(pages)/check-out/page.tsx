@@ -16,8 +16,6 @@ import {
 import { setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 import useCarsStore from "@/app/zustand/store/carsStore";
-// eslint-disable-next-line react-hooks/exhaustive-deps
-// import { useContextApi } from "@/app/utils/context/appContext";
 
 interface SelectedUser {
   firstName: string;
@@ -65,20 +63,17 @@ interface PaymentPayload {
 }
 
 const Checkout = () => {
-  //context api
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-
-  // need to get data from local storage bookingData
-  const [data, setData] = React.useState<any>([]);
-  React.useEffect(() => {
-    // localStorage.getItem("bookingData");
-    const bookingData = localStorage.getItem("bookingData");
-
-    setData(JSON.parse(bookingData || ""));
-  }, []);
-  // const { data, setData } = useContextApi();
-  console.log("new data", { data });
   const updateUserData = useStore((state) => state.updateUserData);
+  const [data, setData] = useState<any>([]);
+  // const { data, setData } = useContextApi();
+  React.useEffect(() => {
+    const storedData = localStorage.getItem("bookingData");
+    if (storedData) {
+      setData(JSON.parse(storedData));
+    }
+  }, []);
+
+  console.log("data by data", { data });
 
   console.log("user id", { updateUserData });
   const userData = useStore((state) => state.userData);
@@ -91,11 +86,9 @@ const Checkout = () => {
     userData,
   };
 
-  console.log("bookingData", { bookingData });
+  console.log("bookingData by data", { bookingData });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const booking_payload = {
-    // userId: userData?.userData?._id,
     userId: bookingData?.userData?._id,
     vehicleId: bookingData?.vehicleId,
     option: bookingData.option,
@@ -103,21 +96,19 @@ const Checkout = () => {
     pickUpDateTime: bookingData.pickUpDateTime,
     dropOffDateTime: bookingData.dropOffDateTime,
     baseFare: Number(bookingData.baseFare),
-    doorstepDelivery: Number(bookingData?.doorstepDelivery),
+    doorstepDelivery: bookingData?.doorstepDelivery as string,
     gstRate: Number(bookingData?.gstRate),
     gstAmount: Number(bookingData?.gstAmount),
     insuranceGST: bookingData?.insuranceGST,
     refundableDeposit: Number(bookingData?.refundableDeposit),
     kmsLimit: 0,
     fuel: bookingData.fuel,
-    extraKmsCharge: bookingData.extraKmsCharge,
+    extraKmsCharge: Number(bookingData.extraKmsCharge),
     tollsParking: "",
     promocode: {
-      code: bookingData.promocode.code ? bookingData.promocode.code : null,
-      discountType: bookingData.promocode.discountType
-        ? bookingData.promocode.discountType
-        : null,
-      discountAmount: Number(bookingData.promocode.discountAmount.toFixed(2)),
+      code: "Discount",
+      discountType: "Fixed",
+      discountAmount: 50,
     },
     totalAmount: Number(bookingData?.totalAmount),
     bookingDuration: bookingData.bookingDuration,
@@ -126,7 +117,7 @@ const Checkout = () => {
     createdByUser: bookingData?.userData?._id,
   };
 
-  console.log("bookingData_____83", { bookingData });
+  console.log("bookingData_____83", { booking_payload });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -231,7 +222,7 @@ const Checkout = () => {
   // };
 
   const handleStepThree = React.useCallback(async () => {
-    console.log("bookingData ____188", { booking_payload });
+    console.log("bookingData ____188 new ", { booking_payload });
 
     try {
       const res = await axios.post(
