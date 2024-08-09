@@ -1194,7 +1194,7 @@ const CarListing = () => {
               />
             </div>
           </aside>
-          <div className="m-auto sm:w-[73%]">
+          <div className="m-auto lg:w-[73%] w-full">
             {paginatedItems?.map((item: { bookingDate: string | number | Date; id: any; }, index: any) => {
               const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
               let dateOnly = '';

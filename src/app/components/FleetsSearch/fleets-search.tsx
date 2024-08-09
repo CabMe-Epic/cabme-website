@@ -361,7 +361,7 @@ if(tabValue!=="Subscription"){
 
       <div
         className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${
-          tabValue === "Driver" ? "h-[320px]" : tabValue==="Subscription" ? "h-[210px]" : "h-[260px]"
+          tabValue === "Driver" ? "h-[270px]" : tabValue==="Subscription" ? "h-[210px]" : "h-[260px]"
         }`}
       >
         <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
@@ -763,14 +763,14 @@ if(tabValue!=="Subscription"){
                   </div>
                 </div>
               )}
-              <div
+              {/* <div
                 onClick={(e) => handleDropSelectPopupLocation(e)}
                 className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${
                   durationFormat ? "mt-4" : "mt-5"
                 }`}
               >
                 Drop in different city?
-              </div>
+              </div> */}
               {durationFormat && (
                 <div className="w-fit m-auto">
                   <div className="mt-4">
@@ -1252,14 +1252,14 @@ if(tabValue!=="Subscription"){
                 />
               </div>
             </div>
-            <div
+            {/* <div
               onClick={(e) => handleDropSelectPopupLocation(e)}
               className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${
                 durationFormat ? "mt-2" : "mt-5"
               }`}
             >
               Drop in different city?
-            </div>
+            </div> */}
             {durationFormat && (
               <div className="w-fit m-auto">
                 <div className="mt-2">
@@ -1573,12 +1573,12 @@ if(tabValue!=="Subscription"){
         {tabValue!=="Subscription" &&
         
         <div className="flex sm:gap-4 flex-col items-center gap-1 w-fit py-2 sm:px-6 rounded-md m-auto sm:mt-4">
-          <strong
+          {/* <strong
             onClick={(e) => handleDropSelectPopupLocation(e)}
             className="text-[#ff0000] cursor-pointer sm:text-md text-sm"
           >
             Drop in different city?
-          </strong>{" "}
+          </strong>{" "} */}
           {durationFormat && (
             <div className="flex items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
               <strong>Duration :</strong>{" "}

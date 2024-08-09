@@ -6,18 +6,16 @@ interface CouponProp {
   hide?: any;
   onClick?:any;
   promoCodes?: any[];
-  handleChangePromocodeOption: (e: any) => void;
+  setSelectedPromoCode?:any
+  handleChangePromocodeOption?: (e: any) => void;
 }
 
-const ApplyCoupon = ({ hide,onClick, promoCodes = [], handleChangePromocodeOption }: CouponProp) => {
-  const [selectedPromoCode, setSelectedPromoCode] = useState<string>("");
+const ApplyCoupon = ({ hide,onClick, promoCodes = [],  setSelectedPromoCode }: CouponProp) => { 
 
-  const handleRadioChange = (e: any) => {
-    const selectedCode = e; // Extract the value from the event
-    setSelectedPromoCode(selectedCode);
-    handleChangePromocodeOption(selectedCode); // Notify parent component
+  const handleRadioChange = (item:any) => {
+    setSelectedPromoCode(item) 
   };
-
+// console.log(selectedPromoCode,"promo code value");
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center">
       <div className="bg-white border rounded-xl w-fit overflow-hidden max-w-[400px] w-full relative">
@@ -27,15 +25,19 @@ const ApplyCoupon = ({ hide,onClick, promoCodes = [], handleChangePromocodeOptio
         <div className="p-4">
           <h3 className="text-lg mb-2">Top Coupon</h3>
           <div className="bg-[#FAFAFA] p-4 rounded-md">
-            {promoCodes.map((item: any, index: number) => (
-              <div key={index}>
+            
+
+            {promoCodes?.map((item , index)=>{
+              console.log({promoCodes},"lelo promo");
+              return(
+                <div key={index}>
                 <input
                   type="radio"
                   name="promoCode"
                   id={item.code}
                   value={item.code}
                   // checked={selectedPromoCode == item?.code}
-                  onChange={handleRadioChange}
+                  onChange={()=>handleRadioChange(item)}
                   className="accent-[#FF0000]"
 
                 />
@@ -43,7 +45,8 @@ const ApplyCoupon = ({ hide,onClick, promoCodes = [], handleChangePromocodeOptio
                   {item.code}
                 </label>
               </div>
-            ))}
+              )
+            })}
           </div>
           <div className="flex justify-end mt-4">
             <ThemeButton onClick={hide} text="Apply" className="text-xs tracking-wide" />

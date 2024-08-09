@@ -78,7 +78,7 @@ const Checkout = () => {
   console.log("user id", { updateUserData });
   const userData = useStore((state) => state.userData);
   const { payableAmount } = useCarsStore();
-  console.log({ payableAmount });
+  console.log( payableAmount,"hello" );
   console.log("USER DATA", { userData });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const bookingData = {
@@ -723,7 +723,7 @@ const Checkout = () => {
   /////////////////////////////////////////////////////////////////////////////////////////////////
 
   const paymentPayload = {
-    amount: payableAmount?.toFixed(2),
+    amount: payableAmount ? payableAmount : totalAmount?.toFixed(2),
     productinfo: "Taxi Service - Trip from A to B",
     firstName: userData?.firstName,
     lastName: userData?.lastName,

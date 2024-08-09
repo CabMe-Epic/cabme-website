@@ -353,15 +353,30 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice);
   };
 
-  const handleProceed = () => {
-    sessionStorage.setItem("slug", slug);
-    setPayableAmount(roundPrice(ThirtyDiscountForInculdedTax));
+  const paymentExcludedTax = roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount);
+ 
 
+  
+  const handleProceed = () => {
+   const x= sessionStorage.setItem("slug", slug);
+    setPayableAmount(roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount));
+
+    // for save booking data
+    // setData(bookingData);
+
+    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
+    console.log(payableAmount,"xx");
     router.push("/check-out");
   };
+
+  console.log(payableAmount,"advance payment");
+
   const handleProceedTotal = () => {
     sessionStorage.setItem("slug", slug);
-    setPayableAmount(roundPrice(totalIncludedGSTAmount));
+    console.log(payableAmount,"total payment");
+
+    setPayableAmount(null);
 
     // for save booking data
     // setData(bookingData);
@@ -604,17 +619,19 @@ const CarDetails = () => {
                 </div>
 
                 {/* DESKTOP  */}
-                {/* <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
                     
                     {currentPackage?.gst === "Included" &&
                       <span className="font-bold text-md">
-                        Pay ₹{roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)} Now
+                        Pay ₹
+                        {roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)} Now
                       </span>
                     }
                     {currentPackage?.gst === "Excluded" &&
                       <span className="font-bold text-md">
-                        Pay ₹{roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now
+                        Pay ₹ {paymentExcludedTax}
+                        {/* {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now */}
                       </span>
                     }
                     <span className="text-[#ff0000] font-semibold text-[15px]">
@@ -626,7 +643,7 @@ const CarDetails = () => {
                     className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg">
                     Proceed
                   </button>
-                </div> */}
+                </div>
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}

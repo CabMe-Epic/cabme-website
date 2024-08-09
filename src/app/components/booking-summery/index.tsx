@@ -17,6 +17,7 @@ import ApplyCoupon from "../ApplyCoupon/apply-coupon";
 import { calculateGST } from "@/app/utils/calculateGST";
 import { roundPrice } from "@/app/utils/roundPrice ";
 import BlinkerLoader from "../blinker-loader/blinkerLoader";
+import useCarsStore from "@/app/zustand/store/carsStore";
 
 interface PromoCode {
   code: string;
@@ -67,15 +68,18 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     string | any
   >();
 
+  const [selectedPromoCode, setSelectedPromoCode] = useState<any>(null);
+
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
-  // console.log({ selectedPromocodeOption });
+  console.log("selectedPromoCode",selectedPromoCode?.couponAmount );
 
 
-  const handleChangePromocodeOption = (e: any) => {
-    setSelectedPromocodeOption(e.target.value);
+  // const handleChangePromocodeOption = (e: any) => {
+  //   setSelectedPromocodeOption(e);
+  //   console.log("hello");
 
-  };
+  // };
 
   const handleHidePopUp = () => {
     setApplyCoupon(false);
@@ -85,6 +89,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [doorStepPrice, setDoorStepPrice] = useState<number | any>(0);
   const [loader, setLoader] = useState(false);
+  const { payableAmount, setPayableAmount } = useCarsStore();
+
+  // const [discountedPercentage,setDiscountPercentage]= React.useState<number | any>();
   const [applyCoupon, setApplyCoupon] = React.useState(false);
   const { vehicle, loading, error } = useVehicleById(sessionSlug as string);
   const { reservationDateTime, setReservationDateTime, duration } =
@@ -101,7 +108,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     : null;
   const { days, hours } = extractDaysAndHours(duration);
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
-
+console.log(payableAmount,"clear chahiye");
   const bookingData = {
     userId: userId,
     vehicleId: carDetails?._id,
@@ -249,9 +256,20 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     setDropoffDate(getDropoff);
     setBookingOpt(bookingOption);
     getCarDetails();
+  
 
     // price();
   }, []);
+
+const [discountedPrice,setDiscountedPrice] = React.useState();
+
+  React.useEffect(()=>{
+    // {selectedPromoCode?.couponAmount==="EXTRA20" ? setDiscountPercentage(20) : selectedPromocodeOption==="EASTER25" ? setDiscountPercentage(25) : setDiscountPercentage(0)}
+
+    const priceAfterDiscount = selectedPromoCode?.selectDiscount==="Percentage"?(packagePrice) * selectedPromoCode?.couponAmount/100 : selectedPromoCode?.couponAmount;
+    setDiscountedPrice(priceAfterDiscount);
+    console.log(priceAfterDiscount,"discounted price");  
+  },[handleHidePopUp])
 
   React.useEffect(() => {
     {
@@ -330,8 +348,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
 
   const doorStepAmount = doorStepPrice || 0;
-  const totalExcludedGSTAmount = Number(packagePrice) + Number(result?.gstAmount) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
-  const totalIncludedGSTAmount = Number(packagePrice) + Number(currentPackage?.refundableDeposit) + doorStepAmount;
+  const totalExcludedGSTAmount = Number(packagePrice) + Number(result?.gstAmount) + Number(currentPackage?.refundableDeposit) + doorStepAmount - (discountedPrice!==undefined ? Number(discountedPrice): 0);
+  const totalIncludedGSTAmount = Number(packagePrice) + Number(currentPackage?.refundableDeposit) + doorStepAmount - (discountedPrice!==undefined ? Number(discountedPrice): 0);
 
   useEffect(() => {
     const amount = currentPackage?.gst === 'Included'
@@ -351,7 +369,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     }
   }, [result])
 
-
+console.log(selectedPromocodeOption,"lelo discount");
 
   return (
     <div>
@@ -434,7 +452,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                ₹    {roundPrice(totalExcludedGSTAmount)}
+                ₹    {roundPrice(totalExcludedGSTAmount)+(discountedPrice!==undefined ? roundPrice(Number(discountedPrice)): 0)}
               </span>
             </div>
           }
@@ -442,7 +460,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                ₹   {roundPrice(totalIncludedGSTAmount)}
+                ₹   {roundPrice(totalIncludedGSTAmount)+(discountedPrice!==undefined ? roundPrice(Number(discountedPrice)): 0)}
               </span>
             </div>
           }
@@ -592,9 +610,11 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                 <Image src="/png/offer.png" width={20} height={20} alt="offer" />
               </div>
 
-              {
+              {/* {
                 selectedPromocodeOption ? <span className="text-xs my-0 w-fit ml-2"> ({selectedPromocodeOption})</span> : <h3 className="font-semibold text-sm">Have a coupon?</h3>
-              }
+              } */}
+
+              {selectedPromoCode?.code ? <div className="text-xs my-0 w-fit ml-2">{selectedPromoCode?.code}</div> :<h3 className="font-semibold text-sm">Have a coupon?</h3>}
               <h4
                 className="font-semibold text-xs text-primary cursor-pointer"
                 onClick={() => setApplyCoupon(true)}
@@ -603,8 +623,20 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               </h4>
 
             </div>
+            {discountedPrice!==undefined &&
+                <div className="flex justify-between px-4 font-semibold mt-2">
+                  <h3 className="">Discounted amount</h3>
+                  <p>₹{roundPrice(discountedPrice)}</p>
+                </div>
+            }
 
-
+            {payableAmount &&
+            <div className="font-semibold flex justify-between mt-2">
+              <h3>Advance payment</h3>
+            <p>{payableAmount}</p>
+            
+            </div>
+            }
           </span>
 
           {/* <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
@@ -621,9 +653,18 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               <span className="sm:text-2xl font-bold">Total Amount</span>
               <span>:</span>
               <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                ₹ {currentPackage?.gst === "Included" &&
+                ₹ 
+                {payableAmount ? 
+                payableAmount
+              :
+                <>
+                  {currentPackage?.gst === "Included" &&
                   roundPrice(totalIncludedGSTAmount)}
                 {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
+                </>
+
+              }
+                
 
               </span>
             </div>
@@ -645,8 +686,10 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
         <ApplyCoupon
           promoCodes={promoCodes}
           hide={handleHidePopUp}
-          onClick={()=>setApplyCoupon(false)}
-          handleChangePromocodeOption={handleChangePromocodeOption} />}
+          onClick={()=>setApplyCoupon(false)} 
+          setSelectedPromoCode={setSelectedPromoCode}
+          />
+          }
 
     </div>
   );
