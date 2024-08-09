@@ -353,13 +353,19 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice);
   };
 
-  const paymentExcludedTax = roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount);
+  const paymentExcludedTax = roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(Number(totalExcludedGSTAmount));
  
+const advance_Payment =  roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)
+console.log("test test",{advance_Payment}) 
 
+console.log("paymentExcludedTax tas",{paymentExcludedTax})
   
   const handleProceed = () => {
    const x= sessionStorage.setItem("slug", slug);
-    setPayableAmount(roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount));
+   if(advance_Payment){
+    setPayableAmount(advance_Payment);
+   }
+    
 
     // for save booking data
     // setData(bookingData);

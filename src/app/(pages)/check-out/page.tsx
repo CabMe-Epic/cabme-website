@@ -720,6 +720,8 @@ const Checkout = () => {
   };
   console.log("BACK BASE FARE AMOUNT", { totalAmount });
 
+  console.log("payableAmount test",{payableAmount})
+
   /////////////////////////////////////////////////////////////////////////////////////////////////
 
   const paymentPayload = {

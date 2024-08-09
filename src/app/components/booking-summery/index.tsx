@@ -633,7 +633,7 @@ console.log(selectedPromocodeOption,"lelo discount");
             {payableAmount &&
             <div className="font-semibold flex justify-between mt-2">
               <h3>Advance payment</h3>
-            <p>{payableAmount}</p>
+            <p>{Number(payableAmount)}</p>
             
             </div>
             }
