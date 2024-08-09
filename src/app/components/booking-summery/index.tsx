@@ -604,25 +604,27 @@ console.log(selectedPromocodeOption,"lelo discount");
         </div>
         <div className="w-full mt-10">
           <span className="flex flex-col my-5 mt-2">
+{payableAmount ===null &&
+   <div className="flex gap-2 ml-2 items-center">
+   <div>
+     <Image src="/png/offer.png" width={20} height={20} alt="offer" />
+   </div>
 
-            <div className="flex gap-2 ml-2 items-center">
-              <div>
-                <Image src="/png/offer.png" width={20} height={20} alt="offer" />
-              </div>
+   {/* {
+     selectedPromocodeOption ? <span className="text-xs my-0 w-fit ml-2"> ({selectedPromocodeOption})</span> : <h3 className="font-semibold text-sm">Have a coupon?</h3>
+   } */}
 
-              {/* {
-                selectedPromocodeOption ? <span className="text-xs my-0 w-fit ml-2"> ({selectedPromocodeOption})</span> : <h3 className="font-semibold text-sm">Have a coupon?</h3>
-              } */}
+   {selectedPromoCode?.code ? <div className="text-xs my-0 w-fit ml-2">{selectedPromoCode?.code}</div> :<h3 className="font-semibold text-sm">Have a coupon?</h3>}
+   <h4
+     className="font-semibold text-xs text-primary cursor-pointer"
+     onClick={() => setApplyCoupon(true)}
+   >
+     Click here to enter your code
+   </h4>
 
-              {selectedPromoCode?.code ? <div className="text-xs my-0 w-fit ml-2">{selectedPromoCode?.code}</div> :<h3 className="font-semibold text-sm">Have a coupon?</h3>}
-              <h4
-                className="font-semibold text-xs text-primary cursor-pointer"
-                onClick={() => setApplyCoupon(true)}
-              >
-                Click here to enter your code
-              </h4>
-
-            </div>
+ </div>
+}
+           
             {discountedPrice!==undefined &&
                 <div className="flex justify-between px-4 font-semibold mt-2">
                   <h3 className="">Discounted amount</h3>
@@ -631,7 +633,7 @@ console.log(selectedPromocodeOption,"lelo discount");
             }
 
             {payableAmount &&
-            <div className="font-semibold flex justify-between mt-2">
+            <div className="font-semibold flex justify-between mt-2 px-4">
               <h3>Advance payment</h3>
             <p>{Number(payableAmount)}</p>
             
