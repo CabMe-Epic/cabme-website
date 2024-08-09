@@ -42,9 +42,8 @@ interface ChildComponentProps {
 
 const BookingSummery: React.FC<ChildComponentProps> = ({
   roundPrice,
-  onTotalAmountChange, }) => {
-
-
+  onTotalAmountChange,
+}) => {
   const router = useRouter();
   const { slug } = useParams();
   const [token, setToken] = useState<string | null>(null);
@@ -72,8 +71,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
-  console.log("selectedPromoCode",selectedPromoCode?.couponAmount );
-
+  console.log("selectedPromoCode", selectedPromoCode?.couponAmount);
 
   // const handleChangePromocodeOption = (e: any) => {
   //   setSelectedPromocodeOption(e);
@@ -83,7 +81,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const handleHidePopUp = () => {
     setApplyCoupon(false);
-  }
+  };
   const [sessionSlug, setFromSessionSlug] = useState("");
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
@@ -97,9 +95,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const { reservationDateTime, setReservationDateTime, duration } =
     useReservationDateTime();
   const total =
-    Number(packagePrice) +
-    doorStepPrice +
-    currentPackage?.refundableDeposit;
+    Number(packagePrice) + doorStepPrice + currentPackage?.refundableDeposit;
   const pickupDateTimeString = pickupTime
     ? `${pickupDate}T${pickupTime}:00.000Z`
     : null;
@@ -108,7 +104,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     : null;
   const { days, hours } = extractDaysAndHours(duration);
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
-console.log(payableAmount,"clear chahiye");
+  console.log(payableAmount, "clear chahiye");
   const bookingData = {
     userId: userId,
     vehicleId: carDetails?._id,
@@ -179,15 +175,12 @@ console.log(payableAmount,"clear chahiye");
   };
 
   const getCarDetails = useCallback(async () => {
-
     const getSearchCarData = await searchVehicle();
     const carData = getSearchCarData?.data?.vehicles;
     carData?.forEach((item: any) => {
       if (item?._id === sessionSlug) {
         setCarDetails(item);
-
       }
-
     });
   }, [sessionSlug]);
 
@@ -196,13 +189,11 @@ console.log(payableAmount,"clear chahiye");
   }, [getCarDetails]);
 
   useEffect(() => {
-
     if (carDetails?.bookingOptions?.selfDrive?.name === bookingOpt) {
       setCurrentPackage(
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       );
     }
-
   }, [carDetails, bookingOpt]);
 
   // console.log(sessionSlug, "sessionSlug")
@@ -246,7 +237,6 @@ console.log(payableAmount,"clear chahiye");
   }, []);
 
   React.useEffect(() => {
-
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
@@ -256,32 +246,34 @@ console.log(payableAmount,"clear chahiye");
     setDropoffDate(getDropoff);
     setBookingOpt(bookingOption);
     getCarDetails();
-  
 
     // price();
   }, []);
 
-const [discountedPrice,setDiscountedPrice] = React.useState();
+  const [discountedPrice, setDiscountedPrice] = React.useState();
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     // {selectedPromoCode?.couponAmount==="EXTRA20" ? setDiscountPercentage(20) : selectedPromocodeOption==="EASTER25" ? setDiscountPercentage(25) : setDiscountPercentage(0)}
 
-    const priceAfterDiscount = selectedPromoCode?.selectDiscount==="Percentage"?(packagePrice) * selectedPromoCode?.couponAmount/100 : selectedPromoCode?.couponAmount;
+    const priceAfterDiscount =
+      selectedPromoCode?.selectDiscount === "Percentage"
+        ? (packagePrice * selectedPromoCode?.couponAmount) / 100
+        : selectedPromoCode?.couponAmount;
     setDiscountedPrice(priceAfterDiscount);
-    console.log(priceAfterDiscount,"discounted price");  
-  },[handleHidePopUp])
+    console.log(priceAfterDiscount, "discounted price");
+  }, [handleHidePopUp]);
 
   React.useEffect(() => {
     {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage("")
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage("")
+        : "";
     }
   }, [carDetails]);
 
@@ -306,8 +298,6 @@ const [discountedPrice,setDiscountedPrice] = React.useState();
     getPromoCodes();
   }, []);
 
-
-
   // console.log(carDetails, "carDetails")
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -327,12 +317,14 @@ const [discountedPrice,setDiscountedPrice] = React.useState();
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage(carDetails?.bookingOptions?.withDriver?.local?.packageType)
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage(
+            carDetails?.bookingOptions?.withDriver?.local?.packageType
+          )
+        : "";
     }
   }, [carDetails]);
 
@@ -344,20 +336,40 @@ const [discountedPrice,setDiscountedPrice] = React.useState();
     // Number(result?.gstAmount) +
     Number(currentPackage?.refundableDeposit);
 
-  const result = calculateGST(packagePrice, parseFloat(currentPackage?.package1?.gstRate), currentPackage?.gst);
+  const result = calculateGST(
+    packagePrice,
+    parseFloat(currentPackage?.package1?.gstRate),
+    currentPackage?.gst
+  );
   // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
 
   const doorStepAmount = doorStepPrice || 0;
-  const totalExcludedGSTAmount = Number(packagePrice) + Number(result?.gstAmount) + Number(currentPackage?.refundableDeposit) + doorStepAmount - (discountedPrice!==undefined ? Number(discountedPrice): 0);
-  const totalIncludedGSTAmount = Number(packagePrice) + Number(currentPackage?.refundableDeposit) + doorStepAmount - (discountedPrice!==undefined ? Number(discountedPrice): 0);
+  const totalExcludedGSTAmount =
+    Number(packagePrice) +
+    Number(result?.gstAmount) +
+    Number(currentPackage?.refundableDeposit) +
+    doorStepAmount -
+    (discountedPrice !== undefined ? Number(discountedPrice) : 0);
+  const totalIncludedGSTAmount =
+    Number(packagePrice) +
+    Number(currentPackage?.refundableDeposit) +
+    doorStepAmount -
+    (discountedPrice !== undefined ? Number(discountedPrice) : 0);
 
   useEffect(() => {
-    const amount = currentPackage?.gst === 'Included'
-      ? roundPrice(totalIncludedGSTAmount)
-      : roundPrice(totalExcludedGSTAmount);
+    const amount =
+      currentPackage?.gst === "Included"
+        ? roundPrice(totalIncludedGSTAmount)
+        : roundPrice(totalExcludedGSTAmount);
 
     onTotalAmountChange(amount);
-  }, [currentPackage, totalIncludedGSTAmount, totalExcludedGSTAmount, roundPrice, onTotalAmountChange]);
+  }, [
+    currentPackage,
+    totalIncludedGSTAmount,
+    totalExcludedGSTAmount,
+    roundPrice,
+    onTotalAmountChange,
+  ]);
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -367,15 +379,28 @@ const [discountedPrice,setDiscountedPrice] = React.useState();
     } else {
       setLoader(false);
     }
-  }, [result])
+  }, [result]);
 
-console.log(selectedPromocodeOption,"lelo discount");
+  console.log(selectedPromocodeOption, "lelo discount");
+
+  const [newAmount, setNewAmount] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    console.log("use payble", { payableAmount });
+    console.log("use payble discountedPrice", { discountedPrice });
+    const finalAmount = Number(payableAmount) - Number(discountedPrice);
+
+    console.log("finalAmount", { finalAmount });
+
+    setNewAmount(roundPrice(finalAmount));
+    setPayableAmount(newAmount);
+  }, [payableAmount, discountedPrice]);
+
+  console.log("newAmount", { newAmount });
 
   return (
     <div>
-      {
-        loader && <BlinkerLoader />
-      }
+      {loader && <BlinkerLoader />}
       <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
         <div className="max-w-[376px] w-full h-[50px] bg-black text-white font-semibold text-[20px] flex justify-center items-center rounded-xl">
           <span className="text-center tracking-wide sm:text-md text-[18px]">
@@ -416,7 +441,7 @@ console.log(selectedPromocodeOption,"lelo discount");
               Doorstep delivery & pickup
             </span>
             <span className=" w-fit word-wrap sm:ml-10">
-              ₹{" "} {doorStepPrice}
+              ₹ {doorStepPrice}
               {/* {currentPackage?.DoorstepDeliveryPickup?.reduce(
                 (acc: any, item: any) => acc + item?.price,
                 0
@@ -434,8 +459,12 @@ console.log(selectedPromocodeOption,"lelo discount");
           </div> */}
 
           <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
-            <span className=" sm:ml-4">GST ({currentPackage?.package1?.gstRate}%)</span>
-            <span className=" sm:ml-10">₹ {roundPrice(Number(result?.gstAmount))}</span>
+            <span className=" sm:ml-4">
+              GST ({currentPackage?.package1?.gstRate}%)
+            </span>
+            <span className=" sm:ml-10">
+              ₹ {roundPrice(Number(result?.gstAmount))}
+            </span>
           </div>
 
           <div className="grid grid-cols-2 gap-14  justify-center">
@@ -448,22 +477,30 @@ console.log(selectedPromocodeOption,"lelo discount");
           </div>
 
           {/* DESKTOP ...  */}
-          {currentPackage?.gst === "Excluded" &&
+          {currentPackage?.gst === "Excluded" && (
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                ₹    {roundPrice(totalExcludedGSTAmount)+(discountedPrice!==undefined ? roundPrice(Number(discountedPrice)): 0)}
+                ₹{" "}
+                {roundPrice(totalExcludedGSTAmount) +
+                  (discountedPrice !== undefined
+                    ? roundPrice(Number(discountedPrice))
+                    : 0)}
               </span>
             </div>
-          }
-          {currentPackage?.gst === "Included" &&
+          )}
+          {currentPackage?.gst === "Included" && (
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                ₹   {roundPrice(totalIncludedGSTAmount)+(discountedPrice!==undefined ? roundPrice(Number(discountedPrice)): 0)}
+                ₹{" "}
+                {roundPrice(totalIncludedGSTAmount) +
+                  (discountedPrice !== undefined
+                    ? roundPrice(Number(discountedPrice))
+                    : 0)}
               </span>
             </div>
-          }
+          )}
 
           {/* <div className="grid grid-cols-2 gap-14  justify-center">
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
@@ -604,41 +641,47 @@ console.log(selectedPromocodeOption,"lelo discount");
         </div>
         <div className="w-full mt-10">
           <span className="flex flex-col my-5 mt-2">
-{payableAmount ===null &&
-   <div className="flex gap-2 ml-2 items-center">
-   <div>
-     <Image src="/png/offer.png" width={20} height={20} alt="offer" />
-   </div>
+            <div className="flex gap-2 ml-2 items-center">
+              <div>
+                <Image
+                  src="/png/offer.png"
+                  width={20}
+                  height={20}
+                  alt="offer"
+                />
+              </div>
 
-   {/* {
-     selectedPromocodeOption ? <span className="text-xs my-0 w-fit ml-2"> ({selectedPromocodeOption})</span> : <h3 className="font-semibold text-sm">Have a coupon?</h3>
-   } */}
+              {/* {
+                selectedPromocodeOption ? <span className="text-xs my-0 w-fit ml-2"> ({selectedPromocodeOption})</span> : <h3 className="font-semibold text-sm">Have a coupon?</h3>
+              } */}
 
-   {selectedPromoCode?.code ? <div className="text-xs my-0 w-fit ml-2">{selectedPromoCode?.code}</div> :<h3 className="font-semibold text-sm">Have a coupon?</h3>}
-   <h4
-     className="font-semibold text-xs text-primary cursor-pointer"
-     onClick={() => setApplyCoupon(true)}
-   >
-     Click here to enter your code
-   </h4>
-
- </div>
-}
-           
-            {discountedPrice!==undefined &&
-                <div className="flex justify-between px-4 font-semibold mt-2">
-                  <h3 className="">Discounted amount</h3>
-                  <p>₹{roundPrice(discountedPrice)}</p>
+              {selectedPromoCode?.code ? (
+                <div className="text-xs my-0 w-fit ml-2">
+                  {selectedPromoCode?.code}
                 </div>
-            }
-
-            {payableAmount &&
-            <div className="font-semibold flex justify-between mt-2 px-4">
-              <h3>Advance payment</h3>
-            <p>{Number(payableAmount)}</p>
-            
+              ) : (
+                <h3 className="font-semibold text-sm">Have a coupon?</h3>
+              )}
+              <h4
+                className="font-semibold text-xs text-primary cursor-pointer"
+                onClick={() => setApplyCoupon(true)}
+              >
+                Click here to enter your code
+              </h4>
             </div>
-            }
+            {discountedPrice !== undefined && (
+              <div className="flex justify-between px-4 font-semibold mt-2">
+                <h3 className="">Discounted amount</h3>
+                <p>₹{roundPrice(discountedPrice)}</p>
+              </div>
+            )}
+
+            {payableAmount && (
+              <div className="font-semibold flex justify-between mt-2">
+                <h3>Advance payment</h3>
+                <p>{Number(payableAmount)}</p>
+              </div>
+            )}
           </span>
 
           {/* <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
@@ -654,20 +697,33 @@ console.log(selectedPromocodeOption,"lelo discount");
             <div className="flex justify-between flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
               <span className="sm:text-2xl font-bold">Total Amount</span>
               <span>:</span>
-              <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                ₹ 
-                {payableAmount ? 
-                payableAmount
-              :
-                <>
-                  {currentPackage?.gst === "Included" &&
-                  roundPrice(totalIncludedGSTAmount)}
-                {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
-                </>
 
+              <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                ₹
+                {payableAmount ?
+                <>
+                {
+                  // payableAmount ?
+                  //    (payableAmount )
+
+                  newAmount ? <>{newAmount}</> : <>{payableAmount}</>
+
+                  // <>
+                  //   {currentPackage?.gst === "Included" &&
+                  //   roundPrice(totalIncludedGSTAmount)}
+                  // {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
+                  // </>
+                }
+                </>
+                :
+                 <>
+                    {currentPackage?.gst === "Included" &&
+                     roundPrice(totalIncludedGSTAmount)}
+                   {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
+                   </>
+                
               }
                 
-
               </span>
             </div>
             <div>
@@ -684,15 +740,14 @@ console.log(selectedPromocodeOption,"lelo discount");
                     </span>
                 </div> */}
       </main>
-      {applyCoupon===true &&
+      {applyCoupon === true && (
         <ApplyCoupon
           promoCodes={promoCodes}
           hide={handleHidePopUp}
-          onClick={()=>setApplyCoupon(false)} 
+          onClick={() => setApplyCoupon(false)}
           setSelectedPromoCode={setSelectedPromoCode}
-          />
-          }
-
+        />
+      )}
     </div>
   );
 };

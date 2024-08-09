@@ -363,7 +363,7 @@ console.log("paymentExcludedTax tas",{paymentExcludedTax})
   const handleProceed = () => {
    const x= sessionStorage.setItem("slug", slug);
    if(advance_Payment){
-    setPayableAmount(advance_Payment);
+    setPayableAmount(paymentExcludedTax > advance_Payment ? paymentExcludedTax : advance_Payment);
    }
     
 
