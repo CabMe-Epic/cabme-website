@@ -56,9 +56,9 @@ const Header = () => {
         )}
         <div className="sm:flex hidden items-center gap-2">
           <Image src={"/svg/phone-red.svg"} alt="phone" width={12} height={12} />
-          <Link href={"tel:+18001216162"}>
+          <Link href={"tel:18001216162"}>
             {" "}
-            <span className="font-semibold text-sm"> +1800 121 6162 </span>
+            <span className="font-semibold text-sm"> 1800 121 6162 </span>
           </Link>
           {/* <ThemeButton text="Sign In" /> */}
         </div>

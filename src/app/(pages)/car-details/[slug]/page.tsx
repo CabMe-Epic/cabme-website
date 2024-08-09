@@ -421,9 +421,9 @@ const CarDetails = () => {
               <BookingDetailsCard city={carDetails?.city as any} />
             </div>
             {/* booking summary */}
-            <div className="lg:block m-auto flex justify-center w-full">
+            <div className="lg:block m-auto flex justify-center w-full sm:px-0 px-4">
               {/* <BookingSummery/> */}
-              <main className="w-[380px] px-4 sm:w-[511px] flex flex-col items-center bg-[#f5f5f5] py-10 my-6 rounded-xl">
+              <main className="max-w-[380px] px-4 sm:max-w-[511px] w-full flex flex-col items-center bg-[#f5f5f5] py-10 my-6 rounded-xl">
                 <div className="w-[320px] sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
                 </div>
