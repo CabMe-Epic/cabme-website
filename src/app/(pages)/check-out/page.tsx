@@ -88,6 +88,7 @@ const Checkout = () => {
 
   console.log("bookingData by data", { bookingData });
 
+  const [bookingId, setBookingId] = useState(null);
   const booking_payload = {
     userId: bookingData?.userData?._id,
     vehicleId: bookingData?.vehicleId,
@@ -236,6 +237,8 @@ const Checkout = () => {
       );
       console.log("bookingData response", { res });
       if (res.data.success) {
+        const bookingId = res.data.response.bookingId;
+        setBookingId(bookingId);
         setAadharGenerate(false);
         setThree(false);
         setTwo(true);
@@ -737,6 +740,7 @@ const Checkout = () => {
     zipcode: 201206,
     city: userData?.city,
     state: userData?.state,
+    bookingId: bookingId,
     userId: userData?._id as string,
     vehicleId: currentVehicleId as string,
   };
@@ -767,8 +771,8 @@ const Checkout = () => {
         country: data?.country,
         udf1: data?.udf1,
         udf2: data?.udf2,
-        surl: data?.surl,
-        furl: data?.furl,
+        surl: `${data?.surl}?bookingId=${data?.bookingId}`,
+        furl: `${data?.furl}?bookingId=${data?.bookingId}`,
         hash: data?.hashValue,
       };
 
