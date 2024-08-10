@@ -90,9 +90,15 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [doorStepPrice, setDoorStepPrice] = useState<number | any>(0);
   const [loader, setLoader] = useState(false);
-  const { payableAmount, setPayableAmount } = useCarsStore();
 
   // const [discountedPercentage,setDiscountPercentage]= React.useState<number | any>();
+
+
+  const priceAfterDiscountNew = selectedPromoCode?.selectDiscount === "Percentage"
+  ? (packagePrice * selectedPromoCode?.couponAmount) / 100
+  : selectedPromoCode?.couponAmount;
+
+console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
   const [applyCoupon, setApplyCoupon] = React.useState(false);
   const { vehicle, loading, error } = useVehicleById(sessionSlug as string);
   const { reservationDateTime, setReservationDateTime, duration } =
@@ -106,8 +112,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ? `${dropoffDate}T${dropoffTime}:00.000Z`
     : null;
   const { days, hours } = extractDaysAndHours(duration);
-  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
-  console.log(payableAmount, "clear chahiye");
+  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total)); 
   const bookingData = {
     userId: userId,
     vehicleId: carDetails?._id,
@@ -255,15 +260,22 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const [discountedPrice, setDiscountedPrice] = React.useState();
 
-  React.useEffect(() => {
-    // {selectedPromoCode?.couponAmount==="EXTRA20" ? setDiscountPercentage(20) : selectedPromocodeOption==="EASTER25" ? setDiscountPercentage(25) : setDiscountPercentage(0)}
+  // React.useEffect(() => {
+  //   // {selectedPromoCode?.couponAmount==="EXTRA20" ? setDiscountPercentage(20) : selectedPromocodeOption==="EASTER25" ? setDiscountPercentage(25) : setDiscountPercentage(0)}
 
-    const priceAfterDiscount = selectedPromoCode?.selectDiscount === "Percentage"
-        ? (packagePrice * selectedPromoCode?.couponAmount) / 100
-        : selectedPromoCode?.couponAmount;
-    setDiscountedPrice(priceAfterDiscount);
-    console.log(priceAfterDiscount, "discounted price");
-  }, [handleHidePopUp]);
+  //   const priceAfterDiscount = selectedPromoCode?.selectDiscount === "Percentage"
+  //       ? (packagePrice * selectedPromoCode?.couponAmount) / 100
+  //       : selectedPromoCode?.couponAmount;
+  //   setDiscountedPrice(priceAfterDiscount);
+  //   console.log(priceAfterDiscount, "discounted price");
+  // }, [
+  //   handleHidePopUp
+  // ]);
+
+  // calculate the discount price if selectedPromoCode?.selectDiscount === "Percentage" then calculate the packagePrice * selectedPromoCode?.couponAmount / 100 else selectedPromoCode?.couponAmount
+
+
+
 
   React.useEffect(() => {
     {
@@ -351,12 +363,12 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     Number(result?.gstAmount) +
     Number(currentPackage?.refundableDeposit) +
     doorStepAmount -
-    (discountedPrice !== undefined ? Number(discountedPrice) : 0);
+    (priceAfterDiscountNew === undefined ?0 : priceAfterDiscountNew);
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number(currentPackage?.refundableDeposit) +
     doorStepAmount -
-    (discountedPrice !== undefined ? Number(discountedPrice) : 0);
+    (priceAfterDiscountNew === undefined ?0 : priceAfterDiscountNew);
 
   useEffect(() => {
     const amount =
@@ -384,27 +396,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   }, [result]);
 
   console.log(selectedPromocodeOption, "lelo discount");
+ 
+ 
 
-  const [newAmount, setNewAmount] = React.useState<any>(null);
-
-  React.useEffect(() => {
-    console.log("use payble", { payableAmount });
-    console.log("use payble discountedPrice", { discountedPrice });
-    const finalAmount = Number(payableAmount) - Number(discountedPrice);
-
-    console.log("finalAmount", { finalAmount });
-
-    setNewAmount(roundPrice(finalAmount));
-    setPayableAmount(newAmount);
-  }, [payableAmount, discountedPrice]);
-
-  console.log("newAmount", { newAmount });
-
-
-  // need when user select the particalAmount then show the particalAmount other wise show the total amount  which is 
-  // {currentPackage?.gst === "Included" &&
-  // roundPrice(totalIncludedGSTAmount)}
-  // {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)} this in useMemo
 
   const calculatonvalue = React.useMemo(() => {
     return particalAmount ? particalAmount : 
@@ -501,8 +495,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                 ₹{" "}
-                {roundPrice(totalExcludedGSTAmount) + (discountedPrice !== undefined ? roundPrice(Number(discountedPrice))
-                    : 0)}
+                {roundPrice(totalExcludedGSTAmount) }
               </span>
             </div>
           )}
@@ -511,9 +504,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               <span className="sm:w-[220px] sm:ml-10">TOTAL test</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                 ₹{" "}
-                {roundPrice(totalIncludedGSTAmount) - 
-                //  if discountedPrice is undefined then show 0 otherwise show the value of discountedPrice
-                (discountedPrice === undefined ? 0 : roundPrice(Number(discountedPrice)))}
+                {roundPrice(totalIncludedGSTAmount) }
                 
                     
               </span>
@@ -687,12 +678,14 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                 Click here to enter your code
               </h4>
             </div>
-            {discountedPrice !== undefined && (
+            {priceAfterDiscountNew !== undefined && (
               <div className="flex justify-between px-4 font-semibold mt-2">
                 <h3 className="">Discounted amount</h3>
-                <p>₹{roundPrice(discountedPrice)}</p>
+                <p>₹{roundPrice(priceAfterDiscountNew)}</p>
               </div>
             )}
+
+            
 
             {/* {payableAmount && (
               <div className="font-semibold flex justify-between mt-2">

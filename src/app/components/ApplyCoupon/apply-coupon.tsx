@@ -11,10 +11,12 @@ interface CouponProp {
 }
 
 const ApplyCoupon = ({ hide,onClick, promoCodes = [],  setSelectedPromoCode }: CouponProp) => { 
+ 
 
-  const handleRadioChange = (item:any) => {
-    setSelectedPromoCode(item) 
-  };
+
+  const handleRadioChange = React.useCallback((item:any) => {
+    setSelectedPromoCode(item);
+  }, [setSelectedPromoCode]);
 // console.log(selectedPromoCode,"promo code value");
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center">
