@@ -38,15 +38,18 @@ interface PromoCode {
 interface ChildComponentProps {
   roundPrice: (amount: number) => number;
   onTotalAmountChange: (amount: number) => void;
+  particalAmount: number;
 }
 
 const BookingSummery: React.FC<ChildComponentProps> = ({
   roundPrice,
   onTotalAmountChange,
+  particalAmount
 }) => {
   const router = useRouter();
   const { slug } = useParams();
   const [token, setToken] = useState<string | null>(null);
+  console.log("particalAmount booking", {particalAmount});
 
   const [userId, setUserId] = useState<string | null>(null);
   const [carDetails, setCarDetails] = useState<any>();
@@ -71,7 +74,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
-  console.log("selectedPromoCode", selectedPromoCode?.couponAmount);
+  console.log("selectedPromoCode", {selectedPromoCode});
 
   // const handleChangePromocodeOption = (e: any) => {
   //   setSelectedPromocodeOption(e);
@@ -255,8 +258,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   React.useEffect(() => {
     // {selectedPromoCode?.couponAmount==="EXTRA20" ? setDiscountPercentage(20) : selectedPromocodeOption==="EASTER25" ? setDiscountPercentage(25) : setDiscountPercentage(0)}
 
-    const priceAfterDiscount =
-      selectedPromoCode?.selectDiscount === "Percentage"
+    const priceAfterDiscount = selectedPromoCode?.selectDiscount === "Percentage"
         ? (packagePrice * selectedPromoCode?.couponAmount) / 100
         : selectedPromoCode?.couponAmount;
     setDiscountedPrice(priceAfterDiscount);
@@ -398,6 +400,23 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   console.log("newAmount", { newAmount });
 
+
+  // need when user select the particalAmount then show the particalAmount other wise show the total amount  which is 
+  // {currentPackage?.gst === "Included" &&
+  // roundPrice(totalIncludedGSTAmount)}
+  // {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)} this in useMemo
+
+  const calculatonvalue = React.useMemo(() => {
+    return particalAmount ? particalAmount : 
+    
+    currentPackage?.gst === "Included" &&
+    roundPrice(totalIncludedGSTAmount)
+  ? roundPrice(totalIncludedGSTAmount)
+  : currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount);
+  }, [particalAmount, currentPackage, totalIncludedGSTAmount, totalExcludedGSTAmount]);
+
+  console.log("calculatonvalue", { calculatonvalue });
+
   return (
     <div>
       {loader && <BlinkerLoader />}
@@ -482,22 +501,21 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                 ₹{" "}
-                {roundPrice(totalExcludedGSTAmount) +
-                  (discountedPrice !== undefined
-                    ? roundPrice(Number(discountedPrice))
+                {roundPrice(totalExcludedGSTAmount) + (discountedPrice !== undefined ? roundPrice(Number(discountedPrice))
                     : 0)}
               </span>
             </div>
           )}
           {currentPackage?.gst === "Included" && (
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
-              <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
+              <span className="sm:w-[220px] sm:ml-10">TOTAL test</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                 ₹{" "}
-                {roundPrice(totalIncludedGSTAmount) +
-                  (discountedPrice !== undefined
-                    ? roundPrice(Number(discountedPrice))
-                    : 0)}
+                {roundPrice(totalIncludedGSTAmount) - 
+                //  if discountedPrice is undefined then show 0 otherwise show the value of discountedPrice
+                (discountedPrice === undefined ? 0 : roundPrice(Number(discountedPrice)))}
+                
+                    
               </span>
             </div>
           )}
@@ -676,12 +694,12 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               </div>
             )}
 
-            {payableAmount && (
+            {/* {payableAmount && (
               <div className="font-semibold flex justify-between mt-2">
                 <h3>Advance payment</h3>
                 <p>{Number(payableAmount)}</p>
               </div>
-            )}
+            )} */}
           </span>
 
           {/* <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
@@ -699,20 +717,11 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               <span>:</span>
 
               <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                ₹
-                {payableAmount ?
+                ₹{calculatonvalue}
+                {/* {payableAmount ?
                 <>
-                {
-                  // payableAmount ?
-                  //    (payableAmount )
-
+                { 
                   newAmount ? <>{newAmount}</> : <>{payableAmount}</>
-
-                  // <>
-                  //   {currentPackage?.gst === "Included" &&
-                  //   roundPrice(totalIncludedGSTAmount)}
-                  // {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
-                  // </>
                 }
                 </>
                 :
@@ -722,7 +731,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                    {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
                    </>
                 
-              }
+              } */}
+
+
                 
               </span>
             </div>

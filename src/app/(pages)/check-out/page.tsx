@@ -65,13 +65,26 @@ interface PaymentPayload {
 const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const [data, setData] = useState<any>([]);
+  const [particalAmount, setParticalAmount] = useState<number>(0);
   // const { data, setData } = useContextApi();
   React.useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
     if (storedData) {
       setData(JSON.parse(storedData));
     }
-  }, []);
+    const storedParticalAmount = localStorage.getItem("advancePayment");
+    if(storedParticalAmount){
+      setParticalAmount(Number(storedParticalAmount));
+    }
+
+    
+  }, [
+    setData,
+    setParticalAmount,
+
+  ]);
+
+  console.log("particalAmount", { particalAmount });
 
   console.log("data by data", { data });
 
@@ -720,12 +733,10 @@ const Checkout = () => {
   };
   console.log("BACK BASE FARE AMOUNT", { totalAmount });
 
-  console.log("payableAmount test",{payableAmount})
-
   /////////////////////////////////////////////////////////////////////////////////////////////////
 
   const paymentPayload = {
-    amount: payableAmount ? payableAmount : totalAmount?.toFixed(2),
+    amount: particalAmount ? particalAmount : totalAmount?.toFixed(2),
     productinfo: "Taxi Service - Trip from A to B",
     firstName: userData?.firstName,
     lastName: userData?.lastName,
@@ -1740,6 +1751,7 @@ const Checkout = () => {
           <BookingSummery
             roundPrice={roundPrice}
             onTotalAmountChange={handleBackBaseFareAmount}
+            particalAmount={particalAmount}
           />
         </div>
       </div>

@@ -356,21 +356,27 @@ const CarDetails = () => {
   const paymentExcludedTax = roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(Number(totalExcludedGSTAmount));
  
 const advance_Payment =  roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)
-console.log("test test",{advance_Payment}) 
 
-console.log("paymentExcludedTax tas",{paymentExcludedTax})
+// if advance_Payment is nan then don't return the advance_payment value
+const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
+console.log("advancePayment",{advance_Payment}) 
+
+// console.log("paymentExcludedTax tas",{paymentExcludedTax})
   
   const handleProceed = () => {
    const x= sessionStorage.setItem("slug", slug);
-   if(advance_Payment){
-    setPayableAmount(paymentExcludedTax > advance_Payment ? paymentExcludedTax : advance_Payment);
-   }
-    
-
-    // for save booking data
-    // setData(bookingData);
+  //  if(advance_Payment){
+  //   setPayableAmount(paymentExcludedTax > advance_Payment ? paymentExcludedTax : advance_Payment);
+  //  }
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
+
+    // if value is nan in advance_Payment then don't set valuein local storage if value is not nan then set value in local storage 
+    if(advancePayment){
+      localStorage.setItem("advancePayment" , advancePayment)
+    }
+
+    
 
     console.log(payableAmount,"xx");
     router.push("/check-out");
@@ -388,6 +394,8 @@ console.log("paymentExcludedTax tas",{paymentExcludedTax})
     // setData(bookingData);
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
+ 
+    localStorage.removeItem("advancePayment");
 
     router.push("/check-out");
   };
