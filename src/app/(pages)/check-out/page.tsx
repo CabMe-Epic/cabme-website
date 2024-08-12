@@ -65,6 +65,7 @@ interface PaymentPayload {
 const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const [data, setData] = useState<any>([]);
+  const [loader, setLoader] = useState(false);
   const [particalAmount, setParticalAmount] = useState<number>(0);
   // const { data, setData } = useContextApi();
   React.useEffect(() => {
@@ -73,16 +74,10 @@ const Checkout = () => {
       setData(JSON.parse(storedData));
     }
     const storedParticalAmount = localStorage.getItem("advancePayment");
-    if(storedParticalAmount){
+    if (storedParticalAmount) {
       setParticalAmount(Number(storedParticalAmount));
     }
-
-    
-  }, [
-    setData,
-    setParticalAmount,
-
-  ]);
+  }, [setData, setParticalAmount]);
 
   console.log("particalAmount", { particalAmount });
 
@@ -91,7 +86,7 @@ const Checkout = () => {
   console.log("user id", { updateUserData });
   const userData = useStore((state) => state.userData);
   const { payableAmount } = useCarsStore();
-  console.log( payableAmount,"hello" );
+  console.log(payableAmount, "hello");
   console.log("USER DATA", { userData });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const bookingData = {
@@ -238,6 +233,7 @@ const Checkout = () => {
     console.log("bookingData ____188 new ", { booking_payload });
 
     try {
+      setLoader(true);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`,
         booking_payload,
@@ -254,14 +250,17 @@ const Checkout = () => {
         setAadharGenerate(false);
         setThree(false);
         setTwo(true);
+        setLoader(false);
       }
     } catch (error) {
+      setLoader(false);
       console.error("data not posted", error);
     }
   }, [booking_payload]);
 
   const handleSignUp = async () => {
     try {
+      setLoader(true);
       if (!selectedUser || !phone) {
         setTwo(true);
         setThree(false);
@@ -289,6 +288,8 @@ const Checkout = () => {
         setTwo(false);
         setOne(false);
         toast.success(response?.data?.message);
+      setLoader(false);
+
       }
     } catch (error: any) {
       // console.error("Error signing up:", error);
@@ -296,9 +297,13 @@ const Checkout = () => {
         // console.log("Error response:", error.response);
         const errorMessage = error.response.data.message;
         toast.error(errorMessage);
+      setLoader(false);
+
       } else {
         console.error("Network error occurred:", error.message);
         toast.error("Network error occurred. Please try again.");
+      setLoader(false);
+
       }
     }
   };
@@ -309,6 +314,7 @@ const Checkout = () => {
 
   const handleSendOtp = async () => {
     try {
+      setLoader(true);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/login/request-otp`,
         {
@@ -325,10 +331,13 @@ const Checkout = () => {
       if (response.ok) {
         setAadharGenerate(true);
         setErrorMessage(result?.message);
+        setLoader(false);
       } else {
+        setLoader(false);
         toast.error("Please enter your phone number to proceed.");
       }
     } catch (error) {
+      setLoader(false);
       console.error("Error sending OTP:", error);
       toast.error("Error sending OTP. Please try again.");
     }
@@ -434,6 +443,7 @@ const Checkout = () => {
 
   const handleVerifyOTP = async () => {
     try {
+      setLoader(true);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/login/verify-otp`,
         {
@@ -458,10 +468,13 @@ const Checkout = () => {
         setOne(false);
         setTwo(false);
         toast.success(result?.message);
+        setLoader(false);
       } else {
+        setLoader(false);
         toast.error(result.message || "OTP verification failed.");
       }
     } catch (error) {
+      setLoader(false);
       console.error("Error verifying OTP:", error);
       toast.error("Error verifying OTP. Please try again.");
     }
@@ -807,6 +820,31 @@ const Checkout = () => {
     }
   };
 
+  useEffect(() => {
+    if (userData) {
+      setFrontImage(userData.aadharCardBackImageUrl);
+      setBackImage(userData.aadharCardFrontImageUrl);
+      setDlFrontImage(userData.drivingLicenseFrontImageUrl);
+      setDlBackImage(userData.drivingLicenseBackImageUrl);
+      setPanFrontImage(userData.panImageUrl);
+  
+      setAadhar(userData.aadharNumber || '');
+      setDL(userData.drivingLicenseNumber || '');
+      setPanCard(userData.panNumber || '');
+  
+      if (userData.drivingLicenseVerified && userData.panVerified) {
+        setShowDocSelect("DrivingLicense");
+      } else if (userData.panVerified) {
+        setShowDocSelect("PanCard");
+      } else if (userData.drivingLicenseVerified) {
+        setShowDocSelect("DrivingLicense");
+      }
+    }
+  }, [userData]);
+  
+
+  console.log(userData,'userData')
+
   return (
     <>
       <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
@@ -843,10 +881,20 @@ const Checkout = () => {
                         </div>
                       ) : (
                         <button
-                          className="w-[209px] font-semibold sm:h-[55px] h-[42px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all sm:mt-0 mt-4"
+                          className="w-[209px] font-semibold sm:h-[55px] h-[42px] flex justify-center items-center rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all sm:mt-0 mt-4"
                           onClick={handleSendOtp}
                         >
-                          Generate OTP
+                          {loader ? (
+                            <Image
+                              src="/LoaderRound.png"
+                              className="loader-rotate"
+                              width={30}
+                              height={30}
+                              alt="loader"
+                            />
+                          ) : (
+                            "Generate OTP"
+                          )}
                         </button>
                       )}
                     </div>
@@ -861,9 +909,19 @@ const Checkout = () => {
                         />
                         <button
                           onClick={handleVerifyOTP}
-                          className="w-[209px] h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                          className="w-[209px] h-[55px] flex justify-center items-center rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          Submit
+                          {loader ? (
+                            <Image
+                              src="/LoaderRound.png"
+                              className="loader-rotate"
+                              width={30}
+                              height={30}
+                              alt="loader"
+                            />
+                          ) : (
+                            "Submit"
+                          )}
                         </button>
                       </div>
                     ) : (
@@ -940,16 +998,40 @@ const Checkout = () => {
                       {userData?.phoneVerified ? (
                         <button
                           onClick={handleStepThree}
-                          className="w-[360px] h-[55px] rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                          className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          Continue
+                          
+
+                          {loader ? (
+                            <Image
+                              src="/LoaderRound.png"
+                              className="loader-rotate"
+                              width={30}
+                              height={30}
+                              alt="loader"
+                            />
+                          ) : (
+                            "Continue"
+                          )}
+
                         </button>
                       ) : (
                         <button
                           onClick={handleSignUp}
-                          className="w-[360px] h-[55px] rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                          className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          Submit
+                          
+                          {loader ? (
+                            <Image
+                              src="/LoaderRound.png"
+                              className="loader-rotate"
+                              width={30}
+                              height={30}
+                              alt="loader"
+                            />
+                          ) : (
+                            "Submit"
+                          )}
                         </button>
                       )}
                     </div>
@@ -991,6 +1073,7 @@ const Checkout = () => {
                       <InputField
                         placeholder="Enter Aadhar card number*"
                         onChange={(e: any) => setAadhar(e.target.value)}
+                        otp={userData?.aadharNumber}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                       />
                       <div className="flex justify-center space-x-4">
@@ -1075,10 +1158,22 @@ const Checkout = () => {
                     <button
                       onClick={handleGenerateAadharOTP}
                       disabled={loading === "generate"}
-                      className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                      className="w-[209px] mt-5 sm:h-[55px] h-[43px] flex justify-center items-center rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                     >
-                      {loading === "generate" ? "Loading..." : "Generate OTP"}
+                      {loading === "generate" ? (
+                        <Image
+                          src="/LoaderRound.png"
+                          className="loader-rotate"
+                          width={30}
+                          height={30}
+                          alt="loader"
+                        />
+                      ) : (
+                        "Generate OTP"
+                      )}
                     </button>
+
+                    
 
                     {aadharGenerate && (
                       <div className="mt-4 flex gap-4 items-center">
@@ -1091,9 +1186,19 @@ const Checkout = () => {
                         <button
                           onClick={handleVerifyAadharOTP}
                           disabled={loading === "verify"}
-                          className="w-[209px] h-[55px] rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                          className="w-[209px] h-[55px] flex justify-center items-center rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          {loading === "verify" ? "Loading..." : "Verify OTP"}
+                          {loading === "verify" ? (
+                            <Image
+                              src="/LoaderRound.png"
+                              className="loader-rotate"
+                              width={30}
+                              height={30}
+                              alt="loader"
+                            />
+                          ) : (
+                            "Verify OTP"
+                          )}
                         </button>
                       </div>
                     )}
@@ -1159,6 +1264,7 @@ const Checkout = () => {
                         <div className="sm:flex items-center gap-4 ">
                           <InputField
                             placeholder="Driving License Number"
+                            otp={userData?.drivingLicenseNumber}
                             className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
                             onChange={(e: any) => setDL(e.target.value)}
                           />
@@ -1296,6 +1402,7 @@ const Checkout = () => {
                           <div className="sm:flex items-center gap-4 ">
                             <InputField
                               placeholder="PAN Number"
+                              otp={userData?.panNumber}
                               onChange={(e: any) => setPanCard(e.target.value)}
                               className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
                             />

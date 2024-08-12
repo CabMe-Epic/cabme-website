@@ -675,11 +675,17 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               >
                 Click here to enter your code
               </h4>
+              
+                {
+                  selectedPromoCode !== null   &&    <button onClick={() => setSelectedPromoCode(null)} className="bg-red-500 cursor-pointer text-white w-5 flex justify-center items-center rounded-full h-5">&#10539;</button>
+
+                }
             </div>
             {priceAfterDiscountNew !== undefined && (
               <div className="flex justify-between px-4 font-semibold mt-2">
                 <h3 className="">Discounted amount</h3>
                 <p>₹{roundPrice(priceAfterDiscountNew)}</p>
+
               </div>
             )}
 
