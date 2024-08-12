@@ -44,12 +44,12 @@ interface ChildComponentProps {
 const BookingSummery: React.FC<ChildComponentProps> = ({
   roundPrice,
   onTotalAmountChange,
-  particalAmount
+  particalAmount,
 }) => {
   const router = useRouter();
   const { slug } = useParams();
   const [token, setToken] = useState<string | null>(null);
-  console.log("particalAmount booking", {particalAmount});
+  console.log("particalAmount booking", { particalAmount });
 
   const [userId, setUserId] = useState<string | null>(null);
   const [carDetails, setCarDetails] = useState<any>();
@@ -74,7 +74,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
 
-  console.log("selectedPromoCode", {selectedPromoCode});
+  console.log("selectedPromoCode", { selectedPromoCode });
 
   // const handleChangePromocodeOption = (e: any) => {
   //   setSelectedPromocodeOption(e);
@@ -93,12 +93,12 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   // const [discountedPercentage,setDiscountPercentage]= React.useState<number | any>();
 
+  const priceAfterDiscountNew =
+    selectedPromoCode?.selectDiscount === "Percentage"
+      ? (packagePrice * selectedPromoCode?.couponAmount) / 100
+      : selectedPromoCode?.couponAmount;
 
-  const priceAfterDiscountNew = selectedPromoCode?.selectDiscount === "Percentage"
-  ? (packagePrice * selectedPromoCode?.couponAmount) / 100
-  : selectedPromoCode?.couponAmount;
-
-console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
+  console.log({ priceAfterDiscountNew }, "priceAfterDiscountNew");
   const [applyCoupon, setApplyCoupon] = React.useState(false);
   const { vehicle, loading, error } = useVehicleById(sessionSlug as string);
   const { reservationDateTime, setReservationDateTime, duration } =
@@ -112,7 +112,7 @@ console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
     ? `${dropoffDate}T${dropoffTime}:00.000Z`
     : null;
   const { days, hours } = extractDaysAndHours(duration);
-  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total)); 
+  const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
   const bookingData = {
     userId: userId,
     vehicleId: carDetails?._id,
@@ -274,9 +274,6 @@ console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
 
   // calculate the discount price if selectedPromoCode?.selectDiscount === "Percentage" then calculate the packagePrice * selectedPromoCode?.couponAmount / 100 else selectedPromoCode?.couponAmount
 
-
-
-
   React.useEffect(() => {
     {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
@@ -363,12 +360,12 @@ console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
     Number(result?.gstAmount) +
     Number(currentPackage?.refundableDeposit) +
     doorStepAmount -
-    (priceAfterDiscountNew === undefined ?0 : priceAfterDiscountNew);
+    (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number(currentPackage?.refundableDeposit) +
     doorStepAmount -
-    (priceAfterDiscountNew === undefined ?0 : priceAfterDiscountNew);
+    (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
 
   useEffect(() => {
     const amount =
@@ -396,21 +393,26 @@ console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
   }, [result]);
 
   console.log(selectedPromocodeOption, "lelo discount");
- 
- 
-
 
   const calculatonvalue = React.useMemo(() => {
-    return particalAmount ? particalAmount : 
-    
-    currentPackage?.gst === "Included" &&
-    roundPrice(totalIncludedGSTAmount)
-  ? roundPrice(totalIncludedGSTAmount)
-  : currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount);
-  }, [particalAmount, currentPackage, totalIncludedGSTAmount, totalExcludedGSTAmount]);
+    return particalAmount
+      ? particalAmount
+      : currentPackage?.gst === "Included" && roundPrice(totalIncludedGSTAmount)
+      ? roundPrice(totalIncludedGSTAmount)
+      : currentPackage?.gst === "Excluded" &&
+        roundPrice(totalExcludedGSTAmount);
+  }, [
+    particalAmount,
+    currentPackage,
+    totalIncludedGSTAmount,
+    totalExcludedGSTAmount,
+  ]);
 
-  console.log("calculatonvalue", { calculatonvalue });
+  console.log("calculatonvalue", Number(calculatonvalue));
 
+  // balance payment after minus the partical amount from total amount ...
+  const balance_payment = Number(calculatonvalue) - particalAmount;
+  console.log("particalAmount", { particalAmount });
   return (
     <div>
       {loader && <BlinkerLoader />}
@@ -494,19 +496,15 @@ console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                ₹{" "}
-                {roundPrice(totalExcludedGSTAmount) }
+                ₹ {roundPrice(totalExcludedGSTAmount)}
               </span>
             </div>
           )}
           {currentPackage?.gst === "Included" && (
             <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
-              <span className="sm:w-[220px] sm:ml-10">TOTAL test</span>
+              <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                ₹{" "}
-                {roundPrice(totalIncludedGSTAmount) }
-                
-                    
+                ₹ {roundPrice(totalIncludedGSTAmount)}
               </span>
             </div>
           )}
@@ -685,8 +683,6 @@ console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
               </div>
             )}
 
-            
-
             {/* {payableAmount && (
               <div className="font-semibold flex justify-between mt-2">
                 <h3>Advance payment</h3>
@@ -703,37 +699,40 @@ console.log({priceAfterDiscountNew}, "priceAfterDiscountNew");
                         />
                         <button className="text-[#ff0000]">Apply</button>
                     </div> */}
+          {/* <div className="text-[#ff0000] font-semibold text-[15px]">
+              ₹ Balance on Delivery
+            </div> */}
+          <div className="drop-shadow-lg  bg-[#E7E7E7]  px-4 py-5 rounded-3xl">
+            <div className="flex flex-row items-center justify-between">
+              <div className="flex justify-between flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
+                <span className="sm:text-2xl font-bold">Total Amount</span>
+                <span>:</span>
 
-          <div className="my-6 h-[69px] drop-shadow-lg bg-[#E7E7E7] flex flex-row items-center justify-between px-4 py-5 rounded-3xl">
-            <div className="flex justify-between flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
-              <span className="sm:text-2xl font-bold">Total Amount</span>
-              <span>:</span>
+                <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                  ₹{calculatonvalue}
+                </span>
+              </div>
 
-              <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                ₹{calculatonvalue}
-                {/* {payableAmount ?
-                <>
-                { 
-                  newAmount ? <>{newAmount}</> : <>{payableAmount}</>
-                }
-                </>
-                :
-                 <>
-                    {currentPackage?.gst === "Included" &&
-                     roundPrice(totalIncludedGSTAmount)}
-                   {currentPackage?.gst === "Excluded" && roundPrice(totalExcludedGSTAmount)}
-                   </>
-                
-              } */}
-
-
-                
-              </span>
+              <div></div>
             </div>
-            <div>
-              {/* <button className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-xl font-semibold text-white px-6 py-2 rounded-full drop-shadow-lg">
-                                Proceed
-                            </button> */}
+            <div className="text-[#ff0000] font-semibold text-[15px] relative left-[15px]">
+              {particalAmount !== 0 && (
+                <>
+                  {currentPackage?.gst === "Excluded" ? (
+                    <>₹{roundPrice(totalExcludedGSTAmount) - particalAmount}</>
+                  ) : (
+                    <>₹{roundPrice(totalIncludedGSTAmount) - particalAmount}</>
+                  )}
+                  {""} Balance on Delivery
+                </>
+              )}
+              {/* {particalAmount !== 0 &&
+                (currentPackage?.gst === "Excluded" ? (
+                  <>₹ {roundPrice(totalExcludedGSTAmount) - particalAmount}</>
+                ) : (
+                  <>₹ {roundPrice(totalIncludedGSTAmount) - particalAmount}</>
+                ))}{" "}
+              {""} */}
             </div>
           </div>
         </div>

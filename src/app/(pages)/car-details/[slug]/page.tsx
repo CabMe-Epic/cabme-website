@@ -353,40 +353,44 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice);
   };
 
-  const paymentExcludedTax = roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(Number(totalExcludedGSTAmount));
- 
-const advance_Payment =  roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)
+  const paymentExcludedTax =
+    roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
+      ? roundPrice(Number(ThirtyDiscountForExcludedTax))
+      : roundPrice(Number(totalExcludedGSTAmount));
 
-// if advance_Payment is nan then don't return the advance_payment value
-const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
-console.log("advancePayment",{advance_Payment}) 
+  const advance_Payment =
+    roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000
+      ? roundPrice(Number(ThirtyDiscountForInculdedTax))
+      : roundPrice(totalIncludedGSTAmount);
 
-// console.log("paymentExcludedTax tas",{paymentExcludedTax})
-  
+  // if advance_Payment is nan then don't return the advance_payment value
+  const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
+  console.log("advancePayment", { advance_Payment });
+
+  // console.log("paymentExcludedTax tas",{paymentExcludedTax})
+
   const handleProceed = () => {
-   const x= sessionStorage.setItem("slug", slug);
-  //  if(advance_Payment){
-  //   setPayableAmount(paymentExcludedTax > advance_Payment ? paymentExcludedTax : advance_Payment);
-  //  }
+    const x = sessionStorage.setItem("slug", slug);
+    //  if(advance_Payment){
+    //   setPayableAmount(paymentExcludedTax > advance_Payment ? paymentExcludedTax : advance_Payment);
+    //  }
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
-    // if value is nan in advance_Payment then don't set valuein local storage if value is not nan then set value in local storage 
-    if(advancePayment){
-      localStorage.setItem("advancePayment" , advancePayment)
+    // if value is nan in advance_Payment then don't set valuein local storage if value is not nan then set value in local storage
+    if (advancePayment) {
+      localStorage.setItem("advancePayment", advancePayment);
     }
 
-    
-
-    console.log(payableAmount,"xx");
+    console.log(payableAmount, "xx");
     router.push("/check-out");
   };
 
-  console.log(payableAmount,"advance payment");
+  console.log(payableAmount, "advance payment");
 
   const handleProceedTotal = () => {
     sessionStorage.setItem("slug", slug);
-    console.log(payableAmount,"total payment");
+    console.log(payableAmount, "total payment");
 
     setPayableAmount(null);
 
@@ -394,7 +398,7 @@ console.log("advancePayment",{advance_Payment})
     // setData(bookingData);
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
- 
+
     localStorage.removeItem("advancePayment");
 
     router.push("/check-out");
@@ -417,6 +421,9 @@ console.log("advancePayment",{advance_Payment})
   const uniquePrices = Array.from(
     new Set(roundedPrices.filter((price) => price !== 0))
   );
+
+  const balance_payment = totalIncludedGSTAmount - advance_Payment;
+  console.log("balance_payment", { balance_payment });
 
   return (
     <>
@@ -635,26 +642,30 @@ console.log("advancePayment",{advance_Payment})
                 {/* DESKTOP  */}
                 <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
-                    
-                    {currentPackage?.gst === "Included" &&
+                    {currentPackage?.gst === "Included" && (
                       <span className="font-bold text-md">
                         Pay ₹
-                        {roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForInculdedTax)) : roundPrice(totalIncludedGSTAmount)} Now
+                        {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
+                        2000
+                          ? roundPrice(Number(ThirtyDiscountForInculdedTax))
+                          : roundPrice(totalIncludedGSTAmount)}{" "}
+                        Now
                       </span>
-                    }
-                    {currentPackage?.gst === "Excluded" &&
+                    )}
+                    {currentPackage?.gst === "Excluded" && (
                       <span className="font-bold text-md">
                         Pay ₹ {paymentExcludedTax}
                         {/* {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now */}
                       </span>
-                    }
+                    )}
                     <span className="text-[#ff0000] font-semibold text-[15px]">
-                      Balance on Delivery
+                      ₹{balance_payment} Balance on Delivery
                     </span>
                   </div>
                   <button
                     onClick={handleProceed}
-                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg">
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"
+                  >
                     Proceed
                   </button>
                 </div>
