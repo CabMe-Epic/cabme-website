@@ -65,20 +65,33 @@ interface PaymentPayload {
 const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const [data, setData] = useState<any>([]);
+  const [particalAmount, setParticalAmount] = useState<number>(0);
   // const { data, setData } = useContextApi();
   React.useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
     if (storedData) {
       setData(JSON.parse(storedData));
     }
-  }, []);
+    const storedParticalAmount = localStorage.getItem("advancePayment");
+    if(storedParticalAmount){
+      setParticalAmount(Number(storedParticalAmount));
+    }
+
+    
+  }, [
+    setData,
+    setParticalAmount,
+
+  ]);
+
+  console.log("particalAmount", { particalAmount });
 
   console.log("data by data", { data });
 
   console.log("user id", { updateUserData });
   const userData = useStore((state) => state.userData);
   const { payableAmount } = useCarsStore();
-  console.log({ payableAmount });
+  console.log( payableAmount,"hello" );
   console.log("USER DATA", { userData });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const bookingData = {
@@ -87,7 +100,7 @@ const Checkout = () => {
   };
 
   console.log("bookingData by data", { bookingData });
-
+  const [bookingId, setBookingId] = useState(null);
   const booking_payload = {
     userId: bookingData?.userData?._id,
     vehicleId: bookingData?.vehicleId,
@@ -236,6 +249,8 @@ const Checkout = () => {
       );
       console.log("bookingData response", { res });
       if (res.data.success) {
+        const bookingId = res.data.response.bookingId;
+        setBookingId(bookingId);
         setAadharGenerate(false);
         setThree(false);
         setTwo(true);
@@ -723,7 +738,7 @@ const Checkout = () => {
   /////////////////////////////////////////////////////////////////////////////////////////////////
 
   const paymentPayload = {
-    amount: payableAmount?.toFixed(2),
+    amount: particalAmount ? particalAmount : totalAmount?.toFixed(2),
     productinfo: "Taxi Service - Trip from A to B",
     firstName: userData?.firstName,
     lastName: userData?.lastName,
@@ -734,6 +749,7 @@ const Checkout = () => {
     country: "India",
     zipcode: 201206,
     city: userData?.city,
+    bookingId: bookingId,
     state: userData?.state,
     userId: userData?._id as string,
     vehicleId: currentVehicleId as string,
@@ -765,8 +781,8 @@ const Checkout = () => {
         country: data?.country,
         udf1: data?.udf1,
         udf2: data?.udf2,
-        surl: data?.surl,
-        furl: data?.furl,
+        surl: `${data?.surl}?bookingId=${data?.bookingId}`,
+        furl: `${data?.furl}?bookingId=${data?.bookingId}`,
         hash: data?.hashValue,
       };
 
@@ -1738,6 +1754,7 @@ const Checkout = () => {
           <BookingSummery
             roundPrice={roundPrice}
             onTotalAmountChange={handleBackBaseFareAmount}
+            particalAmount={particalAmount}
           />
         </div>
       </div>

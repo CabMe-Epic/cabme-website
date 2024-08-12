@@ -84,46 +84,41 @@ export default function Home() {
   console.log(dropOffDate, "213dropOff date");
 
   const saveLocationData = () => {
-   if(tabValue!=="Subscription"){
-        if (!pickupTime) {
-            alert("Please select the Pickup Time");
-            return;
-          }
-      
-          if (!dropoffTime) {
-            alert("Please select the Drop Off Time");
-            return;
-          }
-      
-          if (!pickupDate) {
-            alert("Please select the Pickup Date");
-            return;
-          }
-      
-          if (!dropOffDate) {
-            alert("Please select the Drop Off Date");
-            return;
-          }
-        }
-          const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
-          const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
-      
-          if (pickupDateTime >= dropoffDateTime) {
-            alert("Drop-off date and time should be later than Pickup date and time");
-            return;
-          }
-          if (tabValue === "Driver") {
-            localStorage.setItem("radioToggle", radioToggle);
-          }
-      
-          localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
-          localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
-          localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
-      
-    
-    
-   
-  
+    if (tabValue !== "Subscription") {
+      if (!pickupTime) {
+        alert("Please select the Pickup Time");
+        return;
+      }
+
+      if (!dropoffTime) {
+        alert("Please select the Drop Off Time");
+        return;
+      }
+
+      if (!pickupDate) {
+        alert("Please select the Pickup Date");
+        return;
+      }
+
+      if (!dropOffDate) {
+        alert("Please select the Drop Off Date");
+        return;
+      }
+    }
+    const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+    const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
+
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+    if (tabValue === "Driver") {
+      localStorage.setItem("radioToggle", radioToggle);
+    }
+
+    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
+    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
+    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
 
     localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
     localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
@@ -132,7 +127,6 @@ export default function Home() {
     // console.log(pickupDate, pickupTime, "ddd");
 
     router.push("/car-listing");
-   
   };
 
   const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
@@ -142,13 +136,12 @@ export default function Home() {
       alert("Please select the Pickup Time");
       return;
     }
-if(tabValue!=="Subscription"){
-
-    if (!dropDate) {
-      alert("Please select the Drop Off Time");
-      return;
+    if (tabValue !== "Subscription") {
+      if (!dropDate) {
+        alert("Please select the Drop Off Time");
+        return;
+      }
     }
-}
 
     const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
     const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
@@ -361,7 +354,11 @@ if(tabValue!=="Subscription"){
 
       <div
         className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] ${
-          tabValue === "Driver" ? "h-[320px]" : tabValue==="Subscription" ? "h-[210px]" : "h-[260px]"
+          tabValue === "Driver"
+            ? "h-[270px]"
+            : tabValue === "Subscription"
+            ? "h-[210px]"
+            : "h-[260px]"
         }`}
       >
         <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
@@ -769,7 +766,7 @@ if(tabValue!=="Subscription"){
                   durationFormat ? "mt-4" : "mt-5"
                 }`}
               >
-                Drop in different city?sdf
+                Drop in different city?
               </div> */}
               {durationFormat && (
                 <div className="w-fit m-auto">
@@ -978,7 +975,7 @@ if(tabValue!=="Subscription"){
                     // }
                   />
                 </div>
-                
+
                 {/* {dropOffLocation && (
                                     <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
                                         <div className="grid">
@@ -1342,7 +1339,7 @@ if(tabValue!=="Subscription"){
           <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden sm:mt-0 mt-2">
             <div
               className={`${
-                tabValue === "Self-Driving" || tabValue!=="Driver"
+                tabValue === "Self-Driving" || tabValue !== "Driver"
                   ? "bg-black text-white"
                   : "text-black"
               } p-2 rounded-l-full text-center px-4 flex items-center`}
@@ -1511,36 +1508,35 @@ if(tabValue!=="Subscription"){
               </div>
             </div>
           )}
-          
+
           {pickupDate !== undefined && (
             <>
-            {tabValue!=="Subscription" &&
-            
-            <div className="mt-2">
-              {/* <label htmlFor="dropoffDate" className="font-semibold">
+              {tabValue !== "Subscription" && (
+                <div className="mt-2">
+                  {/* <label htmlFor="dropoffDate" className="font-semibold">
                 Dropoff date
               </label> */}
-              <div className="border bg-[#FCFBFB] custom-picker rounded-xl p-2 flex items-center gap-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
-                <Image
-                  src={"/svg/date-new.svg"}
-                  alt="location"
-                  width={16}
-                  height={18}
-                />
-                <DatePicker
-                  className="cursor-pointer datepickerinput"
-                  selected={dropDate}
-                  onChange={(date) => hanldedropoffTime(date)}
-                  showTimeSelect
-                  filterTime={filterPassedTime}
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                  placeholderText="Dropoff date"
-                  onKeyDown={(event) => event?.preventDefault()}
-                  minDate={pickupDateTime}
-                />
-              </div>
-            </div>
-            }
+                  <div className="border bg-[#FCFBFB] custom-picker rounded-xl p-2 flex items-center gap-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
+                    <Image
+                      src={"/svg/date-new.svg"}
+                      alt="location"
+                      width={16}
+                      height={18}
+                    />
+                    <DatePicker
+                      className="cursor-pointer datepickerinput"
+                      selected={dropDate}
+                      onChange={(date) => hanldedropoffTime(date)}
+                      showTimeSelect
+                      filterTime={filterPassedTime}
+                      dateFormat="MMMM d, yyyy h:mm aa"
+                      placeholderText="Dropoff date"
+                      onKeyDown={(event) => event?.preventDefault()}
+                      minDate={pickupDateTime}
+                    />
+                  </div>
+                </div>
+              )}
             </>
           )}
           {dropOffLocation && (
@@ -1570,55 +1566,56 @@ if(tabValue!=="Subscription"){
             </div>
           )}
         </div>
-        {tabValue!=="Subscription" &&
-        
-        <div className="flex sm:gap-4 flex-col items-center gap-1 w-fit py-2 sm:px-6 rounded-md m-auto sm:mt-4">
-          {/* <strong
+        {tabValue !== "Subscription" && (
+          <div className="flex sm:gap-4 flex-col items-center gap-1 w-fit py-2 sm:px-6 rounded-md m-auto sm:mt-4">
+            {/* <strong
             onClick={(e) => handleDropSelectPopupLocation(e)}
             className="text-[#ff0000] cursor-pointer sm:text-md text-sm"
           >
             Drop in different city?
           </strong>{" "} */}
-          {durationFormat && (
-            <div className="flex items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
-              <strong>Duration :</strong>{" "}
-              <p className="text-sm font-semibold mt-[2px]">{durationFormat}</p>
-            </div>
-          )}
-          {showDropLocationPopup && (
-            <>
-              <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
-                <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                  <Image
-                    src={"/svg/close-red.svg"}
-                    alt="nav"
-                    width={26}
-                    height={26}
-                    className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                    onClick={() => setShowDropLocationPopup(false)}
-                  />
-                  <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1 overflow-auto mb-2 no-scrollbar max-h-[300px] ">
-                    {cities?.map((city: any, index: number) => (
-                      <div key={index}>
-                        <City
-                          city={city}
-                          isSelected={dropSelectedMobileCity === city.name}
-                          onClick={() => handleDropOffMobileCity(city.name)}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  {/* <ThemeButton
+            {durationFormat && (
+              <div className="flex items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
+                <strong>Duration :</strong>{" "}
+                <p className="text-sm font-semibold mt-[2px]">
+                  {durationFormat}
+                </p>
+              </div>
+            )}
+            {showDropLocationPopup && (
+              <>
+                <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50">
+                  <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                    <Image
+                      src={"/svg/close-red.svg"}
+                      alt="nav"
+                      width={26}
+                      height={26}
+                      className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                      onClick={() => setShowDropLocationPopup(false)}
+                    />
+                    <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-1 overflow-auto mb-2 no-scrollbar max-h-[300px] ">
+                      {cities?.map((city: any, index: number) => (
+                        <div key={index}>
+                          <City
+                            city={city}
+                            isSelected={dropSelectedMobileCity === city.name}
+                            onClick={() => handleDropOffMobileCity(city.name)}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    {/* <ThemeButton
                                         onClick={() => setShowDropLocationPopup(false)}
                                         className="!rounded-full !py-2 sm:!w-[200px] !w-[120px] !font-semibold"
                                         text="Select"
                                     /> */}
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
-        </div>
-        }
+              </>
+            )}
+          </div>
+        )}
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
@@ -1897,23 +1894,22 @@ const factsArray = [
   },
 ];
 const subscriptionPackage = [
-    {
-        package:"15 Days"
-    },
-    {
-        package:"30 Days"
-    },
-    {
-        package:"1 Month"
-    },
-    {
-        package:"3 Months"
-    },
-    {
-        package:"6 Months"
-    },
-    {
-        package:"1 Year"
-    },
-    
-]
+  {
+    package: "15 Days",
+  },
+  {
+    package: "30 Days",
+  },
+  {
+    package: "1 Month",
+  },
+  {
+    package: "3 Months",
+  },
+  {
+    package: "6 Months",
+  },
+  {
+    package: "1 Year",
+  },
+];
