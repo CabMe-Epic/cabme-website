@@ -673,6 +673,18 @@ const CarDetails = () => {
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
 
+            <div className="p-6 sm:p-0">
+              <div className="flex gap-2 items-start"><Image src="/Clock.png" alt=" " width={30} height={30} />
+              <div className="flex flex-col gap-2 text-[#6CAE39] font-semibold text-[16px]">
+                <li>100% refund before 48 hours</li>
+                <li>50% refund before 24 hours
+                </li>
+                <li>Cancellation after the above date will have to bear additional INR 2000 as convenience fees.
+                </li>
+                <li>Any cancellations after the booking date will only get the security deposit amount and not the rental fare received.</li>
+              </div>
+              </div>
+            </div>
             {/* booking summary */}
             
           </div>
