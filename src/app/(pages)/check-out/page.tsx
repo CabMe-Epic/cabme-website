@@ -288,8 +288,7 @@ const Checkout = () => {
         setTwo(false);
         setOne(false);
         toast.success(response?.data?.message);
-      setLoader(false);
-
+        setLoader(false);
       }
     } catch (error: any) {
       // console.error("Error signing up:", error);
@@ -297,13 +296,11 @@ const Checkout = () => {
         // console.log("Error response:", error.response);
         const errorMessage = error.response.data.message;
         toast.error(errorMessage);
-      setLoader(false);
-
+        setLoader(false);
       } else {
         console.error("Network error occurred:", error.message);
         toast.error("Network error occurred. Please try again.");
-      setLoader(false);
-
+        setLoader(false);
       }
     }
   };
@@ -827,11 +824,11 @@ const Checkout = () => {
       setDlFrontImage(userData.drivingLicenseFrontImageUrl);
       setDlBackImage(userData.drivingLicenseBackImageUrl);
       setPanFrontImage(userData.panImageUrl);
-  
-      setAadhar(userData.aadharNumber || '');
-      setDL(userData.drivingLicenseNumber || '');
-      setPanCard(userData.panNumber || '');
-  
+
+      setAadhar(userData.aadharNumber || "");
+      setDL(userData.drivingLicenseNumber || "");
+      setPanCard(userData.panNumber || "");
+
       if (userData.drivingLicenseVerified && userData.panVerified) {
         setShowDocSelect("DrivingLicense");
       } else if (userData.panVerified) {
@@ -841,9 +838,8 @@ const Checkout = () => {
       }
     }
   }, [userData]);
-  
 
-  console.log(userData,'userData')
+  console.log(userData, "userData");
 
   return (
     <>
@@ -1000,8 +996,6 @@ const Checkout = () => {
                           onClick={handleStepThree}
                           className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          
-
                           {loader ? (
                             <Image
                               src="/loaderRound.png"
@@ -1013,14 +1007,12 @@ const Checkout = () => {
                           ) : (
                             "Continue"
                           )}
-
                         </button>
                       ) : (
                         <button
                           onClick={handleSignUp}
                           className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          
                           {loader ? (
                             <Image
                               src="/loaderRound.png"
@@ -1155,25 +1147,25 @@ const Checkout = () => {
                         </div>
                       </div>
                     </div>
-                    <button
-                      onClick={handleGenerateAadharOTP}
-                      disabled={loading === "generate"}
-                      className="w-[209px] mt-5 sm:h-[55px] h-[43px] flex justify-center items-center rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                    >
-                      {loading === "generate" ? (
-                        <Image
-                          src="/loaderRound.png"
-                          className="loader-rotate"
-                          width={30}
-                          height={30}
-                          alt="loader"
-                        />
-                      ) : (
-                        "Generate OTP"
-                      )}
-                    </button>
-
-                    
+                    {!userData?.aadharVerified && (
+                      <button
+                        onClick={handleGenerateAadharOTP}
+                        disabled={loading === "generate"}
+                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] flex justify-center items-center rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                      >
+                        {loading === "generate" ? (
+                          <Image
+                            src="/loaderRound.png"
+                            className="loader-rotate"
+                            width={30}
+                            height={30}
+                            alt="loader"
+                          />
+                        ) : (
+                          "Generate OTP"
+                        )}
+                      </button>
+                    )}
 
                     {aadharGenerate && (
                       <div className="mt-4 flex gap-4 items-center">
@@ -1203,9 +1195,31 @@ const Checkout = () => {
                       </div>
                     )}
                     <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                      Driving License/PAN Card{" "}
-                      {userData?.drivingLicenseVerified &&
-                      userData?.panVerified ? (
+                      {" "}
+                      {userData?.drivingLicenseVerified && (
+                        <span className="flex items-center gap-2">
+                          Driving License
+                          <Image
+                            src="/greendone.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                          />
+                        </span>
+                      )}
+                      {userData?.panVerified && (
+                        <span className="flex items-center gap-2">
+                          PAN Card
+                          <Image
+                            src="/greendone.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                          />
+                        </span>
+                      )}
+                      {/* {userData?.drivingLicenseVerified &&
+                        userData?.panVerified ? (
                         <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                           <Image
                             src="/greendone.svg"
@@ -1216,13 +1230,8 @@ const Checkout = () => {
                           Verified Account
                         </span>
                       ) : (
-                        <Image
-                          src="/notVerified.svg"
-                          alt=""
-                          width={30}
-                          height={30}
-                        />
-                      )}
+                        ""
+                      )} */}
                     </h4>
 
                     <div>
@@ -1347,14 +1356,17 @@ const Checkout = () => {
                         </div>
 
                         <div className="flex items-center justify-between w-[73%] ">
-                          <button
-                            onClick={() => {
-                              handleVerifyDrivingLicence();
-                            }}
-                            className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                          >
-                            Continue
-                          </button>
+                          {!userData?.drivingLicenseVerified && (
+                            <button
+                              onClick={() => {
+                                handleVerifyDrivingLicence();
+                              }}
+                              className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                            >
+                              Continue
+                            </button>
+                          )}
+
                           {/* {userData?.drivingLicenseVerified &&
                           userData?.panVerified && (
                             <div
@@ -1447,12 +1459,15 @@ const Checkout = () => {
                           </div>
 
                           <div className="flex items-center justify-between w-[73%] ">
-                            <button
-                              onClick={handleVerifiedPan}
-                              className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                            >
-                              Continue
-                            </button>
+                            {!userData?.panVerified && (
+                              <button
+                                onClick={handleVerifiedPan}
+                                className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                              >
+                                Continue
+                              </button>
+                            )}
+
                             {/* {userData?.drivingLicenseVerified &&
                               userData?.panVerified && (
                                 <div
