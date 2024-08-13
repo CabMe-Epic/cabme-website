@@ -288,8 +288,7 @@ const Checkout = () => {
         setTwo(false);
         setOne(false);
         toast.success(response?.data?.message);
-      setLoader(false);
-
+        setLoader(false);
       }
     } catch (error: any) {
       // console.error("Error signing up:", error);
@@ -297,13 +296,11 @@ const Checkout = () => {
         // console.log("Error response:", error.response);
         const errorMessage = error.response.data.message;
         toast.error(errorMessage);
-      setLoader(false);
-
+        setLoader(false);
       } else {
         console.error("Network error occurred:", error.message);
         toast.error("Network error occurred. Please try again.");
-      setLoader(false);
-
+        setLoader(false);
       }
     }
   };
@@ -827,11 +824,11 @@ const Checkout = () => {
       setDlFrontImage(userData.drivingLicenseFrontImageUrl);
       setDlBackImage(userData.drivingLicenseBackImageUrl);
       setPanFrontImage(userData.panImageUrl);
-  
-      setAadhar(userData.aadharNumber || '');
-      setDL(userData.drivingLicenseNumber || '');
-      setPanCard(userData.panNumber || '');
-  
+
+      setAadhar(userData.aadharNumber || "");
+      setDL(userData.drivingLicenseNumber || "");
+      setPanCard(userData.panNumber || "");
+
       if (userData.drivingLicenseVerified && userData.panVerified) {
         setShowDocSelect("DrivingLicense");
       } else if (userData.panVerified) {
@@ -841,9 +838,8 @@ const Checkout = () => {
       }
     }
   }, [userData]);
-  
 
-  console.log(userData,'userData')
+  console.log(userData, "userData");
 
   return (
     <>
@@ -886,7 +882,7 @@ const Checkout = () => {
                         >
                           {loader ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -1000,11 +996,9 @@ const Checkout = () => {
                           onClick={handleStepThree}
                           className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          
-
                           {loader ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -1013,17 +1007,15 @@ const Checkout = () => {
                           ) : (
                             "Continue"
                           )}
-
                         </button>
                       ) : (
                         <button
                           onClick={handleSignUp}
                           className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >
-                          
                           {loader ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -1155,25 +1147,25 @@ const Checkout = () => {
                         </div>
                       </div>
                     </div>
-                    <button
-                      onClick={handleGenerateAadharOTP}
-                      disabled={loading === "generate"}
-                      className="w-[209px] mt-5 sm:h-[55px] h-[43px] flex justify-center items-center rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                    >
-                      {loading === "generate" ? (
-                        <Image
-                          src="/LoaderRound.png"
-                          className="loader-rotate"
-                          width={30}
-                          height={30}
-                          alt="loader"
-                        />
-                      ) : (
-                        "Generate OTP"
-                      )}
-                    </button>
-
-                    
+                    {!userData?.aadharVerified && (
+                      <button
+                        onClick={handleGenerateAadharOTP}
+                        disabled={loading === "generate"}
+                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] flex justify-center items-center rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                      >
+                        {loading === "generate" ? (
+                          <Image
+                            src="/loaderRound.png"
+                            className="loader-rotate"
+                            width={30}
+                            height={30}
+                            alt="loader"
+                          />
+                        ) : (
+                          "Generate OTP"
+                        )}
+                      </button>
+                    )}
 
                     {aadharGenerate && (
                       <div className="mt-4 flex gap-4 items-center">
@@ -1190,7 +1182,7 @@ const Checkout = () => {
                         >
                           {loading === "verify" ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -1203,25 +1195,43 @@ const Checkout = () => {
                       </div>
                     )}
                     <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                      Driving License/PAN Card{" "}
-                      {userData?.drivingLicenseVerified &&
-                      userData?.panVerified ? (
-                        <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                      {" "}
+                      {userData?.drivingLicenseVerified && (
+                        <span className="flex items-center gap-2">
+                          Driving License
                           <Image
                             src="/greendone.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                          />
+                        </span>
+                      )}
+                      {userData?.panVerified && (
+                        <span className="flex items-center gap-2">
+                          PAN Card
+                          <Image
+                            src="/greendone.svg"
+                            alt=""
+                            width={20}
+                            height={20}
+                          />
+                        </span>
+                      )}
+                      {!userData?.drivingLicenseVerified &&
+                        !userData?.panVerified ? (
+                        <span className="flex items-center gap-2 text-[#000] sm:text-[15px] text-xs">
+
+                          Driving License/ Pan Card
+                          <Image
+                            src="/notVerified.svg"
                             width={20}
                             height={20}
                             alt={"img"}
-                          />{" "}
-                          Verified Account
+                          />
                         </span>
                       ) : (
-                        <Image
-                          src="/notVerified.svg"
-                          alt=""
-                          width={30}
-                          height={30}
-                        />
+                        ""
                       )}
                     </h4>
 
@@ -1347,14 +1357,17 @@ const Checkout = () => {
                         </div>
 
                         <div className="flex items-center justify-between w-[73%] ">
-                          <button
-                            onClick={() => {
-                              handleVerifyDrivingLicence();
-                            }}
-                            className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                          >
-                            Continue
-                          </button>
+                          {!userData?.drivingLicenseVerified && (
+                            <button
+                              onClick={() => {
+                                handleVerifyDrivingLicence();
+                              }}
+                              className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                            >
+                              Continue
+                            </button>
+                          )}
+
                           {/* {userData?.drivingLicenseVerified &&
                           userData?.panVerified && (
                             <div
@@ -1447,12 +1460,15 @@ const Checkout = () => {
                           </div>
 
                           <div className="flex items-center justify-between w-[73%] ">
-                            <button
-                              onClick={handleVerifiedPan}
-                              className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                            >
-                              Continue
-                            </button>
+                            {!userData?.panVerified && (
+                              <button
+                                onClick={handleVerifiedPan}
+                                className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                              >
+                                Continue
+                              </button>
+                            )}
+
                             {/* {userData?.drivingLicenseVerified &&
                               userData?.panVerified && (
                                 <div
@@ -1845,13 +1861,13 @@ const Checkout = () => {
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
             <h2 className="text-[20px] font-bold">4. Payment</h2>
             <button
-              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${
-                isButtonDisabled
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#FF0000] hover:bg-black hover:text-white"
-              }`}
+              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) )
+                  ? "bg-[#FF0000] hover:bg-black hover:text-white"
+                  : "bg-gray-400 cursor-not-allowed"
+                }`}
               onClick={handleSubmit}
-              disabled={isButtonDisabled}
+              // disabled={isButtonDisabled}
+              disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
             >
               Continue
             </button>
