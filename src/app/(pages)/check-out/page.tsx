@@ -886,7 +886,7 @@ const Checkout = () => {
                         >
                           {loader ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -913,7 +913,7 @@ const Checkout = () => {
                         >
                           {loader ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -1004,7 +1004,7 @@ const Checkout = () => {
 
                           {loader ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -1023,7 +1023,7 @@ const Checkout = () => {
                           
                           {loader ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
@@ -1162,7 +1162,7 @@ const Checkout = () => {
                     >
                       {loading === "generate" ? (
                         <Image
-                          src="/LoaderRound.png"
+                          src="/loaderRound.png"
                           className="loader-rotate"
                           width={30}
                           height={30}
@@ -1190,7 +1190,7 @@ const Checkout = () => {
                         >
                           {loading === "verify" ? (
                             <Image
-                              src="/LoaderRound.png"
+                              src="/loaderRound.png"
                               className="loader-rotate"
                               width={30}
                               height={30}
