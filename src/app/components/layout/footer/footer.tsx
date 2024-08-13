@@ -237,7 +237,7 @@ const url = usePathname();
         Copyright, Cabme 2024. All Right Reserved.
       </p>
       <div className="fixed z-[999] center bottom-6 left-6 w-12 h-12 bg-black rounded-full flex items-center justify-center">
-      <a href="tel:+18001216162">
+      <a href="tel:18001216162">
         <Image
           src="/svg/outgoing-call-icon.svg"
           alt="phone"
