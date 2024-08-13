@@ -674,6 +674,7 @@ const CarDetails = () => {
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
 
             {/* booking summary */}
+            
           </div>
         </div>
         <div className="mb-10">
