@@ -6,8 +6,10 @@ import ThemeButton from "../theme-button/theme-button";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
 import moment from "moment";
 import City from "../city-selection-2/city-selection-2";
+import { useRouter } from "next/navigation";
 
 const ModifySearch: React.FC = () => {
+  const route = useRouter();
   const [cities, setCities] = useState<{ name: string }[] | undefined>([]);
   const [selectedCity, setSelectedCity] = useState<string | undefined>();
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -119,7 +121,7 @@ setTabsValue(tabValue);
       style={{ backgroundSize: "100% 100%" }}
     >
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-2 sm:mb-0">
-        <div className="text-3xl cursor-pointer w-fit hidden sm:block">
+        <div onClick={() => route.push("/")} className="text-3xl cursor-pointer w-fit hidden sm:block">
           &larr;
         </div>
         <div className="flex flex-col sm:flex-col sm:items-start gap-2">
