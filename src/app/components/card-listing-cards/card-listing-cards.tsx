@@ -327,7 +327,7 @@ const CardListingCards = ({ data }: any) => {
                                 data?.bookingOptions?.selfDrive?.packageType
                                   ?.package2?.kmsLimit === null ? "--"
                                   : (data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package1?.kmsLimit * (days as number + hours / 48 as number)).toFixed(3) + " Free kms"
+                                    ?.package1?.kmsLimit * (days as number + hours / 48 as number)).toFixed(0) + " Free kms"
                               }{" "}
 
                             </p>
@@ -390,7 +390,7 @@ const CardListingCards = ({ data }: any) => {
                                 data?.bookingOptions?.selfDrive?.packageType
                                   ?.package2?.kmsLimit === null ? "--"
                                   : (data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package2?.kmsLimit * (days as number + + hours / 48 as number)).toFixed(3) + " Free kms"
+                                    ?.package2?.kmsLimit * (days as number + + hours / 48 as number)).toFixed(0) + " Free kms"
                               }{" "}
                             </p>
                             {/* <span className="sm:block hidden">  ...</span> */}
@@ -454,7 +454,7 @@ const CardListingCards = ({ data }: any) => {
                                 data?.bookingOptions?.selfDrive?.packageType
                                   ?.package3?.kmsLimit === null ? "--"
                                   : (data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package3?.kmsLimit * (days as number + hours / 48 as number)).toFixed(3) + " Free kms"
+                                    ?.package3?.kmsLimit * (days as number + hours / 48 as number)).toFixed(0) + " Free kms"
                               }{" "}
                             </p>
                             {/* <span className="sm:block hidden">  ...</span> */}
@@ -1108,7 +1108,7 @@ const CardListingCards = ({ data }: any) => {
                                     data?.bookingOptions?.withDriver?.local
                                       ?.packageType?.package1?.kmsLimit === null ? "--"
                                       : (data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package1?.kmsLimit * (days as number + hours / 48 as number)).toFixed(3) + " Free kms"
+                                        ?.packageType?.package1?.kmsLimit * (days as number + hours / 48 as number)).toFixed(0) + " Free kms"
                                   }{" "}
                                 </p>
                                 {/* <span className="sm:block hidden">  ...</span> */}
@@ -1173,7 +1173,7 @@ const CardListingCards = ({ data }: any) => {
                                     data?.bookingOptions?.withDriver?.local
                                       ?.packageType?.package2?.kmsLimit === null ? "--"
                                       : (data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package2?.kmsLimit * (days as number + hours / 48 as number)).toFixed(3) + " Free kms"
+                                        ?.packageType?.package2?.kmsLimit * (days as number + hours / 48 as number)).toFixed(0) + " Free kms"
                                   }{" "}
                                 </p>
                                 {/* <span className="sm:block hidden">  ...</span> */}
@@ -1238,7 +1238,7 @@ const CardListingCards = ({ data }: any) => {
                                     data?.bookingOptions?.withDriver?.local
                                       ?.packageType?.package3?.kmsLimit === null ? "--"
                                       : (data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package3?.kmsLimit * (days as number + hours / 48 as number)).toFixed(3) + " Free kms"
+                                        ?.packageType?.package3?.kmsLimit * (days as number + hours / 48 as number)).toFixed(0) + " Free kms"
                                   }{" "}
                                 </p>
                                 {/* <span className="sm:block hidden"> ...</span> */}
