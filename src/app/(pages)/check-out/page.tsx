@@ -1218,20 +1218,21 @@ const Checkout = () => {
                           />
                         </span>
                       )}
-                      {/* {userData?.drivingLicenseVerified &&
-                        userData?.panVerified ? (
-                        <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                      {!userData?.drivingLicenseVerified &&
+                        !userData?.panVerified ? (
+                        <span className="flex items-center gap-2 text-[#000] sm:text-[15px] text-xs">
+
+                          Driving License/ Pan Card
                           <Image
-                            src="/greendone.svg"
+                            src="/notVerified.svg"
                             width={20}
                             height={20}
                             alt={"img"}
-                          />{" "}
-                          Verified Account
+                          />
                         </span>
                       ) : (
                         ""
-                      )} */}
+                      )}
                     </h4>
 
                     <div>
@@ -1860,13 +1861,13 @@ const Checkout = () => {
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
             <h2 className="text-[20px] font-bold">4. Payment</h2>
             <button
-              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${
-                isButtonDisabled
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#FF0000] hover:bg-black hover:text-white"
-              }`}
+              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) )
+                  ? "bg-[#FF0000] hover:bg-black hover:text-white"
+                  : "bg-gray-400 cursor-not-allowed"
+                }`}
               onClick={handleSubmit}
-              disabled={isButtonDisabled}
+              // disabled={isButtonDisabled}
+              disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
             >
               Continue
             </button>
