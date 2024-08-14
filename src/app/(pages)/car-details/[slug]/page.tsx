@@ -43,9 +43,14 @@ interface PromoCode {
   customerContact?: string;
 }
 
+
+
+  
 const CarDetails = () => {
   // context api
   // const { data, setData } = useContextApi();
+  
+
   const { payableAmount, setPayableAmount } = useCarsStore();
 
   const userData = useStore((state) => state);
@@ -469,6 +474,7 @@ const CarDetails = () => {
                     name="package"
                     id="package"
                     className="cursor-pointer w-[140px] p-2 mr-2 rounded-md font-semibold outline-none"
+        
                     onChange={(event) =>
                       handlePriceChange(event?.target?.value)
                     }
@@ -609,7 +615,7 @@ const CarDetails = () => {
                 </div>
                 <div>
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl" style={{ backgroundColor: '#E7E7E7' }}>
                     {currentPackage?.gst === "Excluded" && (
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">
@@ -640,10 +646,15 @@ const CarDetails = () => {
                 </div>
 
                 {/* DESKTOP  */}
-                <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer" style={{
+  width: '355px',
+  height: '100px',
+  gap: '0px',
+  borderRadius: '29px 29px 29px 29px',
+}}>
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" && (
-                      <span className="font-bold text-md">
+                      <span className="font-bold text-md" style={{marginTop:'1rem', marginLeft:'1rem'}} >
                         Pay ₹
                         {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
                         2000
@@ -653,18 +664,18 @@ const CarDetails = () => {
                       </span>
                     )}
                     {currentPackage?.gst === "Excluded" && (
-                      <span className="font-bold text-md">
+                     <span className="font-bold text-md" style={{marginTop:'1rem', marginLeft:'1rem'}}>
                         Pay ₹ {paymentExcludedTax}
                         {/* {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now */}
                       </span>
                     )}
-                    <span className="text-[#ff0000] font-semibold text-[15px]">
+                    <span className="text-[#ff0000] font-semibold text-[15px]" style={{marginLeft:'1rem', marginBottom:'1rem'}}>
                       ₹{balance_payment} Balance on Delivery
                     </span>
                   </div>
                   <button
                     onClick={handleProceed}
-                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"style={{marginRight:'1rem'}}
                   >
                     Proceed
                   </button>
