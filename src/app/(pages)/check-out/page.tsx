@@ -154,6 +154,7 @@ const Checkout = () => {
     //   setThree(true);
     //   setTwo(true);
     // }
+
     if (userData?.aadharVerified) {
       setIsButtonDisabled(false);
     } else {
@@ -1863,7 +1864,7 @@ const Checkout = () => {
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
             <h2 className="text-[20px] font-bold">4. Payment</h2>
             <button
-              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${userData?.aadharVerified
+               className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${!three && userData?.aadharVerified
                 ? "bg-[#FF0000] hover:bg-black hover:text-white"
                 : "bg-gray-400 cursor-not-allowed"
                 }`}
@@ -1875,10 +1876,7 @@ const Checkout = () => {
               //               }`}
 
               onClick={handleSubmit}
-              // disabled={isButtonDisabled}
-              // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
-
-              disabled={userData?.aadharVerified}
+              disabled={isButtonDisabled}
             >
               Continue
             </button>
