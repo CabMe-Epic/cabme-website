@@ -307,13 +307,18 @@ const CardListingCards = ({ data }: any) => {
                           }`}
                       >
 
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
-                          ₹{" "}
-                          {calculateTotalPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package1?.price
-                          )?.toFixed(0)}
-                        </span>
+<span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = calculateTotalPrice(
+      data?.bookingOptions?.selfDrive?.packageType?.package1?.price
+    )?.toFixed(0);
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                         <span className="flex flex-col gap-0">
                           <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
                             {
@@ -369,14 +374,18 @@ const CardListingCards = ({ data }: any) => {
                           : ""
                           }`}
                       >
-
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
-                          ₹{" "}
-                          {calculateTotalPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package2?.price
-                          )?.toFixed(0)}
-                        </span>
+<span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = calculateTotalPrice(
+      data?.bookingOptions?.selfDrive?.packageType?.package2?.price
+    )?.toFixed(0);
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                         <span className="relative flex flex-col gap-0 group">
                           <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
                             {
@@ -432,13 +441,18 @@ const CardListingCards = ({ data }: any) => {
                           }`}
                       >
 
-                        <span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
-                          ₹{" "}
-                          {calculateTotalPrice(
-                            data?.bookingOptions?.selfDrive?.packageType
-                              ?.package3?.price
-                          )?.toFixed(0)}
-                        </span>
+<span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = calculateTotalPrice(
+      data?.bookingOptions?.selfDrive?.packageType?.package3?.price
+    )?.toFixed(0);
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                         <span className="relative flex flex-col gap-0 group">
                           {/* for desktop duration part */}
                           <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
@@ -701,11 +715,16 @@ const CardListingCards = ({ data }: any) => {
                         }`}
                     >
 
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
-                        ₹{" "}
-                        {data?.bookingOptions?.subscription?.packageType
-                          ?.package1?.price}
-                      </span>
+<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
+  ₹{" "}
+  {(() => {
+    const price = data?.bookingOptions?.subscription?.packageType?.package1?.price;
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
                         <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
@@ -765,11 +784,16 @@ const CardListingCards = ({ data }: any) => {
                         }`}
                     >
 
-                      <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                        ₹{" "}
-                        {data?.bookingOptions?.subscription?.packageType
-                          ?.package2?.price}
-                      </span>
+<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = data?.bookingOptions?.subscription?.packageType?.package2?.price;
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
                         <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
@@ -828,12 +852,16 @@ const CardListingCards = ({ data }: any) => {
                         }`}
                     >
 
-                      <span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
-                        ₹
-                        {data?.bookingOptions?.subscription?.packageType
-                          ?.package3?.price}
-
-                      </span>
+<span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = data?.bookingOptions?.subscription?.packageType?.package3?.price;
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
                         <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
@@ -1084,14 +1112,18 @@ const CardListingCards = ({ data }: any) => {
                               : ""}`}
                           >
 
-                            <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                              {/* {data?.bookingOptions?.subscription?.package1?.price} */}
-                              ₹{" "}
-                              {calculateTotalPrice(
-                                data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package1?.price
-                              )?.toFixed(0)}
-                            </span>
+<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = calculateTotalPrice(
+      data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price
+    )?.toFixed(0);
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
                               <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
@@ -1150,14 +1182,18 @@ const CardListingCards = ({ data }: any) => {
                               ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                               : ""}`}
                           >
-
-                            <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                              ₹{" "}
-                              {calculateTotalPrice(
-                                data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package2?.price
-                              )?.toFixed(0)}
-                            </span>
+<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = calculateTotalPrice(
+      data?.bookingOptions?.withDriver?.local?.packageType?.package2?.price
+    )?.toFixed(0);
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
                               <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
@@ -1216,13 +1252,18 @@ const CardListingCards = ({ data }: any) => {
                               : ""}`}
                           >
 
-                            <span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                              ₹{" "}
-                              {calculateTotalPrice(
-                                data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package3?.price
-                              )?.toFixed(0)}
-                            </span>
+<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+  ₹{" "}
+  {(() => {
+    const price = calculateTotalPrice(
+      data?.bookingOptions?.withDriver?.local?.packageType?.package3?.price
+    )?.toFixed(0);
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
                               <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
@@ -1298,12 +1339,15 @@ const CardListingCards = ({ data }: any) => {
                               <span>
                                 Extra kms will be charged at{" "}
                                 <span className="text-[#FF0000]">
-                                  ₹
-                                  {
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.extraKmsCharge
-                                  }
-                                </span>
+  ₹
+  {(() => {
+    const price = data?.bookingOptions?.withDriver?.local?.packageType?.extraKmsCharge;
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                               </span>
                             )}
                         </div>

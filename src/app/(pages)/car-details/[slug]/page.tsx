@@ -479,20 +479,28 @@ const CarDetails = () => {
                       handlePriceChange(event?.target?.value)
                     }
                   >
-                    <option value={packagePrice}>
-                      {packagePrice !== undefined
-                        ? `₹${packagePrice}`
-                        : "Select Package"}
-                    </option>
-                    <option value={roundPrice(package1Price)}>
-                      ₹{roundPrice(package1Price)}
-                    </option>
-                    <option value={roundPrice(package2Price)}>
-                      ₹{roundPrice(package2Price)}
-                    </option>
-                    <option value={roundPrice(package3Price)}>
-                      ₹{roundPrice(package3Price)}
-                    </option>
+                 <option value={packagePrice}>
+  {packagePrice !== undefined
+    ? `₹${Number(packagePrice).toString().length > 4
+      ? Number(packagePrice).toLocaleString('en-IN')
+      : packagePrice}`
+    : "Select Package"}
+</option>
+<option value={roundPrice(package1Price)}>
+  ₹{Number(roundPrice(package1Price)).toString().length > 4
+    ? Number(roundPrice(package1Price)).toLocaleString('en-IN')
+    : roundPrice(package1Price)}
+</option>
+<option value={roundPrice(package2Price)}>
+  ₹{Number(roundPrice(package2Price)).toString().length > 4
+    ? Number(roundPrice(package2Price)).toLocaleString('en-IN')
+    : roundPrice(package2Price)}
+</option>
+<option value={roundPrice(package3Price)}>
+  ₹{Number(roundPrice(package3Price)).toString().length > 4
+    ? Number(roundPrice(package3Price)).toLocaleString('en-IN')
+    : roundPrice(package3Price)}
+</option>
                   </select>
                 </div>
                 <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
@@ -501,8 +509,14 @@ const CarDetails = () => {
                       Package Amount
                     </span>
                     <span className="sm:w-[220px] sm:ml-10 w-fit">
-                      ₹{roundPrice(packagePrice)}
-                    </span>
+  ₹{(() => {
+    const price = roundPrice(packagePrice);
+    const priceNumber = Number(price);
+    return priceNumber.toString().length > 4 
+      ? priceNumber.toLocaleString('en-IN') 
+      : price;
+  })()}
+</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
@@ -566,8 +580,14 @@ const CarDetails = () => {
                       Refundable Deposit
                     </span>
                     <span className="sm:w-[220px] sm:ml-10">
-                      ₹{currentPackage?.refundableDeposit}
-                    </span>
+  ₹{(() => {
+    const deposit = currentPackage?.refundableDeposit;
+    const depositNumber = Number(deposit);
+    return depositNumber.toString().length > 4 
+      ? depositNumber.toLocaleString('en-IN') 
+      : deposit;
+  })()}
+</span>
                   </div>
 
                   {/* DESKTOP ...  */}
@@ -583,8 +603,14 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                        ₹ {roundPrice(totalIncludedGSTAmount)}
-                      </span>
+  ₹ {(() => {
+    const amount = roundPrice(totalIncludedGSTAmount);
+    const amountNumber = Number(amount);
+    return amountNumber.toString().length > 4 
+      ? amountNumber.toLocaleString('en-IN') 
+      : amount;
+  })()}
+</span>
                     </div>
                   )}
 
@@ -622,16 +648,28 @@ const CarDetails = () => {
                           Total Amount{" "}
                         </span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹ {roundPrice(totalExcludedGSTAmount)}
-                        </span>
+  ₹ {(() => {
+    const amount = roundPrice(totalExcludedGSTAmount);
+    const amountNumber = Number(amount);
+    return amountNumber.toString().length > 4 
+      ? amountNumber.toLocaleString('en-IN') 
+      : amount;
+  })()}
+</span>
                       </div>
                     )}
                     {currentPackage?.gst === "Included" && (
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">Total Amount</span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹ {roundPrice(totalIncludedGSTAmount)}
-                        </span>
+  ₹ {(() => {
+    const amount = roundPrice(totalIncludedGSTAmount);
+    const amountNumber = Number(amount);
+    return amountNumber.toString().length > 4
+      ? amountNumber.toLocaleString('en-IN')
+      : amount;
+  })()}
+</span>
                       </div>
                     )}
                     <div>
@@ -654,14 +692,21 @@ const CarDetails = () => {
 }}>
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" && (
-                      <span className="font-bold text-md" style={{marginTop:'1rem', marginLeft:'1rem'}} >
-                        Pay ₹
-                        {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
-                        2000
-                          ? roundPrice(Number(ThirtyDiscountForInculdedTax))
-                          : roundPrice(totalIncludedGSTAmount)}{" "}
-                        Now
-                      </span>
+                      <span className="font-bold text-md" style={{ marginTop: '1rem', marginLeft: '1rem' }}>
+                      Pay ₹
+                      {(() => {
+                        const amount = Number(ThirtyDiscountForInculdedTax);
+                        const formattedAmount = roundPrice(amount);
+                        return amount >= 2000
+                          ? (Number(formattedAmount).toString().length > 4 
+                            ? Number(formattedAmount).toLocaleString('en-IN') 
+                            : formattedAmount)
+                          : (Number(roundPrice(totalIncludedGSTAmount)).toString().length > 4 
+                            ? Number(roundPrice(totalIncludedGSTAmount)).toLocaleString('en-IN') 
+                            : roundPrice(totalIncludedGSTAmount));
+                      })()}
+                      {" "} Now
+                    </span>
                     )}
                     {currentPackage?.gst === "Excluded" && (
                      <span className="font-bold text-md" style={{marginTop:'1rem', marginLeft:'1rem'}}>
@@ -669,16 +714,20 @@ const CarDetails = () => {
                         {/* {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now */}
                       </span>
                     )}
-                    <span className="text-[#ff0000] font-semibold text-[15px]" style={{marginLeft:'1rem', marginBottom:'1rem'}}>
-                      ₹{balance_payment} Balance on Delivery
-                    </span>
+                 <span 
+  className="text-[#ff0000] font-semibold text-[15px]" 
+  style={{ marginLeft: '1rem', marginBottom: '1rem', whiteSpace: 'nowrap', display: 'inline-block' }}
+>
+  ₹7280 Balance on Delivery
+</span>
                   </div>
                   <button
-                    onClick={handleProceed}
-                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"style={{marginRight:'1rem'}}
-                  >
-                    Proceed
-                  </button>
+  onClick={handleProceed}
+  className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"
+  style={{ marginLeft: '0rem', marginRight: '0rem' }} // Adjust margin-left to shift the button to the left
+>
+  Proceed
+</button>
                 </div>
               </main>
             </div>
@@ -690,9 +739,9 @@ const CarDetails = () => {
                 <li>100% refund before 48 hours</li>
                 <li>50% refund before 24 hours
                 </li>
-                <li>Cancellation after the above date will have to bear additional INR 2000 as convenience fees.
+                <li>Cancellation after the above date will have to <br></br>      bear additional INR 2000 as convenience fees.
                 </li>
-                <li>Any cancellations after the booking date will only get the security deposit amount and not the rental fare received.</li>
+                <li>Any cancellations after the booking date will<br></br>      only get the security deposit amount and not the       rental fare received.</li>
               </div>
               </div>
             </div>
