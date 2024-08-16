@@ -151,6 +151,8 @@ setTabsValue(tabValue);
                 <>
                   <input
                     className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
+                    style={{ backgroundColor: 'rgb(252, 251, 251, 0%)' }}
+
                     type="text"
                     placeholder="All City"
                     onClick={(e) => handleSelectPopupLocation(e)}
