@@ -733,7 +733,7 @@ const CarDetails = () => {
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
 
-            <div className="p-6 sm:p-0">
+            <div className="p-6 sm:p-0" style={{padding: '0.5rem'}}>
               <div className="flex gap-2 items-start"><Image src="/Clock.png" alt=" " width={30} height={30} />
               <div className="flex flex-col gap-2 text-[#6CAE39] font-semibold text-[16px]">
                 <li>100% refund before 48 hours</li>
