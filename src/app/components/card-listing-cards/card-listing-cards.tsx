@@ -307,7 +307,7 @@ const CardListingCards = ({ data }: any) => {
                           }`}
                       >
 
-<span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+<span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = calculateTotalPrice(
@@ -320,7 +320,7 @@ const CardListingCards = ({ data }: any) => {
   })()}
 </span>
                         <span className="flex flex-col gap-0">
-                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.duration
@@ -328,7 +328,7 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <span className="relative flex flex-row  group text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[13px] whitespace-nowrap w-full overflow-hidden m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit == 0
                                 ? "Unlimited"
@@ -374,7 +374,7 @@ const CardListingCards = ({ data }: any) => {
                           : ""
                           }`}
                       >
-<span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+<span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = calculateTotalPrice(
@@ -387,7 +387,7 @@ const CardListingCards = ({ data }: any) => {
   })()}
 </span>
                         <span className="relative flex flex-col gap-0 group">
-                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.duration
@@ -395,7 +395,7 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="text-[#FF0000] flex flex-row">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap overflow-hidden min-w-[70px] w-full m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[13px] whitespace-nowrap overflow-hidden min-w-[70px] w-full m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.kmsLimit == 0
                                 ? "Unlimited"
@@ -441,7 +441,7 @@ const CardListingCards = ({ data }: any) => {
                           }`}
                       >
 
-<span className="font-bold lg:text-[20px] text-[15px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
+<span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = calculateTotalPrice(
@@ -455,7 +455,7 @@ const CardListingCards = ({ data }: any) => {
 </span>
                         <span className="relative flex flex-col gap-0 group">
                           {/* for desktop duration part */}
-                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center whitespace-nowrap">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.duration
@@ -464,7 +464,7 @@ const CardListingCards = ({ data }: any) => {
                           {/* desktop end */}
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="flex flex-row text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[10px] whitespace-nowrap overflow-hidden w-full m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[13px] whitespace-nowrap overflow-hidden w-full m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.kmsLimit == 0
                                 ? "Unlimited"
@@ -715,7 +715,7 @@ const CardListingCards = ({ data }: any) => {
                         }`}
                     >
 
-<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
+<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
   ₹{" "}
   {(() => {
     const price = data?.bookingOptions?.subscription?.packageType?.package1?.price;
@@ -727,7 +727,7 @@ const CardListingCards = ({ data }: any) => {
 </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
-                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package1?.duration
@@ -736,7 +736,7 @@ const CardListingCards = ({ data }: any) => {
                         {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000]">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[10px] whitespace-nowrap w-full overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[13px] whitespace-nowrap w-full overflow-hidden">
 
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit == 0
@@ -784,7 +784,7 @@ const CardListingCards = ({ data }: any) => {
                         }`}
                     >
 
-<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = data?.bookingOptions?.subscription?.packageType?.package2?.price;
@@ -796,7 +796,7 @@ const CardListingCards = ({ data }: any) => {
 </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
-                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package2?.duration
@@ -805,7 +805,7 @@ const CardListingCards = ({ data }: any) => {
                         {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] min-w-[70px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] min-w-[70px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit == 0
                               ? "Unlimited"
@@ -852,7 +852,7 @@ const CardListingCards = ({ data }: any) => {
                         }`}
                     >
 
-<span className="font-bold sm:text-[18px] text-[15px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
+<span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = data?.bookingOptions?.subscription?.packageType?.package3?.price;
@@ -864,7 +864,7 @@ const CardListingCards = ({ data }: any) => {
 </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
-                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[10px] text-center">
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package3?.duration
@@ -873,7 +873,7 @@ const CardListingCards = ({ data }: any) => {
                         {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit == 0
                               ? "Unlimited"
@@ -952,7 +952,7 @@ const CardListingCards = ({ data }: any) => {
                   {/*  */}
 
                   <div className="sm:flex flex-row justify-between items-center sm:mr-5">
-                    <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-4 gap-2 sm:text-[15px] text-[10px] sm:mb-0 mb-4">
+                    <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-4 gap-2 sm:text-[15px] text-[13px] sm:mb-0 mb-4">
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
@@ -1112,7 +1112,7 @@ const CardListingCards = ({ data }: any) => {
                               : ""}`}
                           >
 
-<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = calculateTotalPrice(
@@ -1126,7 +1126,7 @@ const CardListingCards = ({ data }: any) => {
 </span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
-                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
                                 {
                                   data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package1?.duration
@@ -1135,7 +1135,7 @@ const CardListingCards = ({ data }: any) => {
                               {/* desktop end */}
                               <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
+                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
 
                                   {data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package1?.kmsLimit == 0
@@ -1182,7 +1182,7 @@ const CardListingCards = ({ data }: any) => {
                               ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                               : ""}`}
                           >
-<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = calculateTotalPrice(
@@ -1196,7 +1196,7 @@ const CardListingCards = ({ data }: any) => {
 </span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
-                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
                                 {
                                   data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package2?.duration
@@ -1205,7 +1205,7 @@ const CardListingCards = ({ data }: any) => {
                               {/* desktop end */}
                               <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] min-w-[70px] whitespace-nowrap w-full overflow-hidden m-auto">
+                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] min-w-[70px] whitespace-nowrap w-full overflow-hidden m-auto">
                                   {data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package2?.kmsLimit == 0
                                     ? "Unlimited"
@@ -1252,7 +1252,7 @@ const CardListingCards = ({ data }: any) => {
                               : ""}`}
                           >
 
-<span className="font-bold sm:text-[18px] text-[15px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
   ₹{" "}
   {(() => {
     const price = calculateTotalPrice(
@@ -1266,7 +1266,7 @@ const CardListingCards = ({ data }: any) => {
 </span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
-                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[10px] text-center">
+                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
                                 {
                                   data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package3?.duration
@@ -1275,7 +1275,7 @@ const CardListingCards = ({ data }: any) => {
                               {/* desktop end */}
                               <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[10px] whitespace-nowrap w-full overflow-hidden m-auto">
+                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] whitespace-nowrap w-full overflow-hidden m-auto">
                                   {data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package3?.kmsLimit == 0
                                     ? "Unlimited"
