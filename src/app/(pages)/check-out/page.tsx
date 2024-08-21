@@ -835,13 +835,15 @@ const Checkout = () => {
         setShowDocSelect("PanCard");
       } else if (userData.drivingLicenseVerified) {
         setShowDocSelect("DrivingLicense");
-      } else if(!userData.drivingLicenseVerified && !userData.panVerified){
+      } else if (!userData.drivingLicenseVerified && !userData.panVerified) {
         setShowDocSelect("DrivingLicense");
       }
     }
   }, [userData]);
 
   console.log(userData, "userData");
+
+
 
   return (
     <>
@@ -1876,7 +1878,7 @@ const Checkout = () => {
 
               onClick={handleSubmit}
               disabled={isButtonDisabled}
-              // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
+            // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
 
             >
               Continue
