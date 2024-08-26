@@ -154,7 +154,7 @@ const Checkout = () => {
     // }
     if (
       userData?.aadharVerified &&
-      !three &&
+      (!three || !four) &&
       (userData?.panVerified || userData?.drivingLicenseVerified)
     ) {
       setIsButtonDisabled(false);
