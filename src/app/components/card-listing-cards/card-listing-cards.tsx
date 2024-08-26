@@ -49,15 +49,27 @@ const CardListingCards = ({ data }: any) => {
   // const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
   const [selectedPackagePrice, setPackagePrice] = useState<any>();
+  const [selectedPackageFreeKms, setSelectedPackageFreeKms] = useState<any>();
 
   const setPrice = (price: number) => {
     setPackagePrice(price);
   };
+
+  const setFreekms = (km: number) => {
+    setSelectedPackageFreeKms(km);
+  };
+
   //@ts-ignore
   localStorage.setItem(
     "selectedPackagePrice",
-    roundPrice((selectedPackagePrice))
+    roundPrice(selectedPackagePrice),
   );
+
+  localStorage.setItem(
+    "selectedPackageFreeKms",
+    roundPrice(selectedPackageFreeKms)
+  )
+
   console.log({ selectedPackagePrice });
 
   const tabs = [
@@ -105,7 +117,6 @@ const CardListingCards = ({ data }: any) => {
       }
     };
 
-
     window.addEventListener("keydown", handleKeyDown);
     // window.addEventListener('wheel', handleScroll);
 
@@ -126,11 +137,11 @@ const CardListingCards = ({ data }: any) => {
             data?.bookingOptions?.selfDrive?.packageType?.package1?.price
           )
         )
+        
+        
         : bookingOptionsHome === data?.bookingOptions?.subscription?.name
           ? setPackagePrice(
-
             data?.bookingOptions?.subscription?.packageType?.package1?.price
-
           )
           : driverType === data?.bookingOptions?.withDriver?.local?.name
             ? setPackagePrice(
@@ -141,20 +152,40 @@ const CardListingCards = ({ data }: any) => {
             )
             : driverType === data?.bookingOptions?.withDriver?.outstation?.name
               ? setPackagePrice(
-
-                data?.bookingOptions?.withDriver?.outstation?.packageType
-                  ?.package1?.ratePerKm
-
+                data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
+                  ?.ratePerKm
               )
               : console.log("Something went wrong in package selection");
-    } else {
+    }
+    if (selectedPackageFreeKms === undefined) {
+      bookingOptionsHome === data?.bookingOptions?.selfDrive?.name
+        ? setSelectedPackageFreeKms(Number((
+          data?.bookingOptions?.selfDrive?.packageType
+            ?.package1?.kmsLimit *
+          (((days as number) + hours / 24) as number)
+        ).toFixed(0)))
+        
+        
+        : bookingOptionsHome === data?.bookingOptions?.subscription?.name
+          ? setSelectedPackageFreeKms(
+            data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit
+          )
+          : driverType === data?.bookingOptions?.withDriver?.local?.name
+            ? selectedPackageFreeKms(data?.bookingOptions?.withDriver?.local?.packageType?.package1
+              ?.kmsLimit)
+            : driverType === data?.bookingOptions?.withDriver?.outstation?.name
+              ? 
+                selectedPackageFreeKms(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
+                  ?.ratePerKm)
+              : console.log("Something went wrong in package selection");
+    } 
+    else {
       console.log("done");
     }
   };
   console.log(selectedPackagePrice, "selected pack");
 
-
-  console.log("hours",days,hours,minutes);
+  console.log("hours", days, hours, minutes);
   // console.log("days")
   return (
     <>
@@ -286,6 +317,11 @@ const CardListingCards = ({ data }: any) => {
                     <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-5 pl-4 sm:pr-0 pr-4 justify-end">
                       <div
                         onClick={() => {
+                          setFreekms(Number((
+                            data?.bookingOptions?.selfDrive?.packageType
+                              ?.package1?.kmsLimit *
+                            (((days as number) + hours / 24) as number)
+                          ).toFixed(0)))
                           const calculatedPrice = calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
                               ?.package1?.price
@@ -300,25 +336,26 @@ const CardListingCards = ({ data }: any) => {
                               "Failed to calculate the total price"
                             );
                           }
+
                         }}
                         className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                          : ""
+                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                            : ""
                           }`}
                       >
-
-<span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = calculateTotalPrice(
-      data?.bookingOptions?.selfDrive?.packageType?.package1?.price
-    )?.toFixed(0);
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                        <span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                          ₹{" "}
+                          {(() => {
+                            const price = calculateTotalPrice(
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.price
+                            )?.toFixed(0);
+                            const priceNumber = Number(price);
+                            return priceNumber.toString().length > 4
+                              ? priceNumber.toLocaleString("en-IN")
+                              : price;
+                          })()}
+                        </span>
                         <span className="flex flex-col gap-0">
                           <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
                             {
@@ -332,13 +369,14 @@ const CardListingCards = ({ data }: any) => {
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit == 0
                                 ? "Unlimited"
-                                :
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package2?.kmsLimit === null ? "--"
-                                  : (data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package1?.kmsLimit * (days as number + hours/24 as number)).toFixed(0) + " Free kms"
-                              }{" "}
-
+                                : data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package1?.kmsLimit === null
+                                  ? "--"
+                                  : (
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.package1?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0) + " Free kms"}{" "}
                             </p>
                             {/* <span className="sm:block hidden"> ...</span> */}
                             {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -354,6 +392,11 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
+                          setFreekms(Number((
+                            data?.bookingOptions?.selfDrive?.packageType
+                              ?.package2?.kmsLimit *
+                            (((days as number) + hours / 24) as number)
+                          ).toFixed(0)))
                           const calculatedPrice = calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
                               ?.package2?.price
@@ -370,22 +413,23 @@ const CardListingCards = ({ data }: any) => {
                           }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                          : ""
+                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                            : ""
                           }`}
                       >
-<span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = calculateTotalPrice(
-      data?.bookingOptions?.selfDrive?.packageType?.package2?.price
-    )?.toFixed(0);
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                        <span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                          ₹{" "}
+                          {(() => {
+                            const price = calculateTotalPrice(
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.price
+                            )?.toFixed(0);
+                            const priceNumber = Number(price);
+                            return priceNumber.toString().length > 4
+                              ? priceNumber.toLocaleString("en-IN")
+                              : price;
+                          })()}
+                        </span>
                         <span className="relative flex flex-col gap-0 group">
                           <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center whitespace-nowrap">
                             {
@@ -399,12 +443,14 @@ const CardListingCards = ({ data }: any) => {
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.kmsLimit == 0
                                 ? "Unlimited"
-                                :
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package2?.kmsLimit === null ? "--"
-                                  : (data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package2?.kmsLimit * (days as number +  hours/24 as number)).toFixed(0) + " Free kms"
-                              }{" "}
+                                : data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package2?.kmsLimit === null
+                                  ? "--"
+                                  : (
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.package2?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0) + " Free kms"}{" "}
                             </p>
                             {/* <span className="sm:block hidden">  ...</span> */}
                           </div>
@@ -420,10 +466,16 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
+
                           const calculatedPrice = calculateTotalPrice(
                             data?.bookingOptions?.selfDrive?.packageType
                               ?.package3?.price
                           );
+                          setFreekms(Number((
+                            data?.bookingOptions?.selfDrive?.packageType
+                              ?.package3?.kmsLimit *
+                            (((days as number) + hours / 24) as number)
+                          ).toFixed(0)))
                           if (calculatedPrice) {
                             setPrice(Math.round(calculatedPrice));
                             setClicked1(false);
@@ -436,23 +488,23 @@ const CardListingCards = ({ data }: any) => {
                           }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                          : ""
+                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                            : ""
                           }`}
                       >
-
-<span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = calculateTotalPrice(
-      data?.bookingOptions?.selfDrive?.packageType?.package3?.price
-    )?.toFixed(0);
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                        <span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
+                          ₹{" "}
+                          {(() => {
+                            const price = calculateTotalPrice(
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.price
+                            )?.toFixed(0);
+                            const priceNumber = Number(price);
+                            return priceNumber.toString().length > 4
+                              ? priceNumber.toLocaleString("en-IN")
+                              : price;
+                          })()}
+                        </span>
                         <span className="relative flex flex-col gap-0 group">
                           {/* for desktop duration part */}
                           <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center whitespace-nowrap">
@@ -468,12 +520,14 @@ const CardListingCards = ({ data }: any) => {
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.kmsLimit == 0
                                 ? "Unlimited"
-                                :
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package3?.kmsLimit === null ? "--"
-                                  : (data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package3?.kmsLimit * (days as number + hours/24 as number)).toFixed(0) + " Free kms"
-                              }{" "}
+                                : data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package3?.kmsLimit === null
+                                  ? "--"
+                                  : (
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.package3?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0) + " Free kms"}{" "}
                             </p>
                             {/* <span className="sm:block hidden">  ...</span> */}
                           </div>
@@ -487,7 +541,6 @@ const CardListingCards = ({ data }: any) => {
                           </div> */}
                         </span>
                       </div>
-
                     </div>
                     {/*  */}
                     {/* for mobile view */}
@@ -537,7 +590,6 @@ const CardListingCards = ({ data }: any) => {
                           </span>
                         )}
                     </div>
-
 
                     {/*  */}
 
@@ -703,28 +755,32 @@ const CardListingCards = ({ data }: any) => {
                         // } else {
                         //   console.error("Failed to calculate the total price");
                         // }
-                        setPrice(data?.bookingOptions?.subscription?.packageType
-                          ?.package1?.price)
+
+                        setPrice(
+                          data?.bookingOptions?.subscription?.packageType
+                            ?.package1?.price
+                        );
                         setClicked1(true);
                         setClicked2(false);
                         setClicked3(false);
                       }}
                       className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${clicked1
-                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                        : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                          : ""
                         }`}
                     >
-
-<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
-  ₹{" "}
-  {(() => {
-    const price = data?.bookingOptions?.subscription?.packageType?.package1?.price;
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                      <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
+                        ₹{" "}
+                        {(() => {
+                          const price =
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.price;
+                          const priceNumber = Number(price);
+                          return priceNumber.toString().length > 4
+                            ? priceNumber.toLocaleString("en-IN")
+                            : price;
+                        })()}
+                      </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
                         <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
@@ -737,16 +793,14 @@ const CardListingCards = ({ data }: any) => {
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000]">
                           <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[13px] whitespace-nowrap w-full overflow-hidden">
-
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit == 0
                               ? "Unlimited"
-                              :
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package1?.kmsLimit === null ? "--"
+                              : data?.bookingOptions?.subscription?.packageType
+                                ?.package1?.kmsLimit === null
+                                ? "--"
                                 : data?.bookingOptions?.subscription?.packageType
-                                  ?.package1?.kmsLimit  + " Free kms"
-                            }{" "}
+                                  ?.package1?.kmsLimit + " Free kms"}{" "}
                           </p>
                           {/* <span className="sm:block hidden">  ...</span> */}
                           {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -772,28 +826,31 @@ const CardListingCards = ({ data }: any) => {
                         // } else {
                         //   console.error("Failed to calculate the total price");
                         // }
-                        setPrice(data?.bookingOptions?.subscription?.packageType
-                          ?.package2?.price)
+                        setPrice(
+                          data?.bookingOptions?.subscription?.packageType
+                            ?.package2?.price
+                        );
                         setClicked1(false);
                         setClicked2(true);
                         setClicked3(false);
                       }}
                       className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                        : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                          : ""
                         }`}
                     >
-
-<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = data?.bookingOptions?.subscription?.packageType?.package2?.price;
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                      <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                        ₹{" "}
+                        {(() => {
+                          const price =
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.price;
+                          const priceNumber = Number(price);
+                          return priceNumber.toString().length > 4
+                            ? priceNumber.toLocaleString("en-IN")
+                            : price;
+                        })()}
+                      </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
                         <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
@@ -809,12 +866,11 @@ const CardListingCards = ({ data }: any) => {
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit == 0
                               ? "Unlimited"
-                              :
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package2?.kmsLimit === null ? "--"
+                              : data?.bookingOptions?.subscription?.packageType
+                                ?.package2?.kmsLimit === null
+                                ? "--"
                                 : data?.bookingOptions?.subscription?.packageType
-                                  ?.package2?.kmsLimit  + " Free kms"
-                            }{" "}
+                                  ?.package2?.kmsLimit + " Free kms"}{" "}
                           </p>
                           {/* <span className="sm:block hidden">  ...</span> */}
                           {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -840,28 +896,31 @@ const CardListingCards = ({ data }: any) => {
                         // } else {
                         //   console.error("Failed to calculate the total price");
                         // }
-                        setPrice(data?.bookingOptions?.subscription?.packageType
-                          ?.package3?.price)
+                        setPrice(
+                          data?.bookingOptions?.subscription?.packageType
+                            ?.package3?.price
+                        );
                         setClicked1(false);
                         setClicked2(false);
                         setClicked3(true);
                       }}
                       className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
-                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                        : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                          : ""
                         }`}
                     >
-
-<span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = data?.bookingOptions?.subscription?.packageType?.package3?.price;
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                      <span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
+                        ₹{" "}
+                        {(() => {
+                          const price =
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.price;
+                          const priceNumber = Number(price);
+                          return priceNumber.toString().length > 4
+                            ? priceNumber.toLocaleString("en-IN")
+                            : price;
+                        })()}
+                      </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
                         <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
@@ -877,12 +936,11 @@ const CardListingCards = ({ data }: any) => {
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit == 0
                               ? "Unlimited"
-                              :
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package3?.kmsLimit === null ? "--"
+                              : data?.bookingOptions?.subscription?.packageType
+                                ?.package3?.kmsLimit === null
+                                ? "--"
                                 : data?.bookingOptions?.subscription?.packageType
-                                  ?.package3?.kmsLimit + " Free kms"
-                            }{" "}
+                                  ?.package3?.kmsLimit + " Free kms"}{" "}
                           </p>
                           {/* <span className="sm:block hidden"> ...</span> */}
                           {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -896,8 +954,6 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </span>
                     </div>
-
-
                   </div>
 
                   {/* for mobile view */}
@@ -998,7 +1054,7 @@ const CardListingCards = ({ data }: any) => {
                         />
                         <span>{data?.seatingCapacity} Person</span>
                       </div>
-                      {data?.vehicleSpecifications?.fuelType &&
+                      {data?.vehicleSpecifications?.fuelType && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
                             src="/carListing/gas.png"
@@ -1009,7 +1065,7 @@ const CardListingCards = ({ data }: any) => {
                           />
                           <span>{data?.vehicleSpecifications?.fuelType}</span>
                         </div>
-                      }
+                      )}
 
                       <div className="flex flex-row items-center gap-2">
                         <Image
@@ -1096,34 +1152,39 @@ const CardListingCards = ({ data }: any) => {
                               );
                               if (calculatedPrice) {
                                 setPrice(Math.round(calculatedPrice));
-
-
                               } else {
                                 console.error(
                                   "Failed to calculate the total price"
                                 );
                               }
+                              setFreekms(Number((
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package1?.kmsLimit *
+                                (((days as number) +
+                                  hours / 24) as number)
+                              ).toFixed(0)))
                               setClicked1(true);
                               setClicked2(false);
                               setClicked3(false);
                             }}
                             className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
-                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                              : ""}`}
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
                           >
-
-<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = calculateTotalPrice(
-      data?.bookingOptions?.withDriver?.local?.packageType?.package1?.price
-    )?.toFixed(0);
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                            <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                              ₹{" "}
+                              {(() => {
+                                const price = calculateTotalPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package1?.price
+                                )?.toFixed(0);
+                                const priceNumber = Number(price);
+                                return priceNumber.toString().length > 4
+                                  ? priceNumber.toLocaleString("en-IN")
+                                  : price;
+                              })()}
+                            </span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
                               <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
@@ -1136,16 +1197,18 @@ const CardListingCards = ({ data }: any) => {
                               <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                               <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
                                 <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
-
                                   {data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package1?.kmsLimit == 0
                                     ? "Unlimited"
-                                    :
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package1?.kmsLimit === null ? "--"
-                                      : (data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package1?.kmsLimit * (days as number + hours/24 as number)).toFixed(0) + " Free kms"
-                                  }{" "}
+                                    : data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package1?.kmsLimit === null
+                                      ? "--"
+                                      : (
+                                        data?.bookingOptions?.withDriver?.local
+                                          ?.packageType?.package1?.kmsLimit *
+                                        (((days as number) +
+                                          hours / 24) as number)
+                                      ).toFixed(0) + " Free kms"}{" "}
                                 </p>
                                 {/* <span className="sm:block hidden">  ...</span> */}
                                 {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -1168,32 +1231,39 @@ const CardListingCards = ({ data }: any) => {
                               );
                               if (calculatedPrice) {
                                 setPrice(Math.round(calculatedPrice));
-
                               } else {
                                 console.error(
                                   "Failed to calculate the total price"
                                 );
                               }
+                              setFreekms(Number((
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.kmsLimit *
+                                (((days as number) +
+                                  hours / 24) as number)
+                              ).toFixed(0)))
                               setClicked1(false);
                               setClicked2(true);
                               setClicked3(false);
                             }}
                             className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                              ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                              : ""}`}
+                                ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
                           >
-<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = calculateTotalPrice(
-      data?.bookingOptions?.withDriver?.local?.packageType?.package2?.price
-    )?.toFixed(0);
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                            <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                              ₹{" "}
+                              {(() => {
+                                const price = calculateTotalPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package2?.price
+                                )?.toFixed(0);
+                                const priceNumber = Number(price);
+                                return priceNumber.toString().length > 4
+                                  ? priceNumber.toLocaleString("en-IN")
+                                  : price;
+                              })()}
+                            </span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
                               <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
@@ -1209,12 +1279,15 @@ const CardListingCards = ({ data }: any) => {
                                   {data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package2?.kmsLimit == 0
                                     ? "Unlimited"
-                                    :
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package2?.kmsLimit === null ? "--"
-                                      : (data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package2?.kmsLimit * (days as number + hours/24 as number)).toFixed(0) + " Free kms"
-                                  }{" "}
+                                    : data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package2?.kmsLimit === null
+                                      ? "--"
+                                      : (
+                                        data?.bookingOptions?.withDriver?.local
+                                          ?.packageType?.package2?.kmsLimit *
+                                        (((days as number) +
+                                          hours / 24) as number)
+                                      ).toFixed(0) + " Free kms"}{" "}
                                 </p>
                                 {/* <span className="sm:block hidden">  ...</span> */}
                                 {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -1237,33 +1310,39 @@ const CardListingCards = ({ data }: any) => {
                               );
                               if (calculatedPrice) {
                                 setPrice(Math.round(calculatedPrice));
-
                               } else {
                                 console.error(
                                   "Failed to calculate the total price"
                                 );
                               }
+                              setFreekms((Number((
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.kmsLimit *
+                                (((days as number) +
+                                  hours / 24) as number)
+                              ).toFixed(0))))
                               setClicked1(false);
                               setClicked2(false);
                               setClicked3(true);
                             }}
                             className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
-                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                              : ""}`}
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
                           >
-
-<span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
-  ₹{" "}
-  {(() => {
-    const price = calculateTotalPrice(
-      data?.bookingOptions?.withDriver?.local?.packageType?.package3?.price
-    )?.toFixed(0);
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                            <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                              ₹{" "}
+                              {(() => {
+                                const price = calculateTotalPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package3?.price
+                                )?.toFixed(0);
+                                const priceNumber = Number(price);
+                                return priceNumber.toString().length > 4
+                                  ? priceNumber.toLocaleString("en-IN")
+                                  : price;
+                              })()}
+                            </span>
                             <span className="flex flex-col gap-0">
                               {/* for desktop */}
                               <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
@@ -1279,12 +1358,15 @@ const CardListingCards = ({ data }: any) => {
                                   {data?.bookingOptions?.withDriver?.local
                                     ?.packageType?.package3?.kmsLimit == 0
                                     ? "Unlimited"
-                                    :
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package3?.kmsLimit === null ? "--"
-                                      : (data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package3?.kmsLimit * (days as number + hours/24 as number)).toFixed(0) + " Free kms"
-                                  }{" "}
+                                    : data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package3?.kmsLimit === null
+                                      ? "--"
+                                      : (
+                                        data?.bookingOptions?.withDriver?.local
+                                          ?.packageType?.package3?.kmsLimit *
+                                        (((days as number) +
+                                          hours / 24) as number)
+                                      ).toFixed(0) + " Free kms"}{" "}
                                 </p>
                                 {/* <span className="sm:block hidden"> ...</span> */}
                                 {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
@@ -1299,7 +1381,6 @@ const CardListingCards = ({ data }: any) => {
                               </span>
                             </span>
                           </div>
-
                         </div>
                         {/* mobile view */}
                         <div className="flex sm:hidden flex-col items-center jusitfy-center h-full ">
@@ -1339,15 +1420,17 @@ const CardListingCards = ({ data }: any) => {
                               <span>
                                 Extra kms will be charged at{" "}
                                 <span className="text-[#FF0000]">
-  ₹
-  {(() => {
-    const price = data?.bookingOptions?.withDriver?.local?.packageType?.extraKmsCharge;
-    const priceNumber = Number(price);
-    return priceNumber.toString().length > 4 
-      ? priceNumber.toLocaleString('en-IN') 
-      : price;
-  })()}
-</span>
+                                  ₹
+                                  {(() => {
+                                    const price =
+                                      data?.bookingOptions?.withDriver?.local
+                                        ?.packageType?.extraKmsCharge;
+                                    const priceNumber = Number(price);
+                                    return priceNumber.toString().length > 4
+                                      ? priceNumber.toLocaleString("en-IN")
+                                      : price;
+                                  })()}
+                                </span>
                               </span>
                             )}
                         </div>
@@ -1401,8 +1484,7 @@ const CardListingCards = ({ data }: any) => {
                               />
                               <span>{data?.seatingCapacity} Person</span>
                             </div>
-                            {data?.vehicleSpecifications?.fuelType &&
-
+                            {data?.vehicleSpecifications?.fuelType && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
                                   src="/carListing/gas.png"
@@ -1411,9 +1493,11 @@ const CardListingCards = ({ data }: any) => {
                                   height={20}
                                   alt="bluetooth"
                                 />
-                                <span>{data?.vehicleSpecifications?.fuelType}</span>
+                                <span>
+                                  {data?.vehicleSpecifications?.fuelType}
+                                </span>
                               </div>
-                            }
+                            )}
                             <div className="flex flex-row items-center gap-2">
                               <Image
                                 src="/carListing/bootspace.png"
@@ -1439,7 +1523,9 @@ const CardListingCards = ({ data }: any) => {
                         <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
                           <span
                             className="text-[#ff0000] sm:text-[15px] text-sm"
-                            onClick={() => setShowOptionsMobile(!showOptionsMobile)}
+                            onClick={() =>
+                              setShowOptionsMobile(!showOptionsMobile)
+                            }
                           >
                             View Details{" "}
                           </span>
@@ -1450,7 +1536,6 @@ const CardListingCards = ({ data }: any) => {
                             height={10}
                             alt="bluetooth"
                           />
-
                         </div>
                       </div>
                     </>
@@ -1490,58 +1575,83 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="sm:h-[274px] relative max-w-[700px] w-full px-4">
                         <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5 sm:px-0 px-2">
-                          <div onClick={() => {
-                            setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm);
-                            setClicked1(true);
-                            setClicked2(false);
-                            setClicked3(false);
-                          }} className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""}`}>
+                          <div
+                            onClick={() => {
+                              setPrice(
+                                data?.bookingOptions?.withDriver?.outstation
+                                  ?.packageType?.package1?.ratePerKm
+                              );
+                              setClicked1(true);
+                              setClicked2(false);
+                              setClicked3(false);
+                            }}
+                            className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
+                          >
                             <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                               {/* {data?.bookingOptions?.subscription?.package1?.price} */}
-                              ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm}/<span className="text-primary">Km</span>
-
+                              ₹
+                              {
+                                data?.bookingOptions?.withDriver?.outstation
+                                  ?.packageType?.package1?.ratePerKm
+                              }
+                              /<span className="text-primary">Km</span>
                             </p>
-
                           </div>
                           <div
                             onClick={() => {
-                              setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package2?.ratePerKm);
+                              setPrice(
+                                data?.bookingOptions?.withDriver?.outstation
+                                  ?.packageType?.package2?.ratePerKm
+                              );
 
                               setClicked1(false);
                               setClicked2(true);
                               setClicked3(false);
                             }}
                             className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked2
-                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                              : ""}`}>
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
+                          >
                             <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                               {/* {data?.bookingOptions?.subscription?.package1?.price} */}
-                              ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package2?.ratePerKm}/<span className="text-primary">Km</span>
-
+                              ₹
+                              {
+                                data?.bookingOptions?.withDriver?.outstation
+                                  ?.packageType?.package2?.ratePerKm
+                              }
+                              /<span className="text-primary">Km</span>
                             </p>
-
                           </div>
                           <div
                             onClick={() => {
-                              setPrice(data?.bookingOptions?.withDriver?.outstation?.packageType?.package3?.ratePerKm);
+                              setPrice(
+                                data?.bookingOptions?.withDriver?.outstation
+                                  ?.packageType?.package3?.ratePerKm
+                              );
 
                               setClicked1(false);
                               setClicked2(false);
                               setClicked3(true);
                             }}
                             className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked3
-                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                              : ""}`}>
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
+                          >
                             <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
                               {/* {data?.bookingOptions?.subscription?.package1?.price} */}
-                              ₹{data?.bookingOptions?.withDriver?.outstation?.packageType?.package3?.ratePerKm}/<span className="text-primary">Km</span>
-
+                              ₹
+                              {
+                                data?.bookingOptions?.withDriver?.outstation
+                                  ?.packageType?.package3?.ratePerKm
+                              }
+                              /<span className="text-primary">Km</span>
                             </p>
-
                           </div>
-
                         </div>
 
                         {/* mobile view */}
@@ -1636,7 +1746,7 @@ const CardListingCards = ({ data }: any) => {
                               />
                               <span>{data?.seatingCapacity} Person </span>
                             </div>
-                            {data?.vehicleSpecifications?.fuelType &&
+                            {data?.vehicleSpecifications?.fuelType && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
                                   src="/carListing/gas.png"
@@ -1645,9 +1755,11 @@ const CardListingCards = ({ data }: any) => {
                                   height={20}
                                   alt="bluetooth"
                                 />
-                                <span>{data?.vehicleSpecifications?.fuelType}</span>
+                                <span>
+                                  {data?.vehicleSpecifications?.fuelType}
+                                </span>
                               </div>
-                            }
+                            )}
 
                             <div className="flex flex-row items-center gap-2">
                               <Image
@@ -1674,7 +1786,9 @@ const CardListingCards = ({ data }: any) => {
                         <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 sm:right-0 absolute sm:bottom-0 bottom-[10px] sm:text-[15px] text-sm ml-4">
                           <span
                             className="text-[#ff0000]"
-                            onClick={() => setShowOptionsMobile(!showOptionsMobile)}
+                            onClick={() =>
+                              setShowOptionsMobile(!showOptionsMobile)
+                            }
                           >
                             View Details{" "}
                           </span>
@@ -1685,7 +1799,6 @@ const CardListingCards = ({ data }: any) => {
                             height={10}
                             alt="bluetooth"
                           />
-
                         </div>
                       </div>
                     </>
@@ -1694,7 +1807,6 @@ const CardListingCards = ({ data }: any) => {
             ) : (
               ""
             )}
-
           </main>
 
           {showOptionsMobile && (
@@ -1704,8 +1816,8 @@ const CardListingCards = ({ data }: any) => {
                   <button
                     key={tab.name}
                     className={`sm:py-2 sm:px-4 rounded-t-xl mt-2 w-full text-xs px-2 py-[7px] ${activeTab === tab.name
-                      ? "bg-white text-primary font-bold"
-                      : "bg-black text-white"
+                        ? "bg-white text-primary font-bold"
+                        : "bg-black text-white"
                       }`}
                     onClick={() => setActiveTab(tab.name)}
                   >
@@ -1725,9 +1837,7 @@ const CardListingCards = ({ data }: any) => {
                           objectFit="contain"
                           alt="car"
                         />
-                        <span className="text-xs font-semibold">
-                          Base Fare
-                        </span>
+                        <span className="text-xs font-semibold">Base Fare</span>
                       </div>
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image

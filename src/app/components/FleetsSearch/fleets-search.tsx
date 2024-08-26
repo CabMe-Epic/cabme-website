@@ -1250,14 +1250,14 @@ export default function Home() {
                 />
               </div>
             </div>
-            {/* <div
+            <div
               onClick={(e) => handleDropSelectPopupLocation(e)}
               className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${
                 durationFormat ? "mt-2" : "mt-5"
               }`}
             >
               Drop in different city?
-            </div> */}
+            </div>
             {durationFormat && (
               <div className="w-fit m-auto">
                 <div className="mt-2">

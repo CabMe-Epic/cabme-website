@@ -16,12 +16,14 @@ import {
 import { setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 import useCarsStore from "@/app/zustand/store/carsStore";
+import ProgressBar from "@/app/components/Progress/progress";
 
 interface SelectedUser {
   firstName: string;
   lastName: string;
   fullName: string;
   email: string;
+  dob: any;
   address: string;
   state: string;
   city: string;
@@ -66,7 +68,12 @@ const Checkout = () => {
   const updateUserData = useStore((state) => state.updateUserData);
   const [data, setData] = useState<any>([]);
   const [loader, setLoader] = useState(false);
+  const [selectedPromoCode, setSelectedPromoCode] = useState<any>([]);
+  const [packageFreeKms, setPackageFreeKms] = useState<any>();
   const [particalAmount, setParticalAmount] = useState<number>(0);
+  const [toCity, setToCity] = useState<any>("");
+  const [isFullpayment, setIsFullpayment] = useState<any>("");
+  const [totalAmount, setTotalAmount] = useState<number>(0);
   // const { data, setData } = useContextApi();
   React.useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
@@ -78,6 +85,13 @@ const Checkout = () => {
       setParticalAmount(Number(storedParticalAmount));
     }
   }, [setData, setParticalAmount]);
+
+  useEffect(() => {
+    const dropCity = localStorage.getItem("dropOffLocation");
+    const isFullpayment = localStorage.getItem("isFullpayment");
+    setToCity(dropCity);
+    setIsFullpayment(isFullpayment);
+  }, []);
 
   console.log("particalAmount", { particalAmount });
 
@@ -95,37 +109,8 @@ const Checkout = () => {
   };
 
   console.log("bookingData by data", { bookingData });
+  console.log(selectedPromoCode, "selectedPromoCode");
   const [bookingId, setBookingId] = useState(null);
-  const booking_payload = {
-    userId: bookingData?.userData?._id,
-    vehicleId: bookingData?.vehicleId,
-    option: bookingData.option,
-    location: bookingData.location,
-    pickUpDateTime: bookingData.pickUpDateTime,
-    dropOffDateTime: bookingData.dropOffDateTime,
-    baseFare: Number(bookingData.baseFare),
-    doorstepDelivery: bookingData?.doorstepDelivery as string,
-    gstRate: Number(bookingData?.gstRate),
-    gstAmount: Number(bookingData?.gstAmount),
-    insuranceGST: bookingData?.insuranceGST,
-    refundableDeposit: Number(bookingData?.refundableDeposit),
-    kmsLimit: 0,
-    fuel: bookingData.fuel,
-    extraKmsCharge: Number(bookingData.extraKmsCharge),
-    tollsParking: "",
-    promocode: {
-      code: "Discount",
-      discountType: "Fixed",
-      discountAmount: 50,
-    },
-    totalAmount: Number(bookingData?.totalAmount),
-    bookingDuration: bookingData.bookingDuration,
-    bufferTime: 0,
-    kilometers: 0,
-    createdByUser: bookingData?.userData?._id,
-  };
-
-  console.log("bookingData_____83", { booking_payload });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -138,6 +123,19 @@ const Checkout = () => {
   console.log({ aadharGenerate });
 
   const [currentVehicleId, setCurrentVehicleId] = useState<string | null>();
+
+  const formatDate = (dateString: any) => {
+    // Create a new Date object from the input string
+    const date = new Date(dateString);
+
+    // Extract day, month, and year from the Date object
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+
+    // Return the formatted date string in dd/mm/yyyy format
+    return `${year}/${month}/${day}`;
+  };
 
   useEffect(() => {
     // if (userData?.phoneVerified) {
@@ -154,7 +152,11 @@ const Checkout = () => {
     //   setThree(true);
     //   setTwo(true);
     // }
-    if (userData?.aadharVerified) {
+    if (
+      userData?.aadharVerified &&
+      !three &&
+      (userData?.panVerified || userData?.drivingLicenseVerified)
+    ) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
@@ -163,7 +165,7 @@ const Checkout = () => {
     if (vehicleId) {
       setCurrentVehicleId(vehicleId);
     }
-  }, [userData]);
+  }, [userData, three]);
 
   const [phone, setPhoneNumber] = useState("");
   console.log({ currentVehicleId });
@@ -185,6 +187,7 @@ const Checkout = () => {
     lastName: "",
     fullName: "",
     email: "",
+    dob: "",
     address: "",
     city: "",
     state: "",
@@ -228,6 +231,54 @@ const Checkout = () => {
   //   setTwo(true);
 
   // };
+
+  console.log("selectedUser", formatDate(userData?.dob));
+
+  const booking_payload = {
+    userId: bookingData?.userData?._id,
+    vehicleId: bookingData?.vehicleId,
+    option: bookingData.option,
+    location: bookingData.location,
+    pickUpDateTime: bookingData.pickUpDateTime,
+    dropOffDateTime: bookingData.dropOffDateTime,
+    baseFare: Number(bookingData.baseFare),
+    doorstepDelivery: bookingData?.doorstepDelivery as string,
+    gstRate: Number(bookingData?.gstRate),
+    gstAmount: Number(bookingData?.gstAmount),
+    insuranceGST: bookingData?.insuranceGST,
+    refundableDeposit: Number(bookingData?.refundableDeposit),
+    toCity: toCity,
+    kmsLimit: packageFreeKms,
+    fuel: bookingData?.fuel,
+    extraKmsCharge: Number(bookingData?.extraKmsCharge),
+    tollsParking: "",
+    promocode: {
+      code: selectedPromoCode?.code,
+      discountType: selectedPromoCode?.selectDiscount,
+      discountAmount: selectedPromoCode?.maximumDiscount,
+    },
+
+    paymentMode:
+      isFullpayment == "true"
+        ? "fullPayment"
+        : isFullpayment == "false"
+        ? "partialPayment"
+        : "partialPayment",
+
+    partialPayments: [
+      {
+        amount: isFullpayment == "true" ? Number(totalAmount) : particalAmount,
+        mode: "online",
+      },
+    ],
+    totalAmount: Number(totalAmount),
+    bookingDuration: bookingData.bookingDuration,
+    bufferTime: 0,
+    kilometers: 0,
+    createdByUser: bookingData?.userData?._id,
+  };
+
+  console.log("bookingData_____83", { booking_payload });
 
   const handleStepThree = React.useCallback(async () => {
     console.log("bookingData ____188 new ", { booking_payload });
@@ -344,7 +395,7 @@ const Checkout = () => {
   const [aadhar, setAadhar] = useState("");
   const [aadharOtp, setAadharOtp] = useState("");
   const [aadharData, setAadharData] = useState("");
-  const [selectedVerifiedAadhar, setSelectedVerifiedAadhar] = useState("");
+  const [selectedVerifiedAadhar, setSelectedVerifiedAadhar] = useState<any>("");
   console.log({ selectedVerifiedAadhar });
 
   const handleGenerateAadharOTP = async () => {
@@ -522,6 +573,7 @@ const Checkout = () => {
         return;
       }
 
+      console.log(user?.dob, "user?.dob");
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/fetchPanData`,
         {
@@ -532,9 +584,13 @@ const Checkout = () => {
           body: JSON.stringify({
             pan: panCard,
             //@ts-ignore
-            name: selectedVerifiedAadhar?.verificationResponse?.data.full_name,
+            name:
+              selectedVerifiedAadhar?.verificationResponse?.data.full_name ||
+              userData?.firstName + " " + userData?.lastName,
             //@ts-ignore
-            dob: selectedVerifiedAadhar?.verificationResponse?.data.dob,
+            dob:
+              selectedVerifiedAadhar?.verificationResponse?.data.dob ||
+              formatDate(userData?.dob),
             //@ts-ignore
             currentUserId: userData?._id,
             panImageUrl: panCardPost,
@@ -566,26 +622,51 @@ const Checkout = () => {
   const [panFrontImage, setPanFrontImage] = useState<any>(null);
   const [showDocSelect, setShowDocSelect] = useState<any>("");
 
+  const [loadingRound, setLoadingRound] = useState({
+    aadharFront: false,
+    aadharBack: false,
+    panFront: false,
+    dlFront: false,
+    dlBack: false,
+  });
+
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Aadhar Images Uploading Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const handleFrontImageChange = async (event: any) => {
+    setLoadingRound((prev) => ({
+      ...prev,
+      aadharFront: true,
+    }));
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
         files: event.target.files[0],
       };
       setFrontImage(file);
+
       try {
         const res = await postAadharFront(imagePayload);
         const cleanUrl = res.replace(/\n/g, "");
         setAadharFrontPost(cleanUrl);
+        setLoadingRound((prev) => ({
+          ...prev,
+          aadharFront: false,
+        }));
       } catch (error) {
+        setLoadingRound((prev) => ({
+          ...prev,
+          aadharFront: false,
+        }));
         console.error("Error uploading Aadhar front image:", error);
       }
     }
   };
 
   const handleBackImageChange = async (event: any) => {
+    setLoadingRound((prev) => ({
+      ...prev,
+      aadharBack: true,
+    }));
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
@@ -596,7 +677,15 @@ const Checkout = () => {
         const res = await postAadharBack(imagePayload);
         const cleanUrl = res.replace(/\n/g, "");
         setAadharBackPost(cleanUrl);
+        setLoadingRound((prev) => ({
+          ...prev,
+          aadharBack: false,
+        }));
       } catch (error) {
+        setLoadingRound((prev) => ({
+          ...prev,
+          aadharBack: false,
+        }));
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -613,6 +702,10 @@ const Checkout = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Aadhar Images Uploading End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const handlePanFrontImageChange = async (event: any) => {
+    setLoadingRound((prev) => ({
+      ...prev,
+      panFront: true,
+    }));
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
@@ -623,7 +716,15 @@ const Checkout = () => {
         const res = await postPanCard(imagePayload);
         const cleanUrl = res.replace(/\n/g, "");
         setPanCardPost(cleanUrl);
+        setLoadingRound((prev) => ({
+          ...prev,
+          panFront: false,
+        }));
       } catch (error) {
+        setLoadingRound((prev) => ({
+          ...prev,
+          panFront: false,
+        }));
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -636,6 +737,10 @@ const Checkout = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PAN Images Uploading >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   const handleDlFrontImageChange = async (event: any) => {
+    setLoadingRound((prev) => ({
+      ...prev,
+      dlFront: true,
+    }));
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
@@ -646,12 +751,24 @@ const Checkout = () => {
         const res = await DLUploading(imagePayload);
         const cleanUrl = res.replace(/\n/g, "");
         setDLPost(cleanUrl);
+        setLoadingRound((prev) => ({
+          ...prev,
+          dlFront: false,
+        }));
       } catch (error) {
+        setLoadingRound((prev) => ({
+          ...prev,
+          dlFront: false,
+        }));
         console.error("Error uploading Aadhar front image:", error);
       }
     }
   };
   const handleDlBackImageChange = async (event: any) => {
+    setLoadingRound((prev) => ({
+      ...prev,
+      dlBack: true,
+    }));
     if (event.target.files && event.target.files[0]) {
       const file = URL.createObjectURL(event.target.files[0]);
       const imagePayload: any = {
@@ -662,7 +779,15 @@ const Checkout = () => {
         const res = await DLUploadingBack(imagePayload);
         const cleanUrl = res.replace(/\n/g, "");
         setDLPostBack(cleanUrl);
+        setLoadingRound((prev) => ({
+          ...prev,
+          dlBack: false,
+        }));
       } catch (error) {
+        setLoadingRound((prev) => ({
+          ...prev,
+          dlBack: false,
+        }));
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -699,7 +824,9 @@ const Checkout = () => {
           body: JSON.stringify({
             number: dl,
             //@ts-ignore
-            dob: selectedVerifiedAadhar?.verificationResponse?.data.dob,
+            dob:
+              selectedVerifiedAadhar?.verificationResponse?.data.dob ||
+              formatDate(userData?.dob),
             frontImage: dlPost,
             //@ts-ignore
             currentUserId: userData?._id,
@@ -733,8 +860,6 @@ const Checkout = () => {
 
   /////////////////////////////////////////////////////////////////////////////////////////////////
   // Back data from child component to root file...
-
-  const [totalAmount, setTotalAmount] = useState<number>(0);
 
   const roundPrice = (amount: number) => {
     return Math.round(amount);
@@ -842,8 +967,6 @@ const Checkout = () => {
   }, [userData]);
 
   console.log(userData, "userData");
-
-
 
   return (
     <>
@@ -958,7 +1081,25 @@ const Checkout = () => {
                         />
                       </div>
                     </div>
-                    <div className="my-5">
+                    <div className="my-5 flex  gap-2 w-full">
+                      <div className="relative">
+                        <legend className="absolute top-2 !text-[#312d4ec1] left-5 bg-white p-2">
+                          {userData?.dob
+                            ? userData?.dob
+                            : selectedUser?.dob
+                            ? selectedUser?.dob
+                            : "Date of Birth"}
+                        </legend>
+                        <InputField
+                          name="dob"
+                          placeholder="Date of Birth"
+                          type="date"
+                          otp={userData?.dob}
+                          className="border-0 bg-white font-light placeholder:text-[#312D4E]"
+                          onChange={handleInputChange}
+                        />
+                      </div>
+
                       <InputField
                         name="email"
                         placeholder="Enter your email address*"
@@ -1083,6 +1224,7 @@ const Checkout = () => {
                                 {" "}
                                 Remove
                               </span>
+                              {loadingRound.aadharFront && <ProgressBar />}
                               <Image
                                 src={frontImage}
                                 alt="Front"
@@ -1121,6 +1263,7 @@ const Checkout = () => {
                                 {" "}
                                 Remove
                               </span>
+                              {loadingRound.aadharBack && <ProgressBar />}
                               <Image
                                 src={backImage}
                                 alt="Back"
@@ -1223,9 +1366,8 @@ const Checkout = () => {
                         </span>
                       )}
                       {!userData?.drivingLicenseVerified &&
-                        !userData?.panVerified ? (
+                      !userData?.panVerified ? (
                         <span className="flex items-center gap-2 text-[#000] sm:text-[15px] text-xs">
-
                           Driving License/ Pan Card
                           <Image
                             src="/notVerified.svg"
@@ -1292,6 +1434,7 @@ const Checkout = () => {
                                   {" "}
                                   Remove
                                 </span>
+                                {loadingRound.dlFront && <ProgressBar />}
                                 <Image
                                   src={dlFrontImage}
                                   alt="Front"
@@ -1312,6 +1455,7 @@ const Checkout = () => {
                                   height={20}
                                   alt="upload"
                                 />
+
                                 <input
                                   type="file"
                                   onChange={handleDlFrontImageChange}
@@ -1330,6 +1474,7 @@ const Checkout = () => {
                                   {" "}
                                   Remove
                                 </span>
+                                {loadingRound.dlBack && <ProgressBar />}
                                 <Image
                                   src={dlBackImage}
                                   alt="Front"
@@ -1433,6 +1578,7 @@ const Checkout = () => {
                                     {" "}
                                     Remove
                                   </span>
+                                  {loadingRound.panFront && <ProgressBar />}
                                   <Image
                                     src={panFrontImage}
                                     alt="Front"
@@ -1865,12 +2011,11 @@ const Checkout = () => {
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
             <h2 className="text-[20px] font-bold">4. Payment</h2>
             <button
-              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${!three && userData?.aadharVerified
-                ? "bg-[#FF0000] hover:bg-black hover:text-white"
-                : "bg-gray-400 cursor-not-allowed"
-                }`}
-
-
+              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${
+                !isButtonDisabled
+                  ? "bg-[#FF0000] hover:bg-black hover:text-white"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
               //  className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) )
               //                 ? "bg-[#FF0000] hover:bg-black hover:text-white"
               //                 : "bg-gray-400 cursor-not-allowed"
@@ -1878,8 +2023,7 @@ const Checkout = () => {
 
               onClick={handleSubmit}
               disabled={isButtonDisabled}
-            // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
-
+              // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
             >
               Continue
             </button>
@@ -1890,6 +2034,8 @@ const Checkout = () => {
             roundPrice={roundPrice}
             onTotalAmountChange={handleBackBaseFareAmount}
             particalAmount={particalAmount}
+            packageFreeKmSecond={setPackageFreeKms}
+            setSelectedPromoCodeSecond={setSelectedPromoCode}
           />
         </div>
       </div>
