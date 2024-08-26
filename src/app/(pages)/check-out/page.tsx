@@ -589,7 +589,7 @@ const Checkout = () => {
               userData?.firstName + " " + userData?.lastName,
             //@ts-ignore
             dob:
-              selectedVerifiedAadhar?.verificationResponse?.data.dob ||
+              
               formatDate(userData?.dob),
             //@ts-ignore
             currentUserId: userData?._id,
@@ -825,7 +825,7 @@ const Checkout = () => {
             number: dl,
             //@ts-ignore
             dob:
-              selectedVerifiedAadhar?.verificationResponse?.data.dob ||
+              
               formatDate(userData?.dob),
             frontImage: dlPost,
             //@ts-ignore
