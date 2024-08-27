@@ -1578,7 +1578,7 @@ export default function Home() {
             Drop in different city?
           </strong>{" "} */}
             {durationFormat && (
-              <div className="flex items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
+              <div className="flex sm:flex-row flex-col items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
                 <strong>Duration :</strong>{" "}
                 <p className="text-sm font-semibold mt-[2px]">
                   {durationFormat}
