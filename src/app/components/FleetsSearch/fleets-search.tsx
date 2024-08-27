@@ -216,7 +216,7 @@ export default function Home() {
     />
   );
   const hanldepickupTime = (event: any) => {
-    console.log(event, "pickup date");
+    localStorage.setItem("nonFormatedPickupDate", moment(event).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
     setStartDate(event);
     const result = convert(event);
     setPickupDate(result);
@@ -228,6 +228,8 @@ export default function Home() {
 
   const hanldedropoffTime = async (event: any) => {
     console.log(event, "joo");
+    localStorage.setItem("nonFormatedDropoffDate", moment(event).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
+
     const result = convert(event);
     const getDropoffTime = convertTime(event);
     if (pickupDate === undefined || pickupTime === undefined) {
@@ -242,17 +244,14 @@ export default function Home() {
     console.log({ dropDate });
   };
   React.useEffect(() => {
-    console.log("random date", { dropDate });
-    console.log(dropDate - startDate, "diff");
     if (dropoffTime !== undefined && dropoffTime !== "00:00") {
-      // console.log("true");
-      if (dropDate - startDate < 86400000) {
-        alert("must be greater then start date");
+      if (dropDate <= startDate) {
+        alert("Drop-off date must be greater than the pick-up date.");
         setDropDate(undefined);
-        // return;
       }
     }
-  }, [dropoffTime]);
+  }, [dropDate, startDate, dropoffTime]);
+  
 
   // const hanldedropoffTime = React.useEffect((data:any)=>{
   // if(dateFormat <= fropFormat){
@@ -277,11 +276,15 @@ export default function Home() {
     if (startDate && dropDate) {
       const diffInMs = Math.abs(dropDate - startDate);
       const diffInSeconds = Math.floor(diffInMs / 1000);
+  
       const days = Math.floor(diffInSeconds / (3600 * 24));
       const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
-      return `${days} days and ${hours} hours`;
+      const minutes = Math.floor((diffInSeconds % 3600) / 60);
+  
+      return `${days} days, ${hours} hours, and ${minutes} minutes`;
     }
   }, [startDate, dropDate]);
+  
 
   console.log("durationFormat", { durationFormat });
 

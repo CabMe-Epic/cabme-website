@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useState } from "react";
-import { searchVehicle } from "../../../../networkRequests/hooks/api";
+import { searchVehicle, searchVehicleNew } from "../../../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -39,17 +39,34 @@ interface ChildComponentProps {
   roundPrice: (amount: number) => number;
   onTotalAmountChange: (amount: number) => void;
   particalAmount: number;
+  setSelectedPromoCodeSecond: any;
+  packageFreeKmSecond: any;
 }
+
+interface VehicleSearchPayload {
+  city: string | null;
+  dropOffDateTime: string | null;
+  pickUpDateTime: string | null;
+}
+
 
 const BookingSummery: React.FC<ChildComponentProps> = ({
   roundPrice,
   onTotalAmountChange,
   particalAmount,
+  setSelectedPromoCodeSecond,
+  packageFreeKmSecond
 }) => {
   const router = useRouter();
   const { slug } = useParams();
   const [token, setToken] = useState<string | null>(null);
   console.log("particalAmount booking", { particalAmount });
+
+  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
+    city: null,
+    pickUpDateTime: null,
+    dropOffDateTime: null,
+  });
 
   const [userId, setUserId] = useState<string | null>(null);
   const [carDetails, setCarDetails] = useState<any>();
@@ -58,6 +75,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const [pickupTime, setPickupTime] = useState<string | null>(null);
   const [pickupDate, setPickupDate] = useState<any>();
   const [packagePrice, setPackagePrice] = useState<any>();
+  const [packageFreekms, setPackageFreekms ] = useState<any>();
   const [discountAmount, setDiscountAmount] = useState<number>(0);
   const [promoCodes, setPromoCodes] = useState([]);
 
@@ -76,11 +94,18 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   console.log("selectedPromoCode", { selectedPromoCode });
 
+  console.log("selecteddPackage", packagePrice,packageFreekms)
   // const handleChangePromocodeOption = (e: any) => {
   //   setSelectedPromocodeOption(e);
   //   console.log("hello");
 
   // };
+
+  useEffect(() => {
+
+    setSelectedPromoCodeSecond(selectedPromoCode)
+
+  },[selectedPromoCode])
 
   const handleHidePopUp = () => {
     setApplyCoupon(false);
@@ -113,6 +138,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     : null;
   const { days, hours } = extractDaysAndHours(duration);
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
+
   const bookingData = {
     userId: userId,
     vehicleId: carDetails?._id,
@@ -125,6 +151,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     insuranceGST: carDetails?.extraService?.insurance,
     refundableDeposit: 0,
     kmsLimit: 0,
+    packageFreeKms: packageFreekms,
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
@@ -182,9 +209,27 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     }
   };
 
+
+
+  useEffect(() => {
+    const location = localStorage.getItem("pickupLocation");
+    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+  
+    console.log("Location:", location);
+    console.log("Pickup Date:", pickupDate);
+    console.log("Dropoff Date:", dropDate);
+  
+    setLocationData({
+      city: location,
+      pickUpDateTime:pickupDate ,
+      dropOffDateTime:dropDate,
+    });
+  }, []);
+
   const getCarDetails = useCallback(async () => {
-    const getSearchCarData = await searchVehicle();
-    const carData = getSearchCarData?.data?.vehicles;
+    const getSearchCarData = await searchVehicleNew(locationData);
+    const carData = getSearchCarData?.data?.availableVehicles;
     carData?.forEach((item: any) => {
       if (item?._id === sessionSlug) {
         setCarDetails(item);
@@ -248,8 +293,11 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    const selectedPackageFreekms = localStorage.getItem("selectedPackageFreeKms");
     const bookingOption = localStorage.getItem("tabValue");
     setPackagePrice(selectedPackagePrice);
+    setPackageFreekms(selectedPackageFreekms)
+    packageFreeKmSecond(selectedPackageFreekms)
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setBookingOpt(bookingOption);

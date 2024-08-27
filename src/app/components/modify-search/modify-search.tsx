@@ -20,6 +20,8 @@ const ModifySearch: React.FC = () => {
 
   const handleStartDateTimeChange = (date: Date | null) => {
     if (date) {
+      localStorage.setItem("nonFormatedPickupDate", moment(date).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
+
       setStartDate(date);
       setStartTime(moment(date).format("HH:mm"));
     }
@@ -27,6 +29,8 @@ const ModifySearch: React.FC = () => {
 
   const handleEndDateTimeChange = (date: Date | null) => {
     if (date) {
+      localStorage.setItem("nonFormatedDropoffDate", moment(date).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
+
       setEndDate(date);
       setEndTime(moment(date).format("HH:mm"));
     }
@@ -151,6 +155,8 @@ setTabsValue(tabValue);
                 <>
                   <input
                     className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
+                    style={{ backgroundColor: 'rgb(252, 251, 251, 0%)' }}
+
                     type="text"
                     placeholder="All City"
                     onClick={(e) => handleSelectPopupLocation(e)}

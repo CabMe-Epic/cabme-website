@@ -9,31 +9,79 @@ import CardListingCards from "@/app/components/card-listing-cards/card-listing-c
 import ThemeButton from "../../components/theme-button/theme-button";
 import CardListingBanner from "@/app/components/car-listing-banner/card-listing-banner";
 import "../../../../networkRequests/types/type";
-import { searchVehicle } from "../../../../networkRequests/hooks/api";
+import { searchVehicle, searchVehicleNew } from "../../../../networkRequests/hooks/api";
 import ModifySearch from "@/app/components/modify-search/modify-search";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
+import moment from "moment";
+
+interface VehicleSearchPayload {
+  city: string | null;
+  dropOffDateTime: string | null;
+  pickUpDateTime: string | null;
+}
+
+
 
 const ITEMS_PER_PAGE = 8;
 const CarListing = () => {
   const pathname = usePathname();
   const breadcrumbs = getBreadcrumbs(pathname);
-  const [carData, setCarData] = useState<any>();
+  // const [carData, setCarData] = useState<any>();
   const [showFilter, setShowFilter] = useState(false);
-  const [loader, setLoader] = useState(false);
+  // const [loader, setLoader] = useState(false);
 
+
+  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
+    city: null,
+    pickUpDateTime: null,
+    dropOffDateTime: null,
+  });
+  const [carData, setCarData] = useState<any>(null); // Replace with appropriate type
+  const [loader, setLoader] = useState<boolean>(false);
+
+  const isValidDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return !isNaN(date.getTime());
+  };
+
+  useEffect(() => {
+    const location = localStorage.getItem("pickupLocation");
+    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+  
+    console.log("Location:", location);
+    console.log("Pickup Date:", pickupDate);
+    console.log("Dropoff Date:", dropDate);
+  
+    setLocationData({
+      city: location,
+      pickUpDateTime:pickupDate ,
+      dropOffDateTime:dropDate,
+    });
+  }, []);
+  
+  
 
   const getCarDetails = useCallback(async () => {
-    setLoader(true);
-    const getSearchCarData = await searchVehicle();
-    console.log(getSearchCarData, "mmmmmmmmmmm");
-    setCarData(getSearchCarData?.data?.vehicles);
-    setLoader(false);
-  }, []);
+    if (locationData.pickUpDateTime && locationData.dropOffDateTime) {
+      console.log("Payload being sent:", locationData);
+      setLoader(true);
+      const getSearchCarData = await searchVehicleNew(locationData);
+      console.log(getSearchCarData, "Car search API response");
+      setCarData(getSearchCarData?.data?.availableVehicles);
+      setLoader(false);
+    } else {
+      console.error("Invalid dates provided in payload", locationData);
+    }
+  }, [locationData]);
+
   useEffect(() => {
-    getCarDetails();
+    if (locationData.city && locationData.pickUpDateTime && locationData.dropOffDateTime) {
+      getCarDetails();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  // console.log(carData, "search api called");
+  }, [locationData]);
+
 
   const [pickupLocation, setPickupLocation] = useState<any>();
   const [dropoffLocation, setDropoffLocation] = useState<any>();
