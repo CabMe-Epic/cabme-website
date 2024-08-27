@@ -319,7 +319,7 @@ const CarDetails = () => {
           carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
         )
       : "";
-  }, [locationData]);
+  }, [locationData, slug]);
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
