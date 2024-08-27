@@ -162,7 +162,7 @@ const Checkout = () => {
     // }
     console.log(dlPostBack, dlPost, dlFrontImage, dlBackImage, "dlImages")
     if (
-      userData?.aadharVerified && (dlPostBack && dlPost || dlFrontImage && dlBackImage) &&
+      userData?.aadharVerified && (dlPostBack && dlPost || (dlFrontImage && dlBackImage)) &&
       (!three || !four) &&
       (userData?.panVerified || userData?.drivingLicenseVerified)
     ) {
@@ -2050,7 +2050,7 @@ const Checkout = () => {
                         <Image
                           src={
                             userData?.drivingLicenseFrontImageUrl ||
-                            "/dlcard.svg"
+                            dlFrontImage || dlPost
                           }
                           alt="user"
                           width={60}
@@ -2058,8 +2058,8 @@ const Checkout = () => {
                         />{" "}
                         <Image
                           src={
-                            userData?.drivingLicenseBackImageUrl ||
-                            "/dlcard.svg"
+                            userData?.drivingLicenseBackImageUrl || dlBackImage ||
+                            dlPostBack
                           }
                           alt="user"
                           width={60}
@@ -2097,7 +2097,7 @@ const Checkout = () => {
                         </span>{" "}
                         <Image
                           src={
-                            userData?.drivingLicenseBackImageUrl ||
+                            userData?.aadharCardFrontImageUrl || aadharFrontPost || 
                             "/dlcard.svg"
                           }
                           alt="user"
@@ -2106,7 +2106,7 @@ const Checkout = () => {
                         />{" "}
                         <Image
                           src={
-                            userData?.aadharCardBackImageUrl ||
+                            userData?.aadharCardBackImageUrl || aadharBackPost || 
                             "/aadharCard.svg"
                           }
                           alt="user"
