@@ -20,6 +20,8 @@ const ModifySearch: React.FC = () => {
 
   const handleStartDateTimeChange = (date: Date | null) => {
     if (date) {
+      localStorage.setItem("nonFormatedPickupDate", moment(date).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
+
       setStartDate(date);
       setStartTime(moment(date).format("HH:mm"));
     }
@@ -27,6 +29,8 @@ const ModifySearch: React.FC = () => {
 
   const handleEndDateTimeChange = (date: Date | null) => {
     if (date) {
+      localStorage.setItem("nonFormatedDropoffDate", moment(date).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
+
       setEndDate(date);
       setEndTime(moment(date).format("HH:mm"));
     }

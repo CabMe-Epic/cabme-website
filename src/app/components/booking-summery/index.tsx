@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useState } from "react";
-import { searchVehicle } from "../../../../networkRequests/hooks/api";
+import { searchVehicle, searchVehicleNew } from "../../../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -43,6 +43,12 @@ interface ChildComponentProps {
   packageFreeKmSecond: any;
 }
 
+interface VehicleSearchPayload {
+  city: string | null;
+  dropOffDateTime: string | null;
+  pickUpDateTime: string | null;
+}
+
 
 const BookingSummery: React.FC<ChildComponentProps> = ({
   roundPrice,
@@ -55,6 +61,12 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const { slug } = useParams();
   const [token, setToken] = useState<string | null>(null);
   console.log("particalAmount booking", { particalAmount });
+
+  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
+    city: null,
+    pickUpDateTime: null,
+    dropOffDateTime: null,
+  });
 
   const [userId, setUserId] = useState<string | null>(null);
   const [carDetails, setCarDetails] = useState<any>();
@@ -197,9 +209,27 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     }
   };
 
+
+
+  useEffect(() => {
+    const location = localStorage.getItem("pickupLocation");
+    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+  
+    console.log("Location:", location);
+    console.log("Pickup Date:", pickupDate);
+    console.log("Dropoff Date:", dropDate);
+  
+    setLocationData({
+      city: location,
+      pickUpDateTime:pickupDate ,
+      dropOffDateTime:dropDate,
+    });
+  }, []);
+
   const getCarDetails = useCallback(async () => {
-    const getSearchCarData = await searchVehicle();
-    const carData = getSearchCarData?.data?.vehicles;
+    const getSearchCarData = await searchVehicleNew(locationData);
+    const carData = getSearchCarData?.data?.availableVehicles;
     carData?.forEach((item: any) => {
       if (item?._id === sessionSlug) {
         setCarDetails(item);

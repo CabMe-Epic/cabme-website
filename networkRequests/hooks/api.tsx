@@ -20,6 +20,18 @@ export const searchVehicle = async () => {
     console.log("Error in getting search vehicle api", error);
   }
 }
+export const searchVehicleNew = async (data: any) => {
+  try {
+    const vehicleList = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/vehicle-search`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    return vehicleList
+  } catch (error) {
+    console.log("Error in getting search vehicle api", error);
+  }
+}
 
 export const postAadharFront = async (data: any) => {
   try {

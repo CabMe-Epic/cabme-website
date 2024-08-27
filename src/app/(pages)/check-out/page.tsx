@@ -111,6 +111,14 @@ const Checkout = () => {
   console.log("bookingData by data", { bookingData });
   console.log(selectedPromoCode, "selectedPromoCode");
   const [bookingId, setBookingId] = useState(null);
+  const [dlPost, setDLPost] = useState<string | null>(null);
+  const [dlPostBack, setDLPostBack] = useState<string | null>(null);
+  const [frontImage, setFrontImage] = useState<any>(null);
+  const [backImage, setBackImage] = useState<any>(null);
+  const [dlFrontImage, setDlFrontImage] = useState<any>(null);
+  const [dlBackImage, setDlBackImage] = useState<any>(null);
+  const [panFrontImage, setPanFrontImage] = useState<any>(null);
+  const [showDocSelect, setShowDocSelect] = useState<any>("");
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
@@ -152,8 +160,9 @@ const Checkout = () => {
     //   setThree(true);
     //   setTwo(true);
     // }
+    console.log(dlPostBack, dlPost, dlFrontImage, dlBackImage, "dlImages")
     if (
-      userData?.aadharVerified &&
+      userData?.aadharVerified && (dlPostBack && dlPost || dlFrontImage && dlBackImage) &&
       (!three || !four) &&
       (userData?.panVerified || userData?.drivingLicenseVerified)
     ) {
@@ -165,7 +174,7 @@ const Checkout = () => {
     if (vehicleId) {
       setCurrentVehicleId(vehicleId);
     }
-  }, [userData, three]);
+  }, [userData, three,dlPostBack,dlPost,dlFrontImage,dlBackImage]);
 
   const [phone, setPhoneNumber] = useState("");
   console.log({ currentVehicleId });
@@ -173,8 +182,7 @@ const Checkout = () => {
   const [aadharFrontPost, setAadharFrontPost] = useState<string | null>(null);
   const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
 
-  const [dlPost, setDLPost] = useState<string | null>(null);
-  const [dlPostBack, setDLPostBack] = useState<string | null>(null);
+
   // console.log({ dlPostBack })
 
   const [panCardPost, setPanCardPost] = useState<string | null>(null);
@@ -262,8 +270,8 @@ const Checkout = () => {
       isFullpayment == "true"
         ? "fullPayment"
         : isFullpayment == "false"
-        ? "partialPayment"
-        : "partialPayment",
+          ? "partialPayment"
+          : "partialPayment",
 
     partialPayments: [
       {
@@ -589,7 +597,7 @@ const Checkout = () => {
               userData?.firstName + " " + userData?.lastName,
             //@ts-ignore
             dob:
-            selectedVerifiedAadhar?.verificationResponse?.data.dob ||
+              selectedVerifiedAadhar?.verificationResponse?.data.dob ||
               formatDate(userData?.dob),
             //@ts-ignore
             currentUserId: userData?._id,
@@ -615,12 +623,7 @@ const Checkout = () => {
     }
   };
 
-  const [frontImage, setFrontImage] = useState<any>(null);
-  const [backImage, setBackImage] = useState<any>(null);
-  const [dlFrontImage, setDlFrontImage] = useState<any>(null);
-  const [dlBackImage, setDlBackImage] = useState<any>(null);
-  const [panFrontImage, setPanFrontImage] = useState<any>(null);
-  const [showDocSelect, setShowDocSelect] = useState<any>("");
+
 
   const [loadingRound, setLoadingRound] = useState({
     aadharFront: false,
@@ -825,7 +828,7 @@ const Checkout = () => {
             number: dl,
             //@ts-ignore
             dob:
-            selectedVerifiedAadhar?.verificationResponse?.data.dob ||
+              selectedVerifiedAadhar?.verificationResponse?.data.dob ||
               formatDate(userData?.dob),
             frontImage: dlPost,
             //@ts-ignore
@@ -844,6 +847,43 @@ const Checkout = () => {
         const update = data?.user;
         updateUserData(update);
         toast.success("The driving license has been successfully verified.");
+        setThree(true);
+        setFour(false);
+      }
+    } catch (error) {
+      console.error("Error fetching OTP:", error);
+    }
+  };
+
+  const handleVerifyDrivingLicenceUpload = async () => {
+    try {
+      if (!dlPost) {
+        toast.error("Please upload your Driving licence images to proceed.");
+        return;
+      }
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/${userData?._id}`,
+        {
+          method: "put",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            drivingLicenseFrontImageUrl: dlPost,
+            drivingLicenseBackImageUrl: dlPostBack,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log({ data });
+      if (data?.success === false) {
+        toast.error(
+          "The provided driving license images is invalid. Please check and try again."
+        );
+      }
+      if (data?.success) {
+        const update = data?.user;
+        updateUserData(update);
+        toast.success("The driving license images has been uploaded successfully.");
         setThree(true);
         setFour(false);
       }
@@ -1087,8 +1127,8 @@ const Checkout = () => {
                           {userData?.dob
                             ? userData?.dob
                             : selectedUser?.dob
-                            ? selectedUser?.dob
-                            : "Date of Birth"}
+                              ? selectedUser?.dob
+                              : "Date of Birth"}
                         </legend>
                         <InputField
                           name="dob"
@@ -1366,7 +1406,7 @@ const Checkout = () => {
                         </span>
                       )}
                       {!userData?.drivingLicenseVerified &&
-                      !userData?.panVerified ? (
+                        !userData?.panVerified ? (
                         <span className="flex items-center gap-2 text-[#000] sm:text-[15px] text-xs">
                           Driving License/ Pan Card
                           <Image
@@ -1609,13 +1649,14 @@ const Checkout = () => {
                             </div>
                           </div>
 
+
                           <div className="flex items-center justify-between w-[73%] ">
                             {!userData?.panVerified && (
                               <button
                                 onClick={handleVerifiedPan}
                                 className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
                               >
-                                Continue
+                                Verify Pan
                               </button>
                             )}
 
@@ -1637,6 +1678,98 @@ const Checkout = () => {
                                 </div>
                               )} */}
                           </div>
+                          <h1 className="mt-4 text-xs text-red-600">
+                            Driving Licence Images are Required*
+                          </h1>
+                          <div className="flex gap-2 items-center">
+                            <div className="w-[230px] cursor-pointer  h-[155px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                              {dlFrontImage ? (
+                                <div className="relative ">
+                                  <span
+                                    onClick={handleRemoveDlFront}
+                                    className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                  >
+                                    {" "}
+                                    Remove
+                                  </span>
+                                  {loadingRound.dlFront && <ProgressBar />}
+                                  <Image
+                                    src={dlFrontImage}
+                                    alt="Front"
+                                    width={200}
+                                    height={155}
+                                    className="w-[200px] !h-[155px] object-contain rounded-md cursor-pointer"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="cursor-pointer flex flex-col items-center justify-center">
+                                  <span className="text-sm cursor-pointer text-[14px]">
+                                    Front image
+                                  </span>
+                                  <Image
+                                    src="/upload.svg"
+                                    className="aboslute left-0 top-10"
+                                    width={20}
+                                    height={20}
+                                    alt="upload"
+                                  />
+
+                                  <input
+                                    type="file"
+                                    onChange={handleDlFrontImageChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <div className="w-[230px] cursor-pointer  h-[155px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                              {dlBackImage ? (
+                                <div className="relative ">
+                                  <span
+                                    onClick={handleRemoveDlBack}
+                                    className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                  >
+                                    {" "}
+                                    Remove
+                                  </span>
+                                  {loadingRound.dlBack && <ProgressBar />}
+                                  <Image
+                                    src={dlBackImage}
+                                    alt="Front"
+                                    width={200}
+                                    height={155}
+                                    className="w-[200px] !h-[155px] object-contain rounded-md cursor-pointer"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="cursor-pointer flex flex-col items-center justify-center">
+                                  <span className="text-sm cursor-pointer text-[14px]">
+                                    Back image
+                                  </span>
+                                  <Image
+                                    src="/upload.svg"
+                                    className="aboslute left-0 top-10"
+                                    width={20}
+                                    height={20}
+                                    alt="upload"
+                                  />
+                                  <input
+                                    type="file"
+                                    onChange={handleDlBackImageChange}
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              handleVerifyDrivingLicenceUpload();
+                            }}
+                            className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                          >
+                            Upload DL Images
+                          </button>
                         </div>
                         {trap && (
                           <div>
@@ -2011,11 +2144,10 @@ const Checkout = () => {
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
             <h2 className="text-[20px] font-bold">4. Payment</h2>
             <button
-              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${
-                !isButtonDisabled
-                  ? "bg-[#FF0000] hover:bg-black hover:text-white"
-                  : "bg-gray-400 cursor-not-allowed"
-              }`}
+              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${!isButtonDisabled
+                ? "bg-[#FF0000] hover:bg-black hover:text-white"
+                : "bg-gray-400 cursor-not-allowed"
+                }`}
               //  className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) )
               //                 ? "bg-[#FF0000] hover:bg-black hover:text-white"
               //                 : "bg-gray-400 cursor-not-allowed"
@@ -2023,7 +2155,7 @@ const Checkout = () => {
 
               onClick={handleSubmit}
               disabled={isButtonDisabled}
-              // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
+            // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
             >
               Continue
             </button>

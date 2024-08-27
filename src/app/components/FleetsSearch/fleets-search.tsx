@@ -216,7 +216,7 @@ export default function Home() {
     />
   );
   const hanldepickupTime = (event: any) => {
-    console.log(event, "pickup date");
+    localStorage.setItem("nonFormatedPickupDate", moment(event).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
     setStartDate(event);
     const result = convert(event);
     setPickupDate(result);
@@ -228,6 +228,8 @@ export default function Home() {
 
   const hanldedropoffTime = async (event: any) => {
     console.log(event, "joo");
+    localStorage.setItem("nonFormatedDropoffDate", moment(event).format('YYYY-MM-DDTHH:mm:ss.SSSZ'));
+
     const result = convert(event);
     const getDropoffTime = convertTime(event);
     if (pickupDate === undefined || pickupTime === undefined) {

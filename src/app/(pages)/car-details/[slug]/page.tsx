@@ -9,7 +9,7 @@ import DescCar from "@/app/components/desc-car/desc-car";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { searchVehicle } from "../../../../../networkRequests/hooks/api";
+import { searchVehicle, searchVehicleNew } from "../../../../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -26,6 +26,13 @@ import { useStore } from "@/app/zustand/store/store";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import { set } from "react-datepicker/dist/date_utils";
+
+interface VehicleSearchPayload {
+  city: string | null;
+  dropOffDateTime: string | null;
+  pickUpDateTime: string | null;
+}
+
 
 interface PromoCode {
   code: string;
@@ -278,9 +285,32 @@ const CarDetails = () => {
 
   const { slug }: any = useParams();
 
+  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
+    city: null,
+    pickUpDateTime: null,
+    dropOffDateTime: null,
+  });
+
+  useEffect(() => {
+    const location = localStorage.getItem("pickupLocation");
+    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+  
+    console.log("Location:", location);
+    console.log("Pickup Date:", pickupDate);
+    console.log("Dropoff Date:", dropDate);
+  
+    setLocationData({
+      city: location,
+      pickUpDateTime:pickupDate ,
+      dropOffDateTime:dropDate,
+    });
+  }, []);
+
   const getCarDetails = useCallback(async () => {
-    const getSearchCarData = await searchVehicle();
-    const carData = getSearchCarData?.data?.vehicles;
+    const getSearchCarData = await searchVehicleNew(locationData);
+    const carData = getSearchCarData?.data?.availableVehicles;
+    console.log(carData,"carDatadetail")
     carData?.map((item: any) => {
       return item?._id === slug ? setCarDetails(item) : "";
     });
@@ -289,7 +319,7 @@ const CarDetails = () => {
           carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
         )
       : "";
-  }, []);
+  }, [locationData]);
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");

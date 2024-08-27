@@ -11,9 +11,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./Datepicker.css";
 import BannerSlider from "./components/banner-slider/banner-slider";
 
-import FleetsSearch from "@/app/components/FleetsSearch/fleets-search"
+import FleetsSearch from "@/app/components/FleetsSearch/fleets-search";
 import axios from "axios";
-
 
 export default function Home() {
   const [offer, setOffer] = useState("Daily Offers");
@@ -25,7 +24,6 @@ export default function Home() {
   const scrollToFleet = () => {
     topFleetForm?.current?.scrollIntoView({ behavior: "smooth" });
   };
-
 
   // const txnId = "txn" + new Date().getTime();
 
@@ -92,10 +90,8 @@ export default function Home() {
   //   }
   // }
 
-
   return (
     <>
-
       <div
         className="z-[-9] relative rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         ref={topFleetForm}
@@ -117,15 +113,17 @@ export default function Home() {
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
-              } text-white rounded-l-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+              offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+            } text-white rounded-l-full cursor-pointer`}
             onClick={() => setOffer("Daily Offers")}
           >
             Daily Offers
           </div>
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
-              } text-white rounded-r-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+              offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+            } text-white rounded-r-full cursor-pointer`}
             onClick={() => setOffer("Monthly Offers")}
           >
             Monthly Offers
@@ -194,8 +192,9 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
-                  } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${
+                  index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
+                } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
@@ -206,10 +205,11 @@ export default function Home() {
                     alt="image"
                     width={62}
                     height={62}
-                    className={`${item?.imageUrl === "/svg/car-vector.svg"
-                      ? "w-[130px]"
-                      : "w-auto"
-                      } sm:h-[62px] h-[40px] m-auto mb-4`}
+                    className={`${
+                      item?.imageUrl === "/svg/car-vector.svg"
+                        ? "w-[130px]"
+                        : "w-auto"
+                    } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
                     <h3 className="font-semibold text-xl sm:leading-[26px] leading-none">
@@ -282,10 +282,12 @@ export default function Home() {
       >
         <div className="max-w-[550px] m-auto">
           <h3 className="font-semibold lg:text-3xl text-2xl">
-            Best App for <span className="text-primary font-bold">CAR RENTAL</span>
+            Best App for{" "}
+            <span className="text-primary font-bold">CAR RENTAL</span>
           </h3>
           <p className="lg:my-8 sm:my-4 sm:text-[14px] text-xs">
-            The application is available on both apple store and play store. Download Now.
+            The application is available on both apple store and play store.
+            Download Now.
           </p>
           <div className="flex sm:justify-start justify-center sm:gap-12 gap-4 sm:mt-0 mt-2">
             <button>
@@ -305,10 +307,12 @@ export default function Home() {
             </button>
             <button>
               <Image
-                onClick={() => window.open(
-                  "https://apps.apple.com/in/app/cabme-self-drive-car-rentals/id1670293597",
-                  "_blank"
-                )}
+                onClick={() =>
+                  window.open(
+                    "https://apps.apple.com/in/app/cabme-self-drive-car-rentals/id1670293597",
+                    "_blank"
+                  )
+                }
                 src={"/png/apple.png"}
                 alt="apple"
                 width={179}
@@ -399,7 +403,9 @@ export default function Home() {
               </span>{" "}
             </h2>
             <p className="mb-6 sm:block hidden">
-              If you got any questions that is not in FAQs, please go through the Terms and Conditions. Or reach us at 1800 121 6162 or mail us at enquiry.cabme@gmail.com
+              If you got any questions that is not in FAQs, please go through
+              the Terms and Conditions. Or reach us at 1800 121 6162 or mail us
+              at enquiry.cabme@gmail.com
             </p>
           </div>
           <Image
