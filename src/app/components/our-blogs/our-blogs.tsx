@@ -1,10 +1,51 @@
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 const OurBlogs = () => {
+  const [contentData, setContentData] = React.useState<any>([]);
+  const getContentData = async () => {
+    try {
+      const result = await axios.get(
+        "https://marketing.cabme.in/wp-json/wp/v2/posts"
+      );
+      console.log("result data", { result });
+      setContentData(result.data);
+    } catch (error) {
+      console.log("", error);
+    }
+  };
+
+  React.useEffect(() => {
+    getContentData();
+  }, []);
+
+  console.log("contentData", { contentData });
+  const [mediaData, setMediaData] = React.useState<any>([]);
+  const getMediaData = async () => {
+    try {
+      const result = await axios.get(
+        "https://marketing.cabme.in/wp-json/wp/v2/media"
+      );
+      console.log("result data", { result });
+      setMediaData(result.data);
+    } catch (error) {
+      console.log("", error);
+    }
+  };
+
+  React.useEffect(() => {
+    getMediaData();
+  }, []);
+
+  console.log("mediaData", { mediaData });
+
+  React.useEffect(() => {}, []);
+
   return (
     <>
-       {/* desktop view */}
+      {/* desktop view */}
       <div className="grid grid-cols-2 relative sm:grid hidden">
         <div
           className="bg-[url('/png/blog-left.png')] bg-contain bg-no-repeat text-white lg:py-12 lg:px-12 px-2 py-8"
@@ -23,7 +64,10 @@ const OurBlogs = () => {
             </p>
             <Link href={"#"}>
               {" "}
-              <span className="text-primary lg:text-md text-xs"> READ ARTICLE</span>
+              <span className="text-primary lg:text-md text-xs">
+                {" "}
+                READ ARTICLE
+              </span>
             </Link>
             <div className="flex justify-between lg:mt-4 mt-2">
               <button className="flex items-center gap-2">
@@ -33,7 +77,6 @@ const OurBlogs = () => {
                   width={8}
                   height={8}
                   className="lg:w-full w-[7px] h-auto"
-
                 />
                 <span className="lg:text-[14px] text-xs">Prev</span>
               </button>
@@ -67,7 +110,10 @@ const OurBlogs = () => {
             </p>
             <Link href={"#"}>
               {" "}
-              <span className="text-primary lg:text-md text-xs"> READ ARTICLE</span>
+              <span className="text-primary lg:text-md text-xs">
+                {" "}
+                READ ARTICLE
+              </span>
             </Link>
             <div className="flex justify-between lg:mt-4 mt-2">
               <button className="flex items-center gap-2">
@@ -108,7 +154,7 @@ const OurBlogs = () => {
           className="h-[108%] w-auto absolute top-0 left-0 right-0 m-auto xl:hidden block"
         />
       </div>
-       {/* mobile view */}
+      {/* mobile view */}
       <div className="sm:hidden block">
         <div className="relative">
           <Image
@@ -160,8 +206,6 @@ const OurBlogs = () => {
                   alt="arrow"
                   width={8}
                   height={8}
-                 
-
                 />
                 <span>Prev</span>
               </button>
