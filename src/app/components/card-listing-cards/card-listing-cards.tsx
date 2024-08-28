@@ -314,7 +314,7 @@ const CardListingCards = ({ data }: any) => {
                 </div>
                 <div className="w-full">
                   <div className="sm:h-[274px] max-w-[700px] relative">
-                    <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-5 pl-4 sm:pr-0 pr-4 justify-end">
+                    <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 justify-end">
                       <div
                         onClick={() => {
                           setFreekms(Number((
@@ -343,7 +343,7 @@ const CardListingCards = ({ data }: any) => {
                             : ""
                           }`}
                       >
-                        <span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                        <span className="font-bold lg:text-[20px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {(() => {
                             const price = calculateTotalPrice(
@@ -365,7 +365,7 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <span className="relative flex flex-row  group text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[13px] whitespace-nowrap w-full overflow-hidden m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap w-full overflow-hidden m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit == 0
                                 ? "Unlimited"
@@ -417,7 +417,7 @@ const CardListingCards = ({ data }: any) => {
                             : ""
                           }`}
                       >
-                        <span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                        <span className="font-bold lg:text-[20px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {(() => {
                             const price = calculateTotalPrice(
@@ -431,7 +431,7 @@ const CardListingCards = ({ data }: any) => {
                           })()}
                         </span>
                         <span className="relative flex flex-col gap-0 group">
-                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center whitespace-nowrap">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px]  text-[10px] text-center whitespace-nowrap">
                             {
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.duration
@@ -439,7 +439,7 @@ const CardListingCards = ({ data }: any) => {
                           </p>
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="text-[#FF0000] flex flex-row">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[13px] whitespace-nowrap overflow-hidden min-w-[70px] w-full m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap overflow-hidden min-w-[70px] w-full m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.kmsLimit == 0
                                 ? "Unlimited"
@@ -492,7 +492,7 @@ const CardListingCards = ({ data }: any) => {
                             : ""
                           }`}
                       >
-                        <span className="font-bold lg:text-[20px] text-[18px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
+                        <span className="font-bold lg:text-[20px] text-[16px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
                           ₹{" "}
                           {(() => {
                             const price = calculateTotalPrice(
@@ -516,7 +516,7 @@ const CardListingCards = ({ data }: any) => {
                           {/* desktop end */}
                           <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                           <div className="flex flex-row text-[#FF0000]">
-                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[13px] whitespace-nowrap overflow-hidden w-full m-auto">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap overflow-hidden w-full m-auto">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.kmsLimit == 0
                                 ? "Unlimited"

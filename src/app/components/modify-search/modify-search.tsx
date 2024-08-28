@@ -1,7 +1,7 @@
 import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ThemeButton from "../theme-button/theme-button";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
 import moment from "moment";
@@ -16,7 +16,21 @@ const ModifySearch: React.FC = () => {
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
-  const [tabValue,setTabsValue] = useState<any>()
+  const [tabValue, setTabsValue] = useState<any>();
+  const datePickerRef = useRef<any>(null); 
+  const datePickerRef1 = useRef<any>(null);
+
+  const handleImageClick = () => {
+    if (datePickerRef.current) {
+      datePickerRef.current.setFocus(); 
+    }
+  };
+
+  const handleImageClick1 = () => {
+    if (datePickerRef1.current) {
+      datePickerRef1.current.setFocus(); 
+    }
+  };
 
   const handleStartDateTimeChange = (date: Date | null) => {
     if (date) {
@@ -78,8 +92,8 @@ const ModifySearch: React.FC = () => {
       const dropoffDate = localStorage.getItem("dropOffDate");
       const pickUpTime = localStorage.getItem("pickupTime");
       const dropOffTime = localStorage.getItem("dropoffTime");
-     const tabValue= localStorage.getItem("tabValue")
-setTabsValue(tabValue);
+      const tabValue = localStorage.getItem("tabValue")
+      setTabsValue(tabValue);
       setSelectedCity(initialLocation);
 
       if (pickupdate && pickUpTime) {
@@ -151,7 +165,7 @@ setTabsValue(tabValue);
                   </option>
                 ))}
               </select> */}
-              { (
+              {(
                 <>
                   <input
                     className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
@@ -166,37 +180,37 @@ setTabsValue(tabValue);
                   {
                     showLocationPopup &&
                     <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 w-full">
-                    <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
-                      <div className="bg-[#FF0000] w-full py-2 px-10 rounded-t-xl"><h1 className="text-white font-semibold text-center text-xl">Select City</h1></div>
-                      <Image
-                        src={"/svg/close-red.svg"}
-                        alt="nav"
-                        width={26}
-                        height={26}
-                        className="absolute top-2.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
-                        onClick={() => setShowLocationPopup(false)}
-                      />
-                      <div className="city-list max-w-[1095px] max-h-[60vh] overflow-auto w-full flex-col justify-start items-start m-auto  grid grid-cols-1 py-3 px-6">
-                        {cities?.map((city: any, index: number) => (
-                          <div key={index}>
-                            <City
-                              city={city}
-                              isSelected={selectedCity === city.name}
-                              onClick={() => handleCityClick(city.name)}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                      {/* <ThemeButton
+                      <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
+                        <div className="bg-[#FF0000] w-full py-2 px-10 rounded-t-xl"><h1 className="text-white font-semibold text-center text-xl">Select City</h1></div>
+                        <Image
+                          src={"/svg/close-red.svg"}
+                          alt="nav"
+                          width={26}
+                          height={26}
+                          className="absolute top-2.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
+                          onClick={() => setShowLocationPopup(false)}
+                        />
+                        <div className="city-list max-w-[1095px] max-h-[60vh] overflow-auto w-full flex-col justify-start items-start m-auto  grid grid-cols-1 py-3 px-6">
+                          {cities?.map((city: any, index: number) => (
+                            <div key={index}>
+                              <City
+                                city={city}
+                                isSelected={selectedCity === city.name}
+                                onClick={() => handleCityClick(city.name)}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        {/* <ThemeButton
                         onClick={() => setShowLocationPopup(false)}
                         className="!rounded-full !py-2 mt-6 !w-[200px] !font-semibold"
                         text="Select"
                       /> */}
+                      </div>
                     </div>
-                  </div>
                   }
 
-                
+
                 </>
               )}
               <div className="sm:ml-auto sm:my-10 sm:hidden block">
@@ -210,10 +224,10 @@ setTabsValue(tabValue);
           </div>
         </div>
       </div>
-      <div className="sm:flex grid grid-cols-2 flex-col sm:mt-0 mt-2 items-start sm:items-center sm:flex-row gap-6">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2">
+      <div className="sm:flex grid grid-cols-1 flex-col sm:mt-0 mt-2 items-start sm:items-center sm:flex-row gap-2">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center   sm:gap-2 max-w-[350px] sm:w-[400px]">
           <div className="whitespace-nowrap sm:text-[14px] text-xs">Pickup Date</div>
-          <div className="relative date-picker modify-search m-0 w-[100%] sm:min-[200px]">
+          <div className="relative date-picker modify-search m-0 w-[100%] !z-[990] sm:min-[200px] max-w-[350px]  bg-white">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}
@@ -221,38 +235,42 @@ setTabsValue(tabValue);
               showTimeSelect
               dateFormat="MMMM d, yyyy h:mm aa"
               placeholderText="MMMM d, yyyy h:mm aa"
+              ref={datePickerRef}
             />
             <Image
               src={"/svg/edit-red.svg"}
               alt="edit"
               width={12}
               height={12}
-              className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
+              className="absolute top-[9px]  sm:right-[-5px] right-[5px] z-[1]"
+              onClick={handleImageClick}
             />
           </div>
         </div>
-        {tabValue!=="Subscription" &&
-        
-        <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2">
-          <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
-          <div className="relative date-picker modify-search m-0 w-[100%] sm:min-[200px]">
-            <DatePicker
-              className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
-              selected={endDate}
-              onChange={handleEndDateTimeChange}
-              showTimeSelect
-              dateFormat="MMMM d, yyyy h:mm aa"
-              placeholderText="MMMM d, yyyy h:mm aa"
-            />
-            <Image
-              src={"/svg/edit-red.svg"}
-              alt="edit"
-              width={12}
-              height={12}
-              className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
-            />
+        {tabValue !== "Subscription" &&
+
+          <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2 max-w-[350px] sm:w-[400px]">
+            <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
+            <div className="relative date-picker modify-search m-0  w-[100%] !z-[99] sm:min-[200px] max-w-[350px]  bg-white">
+              <DatePicker
+                className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
+                selected={endDate}
+                onChange={handleEndDateTimeChange}
+                showTimeSelect
+                dateFormat="MMMM d, yyyy h:mm aa"
+                placeholderText="MMMM d, yyyy h:mm aa"
+                ref={datePickerRef1}
+              />
+              <Image
+                src={"/svg/edit-red.svg"}
+                alt="edit"
+                width={12}
+                height={12}
+                className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
+                onClick={handleImageClick1}
+              />
+            </div>
           </div>
-        </div>
         }
       </div>
       <div className="sm:ml-auto sm:my-10 my-4 sm:m-4 sm:block hidden">
