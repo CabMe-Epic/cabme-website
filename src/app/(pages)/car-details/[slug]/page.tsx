@@ -9,7 +9,10 @@ import DescCar from "@/app/components/desc-car/desc-car";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { searchVehicle, searchVehicleNew } from "../../../../../networkRequests/hooks/api";
+import {
+  searchVehicle,
+  searchVehicleNew,
+} from "../../../../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -27,13 +30,6 @@ import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import { set } from "react-datepicker/dist/date_utils";
 
-interface VehicleSearchPayload {
-  city: string | null;
-  dropOffDateTime: string | null;
-  pickUpDateTime: string | null;
-}
-
-
 interface PromoCode {
   code: string;
   promocodeType: string;
@@ -49,13 +45,21 @@ interface PromoCode {
   promotionClassification: string;
   customerContact?: string;
 }
+interface VehicleSearchPayload {
+  city: string | null;
+  dropOffDateTime: string | null;
+  pickUpDateTime: string | null;
+}
 
 const CarDetails = () => {
   // context api
   // const { data, setData } = useContextApi();
-
   const { payableAmount, setPayableAmount } = useCarsStore();
-
+  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
+    city: null,
+    pickUpDateTime: null,
+    dropOffDateTime: null,
+  });
   const userData = useStore((state) => state);
   console.log("USER DATA", { userData });
   const router = useRouter();
@@ -284,33 +288,26 @@ const CarDetails = () => {
   };
 
   const { slug }: any = useParams();
-
-  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
-    city: null,
-    pickUpDateTime: null,
-    dropOffDateTime: null,
-  });
-
   useEffect(() => {
     const location = localStorage.getItem("pickupLocation");
     const pickupDate = localStorage.getItem("nonFormatedPickupDate");
     const dropDate = localStorage.getItem("nonFormatedDropoffDate");
-  
+
     console.log("Location:", location);
     console.log("Pickup Date:", pickupDate);
     console.log("Dropoff Date:", dropDate);
-  
+
     setLocationData({
       city: location,
-      pickUpDateTime:pickupDate ,
-      dropOffDateTime:dropDate,
+      pickUpDateTime: pickupDate,
+      dropOffDateTime: dropDate,
     });
   }, []);
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicleNew(locationData);
     const carData = getSearchCarData?.data?.availableVehicles;
-    console.log(carData,"carDatadetail")
+    console.log(carData, "carDatadetail");
     carData?.map((item: any) => {
       return item?._id === slug ? setCarDetails(item) : "";
     });
@@ -320,6 +317,21 @@ const CarDetails = () => {
         )
       : "";
   }, [locationData, slug]);
+
+  React.useEffect(() => {
+    const getPickup = localStorage.getItem("pickupDate");
+    const getDropoff = localStorage.getItem("dropOffDate");
+    const storedPickupTime = localStorage.getItem("pickupTime");
+    const storedDropoffTime = localStorage.getItem("dropoffTime");
+    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+
+    setPackagePrice(selectedPackagePrice);
+    setPickupDate(getPickup);
+    setDropoffDate(getDropoff);
+    setDropoffTime(storedDropoffTime);
+    setPickupTime(storedPickupTime);
+    getCarDetails();
+  }, [getCarDetails]);
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
@@ -430,10 +442,10 @@ const CarDetails = () => {
 
     // for save booking data
     // setData(bookingData);
-
     const val = "true";
 
     localStorage.setItem("isFullpayment", val);
+
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
     localStorage.removeItem("advancePayment");
@@ -512,36 +524,17 @@ const CarDetails = () => {
                   >
                     <option value={packagePrice}>
                       {packagePrice !== undefined
-                        ? `₹${
-                            Number(packagePrice).toString().length > 4
-                              ? Number(packagePrice).toLocaleString("en-IN")
-                              : packagePrice
-                          }`
+                        ? `₹${packagePrice}`
                         : "Select Package"}
                     </option>
                     <option value={roundPrice(package1Price)}>
-                      ₹
-                      {Number(roundPrice(package1Price)).toString().length > 4
-                        ? Number(roundPrice(package1Price)).toLocaleString(
-                            "en-IN"
-                          )
-                        : roundPrice(package1Price)}
+                      ₹{roundPrice(package1Price)}
                     </option>
                     <option value={roundPrice(package2Price)}>
-                      ₹
-                      {Number(roundPrice(package2Price)).toString().length > 4
-                        ? Number(roundPrice(package2Price)).toLocaleString(
-                            "en-IN"
-                          )
-                        : roundPrice(package2Price)}
+                      ₹{roundPrice(package2Price)}
                     </option>
                     <option value={roundPrice(package3Price)}>
-                      ₹
-                      {Number(roundPrice(package3Price)).toString().length > 4
-                        ? Number(roundPrice(package3Price)).toLocaleString(
-                            "en-IN"
-                          )
-                        : roundPrice(package3Price)}
+                      ₹{roundPrice(package3Price)}
                     </option>
                   </select>
                 </div>
@@ -551,14 +544,7 @@ const CarDetails = () => {
                       Package Amount
                     </span>
                     <span className="sm:w-[220px] sm:ml-10 w-fit">
-                      ₹
-                      {(() => {
-                        const price = roundPrice(packagePrice);
-                        const priceNumber = Number(price);
-                        return priceNumber.toString().length > 4
-                          ? priceNumber.toLocaleString("en-IN")
-                          : price;
-                      })()}
+                      ₹{roundPrice(packagePrice)}
                     </span>
                   </div>
 
@@ -623,14 +609,7 @@ const CarDetails = () => {
                       Refundable Deposit
                     </span>
                     <span className="sm:w-[220px] sm:ml-10">
-                      ₹
-                      {(() => {
-                        const deposit = currentPackage?.refundableDeposit;
-                        const depositNumber = Number(deposit);
-                        return depositNumber.toString().length > 4
-                          ? depositNumber.toLocaleString("en-IN")
-                          : deposit;
-                      })()}
+                      ₹{currentPackage?.refundableDeposit}
                     </span>
                   </div>
 
@@ -647,14 +626,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
                       <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
-                        ₹{" "}
-                        {(() => {
-                          const amount = roundPrice(totalIncludedGSTAmount);
-                          const amountNumber = Number(amount);
-                          return amountNumber.toString().length > 4
-                            ? amountNumber.toLocaleString("en-IN")
-                            : amount;
-                        })()}
+                        ₹ {roundPrice(totalIncludedGSTAmount)}
                       </span>
                     </div>
                   )}
@@ -686,24 +658,14 @@ const CarDetails = () => {
                 </div>
                 <div>
                   {/* DESKTOP TOTAL AMOUNT  */}
-                  <div
-                    className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl"
-                    style={{ backgroundColor: "#E7E7E7" }}
-                  >
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
                     {currentPackage?.gst === "Excluded" && (
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">
                           Total Amount{" "}
                         </span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹{" "}
-                          {(() => {
-                            const amount = roundPrice(totalExcludedGSTAmount);
-                            const amountNumber = Number(amount);
-                            return amountNumber.toString().length > 4
-                              ? amountNumber.toLocaleString("en-IN")
-                              : amount;
-                          })()}
+                          ₹ {roundPrice(totalExcludedGSTAmount)}
                         </span>
                       </div>
                     )}
@@ -711,14 +673,7 @@ const CarDetails = () => {
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">Total Amount</span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹{" "}
-                          {(() => {
-                            const amount = roundPrice(totalIncludedGSTAmount);
-                            const amountNumber = Number(amount);
-                            return amountNumber.toString().length > 4
-                              ? amountNumber.toLocaleString("en-IN")
-                              : amount;
-                          })()}
+                          ₹ {roundPrice(totalIncludedGSTAmount)}
                         </span>
                       </div>
                     )}
@@ -734,65 +689,31 @@ const CarDetails = () => {
                 </div>
 
                 {/* DESKTOP  */}
-                <div
-                  className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[420px] py-2 rounded-3xl border-[#ff0000] cursor-pointer"
-                  style={{
-                    // width: "355px",
-                    height: "100px",
-                    gap: "0px",
-                    borderRadius: "29px 29px 29px 29px",
-                  }}
-                >
+                <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" && (
-                      <span
-                        className="font-bold text-md"
-                        style={{ marginTop: "1rem", marginLeft: "1rem" }}
-                      >
+                      <span className="font-bold text-md">
                         Pay ₹
-                        {(() => {
-                          const amount = Number(ThirtyDiscountForInculdedTax);
-                          const formattedAmount = roundPrice(amount);
-                          return amount >= 2000
-                            ? Number(formattedAmount).toString().length > 4
-                              ? Number(formattedAmount).toLocaleString("en-IN")
-                              : formattedAmount
-                            : Number(
-                                roundPrice(totalIncludedGSTAmount)
-                              ).toString().length > 4
-                            ? Number(
-                                roundPrice(totalIncludedGSTAmount)
-                              ).toLocaleString("en-IN")
-                            : roundPrice(totalIncludedGSTAmount);
-                        })()}{" "}
+                        {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
+                        2000
+                          ? roundPrice(Number(ThirtyDiscountForInculdedTax))
+                          : roundPrice(totalIncludedGSTAmount)}{" "}
                         Now
                       </span>
                     )}
                     {currentPackage?.gst === "Excluded" && (
-                      <span
-                        className="font-bold text-md"
-                        style={{ marginTop: "1rem", marginLeft: "1rem" }}
-                      >
+                      <span className="font-bold text-md">
                         Pay ₹ {paymentExcludedTax}
                         {/* {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now */}
                       </span>
                     )}
-                    <span
-                      className="text-[#ff0000] font-semibold text-[15px]"
-                      style={{
-                        marginLeft: "1rem",
-                        marginBottom: "1rem",
-                        whiteSpace: "nowrap",
-                        display: "inline-block",
-                      }}
-                    >
-                      ₹7280 Balance on Delivery
+                    <span className="text-[#ff0000] font-semibold text-[15px]">
+                      ₹{balance_payment} Balance on Delivery
                     </span>
                   </div>
                   <button
                     onClick={handleProceed}
                     className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"
-                    style={{ marginLeft: "0rem", marginRight: "0rem" }} // Adjust margin-left to shift the button to the left
                   >
                     Proceed
                   </button>
@@ -800,27 +721,24 @@ const CarDetails = () => {
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
-
-            <div className="p-6 sm:p-0" style={{ padding: "0.5rem" }}>
+            <div className="p-6 sm:p-0  " >
               <div className="flex gap-2 items-start">
                 <Image src="/clock.png" alt=" " width={30} height={30} />
-                <div className="flex flex-col gap-2 text-[#6CAE39] font-semibold text-[16px]">
+                <div className="flex flex-col gap-2 text-justify text-[#6CAE39] font-semibold text-[16px]">
                   <li>100% refund before 48 hours</li>
                   <li>50% refund before 24 hours</li>
                   <li>
-                    Cancellation after the above date will have to <br></br>
-                          bear additional INR 2000 as convenience fees.
+                    Cancellation after the above date will have to  
+                    bear additional INR 2000 as convenience fees.
                   </li>
                   <li>
-                    Any cancellations after the booking date will<br></br>     
-                    only get the security deposit amount and not the
-                          rental fare received.
+                    Any cancellations after the booking date will only get the security deposit amount and not the
+                    rental fare received.
                   </li>
                 </div>
               </div>
             </div>
             {/* booking summary */}
-            
           </div>
         </div>
         <div className="mb-10">

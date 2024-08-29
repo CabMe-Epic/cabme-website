@@ -758,27 +758,26 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </div> */}
           <div className="drop-shadow-lg  bg-[#E7E7E7]  px-4 py-5 rounded-3xl">
             <div className="flex flex-row items-center justify-between">
-              <div className="flex justify-between flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
-                <span className="sm:text-2xl font-bold">Total Amount</span>
-                <span>:</span>
+              <div className="flex justify-center flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
+                <span className="sm:text-2xl font-bold">Total Amount :</span>
 
-                <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                <span className="text-[#ff0000] p-0 text-2xl font-bold">
                   ₹{calculatonvalue}
                 </span>
               </div>
 
               <div></div>
             </div>
-            <div className="text-[#ff0000] font-semibold text-[15px] relative left-[15px]">
+            <div className="text-[#ff0000] font-semibold text-[15px] flex justify-start relative left-[0px]">
               {particalAmount !== 0 && (
-                <>
+                <div className="flex items-center flex-row justify-center text-md w-full gap-2">
                   {currentPackage?.gst === "Excluded" ? (
-                    <>₹{roundPrice(totalExcludedGSTAmount) - particalAmount}</>
+                    <div className="">₹{roundPrice(totalExcludedGSTAmount) - particalAmount}</div>
                   ) : (
-                    <>₹{roundPrice(totalIncludedGSTAmount) - particalAmount}</>
+                    <div className=" ">₹{roundPrice(totalIncludedGSTAmount) - particalAmount}</div>
                   )}
                   {""} Balance on Delivery
-                </>
+                </div>
               )}
               {/* {particalAmount !== 0 &&
                 (currentPackage?.gst === "Excluded" ? (
