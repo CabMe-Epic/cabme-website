@@ -64,7 +64,7 @@ const CarListing = () => {
       pickUpDateTime: pickupDate,
       dropOffDateTime: dropDate,
       toCity: dropLocation,
-      bookingType: tabValue == "Self-Driving" ? "Self Drive" : "" ,
+      bookingType: tabValue == "Self-Driving" ? "Self-Driving" : "" ,
     });
   }, []);
 

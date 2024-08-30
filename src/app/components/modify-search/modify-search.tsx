@@ -227,7 +227,7 @@ const ModifySearch: React.FC = () => {
       <div className="sm:flex grid grid-cols-1 flex-col sm:mt-0 mt-2 items-start sm:items-center sm:flex-row gap-2">
         <div className="flex flex-col lg:flex-row items-start lg:items-center   sm:gap-2 max-w-[350px] sm:w-[400px]">
           <div className="whitespace-nowrap sm:text-[14px] text-xs">Pickup Date</div>
-          <div className="relative date-picker modify-search m-0 w-[100%] !z-[990] sm:min-[200px] max-w-[350px]  bg-white">
+          <div className="relative date-picker modify-search m-0 w-[100%] !z-[990] sm:min-[200px] max-w-[350px]  ">
             <DatePicker
               className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}
@@ -251,7 +251,7 @@ const ModifySearch: React.FC = () => {
 
           <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2 max-w-[350px] sm:w-[400px]">
             <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
-            <div className="relative date-picker modify-search m-0  w-[100%] !z-[99] sm:min-[200px] max-w-[350px]  bg-white">
+            <div className="relative date-picker modify-search m-0  w-[100%] !z-[99] sm:min-[200px] max-w-[350px] ">
               <DatePicker
                 className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
                 selected={endDate}

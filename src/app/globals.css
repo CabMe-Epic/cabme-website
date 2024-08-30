@@ -295,9 +295,10 @@
     font-size: 20px;
   }
 .modify-search .react-datepicker-wrapper input{
-  font-size: 10px !important;
-  width: fit-content !important; border: 0;
+  font-size: 14px !important;
+  width: 240px !important; border: 0;
   margin-right: 5px !important;
+  padding: 0 10px;
 }
   .react-datepicker {
     width: 138% !important;

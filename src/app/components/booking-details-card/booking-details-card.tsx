@@ -1,4 +1,5 @@
 "use client"
+import moment from "moment";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -58,7 +59,7 @@ const BookingDetailsCard = ({ city }: any) => {
               </span>
               <span className="flex flex-row items-center gap-3">
                 <Image src="/png/time.png" width={20} height={20} alt="time" />
-                <span className="text-[#787070] text-sm">{pickupTime}</span>
+                <span className="text-[#787070] text-sm">{ moment(pickupTime, 'HH:mm').format('h:mm A')}</span>
               </span>
             </div>
             <div>
@@ -76,7 +77,7 @@ const BookingDetailsCard = ({ city }: any) => {
                   height={16}
                   alt="calender"
                 />
-                <span className="text-[#787070] text-sm">{dropoffDate}</span>
+                <span className="text-[#787070] text-sm">{dropoffDate }</span>
               </span>
               <span className="flex flex-row items-center gap-3">
                 <Image
@@ -85,7 +86,7 @@ const BookingDetailsCard = ({ city }: any) => {
                   height={20}
                   alt="calender"
                 />
-                <span className="text-[#787070] text-sm">{dropoffTime}</span>
+                <span className="text-[#787070] text-sm">{ moment(dropoffTime, 'HH:mm').format('h:mm A')}</span>
               </span>
             </div>
           </div>

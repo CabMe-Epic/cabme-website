@@ -127,15 +127,21 @@ const CarDetails = () => {
   // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
 
   const doorStepAmount = selectedDoorStepObject?.[0]?.price ?? 0;
+
+
+
   const totalExcludedGSTAmount =
     Number(packagePrice) +
     Number(result?.gstAmount) +
     Number(currentPackage?.refundableDeposit) +
     doorStepAmount;
+
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number(currentPackage?.refundableDeposit) +
     doorStepAmount;
+
+
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice);
@@ -313,8 +319,8 @@ const CarDetails = () => {
     });
     carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
       ? setCurrentPackage(
-          carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
-        )
+        carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
+      )
       : "";
   }, [locationData, slug]);
 
@@ -367,14 +373,14 @@ const CarDetails = () => {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-        ? setCurrentPackage(
+          ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-        ? setCurrentPackage(
-            carDetails?.bookingOptions?.withDriver?.local?.packageType
-          )
-        : "";
+          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+            ? setCurrentPackage(
+              carDetails?.bookingOptions?.withDriver?.local?.packageType
+            )
+            : "";
     }
   }, [carDetails]);
   if (loading) {
@@ -406,9 +412,12 @@ const CarDetails = () => {
       ? roundPrice(Number(ThirtyDiscountForInculdedTax))
       : roundPrice(totalIncludedGSTAmount);
 
+
+  console.log(ThirtyDiscountForInculdedTax, ThirtyDiscountForExcludedTax, advance_Payment, "pppp")
+
   // if advance_Payment is nan then don't return the advance_payment value
   const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
-  console.log("advancePayment", { advance_Payment });
+  console.log("advancePayment", { advancePayment });
 
   // console.log("paymentExcludedTax tas",{paymentExcludedTax})
 
@@ -420,9 +429,24 @@ const CarDetails = () => {
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
-    // if value is nan in advance_Payment then don't set valuein local storage if value is not nan then set value in local storage
-    if (advancePayment) {
-      localStorage.setItem("advancePayment", advancePayment);
+    let paymentAmount;
+
+    if (currentPackage?.gst === "Included") {
+      paymentAmount =
+        roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000
+          ? roundPrice(Number(ThirtyDiscountForInculdedTax))
+          : roundPrice(totalIncludedGSTAmount);
+    } else if (currentPackage?.gst === "Excluded") {
+      paymentAmount =
+        roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
+          ? roundPrice(Number(ThirtyDiscountForExcludedTax))
+          : roundPrice(totalExcludedGSTAmount);
+    }
+    
+
+
+    if (paymentAmount) {
+      localStorage.setItem("advancePayment", paymentAmount);
     }
     const val = "false";
 
@@ -471,8 +495,12 @@ const CarDetails = () => {
     new Set(roundedPrices.filter((price) => price !== 0))
   );
 
-  const balance_payment = totalIncludedGSTAmount - advance_Payment;
-  console.log("balance_payment", { balance_payment });
+  const balance_paymentExculded = totalExcludedGSTAmount - ThirtyDiscountForExcludedTax;
+  const balance_paymentIncluded = totalIncludedGSTAmount - ThirtyDiscountForInculdedTax
+  console.log("balance_payment", { balance_paymentExculded, balance_paymentIncluded });
+  console.log("advance_Payment", { advance_Payment });
+
+  console.log(totalIncludedGSTAmount, totalExcludedGSTAmount, "totalIncludedGSTAmount")
 
   return (
     <>
@@ -695,7 +723,7 @@ const CarDetails = () => {
                       <span className="font-bold text-md">
                         Pay ₹
                         {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
-                        2000
+                          2000
                           ? roundPrice(Number(ThirtyDiscountForInculdedTax))
                           : roundPrice(totalIncludedGSTAmount)}{" "}
                         Now
@@ -708,7 +736,7 @@ const CarDetails = () => {
                       </span>
                     )}
                     <span className="text-[#ff0000] font-semibold text-[15px]">
-                      ₹{balance_payment} Balance on Delivery
+                      ₹{currentPackage?.gst === "Excluded" ? (balance_paymentExculded).toFixed(0) : (balance_paymentIncluded).toFixed(0)} Balance on Delivery
                     </span>
                   </div>
                   <button
@@ -728,7 +756,7 @@ const CarDetails = () => {
                   <li>100% refund before 48 hours</li>
                   <li>50% refund before 24 hours</li>
                   <li>
-                    Cancellation after the above date will have to  
+                    Cancellation after the above date will have to
                     bear additional INR 2000 as convenience fees.
                   </li>
                   <li>
