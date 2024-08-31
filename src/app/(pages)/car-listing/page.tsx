@@ -18,8 +18,6 @@ interface VehicleSearchPayload {
   city: string | null;
   dropOffDateTime: string | null;
   pickUpDateTime: string | null;
-  bookingType: string | null;
-  toCity: string | null;
 }
 
 
@@ -37,8 +35,6 @@ const CarListing = () => {
     city: null,
     pickUpDateTime: null,
     dropOffDateTime: null,
-    bookingType: null,
-    toCity: "",
   });
   const [carData, setCarData] = useState<any>(null); // Replace with appropriate type
   const [loader, setLoader] = useState<boolean>(false);
@@ -51,24 +47,20 @@ const CarListing = () => {
   useEffect(() => {
     const location = localStorage.getItem("pickupLocation");
     const pickupDate = localStorage.getItem("nonFormatedPickupDate");
-    const dropLocation = localStorage.getItem("dropOffLocation");
-    const tabValue = localStorage.getItem("tabValue");
     const dropDate = localStorage.getItem("nonFormatedDropoffDate");
-
+  
     console.log("Location:", location);
     console.log("Pickup Date:", pickupDate);
     console.log("Dropoff Date:", dropDate);
-
+  
     setLocationData({
       city: location,
-      pickUpDateTime: pickupDate,
-      dropOffDateTime: dropDate,
-      toCity: dropLocation,
-      bookingType: tabValue == "Self-Driving" ? "Self-Driving" : "" ,
+      pickUpDateTime:pickupDate ,
+      dropOffDateTime:dropDate,
     });
   }, []);
-
-
+  
+  
 
   const getCarDetails = useCallback(async () => {
     if (locationData.pickUpDateTime && locationData.dropOffDateTime) {

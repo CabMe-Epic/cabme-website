@@ -576,9 +576,8 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-                      
                       {data?.bookingOptions?.selfDrive?.packageType
-                        ?.extraKmsCharge && (clicked1 || clicked2 || !clicked3) && (
+                        ?.extraKmsCharge && (
                           <span>
                             Extra kms will be charged at{" "}
                             <span className="text-[#FF0000]">
