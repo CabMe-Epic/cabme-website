@@ -288,7 +288,7 @@ const CarListing = () => {
       bookingType: bookingOptions,
       toCity: dropoffLocation
     });
-  }, [bookingOptions,location,dropoffLocation]);
+  }, []);
 
 
 

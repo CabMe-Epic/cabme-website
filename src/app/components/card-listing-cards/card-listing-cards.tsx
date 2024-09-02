@@ -165,6 +165,7 @@ const CardListingCards = ({ data }: any) => {
               ? setPackagePrice(data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any) => (item?.city == dropLocation)? item?.price : 0))
               : console.log("Something went wrong in package selection");
     }
+   
     if (selectedPackageFreeKms === undefined) {
       bookingOptionsHome === data?.bookingOptions?.selfDrive?.name
         ? setSelectedPackageFreeKms(Number((
@@ -191,6 +192,7 @@ const CardListingCards = ({ data }: any) => {
       console.log("done");
     }
   };
+  console.log(driverType,"driverType")
   console.log(selectedPackagePrice, "selected pack");
 
   console.log("hours", days, hours, minutes);

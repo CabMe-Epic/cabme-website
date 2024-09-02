@@ -372,7 +372,7 @@ const CarDetails = () => {
     setDropoffTime(storedDropoffTime);
     setPickupTime(storedPickupTime);
     getCarDetails();
-  }, [getCarDetails]);
+  }, []);
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");

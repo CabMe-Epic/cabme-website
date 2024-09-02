@@ -69,7 +69,7 @@ const Checkout = () => {
   const [data, setData] = useState<any>([]);
   const [loader, setLoader] = useState(false);
   const [selectedPromoCode, setSelectedPromoCode] = useState<any>([]);
-  const [packageFreeKms, setPackageFreeKms] = useState<any>();
+  const [packageFreeKms, setPackageFreeKms] = useState<any>(0);
   const [particalAmount, setParticalAmount] = useState<number>(0);
   const [toCity, setToCity] = useState<any>("");
   const [isFullpayment, setIsFullpayment] = useState<any>("");
@@ -256,7 +256,7 @@ const Checkout = () => {
     insuranceGST: bookingData?.insuranceGST,
     refundableDeposit: Number(bookingData?.refundableDeposit),
     toCity: toCity,
-    kmsLimit: packageFreeKms,
+    kmsLimit: Number(packageFreeKms),
     fuel: bookingData?.fuel,
     extraKmsCharge: Number(bookingData?.extraKmsCharge),
     tollsParking: "",
