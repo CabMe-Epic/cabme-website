@@ -18,8 +18,8 @@ interface VehicleSearchPayload {
   city: string | null;
   dropOffDateTime: string | null;
   pickUpDateTime: string | null;
-  bookingType: string | null;
   toCity: string | null;
+  bookingType: any;
 }
 
 
@@ -31,14 +31,30 @@ const CarListing = () => {
   // const [carData, setCarData] = useState<any>();
   const [showFilter, setShowFilter] = useState(false);
   // const [loader, setLoader] = useState(false);
+  const [showCarCategory, setShowCarCategory] = useState(false);
+  const [showCarType, setShowCarType] = useState(false);
+  const [showCapacity, setShowCapacity] = useState(false);
+  const [showPriceRange, setShowPriceRange] = useState(false);
+  const [showTransmission, setShowTransmission] = useState(false);
+  const [showFuelType, setShowFuelType] = useState(false);
+  const [showOthers, setShowOther] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<any>([]);
+  const [selectedCapacity, setSelectedCapacity] = useState<any>([]);
+  const [selectedTransmission, setSelectTransmission] = useState<any>([]);
+  const [selectedFuelType, setSelectedFuelType] = useState<any>([]);
+  const [selectedOthers, setSelectedOthers] = useState<any>([]);
+  const [priceRange, setPriceRange] = useState<any>(50000);
 
   const [locationData, setLocationData] = useState<VehicleSearchPayload>({
     city: null,
     pickUpDateTime: null,
     dropOffDateTime: null,
     bookingType: null,
-    toCity: "",
+    toCity: null
+
   });
   const [carData, setCarData] = useState<any>(null); // Replace with appropriate type
   const [loader, setLoader] = useState<boolean>(false);
@@ -48,47 +64,7 @@ const CarListing = () => {
     return !isNaN(date.getTime());
   };
 
-  useEffect(() => {
-    const location = localStorage.getItem("pickupLocation");
-    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
-    const dropLocation = localStorage.getItem("dropOffLocation");
-    const tabValue = localStorage.getItem("tabValue");
-    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
-
-    console.log("Location:", location);
-    console.log("Pickup Date:", pickupDate);
-    console.log("Dropoff Date:", dropDate);
-
-    setLocationData({
-      city: location,
-      pickUpDateTime: pickupDate,
-      dropOffDateTime: dropDate,
-      toCity: dropLocation,
-      bookingType: tabValue == "Self-Driving" ? "Self-Driving" : "" ,
-    });
-  }, []);
-
-
-
-  const getCarDetails = useCallback(async () => {
-    if (locationData.pickUpDateTime && locationData.dropOffDateTime) {
-      console.log("Payload being sent:", locationData);
-      setLoader(true);
-      const getSearchCarData = await searchVehicleNew(locationData);
-      console.log(getSearchCarData, "Car search API response");
-      setCarData(getSearchCarData?.data?.availableVehicles);
-      setLoader(false);
-    } else {
-      console.error("Invalid dates provided in payload", locationData);
-    }
-  }, [locationData]);
-
-  useEffect(() => {
-    if (locationData.city && locationData.pickUpDateTime && locationData.dropOffDateTime) {
-      getCarDetails();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationData]);
+ 
 
 
   const [pickupLocation, setPickupLocation] = useState<any>();
@@ -160,22 +136,7 @@ const CarListing = () => {
 
   //  console.log(pickupLocation,dropoffLocation,"locations");
 
-  const [showCarCategory, setShowCarCategory] = useState(false);
-  const [showCarType, setShowCarType] = useState(false);
-  const [showCapacity, setShowCapacity] = useState(false);
-  const [showPriceRange, setShowPriceRange] = useState(false);
-  const [showTransmission, setShowTransmission] = useState(false);
-  const [showFuelType, setShowFuelType] = useState(false);
-  const [showOthers, setShowOther] = useState(false);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
-  const [selectedTypes, setSelectedTypes] = useState<any>([]);
-  const [selectedCapacity, setSelectedCapacity] = useState<any>([]);
-  const [selectedTransmission, setSelectTransmission] = useState<any>([]);
-  const [selectedFuelType, setSelectedFuelType] = useState<any>([]);
-  const [selectedOthers, setSelectedOthers] = useState<any>([]);
-  const [priceRange, setPriceRange] = useState<any>(50000);
 
   const handleCategoryCheckboxChange = (category: any) => {
     setSelectedCategories((prevSelected) => {
@@ -310,6 +271,46 @@ const CarListing = () => {
   const paginatedItems = matchingItems?.slice(startIndex, endIndex);
 
   let cardCount = 0;
+
+  useEffect(() => {
+    const location = localStorage.getItem("pickupLocation");
+    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+
+    console.log("Location:", location);
+    console.log("Pickup Date:", pickupDate);
+    console.log("Dropoff Date:", dropDate);
+
+    setLocationData({
+      city: location,
+      pickUpDateTime: pickupDate,
+      dropOffDateTime: dropDate,
+      bookingType: bookingOptions,
+      toCity: dropoffLocation
+    });
+  }, [bookingOptions,location,dropoffLocation]);
+
+
+
+
+
+  useEffect(() => {
+    const getCarDetails = async() => {
+      if (locationData.pickUpDateTime) {
+        console.log("locationData", locationData);
+        setLoader(true);
+        const getSearchCarData = await searchVehicleNew(locationData);
+        console.log(getSearchCarData, "Car search API response");
+        setCarData(getSearchCarData?.data?.availableVehicles);
+        setLoader(false);
+      } else {
+        console.error("Invalid dates provided in payload", locationData);
+      }
+    };
+    if (locationData.city && locationData.pickUpDateTime) {
+      getCarDetails();
+    }
+  }, [locationData, ]);
 
   return (
     <div className="max-w-[1450px] m-auto">

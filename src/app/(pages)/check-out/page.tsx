@@ -174,7 +174,7 @@ const Checkout = () => {
     if (vehicleId) {
       setCurrentVehicleId(vehicleId);
     }
-  }, [userData, three,dlPostBack,dlPost,dlFrontImage,dlBackImage]);
+  }, [userData, three, dlPostBack, dlPost, dlFrontImage, dlBackImage]);
 
   const [phone, setPhoneNumber] = useState("");
   console.log({ currentVehicleId });
@@ -2097,7 +2097,7 @@ const Checkout = () => {
                         </span>{" "}
                         <Image
                           src={
-                            userData?.aadharCardFrontImageUrl || aadharFrontPost || 
+                            userData?.aadharCardFrontImageUrl || aadharFrontPost ||
                             "/dlcard.svg"
                           }
                           alt="user"
@@ -2106,7 +2106,7 @@ const Checkout = () => {
                         />{" "}
                         <Image
                           src={
-                            userData?.aadharCardBackImageUrl || aadharBackPost || 
+                            userData?.aadharCardBackImageUrl || aadharBackPost ||
                             "/aadharCard.svg"
                           }
                           alt="user"
@@ -2163,6 +2163,7 @@ const Checkout = () => {
         </div>
         <div className="max-w-[450px] w-full mx-auto">
           <BookingSummery
+            location={toCity}
             roundPrice={roundPrice}
             onTotalAmountChange={handleBackBaseFareAmount}
             particalAmount={particalAmount}

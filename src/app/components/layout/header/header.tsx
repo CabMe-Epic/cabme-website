@@ -23,7 +23,7 @@ const Header = () => {
   console.log(url, "url");
   return (
     <>
-      <div className="flex justify-between sm:py-4 py-4 sm:px-4 lg:px-8 px-4 items-center shadow-xl sticky top-0 z-[999  FGHJ] bg-white">
+      <div className="flex justify-between sm:py-4 py-4 sm:px-4 lg:px-8 px-4 items-center shadow-xl sticky top-0 z-[999] bg-white">
         <div className="cursor-pointer sm:w-[12%] w-[30%]">
           <Image
             src={"/logo.svg"}

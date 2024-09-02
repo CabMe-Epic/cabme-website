@@ -70,7 +70,8 @@ const CarDetails = () => {
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
   const [promoCodes, setPromoCodes] = useState([]);
   const [message, setMessage] = useState<string | null>("");
-
+  const [tabValue, setTabValue] = useState<any>();
+  const [radioToggle, setRadioToggle] = useState<any>();
   const [currentPackage, setCurrentPackage] = useState<any>();
   const [showDoorStep, setShowDoorStep] = useState(false);
 
@@ -95,6 +96,10 @@ const CarDetails = () => {
   }, [selectedDoorStepObject]);
 
   useEffect(() => {
+    const tabval = localStorage.getItem("tabValue");
+    const radioTog = localStorage.getItem("radioToggle");
+    setTabValue(tabval);
+    setRadioToggle(radioTog);
     localStorage.removeItem("doorStepPriceCharge");
   }, []);
 
@@ -115,7 +120,12 @@ const CarDetails = () => {
   const [selectedDiscountType, setSelectedDiscountType] = useState<
     string | any
   >();
+  const [dropoffLocation, setDropoffLocation] = useState<any>("");
 
+  useEffect(() => {
+    const dropLoc = localStorage.getItem("dropOffLocation");
+    setDropoffLocation(dropLoc);
+  }, [])
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Inculded/Excluded GST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   console.log({ currentPackage });
 
@@ -126,6 +136,29 @@ const CarDetails = () => {
   );
   // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
 
+  const selfDropCities = (() => {
+    // Check if selected tab is "Driver" and radio toggle is "One-way"
+    if (selectedTabValue === "Driver" && radioToggle === "One-way") {
+      return (
+        carDetails?.bookingOptions?.withDriver?.oneway?.doorstepDelivery
+          ?.filter((item: any) => item?.city === dropoffLocation)
+          ?.map((item: any) => item?.price || 0) || []
+      );
+    }
+  
+    // Check if selected tab is "Self-Driving"
+    if (selectedTabValue === "Self-Driving") {
+      return (
+        carDetails?.bookingOptions?.selfDrive?.packageType?.doorstepDelivery
+          ?.filter((item: any) => item?.city === dropoffLocation)
+          ?.map((item: any) => item?.price || 0) || []
+      );
+    }
+  
+    // Default value if no conditions are met
+    return 0;
+  })();
+
   const doorStepAmount = selectedDoorStepObject?.[0]?.price ?? 0;
 
 
@@ -134,11 +167,13 @@ const CarDetails = () => {
     Number(packagePrice) +
     Number(result?.gstAmount) +
     Number(currentPackage?.refundableDeposit) +
+    Number(selfDropCities || 0)+
     doorStepAmount;
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number(currentPackage?.refundableDeposit) +
+    Number(selfDropCities || 0)+
     doorStepAmount;
 
 
@@ -308,7 +343,7 @@ const CarDetails = () => {
       pickUpDateTime: pickupDate,
       dropOffDateTime: dropDate,
     });
-  }, []);
+  }, [slug]);
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicleNew(locationData);
@@ -395,6 +430,7 @@ const CarDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
+
   // console.log({ selectedPackageAmount })
   const handlePriceChange = (updatedPrice: any) => {
     setSelectedPackageAmount(updatedPrice);
@@ -411,6 +447,8 @@ const CarDetails = () => {
     roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000
       ? roundPrice(Number(ThirtyDiscountForInculdedTax))
       : roundPrice(totalIncludedGSTAmount);
+
+  const Driver15k = 1500;
 
 
   console.log(ThirtyDiscountForInculdedTax, ThirtyDiscountForExcludedTax, advance_Payment, "pppp")
@@ -431,18 +469,24 @@ const CarDetails = () => {
 
     let paymentAmount;
 
-    if (currentPackage?.gst === "Included") {
+    if (currentPackage?.gst === "Included" && selectedTabValue !== "Driver") {
       paymentAmount =
         roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000
           ? roundPrice(Number(ThirtyDiscountForInculdedTax))
           : roundPrice(totalIncludedGSTAmount);
-    } else if (currentPackage?.gst === "Excluded") {
+    } else if (currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver") {
       paymentAmount =
         roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
           ? roundPrice(Number(ThirtyDiscountForExcludedTax))
           : roundPrice(totalExcludedGSTAmount);
     }
-    
+
+    else if (currentPackage?.gst === "Excluded" && selectedTabValue == "Driver") {
+      paymentAmount = Driver15k;
+    }
+    else if (currentPackage?.gst === "Included" && selectedTabValue == "Driver") {
+      paymentAmount = Driver15k;
+    }
 
 
     if (paymentAmount) {
@@ -495,12 +539,20 @@ const CarDetails = () => {
     new Set(roundedPrices.filter((price) => price !== 0))
   );
 
+  
+
   const balance_paymentExculded = totalExcludedGSTAmount - ThirtyDiscountForExcludedTax;
-  const balance_paymentIncluded = totalIncludedGSTAmount - ThirtyDiscountForInculdedTax
+  const balance_paymentIncluded = totalIncludedGSTAmount - ThirtyDiscountForInculdedTax;
+  const balance_driverInclude = totalIncludedGSTAmount - Driver15k;
+  const balance_driverExclude = totalExcludedGSTAmount - Driver15k;
   console.log("balance_payment", { balance_paymentExculded, balance_paymentIncluded });
   console.log("advance_Payment", { advance_Payment });
 
   console.log(totalIncludedGSTAmount, totalExcludedGSTAmount, "totalIncludedGSTAmount")
+
+
+
+
 
   return (
     <>
@@ -640,6 +692,18 @@ const CarDetails = () => {
                       ₹{currentPackage?.refundableDeposit}
                     </span>
                   </div>
+                  {(selectedTabValue == "Self-Driving" || (selectedTabValue == "Driver" && radioToggle === "One-way")) &&
+
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                      <span className="sm:w-[220px] sm:ml-10">
+                        DropOff City Charges
+                      </span>
+                      <span className="sm:w-[220px] sm:ml-10">
+                        ₹ {selfDropCities}
+                      </span>
+                    </div>
+                  }
+
 
                   {/* DESKTOP ...  */}
                   {currentPackage?.gst === "Excluded" && (
@@ -719,24 +783,48 @@ const CarDetails = () => {
                 {/* DESKTOP  */}
                 <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                   <div className="flex flex-col items-start">
-                    {currentPackage?.gst === "Included" && (
+                    {currentPackage?.gst === "Included" && selectedTabValue !== "Driver" && (
                       <span className="font-bold text-md">
                         Pay ₹
                         {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
                           2000
                           ? roundPrice(Number(ThirtyDiscountForInculdedTax))
-                          : roundPrice(totalIncludedGSTAmount)}{" "}
+                          : roundPrice(totalIncludedGSTAmount)}
                         Now
                       </span>
                     )}
-                    {currentPackage?.gst === "Excluded" && (
+                    {currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver" && (
                       <span className="font-bold text-md">
                         Pay ₹ {paymentExcludedTax}
                         {/* {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now */}
                       </span>
                     )}
+                    {
+                      (currentPackage?.gst === "Excluded" && selectedTabValue == "Driver") &&
+                      <span className="font-bold text-md">
+                        Pay ₹ {Driver15k}
+
+                      </span>
+                    }
+                    {
+                      (currentPackage?.gst === "Included" && selectedTabValue == "Driver") &&
+                      <span className="font-bold text-md">
+                        Pay ₹ {Driver15k}
+
+                      </span>
+                    }
                     <span className="text-[#ff0000] font-semibold text-[15px]">
-                      ₹{currentPackage?.gst === "Excluded" ? (balance_paymentExculded).toFixed(0) : (balance_paymentIncluded).toFixed(0)} Balance on Delivery
+                      ₹{(currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver")
+                        ? (balance_paymentExculded).toFixed(0)
+                        : (currentPackage?.gst === "Incuded" && selectedTabValue !== "Driver")
+                          ? (balance_paymentIncluded).toFixed(0)
+                          : (currentPackage?.gst === "Excluded" && selectedTabValue == "Driver")
+                            ? balance_driverExclude.toFixed(0)
+                            : (currentPackage?.gst === "Included" && selectedTabValue == "Driver")
+                              ? (balance_driverInclude).toFixed(0)
+                              : ""
+                      }{" "}
+                      Balance on Delivery
                     </span>
                   </div>
                   <button
