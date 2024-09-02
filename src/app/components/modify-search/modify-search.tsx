@@ -17,6 +17,7 @@ const ModifySearch: React.FC = () => {
   const [startTime, setStartTime] = useState<string | null>(null);
   const [endTime, setEndTime] = useState<string | null>(null);
   const [tabValue, setTabsValue] = useState<any>();
+  const [radioToggle, setRadioToggle] = useState<any>();
   const datePickerRef = useRef<any>(null); 
   const datePickerRef1 = useRef<any>(null);
 
@@ -92,8 +93,10 @@ const ModifySearch: React.FC = () => {
       const dropoffDate = localStorage.getItem("dropOffDate");
       const pickUpTime = localStorage.getItem("pickupTime");
       const dropOffTime = localStorage.getItem("dropoffTime");
-      const tabValue = localStorage.getItem("tabValue")
+      const tabValue = localStorage.getItem("tabValue");
+      const radioToggle = localStorage.getItem("radioToggle");
       setTabsValue(tabValue);
+      setRadioToggle(radioToggle);
       setSelectedCity(initialLocation);
 
       if (pickupdate && pickUpTime) {
@@ -247,7 +250,7 @@ const ModifySearch: React.FC = () => {
             />
           </div>
         </div>
-        {tabValue !== "Subscription" &&
+        {(tabValue !== "Subscription") && (tabValue == 'driver' && radioToggle !=="Ome-Way") &&
 
           <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2 max-w-[350px] sm:w-[400px]">
             <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
