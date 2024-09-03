@@ -1655,7 +1655,7 @@ export default function Home() {
                           : driver.content === "Round-Trip"
                             ? "/roundTrip.svg"
                             : driver.content === "Local"
-                              ? "/Local.svg"
+                              ? "/local.svg"
                               : ""
                       }
                       selected={driver.content === radioToggle}
