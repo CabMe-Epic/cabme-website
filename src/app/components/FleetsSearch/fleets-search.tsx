@@ -1599,6 +1599,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden sm:mt-0 mt-2">
             <div
@@ -1842,7 +1843,9 @@ export default function Home() {
                   />
                 </div>
               </div>
+              
             </div>
+            
           )}
         </div>
         {tabValue !== "Subscription" && (
@@ -1897,7 +1900,16 @@ export default function Home() {
               </>
             )}
           </div>
-        )}
+        )}{
+          tabValue !== "Driver" && tabValue !== "Subscription"
+          &&  <strong
+          onClick={(e) => handleDropSelectPopupLocation(e)}
+          className="text-[#ff0000] flex justify-center cursor-pointer text-center sm:text-md text-sm"
+        >
+          Drop in different city?
+        </strong>
+        }
+           
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
