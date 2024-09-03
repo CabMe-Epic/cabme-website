@@ -48,14 +48,7 @@ const CarListing = () => {
   const [selectedOthers, setSelectedOthers] = useState<any>([]);
   const [priceRange, setPriceRange] = useState<any>(50000);
 
-  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
-    city: null,
-    pickUpDateTime: null,
-    dropOffDateTime: null,
-    bookingType: null,
-    toCity: null
 
-  });
   const [carData, setCarData] = useState<any>(null); // Replace with appropriate type
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -107,6 +100,15 @@ const CarListing = () => {
     "state"
   );
 
+  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
+    city: null,
+    pickUpDateTime: null,
+    dropOffDateTime: null,
+    bookingType: bookingOptions,
+    toCity: dropoffLocation
+
+  });
+
   // useEffect(() => {
   //   if (vehicles) {
   //     setCarData(vehicles?.response as Vehicle[]);
@@ -136,7 +138,23 @@ const CarListing = () => {
 
   //  console.log(pickupLocation,dropoffLocation,"locations");
 
+  useEffect(() => {
+    const location = localStorage.getItem("pickupLocation");
+    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
 
+    console.log("Location:", location);
+    console.log("Pickup Date:", pickupDate);
+    console.log("Dropoff Date:", dropDate);
+
+    setLocationData({
+      city: location,
+      pickUpDateTime: pickupDate,
+      dropOffDateTime: dropDate,
+      bookingType: bookingOptions,
+      toCity: dropoffLocation
+    });
+  }, [bookingOptions,dropoffLocation]);
 
   const handleCategoryCheckboxChange = (category: any) => {
     setSelectedCategories((prevSelected) => {
@@ -208,6 +226,7 @@ const CarListing = () => {
   );
 
   console.log(selectedOthers, "selectedTypes");
+  console.log(filteredItems,"filteredItems")
 
   const handleFilterReset = (e: any) => {
     e.preventDefault();
@@ -236,6 +255,8 @@ const CarListing = () => {
       return false;
     }
 
+    
+
     const isMatchingCriteria =
       item?.available &&
       pickupLocation === item?.city &&
@@ -252,8 +273,11 @@ const CarListing = () => {
       (selectedOthers.length === 0 ||
         selectedOthers.every((feature: string | number) => item?.carFeatures[feature] === true));
 
+        console.log(isMatchingCriteria,"isMatchingCriteria")
     return isMatchingCriteria;
   });
+
+  console.log(matchingItems,"matchingItems")
 
   // Calculate total pages based on matching items
   const totalPages = Math.ceil(matchingItems?.length / ITEMS_PER_PAGE);
@@ -272,23 +296,7 @@ const CarListing = () => {
 
   let cardCount = 0;
 
-  useEffect(() => {
-    const location = localStorage.getItem("pickupLocation");
-    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
-    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
-
-    console.log("Location:", location);
-    console.log("Pickup Date:", pickupDate);
-    console.log("Dropoff Date:", dropDate);
-
-    setLocationData({
-      city: location,
-      pickUpDateTime: pickupDate,
-      dropOffDateTime: dropDate,
-      bookingType: bookingOptions,
-      toCity: dropoffLocation
-    });
-  }, []);
+ 
 
 
 
@@ -310,7 +318,7 @@ const CarListing = () => {
     if (locationData.city && locationData.pickUpDateTime) {
       getCarDetails();
     }
-  }, [locationData, ]);
+  }, [locationData ]);
 
   return (
     <div className="max-w-[1450px] m-auto">

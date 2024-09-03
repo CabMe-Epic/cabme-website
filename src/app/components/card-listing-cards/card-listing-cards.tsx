@@ -33,6 +33,7 @@ const CardListingCards = ({ data }: any) => {
   const [showImg, setShowImg] = useState(false);
   const [dropLocation, setDropLocation] = useState<any>("");
   const [radioToggle, setRadioToggle] = useState<any>("");
+  console.log('data', data)
   useEffect(() => {
     if (showImg) {
       setShowImg(true);
@@ -129,12 +130,13 @@ const CardListingCards = ({ data }: any) => {
       window.removeEventListener("keydown", handleKeyDown);
       // window.removeEventListener('wheel', handleScroll);
     };
-  }, []);
+  }, [handleNext,handlePrev]);
   // const [currentImage, setCurrentImage] = useState<any>(data?.featuredImage?.image);
 
   //please don't touch this function, It is for the default package select when user does not select any package...!!
 
   const selectDefaultPackage = (data: any) => {
+    console.log("pdata", data)
     if (selectedPackagePrice === undefined) {
       bookingOptionsHome === data?.bookingOptions?.selfDrive?.name
         ? setPackagePrice(
@@ -161,11 +163,11 @@ const CardListingCards = ({ data }: any) => {
                   ?.ratePerKm
               )
 
-              : driverType === data?.bookingOptions?.withDriver?.oneway?.name
-              ? setPackagePrice(data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any) => (item?.city == dropLocation)? item?.price : 0))
-              : console.log("Something went wrong in package selection");
+              : (driverType === data?.bookingOptions?.withDriver?.oneway?.name || driverType == "One-way")
+                ? setPackagePrice(data?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropLocation ? item?.price : 0))
+                : console.log("Something went wrong in package selection");
     }
-   
+
     if (selectedPackageFreeKms === undefined) {
       bookingOptionsHome === data?.bookingOptions?.selfDrive?.name
         ? setSelectedPackageFreeKms(Number((
@@ -192,13 +194,13 @@ const CardListingCards = ({ data }: any) => {
       console.log("done");
     }
   };
-  console.log(driverType,"driverType")
+  console.log(driverType, "driverType")
   console.log(selectedPackagePrice, "selected pack");
 
   console.log("hours", days, hours, minutes);
 
 
-  console.log(data,"data")
+  console.log(data, "data")
   // console.log("days")
   return (
     <>
@@ -1122,7 +1124,7 @@ const CardListingCards = ({ data }: any) => {
             ) : bookingOptionsHome ===
               data?.bookingOptions?.withDriver?.name ? (
               <>
-                { driverType === data?.bookingOptions.withDriver.oneway?.name  &&(
+                {(radioToggle == data?.bookingOptions?.withDriver?.oneway?.name || data?.bookingOptions?.withDriver?.oneway?.doorstepDelivery?.length > 0) && data?.bookingOptions?.withDriver?.oneway?.doorstepDelivery.some((item: any) => item.city === dropLocation) && (
                   <>
                     <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
                       <div className="flex flex-row justify-center m-auto mt-16">
@@ -1157,9 +1159,9 @@ const CardListingCards = ({ data }: any) => {
                     <div className="sm:h-[274px] relative max-w-[700px] w-full">
                       <div className="mt-5 sm:flex grid grid-cols-3 flex-row justify-start items-center sm:gap-4 gap-2 sm:mr-5 px-4">
                         {
-                          data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any ) => item.city === dropLocation ).map((item: any, index: number) => 
-                            {
-                            return <div
+                          data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any) => item.city === dropLocation).map((item: any, index: number) => {
+                            return <div 
+                            key={index}
                               onClick={() => {
                                 const calculatedPrice = calculateTotalPrice(
                                   data?.bookingOptions?.withDriver?.local

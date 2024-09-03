@@ -356,7 +356,7 @@ const CarDetails = () => {
       ? setCurrentPackage(
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       )
-      : "";
+      : setCurrentPackage(carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropoffLocation ? item.price : 0) );
   }, [locationData, slug]);
 
   React.useEffect(() => {
