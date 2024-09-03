@@ -164,7 +164,7 @@ const CardListingCards = ({ data }: any) => {
               )
 
               : (driverType === data?.bookingOptions?.withDriver?.oneway?.name || driverType == "One-way")
-                ? setPackagePrice(data?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropLocation ? item?.price : 0))
+                ? setPackagePrice(data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any) => item?.city === dropLocation).map((item: any) => item?.price || 0))
                 : console.log("Something went wrong in package selection");
     }
 
@@ -200,7 +200,9 @@ const CardListingCards = ({ data }: any) => {
   console.log("hours", days, hours, minutes);
 
 
-  console.log(data, "data")
+  console.log(selectedPackagePrice, "selectedPackagePrice")
+
+  
   // console.log("days")
   return (
     <>

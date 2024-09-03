@@ -72,7 +72,7 @@ const CarDetails = () => {
   const [message, setMessage] = useState<string | null>("");
   const [tabValue, setTabValue] = useState<any>();
   const [radioToggle, setRadioToggle] = useState<any>();
-  const [currentPackage, setCurrentPackage] = useState<any>();
+  const [currentPackage, setCurrentPackage] = useState<any>(0);
   const [showDoorStep, setShowDoorStep] = useState(false);
 
   const handleShowDoorstepPopup = () => {
@@ -356,8 +356,8 @@ const CarDetails = () => {
       ? setCurrentPackage(
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       )
-      : setCurrentPackage(carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropoffLocation ? item.price : 0) );
-  }, [locationData, slug]);
+      : setCurrentPackage(carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropoffLocation ? item?.price : 0) );
+  }, [locationData, slug, dropoffLocation]);
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
