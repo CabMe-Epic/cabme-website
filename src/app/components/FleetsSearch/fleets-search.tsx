@@ -369,7 +369,7 @@ export default function Home() {
 
       <div
         className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] 
-          ${(tabValue === "Driver" && radioToggle == "One-way") ? "h-[350px]" : (tabValue === "Driver" && radioToggle !== "One-way") ? "h-[300px]" : tabValue === "Subscription"
+          ${(tabValue === "Driver" && radioToggle == "One-way") ? "h-[350px]" : (tabValue === "Driver" && radioToggle !== "One-way") ? "h-[340px]" : tabValue === "Subscription"
             ? "h-[200px]"
             : "h-[220px]"
           }`}
@@ -991,16 +991,7 @@ export default function Home() {
                   >
                     Drop in different city?
                   </div>
-                  {durationFormat && (
-                    <div className="w-fit m-auto">
-                      <div className="mt-2">
-                        <h3 className="font-semibold text-lg shadow-md">
-                          Duration:{" "}
-                          <span className="font-[400]"> {durationFormat} </span>
-                        </h3>
-                      </div>
-                    </div>
-                  )}
+              
 
                   {showDropLocationPopup && (
                     <>
