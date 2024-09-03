@@ -65,7 +65,7 @@ export default function Home() {
   const [mobilestartCity, setMobilestartCity] = useState(null);
   const [mobileStartDate, setMobileStartDate] = useState<any>(null);
   const [mobileStartTime, setMobileStartTime] = useState<any>(null);
-  const [mobileEndCity, setMobileEndCity] = useState(null);
+  const [mobileEndCity, setMobileEndCity] = useState<any>(null);
   const [mobileEndDate, setMobileEndDate] = useState<any>(null);
   const [mobileEndTime, setMobileEndTime] = useState<any>(null);
 
@@ -118,7 +118,7 @@ export default function Home() {
       localStorage.setItem("radioToggle", radioToggle);
     }
 
-    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
+    localStorage.setItem("dropOffLocation", dropOffLocation || "");
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
     localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
 
@@ -160,7 +160,7 @@ export default function Home() {
     }
 
     localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
-    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity);
+    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity || "");
     localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
     localStorage.setItem("tabValue", tabValue);
@@ -369,9 +369,17 @@ export default function Home() {
 
       <div
         className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] 
-          ${(tabValue === "Driver" && radioToggle == "One-way") ? "h-[350px]" : (tabValue === "Driver" && radioToggle !== "One-way") ? "h-[340px]" : tabValue === "Subscription"
-            ? "h-[200px]"
-            : "h-[220px]"
+          ${(tabValue === "Driver" && radioToggle == "One-way") 
+            ? "h-[380px]" 
+            : (tabValue === "Driver" && radioToggle == "Out-station") 
+            ? "h-[340px]" 
+            : (tabValue === "Driver" && radioToggle == "Local") 
+            ? "h-[350px]" 
+            : tabValue === "Subscription"
+            ? "h-[250px]"
+            : tabValue === "Self-Driving"
+            ? "h-[320px]"
+            : "h-[320px]"
           }`}
       >
         <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
@@ -414,7 +422,7 @@ export default function Home() {
                       iconSrc={
                         driver.content === "One-way"
                           ? "/oneWay.svg"
-                          : driver.content === "Round-Trip"
+                          : driver.content === "Out-station"
                             ? "/roundTrip.svg"
                             : driver.content === "Local"
                               ? "/local.svg"
@@ -426,7 +434,7 @@ export default function Home() {
                 ))}
               </div>
 
-              {radioToggle === "Round-Trip" && (
+              {radioToggle === "Out-station" && (
                 <div className="flex items-center mt-6">
                   {outstation?.map((item, index) => {
                     return (
@@ -1282,8 +1290,8 @@ export default function Home() {
               </div> */}
               {durationFormat && (
                 <div className="w-fit m-auto">
-                  <div className="mt-2">
-                    <h3 className="font-semibold text-lg shadow-md">
+                  <div className="mt-4">
+                    <h3 className="font-semibold text-lg p-2 rounded-md shadow-md">
                       Duration:{" "}
                       <span className="font-[400]"> {durationFormat} </span>
                     </h3>
@@ -1652,7 +1660,7 @@ export default function Home() {
                       iconSrc={
                         driver.content === "One-way"
                           ? "/oneWay.svg"
-                          : driver.content === "Round-Trip"
+                          : driver.content === "Out-station"
                             ? "/roundTrip.svg"
                             : driver.content === "Local"
                               ? "/local.svg"
@@ -1911,8 +1919,8 @@ const driverRadioButton = [
     name: "driver",
   },
   {
-    content: "Round-Trip",
-    id: "Round-Trip",
+    content: "Out-station",
+    id: "Out-station",
     name: "driver",
   },
   {

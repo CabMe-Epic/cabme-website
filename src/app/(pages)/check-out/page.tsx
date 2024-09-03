@@ -279,7 +279,7 @@ const Checkout = () => {
         mode: "online",
       },
     ],
-    totalAmount: Number(totalAmount),
+    totalAmount: Number(totalAmount) <= 1500 ? 1500 : Number(totalAmount),
     bookingDuration: bookingData.bookingDuration,
     bufferTime: 0,
     kilometers: 0,

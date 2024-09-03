@@ -422,7 +422,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           ?.map((item: any) => item?.price || 0) || []
       );
     }
-  
+
     // Check if selected tab is "Self-Driving"
     if (selectedTabValue === "Self-Driving") {
       return (
@@ -431,7 +431,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           ?.map((item: any) => item?.price || 0) || []
       );
     }
-  
+
     // Default value if no conditions are met
     return 0;
   })();
@@ -441,17 +441,19 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const totalExcludedGSTAmount =
     Number(packagePrice) +
     Number(result?.gstAmount) +
-    Number(currentPackage?.refundableDeposit) +
-    Number(selfDropCities || 0)+
+    Number((selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
+    Number(selfDropCities || 0) +
     doorStepAmount -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
-    
+
   const totalIncludedGSTAmount =
     Number(packagePrice) +
-    Number(currentPackage?.refundableDeposit) +
-    Number(selfDropCities || 0)+
+    Number((selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
+    Number(selfDropCities || 0) +
     doorStepAmount -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
+
+
 
   useEffect(() => {
     const amount =
@@ -577,7 +579,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               Refundable Deposit
             </span>
             <span className=" w-fit word-wrap sm:ml-10">
-              ₹ {currentPackage?.refundableDeposit}
+              ₹ {Number((selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit))}
             </span>
           </div>
           {(selectedTabValue == "Self-Driving" || (selectedTabValue == "Driver" && radioToggle === "One-way")) &&
@@ -823,15 +825,19 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </div>
             <div className="text-[#ff0000] font-semibold text-[15px] flex justify-start relative left-[0px]">
               {particalAmount !== 0 && (
-                <div className="flex items-center flex-row justify-center text-md w-full gap-2">
-                  {currentPackage?.gst === "Excluded" ? (
-                    <div className="">₹{roundPrice(totalExcludedGSTAmount) - particalAmount}</div>
-                  ) : (
-                    <div className=" ">₹{roundPrice(totalIncludedGSTAmount) - particalAmount}</div>
-                  )}
-                  {""} Balance on Delivery
-                </div>
-              )}
+                (selectedTabValue === "Self-Driving") ||
+                (selectedTabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))
+              ) && (
+                  <div className="flex items-center flex-row justify-center text-md w-full gap-2">
+                    {currentPackage?.gst === "Excluded" ? (
+                      <div>₹{roundPrice(totalExcludedGSTAmount) - particalAmount}</div>
+                    ) : (
+                      <div>₹{roundPrice(totalIncludedGSTAmount) - particalAmount}</div>
+                    )}
+                    {" "}Balance on Delivery
+                  </div>
+                )}
+
               {/* {particalAmount !== 0 &&
                 (currentPackage?.gst === "Excluded" ? (
                   <>₹ {roundPrice(totalExcludedGSTAmount) - particalAmount}</>

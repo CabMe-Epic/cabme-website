@@ -49,17 +49,17 @@ interface VehicleSearchPayload {
   city: string | null;
   dropOffDateTime: string | null;
   pickUpDateTime: string | null;
+  toCity: string | null;
+  bookingType: any;
 }
 
 const CarDetails = () => {
   // context api
   // const { data, setData } = useContextApi();
+  const [bookingOptions, setBookingOptions] = useState<any>();
+  const [dropoffLocation, setDropoffLocation] = useState<any>("");
   const { payableAmount, setPayableAmount } = useCarsStore();
-  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
-    city: null,
-    pickUpDateTime: null,
-    dropOffDateTime: null,
-  });
+
   const userData = useStore((state) => state);
   console.log("USER DATA", { userData });
   const router = useRouter();
@@ -103,6 +103,8 @@ const CarDetails = () => {
     localStorage.removeItem("doorStepPriceCharge");
   }, []);
 
+
+
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
   const [dropoffDate, setDropoffDate] = useState<any>();
@@ -120,12 +122,8 @@ const CarDetails = () => {
   const [selectedDiscountType, setSelectedDiscountType] = useState<
     string | any
   >();
-  const [dropoffLocation, setDropoffLocation] = useState<any>("");
 
-  useEffect(() => {
-    const dropLoc = localStorage.getItem("dropOffLocation");
-    setDropoffLocation(dropLoc);
-  }, [])
+
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Inculded/Excluded GST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   console.log({ currentPackage });
 
@@ -134,6 +132,14 @@ const CarDetails = () => {
     parseFloat(currentPackage?.package1?.gstRate),
     currentPackage?.gst
   );
+
+  const [locationData, setLocationData] = useState<VehicleSearchPayload>({
+    city: null,
+    pickUpDateTime: null,
+    dropOffDateTime: null,
+    bookingType: bookingOptions,
+    toCity: dropoffLocation
+  });
   // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
 
   const selfDropCities = (() => {
@@ -145,7 +151,7 @@ const CarDetails = () => {
           ?.map((item: any) => item?.price || 0) || []
       );
     }
-  
+
     // Check if selected tab is "Self-Driving"
     if (selectedTabValue === "Self-Driving") {
       return (
@@ -154,7 +160,7 @@ const CarDetails = () => {
           ?.map((item: any) => item?.price || 0) || []
       );
     }
-  
+
     // Default value if no conditions are met
     return 0;
   })();
@@ -166,14 +172,14 @@ const CarDetails = () => {
   const totalExcludedGSTAmount =
     Number(packagePrice) +
     Number(result?.gstAmount) +
-    Number(currentPackage?.refundableDeposit) +
-    Number(selfDropCities || 0)+
+    Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
+    Number(selfDropCities || 0) +
     doorStepAmount;
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
-    Number(currentPackage?.refundableDeposit) +
-    Number(selfDropCities || 0)+
+    Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
+    Number(selfDropCities || 0) +
     doorStepAmount;
 
 
@@ -233,7 +239,7 @@ const CarDetails = () => {
     gstRate: currentPackage?.package1?.gstRate,
     gstAmount: roundPrice(Number(result?.gstAmount)),
     insuranceGST: carDetails?.extraService?.insurance,
-    refundableDeposit: currentPackage?.refundableDeposit,
+    refundableDeposit: Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)),
     kmsLimit: 0,
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
@@ -342,8 +348,10 @@ const CarDetails = () => {
       city: location,
       pickUpDateTime: pickupDate,
       dropOffDateTime: dropDate,
+      bookingType: bookingOptions,
+      toCity: dropoffLocation
     });
-  }, [slug]);
+  }, [bookingOptions, dropoffLocation]);
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicleNew(locationData);
@@ -356,23 +364,10 @@ const CarDetails = () => {
       ? setCurrentPackage(
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       )
-      : setCurrentPackage(carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropoffLocation ? item?.price : 0) );
+      : setCurrentPackage(carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropoffLocation ? item?.price : 0));
   }, [locationData, slug, dropoffLocation]);
 
-  React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const storedPickupTime = localStorage.getItem("pickupTime");
-    const storedDropoffTime = localStorage.getItem("dropoffTime");
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
-
-    setPackagePrice(selectedPackagePrice);
-    setPickupDate(getPickup);
-    setDropoffDate(getDropoff);
-    setDropoffTime(storedDropoffTime);
-    setPickupTime(storedPickupTime);
-    getCarDetails();
-  }, []);
+  console.log(dropoffLocation, "dropoffLocation")
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
@@ -380,14 +375,35 @@ const CarDetails = () => {
     const storedPickupTime = localStorage.getItem("pickupTime");
     const storedDropoffTime = localStorage.getItem("dropoffTime");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    const dropLoc = localStorage.getItem("dropOffLocation");
 
     setPackagePrice(selectedPackagePrice);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setDropoffTime(storedDropoffTime);
     setPickupTime(storedPickupTime);
+    setDropoffLocation(dropLoc);
     getCarDetails();
-  }, [getCarDetails]);
+
+  }, [slug]);
+
+
+  React.useEffect(() => {
+    const getPickup = localStorage.getItem("pickupDate");
+    const getDropoff = localStorage.getItem("dropOffDate");
+    const storedPickupTime = localStorage.getItem("pickupTime");
+    const storedDropoffTime = localStorage.getItem("dropoffTime");
+    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    const bookingOptions = localStorage.getItem("tabValue");
+    setPackagePrice(selectedPackagePrice);
+    setPickupDate(getPickup);
+    setDropoffDate(getDropoff);
+    setDropoffTime(storedDropoffTime);
+    setPickupTime(storedPickupTime);
+    setBookingOptions(bookingOptions);
+
+    getCarDetails();
+  }, [getCarDetails, slug]);
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
@@ -539,7 +555,7 @@ const CarDetails = () => {
     new Set(roundedPrices.filter((price) => price !== 0))
   );
 
-  
+
 
   const balance_paymentExculded = totalExcludedGSTAmount - ThirtyDiscountForExcludedTax;
   const balance_paymentIncluded = totalIncludedGSTAmount - ThirtyDiscountForInculdedTax;
@@ -592,33 +608,36 @@ const CarDetails = () => {
                 <div className="w-[320px] sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
                 </div>
-                <div className="my-5  flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
-                  <span className="font-semibold sm:ml-2">Package Name</span>
-                  <select
-                    name="package"
-                    id="package"
-                    className="cursor-pointer w-[140px] p-2 mr-2 rounded-md font-semibold outline-none"
-                    onChange={(event) =>
-                      handlePriceChange(event?.target?.value)
-                    }
-                  >
-                    <option value={packagePrice}>
-                      {packagePrice !== undefined
-                        ? `₹${packagePrice}`
-                        : "Select Package"}
-                    </option>
-                    <option value={roundPrice(package1Price)}>
-                      ₹{roundPrice(package1Price)}
-                    </option>
-                    <option value={roundPrice(package2Price)}>
-                      ₹{roundPrice(package2Price)}
-                    </option>
-                    <option value={roundPrice(package3Price)}>
-                      ₹{roundPrice(package3Price)}
-                    </option>
-                  </select>
-                </div>
-                <div className="grid grid-cols-1 items-start justify-center gap-4 font-semibold">
+                {
+                  ((tabValue == "Driver" && radioToggle !== "One-way")) &&
+                  <div className="my-5  flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
+                    <span className="font-semibold sm:ml-2">Package Name</span>
+                    <select
+                      name="package"
+                      id="package"
+                      className="cursor-pointer w-[140px] p-2 mr-2 rounded-md font-semibold outline-none"
+                      onChange={(event) =>
+                        handlePriceChange(event?.target?.value)
+                      }
+                    >
+                      <option value={packagePrice}>
+                        {packagePrice !== undefined
+                          ? `₹${packagePrice}`
+                          : "Select Package"}
+                      </option>
+                      <option value={roundPrice(package1Price)}>
+                        ₹{roundPrice(package1Price)}
+                      </option>
+                      <option value={roundPrice(package2Price)}>
+                        ₹{roundPrice(package2Price)}
+                      </option>
+                      <option value={roundPrice(package3Price)}>
+                        ₹{roundPrice(package3Price)}
+                      </option>
+                    </select>
+                  </div>
+                }
+                <div className="grid grid-cols-1 items-start justify-center gap-4 mt-4 font-semibold">
                   <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
                     <span className="sm:w-[220px] sm:ml-10">
                       Package Amount
@@ -689,7 +708,7 @@ const CarDetails = () => {
                       Refundable Deposit
                     </span>
                     <span className="sm:w-[220px] sm:ml-10">
-                      ₹{currentPackage?.refundableDeposit}
+                      ₹{((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit))}
                     </span>
                   </div>
                   {(selectedTabValue == "Self-Driving" || (selectedTabValue == "Driver" && radioToggle === "One-way")) &&
@@ -748,40 +767,39 @@ const CarDetails = () => {
                     </span>
                   </div>
                 </div>
-                <div>
-                  {/* DESKTOP TOTAL AMOUNT  */}
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
-                    {currentPackage?.gst === "Excluded" && (
-                      <div className="flex flex-col">
-                        <span className="text-sm md:text-md">
-                          Total Amount{" "}
-                        </span>
-                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹ {roundPrice(totalExcludedGSTAmount)}
-                        </span>
+                {(tabValue === "Self-Driving" ||
+                  (tabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))) && (
+                    <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
+                      {currentPackage?.gst === "Excluded" && (
+                        <div className="flex flex-col">
+                          <span className="text-sm md:text-md">Total Amount</span>
+                          <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                            ₹ {roundPrice(totalExcludedGSTAmount)}
+                          </span>
+                        </div>
+                      )}
+                      {currentPackage?.gst === "Included" && (
+                        <div className="flex flex-col">
+                          <span className="text-sm md:text-md">Total Amount</span>
+                          <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                            ₹ {roundPrice(totalIncludedGSTAmount)}
+                          </span>
+                        </div>
+                      )}
+                      <div>
+                        <button
+                          onClick={handleProceedTotal}
+                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] px-6 py-2 sm:h-[53.08px] rounded-full drop-shadow-lg"
+                        >
+                          Proceed
+                        </button>
                       </div>
-                    )}
-                    {currentPackage?.gst === "Included" && (
-                      <div className="flex flex-col">
-                        <span className="text-sm md:text-md">Total Amount</span>
-                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹ {roundPrice(totalIncludedGSTAmount)}
-                        </span>
-                      </div>
-                    )}
-                    <div>
-                      <button
-                        onClick={handleProceedTotal}
-                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] px-6 py-2  sm:h-[53.08px] rounded-full drop-shadow-lg "
-                      >
-                        Proceed
-                      </button>
                     </div>
-                  </div>
-                </div>
+                  )}
+
 
                 {/* DESKTOP  */}
-                <div className="flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer">
+                <div className={`flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${(tabValue == "Driver" && radioToggle == "Out-station") && ' mt-4'}`}>
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" && selectedTabValue !== "Driver" && (
                       <span className="font-bold text-md">
@@ -801,31 +819,36 @@ const CarDetails = () => {
                     )}
                     {
                       (currentPackage?.gst === "Excluded" && selectedTabValue == "Driver") &&
-                      <span className="font-bold text-md">
+                      <span className={`font-bold text-md ${(tabValue == "Driver" && radioToggle == "Out-station") && 'text-2xl'}`}>
                         Pay ₹ {Driver15k}
-
                       </span>
                     }
                     {
                       (currentPackage?.gst === "Included" && selectedTabValue == "Driver") &&
-                      <span className="font-bold text-md">
+                      <span className={`font-bold text-md ${(tabValue == "Driver" && radioToggle == "Out-station") && 'text-2xl'}`}>
                         Pay ₹ {Driver15k}
-
                       </span>
                     }
-                    <span className="text-[#ff0000] font-semibold text-[15px]">
-                      ₹{(currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver")
-                        ? (balance_paymentExculded).toFixed(0)
-                        : (currentPackage?.gst === "Incuded" && selectedTabValue !== "Driver")
-                          ? (balance_paymentIncluded).toFixed(0)
-                          : (currentPackage?.gst === "Excluded" && selectedTabValue == "Driver")
-                            ? balance_driverExclude.toFixed(0)
-                            : (currentPackage?.gst === "Included" && selectedTabValue == "Driver")
-                              ? (balance_driverInclude).toFixed(0)
-                              : ""
-                      }{" "}
-                      Balance on Delivery
-                    </span>
+                    {
+                      (tabValue === "Self-Driving" ||
+                        (tabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))) && (
+                        <span className="text-[#ff0000] font-semibold text-[15px]">
+                          ₹
+                          {(currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver")
+                            ? balance_paymentExculded.toFixed(0)
+                            : (currentPackage?.gst === "Included" && selectedTabValue !== "Driver")
+                              ? balance_paymentIncluded.toFixed(0)
+                              : (currentPackage?.gst === "Excluded" && selectedTabValue === "Driver")
+                                ? balance_driverExclude.toFixed(0)
+                                : (currentPackage?.gst === "Included" && selectedTabValue === "Driver")
+                                  ? balance_driverInclude.toFixed(0)
+                                  : ""}
+                          {" "}Balance on Delivery
+                        </span>
+                      )
+                    }
+
+
                   </div>
                   <button
                     onClick={handleProceed}

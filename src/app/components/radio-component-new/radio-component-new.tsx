@@ -43,7 +43,7 @@ const RadioButtonNew = ({
                 />
             )}
             <label htmlFor={id} className={className} style={{ cursor: 'pointer', whiteSpace: "nowrap" }}>
-                {content == "One-way" ? "One Way" : content == "Round-Trip" ? "Round Trip" : content}
+                {content == "One-way" ? "One Way" : content == "Out-station" ? "Round Trip" : content}
             </label>
         </div>
     );

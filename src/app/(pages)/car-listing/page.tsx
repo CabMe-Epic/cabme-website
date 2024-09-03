@@ -304,7 +304,7 @@ const CarListing = () => {
 
   useEffect(() => {
     const getCarDetails = async() => {
-      if (locationData.pickUpDateTime) {
+      if (locationData.pickUpDateTime, bookingOptions) {
         console.log("locationData", locationData);
         setLoader(true);
         const getSearchCarData = await searchVehicleNew(locationData);
@@ -315,10 +315,10 @@ const CarListing = () => {
         console.error("Invalid dates provided in payload", locationData);
       }
     };
-    if (locationData.city && locationData.pickUpDateTime) {
+    if (locationData.city && locationData.pickUpDateTime && bookingOptions) {
       getCarDetails();
     }
-  }, [locationData ]);
+  }, [locationData,bookingOptions ]);
 
   return (
     <div className="max-w-[1450px] m-auto">

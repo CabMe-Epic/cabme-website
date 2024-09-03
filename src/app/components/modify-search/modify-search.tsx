@@ -18,18 +18,18 @@ const ModifySearch: React.FC = () => {
   const [endTime, setEndTime] = useState<string | null>(null);
   const [tabValue, setTabsValue] = useState<any>();
   const [radioToggle, setRadioToggle] = useState<any>();
-  const datePickerRef = useRef<any>(null); 
+  const datePickerRef = useRef<any>(null);
   const datePickerRef1 = useRef<any>(null);
 
   const handleImageClick = () => {
     if (datePickerRef.current) {
-      datePickerRef.current.setFocus(); 
+      datePickerRef.current.setFocus();
     }
   };
 
   const handleImageClick1 = () => {
     if (datePickerRef1.current) {
-      datePickerRef1.current.setFocus(); 
+      datePickerRef1.current.setFocus();
     }
   };
 
@@ -250,8 +250,7 @@ const ModifySearch: React.FC = () => {
             />
           </div>
         </div>
-        {(tabValue !== "Subscription") && (tabValue == 'driver' && radioToggle !=="Ome-Way") &&
-
+        {( radioToggle !== "One-way" && tabValue == "Driver") &&
           <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2 max-w-[350px] sm:w-[400px]">
             <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
             <div className="relative date-picker modify-search m-0  w-[100%] !z-[99] sm:min-[200px] max-w-[350px]  bg-white">

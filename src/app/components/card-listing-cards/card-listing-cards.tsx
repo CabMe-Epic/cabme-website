@@ -51,7 +51,7 @@ const CardListingCards = ({ data }: any) => {
   // const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
   const [selectedPackagePrice, setPackagePrice] = useState<any>();
-  const [selectedPackageFreeKms, setSelectedPackageFreeKms] = useState<any>();
+  const [selectedPackageFreeKms, setSelectedPackageFreeKms] = useState<any>(0);
 
   const setPrice = (price: number) => {
     setPackagePrice(price);
@@ -94,7 +94,7 @@ const CardListingCards = ({ data }: any) => {
     setDriverType(driverType);
     setRadioToggle(radioVal);
     setDropLocation(dropLoc);
-  }, []);
+  }, [data]);
 
   const [clicked1, setClicked1] = useState(true);
   const [clicked2, setClicked2] = useState(false);
@@ -186,8 +186,7 @@ const CardListingCards = ({ data }: any) => {
               ?.kmsLimit)
             : driverType === data?.bookingOptions?.withDriver?.outstation?.name
               ?
-              selectedPackageFreeKms(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
-                ?.ratePerKm)
+              selectedPackageFreeKms(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm || 0)
               : console.log("Something went wrong in package selection");
     }
     else {
@@ -278,26 +277,28 @@ const CardListingCards = ({ data }: any) => {
 
         {/* --------------------------------- */}
 
-        <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
-          <Image
-            src="/png/red-design.png"
-            width={133}
-            objectFit={"contain"}
-            height={46}
-            alt="Tag Icon"
-          />
-          <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
-            {data?.brandName}
-          </span>
-        </div>
+      
         <div
           className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px]"
           style={{ backgroundSize: "100% 100%" }}
         >
           <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
+            
             {/* ---------------------------------------- */}
-            {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
-              <>
+            {(bookingOptionsHome === data?.bookingOptions?.selfDrive?.name) ? 
+            (
+              <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+              <Image
+                src="/png/red-design.png"
+                width={133}
+                objectFit={"contain"}
+                height={46}
+                alt="Tag Icon"
+              />
+              <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+                {data?.brandName}
+              </span>
+            </div>
                 <div className="sm:flex hidden flex-col items-center jusitfy-center lg:w-[486px] w-[260px] h-full ">
                   <div className="flex flex-row justify-center m-auto mt-16">
                     <h1 className="m-auto font-bold text-[24px]">
@@ -727,7 +728,18 @@ const CardListingCards = ({ data }: any) => {
               </>
             ) : bookingOptionsHome ===
               data?.bookingOptions?.subscription?.name ? (
-              <>
+              <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+              <Image
+                src="/png/red-design.png"
+                width={133}
+                objectFit={"contain"}
+                height={46}
+                alt="Tag Icon"
+              />
+              <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+                {data?.brandName}
+              </span>
+            </div>
                 <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
                   <div className="flex flex-row justify-center m-auto mt-16">
                     <h1 className="m-auto font-bold text-[24px]">
@@ -1127,7 +1139,18 @@ const CardListingCards = ({ data }: any) => {
               data?.bookingOptions?.withDriver?.name ? (
               <>
                 {(radioToggle == data?.bookingOptions?.withDriver?.oneway?.name || data?.bookingOptions?.withDriver?.oneway?.doorstepDelivery?.length > 0) && data?.bookingOptions?.withDriver?.oneway?.doorstepDelivery.some((item: any) => item.city === dropLocation) && (
-                  <>
+                  <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+                  <Image
+                    src="/png/red-design.png"
+                    width={133}
+                    objectFit={"contain"}
+                    height={46}
+                    alt="Tag Icon"
+                  />
+                  <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+                    {data?.brandName}
+                  </span>
+                </div>
                     <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
                       <div className="flex flex-row justify-center m-auto mt-16">
                         <h1 className="m-auto font-bold text-[24px]">
@@ -1159,7 +1182,7 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <div className="sm:h-[274px] relative max-w-[700px] w-full">
-                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row justify-start items-center sm:gap-4 gap-2 sm:mr-5 px-4">
+                      <div className={`mt-5 sm:flex grid grid-cols-3 flex-row justify-start items-center sm:gap-4 gap-2 sm:mr-5 px-4 ${(bookingOptionsHome ==='Driver' && driverType ==="One-way") && 'w-full grid-cols-1'}`}>
                         {
                           data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any) => item.city === dropLocation).map((item: any, index: number) => {
                             return <div 
@@ -1183,7 +1206,7 @@ const CardListingCards = ({ data }: any) => {
                               className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
                                 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                                 : ""
-                                }`}
+                                }  `}
                             >
 
 
@@ -1367,7 +1390,18 @@ const CardListingCards = ({ data }: any) => {
                 )}
                 {driverType ===
                   data?.bookingOptions?.withDriver?.local?.name && (
-                    <>
+                    <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+                    <Image
+                      src="/png/red-design.png"
+                      width={133}
+                      objectFit={"contain"}
+                      height={46}
+                      alt="Tag Icon"
+                    />
+                    <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+                      {data?.brandName}
+                    </span>
+                  </div>
                       <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
                         <div className="flex flex-row justify-center m-auto mt-16">
                           <h1 className="m-auto font-bold text-[24px]">
@@ -1796,8 +1830,20 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </>
                   )}
-                {radioToggle == "Round-Trip" && data?.bookingOptions.withDriver.outstation.name == "Out-station" && (
+                {driverType === data?.bookingOptions.withDriver.outstation.name && (
                   <>
+                    <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+          <Image
+            src="/png/red-design.png"
+            width={133}
+            objectFit={"contain"}
+            height={46}
+            alt="Tag Icon"
+          />
+          <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+            {data?.brandName}
+          </span>
+        </div>
                     <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
 
                       <div className="flex flex-row justify-center m-auto mt-16">
