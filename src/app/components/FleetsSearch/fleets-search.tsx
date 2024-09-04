@@ -1702,7 +1702,7 @@ export default function Home() {
                         ? "Select Your City"
                         : "Select Your City"
                   }
-                  // onClick={(e) => handleSelectMobilePopupLocation(e)}
+                // onClick={(e) => handleSelectMobilePopupLocation(e)}
                   onClick={(e) => handleSelectPopupLocation(e)}
                   value={selectedCity}
                   readOnly // Prevent editing directly
