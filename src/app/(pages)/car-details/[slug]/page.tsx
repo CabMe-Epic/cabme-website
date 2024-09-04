@@ -173,13 +173,13 @@ const CarDetails = () => {
     Number(packagePrice) +
     Number(result?.gstAmount) +
     Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
-    Number(selfDropCities || 0) +
+    Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount;
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
-    Number(selfDropCities || 0) +
+    Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount;
 
 
@@ -647,47 +647,50 @@ const CarDetails = () => {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">
-                      Doorstep delivery & pickup
-                    </span>
-                    <span
-                      className="sm:w-[220px]  sm:ml-8"
-                      onClick={handleShowDoorstepPopup}
-                    >
-                      <div className="relative w-full sm:w-[80%]">
-                        <textarea
-                          ref={textareaRef}
-                          className="w-full p-1 rounded-md border resize-none overflow-hidden"
-                          style={{ height: textareaHeight }}
-                          value={
-                            selectedDoorStepObject[0]?.location
-                              ? `${selectedDoorStepObject[0]?.location} - ${selectedDoorStepObject[0]?.subLocation} - ₹${selectedDoorStepObject[0]?.price}`
-                              : "Select"
-                          }
-                          disabled
-                        />
-                        <div
-                          className="absolute top-0 left-0 w-full h-full cursor-pointer"
-                          onClick={() => handleShowDoorstepPopup()}
-                          style={{ background: "rgba(0,0,0,0)", zIndex: 1 }}
-                        />
-                      </div>
+                  {
+                    (selectedTabValue !== "Driver" && selectedTabValue !== "Subscription") &&
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                      <span className="sm:w-[220px] sm:ml-10">
+                        Doorstep delivery & pickup
+                      </span>
+                      <span
+                        className="sm:w-[220px]  sm:ml-8"
+                        onClick={handleShowDoorstepPopup}
+                      >
+                        <div className="relative w-full sm:w-[80%]">
+                          <textarea
+                            ref={textareaRef}
+                            className="w-full p-1 rounded-md border resize-none overflow-hidden"
+                            style={{ height: textareaHeight }}
+                            value={
+                              selectedDoorStepObject[0]?.location
+                                ? `${selectedDoorStepObject[0]?.location} - ${selectedDoorStepObject[0]?.subLocation} - ₹${selectedDoorStepObject[0]?.price}`
+                                : "Select"
+                            }
+                            disabled
+                          />
+                          <div
+                            className="absolute top-0 left-0 w-full h-full cursor-pointer"
+                            onClick={() => handleShowDoorstepPopup()}
+                            style={{ background: "rgba(0,0,0,0)", zIndex: 1 }}
+                          />
+                        </div>
 
-                      {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
-                    </span>
-                    {showDoorStep && (
-                      <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
-                        <DropLocation
-                          onClose={() => setShowDoorStep(false)}
-                          onSelectItem={handleSelectItemDoorStep}
-                          currentPackage={
-                            currentPackage?.DoorstepDeliveryPickup
-                          }
-                        />
-                      </div>
-                    )}
-                  </div>
+                        {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
+                      </span>
+                      {showDoorStep && (
+                        <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
+                          <DropLocation
+                            onClose={() => setShowDoorStep(false)}
+                            onSelectItem={handleSelectItemDoorStep}
+                            currentPackage={
+                              currentPackage?.DoorstepDeliveryPickup
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  }
                   {/* <div className="text-sm font-semibold text-[#5c5c5c] sm:w-[220px] sm:ml-10">
                     {
                       selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
@@ -702,16 +705,20 @@ const CarDetails = () => {
                       ₹{roundPrice(Number(result?.gstAmount))}
                     </span>
                   </div>
+                  {
+                    tabValue !== "Driver" &&
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                      <span className="sm:w-[220px] sm:ml-10">
+                        Refundable Deposit
+                      </span>
+                      <span className="sm:w-[220px] sm:ml-10">
+                        ₹{((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit))}
+                      </span>
+                    </div>
+                  }
 
-                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">
-                      Refundable Deposit
-                    </span>
-                    <span className="sm:w-[220px] sm:ml-10">
-                      ₹{((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit))}
-                    </span>
-                  </div>
-                  {(selectedTabValue == "Self-Driving" || (selectedTabValue == "Driver" && radioToggle === "One-way")) &&
+
+                  {(selectedTabValue == "Self-Driving") &&
 
                     <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
                       <span className="sm:w-[220px] sm:ml-10">
@@ -741,22 +748,29 @@ const CarDetails = () => {
                       </span>
                     </div>
                   )}
+                  {
+                    (tabValue === "Self-Driving" || tabValue === "Subscription") &&
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                      <span className="sm:w-[220px] sm:ml-10">Fuel</span>
+                      <span className="sm:w-[220px] sm:ml-10">
+                        {currentPackage?.fuel}
+                      </span>
+                    </div>
+                  }
 
-                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">Fuel</span>
-                    <span className="sm:w-[220px] sm:ml-10">
-                      {currentPackage?.fuel}
-                    </span>
-                  </div>
+                  {
+                    (tabValue === "Self-Driving" || tabValue ==="Subscription")  &&
+                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
+                      <span className="sm:w-[220px] sm:ml-10">
+                        Extra kms charge
+                      </span>
+                      <span className="sm:w-[220px] sm:ml-10">
+                        ₹{currentPackage?.extraKmsCharge}
+                      </span>
+                    </div>
+                  }
 
-                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">
-                      Extra kms charge
-                    </span>
-                    <span className="sm:w-[220px] sm:ml-10">
-                      ₹{currentPackage?.extraKmsCharge}
-                    </span>
-                  </div>
+
 
                   <div className="grid grid-cols-2 gap-14 text-[14px] sm:text-[18px] justify-center">
                     <span className="sm:w-[220px] sm:ml-10">

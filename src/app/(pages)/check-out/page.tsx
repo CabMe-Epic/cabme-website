@@ -17,6 +17,7 @@ import { setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import ProgressBar from "@/app/components/Progress/progress";
+import moment from "moment";
 
 interface SelectedUser {
   firstName: string;
@@ -74,6 +75,8 @@ const Checkout = () => {
   const [toCity, setToCity] = useState<any>("");
   const [isFullpayment, setIsFullpayment] = useState<any>("");
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [tabValue, setTabsValue] = useState<any>();
+  const [radioToggle, setRadioToggle] = useState<any>();
   // const { data, setData } = useContextApi();
   React.useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
@@ -89,9 +92,15 @@ const Checkout = () => {
   useEffect(() => {
     const dropCity = localStorage.getItem("dropOffLocation");
     const isFullpayment = localStorage.getItem("isFullpayment");
+    const tabVal = localStorage.getItem("tabValue");
+    const radioTog = localStorage.getItem("radioToggle");
+    setTabsValue(tabVal);
+    setRadioToggle(radioTog);
     setToCity(dropCity);
     setIsFullpayment(isFullpayment);
   }, []);
+
+  console.log("tabValue",tabValue)
 
   console.log("particalAmount", { particalAmount });
 
@@ -168,7 +177,11 @@ const Checkout = () => {
     ) {
       setIsButtonDisabled(false);
     } else {
+
       setIsButtonDisabled(true);
+      if(tabValue == "Driver" && (!two && !three)){
+        setIsButtonDisabled(false);
+      }
     }
     const vehicleId = sessionStorage.getItem("slug");
     if (vehicleId) {
@@ -248,7 +261,7 @@ const Checkout = () => {
     option: bookingData.option,
     location: bookingData.location,
     pickUpDateTime: bookingData.pickUpDateTime,
-    dropOffDateTime: bookingData.dropOffDateTime,
+    dropOffDateTime: ((tabValue == "Driver" && radioToggle=="One-way") || tabValue =="Subscription") ? moment(bookingData.pickUpDateTime).add(1, 'days').toISOString() : bookingData.dropOffDateTime,
     baseFare: Number(bookingData.baseFare),
     doorstepDelivery: bookingData?.doorstepDelivery as string,
     gstRate: Number(bookingData?.gstRate),
@@ -280,7 +293,7 @@ const Checkout = () => {
       },
     ],
     totalAmount: Number(totalAmount) <= 1500 ? 1500 : Number(totalAmount),
-    bookingDuration: bookingData.bookingDuration,
+    bookingDuration: (tabValue == "Driver" && radioToggle=="One-way") ? "1 days, 0 hours, 0 minutes" : bookingData.bookingDuration,
     bufferTime: 0,
     kilometers: 0,
     createdByUser: bookingData?.userData?._id,
@@ -1219,7 +1232,10 @@ const Checkout = () => {
               </div>
               {/*-------------------------------------------------------- section two end */}
               {/*-------------------------------------------------------- section three start */}
-              <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
+              {
+                tabValue !== "Driver" &&
+
+                <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
                 <h2 className="sm:text-[20px] text-lg font-semibold">
                   3. KYC Verification
                 </h2>
@@ -1916,6 +1932,8 @@ const Checkout = () => {
                   ""
                 )}
               </div>
+              }
+             
               {/*-------------------------------------------------------- section three end */}
             </div>
           )}

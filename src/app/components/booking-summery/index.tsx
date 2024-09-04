@@ -4,7 +4,10 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useState } from "react";
-import { searchVehicle, searchVehicleNew } from "../../../../networkRequests/hooks/api";
+import {
+  searchVehicle,
+  searchVehicleNew,
+} from "../../../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -50,14 +53,13 @@ interface VehicleSearchPayload {
   pickUpDateTime: string | null;
 }
 
-
 const BookingSummery: React.FC<ChildComponentProps> = ({
   roundPrice,
   onTotalAmountChange,
   particalAmount,
   setSelectedPromoCodeSecond,
   packageFreeKmSecond,
-  location
+  location,
 }: any) => {
   const router = useRouter();
   const { slug } = useParams();
@@ -96,7 +98,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   console.log("selectedPromoCode", { selectedPromoCode });
 
-  console.log("selecteddPackage", packagePrice, packageFreekms)
+  console.log("selecteddPackage", packagePrice, packageFreekms);
   // const handleChangePromocodeOption = (e: any) => {
   //   setSelectedPromocodeOption(e);
   //   console.log("hello");
@@ -104,10 +106,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   // };
 
   useEffect(() => {
-
-    setSelectedPromoCodeSecond(selectedPromoCode)
-
-  }, [selectedPromoCode])
+    setSelectedPromoCodeSecond(selectedPromoCode);
+  }, [selectedPromoCode]);
 
   const handleHidePopUp = () => {
     setApplyCoupon(false);
@@ -211,8 +211,6 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     }
   };
 
-
-
   useEffect(() => {
     const location = localStorage.getItem("pickupLocation");
     const pickupDate = localStorage.getItem("nonFormatedPickupDate");
@@ -295,11 +293,13 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     const getPickup = localStorage.getItem("pickupDate");
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
-    const selectedPackageFreekms = localStorage.getItem("selectedPackageFreeKms");
+    const selectedPackageFreekms = localStorage.getItem(
+      "selectedPackageFreeKms"
+    );
     const bookingOption = localStorage.getItem("tabValue");
     setPackagePrice(selectedPackagePrice);
-    setPackageFreekms(selectedPackageFreekms)
-    packageFreeKmSecond(selectedPackageFreekms)
+    setPackageFreekms(selectedPackageFreekms);
+    packageFreeKmSecond(selectedPackageFreekms);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setBookingOpt(bookingOption);
@@ -329,12 +329,12 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage("")
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage("")
+        : "";
     }
   }, [carDetails]);
 
@@ -367,7 +367,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     setDropoffLocation(dropLoc);
     const radioTog = localStorage.getItem("radioToggle");
     setRadioToggle(radioTog);
-  }, [])
+  }, []);
   // console.log(carDetails, "carDetails")
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -387,14 +387,14 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage(
-              carDetails?.bookingOptions?.withDriver?.local?.packageType
-            )
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage(
+            carDetails?.bookingOptions?.withDriver?.local?.packageType
+          )
+        : "";
     }
   }, [carDetails]);
 
@@ -441,19 +441,21 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const totalExcludedGSTAmount =
     Number(packagePrice) +
     Number(result?.gstAmount) +
-    Number((selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
-    Number(selfDropCities || 0) +
+    Number(
+      selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit
+    ) +
+    Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
-    Number((selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
-    Number(selfDropCities || 0) +
+    Number(
+      selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit
+    ) +
+    Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
-
-
 
   useEffect(() => {
     const amount =
@@ -486,8 +488,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     return particalAmount
       ? particalAmount
       : currentPackage?.gst === "Included" && roundPrice(totalIncludedGSTAmount)
-        ? roundPrice(totalIncludedGSTAmount)
-        : currentPackage?.gst === "Excluded" &&
+      ? roundPrice(totalIncludedGSTAmount)
+      : currentPackage?.gst === "Excluded" &&
         roundPrice(totalExcludedGSTAmount);
   }, [
     particalAmount,
@@ -501,9 +503,6 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   // balance payment after minus the partical amount from total amount ...
   const balance_payment = Number(calculatonvalue) - particalAmount;
   console.log("particalAmount", { particalAmount });
-
-
-
 
   return (
     <div>
@@ -542,19 +541,20 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               ₹ {packagePrice}
             </span>
           </div>
-
-          <div className="grid grid-cols-2 gap-14  justify-center">
-            <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
-              Doorstep delivery & pickup
-            </span>
-            <span className=" w-fit word-wrap sm:ml-10">
-              ₹ {doorStepPrice}
-              {/* {currentPackage?.DoorstepDeliveryPickup?.reduce(
-                (acc: any, item: any) => acc + item?.price,
-                0
-              )} */}
-            </span>
-          </div>
+          { (selectedTabValue !== "Driver" ) && (
+            <div className="grid grid-cols-2 gap-14  justify-center">
+              <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
+                Doorstep delivery & pickup
+              </span>
+              <span className=" w-fit word-wrap sm:ml-10">
+                ₹ {doorStepPrice}
+                {/* {currentPackage?.DoorstepDeliveryPickup?.reduce(
+                  (acc: any, item: any) => acc + item?.price,
+                  0
+                )} */}
+              </span>
+            </div>
+          )}
 
           {/* <div className="grid grid-cols-2 gap-14  justify-center">
             <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
@@ -574,25 +574,34 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-14  justify-center">
-            <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
-              Refundable Deposit
-            </span>
-            <span className=" w-fit word-wrap sm:ml-10">
-              ₹ {Number((selectedTabValue === "Driver" ? 0 : currentPackage?.refundableDeposit))}
-            </span>
-          </div>
-          {(selectedTabValue == "Self-Driving" || (selectedTabValue == "Driver" && radioToggle === "One-way")) &&
-
-            <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
-              <span className="sm:w-[220px] sm:ml-4">
-                DropOff City Charges
+          {(selectedTabValue === "Self-Driving" ||
+            (selectedTabValue === "Driver" &&
+              (radioToggle === "One-way" || radioToggle === "Local"))) && (
+            <div className="grid grid-cols-2 gap-14  justify-center">
+              <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
+                Refundable Deposit
               </span>
+              <span className=" w-fit word-wrap sm:ml-10">
+                ₹{" "}
+                {Number(
+                  selectedTabValue === "Driver"
+                    ? 0
+                    : currentPackage?.refundableDeposit
+                )}
+              </span>
+            </div>
+          )}
+          {(selectedTabValue == "Self-Driving" ||
+            (selectedTabValue == "Driver" &&
+              radioToggle !== "Out-station" &&
+              radioToggle == "One-way")) && (
+            <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
+              <span className="sm:w-[220px] sm:ml-4">DropOff City Charges</span>
               <span className="sm:w-[220px] sm:ml-10">
                 ₹ {selfDropCities || 0}
               </span>
             </div>
-          }
+          )}
 
           {/* DESKTOP ...  */}
           {currentPackage?.gst === "Excluded" && (
@@ -622,24 +631,26 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               kms
             </span>
           </div> */}
-
-          <div className="grid grid-cols-2 gap-14  justify-center">
-            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
-              Fuel
-            </span>
-            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">
-              {currentPackage?.fuel}
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 gap-14  justify-center">
-            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
-              Extra kms charge
-            </span>
-            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">
-              ₹ {currentPackage?.extraKmsCharge}
-            </span>
-          </div>
+          {selectedTabValue == "Driver" && radioToggle !== "One-way" && (
+            <div className="grid grid-cols-2 gap-14  justify-center">
+              <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
+                Fuel
+              </span>
+              <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">
+                {currentPackage?.fuel}
+              </span>
+            </div>
+          )}
+          {selectedTabValue == "Driver" && radioToggle !== "One-way" && (
+            <div className="grid grid-cols-2 gap-14  justify-center">
+              <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
+                Extra kms charge
+              </span>
+              <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10">
+                ₹ {currentPackage?.extraKmsCharge}
+              </span>
+            </div>
+          )}
 
           <div className="grid grid-cols-2 gap-14  justify-center">
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
@@ -779,16 +790,19 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                 Click here to enter your code
               </h4>
 
-              {
-                selectedPromoCode !== null && <button onClick={() => setSelectedPromoCode(null)} className="bg-red-500 cursor-pointer text-white w-5 flex justify-center items-center rounded-full h-5">&#10539;</button>
-
-              }
+              {selectedPromoCode !== null && (
+                <button
+                  onClick={() => setSelectedPromoCode(null)}
+                  className="bg-red-500 cursor-pointer text-white w-5 flex justify-center items-center rounded-full h-5"
+                >
+                  &#10539;
+                </button>
+              )}
             </div>
             {priceAfterDiscountNew !== undefined && (
               <div className="flex justify-between px-4 font-semibold mt-2">
                 <h3 className="">Discounted amount</h3>
                 <p>₹{roundPrice(priceAfterDiscountNew)}</p>
-
               </div>
             )}
 
@@ -824,17 +838,22 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               <div></div>
             </div>
             <div className="text-[#ff0000] font-semibold text-[15px] flex justify-start relative left-[0px]">
-              {particalAmount !== 0 && (
-                (selectedTabValue === "Self-Driving") ||
-                (selectedTabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))
-              ) && (
+              {particalAmount !== 0 &&
+                (selectedTabValue === "Self-Driving" ||
+                  (selectedTabValue === "Driver" &&
+                    (radioToggle === "One-way" ||
+                      radioToggle === "Local"))) && (
                   <div className="flex items-center flex-row justify-center text-md w-full gap-2">
                     {currentPackage?.gst === "Excluded" ? (
-                      <div>₹{roundPrice(totalExcludedGSTAmount) - particalAmount}</div>
+                      <div>
+                        ₹{roundPrice(totalExcludedGSTAmount) - particalAmount}
+                      </div>
                     ) : (
-                      <div>₹{roundPrice(totalIncludedGSTAmount) - particalAmount}</div>
-                    )}
-                    {" "}Balance on Delivery
+                      <div>
+                        ₹{roundPrice(totalIncludedGSTAmount) - particalAmount}
+                      </div>
+                    )}{" "}
+                    Balance on Delivery
                   </div>
                 )}
 
