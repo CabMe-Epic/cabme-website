@@ -251,30 +251,30 @@ const ModifySearch: React.FC = () => {
           </div>
         </div>
         {((tabValue === "Self-Driving") ||
-  (tabValue === "Driver" && (radioToggle === "Local" || radioToggle === "Out-station"))) && (
-    <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2 max-w-[350px] sm:w-[400px]">
-      <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
-      <div className="relative date-picker modify-search m-0 w-[100%] !z-[99] sm:min-[200px] max-w-[350px] bg-white">
-        <DatePicker
-          className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
-          selected={endDate}
-          onChange={handleEndDateTimeChange}
-          showTimeSelect
-          dateFormat="MMMM d, yyyy h:mm aa"
-          placeholderText="MMMM d, yyyy h:mm aa"
-          ref={datePickerRef1}
-        />
-        <Image
-          src={"/svg/edit-red.svg"}
-          alt="edit"
-          width={12}
-          height={12}
-          className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
-          onClick={handleImageClick1}
-        />
-      </div>
-    </div>
-)}
+          (tabValue === "Driver" && (radioToggle === "Local" || radioToggle === "Out-station"))) && (
+            <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2 max-w-[350px] sm:w-[400px]">
+              <div className="whitespace-nowrap sm:text-[14px] text-xs">Return Date</div>
+              <div className="relative date-picker modify-search m-0 w-[100%] !z-[99] sm:min-[200px] max-w-[350px] bg-white">
+                <DatePicker
+                  className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
+                  selected={endDate}
+                  onChange={handleEndDateTimeChange}
+                  showTimeSelect
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  placeholderText="MMMM d, yyyy h:mm aa"
+                  ref={datePickerRef1}
+                />
+                <Image
+                  src={"/svg/edit-red.svg"}
+                  alt="edit"
+                  width={12}
+                  height={12}
+                  className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
+                  onClick={handleImageClick1}
+                />
+              </div>
+            </div>
+          )}
 
       </div>
       <div className="sm:ml-auto sm:my-10 my-4 sm:m-4 sm:block hidden">

@@ -130,7 +130,7 @@ export default function Home() {
 
     
     if(tabValue == "Subscription" || (tabValue == 'Driver' && radioToggle == "One-way")){
-      localStorage.setItem("dropOffDate",   moment(pickupDate).add(4, 'days').format('YYYY-MM-DD')|| moment(mobileStartDate).add(4, 'days').format('YYYY-MM-DD') );
+      localStorage.setItem("dropOffDate",   moment(pickupDate).add(1, 'days').format('YYYY-MM-DD')|| moment(mobileStartDate).add(1, 'days').format('YYYY-MM-DD') );
       localStorage.setItem("dropoffTime", pickupTime || mobileStartTime);
     }
 

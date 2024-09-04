@@ -609,7 +609,7 @@ const CarDetails = () => {
                   <span className="text-center">Booking Summary</span>
                 </div>
                 {
-                  ((tabValue == "Driver" && radioToggle !== "One-way")) &&
+                   (tabValue == "Self-Driving" || tabValue == "Subscription" || tabValue == "Driver" && radioToggle == "Local") &&
                   <div className="my-5  flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
                     <span className="font-semibold sm:ml-2">Package Name</span>
                     <select
@@ -782,6 +782,7 @@ const CarDetails = () => {
                   </div>
                 </div>
                 {(tabValue === "Self-Driving" ||
+                 tabValue === "Subscription" ||
                   (tabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))) && (
                     <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
                       {currentPackage?.gst === "Excluded" && (
@@ -845,6 +846,7 @@ const CarDetails = () => {
                     }
                     {
                       (tabValue === "Self-Driving" ||
+                        tabValue === "Subscription" ||
                         (tabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))) && (
                         <span className="text-[#ff0000] font-semibold text-[15px]">
                           ₹

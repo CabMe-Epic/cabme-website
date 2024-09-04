@@ -172,7 +172,7 @@ const Checkout = () => {
     console.log(dlPostBack, dlPost, dlFrontImage, dlBackImage, "dlImages")
     if (
       userData?.aadharVerified && (dlPostBack && dlPost || (dlFrontImage && dlBackImage)) &&
-      (!three || !four) &&
+      (!three || three === true && !four) &&
       (userData?.panVerified || userData?.drivingLicenseVerified)
     ) {
       setIsButtonDisabled(false);
@@ -1787,7 +1787,7 @@ const Checkout = () => {
                             Upload DL Images
                           </button>
                         </div>
-                        {trap && (
+                        {/* {trap && (
                           <div>
                             <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                               Driving License{" "}
@@ -1903,26 +1903,10 @@ const Checkout = () => {
                               >
                                 Continue
                               </button>
-                              {/* {userData?.drivingLicenseVerified &&
-                                userData?.panVerified && (
-                                  <div
-                                    className="mt-4 cursor-pointer"
-                                    onClick={() => {
-                                      setThree(true);
-                                      setFour(false);
-                                    }}
-                                  >
-                                    <Image
-                                      src="/arrow.svg"
-                                      alt=""
-                                      width={30}
-                                      height={30}
-                                    />
-                                  </div>
-                                )} */}
+                          
                             </div>
                           </div>
-                        )}
+                        )} */}
                       </>
                     ) : (
                       ""
@@ -2160,7 +2144,7 @@ const Checkout = () => {
           )}
 
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-            <h2 className="text-[20px] font-bold">4. Payment</h2>
+          <h2 className="text-[20px] font-bold">{tabValue == "Driver" ? "3" : "4"}. Payment</h2>
             <button
               className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${!isButtonDisabled
                 ? "bg-[#FF0000] hover:bg-black hover:text-white"

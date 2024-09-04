@@ -541,7 +541,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               ₹ {packagePrice}
             </span>
           </div>
-          { (selectedTabValue !== "Driver" ) && (
+          { (selectedTabValue !== "Driver" && selectedTabValue !== "Subscription") && (
             <div className="grid grid-cols-2 gap-14  justify-center">
               <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
                 Doorstep delivery & pickup
@@ -574,9 +574,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </span>
           </div>
 
-          {(selectedTabValue === "Self-Driving" ||
-            (selectedTabValue === "Driver" &&
-              (radioToggle === "One-way" || radioToggle === "Local"))) && (
+          {
+            selectedTabValue !== "Driver"  && (
             <div className="grid grid-cols-2 gap-14  justify-center">
               <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
                 Refundable Deposit
@@ -591,10 +590,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               </span>
             </div>
           )}
-          {(selectedTabValue == "Self-Driving" ||
-            (selectedTabValue == "Driver" &&
-              radioToggle !== "Out-station" &&
-              radioToggle == "One-way")) && (
+          {selectedTabValue !== "Driver" && selectedTabValue !== "Subscription" && (
             <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
               <span className="sm:w-[220px] sm:ml-4">DropOff City Charges</span>
               <span className="sm:w-[220px] sm:ml-10">
@@ -631,7 +627,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               kms
             </span>
           </div> */}
-          {selectedTabValue == "Driver" && radioToggle !== "One-way" && (
+          {selectedTabValue !== "Driver" && (
             <div className="grid grid-cols-2 gap-14  justify-center">
               <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
                 Fuel
@@ -641,7 +637,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               </span>
             </div>
           )}
-          {selectedTabValue == "Driver" && radioToggle !== "One-way" && (
+          {selectedTabValue !== "Driver" && (
             <div className="grid grid-cols-2 gap-14  justify-center">
               <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4">
                 Extra kms charge
@@ -840,6 +836,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             <div className="text-[#ff0000] font-semibold text-[15px] flex justify-start relative left-[0px]">
               {particalAmount !== 0 &&
                 (selectedTabValue === "Self-Driving" ||
+                  selectedTabValue === "Subscription" ||
                   (selectedTabValue === "Driver" &&
                     (radioToggle === "One-way" ||
                       radioToggle === "Local"))) && (
