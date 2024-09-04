@@ -1771,7 +1771,126 @@ const Checkout = () => {
                             Upload DL Images
                           </button>
                         </div>
+                        {/* {trap && (
+                          <div>
+                            <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                              Driving License{" "}
+                              {userData?.drivingLicenseVerified ? (
+                                <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                                  <Image
+                                    src="/greendone.svg"
+                                    width={20}
+                                    height={20}
+                                    alt={"img"}
+                                  />{" "}
+                                  Verified Account
+                                </span>
+                              ) : (
+                                <Image
+                                  src="/notVerified.svg"
+                                  alt=""
+                                  width={30}
+                                  height={30}
+                                />
+                              )}
+                            </h4>
+                            <div className="sm:flex items-center gap-4 ">
+                              <InputField
+                                placeholder="Driving License Number"
+                                className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                                onChange={(e: any) => setDL(e.target.value)}
+                              />
+                              <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                                {dlFrontImage ? (
+                                  <div className="relative ">
+                                    <span
+                                      onClick={handleRemoveDlFront}
+                                      className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                    >
+                                      {" "}
+                                      Remove
+                                    </span>
+                                    <Image
+                                      src={dlFrontImage}
+                                      alt="Front"
+                                      width={100}
+                                      height={55}
+                                      className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="cursor-pointer flex flex-col items-center justify-center">
+                                    <span className="text-sm cursor-pointer text-[14px]">
+                                      Front image
+                                    </span>
+                                    <Image
+                                      src="/upload.svg"
+                                      className="aboslute left-0 top-10"
+                                      width={20}
+                                      height={20}
+                                      alt="upload"
+                                    />
+                                    <input
+                                      type="file"
+                                      onChange={handleDlFrontImageChange}
+                                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                                {dlBackImage ? (
+                                  <div className="relative ">
+                                    <span
+                                      onClick={handleRemoveDlBack}
+                                      className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                    >
+                                      {" "}
+                                      Remove
+                                    </span>
+                                    <Image
+                                      src={dlBackImage}
+                                      alt="Front"
+                                      width={20}
+                                      height={55}
+                                      className="w-[20px] !h-[55px] object-contain rounded-md cursor-pointer"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="cursor-pointer flex flex-col items-center justify-center">
+                                    <span className="text-sm cursor-pointer text-[14px]">
+                                      Back image
+                                    </span>
+                                    <Image
+                                      src="/upload.svg"
+                                      className="aboslute left-0 top-10"
+                                      width={20}
+                                      height={20}
+                                      alt="upload"
+                                    />
+                                    <input
+                                      type="file"
+                                      onChange={handleDlBackImageChange}
+                                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between w-[73%] ">
+                              <button
+                                onClick={() => {
+                                  handleVerifyDrivingLicence();
+                                }}
+                                className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                              >
+                                Continue
+                              </button>
                      
+                            </div>
+                          </div>
+                        )} */}
                       </>
                     ) : (
                       ""
