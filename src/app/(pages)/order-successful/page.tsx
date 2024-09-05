@@ -9,9 +9,8 @@ import axios from 'axios';
 
 const OrderSuccessful = (slug: any) => {
   const [bookingData, setBookingData] = useState<any>(null);
-  const [selectedCapacity, setSelectedCapacity] = useState<any>([]);
 
-  const id = '66d815d8cba42b0f6551ec7f';
+  const id = '66d2c2c06443b4d84b055c37';
   const url = `process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking/${id}`;
   const header = { Authorization: 'Bearer' };
 
@@ -55,11 +54,14 @@ const OrderSuccessful = (slug: any) => {
             <div className="sm:flex gap-4">
               <span className="font-semibold sm:text-2xl text-lg">{bookingData?.booking?.vehicleId?.brandName} {bookingData?.booking?.vehicleId?.carName}</span>
               <p className="w-fit bg-[#B5E6EA] text-[#1AC3D1] px-6 py-[5px] rounded-full font-[450] sm:mt-0 mt-1 sm:text-[15px] text-sm">
-              Economy
+              {bookingData?.booking?.vehicleId?.vehicleSpecifications?.body}
               </p>
             </div>
             <span className="text-primary bg-white px-2 py-[5px] h-fit sm:text-[15px] text-[12px]">
-              {bookingData?.booking?.vehicleId?.bookingOptions?.selfDrive?.name}
+            {bookingData?.booking?.bookingStatus?.selfDrive && "Self Driving"}
+              {bookingData?.booking?.bookingStatus?.withDriver && "With Driver"}
+              {bookingData?.booking?.bookingStatus?.subscription && "Subscription"}
+           
             </span>
           </div>
           <div className="sm:flex items-center gap-6 mt-8">
@@ -78,7 +80,7 @@ const OrderSuccessful = (slug: any) => {
                 />
        <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.transmission}</p>
  </div>
-     
+
     <div className="flex gap-2 sm:text-[15px] text-[12px]">              
                 <Image
                   src="/svg/kilometer.svg"
@@ -185,7 +187,16 @@ const OrderSuccessful = (slug: any) => {
             <div className="pb-8">
               <h3 className="font-semibold">Pick-up</h3>
               <div className="text-[#707070] text-sm">
-                <p className="my-2">{bookingData?.booking?.pickUpDateTime}</p>
+                <p className="my-2">{new Date(bookingData?.booking?.pickUpDateTime).toLocaleString('en-US', {
+    timeZone: 'UTC',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })}</p>
                 <p>{bookingData?.booking?.location}</p>
               </div>
             </div>
@@ -197,7 +208,17 @@ const OrderSuccessful = (slug: any) => {
             <div>
               <h3 className="font-semibold">Drop-off</h3>
               <div className="text-[#707070] text-sm">
-                <p className="my-2">{bookingData?.booking?.dropOffDateTime}</p>
+                <p className="my-2">{new Date(bookingData?.booking?.dropOffDateTime).toLocaleString('en-US', {
+    timeZone: 'UTC',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+   
+  })}</p>
                 <p>{bookingData?.booking?.toCity}</p>
               </div>
             </div>
@@ -220,7 +241,7 @@ const OrderSuccessful = (slug: any) => {
                 </div>
                 <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
                     <span>Free kms for rental</span>
-                    <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.freeKmsForRental}</span>
+                    <span className="text-primary">{bookingData?.booking?.kmsLimit}</span>
                 </div>
                 <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
                     <span>Road Side Assistance</span>
@@ -228,7 +249,7 @@ const OrderSuccessful = (slug: any) => {
                 </div>
                 <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
                     <span>Extra km charges at</span>
-                    <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.extraKmCharges}</span>
+                    <span className="text-primary">{bookingData?.booking?.vehicleId?.bookingOptions?.selfDrive?.packageType?.extraKmsCharge}</span>
                 </div>
                 <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
                     <span>Baby Seat</span>
@@ -243,16 +264,27 @@ const OrderSuccessful = (slug: any) => {
       <div className="grid h-full">
         <div className="border-b pb-2">
           <div className="flex justify-between sm:mb-0 mb-1">
-            <span className="sm:text-[15px] text-[14px]">Car rental fee</span>
-            <span className="sm:text-lg">₹18,000/-</span>
+            <span className="sm:text-[15px] text-[14px]">Base Fare</span>
+            <span className="sm:text-lg">{bookingData?.booking?.baseFare}</span>
           </div>
-          <p className="text-xs">Taxes and Extra Charges are included</p>
+          <div className="flex justify-between sm:mb-0 mb-1">
+          <span className="sm:text-[15px] text-[14px]">Refundable Deposit</span>
+          <span className="sm:text-lg">{bookingData?.booking?.refundableDeposit}</span>
+          </div>
+          <div className="flex justify-between sm:mb-0 mb-1">
+          <span className="sm:text-[15px] text-[14px]">GST Amount</span>
+          <span className="sm:text-lg">{bookingData?.booking?.gstAmount}</span>
+          </div>
+          <div className="flex justify-between sm:mb-0 mb-1">
+          <span className="sm:text-[15px] text-[14px]">DoorStep Delivery Charge</span>
+          <span className="sm:text-lg">{bookingData?.booking?.doorstepDelivery}</span>
+          </div>
           <div className="flex justify-between mt-4">
             <div>
               <span className="sm:text-[15px] text-[14px]">Discount</span>
-              <span className="text-[#83E943] sm:text-[15px] text-[14px]"> (10%off)</span>
+              <span className="text-[#83E943] sm:text-[15px] text-[14px]"> </span>
             </div>
-            <span className="sm:text-lg">-100</span>
+            <span className="sm:text-lg">-{bookingData?.booking?.promocode?.discountAmount}</span>
           </div>
         </div>
         <div className="flex justify-between pt-4">
@@ -300,16 +332,27 @@ const OrderSuccessful = (slug: any) => {
         <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8 sm:mt-0 mt-6">
           <div>
             <h3 className="text-lg font-semibold">Expected date of delivery</h3>
-            <p className="text-sm">{bookingData?.booking?.vehicleId?.bookingOptions?.selfDrive?.packageType?.doorstepDelivery}</p>
+            <p className="text-sm">{new Date(bookingData?.booking?.pickUpDateTime).toLocaleString('en-US', {
+    timeZone: 'UTC',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit', 
+    hour12: false,
+  })}</p>
           </div>
           <div className="my-4">
             <h3 className="text-lg font-semibold">Place of delivery</h3>
-            <p className="text-sm">{bookingData?.deliveryPlace}</p>
+            <p className="text-sm">At Your Doorstep</p>
           </div>
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold">Delivery Address</h3>
-            <p className="text-sm">{bookingData?.deliveryAddress}</p>
-          </div>
+            <p className="text-sm">
+              {bookingData?.booking?.vehicleId?.bookingOptions?.selfDrive?.packageType?.DoorstepDeliveryPickup?.subLocation}
+                    </p>
+          </div> */}
         </div>
       </div>
       <div className="sm:px-0 px-4">
@@ -372,39 +415,39 @@ const OrderSuccessful = (slug: any) => {
 export default OrderSuccessful;
 
 
-const speciCollection=[
-  {
-    imageUrl: "/svg/manual.svg",
-    alt: "manual",
-    content: "manual",
-  },
-  {
-    imageUrl: "/svg/kilometer.svg",
-    alt: "kilometer",
-    content: "kilometer",
-  },
+// const speciCollection=[
+//   {
+//     imageUrl: "/svg/manual.svg",
+//     alt: "manual",
+//     content: "manual",
+//   },
+//   {
+//     imageUrl: "/svg/kilometer.svg",
+//     alt: "kilometer",
+//     content: "kilometer",
+//   },
   
-  { 
-    imageUrl: "/svg/fuel.svg",
-    alt: "manual",
-    content:"disel",
-  },
-  {
-    imageUrl: "/svg/handle.svg",
-    alt: "Basic",
-    content: "Basic",
-  },
-  {
-    imageUrl: "/svg/engine.svg",
-    alt: "engine",
-    content: "2022",
-  },
-  {
-    imageUrl: "/svg/person.svg",
-    alt: "seat",
-    content: "5 Person",
-  },
-];
+//   { 
+//     imageUrl: "/svg/fuel.svg",
+//     alt: "manual",
+//     content:"disel",
+//   },
+//   {
+//     imageUrl: "/svg/handle.svg",
+//     alt: "Basic",
+//     content: "Basic",
+//   },
+//   {
+//     imageUrl: "/svg/engine.svg",
+//     alt: "engine",
+//     content: "2022",
+//   },
+//   {
+//     imageUrl: "/svg/person.svg",
+//     alt: "seat",
+//     content: "5 Person",
+//   },
+// ];
 const includeArray = [
   {
     content: "Free Cancellation",
