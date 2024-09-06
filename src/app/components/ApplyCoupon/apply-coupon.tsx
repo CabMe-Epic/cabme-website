@@ -12,6 +12,7 @@ interface CouponProp {
   totalAmount: number;
   vehicleId: string;
   userIdPromo: string;
+  paymentMode: string;
 }
 
 const ApplyCoupon = ({
@@ -22,15 +23,19 @@ const ApplyCoupon = ({
   totalAmount,
   vehicleId,
   userIdPromo,
+  paymentMode,
 }: CouponProp) => {
   const [code, setCode] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
+
+  console.log(paymentMode,"paymentMode")
 
   const payload = {
     couponCode: code,
     userId: userIdPromo,
     totalAmount: totalAmount,
     vehicleId: vehicleId,
+    paymentmode: paymentMode,
   };
 
   const handleApply = useCallback(async () => {
@@ -44,9 +49,11 @@ const ApplyCoupon = ({
           },
         }
       );
+
       console.log(res, "Response from apply-promocode");
       alert("Coupon applied successfully!");
-      
+      // setSelectedPromoCode(res?.data.code)
+
       // Hide the modal if the coupon is applied successfully
       if (setHide) {
         setHide();
@@ -56,12 +63,12 @@ const ApplyCoupon = ({
       setErrMsg(errorMessage);
       console.error("Error applying coupon:", errorMessage);
 
-      // Hide the modal on error if needed
+      // Uncomment the following if you want to hide the modal on error
       // if (setHide) {
       //   setHide();
       // }
     }
-  }, [code, totalAmount, vehicleId, userIdPromo, setHide]);
+  }, [code, totalAmount, vehicleId, userIdPromo, paymentMode, setHide]);
 
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center">
@@ -78,6 +85,7 @@ const ApplyCoupon = ({
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
                 type="text"
                 className="border rounded-sm w-full py-1 pl-2 outline-0"
+                placeholder="Enter coupon code"
               />
             </div>
             {errMsg && <span className="text-red-500 text-xs">{errMsg}</span>}

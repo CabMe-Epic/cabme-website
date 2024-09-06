@@ -47,7 +47,8 @@ interface ChildComponentProps {
   location: any;
   userIdPromo: any;
   totalAmount: number;
-  vehicleId: any
+  vehicleId: any;
+  paymentMode: any;
 }
 
 interface VehicleSearchPayload {
@@ -64,6 +65,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   packageFreeKmSecond,
   location,
   userIdPromo,
+  paymentMode,
   vehicleId,
   totalAmount,
 }: any) => {
@@ -881,6 +883,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
         <ApplyCoupon
           promoCodes={promoCodes}
           setHide={handleHidePopUp}
+          paymentMode={paymentMode}
           totalAmount={totalAmount}
           vehicleId={vehicleId}
           userIdPromo={userIdPromo}

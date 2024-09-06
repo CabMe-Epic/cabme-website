@@ -2169,6 +2169,11 @@ const Checkout = () => {
             roundPrice={roundPrice}
             onTotalAmountChange={handleBackBaseFareAmount}
             totalAmount={totalAmount}
+            paymentMode={isFullpayment == "true"
+              ? "fullPayment"
+              : isFullpayment == "false"
+                ? "partialPayment"
+                : "partialPayment"}
             userIdPromo={bookingData?.userData?._id}
             vehicleId={bookingData?.vehicleId}
             particalAmount={particalAmount}

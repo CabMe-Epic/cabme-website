@@ -372,7 +372,7 @@ export default function Home() {
               : (tabValue === "Driver" && radioToggle == "Local")
                 ? "h-[350px]"
                 : tabValue === "Subscription"
-                  ? "h-[250px]"
+                  ? "h-[200px]"
                   : tabValue === "Self-Driving"
                     ? "h-[320px]"
                     : "h-[320px]"
@@ -933,8 +933,8 @@ export default function Home() {
                     </div>
 
 
-                    <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-0 border-l-2 border-l-black pl-4 ">
-                      <div className="grid">
+                    <div className="h-[75px] flex  w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-0 border-l-2 border-l-black pl-4 ">
+                      <div className="grid mb-4">
                         <div className="flex gap-2 ">
                           <Image
                             src={"/svg/city-new.svg"}
@@ -944,7 +944,7 @@ export default function Home() {
                           />
                           <label
                             htmlFor="dropoff"
-                            className="lg:text-md  font-semibold items-center mt-[2px]"
+                            className="lg:text-md  font-semibold items-center mt-[0px]"
                           >
                             Drop-off location
                           </label>
