@@ -8,7 +8,6 @@ import FleetsSlider from "@/app/components/slider/slider-components";
 import OurBlogs from "@/app/components/our-blogs/our-blogs";
 import React, { useEffect, useState } from "react";
 import RadioButton from "@/app/components/radio-component/radio-component";
-// import { getAllCities } from "@/app/networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -22,9 +21,7 @@ import BlinkerLoader from "../blinker-loader/blinkerLoader";
 import RadioButtonNew from "../radio-component-new/radio-component-new";
 
 export default function Home() {
-  // const [startDate, setStartDate] = useState(
-  //   setHours(setMinutes(new Date(), 0), 9),
-  // );
+
   const [startDate, setStartDate] = useState<any>();
   const [loader, setLoader] = useState(false);
 
@@ -68,7 +65,6 @@ export default function Home() {
   const [mobileEndCity, setMobileEndCity] = useState<any>(null);
   const [mobileEndDate, setMobileEndDate] = useState<any>(null);
   const [mobileEndTime, setMobileEndTime] = useState<any>(null);
-
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event);
     console.log(pickupLocation, "joo");
@@ -128,9 +124,9 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     console.log(pickupDate, pickupTime, "ddd");
 
-    
-    if(tabValue == "Subscription" || (tabValue == 'Driver' && radioToggle == "One-way")){
-      localStorage.setItem("dropOffDate",   moment(pickupDate).add(1, 'days').format('YYYY-MM-DD')|| moment(mobileStartDate).add(1, 'days').format('YYYY-MM-DD') );
+
+    if (tabValue == "Subscription" || (tabValue == 'Driver' && radioToggle == "One-way")) {
+      localStorage.setItem("dropOffDate", moment(pickupDate).add(1, 'days').format('YYYY-MM-DD') || moment(mobileStartDate).add(1, 'days').format('YYYY-MM-DD'));
       localStorage.setItem("dropoffTime", pickupTime || mobileStartTime);
     }
 
@@ -369,17 +365,17 @@ export default function Home() {
 
       <div
         className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] 
-          ${(tabValue === "Driver" && radioToggle == "One-way") 
-            ? "h-[380px]" 
-            : (tabValue === "Driver" && radioToggle == "Out-station") 
-            ? "h-[340px]" 
-            : (tabValue === "Driver" && radioToggle == "Local") 
-            ? "h-[350px]" 
-            : tabValue === "Subscription"
-            ? "h-[250px]"
-            : tabValue === "Self-Driving"
-            ? "h-[320px]"
-            : "h-[320px]"
+          ${(tabValue === "Driver" && radioToggle == "One-way")
+            ? "h-[380px]"
+            : (tabValue === "Driver" && radioToggle == "Out-station")
+              ? "h-[340px]"
+              : (tabValue === "Driver" && radioToggle == "Local")
+                ? "h-[350px]"
+                : tabValue === "Subscription"
+                  ? "h-[250px]"
+                  : tabValue === "Self-Driving"
+                    ? "h-[320px]"
+                    : "h-[320px]"
           }`}
       >
         <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
@@ -524,27 +520,7 @@ export default function Home() {
 
                           {item?.id === "date" && (
                             <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
-                              {/* <input
-                              type="date"
-                              name="date"
-                              id="date"
-                              className="outline-red-500 w-fit h-8"
-                            // onChange={
-                            //   item?.heading === "Pick Up Date"
-                            //     ? (e) => handlePickupDate(e)
-                            //     : (ev) => handleDropOffDate(ev)
-                            // }
-                            />
-                            <input
-                              type="time"
-                              name="pickup"
-                              id=""
-                              onChange={
-                                item?.heading === "Pick Up Date"
-                                  ? (event) => hanldepickupTime(event)
-                                  : (event) => hanldedropoffTime(event)
-                              }
-                            /> */}
+
                               <DatePicker
                                 className="cursor-pointer border-0 datepickerinput"
                                 selected={
@@ -581,7 +557,7 @@ export default function Home() {
                       </div>
                     );
                   })}
-                  {dropOffLocation && (
+                  {/* {dropOffLocation && (
                     <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
                       <div className="grid">
                         <div className="flex gap-2 ">
@@ -606,7 +582,7 @@ export default function Home() {
                         />
                       </div>
                     </div>
-                  )}
+                  )} */}
                   <div>
                     <ThemeButton
                       text="Search"
@@ -762,7 +738,7 @@ export default function Home() {
                       </div>
                     );
                   })}
-                  {dropOffLocation && (
+                  {/* {dropOffLocation && (
                     <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
                       <div className="grid">
                         <div className="flex gap-2 ">
@@ -787,7 +763,7 @@ export default function Home() {
                         />
                       </div>
                     </div>
-                  )}
+                  )} */}
                   <div>
                     <ThemeButton
                       text="Search"
@@ -799,7 +775,7 @@ export default function Home() {
               )}
               {radioToggle === "One-way" && (
                 <div className="grid z-50">
-                  <div className={`grid grid-cols-[1fr_1fr_1fr] mt-10 w-full ${dropOffLocation && "grid-cols-[1fr_1fr_1fr_1fr]"}`}>
+                  <div className={`grid grid-cols-[1fr_1fr_1fr_1fr] mt-10 w-full ${dropOffLocation && "grid-cols-[1fr_1fr_1fr_1fr]"}`}>
                     {outstation?.map((item, index) => {
                       return (
                         <>
@@ -956,32 +932,46 @@ export default function Home() {
                       />
                     </div>
 
-                    {dropOffLocation && (
-                      <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-0 border-l-2 border-l-black pl-4 ">
-                        <div className="grid">
-                          <div className="flex gap-2 ">
-                            <Image
-                              src={"/svg/city-new.svg"}
-                              alt="location"
-                              width={16}
-                              height={18}
-                            />
-                            <label
-                              htmlFor="dropoff"
-                              className="lg:text-md  font-semibold items-center mt-[2px]"
-                            >
-                              Drop-off location
-                            </label>
-                          </div>
+
+                    <div className="h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-0 border-l-2 border-l-black pl-4 ">
+                      <div className="grid">
+                        <div className="flex gap-2 ">
+                          <Image
+                            src={"/svg/city-new.svg"}
+                            alt="location"
+                            width={16}
+                            height={18}
+                          />
+                          <label
+                            htmlFor="dropoff"
+                            className="lg:text-md  font-semibold items-center mt-[2px]"
+                          >
+                            Drop-off location
+                          </label>
+                        </div>
+
+                        {
+                          dropOffLocation &&
                           <input
                             type="text"
                             value={dropOffLocation}
-                            className="bg-[#FCFBFB] outline-none p-[8px] h-fit"
+                            onClick={(e) => handleDropSelectPopupLocation(e)}
+                            className="bg-[#FCFBFB] cursor-pointer outline-none p-[8px] h-fit"
                             readOnly
                           />
-                        </div>
+                        }
+                        {
+                          !dropOffLocation &&
+                          <div
+                            onClick={(e) => handleDropSelectPopupLocation(e)}
+                            className={`ml-4 text-[#000000] cursor-pointer`}
+                          >
+                            Select Drop Location
+                          </div>
+                        }
                       </div>
-                    )}
+                    </div>
+
 
                     <div className="flex justify-center h-fit">
                       <ThemeButton
@@ -992,14 +982,8 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div
-                    onClick={(e) => handleDropSelectPopupLocation(e)}
-                    className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto  text-xl font-bold cursor-pointer ${durationFormat ? "mt-4" : "mt-5"
-                      }`}
-                  >
-                    Drop in different city?
-                  </div>
-              
+
+
 
                   {showDropLocationPopup && (
                     <>
@@ -1599,7 +1583,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        
+
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden sm:mt-0 mt-2">
             <div
@@ -1819,34 +1803,32 @@ export default function Home() {
               )}
             </>
           )}
-          {dropOffLocation && (
-            <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-              <div className="grid ml-[14px] mt-2">
-                <label
-                  htmlFor="dropoff"
-                  className="lg:text-xl text-md font-semibold"
-                >
-                  Drop-off location
-                </label>
-                <div className="flex">
-                  <Image
-                    src={"/svg/city-new.svg"}
-                    alt="location"
-                    width={16}
-                    height={18}
-                  />
-                  <input
-                    type="text"
-                    value={dropOffLocation}
-                    className="outline-none p-[8px] max-w-[280px] sm:text-md text-sm"
-                    readOnly
-                  />
+          {
+            (dropOffLocation && tabValue === "Self-Driving" || (tabValue === "Driver" && radioToggle === "One-way")) && (
+              <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+                <div onClick={(e) => handleDropSelectPopupLocation(e)} className="grid ml-[14px] mt-2  ">
+                  <label htmlFor="dropoff" className="lg:text-xl text-md font-semibold">
+                    Drop-off location
+                  </label>
+                  <div className="flex border p-2 rounded-xl w-[72vw]">
+                    <Image
+                      src={"/svg/city-new.svg"}
+                      alt="location"
+                      width={16}
+                      height={18}
+                    />
+                    <input
+                      type="text"
+                      value={dropOffLocation ? dropOffLocation : "Select Drop City"}
+                      className="outline-none p-[8px] max-w-[280px] sm:text-md text-sm"
+                      readOnly
+                    />
+                  </div>
                 </div>
               </div>
-              
-            </div>
-            
-          )}
+            )
+          }
+
         </div>
         {tabValue !== "Subscription" && (
           <div className="flex sm:gap-4 flex-col items-center gap-1 w-fit py-2 sm:px-6 rounded-md m-auto sm:mt-4">
@@ -1856,11 +1838,11 @@ export default function Home() {
                 onClick={(e) => handleDropSelectPopupLocation(e)}
                 className="text-[#ff0000] cursor-pointer sm:text-md text-sm"
               >
-                Drop in different city?
+                {/* Drop in different city? */}
               </strong>
             }
             {durationFormat && (
-              <div className="flex sm:flex-row flex-col items-center gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
+              <div className="flex sm:flex-row flex-col items-center mt-4 gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
                 <strong>Duration :</strong>{" "}
                 <p className="text-sm font-semibold mt-[2px]">
                   {durationFormat}
@@ -1902,14 +1884,14 @@ export default function Home() {
           </div>
         )}{
           tabValue !== "Driver" && tabValue !== "Subscription"
-          &&  <strong
-          onClick={(e) => handleDropSelectPopupLocation(e)}
-          className="text-[#ff0000] flex justify-center cursor-pointer text-center sm:text-md text-sm"
-        >
-          Drop in different city?
-        </strong>
+          && <strong
+            onClick={(e) => handleDropSelectPopupLocation(e)}
+            className="text-[#ff0000] flex justify-center cursor-pointer text-center sm:text-md text-sm"
+          >
+            Drop in different city?
+          </strong>
         }
-           
+
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
