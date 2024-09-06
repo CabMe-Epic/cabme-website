@@ -2168,6 +2168,9 @@ const Checkout = () => {
             location={toCity}
             roundPrice={roundPrice}
             onTotalAmountChange={handleBackBaseFareAmount}
+            totalAmount={totalAmount}
+            userIdPromo={bookingData?.userData?._id}
+            vehicleId={bookingData?.vehicleId}
             particalAmount={particalAmount}
             packageFreeKmSecond={setPackageFreeKms}
             setSelectedPromoCodeSecond={setSelectedPromoCode}

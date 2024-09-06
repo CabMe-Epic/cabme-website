@@ -45,6 +45,9 @@ interface ChildComponentProps {
   setSelectedPromoCodeSecond: any;
   packageFreeKmSecond: any;
   location: any;
+  userIdPromo: any;
+  totalAmount: number;
+  vehicleId: any
 }
 
 interface VehicleSearchPayload {
@@ -60,6 +63,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   setSelectedPromoCodeSecond,
   packageFreeKmSecond,
   location,
+  userIdPromo,
+  vehicleId,
+  totalAmount,
 }: any) => {
   const router = useRouter();
   const { slug } = useParams();
@@ -874,7 +880,10 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       {applyCoupon === true && (
         <ApplyCoupon
           promoCodes={promoCodes}
-          hide={handleHidePopUp}
+          setHide={handleHidePopUp}
+          totalAmount={totalAmount}
+          vehicleId={vehicleId}
+          userIdPromo={userIdPromo}
           onClick={() => setApplyCoupon(false)}
           setSelectedPromoCode={setSelectedPromoCode}
         />

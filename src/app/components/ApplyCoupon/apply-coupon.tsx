@@ -1,23 +1,68 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Image from "next/image";
 import ThemeButton from "../theme-button/theme-button";
+import axios from "axios";
 
 interface CouponProp {
-  hide?: any;
-  onClick?:any;
-  promoCodes?: any[];
-  setSelectedPromoCode?:any
-  handleChangePromocodeOption?: (e: any) => void;
+  setHide?: () => void; // Changed type to void since it's used as a function call
+  onClick?: () => void;
+  promoCodes?: { code: string }[];
+  setSelectedPromoCode?: (code: string) => void;
+  handleChangePromocodeOption?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  totalAmount: number;
+  vehicleId: string;
+  userIdPromo: string;
 }
 
-const ApplyCoupon = ({ hide,onClick, promoCodes = [],  setSelectedPromoCode }: CouponProp) => { 
- 
+const ApplyCoupon = ({
+  setHide,
+  onClick,
+  promoCodes = [],
+  setSelectedPromoCode,
+  totalAmount,
+  vehicleId,
+  userIdPromo,
+}: CouponProp) => {
+  const [code, setCode] = useState<string>("");
+  const [errMsg, setErrMsg] = useState<string>("");
 
+  const payload = {
+    couponCode: code,
+    userId: userIdPromo,
+    totalAmount: totalAmount,
+    vehicleId: vehicleId,
+  };
 
-  const handleRadioChange = React.useCallback((item:any) => {
-    setSelectedPromoCode(item);
-  }, [setSelectedPromoCode]);
-// console.log(selectedPromoCode,"promo code value");
+  const handleApply = useCallback(async () => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/apply-promocode`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(res, "Response from apply-promocode");
+      alert("Coupon applied successfully!");
+      
+      // Hide the modal if the coupon is applied successfully
+      if (setHide) {
+        setHide();
+      }
+    } catch (error: any) {
+      const errorMessage = error?.response?.data?.message || "Failed to apply coupon";
+      setErrMsg(errorMessage);
+      console.error("Error applying coupon:", errorMessage);
+
+      // Hide the modal on error if needed
+      // if (setHide) {
+      //   setHide();
+      // }
+    }
+  }, [code, totalAmount, vehicleId, userIdPromo, setHide]);
+
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center">
       <div className="bg-white border rounded-xl w-fit overflow-hidden max-w-[400px] w-full relative">
@@ -27,31 +72,18 @@ const ApplyCoupon = ({ hide,onClick, promoCodes = [],  setSelectedPromoCode }: C
         <div className="p-4">
           <h3 className="text-lg mb-2">Top Coupon</h3>
           <div className="bg-[#FAFAFA] p-4 rounded-md">
-            
-
-            {promoCodes?.map((item , index)=>{
-              console.log({promoCodes},"lelo promo");
-              return(
-                <div key={index}>
-                <input
-                  type="radio"
-                  name="promoCode"
-                  id={item.code}
-                  value={item.code}
-                  // checked={selectedPromoCode == item?.code}
-                  onChange={()=>handleRadioChange(item)}
-                  className="accent-[#FF0000]"
-
-                />
-                <label htmlFor={item.code} className="font-[400] text-[#B8B8B8] ml-2">
-                  {item.code}
-                </label>
-              </div>
-              )
-            })}
+            <div>
+              <input
+                value={code}
+                onChange={(e) => setCode(e.target.value.toUpperCase())}
+                type="text"
+                className="border rounded-sm w-full py-1 pl-2 outline-0"
+              />
+            </div>
+            {errMsg && <span className="text-red-500 text-xs">{errMsg}</span>}
           </div>
           <div className="flex justify-end mt-4">
-            <ThemeButton onClick={hide} text="Apply" className="text-xs tracking-wide" />
+            <ThemeButton onClick={handleApply} text="Apply" className="text-xs tracking-wide" />
           </div>
         </div>
         <div className="w-fit absolute top-3 right-2 cursor-pointer" onClick={onClick}>
