@@ -1,3 +1,5 @@
+import BookingDetailsCard from "@/app/components/booking-details-card/booking-details-card";
+
 interface Vehicle {
     bookingDate: any;
     response: ApiResponse[];
