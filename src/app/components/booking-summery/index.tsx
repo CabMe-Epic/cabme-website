@@ -81,6 +81,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   });
 
   const [userId, setUserId] = useState<string | null>(null);
+  const [discountApplied, setDiscountApplied] = useState<any>();
   const [carDetails, setCarDetails] = useState<any>();
   const [bookingOpt, setBookingOpt] = useState<any>();
   const [currentPackage, setCurrentPackage] = useState<any>();
@@ -128,6 +129,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   // const [discountedPercentage,setDiscountPercentage]= React.useState<number | any>();
 
+
+  console.log(discountApplied,"discountApplied")
+
   const priceAfterDiscountNew =
     selectedPromoCode?.selectDiscount === "Percentage"
       ? (packagePrice * selectedPromoCode?.couponAmount) / 100
@@ -138,8 +142,15 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const { vehicle, loading, error } = useVehicleById(sessionSlug as string);
   const { reservationDateTime, setReservationDateTime, duration } =
     useReservationDateTime();
+
   const total =
-    Number(packagePrice) + doorStepPrice + currentPackage?.refundableDeposit;
+    Number(packagePrice) + doorStepPrice + currentPackage?.refundableDeposit - (discountApplied || 0);
+
+    // const totalNew =
+    // Number(packagePrice) + doorStepPrice + currentPackage?.refundableDeposit ;
+
+    // console.log(totalNew,total,"totalNew")
+
   const pickupDateTimeString = pickupTime
     ? `${pickupDate}T${pickupTime}:00.000Z`
     : null;
@@ -147,6 +158,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ? `${dropoffDate}T${dropoffTime}:00.000Z`
     : null;
   const { days, hours } = extractDaysAndHours(duration);
+
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
 
   const bookingData = {
@@ -454,6 +466,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
+    (discountApplied || 0) -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
 
   const totalIncludedGSTAmount =
@@ -463,6 +476,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
+    (discountApplied || 0) -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
 
   useEffect(() => {
@@ -883,6 +897,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
         <ApplyCoupon
           promoCodes={promoCodes}
           setHide={handleHidePopUp}
+          discountApplyAmount={setDiscountApplied}
           paymentMode={paymentMode}
           totalAmount={totalAmount}
           vehicleId={vehicleId}

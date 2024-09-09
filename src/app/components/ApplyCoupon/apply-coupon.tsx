@@ -13,6 +13,7 @@ interface CouponProp {
   vehicleId: string;
   userIdPromo: string;
   paymentMode: string;
+  discountApplyAmount: any;
 }
 
 const ApplyCoupon = ({
@@ -24,9 +25,11 @@ const ApplyCoupon = ({
   vehicleId,
   userIdPromo,
   paymentMode,
+  discountApplyAmount,
 }: CouponProp) => {
   const [code, setCode] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
+  const [gotAmount, setGotAmount] = useState("");
 
   console.log(paymentMode,"paymentMode")
 
@@ -38,7 +41,8 @@ const ApplyCoupon = ({
     paymentmode: paymentMode,
   };
 
-  const handleApply = useCallback(async () => {
+  const handleApply = useCallback(async (e: any) => {
+    e.preventDefault();
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/apply-promocode`,
@@ -51,10 +55,11 @@ const ApplyCoupon = ({
       );
 
       console.log(res, "Response from apply-promocode");
+      setGotAmount(res?.data.promocode.discountApplied);
+      discountApplyAmount(res?.data.promocode.discountApplied);
+     
       alert("Coupon applied successfully!");
-      // setSelectedPromoCode(res?.data.code)
 
-      // Hide the modal if the coupon is applied successfully
       if (setHide) {
         setHide();
       }
@@ -62,13 +67,10 @@ const ApplyCoupon = ({
       const errorMessage = error?.response?.data?.message || "Failed to apply coupon";
       setErrMsg(errorMessage);
       console.error("Error applying coupon:", errorMessage);
-
-      // Uncomment the following if you want to hide the modal on error
-      // if (setHide) {
-      //   setHide();
-      // }
     }
   }, [code, totalAmount, vehicleId, userIdPromo, paymentMode, setHide]);
+
+  console.log(gotAmount,"gotAmount")
 
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center">
@@ -91,7 +93,7 @@ const ApplyCoupon = ({
             {errMsg && <span className="text-red-500 text-xs">{errMsg}</span>}
           </div>
           <div className="flex justify-end mt-4">
-            <ThemeButton onClick={handleApply} text="Apply" className="text-xs tracking-wide" />
+            <ThemeButton onClick={(e: any) => handleApply(e)} text="Apply" className="text-xs tracking-wide" />
           </div>
         </div>
         <div className="w-fit absolute top-3 right-2 cursor-pointer" onClick={onClick}>
