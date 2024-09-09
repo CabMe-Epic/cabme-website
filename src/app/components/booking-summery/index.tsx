@@ -82,7 +82,6 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const [userId, setUserId] = useState<string | null>(null);
   const [discountApplied, setDiscountApplied] = useState<any>();
-  const [appliedCode, setAppliedCode] = useState<any>();
   const [carDetails, setCarDetails] = useState<any>();
   const [bookingOpt, setBookingOpt] = useState<any>();
   const [currentPackage, setCurrentPackage] = useState<any>();
@@ -105,6 +104,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const [selectedPromoCode, setSelectedPromoCode] = useState<any>(null);
 
   const [discountAppliedAmount, setDiscountAppliedAmount] = useState<number>(0);
+  const [appliedDiscount, setAppliedDiscount] = useState<any>();
+  const [appliedCode, setAppliedCode] = useState<any>();
 
   console.log("selectedPromoCode", { selectedPromoCode });
 
@@ -179,9 +180,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
     promocode: {
-      code: appliedCode,
-      discountType: selectedDiscountType ? selectedDiscountType : null,
-      discountAmount: Number(discountApplied).toFixed(2),
+      code: selectedPromoCode?.code,
+      discountType:  "",
+      discountAmount: Number(selectedPromoCode?.discountApplied).toFixed(2),
     },
     totalAmount:
       discountAmount > 0
@@ -467,7 +468,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
-    (discountApplied || 0) -
+    (selectedPromoCode?.discountApplied || 0) -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
 
   const totalIncludedGSTAmount =
@@ -477,7 +478,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
-    (discountApplied || 0) -
+    (selectedPromoCode?.discountApplied || 0) -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
 
   useEffect(() => {
@@ -494,6 +495,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     roundPrice,
     onTotalAmountChange,
   ]);
+
+  console.log(selectedPromoCode?.discountApplied,"selectedPromoCode?.discountApplied")
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -899,6 +902,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           promoCodes={promoCodes}
           setHide={handleHidePopUp}
           appliedCode={setAppliedCode}
+          // discountType={setDiscountType}
           discountApplyAmount={setDiscountApplied}
           paymentMode={paymentMode}
           totalAmount={totalAmount}

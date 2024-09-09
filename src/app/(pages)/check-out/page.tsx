@@ -274,9 +274,9 @@ const Checkout = () => {
     extraKmsCharge: Number(bookingData?.extraKmsCharge),
     tollsParking: "",
     promocode: {
-      code: selectedPromoCode?.code,
+      code: selectedPromoCode?.code || "",
       discountType: selectedPromoCode?.selectDiscount,
-      discountAmount: selectedPromoCode?.maximumDiscount,
+      discountAmount: Number(selectedPromoCode?.discountApplied || 0),
     },
 
     paymentMode:
@@ -328,7 +328,9 @@ const Checkout = () => {
       setLoader(false);
       console.error("data not posted", error);
     }
-  }, [booking_payload]);
+  }, [booking_payload,selectedPromoCode]);
+
+  console.log("selectedPromoCodePromo", selectedPromoCode)
 
   const handleSignUp = async () => {
     try {

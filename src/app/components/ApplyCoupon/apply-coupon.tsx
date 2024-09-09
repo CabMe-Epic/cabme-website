@@ -7,7 +7,7 @@ interface CouponProp {
   setHide?: () => void; // Changed type to void since it's used as a function call
   onClick?: () => void;
   promoCodes?: { code: string }[];
-  setSelectedPromoCode?: (code: string) => void;
+  setSelectedPromoCode?: any;
   handleChangePromocodeOption?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   totalAmount: number;
   vehicleId: string;
@@ -15,6 +15,7 @@ interface CouponProp {
   paymentMode: string;
   discountApplyAmount: any;
   appliedCode: any;
+  // discountType: any;
 }
 
 const ApplyCoupon = ({
@@ -27,7 +28,8 @@ const ApplyCoupon = ({
   userIdPromo,
   paymentMode,
   discountApplyAmount,
-  appliedCode
+  appliedCode,
+  // discountType
 }: CouponProp) => {
   const [code, setCode] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
@@ -41,6 +43,7 @@ const ApplyCoupon = ({
     totalAmount: totalAmount,
     vehicleId: vehicleId,
     paymentmode: paymentMode,
+    
   };
 
   const handleApply = useCallback(async (e: any) => {
@@ -60,6 +63,7 @@ const ApplyCoupon = ({
       setGotAmount(res?.data.promocode.discountApplied);
       discountApplyAmount(res?.data.promocode.discountApplied);
       appliedCode(res?.data.promocode.code)
+      setSelectedPromoCode(res?.data.promocode);
      
       alert("Coupon applied successfully!");
 
