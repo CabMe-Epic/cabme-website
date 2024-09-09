@@ -14,6 +14,7 @@ interface CouponProp {
   userIdPromo: string;
   paymentMode: string;
   discountApplyAmount: any;
+  appliedCode: any;
 }
 
 const ApplyCoupon = ({
@@ -26,6 +27,7 @@ const ApplyCoupon = ({
   userIdPromo,
   paymentMode,
   discountApplyAmount,
+  appliedCode
 }: CouponProp) => {
   const [code, setCode] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
@@ -57,6 +59,7 @@ const ApplyCoupon = ({
       console.log(res, "Response from apply-promocode");
       setGotAmount(res?.data.promocode.discountApplied);
       discountApplyAmount(res?.data.promocode.discountApplied);
+      appliedCode(res?.data.promocode.code)
      
       alert("Coupon applied successfully!");
 

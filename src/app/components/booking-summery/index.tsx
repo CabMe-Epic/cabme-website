@@ -82,6 +82,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const [userId, setUserId] = useState<string | null>(null);
   const [discountApplied, setDiscountApplied] = useState<any>();
+  const [appliedCode, setAppliedCode] = useState<any>();
   const [carDetails, setCarDetails] = useState<any>();
   const [bookingOpt, setBookingOpt] = useState<any>();
   const [currentPackage, setCurrentPackage] = useState<any>();
@@ -178,9 +179,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
     promocode: {
-      code: selectedPromocodeOption ? selectedPromocodeOption : null,
+      code: appliedCode,
       discountType: selectedDiscountType ? selectedDiscountType : null,
-      discountAmount: Number(discountAppliedAmount.toFixed(2)),
+      discountAmount: Number(discountApplied).toFixed(2),
     },
     totalAmount:
       discountAmount > 0
@@ -269,7 +270,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     }
   }, [carDetails, bookingOpt]);
 
-  // console.log(sessionSlug, "sessionSlug")
+  console.log(bookingData, "bookingData")
 
   async function handleBooking() {
     try {
@@ -897,6 +898,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
         <ApplyCoupon
           promoCodes={promoCodes}
           setHide={handleHidePopUp}
+          appliedCode={setAppliedCode}
           discountApplyAmount={setDiscountApplied}
           paymentMode={paymentMode}
           totalAmount={totalAmount}

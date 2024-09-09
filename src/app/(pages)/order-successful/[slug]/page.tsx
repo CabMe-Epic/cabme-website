@@ -6,8 +6,12 @@ import PriceSummary from "@/app/components/price-summary/price-summary";
 import ThemeButton from "@/app/components/theme-button/theme-button";
 import Image from "next/image";
 import axios from 'axios';
+import { useParams } from 'next/navigation';
 
-const OrderSuccessful = (slug: any) => {
+const OrderSuccessful = () => {
+
+  const { slug } = useParams() || {};
+
   const [bookingData, setBookingData] = useState<any>(null);
 
   const id = '66d2c2c06443b4d84b055c37';
@@ -25,9 +29,9 @@ const OrderSuccessful = (slug: any) => {
   // }, [bookingId]);
 
 
-  const bookingDataRes = React.useCallback(async () => {
+  const bookingDataRes = React.useCallback(async (slug: any) => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking/${id}`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking/${slug}`);
       console.log("res data", { response })
       setBookingData(response.data)
 
@@ -36,12 +40,22 @@ const OrderSuccessful = (slug: any) => {
     }
   }, [])
 
-  React.useEffect(() => {
-    bookingDataRes()
+  // React.useEffect(() => {
+  //   bookingDataRes()
 
-  }, [bookingDataRes])
+  // }, [bookingDataRes])
 
   console.log("bookingData", { bookingData })
+
+
+  useEffect(() => {
+
+    if (slug) {
+
+      bookingDataRes(slug)
+    }
+
+  }, [slug])
 
 
 
@@ -53,14 +67,14 @@ const OrderSuccessful = (slug: any) => {
             <div className="sm:flex gap-4">
               <span className="font-semibold sm:text-2xl text-lg">{bookingData?.booking?.vehicleId?.brandName} {bookingData?.booking?.vehicleId?.carName}</span>
               <p className="w-fit bg-[#B5E6EA] text-[#1AC3D1] px-6 py-[5px] rounded-full font-[450] sm:mt-0 mt-1 sm:text-[15px] text-sm">
-              {bookingData?.booking?.vehicleId?.vehicleSpecifications?.body}
+                {bookingData?.booking?.vehicleId?.vehicleSpecifications?.body}
               </p>
             </div>
             <span className="text-primary bg-white px-2 py-[5px] h-fit sm:text-[15px] text-[12px]">
-            {bookingData?.booking?.bookingStatus?.selfDrive && "Self Driving"}
+              {bookingData?.booking?.bookingStatus?.selfDrive && "Self Driving"}
               {bookingData?.booking?.bookingStatus?.withDriver && "With Driver"}
               {bookingData?.booking?.bookingStatus?.subscription && "Subscription"}
-           
+
             </span>
           </div>
           <div className="sm:flex items-center gap-6 mt-8">
@@ -69,68 +83,68 @@ const OrderSuccessful = (slug: any) => {
             </div>
             <div className="w-full">
 
-            <div className="grid grid-cols-3 justify-between gap-6">
-              <div className="flex gap-2 sm:text-[15px] text-[12px]">
-                <Image
-                  src="/svg/manual.svg"
-                  alt="manual"
-                  width={22}
-                  height={22}
-                />
-       <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.transmission}</p>
- </div>
+              <div className="grid grid-cols-3 justify-between gap-6">
+                <div className="flex gap-2 sm:text-[15px] text-[12px]">
+                  <Image
+                    src="/svg/manual.svg"
+                    alt="manual"
+                    width={22}
+                    height={22}
+                  />
+                  <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.transmission}</p>
+                </div>
 
-    <div className="flex gap-2 sm:text-[15px] text-[12px]">              
-                <Image
-                  src="/svg/kilometer.svg"
-                  alt="kilometer"
-                  width={22}
-                  height={22}
-                />
-    <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.mileage}</p>
+                <div className="flex gap-2 sm:text-[15px] text-[12px]">
+                  <Image
+                    src="/svg/kilometer.svg"
+                    alt="kilometer"
+                    width={22}
+                    height={22}
+                  />
+                  <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.mileage}</p>
 
-     </div>
-     <div className="flex gap-2 sm:text-[15px] text-[12px]">
-                <Image
-                  src="/svg/fuel.svg"
-                  alt="fuel"
-                  width={22}
-                  height={22}
-                />
-       <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.fuelType}</p>
- </div>
- <div className="flex gap-2 sm:text-[15px] text-[12px]">
-                <Image
-                  src="/svg/handle.svg"
-                  alt="basic"
-                  width={22}
-                  height={22}
-                />
-       <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.driveTrain}</p>
- </div>
- <div className="flex gap-2 sm:text-[15px] text-[12px]">
-                <Image
-                  src="/svg/engine.svg"
-                  alt="engine"
-                  width={22}
-                  height={22}
-                />
-       <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.make}</p>
- </div>
- <div className="flex gap-2 sm:text-[15px] text-[12px]">
-                <Image
-                  src="/svg/person.svg"
-                  alt="seat"
-                  width={22}
-                  height={22}
-                />
-       <p>{bookingData?.booking?.vehicleId?.seatingCapacity}</p>
- </div>
-           
-            {/* <div className="w-full"> */}
+                </div>
+                <div className="flex gap-2 sm:text-[15px] text-[12px]">
+                  <Image
+                    src="/svg/fuel.svg"
+                    alt="fuel"
+                    width={22}
+                    height={22}
+                  />
+                  <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.fuelType}</p>
+                </div>
+                <div className="flex gap-2 sm:text-[15px] text-[12px]">
+                  <Image
+                    src="/svg/handle.svg"
+                    alt="basic"
+                    width={22}
+                    height={22}
+                  />
+                  <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.driveTrain}</p>
+                </div>
+                <div className="flex gap-2 sm:text-[15px] text-[12px]">
+                  <Image
+                    src="/svg/engine.svg"
+                    alt="engine"
+                    width={22}
+                    height={22}
+                  />
+                  <p>{bookingData?.booking?.vehicleId?.vehicleSpecifications?.make}</p>
+                </div>
+                <div className="flex gap-2 sm:text-[15px] text-[12px]">
+                  <Image
+                    src="/svg/person.svg"
+                    alt="seat"
+                    width={22}
+                    height={22}
+                  />
+                  <p>{bookingData?.booking?.vehicleId?.seatingCapacity}</p>
+                </div>
 
-      
-              {/* <div className="grid grid-cols-3 justify-between gap-6">
+                {/* <div className="w-full"> */}
+
+
+                {/* <div className="grid grid-cols-3 justify-between gap-6">
                 {speciCollection?.map((item: any, index: number) => {
                   return (
                     <div key={index} className="flex gap-2 sm:text-[15px] text-[12px]">
@@ -147,12 +161,12 @@ const OrderSuccessful = (slug: any) => {
                   
               </div> */}
               </div>
-              
-              
-              
-              
-          
-                <div className="mt-4">
+
+
+
+
+
+              <div className="mt-4">
                 <h3 className="font-semibold sm:mb-4 mb-2 mt-6">
                   Include in the price
                 </h3>
@@ -172,9 +186,9 @@ const OrderSuccessful = (slug: any) => {
                     );
                   })}
                 </div>
-                </div>
               </div>
-          
+            </div>
+
           </div>
         </div>
         <div className="bg-gray-500 w-fit py-4 px-6 lg:max-w-[400px] max-w-[830px] w-full lg:m-0 m-auto ">
@@ -187,15 +201,15 @@ const OrderSuccessful = (slug: any) => {
               <h3 className="font-semibold">Pick-up</h3>
               <div className="text-[#707070] text-sm">
                 <p className="my-2">{new Date(bookingData?.booking?.pickUpDateTime).toLocaleString('en-US', {
-    timeZone: 'UTC',
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  })}</p>
+                  timeZone: 'UTC',
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+                })}</p>
                 <p>{bookingData?.booking?.location}</p>
               </div>
             </div>
@@ -208,16 +222,16 @@ const OrderSuccessful = (slug: any) => {
               <h3 className="font-semibold">Drop-off</h3>
               <div className="text-[#707070] text-sm">
                 <p className="my-2">{new Date(bookingData?.booking?.dropOffDateTime).toLocaleString('en-US', {
-    timeZone: 'UTC',
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-   
-  })}</p>
+                  timeZone: 'UTC',
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: false,
+
+                })}</p>
                 <p>{bookingData?.booking?.toCity}</p>
               </div>
             </div>
@@ -227,120 +241,120 @@ const OrderSuccessful = (slug: any) => {
       </div>
       <div className="sm:flex gap-6 sm:mx-0 mx-4">
         <div className="max-w-[830px] w-full">
-        <div className="bg-[#FBFBFB] py-4 px-6">
+          <div className="bg-[#FBFBFB] py-4 px-6">
             <h3 className="font-semibold text-2xl pb-2 border-b">Extra Service</h3>
             <div className="grid sm:grid-cols-2 sm:gap-8 gap-4 mt-6">
-                <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
-                    <span>Extra Service</span>
-                    <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.extraKms}</span>
-                </div>
-                <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
-                    <span>Insurance</span>
-                    <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.insurance}</span>
-                </div>
-                <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
-                    <span>Free kms for rental</span>
-                    <span className="text-primary">{bookingData?.booking?.kmsLimit}</span>
-                </div>
-                <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
-                    <span>Road Side Assistance</span>
-                    <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.roadSideAssistance}</span>
-                </div>
-                <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
-                    <span>Extra km charges at</span>
-                    <span className="text-primary">{bookingData?.booking?.vehicleId?.bookingOptions?.selfDrive?.packageType?.extraKmsCharge}</span>
-                </div>
-                <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
-                    <span>Baby Seat</span>
-                    <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.babySeat}</span>
-                </div>
+              <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
+                <span>Extra Service</span>
+                <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.extraKms}</span>
+              </div>
+              <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
+                <span>Insurance</span>
+                <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.insurance}</span>
+              </div>
+              <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
+                <span>Free kms for rental</span>
+                <span className="text-primary">{bookingData?.booking?.kmsLimit}</span>
+              </div>
+              <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
+                <span>Road Side Assistance</span>
+                <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.roadSideAssistance}</span>
+              </div>
+              <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
+                <span>Extra km charges at</span>
+                <span className="text-primary">{bookingData?.booking?.vehicleId?.bookingOptions?.selfDrive?.packageType?.extraKmsCharge}</span>
+              </div>
+              <div className="w-full flex gap-2 sm:text-[15px] text-[14px] justify-between">
+                <span>Baby Seat</span>
+                <span className="text-primary">{bookingData?.booking?.vehicleId?.extraService?.babySeat}</span>
+              </div>
             </div>
-        </div>
+          </div>
         </div>
         <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8 sm:mt-0 mt-6">
-        <div className="h-full">
-      <h3 className="text-xl font-semibold pb-4">Price Summary</h3>
-      <div className="grid h-full">
-        <div className="border-b pb-2">
-          <div className="flex justify-between sm:mb-0 mb-1">
-            <span className="sm:text-[15px] text-[14px]">Base Fare</span>
-            <span className="sm:text-lg">{bookingData?.booking?.baseFare}</span>
-          </div>
-          <div className="flex justify-between sm:mb-0 mb-1">
-          <span className="sm:text-[15px] text-[14px]">Refundable Deposit</span>
-          <span className="sm:text-lg">{bookingData?.booking?.refundableDeposit}</span>
-          </div>
-          <div className="flex justify-between sm:mb-0 mb-1">
-          <span className="sm:text-[15px] text-[14px]">GST Amount</span>
-          <span className="sm:text-lg">{bookingData?.booking?.gstAmount}</span>
-          </div>
-          <div className="flex justify-between sm:mb-0 mb-1">
-          <span className="sm:text-[15px] text-[14px]">DoorStep Delivery Charge</span>
-          <span className="sm:text-lg">{bookingData?.booking?.doorstepDelivery}</span>
-          </div>
-          <div className="flex justify-between mt-4">
-            <div>
-              <span className="sm:text-[15px] text-[14px]">Discount</span>
-              <span className="text-[#83E943] sm:text-[15px] text-[14px]"> </span>
+          <div className="h-full">
+            <h3 className="text-xl font-semibold pb-4">Price Summary</h3>
+            <div className="grid h-full">
+              <div className="border-b pb-2">
+                <div className="flex justify-between sm:mb-0 mb-1">
+                  <span className="sm:text-[15px] text-[14px]">Base Fare</span>
+                  <span className="sm:text-lg">{bookingData?.booking?.baseFare}</span>
+                </div>
+                <div className="flex justify-between sm:mb-0 mb-1">
+                  <span className="sm:text-[15px] text-[14px]">Refundable Deposit</span>
+                  <span className="sm:text-lg">{bookingData?.booking?.refundableDeposit}</span>
+                </div>
+                <div className="flex justify-between sm:mb-0 mb-1">
+                  <span className="sm:text-[15px] text-[14px]">GST Amount</span>
+                  <span className="sm:text-lg">{bookingData?.booking?.gstAmount}</span>
+                </div>
+                <div className="flex justify-between sm:mb-0 mb-1">
+                  <span className="sm:text-[15px] text-[14px]">DoorStep Delivery Charge</span>
+                  <span className="sm:text-lg">{bookingData?.booking?.doorstepDelivery}</span>
+                </div>
+                <div className="flex justify-between mt-4">
+                  <div>
+                    <span className="sm:text-[15px] text-[14px]">Discount</span>
+                    <span className="text-[#83E943] sm:text-[15px] text-[14px]"> </span>
+                  </div>
+                  <span className="sm:text-lg">-{bookingData?.booking?.promocode?.discountAmount}</span>
+                </div>
+              </div>
+              <div className="flex justify-between pt-4">
+                <span className="font-semibold">Total Amount</span>
+                <span className="font-bold">{bookingData?.booking?.totalAmount}</span>
+              </div>
             </div>
-            <span className="sm:text-lg">-{bookingData?.booking?.promocode?.discountAmount}</span>
           </div>
-        </div>
-        <div className="flex justify-between pt-4">
-          <span className="font-semibold">Total Amount</span>
-          <span className="font-bold">{bookingData?.booking?.totalAmount}</span>
-        </div>
-      </div>
-    </div>
         </div>
       </div>
       <div className="sm:flex gap-6 sm:my-12 my-6 sm:px-0 px-4">
-      <div className="bg-[#FBFBFB] py-4 px-6">
-            <h3 className="text-2xl font-semibold">Personal Details</h3>
-            <div className="mt-4">
-                <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
-                    <p>Name:</p>
-                    <p>{bookingData?.booking?.userId?.firstName} {bookingData?.booking?.userId?.lastName}</p>
-                </div>
-                <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
-                    <p>Email Address:</p>
-                    <p>{bookingData?.booking?.userId?.email}</p>
-                </div>
-                <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
-                    <p>Mobile Number:</p>
-                    <p>{bookingData?.booking?.userId?.phone}</p>
-                </div>
-                <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
-                    <p>Address:</p>
-                    <p>{bookingData?.booking?.userId?.address}</p>
-                </div>
-                <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
-                    <p>City:</p>
-                    <p>{bookingData?.booking?.userId?.city}</p>
-                </div>
-                <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
-                    <p>State:</p>
-                    <p>{bookingData?.booking?.userId?.state}</p>
-                </div>
-                <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
-                    <p>Pincode:</p>
-                    <p>{bookingData?.booking?.userId?.pincode}</p>
-                </div>
+        <div className="bg-[#FBFBFB] py-4 px-6">
+          <h3 className="text-2xl font-semibold">Personal Details</h3>
+          <div className="mt-4">
+            <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
+              <p>Name:</p>
+              <p>{bookingData?.booking?.userId?.firstName} {bookingData?.booking?.userId?.lastName}</p>
             </div>
+            <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
+              <p>Email Address:</p>
+              <p>{bookingData?.booking?.userId?.email}</p>
+            </div>
+            <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
+              <p>Mobile Number:</p>
+              <p>{bookingData?.booking?.userId?.phone}</p>
+            </div>
+            <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
+              <p>Address:</p>
+              <p>{bookingData?.booking?.userId?.address}</p>
+            </div>
+            <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
+              <p>City:</p>
+              <p>{bookingData?.booking?.userId?.city}</p>
+            </div>
+            <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
+              <p>State:</p>
+              <p>{bookingData?.booking?.userId?.state}</p>
+            </div>
+            <div className="grid sm:grid-cols-[1fr_5fr] grid-cols-[1fr_2fr] my-2 gap-2 text-sm text-[#676464]">
+              <p>Pincode:</p>
+              <p>{bookingData?.booking?.userId?.pincode}</p>
+            </div>
+          </div>
         </div>
         <div className="bg-gray-500 w-fit py-4 px-6 max-w-[400px] w-full pb-8 sm:mt-0 mt-6">
           <div>
             <h3 className="text-lg font-semibold">Expected date of delivery</h3>
             <p className="text-sm">{new Date(bookingData?.booking?.pickUpDateTime).toLocaleString('en-US', {
-    timeZone: 'UTC',
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit', 
-    hour12: false,
-  })}</p>
+              timeZone: 'UTC',
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false,
+            })}</p>
           </div>
           <div className="my-4">
             <h3 className="text-lg font-semibold">Place of delivery</h3>
@@ -408,7 +422,7 @@ const OrderSuccessful = (slug: any) => {
         <p className="text-sm text-center mt-4">If you have any questions or need to make any changes to your booking, please dont hesitate to contact us at [Contact Information].</p>
       </div>
     </div>
-    
+
   );
 };
 export default OrderSuccessful;
@@ -425,7 +439,7 @@ export default OrderSuccessful;
 //     alt: "kilometer",
 //     content: "kilometer",
 //   },
-  
+
 //   { 
 //     imageUrl: "/svg/fuel.svg",
 //     alt: "manual",
@@ -466,5 +480,5 @@ const includeArray = [
   {
     content: "Full Balance on Delivery",
   },
-]; 
+];
 
