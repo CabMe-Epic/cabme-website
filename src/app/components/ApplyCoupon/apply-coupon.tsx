@@ -81,7 +81,7 @@ const ApplyCoupon = ({
 
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center">
-      <div className="bg-white border rounded-xl w-fit overflow-hidden max-w-[400px] w-full relative">
+      <div className="bg-white border rounded-xl w-fit overflow-hidden  w-[350px] md:max-w-[500px] md:w-[500px] relative">
         <p className="py-2 px-4 bg-primary-color text-white font-semibold tracking-wide">
           Apply Coupon
         </p>
@@ -97,7 +97,7 @@ const ApplyCoupon = ({
                 placeholder="Enter coupon code"
               />
             </div>
-            {errMsg && <span className="text-red-500 text-xs">{errMsg}</span>}
+            {errMsg && <span className="text-red-500 text-xs">This coupon is invalid. Please contact support <a className="underline" href="tel:1800 121 6162">1800 121 6162</a></span>}
           </div>
           <div className="flex justify-end mt-4">
             <ThemeButton onClick={(e: any) => handleApply(e)} text="Apply" className="text-xs tracking-wide" />
