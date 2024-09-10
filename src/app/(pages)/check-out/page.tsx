@@ -133,6 +133,7 @@ const Checkout = () => {
 
   const [aadharGenerate, setAadharGenerate] = useState(false);
   const [one, setOne] = useState(true);
+  const [driverGo, setDriverGo] = useState(false);
   const [two, setTwo] = useState(true);
   const [three, setThree] = useState(true);
   const [four, setFour] = useState(true);
@@ -172,8 +173,9 @@ const Checkout = () => {
     console.log(dlPostBack, dlPost, dlFrontImage, dlBackImage, "dlImages")
     if (
       userData?.aadharVerified && (dlPostBack && dlPost || (dlFrontImage && dlBackImage)) &&
-      (!three || three === true && !four) &&
+      (!three || three === true && !four == true) &&
       (userData?.panVerified || userData?.drivingLicenseVerified)
+      || driverGo
     ) {
       setIsButtonDisabled(false);
     } else {
@@ -361,6 +363,10 @@ const Checkout = () => {
         // setThree(false);
         setTwo(false);
         setOne(false);
+        if(tabValue == "Driver"){
+          setDriverGo(true);
+        }
+        
         toast.success(response?.data?.message);
         setLoader(false);
       }
@@ -1780,6 +1786,12 @@ const Checkout = () => {
                               )}
                             </div>
                           </div>
+                          {
+                           dlPost && dlPostBack &&    <h1 className="mt-4 text-xs text-red-600">
+                           Upload the Driving Licence images before continue*
+                         </h1>
+                          }
+                       
                           <button
                             onClick={() => {
                               handleVerifyDrivingLicenceUpload();
