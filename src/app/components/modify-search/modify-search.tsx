@@ -70,21 +70,48 @@ const ModifySearch: React.FC = () => {
 
   const handleModifySearch = (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (selectedCity && startDate && endDate) {
+      const pickupDateTime = new Date(`${moment(startDate).format("YYYY-MM-DD")}T${startTime || "00:00"}`);
+      const dropoffDateTime = new Date(`${moment(endDate).format("YYYY-MM-DD")}T${endTime || "00:00"}`);
+  
+      // Ensure both are valid Date objects
+      // if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
+      //   alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+      //   return;
+      // }
+  
+      // Check if Drop-off time is later than Pickup time
+      if (pickupDateTime >= dropoffDateTime) {
+        alert("Drop-off date and time should be later than Pickup date and time");
+        return;
+      }
+  
+      // Validation for "Self-Driving" tab
+      if (tabValue === "Self-Driving") {
+        // Calculate the time difference in milliseconds
+        const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime(); // Get time in milliseconds
+  
+        // Convert the time difference to hours
+        const hoursDifference = timeDifference / (1000 * 60 * 60); // Convert milliseconds to hours
+  
+        if (hoursDifference < 24) {
+          alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
+          return;
+        }
+      }
+  
       // Save data to localStorage
       localStorage.setItem("pickupLocation", selectedCity);
-      localStorage.setItem(
-        "pickupDate",
-        moment(startDate).format("YYYY-MM-DD")
-      );
+      localStorage.setItem("pickupDate", moment(startDate).format("YYYY-MM-DD"));
       localStorage.setItem("dropOffDate", moment(endDate).format("YYYY-MM-DD"));
       localStorage.setItem("pickupTime", startTime || "");
       localStorage.setItem("dropoffTime", endTime || "");
-
+  
       window.location.reload();
     }
   };
+  
 
   useEffect(() => {
     const getData = () => {

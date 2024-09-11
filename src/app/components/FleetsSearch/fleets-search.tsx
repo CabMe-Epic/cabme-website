@@ -105,14 +105,34 @@ export default function Home() {
     }
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
-
+    
+    // if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
+    //   alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+    //   return;
+    // }
+    
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
       return;
     }
+    
+    if (tabValue === "Self-Driving") {
+      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime(); 
+      
+      const hoursDifference = timeDifference / (1000 * 60 * 60); 
+      
+      if (hoursDifference < 24) {
+        alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
+        return;
+      }
+    }
+    
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
     }
+    
+    console.log(pickupDateTime, dropoffDateTime, "tttime");
+    
 
     localStorage.setItem("dropOffLocation", dropOffLocation || "");
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
@@ -123,6 +143,8 @@ export default function Home() {
     localStorage.setItem("tabValue", tabValue);
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     console.log(pickupDate, pickupTime, "ddd");
+
+    
 
 
     if (tabValue == "Subscription" || (tabValue == 'Driver' && radioToggle == "One-way")) {
@@ -147,13 +169,43 @@ export default function Home() {
       }
     }
 
-    const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
-    const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
+    // const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
+    // const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
+
+
+    // console.log(pickupDateTime, dropoffDateTime,"tttime")
+
+
+
+    const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+    const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
 
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
       return;
     }
+    
+    // if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
+    //   alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+    //   return;
+    // }
+    
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+    
+    if (tabValue === "Self-Driving") {
+      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime(); 
+      
+      const hoursDifference = timeDifference / (1000 * 60 * 60); 
+      
+      if (hoursDifference < 24) {
+        alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
+        return;
+      }
+    }
+    
 
     localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
     localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity || "");

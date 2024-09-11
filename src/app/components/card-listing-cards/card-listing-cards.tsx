@@ -99,6 +99,7 @@ const CardListingCards = ({ data }: any) => {
   const [clicked1, setClicked1] = useState(true);
   const [clicked2, setClicked2] = useState(false);
   const [clicked3, setClicked3] = useState(false);
+  // const [freekms, setFreekms] = useState(0);
   const [showOptionsMobile, setShowOptionsMobile] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -332,7 +333,7 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                   <div className="w-full">
                     <div className="sm:h-[274px] max-w-[700px] relative">
-                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 justify-end">
+                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center justify-center lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 justify-end">
                         <div
                           onClick={() => {
                             setFreekms(Number((
@@ -356,7 +357,7 @@ const CardListingCards = ({ data }: any) => {
                             }
 
                           }}
-                          className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
+                          className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -430,7 +431,7 @@ const CardListingCards = ({ data }: any) => {
                               );
                             }
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
+                          className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -505,7 +506,7 @@ const CardListingCards = ({ data }: any) => {
                               );
                             }
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
+                          className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -593,7 +594,8 @@ const CardListingCards = ({ data }: any) => {
                           </span>
                         </div>
                       </div>
-                      <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
+                      {
+                        selectedPackageFreeKms !== 0 ? <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
                         {data?.bookingOptions?.selfDrive?.packageType
                           ?.extraKmsCharge && (
                             <span>
@@ -607,7 +609,11 @@ const CardListingCards = ({ data }: any) => {
                               </span>
                             </span>
                           )}
+                      </div> : <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
+                        
                       </div>
+                      }
+                  
 
                       {/*  */}
 
