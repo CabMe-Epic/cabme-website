@@ -19,6 +19,9 @@ const Footer = () => {
     if (value === "Blogs") {
       router.push("https://marketing.cabme.in/")
     }
+    if (value === "Customer Login") {
+      router.push("https://admin.cabme.in/auth/customer-login")
+    }
     if(value === "Terms & Conditions"){
       router.push("/terms-and-conditions")
     }
@@ -308,6 +311,10 @@ const footerCollection = [
         href:"#"
 
       },
+      {
+        link: "Customer Login",
+        href:'https://admin.cabme.in/auth/customer-login'
+      }
       // {
       //   link: "Deals",
       // },
