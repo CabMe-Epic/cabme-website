@@ -548,12 +548,14 @@ const Checkout = () => {
             aadharCardBackImageUrl: undefined,
             aadharCardFrontImageUrl: undefined,
             aadharNumber: undefined,
+            drivingLicenseVerified: false,
             aadharVerified: true,
             address: undefined,
             city: undefined,
             dob: undefined,
             drivingLicenseBackImageUrl: undefined,
             drivingLicenseFrontImageUrl: undefined,
+            drivingLicenseNumber: undefined,
             email: undefined,
             firstName: undefined,
             fullName: undefined,
@@ -567,9 +569,69 @@ const Checkout = () => {
             state: undefined,
           });
         }
-        if (currentUser?.phoneVerified) {
+        if (!currentUser?.aadharNumber) {
           // window.location.reload();
+          updateUserData({
+            aadharNumber: undefined,
+          });
         }
+        if (!currentUser?.aadharCardBackImageUrl) {
+          updateUserData({
+            aadharCardBackImageUrl: undefined,
+          });
+        }
+        if (!currentUser?.aadharCardFrontImageUrl) {
+          updateUserData({
+            aadharCardFrontImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.drivingLicenseNumber) {
+          updateUserData({
+            drivingLicenseNumber: undefined,
+          });
+        }
+
+        if (!currentUser?.drivingLicenseBackImageUrl) {
+          updateUserData({
+            drivingLicenseBackImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.drivingLicenseFrontImageUrl) {
+          updateUserData({
+            drivingLicenseFrontImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.panNumber) {
+          updateUserData({
+            panNumber: undefined,
+          });
+        }
+
+        if (!currentUser?.panImageUrl) {
+          updateUserData({
+            panImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.aadharVerified) {
+          updateUserData({
+            aadharVerified: false,
+          });
+        }
+        if (!currentUser?.panVerified) {
+          updateUserData({
+            panVerified: false,
+          });
+        }
+        if (!currentUser?.drivingLicenseVerified) {
+          updateUserData({
+            drivingLicenseVerified: false,
+          });
+        }
+
         setOne(false);
         setTwo(false);
         toast.success(result?.message);
@@ -829,7 +891,7 @@ const Checkout = () => {
     }
   };
 
-  const handleRemoveDlFront = () => { 
+  const handleRemoveDlFront = () => {
     setDlFrontImage(null);
   };
 
