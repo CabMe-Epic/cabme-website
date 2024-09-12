@@ -51,7 +51,7 @@ const CardListingCards = ({ data }: any) => {
   // const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
   const [selectedPackagePrice, setPackagePrice] = useState<any>();
-  const [selectedPackageFreeKms, setSelectedPackageFreeKms] = useState<any>(0);
+  const [selectedPackageFreeKms, setSelectedPackageFreeKms] = useState<any>(1);
 
   const setPrice = (price: number) => {
     setPackagePrice(price);
@@ -169,7 +169,7 @@ const CardListingCards = ({ data }: any) => {
                 : console.log("Something went wrong in package selection");
     }
 
-    if (selectedPackageFreeKms === undefined) {
+    if (selectedPackageFreeKms === 1) {
       bookingOptionsHome === data?.bookingOptions?.selfDrive?.name
         ? setSelectedPackageFreeKms(Number((
           data?.bookingOptions?.selfDrive?.packageType
@@ -183,11 +183,11 @@ const CardListingCards = ({ data }: any) => {
             data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit
           )
           : driverType === data?.bookingOptions?.withDriver?.local?.name
-            ? selectedPackageFreeKms(data?.bookingOptions?.withDriver?.local?.packageType?.package1
+            ? setSelectedPackageFreeKms(data?.bookingOptions?.withDriver?.local?.packageType?.package1
               ?.kmsLimit)
             : driverType === data?.bookingOptions?.withDriver?.outstation?.name
               ?
-              selectedPackageFreeKms(data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm || 0)
+              setSelectedPackageFreeKms(data?.bookingOptions.withDriver.outstation.packageType.package1.ratePerKm || 0)
               : console.log("Something went wrong in package selection");
     }
     else {
@@ -313,7 +313,7 @@ const CardListingCards = ({ data }: any) => {
                       objectFit={"contain"}
                       height={212}
                       alt={data?.featuredImage?.alt}
-                      className="sm:w-[95%] mb-2 cursor-pointer"
+                      className="sm:w-[95%] object-contain mb-2 cursor-pointer"
                     />
                     <div
                       onClick={() => setShowImg(!showImg)}
@@ -332,8 +332,8 @@ const CardListingCards = ({ data }: any) => {
                     </div>
                   </div>
                   <div className="w-full">
-                    <div className="sm:h-[274px] max-w-[700px] relative">
-                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center justify-center lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 justify-end">
+                    <div className="min-h-[500px] sm:min-h-[274px] sm:h-[274px]  max-w-[700px] relative">
+                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center mb-6 lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 justify-end">
                         <div
                           onClick={() => {
                             setFreekms(Number((
@@ -594,26 +594,8 @@ const CardListingCards = ({ data }: any) => {
                           </span>
                         </div>
                       </div>
-                      {
-                        selectedPackageFreeKms !== 0 ? <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-                        {data?.bookingOptions?.selfDrive?.packageType
-                          ?.extraKmsCharge && (
-                            <span>
-                              Extra kms will be charged at{" "}
-                              <span className="text-[#FF0000]">
-                                ₹
-                                {
-                                  data?.bookingOptions?.selfDrive?.packageType
-                                    ?.extraKmsCharge
-                                }
-                              </span>
-                            </span>
-                          )}
-                      </div> : <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-                        
-                      </div>
-                      }
-                  
+
+
 
                       {/*  */}
 
@@ -703,31 +685,53 @@ const CardListingCards = ({ data }: any) => {
                             </span>
                           </div>
                         </div>
-                        <div className="m-0 flex sm:px-0 px-4 justify-end sm:justify-start">
+                        <div className="m-0 flex sm:px-0 px-4 mt-7  sm:mt-0 justify-end sm:justify-start">
                           <ThemeButton
                             onClick={() => {
                               Navigation.push(`/car-details/${data._id}`);
                               selectDefaultPackage(data);
                             }}
                             text="Book Now"
-                            className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md text-xs sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
+                            className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
                           />
                         </div>
                       </div>
-                      <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 absolute sm:bottom-0 bottom-[8px]">
+                      <div className="flex flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-42 sm:h-[40px] absolute sm:bottom-0 bottom-[8px] ">
+                        {
+                          selectedPackageFreeKms !== 0 ? <div className="sm:flex flex-row justify-end sm:mr-10 mt-10  sm:my-5">
+                            {data?.bookingOptions?.selfDrive?.packageType
+                              ?.extraKmsCharge && (
+                                <span className="text-xs sm:text-[15px]">
+                                  Extra kms will be charged at{" "}
+                                  <span className="text-[#FF0000]">
+                                    ₹
+                                    {
+                                      data?.bookingOptions?.selfDrive?.packageType
+                                        ?.extraKmsCharge
+                                    }
+                                  </span>
+                                </span>
+                              )}
+                          </div> : 
+                          <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
+
+                          </div>
+                        }
                         <span
-                          className="text-[#ff0000] sm:text-[15px] text-sm"
+                          className="text-[#ff0000] sm:text-[15px] text-sm flex items-center gap-2"
                           onClick={() => setShowOptionsMobile(!showOptionsMobile)}
                         >
                           View Details{" "}
+                          <Image
+                            src="/carListing/arrow.png"
+                            width={10}
+                            objectFit={"contain"}
+                            height={10}
+                            className="object-contain"
+                            alt="bluetooth"
+                          />
                         </span>
-                        <Image
-                          src="/carListing/arrow.png"
-                          width={10}
-                          objectFit={"contain"}
-                          height={10}
-                          alt="bluetooth"
-                        />
+
                       </div>
                     </div>
                   </div>
@@ -1144,7 +1148,7 @@ const CardListingCards = ({ data }: any) => {
               ) : bookingOptionsHome ===
                 data?.bookingOptions?.withDriver?.name ? (
                 <>
-                  {(radioToggle == data?.bookingOptions?.withDriver?.oneway?.name || data?.bookingOptions?.withDriver?.oneway?.doorstepDelivery?.length > 0) && data?.bookingOptions?.withDriver?.oneway?.doorstepDelivery.some((item: any) => item.city === dropLocation) && (
+                  {(radioToggle == data?.bookingOptions?.withDriver?.oneway?.name) && (
                     <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                       <Image
                         src="/png/red-design.png"
@@ -1155,6 +1159,7 @@ const CardListingCards = ({ data }: any) => {
                       />
                       <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
                         {data?.brandName}
+                        
                       </span>
                     </div>
                       <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
@@ -1269,7 +1274,7 @@ const CardListingCards = ({ data }: any) => {
                         </div>
                         {/*  */}
                         <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-                          {data?.bookingOptions?.withDriver?.local?.packageType
+                          {/* {data?.bookingOptions?.withDriver?.local?.packageType
                             ?.extraKmsCharge && (
                               <span>
                                 Extra kms will be charged at{" "}
@@ -1286,7 +1291,7 @@ const CardListingCards = ({ data }: any) => {
                                   })()}
                                 </span>
                               </span>
-                            )}
+                            )} */}
                         </div>
 
                         {/*  */}
@@ -1407,6 +1412,7 @@ const CardListingCards = ({ data }: any) => {
                         <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
                           {data?.brandName}
                         </span>
+                        
                       </div>
                         <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
                           <div className="flex flex-row justify-center m-auto mt-16">
@@ -1711,7 +1717,7 @@ const CardListingCards = ({ data }: any) => {
                           </div>
                           {/*  */}
                           <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-                            {data?.bookingOptions?.withDriver?.local?.packageType
+                            {/* {data?.bookingOptions?.withDriver?.local?.packageType
                               ?.extraKmsCharge && (
                                 <span>
                                   Extra kms will be charged at{" "}
@@ -1728,7 +1734,7 @@ const CardListingCards = ({ data }: any) => {
                                     })()}
                                   </span>
                                 </span>
-                              )}
+                              )} */}
                           </div>
 
                           {/*  */}
@@ -1837,7 +1843,9 @@ const CardListingCards = ({ data }: any) => {
                       </>
                     )}
                   {driverType === data?.bookingOptions.withDriver.outstation.name && (
+
                     <>
+                    
                       <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                         <Image
                           src="/png/red-design.png"
@@ -1882,7 +1890,7 @@ const CardListingCards = ({ data }: any) => {
                         </div>
                       </div>
                       <div className="sm:h-[274px] relative max-w-[700px] w-full px-4">
-                        <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5 sm:px-0 px-2">
+                        <div className="mt-5 sm:flex grid grid-cols-[30%_70%] flex-row items-center w-full sm:gap-4 gap-2 sm:mr-5 sm:px-0 px-2">
                           <div
                             onClick={() => {
                               setPrice(
@@ -1958,7 +1966,7 @@ const CardListingCards = ({ data }: any) => {
                             </p>
                           </div> */}
                           <div>
-                            { data?.bookingOptions.withDriver.outstation?.description}
+                            {data?.bookingOptions.withDriver.outstation?.description}
                           </div>
                         </div>
 

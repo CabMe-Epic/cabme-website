@@ -103,8 +103,6 @@ const CarDetails = () => {
     localStorage.removeItem("doorStepPriceCharge");
   }, []);
 
-
-
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
   const [dropoffDate, setDropoffDate] = useState<any>();
@@ -123,7 +121,6 @@ const CarDetails = () => {
     string | any
   >();
 
-
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Inculded/Excluded GST >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   console.log({ currentPackage });
 
@@ -138,7 +135,7 @@ const CarDetails = () => {
     pickUpDateTime: null,
     dropOffDateTime: null,
     bookingType: bookingOptions,
-    toCity: dropoffLocation
+    toCity: dropoffLocation,
   });
   // console.log(`Price: ${packagePrice} - GST ${parseFloat(currentPackage?.package1?.gstRate)}%:`, result);
 
@@ -167,22 +164,18 @@ const CarDetails = () => {
 
   const doorStepAmount = selectedDoorStepObject?.[0]?.price ?? 0;
 
-
-
   const totalExcludedGSTAmount =
     Number(packagePrice) +
     Number(result?.gstAmount) +
-    Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
+    Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount;
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
-    Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)) +
+    Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount;
-
-
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice);
@@ -239,7 +232,9 @@ const CarDetails = () => {
     gstRate: currentPackage?.package1?.gstRate,
     gstAmount: roundPrice(Number(result?.gstAmount)),
     insuranceGST: carDetails?.extraService?.insurance,
-    refundableDeposit: Number((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit)),
+    refundableDeposit: Number(
+      tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit
+    ),
     kmsLimit: 0,
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
@@ -349,7 +344,7 @@ const CarDetails = () => {
       pickUpDateTime: pickupDate,
       dropOffDateTime: dropDate,
       bookingType: bookingOptions,
-      toCity: dropoffLocation
+      toCity: dropoffLocation,
     });
   }, [bookingOptions, dropoffLocation]);
 
@@ -364,10 +359,14 @@ const CarDetails = () => {
       ? setCurrentPackage(
         carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
       )
-      : setCurrentPackage(carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find((item: any) => item?.city === dropoffLocation ? item?.price : 0));
+      : setCurrentPackage(
+        carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find(
+          (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
+        )
+      );
   }, [locationData, slug, dropoffLocation]);
 
-  console.log(dropoffLocation, "dropoffLocation")
+  console.log(dropoffLocation, "dropoffLocation");
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
@@ -384,9 +383,7 @@ const CarDetails = () => {
     setPickupTime(storedPickupTime);
     setDropoffLocation(dropLoc);
     getCarDetails();
-
   }, [slug]);
-
 
   React.useEffect(() => {
     const getPickup = localStorage.getItem("pickupDate");
@@ -446,7 +443,6 @@ const CarDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
-
   // console.log({ selectedPackageAmount })
   const handlePriceChange = (updatedPrice: any) => {
     setSelectedPackageAmount(updatedPrice);
@@ -466,8 +462,12 @@ const CarDetails = () => {
 
   const Driver15k = 1500;
 
-
-  console.log(ThirtyDiscountForInculdedTax, ThirtyDiscountForExcludedTax, advance_Payment, "pppp")
+  console.log(
+    ThirtyDiscountForInculdedTax,
+    ThirtyDiscountForExcludedTax,
+    advance_Payment,
+    "pppp"
+  );
 
   // if advance_Payment is nan then don't return the advance_payment value
   const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
@@ -490,20 +490,25 @@ const CarDetails = () => {
         roundPrice(Number(ThirtyDiscountForInculdedTax)) >= 2000
           ? roundPrice(Number(ThirtyDiscountForInculdedTax))
           : roundPrice(totalIncludedGSTAmount);
-    } else if (currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver") {
+    } else if (
+      currentPackage?.gst === "Excluded" &&
+      selectedTabValue !== "Driver"
+    ) {
       paymentAmount =
         roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
           ? roundPrice(Number(ThirtyDiscountForExcludedTax))
           : roundPrice(totalExcludedGSTAmount);
-    }
-
-    else if (currentPackage?.gst === "Excluded" && selectedTabValue == "Driver") {
+    } else if (
+      currentPackage?.gst === "Excluded" &&
+      selectedTabValue == "Driver"
+    ) {
+      paymentAmount = Driver15k;
+    } else if (
+      currentPackage?.gst === "Included" &&
+      selectedTabValue == "Driver"
+    ) {
       paymentAmount = Driver15k;
     }
-    else if (currentPackage?.gst === "Included" && selectedTabValue == "Driver") {
-      paymentAmount = Driver15k;
-    }
-
 
     if (paymentAmount) {
       localStorage.setItem("advancePayment", paymentAmount);
@@ -555,20 +560,23 @@ const CarDetails = () => {
     new Set(roundedPrices.filter((price) => price !== 0))
   );
 
-
-
-  const balance_paymentExculded = totalExcludedGSTAmount - ThirtyDiscountForExcludedTax;
-  const balance_paymentIncluded = totalIncludedGSTAmount - ThirtyDiscountForInculdedTax;
+  const balance_paymentExculded =
+    totalExcludedGSTAmount - ThirtyDiscountForExcludedTax;
+  const balance_paymentIncluded =
+    totalIncludedGSTAmount - ThirtyDiscountForInculdedTax;
   const balance_driverInclude = totalIncludedGSTAmount - Driver15k;
   const balance_driverExclude = totalExcludedGSTAmount - Driver15k;
-  console.log("balance_payment", { balance_paymentExculded, balance_paymentIncluded });
+  console.log("balance_payment", {
+    balance_paymentExculded,
+    balance_paymentIncluded,
+  });
   console.log("advance_Payment", { advance_Payment });
 
-  console.log(totalIncludedGSTAmount, totalExcludedGSTAmount, "totalIncludedGSTAmount")
-
-
-
-
+  console.log(
+    totalIncludedGSTAmount,
+    totalExcludedGSTAmount,
+    "totalIncludedGSTAmount"
+  );
 
   return (
     <>
@@ -604,60 +612,53 @@ const CarDetails = () => {
             {/* booking summary */}
             <div className="lg:block m-auto flex justify-center w-full sm:px-0 px-4">
               {/* <BookingSummery/> */}
-              <main className="max-w-[380px] px-4 sm:max-w-[511px] w-full flex flex-col items-center bg-[#f5f5f5] py-10 my-6 rounded-xl">
-                <div className="w-[320px] sm:w-[376px] lg:w-[440px] h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
+              <main className="max-w-[380px] px-4 sm:px-6 sm:max-w-[440px] w-full m-auto flex flex-col items-center bg-[#f5f5f5] py-10 my-6 rounded-xl">
+                <div className="w-full max-w-[420px] mb-4 h-[50px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl">
                   <span className="text-center">Booking Summary</span>
                 </div>
-                {
-                   (tabValue == "Self-Driving" || tabValue == "Subscription" || tabValue == "Driver" && radioToggle == "Local") &&
-                  <div className="my-5  flex justify-between items-center w-full sm:px-8 text-[14px] sm:text-[18px]">
-                    <span className="font-semibold sm:ml-2">Package Name</span>
-                    <select
-                      name="package"
-                      id="package"
-                      className="cursor-pointer w-[140px] p-2 mr-2 rounded-md font-semibold outline-none"
-                      onChange={(event) =>
-                        handlePriceChange(event?.target?.value)
-                      }
-                    >
-                      <option value={packagePrice}>
-                        {packagePrice !== undefined
-                          ? `₹${packagePrice}`
-                          : "Select Package"}
-                      </option>
-                      <option value={roundPrice(package1Price)}>
-                        ₹{roundPrice(package1Price)}
-                      </option>
-                      <option value={roundPrice(package2Price)}>
-                        ₹{roundPrice(package2Price)}
-                      </option>
-                      <option value={roundPrice(package3Price)}>
-                        ₹{roundPrice(package3Price)}
-                      </option>
-                    </select>
-                  </div>
-                }
-                <div className="grid grid-cols-1 items-start justify-center gap-4 mt-4 font-semibold">
-                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">
-                      Package Amount
-                    </span>
-                    <span className="sm:w-[220px] sm:ml-10 w-fit">
-                      ₹{roundPrice(packagePrice)}
-                    </span>
+
+                {(tabValue === "Self-Driving" ||
+                  tabValue === "Subscription" ||
+                  (tabValue === "Driver" && radioToggle === "Local")) && (
+                    <div className="my-5 flex justify-between items-center w-full text-[14px] sm:text-[16px]">
+                      <span className="font-semibold">Package Name</span>
+                      <select
+                        name="package"
+                        id="package"
+                        className="cursor-pointer w-[180px] sm:w-[w-350px] text-[14px] sm:text-[16px] p-2 rounded-md font-semibold outline-none"
+                        onChange={(event) =>
+                          handlePriceChange(event?.target?.value)
+                        }
+                      >
+                        <option value={packagePrice}>
+                          {packagePrice !== undefined
+                            ? `₹${packagePrice}`
+                            : "Select Package"}
+                        </option>
+                        <option value={roundPrice(package1Price)}>
+                          ₹{roundPrice(package1Price)}
+                        </option>
+                        <option value={roundPrice(package2Price)}>
+                          ₹{roundPrice(package2Price)}
+                        </option>
+                        <option value={roundPrice(package3Price)}>
+                          ₹{roundPrice(package3Price)}
+                        </option>
+                      </select>
+                    </div>
+                  )}
+
+                <div className="grid grid-cols-1 gap-4 mt-0 font-semibold text-[14px] sm:text-[18px]">
+                  <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                    <span>Package Amount</span>
+                    <span>₹{roundPrice(packagePrice)}</span>
                   </div>
 
-                  {
-                    (selectedTabValue !== "Driver" && selectedTabValue !== "Subscription") &&
-                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                      <span className="sm:w-[220px] sm:ml-10">
-                        Doorstep delivery & pickup
-                      </span>
-                      <span
-                        className="sm:w-[220px]  sm:ml-8"
-                        onClick={handleShowDoorstepPopup}
-                      >
-                        <div className="relative w-full sm:w-[80%]">
+                  {selectedTabValue !== "Driver" &&
+                    selectedTabValue !== "Subscription" && (
+                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                        <span>Doorstep delivery & pickup</span>
+                        <div className="relative w-full">
                           <textarea
                             ref={textareaRef}
                             className="w-full p-1 rounded-md border resize-none overflow-hidden"
@@ -675,116 +676,90 @@ const CarDetails = () => {
                             style={{ background: "rgba(0,0,0,0)", zIndex: 1 }}
                           />
                         </div>
+                        {showDoorStep && (
+                          <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center text-[14px] sm:text-[16px]">
+                            <DropLocation
+                              onClose={() => setShowDoorStep(false)}
+                              onSelectItem={handleSelectItemDoorStep}
+                              currentPackage={
+                                currentPackage?.DoorstepDeliveryPickup
+                              }
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                        {/* ₹{currentPackage?.DoorstepDeliveryPickup?.reduce((acc: any, item: any) => acc + item?.price, 0)} */}
-                      </span>
-                      {showDoorStep && (
-                        <div className="fixed bg-[#00000082] left-0 top-0 z-[999] w-full h-full flex items-center justify-center">
-                          <DropLocation
-                            onClose={() => setShowDoorStep(false)}
-                            onSelectItem={handleSelectItemDoorStep}
-                            currentPackage={
-                              currentPackage?.DoorstepDeliveryPickup
-                            }
-                          />
-                        </div>
-                      )}
-                    </div>
-                  }
-                  {/* <div className="text-sm font-semibold text-[#5c5c5c] sm:w-[220px] sm:ml-10">
-                    {
-                      selectedDoorStepObject[0]?.location + " " + selectedDoorStepObject[0]?.subLocation + " - " + selectedDoorStepObject[0]?.price
-                    }
-                  </div> */}
-
-                  <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                    <span className="sm:w-[220px] sm:ml-10">
-                      GST ({currentPackage?.package1?.gstRate}%)
-                    </span>
-                    <span className="sm:w-[220px] sm:ml-10">
-                      ₹{roundPrice(Number(result?.gstAmount))}
-                    </span>
+                  <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                    <span>GST ({currentPackage?.package1?.gstRate}%)</span>
+                    <span>₹{roundPrice(Number(result?.gstAmount))}</span>
                   </div>
-                  {
-                    tabValue !== "Driver" &&
-                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                      <span className="sm:w-[220px] sm:ml-10">
-                        Refundable Deposit
-                      </span>
-                      <span className="sm:w-[220px] sm:ml-10">
-                        ₹{((tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit))}
-                      </span>
-                    </div>
-                  }
 
-
-                  {(selectedTabValue == "Self-Driving") &&
-
-                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                      <span className="sm:w-[220px] sm:ml-10">
-                        DropOff City Charges
-                      </span>
-                      <span className="sm:w-[220px] sm:ml-10">
-                        ₹ {selfDropCities}
+                  {tabValue !== "Driver" && (
+                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                      <span>Refundable Deposit</span>
+                      <span>
+                        ₹
+                        {tabValue === "Driver"
+                          ? 0
+                          : currentPackage?.refundableDeposit}
                       </span>
                     </div>
-                  }
+                  )}
 
+                  {selectedTabValue === "Self-Driving" && (
+                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                      <span>DropOff City Charges</span>
+                      <span>₹ {selfDropCities}</span>
+                    </div>
+                  )}
 
-                  {/* DESKTOP ...  */}
                   {currentPackage?.gst === "Excluded" && (
-                    <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
-                      <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
-                      <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
+                    <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
+                      <span>TOTAL</span>
+                      <span className="text-[#ff0000]">
                         ₹ {roundPrice(totalExcludedGSTAmount)}
                       </span>
                     </div>
                   )}
+
                   {currentPackage?.gst === "Included" && (
-                    <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
-                      <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
-                      <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
+                    <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
+                      <span>TOTAL</span>
+                      <span className="text-[#ff0000]">
                         ₹ {roundPrice(totalIncludedGSTAmount)}
                       </span>
                     </div>
                   )}
-                  {
-                    (tabValue === "Self-Driving" || tabValue === "Subscription") &&
-                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                      <span className="sm:w-[220px] sm:ml-10">Fuel</span>
-                      <span className="sm:w-[220px] sm:ml-10">
-                        {currentPackage?.fuel}
-                      </span>
-                    </div>
-                  }
 
-                  {
-                    (tabValue === "Self-Driving" || tabValue ==="Subscription")  &&
-                    <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[18px]">
-                      <span className="sm:w-[220px] sm:ml-10">
-                        Extra kms charge
-                      </span>
-                      <span className="sm:w-[220px] sm:ml-10">
-                        ₹{currentPackage?.extraKmsCharge}
-                      </span>
-                    </div>
-                  }
+                  {(tabValue === "Self-Driving" ||
+                    tabValue === "Subscription") && (
+                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                        <span>Fuel</span>
+                        <span>{currentPackage?.fuel}</span>
+                      </div>
+                    )}
 
+                  {(tabValue === "Self-Driving" ||
+                    tabValue === "Subscription") && (
+                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                        <span>Extra kms charge</span>
+                        <span>₹{currentPackage?.extraKmsCharge}</span>
+                      </div>
+                    )}
 
-
-                  <div className="grid grid-cols-2 gap-14 text-[14px] sm:text-[18px] justify-center">
-                    <span className="sm:w-[220px] sm:ml-10">
-                      Tolls,Parking & Inner-state taxes
-                    </span>
-                    <span className="sm:w-[220px] sm:ml-10">
-                      {currentPackage?.tollsParkingTaxes}
-                    </span>
+                  <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                    <span>Tolls, Parking & Inner-state taxes</span>
+                    <span>{currentPackage?.tollsParkingTaxes}</span>
                   </div>
                 </div>
+
                 {(tabValue === "Self-Driving" ||
-                 tabValue === "Subscription" ||
-                  (tabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))) && (
-                    <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-[340px] sm:w-[420px] py-5 rounded-3xl">
+                  tabValue === "Subscription" ||
+                  (tabValue === "Driver" &&
+                    (radioToggle === "One-way" ||
+                      radioToggle === "Local"))) && (
+                    <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
                       {currentPackage?.gst === "Excluded" && (
                         <div className="flex flex-col">
                           <span className="text-sm md:text-md">Total Amount</span>
@@ -801,70 +776,84 @@ const CarDetails = () => {
                           </span>
                         </div>
                       )}
-                      <div>
-                        <button
-                          onClick={handleProceedTotal}
-                          className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] sm:text-2xl font-semibold text-white sm:w-[178.31px] px-6 py-2 sm:h-[53.08px] rounded-full drop-shadow-lg"
-                        >
-                          Proceed
-                        </button>
-                      </div>
+                      <button
+                        onClick={handleProceedTotal}
+                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white font-semibold sm:text-2xl px-6 py-2 rounded-full drop-shadow-lg"
+                      >
+                        Proceed
+                      </button>
                     </div>
                   )}
 
-
-                {/* DESKTOP  */}
-                <div className={`flex flex-row items-center justify-around border-[1.5px] w-[340px] sm:w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${(tabValue == "Driver" && radioToggle == "Out-station") && ' mt-4'}`}>
+                <div
+                  className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${tabValue === "Driver" &&
+                    radioToggle === "Out-station" &&
+                    "mt-4"
+                    }`}
+                >
                   <div className="flex flex-col items-start">
-                    {currentPackage?.gst === "Included" && selectedTabValue !== "Driver" && (
-                      <span className="font-bold text-md">
-                        Pay ₹
-                        {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
-                          2000
-                          ? roundPrice(Number(ThirtyDiscountForInculdedTax))
-                          : roundPrice(totalIncludedGSTAmount)}
-                        Now
-                      </span>
-                    )}
-                    {currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver" && (
-                      <span className="font-bold text-md">
-                        Pay ₹ {paymentExcludedTax}
-                        {/* {roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000 ? roundPrice(Number(ThirtyDiscountForExcludedTax)) : roundPrice(totalExcludedGSTAmount)} Now */}
-                      </span>
-                    )}
-                    {
-                      (currentPackage?.gst === "Excluded" && selectedTabValue == "Driver") &&
-                      <span className={`font-bold text-md ${(tabValue == "Driver" && radioToggle == "Out-station") && 'text-2xl'}`}>
-                        Pay ₹ {Driver15k}
-                      </span>
-                    }
-                    {
-                      (currentPackage?.gst === "Included" && selectedTabValue == "Driver") &&
-                      <span className={`font-bold text-md ${(tabValue == "Driver" && radioToggle == "Out-station") && 'text-2xl'}`}>
-                        Pay ₹ {Driver15k}
-                      </span>
-                    }
-                    {
-                      (tabValue === "Self-Driving" ||
-                        tabValue === "Subscription" ||
-                        (tabValue === "Driver" && (radioToggle === "One-way" || radioToggle === "Local"))) && (
+                    {currentPackage?.gst === "Included" &&
+                      selectedTabValue !== "Driver" && (
+                        <span className="font-bold text-md">
+                          Pay ₹
+                          {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
+                            2000
+                            ? roundPrice(Number(ThirtyDiscountForInculdedTax))
+                            : roundPrice(totalIncludedGSTAmount)}
+                          Now
+                        </span>
+                      )}
+                    {currentPackage?.gst === "Excluded" &&
+                      selectedTabValue !== "Driver" && (
+                        <span className="font-bold text-md">
+                          Pay ₹ {paymentExcludedTax}
+                        </span>
+                      )}
+                    {currentPackage?.gst === "Excluded" &&
+                      selectedTabValue === "Driver" && (
+                        <span
+                          className={`font-bold text-md ${tabValue === "Driver" &&
+                            radioToggle === "Out-station" &&
+                            "text-2xl"
+                            }`}
+                        >
+                          Pay ₹ {Driver15k}
+                        </span>
+                      )}
+                    {currentPackage?.gst === "Included" &&
+                      selectedTabValue === "Driver" && (
+                        <span
+                          className={`font-bold text-md ${tabValue === "Driver" &&
+                            radioToggle === "Out-station" &&
+                            "text-2xl"
+                            }`}
+                        >
+                          Pay ₹ {Driver15k}
+                        </span>
+                      )}
+                    {(tabValue === "Self-Driving" ||
+                      tabValue === "Subscription" ||
+                      (tabValue === "Driver" &&
+                        (radioToggle === "One-way" ||
+                          radioToggle === "Local"))) && (
                         <span className="text-[#ff0000] font-semibold text-[15px]">
                           ₹
-                          {(currentPackage?.gst === "Excluded" && selectedTabValue !== "Driver")
+                          {currentPackage?.gst === "Excluded" &&
+                            selectedTabValue !== "Driver"
                             ? balance_paymentExculded.toFixed(0)
-                            : (currentPackage?.gst === "Included" && selectedTabValue !== "Driver")
+                            : currentPackage?.gst === "Included" &&
+                              selectedTabValue !== "Driver"
                               ? balance_paymentIncluded.toFixed(0)
-                              : (currentPackage?.gst === "Excluded" && selectedTabValue === "Driver")
+                              : currentPackage?.gst === "Excluded" &&
+                                selectedTabValue === "Driver"
                                 ? balance_driverExclude.toFixed(0)
-                                : (currentPackage?.gst === "Included" && selectedTabValue === "Driver")
+                                : currentPackage?.gst === "Included" &&
+                                  selectedTabValue === "Driver"
                                   ? balance_driverInclude.toFixed(0)
-                                  : ""}
-                          {" "}Balance on Delivery
+                                  : ""} {" "}
+                          Balance on Delivery
                         </span>
-                      )
-                    }
-
-
+                      )}
                   </div>
                   <button
                     onClick={handleProceed}
@@ -876,19 +865,19 @@ const CarDetails = () => {
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
-            <div className="p-6 sm:p-0  " >
+            <div className="p-6 sm:px-10  ">
               <div className="flex gap-2 items-start">
                 <Image src="/clock.png" alt=" " width={30} height={30} />
                 <div className="flex flex-col gap-2 text-justify text-[#6CAE39] font-semibold text-[16px]">
                   <li>100% refund before 48 hours</li>
                   <li>50% refund before 24 hours</li>
                   <li>
-                    Cancellation after the above date will have to
-                    bear additional INR 2000 as convenience fees.
+                    Cancellation after the above date will have to bear
+                    additional INR 2000 as convenience fees.
                   </li>
                   <li>
-                    Any cancellations after the booking date will only get the security deposit amount and not the
-                    rental fare received.
+                    Any cancellations after the booking date will only get the
+                    security deposit amount and not the rental fare received.
                   </li>
                 </div>
               </div>

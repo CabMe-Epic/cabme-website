@@ -9,7 +9,10 @@ import CardListingCards from "@/app/components/card-listing-cards/card-listing-c
 import ThemeButton from "../../components/theme-button/theme-button";
 import CardListingBanner from "@/app/components/car-listing-banner/card-listing-banner";
 import "../../../../networkRequests/types/type";
-import { searchVehicle, searchVehicleNew } from "../../../../networkRequests/hooks/api";
+import {
+  searchVehicle,
+  searchVehicleNew,
+} from "../../../../networkRequests/hooks/api";
 import ModifySearch from "@/app/components/modify-search/modify-search";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import moment from "moment";
@@ -20,9 +23,8 @@ interface VehicleSearchPayload {
   pickUpDateTime: string | null;
   toCity: string | null;
   bookingType: any;
+  driverType: any;
 }
-
-
 
 const ITEMS_PER_PAGE = 8;
 const CarListing = () => {
@@ -48,7 +50,6 @@ const CarListing = () => {
   const [selectedOthers, setSelectedOthers] = useState<any>([]);
   const [priceRange, setPriceRange] = useState<any>(50000);
 
-
   const [carData, setCarData] = useState<any>(null); // Replace with appropriate type
   const [loader, setLoader] = useState<boolean>(false);
 
@@ -56,9 +57,6 @@ const CarListing = () => {
     const date = new Date(dateString);
     return !isNaN(date.getTime());
   };
-
- 
-
 
   const [pickupLocation, setPickupLocation] = useState<any>();
   const [dropoffLocation, setDropoffLocation] = useState<any>();
@@ -105,8 +103,8 @@ const CarListing = () => {
     pickUpDateTime: null,
     dropOffDateTime: null,
     bookingType: bookingOptions,
-    toCity: dropoffLocation
-
+    toCity: dropoffLocation,
+    driverType: null,
   });
 
   // useEffect(() => {
@@ -152,9 +150,10 @@ const CarListing = () => {
       pickUpDateTime: pickupDate,
       dropOffDateTime: dropDate,
       bookingType: bookingOptions,
-      toCity: dropoffLocation
+      toCity: dropoffLocation,
+      driverType: driverType,
     });
-  }, [bookingOptions,dropoffLocation]);
+  }, [bookingOptions, dropoffLocation]);
 
   const handleCategoryCheckboxChange = (category: any) => {
     setSelectedCategories((prevSelected) => {
@@ -226,7 +225,7 @@ const CarListing = () => {
   );
 
   console.log(selectedOthers, "selectedTypes");
-  console.log(filteredItems,"filteredItems")
+  console.log(filteredItems, "filteredItems");
 
   const handleFilterReset = (e: any) => {
     e.preventDefault();
@@ -248,36 +247,56 @@ const CarListing = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Filter items based on isMatchingCriteria
-  const matchingItems = filteredItems?.filter((item: { bookingDate: string | number | Date; available: any; city: any; brandName: any; vehicleSpecifications: { body: any; transmission: any; fuelType: any; }; seatingCapacity: any; carFeatures: { [x: string]: boolean; }; }) => {
-    const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
-    if (dateObject && isNaN(dateObject.getTime())) {
-      console.error('Invalid date object created:', dateObject);
-      return false;
+  const matchingItems = filteredItems?.filter(
+    (item: {
+      bookingDate: string | number | Date;
+      available: any;
+      city: any;
+      brandName: any;
+      vehicleSpecifications: { body: any; transmission: any; fuelType: any };
+      seatingCapacity: any;
+      carFeatures: { [x: string]: boolean };
+    }) => {
+      const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
+      if (dateObject && isNaN(dateObject.getTime())) {
+        console.error("Invalid date object created:", dateObject);
+        return false;
+      }
+
+      const isMatchingCriteria =
+        item?.available &&
+        pickupLocation === item?.city &&
+        (selectedCategories.length === 0 ||
+          selectedCategories.some(
+            (category) => item?.brandName === category
+          )) &&
+        (selectedTypes.length === 0 ||
+          selectedTypes.some(
+            (type: any) => item?.vehicleSpecifications?.body === type
+          )) &&
+        (selectedCapacity.length === 0 ||
+          selectedCapacity.some(
+            (capacity: any) => item?.seatingCapacity === capacity
+          )) &&
+        (selectedTransmission.length === 0 ||
+          selectedTransmission.some(
+            (trans: any) => item?.vehicleSpecifications.transmission === trans
+          )) &&
+        (selectedFuelType.length === 0 ||
+          selectedFuelType.some(
+            (type: any) => item?.vehicleSpecifications.fuelType === type
+          )) &&
+        (selectedOthers.length === 0 ||
+          selectedOthers.every(
+            (feature: string | number) => item?.carFeatures[feature] === true
+          ));
+
+      console.log(isMatchingCriteria, "isMatchingCriteria");
+      return isMatchingCriteria;
     }
+  );
 
-    
-
-    const isMatchingCriteria =
-      item?.available &&
-      pickupLocation === item?.city &&
-      (selectedCategories.length === 0 ||
-        selectedCategories.some((category) => item?.brandName === category)) &&
-      (selectedTypes.length === 0 ||
-        selectedTypes.some((type: any) => item?.vehicleSpecifications?.body === type)) &&
-      (selectedCapacity.length === 0 ||
-        selectedCapacity.some((capacity: any) => item?.seatingCapacity === capacity)) &&
-      (selectedTransmission.length === 0 ||
-        selectedTransmission.some((trans: any) => item?.vehicleSpecifications.transmission === trans)) &&
-      (selectedFuelType.length === 0 ||
-        selectedFuelType.some((type: any) => item?.vehicleSpecifications.fuelType === type)) &&
-      (selectedOthers.length === 0 ||
-        selectedOthers.every((feature: string | number) => item?.carFeatures[feature] === true));
-
-        console.log(isMatchingCriteria,"isMatchingCriteria")
-    return isMatchingCriteria;
-  });
-
-  console.log(matchingItems,"matchingItems")
+  console.log(matchingItems, "matchingItems");
 
   // Calculate total pages based on matching items
   const totalPages = Math.ceil(matchingItems?.length / ITEMS_PER_PAGE);
@@ -296,35 +315,67 @@ const CarListing = () => {
 
   let cardCount = 0;
 
- 
-
-
-
-
-
   useEffect(() => {
-    const getCarDetails = async() => {
-      if (locationData.pickUpDateTime, bookingOptions) {
-        console.log("locationData", locationData);
-        setLoader(true);
-        const getSearchCarData = await searchVehicleNew(locationData);
-        console.log(getSearchCarData, "Car search API response");
-        setCarData(getSearchCarData?.data?.availableVehicles);
+    const getCarDetails = async () => {
+      try {
+        if (
+          bookingOptions === "Self-Driving" ||
+       
+          (bookingOptions === "Driver" &&
+            (driverType === "One-way"))
+        ) {
+          if (
+            locationData.pickUpDateTime &&
+            locationData.toCity &&
+            (bookingOptions ||
+              driverType)
+          ) {
+            console.log("locationData", locationData);
+            setLoader(true);
+            const getSearchCarData = await searchVehicleNew(locationData);
+            console.log(getSearchCarData, "Car search API response");
+            setCarData(getSearchCarData?.data?.availableVehicles);
+          } else {
+            console.error("Missing required location data or booking options", locationData);
+          }
+        }
+
+        if (bookingOptions === "Driver" && (driverType === "Out-station")  && locationData.dropOffDateTime && locationData.driverType) {
+          const getSearchCarData = await searchVehicleNew(locationData);
+          console.log(getSearchCarData, "Car search API response");
+          setCarData(getSearchCarData?.data?.availableVehicles);
+        }
+        if (bookingOptions === "Driver" && (driverType === "Local") && locationData.dropOffDateTime && locationData.driverType) {
+          const getSearchCarData = await searchVehicleNew(locationData);
+          console.log(getSearchCarData, "Car search API response");
+          setCarData(getSearchCarData?.data?.availableVehicles);
+        }
+
+        if(bookingOptions === "Subscription" &&  locationData.dropOffDateTime && locationData.bookingType){
+          const getSearchCarData = await searchVehicleNew(locationData);
+          console.log(getSearchCarData, "Car search API response");
+          setCarData(getSearchCarData?.data?.availableVehicles);
+        }
+
+        else {
+          console.error("Invalid booking options or driver type", { bookingOptions, driverType });
+        }
+      } catch (error) {
+        console.error("Error fetching car details", error);
+      } finally {
         setLoader(false);
-      } else {
-        console.error("Invalid dates provided in payload", locationData);
       }
     };
-    if (locationData.city && locationData.pickUpDateTime && bookingOptions) {
+
+
       getCarDetails();
-    }
-  }, [locationData,bookingOptions ]);
+    
+  }, [locationData, bookingOptions, driverType]);
+
 
   return (
     <div className="max-w-[1450px] m-auto">
-      {
-        loader && <BlinkerLoader />
-      }
+      {loader && <BlinkerLoader />}
       {/* <div
         className="sm:hidden xs:flex p-4 justify-between items-center bg-[url('/png/red-bg.png')] relative"
         style={{ backgroundSize: "100% 100%" }}
@@ -474,301 +525,313 @@ const CarListing = () => {
         </div>
         {/* filters */}
 
-
         <section className="flex  sm:flex-col  sm:m-auto xl:flex-row flex-col items-start xl:justify-between justify-center gap-10">
           <div className="md:mx-[5%] lg:mx-0 !sticky top-16 z-20 xl:hidden ">
-            <div className=" cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white " onClick={() => setShowFilter(!showFilter)}>
-              <Image className="mb-[-6px]" src="/svg/filter.svg" alt="filter" width={16} height={12} />
+            <div
+              className=" cursor-pointer border rounded-lg flex gap-2 w-fit p-2 bg-white "
+              onClick={() => setShowFilter(!showFilter)}
+            >
+              <Image
+                className="mb-[-6px]"
+                src="/svg/filter.svg"
+                alt="filter"
+                width={16}
+                height={12}
+              />
               <span className="text-xs">Filters</span>
             </div>
-            {
-              showFilter ?
-                <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8  sticky left-0 top-24 bg-white z-20 xl:hidden ">
-                  <div>
-                    <h1 className="text-center font-bold">
-                      What Are You Looking For
-                    </h1>
-                  </div>
-                  <div className="relative flex flex-row items-center !justify-center w-[234px] mt-6 bg-white">
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      value={searchTerm}
-                      onChange={handleSearchChange}
-                      className="w-[234px] h-[45px] rounded-md pl-3 border-[#DDD9D9] border-2 outline-0"
-                    />
+            {showFilter ? (
+              <aside className="basis-1 w-[300px] h-full shadow-filter-shadow p-8  sticky left-0 top-24 bg-white z-20 xl:hidden ">
+                <div>
+                  <h1 className="text-center font-bold">
+                    What Are You Looking For
+                  </h1>
+                </div>
+                <div className="relative flex flex-row items-center !justify-center w-[234px] mt-6 bg-white">
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className="w-[234px] h-[45px] rounded-md pl-3 border-[#DDD9D9] border-2 outline-0"
+                  />
+                  <Image
+                    src="/carListing/search.png"
+                    width={20}
+                    height={20}
+                    alt="bluetooth"
+                    className="absolute right-2 top-3 cursor-pointer"
+                  />
+                </div>
+                <hr className="border-[1px] my-6" />
+
+                <div>
+                  <div
+                    onClick={() => {
+                      setShowCarCategory(!showCarCategory);
+                    }}
+                    className="flex flex-row items-center justify-between cursor-pointer"
+                  >
+                    <span className="font-bold">Car Brand</span>
                     <Image
-                      src="/carListing/search.png"
+                      src="/carListing/blackArrow.svg"
                       width={20}
                       height={20}
                       alt="bluetooth"
-                      className="absolute right-2 top-3 cursor-pointer"
                     />
                   </div>
-                  <hr className="border-[1px] my-6" />
-
-                  <div>
-                    <div
-                      onClick={() => {
-                        setShowCarCategory(!showCarCategory);
-                      }}
-                      className="flex flex-row items-center justify-between cursor-pointer"
-                    >
-                      <span className="font-bold">Car Brand</span>
-                      <Image
-                        src="/carListing/blackArrow.svg"
-                        width={20}
-                        height={20}
-                        alt="bluetooth"
-                      />
-                    </div>
-                    {showCarCategory ? (
-                      <div className="h-auto mt-4 overflow-auto scrollbar scroll-smooth	">
-                        {carCategory?.map((item: any, index: number) => {
-                          const isChecked = selectedCategories.includes(
-                            item?.category
-                          );
-                          return (
-                            <div className="flex flex-row gap-2 mb-4" key={index}>
-                              <input
-                                type="checkbox"
-                                className="accent-[#ff0000] p-2 size-5 cursor-pointer cursor-pointer"
-                                checked={isChecked}
-                                onChange={() =>
-                                  handleCategoryCheckboxChange(item?.category)
-                                }
-                              />
-                              <span className="text-sm text-[#555151]">
-                                {item?.category}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
-                    <hr className="my-5" />
-                  </div>
-                  {/*  */}
-                  <div>
-                    <div
-                      onClick={() => setShowCarType(!showCarType)}
-                      className="flex flex-row items-center justify-between cursor-pointer"
-                    >
-                      <span className="font-bold">Car Type</span>
-                      <Image
-                        src="/carListing/blackArrow.svg"
-                        width={20}
-                        height={20}
-                        alt="bluetooth"
-                      />
-                    </div>
-                    {showCarType ? (
-                      <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
-                        {carType.map((item, index) => {
-                          const isChecked = selectedTypes.includes(item.type);
-                          return (
-                            <div className="flex flex-row gap-2 mb-4" key={index}>
-                              <input
-                                type="checkbox"
-                                className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                                checked={isChecked}
-                                onChange={() => handleTypeCheckboxChange(item.type)}
-                              />
-                              <span className="text-sm text-[#555151]">
-                                {item.type}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
-                    <hr className="my-5" />
-                  </div>
-                  {/*  */}
-                  <div>
-                    <div
-                      onClick={() => setShowCapacity(!showCapacity)}
-                      className="flex flex-row items-center justify-between cursor-pointer"
-                    >
-                      <span className="font-bold">Passenger Capacity</span>
-                      <Image
-                        src="/carListing/blackArrow.svg"
-                        width={20}
-                        height={20}
-                        alt="bluetooth"
-                      />
-                    </div>
-                    {showCapacity ? (
-                      <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
-                        {carCapacity?.map((item, index) => {
-                          const isChecked = selectedCapacity.includes(item.capacity);
-                          return (
-                            <div className="flex flex-row gap-2 mb-4" key={index}>
-                              <input
-                                type="checkbox"
-                                className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                                checked={isChecked}
-                                onChange={() =>
-                                  handleCapacityCheckboxChange(item?.capacity)
-                                }
-                              />
-                              <span className="text-sm text-[#555151]">
-                                {item?.capacity}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
-                    <hr className="my-5" />
-                  </div>
-                  {/*  */}
-                  <div>
-                    <div
-                      onClick={() => setShowPriceRange(!showPriceRange)}
-                      className="flex flex-row items-center justify-between cursor-pointer"
-                    >
-                      <span className="font-bold">Price Range</span>
-                      <Image
-                        src="/carListing/blackArrow.svg"
-                        width={20}
-                        height={20}
-                        alt="bluetooth"
-                      />
-                    </div>
-                    {showPriceRange ? (
-                      <div>
-                        <input
-                          type="range"
-                          name=""
-                          min="10000"
-                          max="50000"
-                          className="w-full my-3 accent-[#ff0000]"
-                          id=""
-                        />
-                        <div className="flex flex-row gap-4">
-                          <div className="flex flex-col">
-                            <span>MIN</span>
-                            <select
-                              name=""
-                              id=""
-                              className="bg-[#fff] border-[#DDD9D9]  p-1 w-[100px] h-[42px] border-b-2 outline-0"
-                            >
-                              <option value="10,000">₹ 10,000</option>
-                            </select>
+                  {showCarCategory ? (
+                    <div className="h-auto mt-4 overflow-auto scrollbar scroll-smooth	">
+                      {carCategory?.map((item: any, index: number) => {
+                        const isChecked = selectedCategories.includes(
+                          item?.category
+                        );
+                        return (
+                          <div className="flex flex-row gap-2 mb-4" key={index}>
+                            <input
+                              type="checkbox"
+                              className="accent-[#ff0000] p-2 size-5 cursor-pointer cursor-pointer"
+                              checked={isChecked}
+                              onChange={() =>
+                                handleCategoryCheckboxChange(item?.category)
+                              }
+                            />
+                            <span className="text-sm text-[#555151]">
+                              {item?.category}
+                            </span>
                           </div>
-                          <div className="flex flex-col">
-                            <span>MAX</span>
-                            <select
-                              name=""
-                              id=""
-                              className="bg-[#fff] border-[#DDD9D9] p-1 w-[100px] h-[42px] border-b-2 outline-0"
-                            >
-                              <option value="50,000">₹ 50,000</option>
-                            </select>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  <hr className="my-5" />
+                </div>
+                {/*  */}
+                <div>
+                  <div
+                    onClick={() => setShowCarType(!showCarType)}
+                    className="flex flex-row items-center justify-between cursor-pointer"
+                  >
+                    <span className="font-bold">Car Type</span>
+                    <Image
+                      src="/carListing/blackArrow.svg"
+                      width={20}
+                      height={20}
+                      alt="bluetooth"
+                    />
+                  </div>
+                  {showCarType ? (
+                    <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
+                      {carType.map((item, index) => {
+                        const isChecked = selectedTypes.includes(item.type);
+                        return (
+                          <div className="flex flex-row gap-2 mb-4" key={index}>
+                            <input
+                              type="checkbox"
+                              className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                              checked={isChecked}
+                              onChange={() =>
+                                handleTypeCheckboxChange(item.type)
+                              }
+                            />
+                            <span className="text-sm text-[#555151]">
+                              {item.type}
+                            </span>
                           </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  <hr className="my-5" />
+                </div>
+                {/*  */}
+                <div>
+                  <div
+                    onClick={() => setShowCapacity(!showCapacity)}
+                    className="flex flex-row items-center justify-between cursor-pointer"
+                  >
+                    <span className="font-bold">Passenger Capacity</span>
+                    <Image
+                      src="/carListing/blackArrow.svg"
+                      width={20}
+                      height={20}
+                      alt="bluetooth"
+                    />
+                  </div>
+                  {showCapacity ? (
+                    <div className="h-auto overflow-auto scrollbar scroll-smooth mt-4">
+                      {carCapacity?.map((item, index) => {
+                        const isChecked = selectedCapacity.includes(
+                          item.capacity
+                        );
+                        return (
+                          <div className="flex flex-row gap-2 mb-4" key={index}>
+                            <input
+                              type="checkbox"
+                              className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                              checked={isChecked}
+                              onChange={() =>
+                                handleCapacityCheckboxChange(item?.capacity)
+                              }
+                            />
+                            <span className="text-sm text-[#555151]">
+                              {item?.capacity}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  <hr className="my-5" />
+                </div>
+                {/*  */}
+                <div>
+                  <div
+                    onClick={() => setShowPriceRange(!showPriceRange)}
+                    className="flex flex-row items-center justify-between cursor-pointer"
+                  >
+                    <span className="font-bold">Price Range</span>
+                    <Image
+                      src="/carListing/blackArrow.svg"
+                      width={20}
+                      height={20}
+                      alt="bluetooth"
+                    />
+                  </div>
+                  {showPriceRange ? (
+                    <div>
+                      <input
+                        type="range"
+                        name=""
+                        min="10000"
+                        max="50000"
+                        className="w-full my-3 accent-[#ff0000]"
+                        id=""
+                      />
+                      <div className="flex flex-row gap-4">
+                        <div className="flex flex-col">
+                          <span>MIN</span>
+                          <select
+                            name=""
+                            id=""
+                            className="bg-[#fff] border-[#DDD9D9]  p-1 w-[100px] h-[42px] border-b-2 outline-0"
+                          >
+                            <option value="10,000">₹ 10,000</option>
+                          </select>
                         </div>
-                      </div>)
-
-                      :
-                      ""
-                    }
-
-                    <hr className="my-5" />
-                  </div>
-                  {/*  */}
-                  <div>
-                    <div
-                      onClick={() => setShowTransmission(!showTransmission)}
-                      className="flex flex-row items-center justify-between cursor-pointer"
-                    >
-                      <span className="font-bold">Transmission Type</span>
-                      <Image
-                        src="/carListing/blackArrow.svg"
-                        width={20}
-                        height={20}
-                        alt="bluetooth"
-                      />
-                    </div>
-                    {showTransmission ? (
-                      <div className="h-[100px] overflow-auto scrollbar scroll-smooth	">
-                        {Transmissions.map((item: any, index: any) => {
-                          const isChecked = selectedTransmission.includes(item.trans);
-                          return (
-                            <div className="flex flex-row gap-2 my-4" key={index}>
-                              <input
-                                type="checkbox"
-                                className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                                checked={isChecked}
-                                onChange={() =>
-                                  handleTransmissionCheckboxChange(item?.trans)
-                                }
-                              />
-                              <span className="text-sm text-[#555151]">
-                                {item?.trans}
-                              </span>
-                            </div>
-                          );
-                        })}
+                        <div className="flex flex-col">
+                          <span>MAX</span>
+                          <select
+                            name=""
+                            id=""
+                            className="bg-[#fff] border-[#DDD9D9] p-1 w-[100px] h-[42px] border-b-2 outline-0"
+                          >
+                            <option value="50,000">₹ 50,000</option>
+                          </select>
+                        </div>
                       </div>
-                    ) : (
-                      ""
-                    )}
-
-                    <hr className="my-5" />
-                  </div>
-                  {/*  */}
-                  <div>
-                    <div
-                      onClick={() => setShowFuelType(!showFuelType)}
-                      className="flex flex-row items-center justify-between cursor-pointer"
-                    >
-                      <span className="font-bold">Fuel Type</span>
-                      <Image
-                        src="/carListing/blackArrow.svg"
-                        width={20}
-                        height={20}
-                        alt="bluetooth"
-                      />
                     </div>
-                    {showFuelType ? (
-                      <div className="h-[188px] overflow-auto scrollbar scroll-smooth	">
-                        {FuelType.map((item, index) => {
-                          const isChecked = selectedFuelType.includes(item.type);
-                          return (
-                            <div className="flex flex-row gap-2 my-4" key={index}>
-                              <input
-                                type="checkbox"
-                                className="accent-[#ff0000] p-2 size-5 cursor-pointer"
-                                checked={isChecked}
-                                onChange={() =>
-                                  handleFuelTypeCheckboxChange(item?.type)
-                                }
-                              />
-                              <span className="text-sm text-[#555151]">
-                                {item.type}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      ""
-                    )}
+                  ) : (
+                    ""
+                  )}
 
-                    <hr className="my-5" />
+                  <hr className="my-5" />
+                </div>
+                {/*  */}
+                <div>
+                  <div
+                    onClick={() => setShowTransmission(!showTransmission)}
+                    className="flex flex-row items-center justify-between cursor-pointer"
+                  >
+                    <span className="font-bold">Transmission Type</span>
+                    <Image
+                      src="/carListing/blackArrow.svg"
+                      width={20}
+                      height={20}
+                      alt="bluetooth"
+                    />
                   </div>
-                  {/*  */}
-                  {/* <div>
+                  {showTransmission ? (
+                    <div className="h-[100px] overflow-auto scrollbar scroll-smooth	">
+                      {Transmissions.map((item: any, index: any) => {
+                        const isChecked = selectedTransmission.includes(
+                          item.trans
+                        );
+                        return (
+                          <div className="flex flex-row gap-2 my-4" key={index}>
+                            <input
+                              type="checkbox"
+                              className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                              checked={isChecked}
+                              onChange={() =>
+                                handleTransmissionCheckboxChange(item?.trans)
+                              }
+                            />
+                            <span className="text-sm text-[#555151]">
+                              {item?.trans}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  <hr className="my-5" />
+                </div>
+                {/*  */}
+                <div>
+                  <div
+                    onClick={() => setShowFuelType(!showFuelType)}
+                    className="flex flex-row items-center justify-between cursor-pointer"
+                  >
+                    <span className="font-bold">Fuel Type</span>
+                    <Image
+                      src="/carListing/blackArrow.svg"
+                      width={20}
+                      height={20}
+                      alt="bluetooth"
+                    />
+                  </div>
+                  {showFuelType ? (
+                    <div className="h-[188px] overflow-auto scrollbar scroll-smooth	">
+                      {FuelType.map((item, index) => {
+                        const isChecked = selectedFuelType.includes(item.type);
+                        return (
+                          <div className="flex flex-row gap-2 my-4" key={index}>
+                            <input
+                              type="checkbox"
+                              className="accent-[#ff0000] p-2 size-5 cursor-pointer"
+                              checked={isChecked}
+                              onChange={() =>
+                                handleFuelTypeCheckboxChange(item?.type)
+                              }
+                            />
+                            <span className="text-sm text-[#555151]">
+                              {item.type}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  <hr className="my-5" />
+                </div>
+                {/*  */}
+                {/* <div>
             <div className="flex flex-row items-center justify-between cursor-pointer">
               <span className="font-bold">Conditions</span>
               <Image
@@ -811,8 +874,8 @@ const CarListing = () => {
             </div>
             <hr className="my-5" />
           </div> */}
-                  {/*  */}
-                  {/* <div>
+                {/*  */}
+                {/* <div>
             <div
               onClick={() => setShowOther(!showOthers)}
               className="flex flex-row items-center justify-between cursor-pointer"
@@ -853,24 +916,25 @@ const CarListing = () => {
 
             <hr className="my-5" />
           </div> */}
-                  {/*  */}
+                {/*  */}
 
-                  <div>
-                    <ThemeButton
-                      text="Filter Results"
-                      className=" sm:px-6 !px-2 sm:text-sm text-xs h-[50px] flex flex-row justify-center !text-center !text-[14px] w-[227px]"
-                    />
-                  </div>
-                  <div>
-                    <ThemeButton
-                      onClick={handleFilterReset}
-                      text="Reset Filter"
-                      className="font-semibold sm:px-6 !px-2 sm:text-sm text-xs h-[50px] flex flex-row justify-center !text-center !text-[14px] w-[227px] !text-[#ff0000] !bg-[#fff]"
-                    />
-                  </div>
-                </aside>
-                : ""
-            }
+                <div>
+                  <ThemeButton
+                    text="Filter Results"
+                    className=" sm:px-6 !px-2 sm:text-sm text-xs h-[50px] flex flex-row justify-center !text-center !text-[14px] w-[227px]"
+                  />
+                </div>
+                <div>
+                  <ThemeButton
+                    onClick={handleFilterReset}
+                    text="Reset Filter"
+                    className="font-semibold sm:px-6 !px-2 sm:text-sm text-xs h-[50px] flex flex-row justify-center !text-center !text-[14px] w-[227px] !text-[#ff0000] !bg-[#fff]"
+                  />
+                </div>
+              </aside>
+            ) : (
+              ""
+            )}
           </div>
 
           <aside className="basis-1 hidden xl:block w-[300px] h-full shadow-filter-shadow p-8  left-0 top-20 bg-white sm:hidden ">
@@ -1067,11 +1131,10 @@ const CarListing = () => {
                       </select>
                     </div>
                   </div>
-                </div>)
-
-                :
+                </div>
+              ) : (
                 ""
-              }
+              )}
 
               <hr className="my-5" />
             </div>
@@ -1260,44 +1323,62 @@ const CarListing = () => {
             </div>
           </aside>
           <div className="m-auto lg:w-[73%] w-full">
-            {paginatedItems?.map((item: { bookingDate: string | number | Date; id: any; }, index: any) => {
-              const dateObject = item.bookingDate ? new Date(item.bookingDate) : null;
-              let dateOnly = '';
-              if (dateObject && !isNaN(dateObject.getTime())) {
-                dateOnly = dateObject.toISOString().split('T')[0];
-              }
+            {paginatedItems?.map(
+              (
+                item: { bookingDate: string | number | Date; id: any },
+                index: any
+              ) => {
+                const dateObject = item.bookingDate
+                  ? new Date(item.bookingDate)
+                  : null;
+                let dateOnly = "";
+                if (dateObject && !isNaN(dateObject.getTime())) {
+                  dateOnly = dateObject.toISOString().split("T")[0];
+                }
 
-              cardCount++;
-              return (
-                <div key={`fragment-${item.id}`}>
-                  <CardListingCards key={`card-${item.id}`} data={item} />
-                  {dateOnly === pickUpDate && (
-                    <CardListingCards key={`card-date-${item.id}`} data={item} />
-                  )}
-                  {cardCount % 2 === 0 && <CardListingBanner count={cardCount} />}
-                </div>
-              );
-            })}
+                cardCount++;
+                return (
+                  <div key={`fragment-${item.id}`}>
+                    <CardListingCards key={`card-${item.id}`} data={item} />
+                    {dateOnly === pickUpDate && (
+                      <CardListingCards
+                        key={`card-date-${item.id}`}
+                        data={item}
+                      />
+                    )}
+                    {cardCount % 2 === 0 && (
+                      <CardListingBanner count={cardCount} />
+                    )}
+                  </div>
+                );
+              }
+            )}
 
             <div className="pagination flex items-center justify-center space-x-2 mt-4">
               <button
-                className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === 1 ? 'text-gray-400' : 'text-gray-700'}`}
+                className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === 1 ? "text-gray-400" : "text-gray-700"
+                  }`}
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
               >
                 &larr; Prev
               </button>
-              {totalPages > 0 && [...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-10 h-10 border rounded-md ${currentPage === index + 1 ? 'bg-primary-color text-white' : 'bg-white text-gray-700'}`}
-                  onClick={() => setCurrentPage(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              ))}
+              {totalPages > 0 &&
+                [...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    className={`w-10 h-10 border rounded-md ${currentPage === index + 1
+                      ? "bg-primary-color text-white"
+                      : "bg-white text-gray-700"
+                      }`}
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
               <button
-                className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === totalPages ? 'text-gray-400' : 'text-gray-700'}`}
+                className={`px-4 py-2 border rounded-md whitespace-nowrap ${currentPage === totalPages ? "text-gray-400" : "text-gray-700"
+                  }`}
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages}
               >
@@ -1305,8 +1386,6 @@ const CarListing = () => {
               </button>
             </div>
           </div>
-
-
         </section>
       </main>
     </div>

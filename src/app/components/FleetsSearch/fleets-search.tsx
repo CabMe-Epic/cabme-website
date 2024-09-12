@@ -110,6 +110,8 @@ export default function Home() {
       alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
       return;
     }
+
+    
     
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
@@ -144,6 +146,14 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     console.log(pickupDate, pickupTime, "ddd");
 
+    if(tabValue == "Self-Driving"){
+      localStorage.setItem("radioToggle", "");
+
+    }
+
+    if(tabValue == "Subscription"){
+      localStorage.setItem("radioToggle", "");
+    }
     
 
 
@@ -219,6 +229,14 @@ export default function Home() {
 
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
+    }
+    
+    if(tabValue == "Self-Driving"){
+      localStorage.setItem("radioToggle", "");
+    }
+
+    if(tabValue == "Subscription"){
+      localStorage.setItem("radioToggle", "");
     }
 
     router.push("/car-listing");
@@ -914,41 +932,7 @@ export default function Home() {
                                     />
                                   </div>
                                 )}
-                                {/* {item?.id === "date" && (
-                                                    <div className=" gap-2 mt-2 w-[100%]">
-                                                        
-                                                        <DatePicker
-                                                            className="cursor-pointer datepickerinput w-full !p-2"
-                                                            selected={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? startDate
-                                                                    : dropDate
-                                                            }
-                                                            onChange={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? (date) => hanldepickupTime(date)
-                                                                    : (date) => hanldedropoffTime(date)
-                                                            }
-                                                            showTimeSelect
-                                                            filterTime={filterPassedTime}
-                                                            dateFormat="MMMM d, yyyy h:mm aa"
-                                                            placeholderText="Enter Date & Time"
-                                                            onKeyDown={(event) => event?.preventDefault()}
-                                                            minDate={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? new Date() 
-                                                                    : startDate
-                                                                        ? new Date(startDate)
-                                                                        : new Date() 
-                                                            }
-                                                            maxDate={
-                                                                item?.heading === "Pick Up Date"
-                                                                    ? dropDate || null 
-                                                                    : null
-                                                            }
-                                                        />
-                                                    </div>
-                                                )} */}
+                               
                               </div>
                             </div>
                           )}
@@ -1934,7 +1918,8 @@ export default function Home() {
               </>
             )}
           </div>
-        )}{
+        )}
+        {
           tabValue !== "Driver" && tabValue !== "Subscription"
           && <strong
             onClick={(e) => handleDropSelectPopupLocation(e)}
