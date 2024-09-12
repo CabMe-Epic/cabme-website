@@ -106,10 +106,10 @@ export default function Home() {
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
     
-    // if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
-    //   alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
-    //   return;
-    // }
+    if (isNaN(pickupDateTime.getTime())) {
+      alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+      return;
+    }
     
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
@@ -185,10 +185,10 @@ export default function Home() {
       return;
     }
     
-    // if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
-    //   alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
-    //   return;
-    // }
+    if (isNaN(pickupDateTime.getTime())) {
+      alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+      return;
+    }
     
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
