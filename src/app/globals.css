@@ -310,7 +310,7 @@ body{
 
 @media (max-width: 600px) {
   .modify-search .react-datepicker-wrapper input{
-    width: 355px !important;
+    width: 315px !important;
     font-size: 12px !important;
   }
 }

@@ -358,7 +358,7 @@ const CardListingCards = ({ data }: any) => {
 
                           }}
                           className={` sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg 
-                            lg:w-[230px]  w-[120px] sm:h-[71px] cursor-pointer ${clicked1
+                            lg:w-[230px]  w-[108px] sm:h-[71px] cursor-pointer ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -432,7 +432,7 @@ const CardListingCards = ({ data }: any) => {
                               );
                             }
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[120px] sm:h-[71px] cursor-pointer ${clicked2
+                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[108px] sm:h-[71px] cursor-pointer ${clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -507,7 +507,7 @@ const CardListingCards = ({ data }: any) => {
                               );
                             }
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[120px] sm:h-[71px] cursor-pointer ${clicked3
+                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[108px] sm:h-[71px] cursor-pointer ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
