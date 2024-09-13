@@ -273,6 +273,7 @@ const Checkout = () => {
     gstAmount: Number(bookingData?.gstAmount),
     insuranceGST: bookingData?.insuranceGST,
     refundableDeposit: Number(bookingData?.refundableDeposit),
+    note: data?.note,
     toCity: toCity,
     kmsLimit: Number(packageFreeKms),
     fuel: bookingData?.fuel,

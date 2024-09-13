@@ -74,6 +74,7 @@ const CarDetails = () => {
   const [radioToggle, setRadioToggle] = useState<any>();
   const [currentPackage, setCurrentPackage] = useState<any>(0);
   const [showDoorStep, setShowDoorStep] = useState(false);
+  const [bookingNote, setBookingNote] = useState<any>("");
 
   const handleShowDoorstepPopup = () => {
     setShowDoorStep(true);
@@ -107,6 +108,7 @@ const CarDetails = () => {
   const [pickupDate, setPickupDate] = useState<any>();
   const [dropoffDate, setDropoffDate] = useState<any>();
   const [packagePrice, setPackagePrice] = useState<any>();
+  const [freeKms, setFreeKms] = useState<any>(0);
   const [bookingOpt, setBookingOpt] = useState<any>();
 
   const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>();
@@ -239,6 +241,7 @@ const CarDetails = () => {
     fuel: carDetails?.extraService?.fuel,
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
+    note: bookingNote || "",
     promocode: {
       code: selectedPromocodeOption ? selectedPromocodeOption : null,
       discountType: selectedDiscountType ? selectedDiscountType : null,
@@ -357,13 +360,13 @@ const CarDetails = () => {
     });
     carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
       ? setCurrentPackage(
-        carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
-      )
-      : setCurrentPackage(
-        carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find(
-          (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
+          carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
         )
-      );
+      : setCurrentPackage(
+          carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find(
+            (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
+          )
+        );
   }, [locationData, slug, dropoffLocation]);
 
   console.log(dropoffLocation, "dropoffLocation");
@@ -375,8 +378,10 @@ const CarDetails = () => {
     const storedDropoffTime = localStorage.getItem("dropoffTime");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
     const dropLoc = localStorage.getItem("dropOffLocation");
+    const freekms = localStorage.getItem("selectedPackageFreeKms");
 
     setPackagePrice(selectedPackagePrice);
+    setFreeKms(freekms);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setDropoffTime(storedDropoffTime);
@@ -421,14 +426,14 @@ const CarDetails = () => {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage(
-              carDetails?.bookingOptions?.withDriver?.local?.packageType
-            )
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage(
+            carDetails?.bookingOptions?.withDriver?.local?.packageType
+          )
+        : "";
     }
   }, [carDetails]);
   if (loading) {
@@ -444,10 +449,22 @@ const CarDetails = () => {
   }
 
   // console.log({ selectedPackageAmount })
-  const handlePriceChange = (updatedPrice: any) => {
+  const handlePriceChange = (updatedPrice: any, name: any) => {
     setSelectedPackageAmount(updatedPrice);
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice);
+    console.log(name, "packagename");
+
+    if (name == "Package 1") {
+      setFreeKms(package1FreeKms);
+    }
+    if (name == "Package 2") {
+      setFreeKms(package2FreeKms);
+    }
+    if (name == "Package 3") {
+      setFreeKms(package3FreeKms);
+    }
+    // setFreeKms()
   };
 
   const paymentExcludedTax =
@@ -472,6 +489,22 @@ const CarDetails = () => {
   // if advance_Payment is nan then don't return the advance_payment value
   const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
   console.log("advancePayment", { advancePayment });
+
+  const package1FreeKms =
+    (
+      currentPackage?.package1?.kmsLimit *
+      (((days as number) + hours / 24) as number)
+    ).toFixed(0) || 0;
+  const package2FreeKms =
+    (
+      currentPackage?.package2?.kmsLimit *
+      (((days as number) + hours / 24) as number)
+    ).toFixed(0) || 0;
+  const package3FreeKms =
+    (
+      currentPackage?.package3?.kmsLimit *
+      (((days as number) + hours / 24) as number)
+    ).toFixed(0) || 0;
 
   // console.log("paymentExcludedTax tas",{paymentExcludedTax})
 
@@ -620,39 +653,67 @@ const CarDetails = () => {
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" && radioToggle === "Local")) && (
-                    <div className="my-5 flex justify-between items-center w-full text-[14px] sm:text-[16px]">
-                      <span className="font-semibold">Package Name</span>
-                      <select
-                        name="package"
-                        id="package"
-                        className="cursor-pointer w-[180px] sm:w-[w-350px] text-[14px] sm:text-[16px] p-2 rounded-md font-semibold outline-none"
-                        onChange={(event) =>
-                          handlePriceChange(event?.target?.value)
+                  <div className="my-5 flex justify-between items-center w-full text-[14px] sm:text-[16px]">
+                    <span className="font-semibold">Package Name</span>
+                    <select
+                      name="package"
+                      id="package"
+                      className="cursor-pointer w-[180px] sm:w-[w-350px] text-[14px] sm:text-[16px] p-2 rounded-md font-semibold outline-none"
+                      onChange={(event) => {
+                        const selectedValue = event.target.value;
+                        let packageName = "";
+
+                        // Determine the package name based on the selected value
+                        switch (selectedValue) {
+                          case roundPrice(package1Price).toString():
+                            packageName = "Package 1";
+                            break;
+                          case roundPrice(package2Price).toString():
+                            packageName = "Package 2";
+                            break;
+                          case roundPrice(package3Price).toString():
+                            packageName = "Package 3";
+                            break;
+                          default:
+                            packageName = "Select Package";
                         }
-                      >
-                        <option value={packagePrice}>
-                          {packagePrice !== undefined
-                            ? `₹${packagePrice}`
-                            : "Select Package"}
-                        </option>
-                        <option value={roundPrice(package1Price)}>
-                          ₹{roundPrice(package1Price)}
-                        </option>
-                        <option value={roundPrice(package2Price)}>
-                          ₹{roundPrice(package2Price)}
-                        </option>
-                        <option value={roundPrice(package3Price)}>
-                          ₹{roundPrice(package3Price)}
-                        </option>
-                      </select>
-                    </div>
-                  )}
+
+                        // Send the selected package name and price
+                        handlePriceChange(selectedValue, packageName);
+                      }}
+                    >
+                      <option value={packagePrice}>
+                        {packagePrice !== undefined
+                          ? `₹${packagePrice}`
+                          : "Select Package"}
+                      </option>
+                      <option value={roundPrice(package1Price)}>
+                        ₹{roundPrice(package1Price)}
+                      </option>
+                      <option value={roundPrice(package2Price)}>
+                        ₹{roundPrice(package2Price)}
+                      </option>
+                      <option value={roundPrice(package3Price)}>
+                        ₹{roundPrice(package3Price)}
+                      </option>
+                    </select>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 gap-4 mt-0 font-semibold text-[14px] sm:text-[18px]">
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                     <span>Package Amount</span>
                     <span>₹{roundPrice(packagePrice)}</span>
                   </div>
+                  {tabValue == "Self-Driving" && (
+                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                      <span>Free Kms</span>
+                      <span>
+                        {" "}
+                        {freeKms != 0 ? `${freeKms}km` : "Unlimited"}
+                      </span>
+                    </div>
+                  )}
 
                   {selectedTabValue !== "Driver" &&
                     selectedTabValue !== "Subscription" && (
@@ -734,23 +795,35 @@ const CarDetails = () => {
 
                   {(tabValue === "Self-Driving" ||
                     tabValue === "Subscription") && (
-                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
-                        <span>Fuel</span>
-                        <span>{currentPackage?.fuel}</span>
-                      </div>
-                    )}
+                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                      <span>Fuel</span>
+                      <span>{currentPackage?.fuel}</span>
+                    </div>
+                  )}
 
                   {(tabValue === "Self-Driving" ||
                     tabValue === "Subscription") && (
-                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
-                        <span>Extra kms charge</span>
-                        <span>₹{currentPackage?.extraKmsCharge}</span>
-                      </div>
-                    )}
+                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                      <span>Extra kms charge</span>
+                      <span>₹{currentPackage?.extraKmsCharge}</span>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                     <span>Tolls, Parking & Inner-state taxes</span>
                     <span>{currentPackage?.tollsParkingTaxes}</span>
+                  </div>
+                  <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px]">
+                    <span>Note</span>
+                    <span>
+                      <textarea
+                        name=""
+                        id=""
+                        value={bookingNote}
+                        onChange={(e) => setBookingNote(e.target.value)}
+                        className="w-full rounded-md outline-none text-[#000000] font-normal text-sm p-2"
+                      ></textarea>
+                    </span>
                   </div>
                 </div>
 
@@ -759,37 +832,38 @@ const CarDetails = () => {
                   (tabValue === "Driver" &&
                     (radioToggle === "One-way" ||
                       radioToggle === "Local"))) && (
-                    <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
-                      {currentPackage?.gst === "Excluded" && (
-                        <div className="flex flex-col">
-                          <span className="text-sm md:text-md">Total Amount</span>
-                          <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                            ₹ {roundPrice(totalExcludedGSTAmount)}
-                          </span>
-                        </div>
-                      )}
-                      {currentPackage?.gst === "Included" && (
-                        <div className="flex flex-col">
-                          <span className="text-sm md:text-md">Total Amount</span>
-                          <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                            ₹ {roundPrice(totalIncludedGSTAmount)}
-                          </span>
-                        </div>
-                      )}
-                      <button
-                        onClick={handleProceedTotal}
-                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white font-semibold sm:text-2xl px-6 py-2 rounded-full drop-shadow-lg"
-                      >
-                        Proceed
-                      </button>
-                    </div>
-                  )}
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
+                    {currentPackage?.gst === "Excluded" && (
+                      <div className="flex flex-col">
+                        <span className="text-sm md:text-md">Total Amount</span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                          ₹ {roundPrice(totalExcludedGSTAmount)}
+                        </span>
+                      </div>
+                    )}
+                    {currentPackage?.gst === "Included" && (
+                      <div className="flex flex-col">
+                        <span className="text-sm md:text-md">Total Amount</span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                          ₹ {roundPrice(totalIncludedGSTAmount)}
+                        </span>
+                      </div>
+                    )}
+                    <button
+                      onClick={handleProceedTotal}
+                      className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white font-semibold sm:text-2xl px-6 py-2 rounded-full drop-shadow-lg"
+                    >
+                      Proceed
+                    </button>
+                  </div>
+                )}
 
                 <div
-                  className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${tabValue === "Driver" &&
+                  className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
+                    tabValue === "Driver" &&
                     radioToggle === "Out-station" &&
                     "mt-4"
-                    }`}
+                  }`}
                 >
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" &&
@@ -797,7 +871,7 @@ const CarDetails = () => {
                         <span className="font-bold text-md">
                           Pay ₹
                           {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
-                            2000
+                          2000
                             ? roundPrice(Number(ThirtyDiscountForInculdedTax))
                             : roundPrice(totalIncludedGSTAmount)}
                           Now
@@ -812,10 +886,11 @@ const CarDetails = () => {
                     {currentPackage?.gst === "Excluded" &&
                       selectedTabValue === "Driver" && (
                         <span
-                          className={`font-bold text-md ${tabValue === "Driver" &&
+                          className={`font-bold text-md ${
+                            tabValue === "Driver" &&
                             radioToggle === "Out-station" &&
                             "text-2xl"
-                            }`}
+                          }`}
                         >
                           Pay ₹ {Driver15k}
                         </span>
@@ -823,10 +898,11 @@ const CarDetails = () => {
                     {currentPackage?.gst === "Included" &&
                       selectedTabValue === "Driver" && (
                         <span
-                          className={`font-bold text-md ${tabValue === "Driver" &&
+                          className={`font-bold text-md ${
+                            tabValue === "Driver" &&
                             radioToggle === "Out-station" &&
                             "text-2xl"
-                            }`}
+                          }`}
                         >
                           Pay ₹ {Driver15k}
                         </span>
@@ -836,24 +912,24 @@ const CarDetails = () => {
                       (tabValue === "Driver" &&
                         (radioToggle === "One-way" ||
                           radioToggle === "Local"))) && (
-                        <span className="text-[#ff0000] font-semibold text-[15px]">
-                          ₹
-                          {currentPackage?.gst === "Excluded" &&
+                      <span className="text-[#ff0000] font-semibold text-[12px] sm:text-[15px]">
+                        ₹
+                        {currentPackage?.gst === "Excluded" &&
+                        selectedTabValue !== "Driver"
+                          ? balance_paymentExculded.toFixed(0)
+                          : currentPackage?.gst === "Included" &&
                             selectedTabValue !== "Driver"
-                            ? balance_paymentExculded.toFixed(0)
-                            : currentPackage?.gst === "Included" &&
-                              selectedTabValue !== "Driver"
-                              ? balance_paymentIncluded.toFixed(0)
-                              : currentPackage?.gst === "Excluded" &&
-                                selectedTabValue === "Driver"
-                                ? balance_driverExclude.toFixed(0)
-                                : currentPackage?.gst === "Included" &&
-                                  selectedTabValue === "Driver"
-                                  ? balance_driverInclude.toFixed(0)
-                                  : ""} {" "}
-                          Balance on Delivery
-                        </span>
-                      )}
+                          ? balance_paymentIncluded.toFixed(0)
+                          : currentPackage?.gst === "Excluded" &&
+                            selectedTabValue === "Driver"
+                          ? balance_driverExclude.toFixed(0)
+                          : currentPackage?.gst === "Included" &&
+                            selectedTabValue === "Driver"
+                          ? balance_driverInclude.toFixed(0)
+                          : ""}{" "}
+                        Balance on Delivery
+                      </span>
+                    )}
                   </div>
                   <button
                     onClick={handleProceed}
@@ -865,23 +941,38 @@ const CarDetails = () => {
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
-            <div className="p-6 sm:px-10  ">
-              <div className="flex gap-2 items-start">
-                <Image src="/clock.png" alt=" " width={30} height={30} />
-                <div className="flex flex-col gap-2 text-justify text-[#6CAE39] font-semibold text-[16px]">
-                  <li>100% refund before 48 hours</li>
-                  <li>50% refund before 24 hours</li>
-                  <li>
+            <div className="p-6 sm:px-10 bg-white rounded-lg ">
+              <div className="flex gap-4 items-start w-[350px] sm:w-[420px] text-justify">
+                <Image
+                  src="/clock.png"
+                  alt="Clock Icon"
+                  width={30}
+                  height={30}
+                  className="mt-1"
+                />
+                <ul className="flex flex-col gap-3 text-left text-gray-800 font-medium text-[15px] leading-relaxed">
+                  <li className="flex items-center gap-2 text-[#6CAE39]">
+                    <span className="text-[#6CAE39] font-bold">•</span>
+                    100% refund before 48 hours
+                  </li>
+                  <li className="flex items-center gap-2 text-[#6CAE39]">
+                    <span className="text-[#6CAE39] font-bold">•</span>
+                    50% refund before 24 hours
+                  </li>
+                  <li className="flex items-start gap-2 text-[#6CAE39]">
+                    <span className="text-[#6CAE39] font-bold">•</span>
                     Cancellation after the above date will have to bear
                     additional INR 2000 as convenience fees.
                   </li>
-                  <li>
+                  <li className="flex items-start gap-2 text-[#6CAE39]">
+                    <span className="text-[#6CAE39] font-bold">•</span>
                     Any cancellations after the booking date will only get the
                     security deposit amount and not the rental fare received.
                   </li>
-                </div>
+                </ul>
               </div>
             </div>
+
             {/* booking summary */}
           </div>
         </div>

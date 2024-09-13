@@ -686,7 +686,44 @@ const CardListingCards = ({ data }: any) => {
                             </span>
                           </div>
                         </div>
-                        <div className="m-0 flex sm:px-0 px-4 mt-7  sm:mt-0 justify-end sm:justify-start">
+                        <div className="m-0 flex flex-row items-center sm:px-0 px-4 mt-7 justify-between sm:justify-start">
+                        <div className="flex flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer  sm:hidden ">
+                        {
+                          selectedPackageFreeKms !== 0 ? <div className="sm:flex flex-row justify-end sm:mr-10  sm:my-5">
+                            {data?.bookingOptions?.selfDrive?.packageType
+                              ?.extraKmsCharge && (
+                                <span className="text-xs sm:text-[15px]">
+                                  Extra kms will be charged at{" "}
+                                  <span className="text-[#FF0000]">
+                                    ₹
+                                    {
+                                      data?.bookingOptions?.selfDrive?.packageType
+                                        ?.extraKmsCharge
+                                    }
+                                  </span>
+                                </span>
+                              )}
+                          </div> : 
+                          <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
+
+                          </div>
+                        }
+                        <span
+                          className="text-[#ff0000] sm:text-[15px] text-sm flex items-center gap-2"
+                          onClick={() => setShowOptionsMobile(!showOptionsMobile)}
+                        >
+                          View Details{" "}
+                          <Image
+                            src="/carListing/arrow.png"
+                            width={10}
+                            objectFit={"contain"}
+                            height={10}
+                            className="object-contain"
+                            alt="bluetooth"
+                          />
+                        </span>
+
+                      </div>
                           <ThemeButton
                             onClick={() => {
                               Navigation.push(`/car-details/${data._id}`);
@@ -697,7 +734,7 @@ const CardListingCards = ({ data }: any) => {
                           />
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-44 h-[295px] sm:h-[90px] absolute sm:-bottom-10 bottom-[0px] ">
+                      <div className=" flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-44 h-[295px] sm:h-[90px] absolute sm:-bottom-10 bottom-[0px] hidden sm:flex">
                         {
                           selectedPackageFreeKms !== 0 ? <div className="sm:flex flex-row justify-end sm:mr-10 mt-10  sm:my-5">
                             {data?.bookingOptions?.selfDrive?.packageType
