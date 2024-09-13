@@ -301,12 +301,20 @@ body{
     font-size: 20px;
   }
 .modify-search .react-datepicker-wrapper input{
-  font-size: 17px !important;
+  font-size: 15px !important;
   width: fit-content !important; border: 0;
   margin-right: 5px !important;
-  width: 280px !important;
-  border: 1px solid #ff0000;
+  width: 300px !important;
+  border: 1px solid #cccccc77;
 }
+
+@media (max-width: 600px) {
+  .modify-search .react-datepicker-wrapper input{
+    width: 355px !important;
+    font-size: 12px !important;
+  }
+}
+
   .react-datepicker {
     width: 138% !important;
     margin-left: 0 !important;

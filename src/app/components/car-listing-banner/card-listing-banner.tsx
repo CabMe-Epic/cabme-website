@@ -87,7 +87,7 @@ const CardListingBanner: React.FC<CardListingBannerProps> = ({ count }) => {
   return (
     <div>
       <main
-        className={`sm:h-[141px] my-10 flex gap-4 flex-row sm:justify-between items-center ${bgColor} p-4 pr-0 rounded-[12px]`}>
+        className={`h-[80px] overflow-hidden sm:h-[141px] my-10 flex gap-4 flex-row sm:justify-between items-center ${bgColor} sm:p-4 pr-0 rounded-[12px]`}>
         <div className="w-fit">
           <Image
             src={imageSrc}

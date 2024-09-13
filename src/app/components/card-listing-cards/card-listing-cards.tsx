@@ -280,7 +280,7 @@ const CardListingCards = ({ data }: any) => {
 
 
         <div
-          className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px]"
+          className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px] mb-[40px]"
           style={{ backgroundSize: "100% 100%" }}
         >
           <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
@@ -357,12 +357,13 @@ const CardListingCards = ({ data }: any) => {
                             }
 
                           }}
-                          className={` sm:flex flex-row hover:scale-110 duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked1
+                          className={` sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg 
+                            lg:w-[230px]  w-[120px] sm:h-[71px] cursor-pointer ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
                         >
-                          <span className="font-bold lg:text-[20px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                          <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
                             ₹{" "}
                             {(() => {
                               const price = calculateTotalPrice(
@@ -431,12 +432,12 @@ const CardListingCards = ({ data }: any) => {
                               );
                             }
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked2
+                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[120px] sm:h-[71px] cursor-pointer ${clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
                         >
-                          <span className="font-bold lg:text-[20px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                          <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
                             ₹{" "}
                             {(() => {
                               const price = calculateTotalPrice(
@@ -506,12 +507,12 @@ const CardListingCards = ({ data }: any) => {
                               );
                             }
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
+                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[120px] sm:h-[71px] cursor-pointer ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
                         >
-                          <span className="font-bold lg:text-[20px] text-[16px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
+                          <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
                             ₹{" "}
                             {(() => {
                               const price = calculateTotalPrice(
@@ -564,7 +565,7 @@ const CardListingCards = ({ data }: any) => {
                       {/*  */}
                       {/* for mobile view */}
                       <div className="flex sm:hidden flex-col items-center jusitfy-center">
-                        <div className="flex flex-row justify-center m-auto my-2">
+                        <div className="flex flex-row justify-center m-auto my-0 sm:my-2">
                           <h1 className="mx-auto font-bold text-[24px]">
                             {data?.carName}
                           </h1>
@@ -600,17 +601,17 @@ const CardListingCards = ({ data }: any) => {
                       {/*  */}
 
                       <div className="sm:flex flex-row justify-between items-center sm:mr-5 relative sm:my-0 my-6">
-                        <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center w-full gap-y-6 sm:ml-8 sm:mb-0 mb-4 sm:px-0 px-4">
+                        <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center w-full gap-y-6 gap-x-2 sm:ml-8 sm:mb-0 mb-4 sm:px-0 px-4">
                           {data?.carFeatures?.bluetooth === true && (
                             <div className="flex flex-row items-center gap-2">
                               <Image
                                 src="/carListing/bluetooth.png"
-                                width={20}
+                                width={18}
                                 objectFit={"contain"}
                                 height={20}
                                 alt="bluetooth"
                               />
-                              <span className="lg:text-[15px] text-[11px]">
+                              <span className="lg:text-[15px] text-[10px]">
                                 Bluetooth
                               </span>
                             </div>
@@ -619,12 +620,12 @@ const CardListingCards = ({ data }: any) => {
                           <div className="flex flex-row items-center gap-2">
                             <Image
                               src="/carListing/manual.png"
-                              width={20}
+                              width={18}
                               objectFit={"contain"}
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="lg:text-[15px] text-[11px]">
+                            <span className="lg:text-[15px] text-[10px]">
                               Manual
                             </span>
                           </div>
@@ -632,17 +633,17 @@ const CardListingCards = ({ data }: any) => {
                             <div className="flex flex-row items-center gap-2 cursor-pointer">
                               <Image
                                 src="/carListing/gps.png"
-                                width={20}
+                                width={18}
                                 objectFit={"contain"}
                                 height={20}
                                 alt="bluetooth"
                               />
-                              <span className="lg:text-[15px] text-[11px]">
+                              <span className="lg:text-[15px] text-[10px]">
                                 GPS Navigation
                               </span>
 
                               {/* <Tooltip tooltipText="GPS Navigation">
-                              <span className="lg:text-[15px] text-[11px]">
+                              <span className="lg:text-[15px] text-[10px]">
                                 GPS Nav...
                               </span>
                             </Tooltip> */}
@@ -651,36 +652,36 @@ const CardListingCards = ({ data }: any) => {
                           <div className="flex flex-row items-center gap-2">
                             <Image
                               src="/carListing/seats.png"
-                              width={20}
+                              width={18}
                               objectFit={"contain"}
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="lg:text-[15px] text-[11px]">
+                            <span className="lg:text-[15px] text-[10px]">
                               {data?.seatingCapacity} Person
                             </span>
                           </div>
                           <div className="flex flex-row items-center gap-2">
                             <Image
                               src="/carListing/gas.png"
-                              width={20}
+                              width={18}
                               objectFit={"contain"}
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="lg:text-[15px] text-[11px]">
+                            <span className="lg:text-[15px] text-[10px]">
                               {data?.vehicleSpecifications?.fuelType}
                             </span>
                           </div>
                           <div className="flex flex-row items-center gap-2">
                             <Image
                               src="/carListing/bootspace.png"
-                              width={20}
+                              width={18}
                               objectFit={"contain"}
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="lg:text-[15px] text-[11px]">
+                            <span className="lg:text-[15px] text-[10px]">
                               Boot Space
                             </span>
                           </div>
@@ -696,7 +697,7 @@ const CardListingCards = ({ data }: any) => {
                           />
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-42 sm:h-[40px] absolute sm:bottom-0 bottom-[8px] ">
+                      <div className="flex flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-44 h-[295px] sm:h-[90px] absolute sm:-bottom-10 bottom-[0px] ">
                         {
                           selectedPackageFreeKms !== 0 ? <div className="sm:flex flex-row justify-end sm:mr-10 mt-10  sm:my-5">
                             {data?.bookingOptions?.selfDrive?.packageType
@@ -803,7 +804,7 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(false);
                           setClicked3(false);
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${clicked1
+                        className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${clicked1
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                           }`}
@@ -873,7 +874,7 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(true);
                           setClicked3(false);
                         }}
-                        className={`sm:flex flex-row hover:scale-110 duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                        className={`sm:flex flex-row hover:scale-[1.05] duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                           }`}
@@ -943,7 +944,7 @@ const CardListingCards = ({ data }: any) => {
                           setClicked2(false);
                           setClicked3(true);
                         }}
-                        className={`sm:flex flex-row items-center hover:scale-110 duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
+                        className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
                           ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
                           : ""
                           }`}
@@ -1214,7 +1215,7 @@ const CardListingCards = ({ data }: any) => {
                                   setClicked2(false);
                                   setClicked3(false);
                                 }}
-                                className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                                className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
                                   ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                                   : ""
                                   }  `}
@@ -1469,7 +1470,7 @@ const CardListingCards = ({ data }: any) => {
                                 setClicked2(false);
                                 setClicked3(false);
                               }}
-                              className={`sm:flex flex-row hover:scale-110 duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                              className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
                                 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                                 : ""
                                 }`}
@@ -1548,7 +1549,7 @@ const CardListingCards = ({ data }: any) => {
                                 setClicked2(true);
                                 setClicked3(false);
                               }}
-                              className={`sm:flex flex-row hover:scale-110 cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                              className={`sm:flex flex-row hover:scale-[1.05] cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
                                 ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                                 : ""
                                 }`}
@@ -1627,7 +1628,7 @@ const CardListingCards = ({ data }: any) => {
                                 setClicked2(false);
                                 setClicked3(true);
                               }}
-                              className={`sm:flex hover:scale-110 duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
+                              className={`sm:flex hover:scale-[1.05] duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
                                 ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                                 : ""
                                 }`}
@@ -1900,7 +1901,7 @@ const CardListingCards = ({ data }: any) => {
                               setClicked2(false);
                               setClicked3(false);
                             }}
-                            className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
+                            className={`bg-white border-[1.5px] hover:scale-[1.05] duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
                               ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                               : ""
                               }`}
@@ -1926,7 +1927,7 @@ const CardListingCards = ({ data }: any) => {
                               setClicked2(true);
                               setClicked3(false);
                             }}
-                            className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked2
+                            className={`bg-white border-[1.5px] hover:scale-[1.05] duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked2
                               ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                               : ""
                               }`}
@@ -1951,7 +1952,7 @@ const CardListingCards = ({ data }: any) => {
                               setClicked2(false);
                               setClicked3(true);
                             }}
-                            className={`bg-white border-[1.5px] hover:scale-110 duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked3
+                            className={`bg-white border-[1.5px] hover:scale-[1.05] duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked3
                               ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                               : ""
                               }`}

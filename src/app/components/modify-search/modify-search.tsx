@@ -11,10 +11,8 @@ import { useRouter } from "next/navigation";
 const ModifySearch: React.FC = () => {
   const route = useRouter();
   const [cities, setCities] = useState<{ name: string }[] | undefined>([]);
-  const [selectedCity, setSelectedCity] = useState<string | undefined>();
-  const [dropOffCity, setDropOffCity] = useState<string | undefined>();
-  const [selectedDropCity, setSelectedDropCity] = useState<string | undefined>();
-
+  const [selectedCity, setSelectedCity] = useState<string>("");
+  const [selectedDropCity, setSelectedDropCity] = useState<string>("");
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<string | null>(null);
@@ -137,7 +135,7 @@ const ModifySearch: React.FC = () => {
   useEffect(() => {
     const getData = () => {
       const initialLocation = localStorage.getItem("pickupLocation") || "";
-      const dropLoc = localStorage.getItem("dropOffLocation") || "";
+      const destinationLocation = localStorage.getItem("dropOffLocation") || "";
       const pickupdate = localStorage.getItem("pickupDate");
       const dropoffDate = localStorage.getItem("dropOffDate");
       const pickUpTime = localStorage.getItem("pickupTime");
@@ -147,7 +145,7 @@ const ModifySearch: React.FC = () => {
       setTabsValue(tabValue);
       setRadioToggle(radioToggle);
       setSelectedCity(initialLocation);
-      setSelectedDropCity(dropLoc);
+      setSelectedDropCity(destinationLocation);
 
       if (pickupdate && pickUpTime) {
         const startDateTime = new Date(`${pickupdate}T${pickUpTime}`);
@@ -167,12 +165,13 @@ const ModifySearch: React.FC = () => {
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [showDropLocationPopup, setShowDropLocationPopup] = useState(false);
   const [pickupLocation, setPickupLocation] = useState<any>();
+  const [pickupDropLocation, setPickupDropLocation] = useState<any>();
 
   const handleSelectPopupLocation = (e: any) => {
     e.preventDefault();
     setShowLocationPopup(!showLocationPopup);
   };
-  const handleSelectDropPopupLocation = (e: any) => {
+  const handleSelectPopupDropLocation = (e: any) => {
     e.preventDefault();
     setShowDropLocationPopup(!showLocationPopup);
   };
@@ -180,9 +179,8 @@ const ModifySearch: React.FC = () => {
   const handlePickupLocation = (event: any) => {
     setPickupLocation(event);
   };
-
   const handlePickupDropLocation = (event: any) => {
-    setPickupLocation(event);
+    setPickupDropLocation(event);
   };
 
   const handleCityClick = (cityName: any) => {
@@ -191,49 +189,54 @@ const ModifySearch: React.FC = () => {
     handlePickupLocation(cityName);
     setShowLocationPopup(false);
   };
+
   const handleDropCityClick = (cityName: any) => {
     setSelectedDropCity(cityName);
     // setPickupLocation(cityName);
     handlePickupDropLocation(cityName);
     setShowDropLocationPopup(false);
   };
+
+  console.log("startTime", startDate, startTime)
+
   return (
-    <div className="flex sm:flex-row flex-wrap w-full sm:justify-center sm:items-end gap-4 sm:gap-10  p-6 rounded-lg  h-auto mt-10  pb-5 flex-col  bg-gradient-to-r from-white via-[#fbd9f1] to-white relative border-[1px] border-[#696969] shadow-md">
-      {/* <Image src="/bgdate.png"  alt="" width={100} height={100} className="w-[100%] rounded-lg h-[100%] absolute top-0 left-0 -z-[99] overflow-hidden m-auto border-[1px] border-[#000]"/> */}
-      <div className="flex flex-col-5 sm:flex-row sm:items-center gap-4 mb-2 sm:mb-0">
-        <div className="flex flex-row items-center">
-          <div
-            onClick={() => route.push("/")}
-            className="text-3xl cursor-pointer w-fit hidden sm:block"
-          >
-            &larr;
+    <div
+      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr+1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 !pb-[45px] items-center rounded-md bg-[url('/png/search-bg.png')]"
+      style={{ backgroundSize: "100% 100%" }}
+    >
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-2 sm:mb-0">
+        <div
+          onClick={() => route.push("/")}
+          className="text-3xl cursor-pointer w-fit hidden sm:block"
+        >
+          &larr;
+        </div>
+        <div className="flex flex-col sm:flex-col sm:items-start gap-2">
+          {/* <div className="text-3xl cursor-pointer w-fit sm:hidden block">&larr;</div> */}
+          <div className="flex items-center gap-2 sm:ml-1">
+            <span className="block sm:hidden ">&larr;</span>{" "}
+            <span className="sm:text-[16px] text-xs"> Showing Cars</span>
           </div>
           <div>
-            <div className="flex items-center gap-2 mb-2 sm:ml-1">
-              <span className="block sm:hidden text-[15px] sm:mr-4">
-                &larr;
-              </span>{" "}
-              <span className="sm:text-[16px] text-[15px]"> Showing Cars</span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex justify-between items-center mr-4 ">
+            <div className="flex flex-row justify-between gap-2 items-start -ml-2">
+              <div>
                 {
-                  <>
+                  <div className="ml-[0px]">
+                    <legend className="text-xs ml-2 block sm:hidden">Pickup Location</legend>
                     <input
-                      className="bg-[#FCFBFB] px-2 border border-[#ff0000] rounded-md outline-none p-[3px] cursor-pointer w-[280px] sm:w-full"
-                      // style={{ backgroundColor: 'rgb(252, 251, 251, 0%)' }}
-
+                      className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
+                      style={{ backgroundColor: "rgb(252, 251, 251, 0%)" }}
                       type="text"
                       placeholder="All City"
                       onClick={(e) => handleSelectPopupLocation(e)}
                       value={selectedCity}
-                      readOnly
+                      readOnly // Prevent editing directly
                     />
                     {showLocationPopup && (
                       <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 w-full">
                         <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
                           <div className="bg-[#FF0000] w-full py-2 px-10 rounded-t-xl">
-                            <h1 className="text-white font-semibold text-center text-[15px]">
+                            <h1 className="text-white font-semibold text-center text-xl">
                               Select City
                             </h1>
                           </div>
@@ -256,25 +259,87 @@ const ModifySearch: React.FC = () => {
                               </div>
                             ))}
                           </div>
+                          {/* <ThemeButton
+                        onClick={() => setShowLocationPopup(false)}
+                        className="!rounded-full !py-2 mt-6 !w-[200px] !font-semibold"
+                        text="Select"
+                      /> */}
                         </div>
                       </div>
                     )}
-                  </>
+                  </div>
                 }
+                {(tabValue == "Self-Driving" ||
+                  (tabValue == "Driver" && radioToggle == "One-way")) &&
+                  <div className="flex flex-col items-start justify-start sm:hidden">
+                    <legend className="text-xs ml-2">Dropoff Location</legend>
+                    <input
+                      className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
+                      style={{ backgroundColor: "rgb(252, 251, 251, 0%)" }}
+                      type="text"
+                      placeholder="All City"
+                      onClick={(e) => handleSelectPopupDropLocation(e)}
+                      value={selectedDropCity}
+                      readOnly // Prevent editing directly
+                    />
+                    {showDropLocationPopup && (
+                      <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 w-full">
+                        <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
+                          <div className="bg-[#FF0000] w-full py-2 px-10 rounded-t-xl">
+                            <h1 className="text-white font-semibold text-center text-xl">
+                              Select City
+                            </h1>
+                          </div>
+                          <Image
+                            src={"/svg/close-red.svg"}
+                            alt="nav"
+                            width={26}
+                            height={26}
+                            className="absolute top-2.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
+                            onClick={() => setShowDropLocationPopup(false)}
+                          />
+                          <div className="city-list max-w-[1095px] max-h-[60vh] overflow-auto w-full flex-col justify-start items-start m-auto  grid grid-cols-1 py-3 px-6">
+                            {cities?.map((city: any, index: number) => (
+                              <div key={index}>
+                                <City
+                                  city={city}
+                                  isSelected={selectedDropCity === city.name}
+                                  onClick={() => handleDropCityClick(city.name)}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                          {/* <ThemeButton
+                        onClick={() => setShowLocationPopup(false)}
+                        className="!rounded-full !py-2 mt-6 !w-[200px] !font-semibold"
+                        text="Select"
+                      /> */}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                }
+              </div>
+
+              <div className="sm:ml-auto sm:my-10 block sm:hidden mt-5">
+                <ThemeButton
+                  onClick={handleModifySearch}
+                  text="Modify Search"
+                  className="!rounded-full !px-4 sm:text-md text-xs h-[35px]"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="sm:flex grid grid-cols-1 flex-col sm:mt-0 mt-2 items-start sm:items-center sm:flex-row gap-2">
-        <div className="flex flex-col items-start  sm:gap-2 max-w-[350px] sm:w-[220px]">
-          <div className="whitespace-nowrap sm:text-[14px] text-[15px]">
+      <div className="sm:flex grid grid-cols-1 flex-col sm:mt-0 mt-0 items-start sm:items-center sm:flex-row gap-2">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center   sm:gap-2 max-w-[350px] sm:w-[400px]">
+          <div className="whitespace-nowrap sm:text-[14px] text-xs">
             Pickup Date
           </div>
-          <div className="relative date-picker modify-search m-0 w-[100%] !z-[990] sm:min-[200px] max-w-[350px]  ">
+          <div className="relative date-picker modify-search m-0 w-[100%] !z-[990] sm:min-[200px] max-w-[350px]  bg-white">
             <DatePicker
-              className="date-picker cursor-pointer border border-[#FF0000] rounded-md py-[5px] pl-2 bg-transparent pr-10"
+              className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}
               onChange={handleStartDateTimeChange}
               showTimeSelect
@@ -292,93 +357,88 @@ const ModifySearch: React.FC = () => {
             />
           </div>
         </div>
-      </div>
-
-      <div className="sm:flex grid grid-cols-1 flex-col sm:mt-0 mt-2 items-start sm:items-center sm:flex-row gap-2">
         {(tabValue === "Self-Driving" ||
           (tabValue === "Driver" &&
             (radioToggle === "Local" || radioToggle === "Out-station"))) && (
-          <div className="flex flex-col items-start sm:gap-2 max-w-[350px] sm:w-[220px]">
-            <div className="whitespace-nowrap sm:text-[14px] text-[15px]">
-              Return Date
+            <div className="flex flex-col lg:flex-row items-start lg:items-center sm:gap-2 max-w-[350px] sm:w-[400px]">
+              <div className="whitespace-nowrap sm:text-[14px] text-xs">
+                Return Date
+              </div>
+              <div className="relative date-picker modify-search m-0  w-[100%] !z-[99] sm:min-[200px] max-w-[350px]  bg-white">
+                <DatePicker
+                  className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
+                  selected={endDate}
+                  onChange={handleEndDateTimeChange}
+                  showTimeSelect
+                  dateFormat="MMMM d, yyyy h:mm aa"
+                  placeholderText="MMMM d, yyyy h:mm aa"
+                  ref={datePickerRef1}
+                />
+                <Image
+                  src={"/svg/edit-red.svg"}
+                  alt="edit"
+                  width={12}
+                  height={12}
+                  className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[9]"
+                  onClick={handleImageClick1}
+                />
+              </div>
             </div>
-            <div className="relative date-picker modify-search m-0 w-[100%] !z-[99] sm:min-[200px] max-w-[350px] ">
-              <DatePicker
-                className="date-picker cursor-pointer border border-[#FF0000] rounded-md py-[5px] pl-2i bg-transparent pr-10 "
-                selected={endDate}
-                onChange={handleEndDateTimeChange}
-                showTimeSelect
-                dateFormat="MMMM d, yyyy h:mm aa"
-                placeholderText="MMMM d, yyyy h:mm aa"
-                ref={datePickerRef1}
-              />
-              <Image
-                src={"/svg/edit-red.svg"}
-                alt="edit"
-                width={12}
-                height={12}
-                className="absolute top-[9px] sm:right-[-5px] right-[5px] z-[-9]"
-                onClick={handleImageClick1}
-              />
-            </div>
-          </div>
-        )}
+          )}
       </div>
-
-    {
-      (tabValue == "Self-Driving" || 
-     ( tabValue == "Driver" && radioToggle == "One-way")) &&
-     <div className="flex justify-between items-center">
-     <div className="flex justify-between items-center mr-4 ">
-       {
-         <div className="flex flex-col">
-           <legend className="mb-2 sm:text-[14px] text-[15px]">Drop City</legend>
-           <input
-             className="bg-[#FCFBFB] px-2 border border-[#ff0000] rounded-md outline-none p-[3px] cursor-pointer w-[280px]  sm:w-full"
-
-             type="text"
-             placeholder="All City"
-             onClick={(e) => handleSelectDropPopupLocation(e)}
-             value={selectedDropCity}
-             readOnly
-           />
-           {showDropLocationPopup && (
-             <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 w-full">
-               <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
-                 <div className="bg-[#FF0000] w-full py-2 px-10 rounded-t-xl">
-                   <h1 className="text-white font-semibold text-center text-[15px]">
-                     Select City
-                   </h1>
-                 </div>
-                 <Image
-                   src={"/svg/close-red.svg"}
-                   alt="nav"
-                   width={26}
-                   height={26}
-                   className="absolute top-2.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
-                   onClick={() => setShowDropLocationPopup(false)}
-                 />
-                 <div className="city-list max-w-[1095px] max-h-[60vh] overflow-auto w-full flex-col justify-start items-start m-auto  grid grid-cols-1 py-3 px-6">
-                   {cities?.map((city: any, index: number) => (
-                     <div key={index}>
-                       <City
-                         city={city}
-                         isSelected={selectedDropCity === city.name}
-                         onClick={() => handleDropCityClick(city.name)}
-                       />
-                     </div>
-                   ))}
-                 </div>
-               </div>
-             </div>
-           )}
-         </div>
-       }
-     </div>
-   </div>
-    }
-
-      <div className="">
+      <div className="sm:ml-10">
+        {(tabValue == "Self-Driving" ||
+          (tabValue == "Driver" && radioToggle == "One-way")) &&
+          <div className="flex-col items-start justify-start hidden sm:flex ">
+            <legend className="text-xs ml-2">Dropoff Location</legend>
+            <input
+              className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
+              style={{ backgroundColor: "rgb(252, 251, 251, 0%)" }}
+              type="text"
+              placeholder="All City"
+              onClick={(e) => handleSelectPopupDropLocation(e)}
+              value={selectedDropCity}
+              readOnly // Prevent editing directly
+            />
+            {showDropLocationPopup && (
+              <div className="flex flex-col justify-center items-center fixed inset-0 z-[999] bg-[#0000003c] bg-opacity-50 w-full ">
+                <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
+                  <div className="bg-[#FF0000] w-full py-2 px-10 rounded-t-xl">
+                    <h1 className="text-white font-semibold text-center text-xl">
+                      Select City
+                    </h1>
+                  </div>
+                  <Image
+                    src={"/svg/close-red.svg"}
+                    alt="nav"
+                    width={26}
+                    height={26}
+                    className="absolute top-2.5 right-2 border rounded-full bg-white p-.5 cursor-pointer"
+                    onClick={() => setShowDropLocationPopup(false)}
+                  />
+                  <div className="city-list max-w-[1095px] max-h-[60vh] overflow-auto w-full flex-col justify-start items-start m-auto  grid grid-cols-1 py-3 px-6">
+                    {cities?.map((city: any, index: number) => (
+                      <div key={index}>
+                        <City
+                          city={city}
+                          isSelected={selectedDropCity === city.name}
+                          onClick={() => handleDropCityClick(city.name)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  {/* <ThemeButton
+                        onClick={() => setShowLocationPopup(false)}
+                        className="!rounded-full !py-2 mt-6 !w-[200px] !font-semibold"
+                        text="Select"
+                      /> */}
+                </div>
+              </div>
+            )}
+          </div>
+        }
+      </div>
+      <div className="sm:ml-auto sm:my-10 my-4 sm:m-4 hidden sm:block">
         <ThemeButton
           onClick={handleModifySearch}
           text="Modify Search"
