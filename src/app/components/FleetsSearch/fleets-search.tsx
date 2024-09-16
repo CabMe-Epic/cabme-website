@@ -1878,9 +1878,9 @@ export default function Home() {
               </strong>
             }
             {durationFormat && (
-              <div className="flex sm:flex-row flex-col items-center mt-4 gap-[5px] bg-[#FCFBFB] px-4 py-2 border-md">
-                <strong>Duration :</strong>{" "}
-                <p className="text-sm font-semibold mt-[2px]">
+              <div className="flex !text-[12px] sm:flex-row flex-row !items-center mt-4 gap-[5px] bg-[#FCFBFB] px-0 py-2 border-md">
+                <strong className="text-[13px]">Duration:</strong>{" "}
+                <p className="text-sm font-semibold mt-[0px]">
                   {durationFormat}
                 </p>
               </div>

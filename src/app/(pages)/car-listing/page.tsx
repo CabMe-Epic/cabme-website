@@ -319,8 +319,22 @@ const CarListing = () => {
     const getCarDetails = async () => {
       try {
         if (
-          bookingOptions === "Self-Driving" ||
-       
+          (bookingOptions === "Self-Driving")
+        ) {
+          if (
+            locationData.pickUpDateTime &&
+            (bookingOptions)
+          ) {
+            console.log("locationData", locationData);
+            setLoader(true);
+            const getSearchCarData = await searchVehicleNew(locationData);
+            console.log(getSearchCarData, "Car search API response");
+            setCarData(getSearchCarData?.data?.availableVehicles);
+          } else {
+            console.error("Missing required location data or booking options", locationData);
+          }
+        }
+        if (
           (bookingOptions === "Driver" &&
             (driverType === "One-way"))
         ) {

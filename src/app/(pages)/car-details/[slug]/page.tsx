@@ -813,18 +813,7 @@ const CarDetails = () => {
                     <span>Tolls, Parking & Inner-state taxes</span>
                     <span>{currentPackage?.tollsParkingTaxes}</span>
                   </div>
-                  <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px]">
-                    <span>Note</span>
-                    <span>
-                      <textarea
-                        name=""
-                        id=""
-                        value={bookingNote}
-                        onChange={(e) => setBookingNote(e.target.value)}
-                        className="w-full rounded-md outline-none text-[#000000] font-normal text-sm p-2"
-                      ></textarea>
-                    </span>
-                  </div>
+         
                 </div>
 
                 {(tabValue === "Self-Driving" ||
@@ -874,7 +863,7 @@ const CarDetails = () => {
                           2000
                             ? roundPrice(Number(ThirtyDiscountForInculdedTax))
                             : roundPrice(totalIncludedGSTAmount)}
-                          Now
+                          {" "}Now
                         </span>
                       )}
                     {currentPackage?.gst === "Excluded" &&
@@ -930,6 +919,7 @@ const CarDetails = () => {
                         Balance on Delivery
                       </span>
                     )}
+
                   </div>
                   <button
                     onClick={handleProceed}
@@ -937,7 +927,20 @@ const CarDetails = () => {
                   >
                     Proceed
                   </button>
+
                 </div>
+                <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px] w-full mt-6" >
+                    <span>Notes</span>
+                    <span>
+                      <textarea
+                        name=""
+                        id=""
+                        value={bookingNote}
+                        onChange={(e) => setBookingNote(e.target.value)}
+                        className="w-full rounded-md outline-none text-[#000000] font-normal text-sm p-2"
+                      ></textarea>
+                    </span>
+                  </div>
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}

@@ -333,7 +333,7 @@ const CardListingCards = ({ data }: any) => {
                   </div>
                   <div className="w-full">
                     <div className="min-h-[500px] sm:min-h-[274px] sm:h-[274px]  max-w-[700px] relative">
-                      <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center mb-6 lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 justify-end">
+                      <div className="mt-5 flex flex-row sm:flex-row justify-center items-center mx-auto mb-6 lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 self-center">
                         <div
                           onClick={() => {
                             setFreekms(Number((
@@ -357,8 +357,8 @@ const CardListingCards = ({ data }: any) => {
                             }
 
                           }}
-                          className={` sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg 
-                            lg:w-[230px]  w-[108px] sm:h-[71px] cursor-pointer ${clicked1
+                          className={` sm:flex flex-row hover:scale-[1.05] duration-300 items-center !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg 
+                            lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -432,7 +432,7 @@ const CardListingCards = ({ data }: any) => {
                               );
                             }
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[108px] sm:h-[71px] cursor-pointer ${clicked2
+                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -505,9 +505,9 @@ const CardListingCards = ({ data }: any) => {
                               console.error(
                                 "Failed to calculate the total price"
                               );
-                            }
+                            }         
                           }}
-                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[108px] sm:h-[71px] cursor-pointer ${clicked3
+                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
                             }`}
@@ -600,7 +600,7 @@ const CardListingCards = ({ data }: any) => {
 
                       {/*  */}
 
-                      <div className="sm:flex flex-row justify-between items-center sm:mr-5 relative sm:my-0 my-6">
+                      <div className="sm:flex flex-row justify-between items-center sm:mr-5 relative sm:my-0 my-6 mb-2">
                         <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center w-full gap-y-6 gap-x-2 sm:ml-8 sm:mb-0 mb-4 sm:px-0 px-4">
                           {data?.carFeatures?.bluetooth === true && (
                             <div className="flex flex-row items-center gap-2">

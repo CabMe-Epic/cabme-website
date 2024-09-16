@@ -24,7 +24,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Cab me</title>
-        
+        <link rel="icon" href="/favicon.ico" />
+
         {/* Google Tag Manager */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC6DFGZ5D2"></script>
         <script
@@ -37,10 +38,12 @@ export default function RootLayout({
             `,
           }}
         />
-      
+
       </head>
       <body className={poppins.className}>
         <Header />
+       
+
         <div>{children}</div>
         <Footer />
       </body>
