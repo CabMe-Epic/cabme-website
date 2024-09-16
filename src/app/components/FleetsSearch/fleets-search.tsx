@@ -105,36 +105,36 @@ export default function Home() {
     }
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
-    
+
     if (isNaN(pickupDateTime.getTime())) {
       alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
       return;
     }
 
-    
-    
+
+
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
       return;
     }
-    
+
     if (tabValue === "Self-Driving") {
-      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime(); 
-      
-      const hoursDifference = timeDifference / (1000 * 60 * 60); 
-      
+      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime();
+
+      const hoursDifference = timeDifference / (1000 * 60 * 60);
+
       if (hoursDifference < 24) {
         alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
         return;
       }
     }
-    
+
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
     }
-    
+
     console.log(pickupDateTime, dropoffDateTime, "tttime");
-    
+
 
     localStorage.setItem("dropOffLocation", dropOffLocation || "");
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
@@ -146,15 +146,15 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     console.log(pickupDate, pickupTime, "ddd");
 
-    if(tabValue == "Self-Driving"){
+    if (tabValue == "Self-Driving") {
       localStorage.setItem("radioToggle", "");
 
     }
 
-    if(tabValue == "Subscription"){
+    if (tabValue == "Subscription") {
       localStorage.setItem("radioToggle", "");
     }
-    
+
 
 
     if (tabValue == "Subscription" || (tabValue == 'Driver' && radioToggle == "One-way")) {
@@ -194,28 +194,28 @@ export default function Home() {
       alert("Drop-off date and time should be later than Pickup date and time");
       return;
     }
-    
+
     if (isNaN(pickupDateTime.getTime())) {
       alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
       return;
     }
-    
+
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
       return;
     }
-    
+
     if (tabValue === "Self-Driving") {
-      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime(); 
-      
-      const hoursDifference = timeDifference / (1000 * 60 * 60); 
-      
+      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime();
+
+      const hoursDifference = timeDifference / (1000 * 60 * 60);
+
       if (hoursDifference < 24) {
         alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
         return;
       }
     }
-    
+
 
     localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
     localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity || "");
@@ -230,12 +230,12 @@ export default function Home() {
     if (tabValue === "Driver") {
       localStorage.setItem("radioToggle", radioToggle);
     }
-    
-    if(tabValue == "Self-Driving"){
+
+    if (tabValue == "Self-Driving") {
       localStorage.setItem("radioToggle", "");
     }
 
-    if(tabValue == "Subscription"){
+    if (tabValue == "Subscription") {
       localStorage.setItem("radioToggle", "");
     }
 
@@ -932,7 +932,7 @@ export default function Home() {
                                     />
                                   </div>
                                 )}
-                               
+
                               </div>
                             </div>
                           )}
@@ -1731,7 +1731,7 @@ export default function Home() {
                         ? "Select Your City"
                         : "Select Your City"
                   }
-                // onClick={(e) => handleSelectMobilePopupLocation(e)}
+                  // onClick={(e) => handleSelectMobilePopupLocation(e)}
                   onClick={(e) => handleSelectPopupLocation(e)}
                   value={selectedCity}
                   readOnly // Prevent editing directly
@@ -1879,7 +1879,7 @@ export default function Home() {
             }
             {durationFormat && (
               <div className="flex !text-[12px] sm:flex-row flex-row !items-center mt-4 gap-[5px] bg-[#FCFBFB] px-0 py-2 border-md">
-                <strong className="text-[13px]">Duration:</strong>{" "}
+                <strong className="text-[]">Duration:</strong>{" "}
                 <p className="text-sm font-semibold mt-[0px]">
                   {durationFormat}
                 </p>

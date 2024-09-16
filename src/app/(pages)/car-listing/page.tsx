@@ -53,17 +53,19 @@ const CarListing = () => {
   const [carData, setCarData] = useState<any>(null); // Replace with appropriate type
   const [loader, setLoader] = useState<boolean>(false);
 
-  const isValidDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return !isNaN(date.getTime());
-  };
-
   const [pickupLocation, setPickupLocation] = useState<any>();
   const [dropoffLocation, setDropoffLocation] = useState<any>();
   const [pickUpDate, setPickUpDate] = useState<any>();
   const [dropOffDate, setDropOffDate] = useState<any>();
   const [bookingOptions, setBookingOptions] = useState<any>();
   const [driverType, setDriverType] = useState<any>();
+
+  const isValidDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return !isNaN(date.getTime());
+  };
+
+
 
   console.log(
     dropoffLocation,
@@ -318,15 +320,35 @@ const CarListing = () => {
   useEffect(() => {
     const getCarDetails = async () => {
       try {
+        if (bookingOptions === "Self-Driving") {
+          if (
+            locationData.pickUpDateTime &&  locationData.dropOffDateTime && 
+            (locationData.toCity || locationData.toCity === "")
+          ) {
+            console.log("locationData", locationData);
+            setLoader(true);
+            
+            try {
+              const getSearchCarData = await searchVehicleNew(locationData);
+              console.log(getSearchCarData, "Car search API response");
+              setCarData(getSearchCarData?.data?.availableVehicles);
+            } catch (error) {
+              console.error("Error fetching car data", error);
+            } finally {
+              setLoader(false);
+            }
+          } else {
+            console.error("Missing required location data or booking options", locationData);
+          }
+        }
+        
         if (
-          bookingOptions === "Self-Driving" ||
        
           (bookingOptions === "Driver" &&
-            (driverType === "One-way"))
+            (driverType === "One-way")) && locationData.toCity
         ) {
           if (
             locationData.pickUpDateTime &&
-            locationData.toCity &&
             (bookingOptions ||
               driverType)
           ) {
