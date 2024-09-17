@@ -172,17 +172,11 @@ const Checkout = () => {
     // }
     console.log(dlPostBack, dlPost, dlFrontImage, dlBackImage, "dlImages");
     if (
-<<<<<<< HEAD
-      userData?.aadharVerified && (dlPostBack && dlPost || (dlFrontImage && dlBackImage)) &&
-      (three === true || !four) &&
-      (userData?.panVerified || userData?.drivingLicenseVerified)
-=======
       (userData?.aadharVerified &&
         ((dlPostBack && dlPost) || (dlFrontImage && dlBackImage)) &&
         (!three || (three === true && !four == true)) &&
         (userData?.panVerified || userData?.drivingLicenseVerified)) ||
       driverGo
->>>>>>> cdda700cdaa1e00cbc141d60a4a16d1ccfd44671
     ) {
       setIsButtonDisabled(false);
     } else {
@@ -1687,9 +1681,6 @@ const Checkout = () => {
                           )} */}
                           </div>
                         </div>
-<<<<<<< HEAD
-                        {/* {trap && (
-=======
                       ) : showDocSelect === "PanCard" ? (
                         <>
                           <div>
@@ -1897,7 +1888,6 @@ const Checkout = () => {
                             </button>
                           </div>
                           {/* {trap && (
->>>>>>> cdda700cdaa1e00cbc141d60a4a16d1ccfd44671
                           <div>
                             <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                               Driving License{" "}
@@ -2013,21 +2003,6 @@ const Checkout = () => {
                               >
                                 Continue
                               </button>
-<<<<<<< HEAD
-                     
-                            </div>
-                          </div>
-                        )} */}
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-=======
                           
                             </div>
                           </div>
@@ -2043,7 +2018,6 @@ const Checkout = () => {
                 </div>
               )}
 
->>>>>>> cdda700cdaa1e00cbc141d60a4a16d1ccfd44671
               {/*-------------------------------------------------------- section three end */}
             </div>
           )}
