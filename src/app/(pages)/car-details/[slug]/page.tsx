@@ -108,10 +108,10 @@ const CarDetails = () => {
   const [pickupDate, setPickupDate] = useState<any>();
   const [dropoffDate, setDropoffDate] = useState<any>();
   const [packagePrice, setPackagePrice] = useState<any>();
-  const [freeKms, setFreeKms] = useState<any>(0);
+  const [freeKms, setFreeKms] = useState<any>();
   const [bookingOpt, setBookingOpt] = useState<any>();
 
-  const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>();
+  const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>(0);
   const [textareaHeight, setTextareaHeight] = useState("auto");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [selectedPromocodeOption, setSelectedPromocodeOption] = useState<
@@ -376,11 +376,12 @@ const CarDetails = () => {
     const getDropoff = localStorage.getItem("dropOffDate");
     const storedPickupTime = localStorage.getItem("pickupTime");
     const storedDropoffTime = localStorage.getItem("dropoffTime");
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    const selectedPackagePrice: any = localStorage.getItem("selectedPackagePrice");
     const dropLoc = localStorage.getItem("dropOffLocation");
     const freekms = localStorage.getItem("selectedPackageFreeKms");
 
     setPackagePrice(selectedPackagePrice);
+    setSelectedPackageAmount(selectedPackagePrice)
     setFreeKms(freekms);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
@@ -397,7 +398,10 @@ const CarDetails = () => {
     const storedDropoffTime = localStorage.getItem("dropoffTime");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
     const bookingOptions = localStorage.getItem("tabValue");
+    const freeKmss = localStorage.getItem("selectedPackageFreeKms");
     setPackagePrice(selectedPackagePrice);
+
+    setFreeKms(freeKmss)
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setDropoffTime(storedDropoffTime);
@@ -407,10 +411,7 @@ const CarDetails = () => {
     getCarDetails();
   }, [getCarDetails, slug]);
 
-  useEffect(() => {
-    localStorage.setItem("selectedPackageFreeKms",freeKms)
-    
-  },[freeKms])
+
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
@@ -419,7 +420,9 @@ const CarDetails = () => {
     const getDropoff = localStorage.getItem("dropOffDate");
     const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
     const bookingOption = localStorage.getItem("tabValue");
+    const freekm = localStorage.getItem("selectedPackageFreeKms");
     setPackagePrice(selectedPackagePrice);
+    setFreeKms(freekm);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setBookingOpt(bookingOption);
@@ -457,20 +460,20 @@ const CarDetails = () => {
   console.log("duration", duration);
 
   const package1FreeKms =
-  (
-    currentPackage?.package1?.kmsLimit *
-    (((days as number) + hours / 24) as number)
-  ).toFixed(0) || 0;
-const package2FreeKms =
-  (
-    currentPackage?.package2?.kmsLimit *
-    (((days as number) + hours / 24) as number)
-  ).toFixed(0) || 0;
-const package3FreeKms =
-  (
-    currentPackage?.package3?.kmsLimit *
-    (((days as number) + hours / 24) as number)
-  ).toFixed(0) || 0;
+    (
+      currentPackage?.package1?.kmsLimit *
+      (((days as number) + hours / 24) as number)
+    ).toFixed(0) || 0;
+  const package2FreeKms =
+    (
+      currentPackage?.package2?.kmsLimit *
+      (((days as number) + hours / 24) as number)
+    ).toFixed(0) || 0;
+  const package3FreeKms =
+    (
+      currentPackage?.package3?.kmsLimit *
+      (((days as number) + hours / 24) as number)
+    ).toFixed(0) || 0;
 
   let totalHours = (days * 24) + hours + (minutes / 60);
 
@@ -486,19 +489,27 @@ const package3FreeKms =
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice);
     console.log(name, "packagename");
-    if (name == "Package 1") {
+    if (name === "Package 1") {
       setFreeKms(package1FreeKms);
+      localStorage.setItem("selectedPackageFreeKms", package1FreeKms);
     }
-    if (name == "Package 2") {
+    if (name === "Package 2") {
       setFreeKms(package2FreeKms);
+      localStorage.setItem("selectedPackageFreeKms", package2FreeKms);
     }
-    if (name == "Package 3") {
+    if (name === "Package 3") {
       setFreeKms(package3FreeKms);
+      localStorage.setItem("selectedPackageFreeKms", package3FreeKms);
     }
+    console.log(package3FreeKms,"package3FreeKms")
   };
 
+  // useEffect(() => {
+  //   const freekm = localStorage.getItem("")
+  // },[])
 
-  console.log(package3FreeKms,'package3FreeKms')
+
+  console.log(package3FreeKms, 'package3FreeKms')
 
   const paymentExcludedTax =
     roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
