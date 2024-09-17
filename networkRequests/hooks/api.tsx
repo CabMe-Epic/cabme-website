@@ -97,3 +97,17 @@ export const DLUploadingBack = async (data: any) => {
     throw error;
   }
 }
+
+export const applyPromocode = async (data: any) => {
+  try {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/apply-promocode`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response;
+  }
+  catch (err) {
+    throw err;
+  }
+}
