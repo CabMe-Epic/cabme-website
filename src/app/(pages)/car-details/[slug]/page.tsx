@@ -183,7 +183,7 @@ const CarDetails = () => {
   const total = Number(packagePrice);
 
   const { duration } = useReservationDateTime();
-  const { days, hours } = extractDaysAndHours(duration);
+  const { days, hours, minutes } = extractDaysAndHours(duration);
   const totalPrice = calculatePrice(Number(days), Number(hours), Number(total));
   // console.log({ totalPrice })
 
@@ -407,6 +407,11 @@ const CarDetails = () => {
     getCarDetails();
   }, [getCarDetails, slug]);
 
+  useEffect(() => {
+    localStorage.setItem("selectedPackageFreeKms",freeKms)
+    
+  },[freeKms])
+
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
   React.useEffect(() => {
@@ -448,13 +453,39 @@ const CarDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  // console.log({ selectedPackageAmount })
+
+  console.log("duration", duration);
+
+  const package1FreeKms =
+  (
+    currentPackage?.package1?.kmsLimit *
+    (((days as number) + hours / 24) as number)
+  ).toFixed(0) || 0;
+const package2FreeKms =
+  (
+    currentPackage?.package2?.kmsLimit *
+    (((days as number) + hours / 24) as number)
+  ).toFixed(0) || 0;
+const package3FreeKms =
+  (
+    currentPackage?.package3?.kmsLimit *
+    (((days as number) + hours / 24) as number)
+  ).toFixed(0) || 0;
+
+  let totalHours = (days * 24) + hours + (minutes / 60);
+
+  if (totalHours < 48) {
+    console.log("Duration is less than 48 hours.");
+  } else {
+    console.log("Duration meets the requirement.");
+  }
+
   const handlePriceChange = (updatedPrice: any, name: any) => {
+
     setSelectedPackageAmount(updatedPrice);
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice);
     console.log(name, "packagename");
-
     if (name == "Package 1") {
       setFreeKms(package1FreeKms);
     }
@@ -464,8 +495,10 @@ const CarDetails = () => {
     if (name == "Package 3") {
       setFreeKms(package3FreeKms);
     }
-    // setFreeKms()
   };
+
+
+  console.log(package3FreeKms,'package3FreeKms')
 
   const paymentExcludedTax =
     roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
@@ -490,21 +523,7 @@ const CarDetails = () => {
   const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
   console.log("advancePayment", { advancePayment });
 
-  const package1FreeKms =
-    (
-      currentPackage?.package1?.kmsLimit *
-      (((days as number) + hours / 24) as number)
-    ).toFixed(0) || 0;
-  const package2FreeKms =
-    (
-      currentPackage?.package2?.kmsLimit *
-      (((days as number) + hours / 24) as number)
-    ).toFixed(0) || 0;
-  const package3FreeKms =
-    (
-      currentPackage?.package3?.kmsLimit *
-      (((days as number) + hours / 24) as number)
-    ).toFixed(0) || 0;
+
 
   // console.log("paymentExcludedTax tas",{paymentExcludedTax})
 
@@ -656,6 +675,7 @@ const CarDetails = () => {
                     <div className="my-5 flex justify-between items-center w-full text-[14px] sm:text-[16px]">
                       <span className="font-semibold">Package Name</span>
                       <select
+                        value={selectedPackageAmount}
                         name="package"
                         id="package"
                         className="cursor-pointer w-[180px] sm:w-[w-350px] text-[14px] sm:text-[16px] p-2 rounded-md font-semibold outline-none"
@@ -663,7 +683,6 @@ const CarDetails = () => {
                           const selectedValue = event.target.value;
                           let packageName = "";
 
-                          // Determine the package name based on the selected value
                           switch (selectedValue) {
                             case roundPrice(package1Price).toString():
                               packageName = "Package 1";
@@ -678,15 +697,37 @@ const CarDetails = () => {
                               packageName = "Select Package";
                           }
 
+                          if (bookingOptions == "Self-Driving") {
+                            if (packageName == "Package 1" && package1FreeKms == 0) {
+                              if (totalHours < 48) {
+                                alert("To select the unlimited package, the minimum booking duration must be at least 2 days.");
+                                setSelectedPackageAmount(roundPrice(package1Price).toString()); // Revert to Package 1
+                                handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                                return;
+                              }
+                            }
+                            if (packageName == "Package 2" && package2FreeKms == 0) {
+                              if (totalHours < 48) {
+                                alert("To select the unlimited package, the minimum booking duration must be at least 2 days.");
+                                setSelectedPackageAmount(roundPrice(package1Price).toString()); // Revert to Package 1
+                                handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                                return;
+                              }
+                            }
+                            if (packageName == "Package 3" && package3FreeKms == 0) {
+                              if (totalHours < 48) {
+                                alert("To select the unlimited package, the minimum booking duration must be at least 2 days.");
+                                setSelectedPackageAmount(roundPrice(package1Price).toString()); // Revert to Package 1
+                                handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                                return;
+                              }
+                            }
+                          }
+
                           // Send the selected package name and price
                           handlePriceChange(selectedValue, packageName);
                         }}
                       >
-                        <option value={packagePrice}>
-                          {packagePrice !== undefined
-                            ? `₹${packagePrice}`
-                            : "Select Package"}
-                        </option>
                         <option value={roundPrice(package1Price)}>
                           ₹{roundPrice(package1Price)}
                         </option>
@@ -697,6 +738,7 @@ const CarDetails = () => {
                           ₹{roundPrice(package3Price)}
                         </option>
                       </select>
+
                     </div>
                   )}
 

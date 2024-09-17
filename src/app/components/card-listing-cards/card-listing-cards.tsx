@@ -49,6 +49,7 @@ const CardListingCards = ({ data }: any) => {
   }, [showImg]);
 
   console.log(days, hours, minutes, "duration for self");
+  
 
   // Convert the time into total hours
   let totalHours = (days * 24) + hours + (minutes / 60);
