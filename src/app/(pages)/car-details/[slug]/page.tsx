@@ -108,7 +108,7 @@ const CarDetails = () => {
   const [pickupDate, setPickupDate] = useState<any>();
   const [dropoffDate, setDropoffDate] = useState<any>();
   const [packagePrice, setPackagePrice] = useState<any>();
-  const [freeKms, setFreeKms] = useState<any>();
+  const [freeKms, setFreeKms] = useState<any>(0);
   const [bookingOpt, setBookingOpt] = useState<any>();
 
   const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>(0);
@@ -460,17 +460,17 @@ const CarDetails = () => {
   console.log("duration", duration);
 
   const package1FreeKms =
-    (
+    Number(
       currentPackage?.package1?.kmsLimit *
       (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
   const package2FreeKms =
-    (
+  Number(
       currentPackage?.package2?.kmsLimit *
       (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
   const package3FreeKms =
-    (
+  Number(
       currentPackage?.package3?.kmsLimit *
       (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
@@ -491,15 +491,15 @@ const CarDetails = () => {
     console.log(name, "packagename");
     if (name === "Package 1") {
       setFreeKms(package1FreeKms);
-      localStorage.setItem("selectedPackageFreeKms", package1FreeKms);
+      localStorage.setItem("selectedPackageFreeKms", package1FreeKms.toString());
     }
     if (name === "Package 2") {
       setFreeKms(package2FreeKms);
-      localStorage.setItem("selectedPackageFreeKms", package2FreeKms);
+      localStorage.setItem("selectedPackageFreeKms", package2FreeKms.toString());
     }
     if (name === "Package 3") {
       setFreeKms(package3FreeKms);
-      localStorage.setItem("selectedPackageFreeKms", package3FreeKms);
+      localStorage.setItem("selectedPackageFreeKms", package3FreeKms.toString());
     }
     console.log(package3FreeKms,"package3FreeKms")
   };
