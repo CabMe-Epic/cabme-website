@@ -33,7 +33,7 @@ const CardListingCards = ({ data }: any) => {
   const [showImg, setShowImg] = useState(false);
   const [dropLocation, setDropLocation] = useState<any>("");
   const [radioToggle, setRadioToggle] = useState<any>("");
-  console.log('data', data)
+  console.log("data", data);
   useEffect(() => {
     if (showImg) {
       setShowImg(true);
@@ -47,6 +47,18 @@ const CardListingCards = ({ data }: any) => {
       document.body.classList.remove("no-scroll");
     };
   }, [showImg]);
+
+  console.log(days, hours, minutes, "duration for self");
+
+  // Convert the time into total hours
+  let totalHours = (days * 24) + hours + (minutes / 60);
+
+  // Check if total duration is less than 48 hours
+  if (totalHours < 48) {
+    console.log("Duration is less than 48 hours.");
+  } else {
+    console.log("Duration meets the requirement.");
+  }
 
   // const [showOptions, setShowOptions] = useState(false);
   const [activeTab, setActiveTab] = useState("Inclusions");
@@ -64,13 +76,13 @@ const CardListingCards = ({ data }: any) => {
   //@ts-ignore
   localStorage.setItem(
     "selectedPackagePrice",
-    roundPrice(selectedPackagePrice),
+    roundPrice(selectedPackagePrice)
   );
 
   localStorage.setItem(
     "selectedPackageFreeKms",
     roundPrice(selectedPackageFreeKms)
-  )
+  );
 
   console.log({ selectedPackagePrice });
 
@@ -137,7 +149,7 @@ const CardListingCards = ({ data }: any) => {
   //please don't touch this function, It is for the default package select when user does not select any package...!!
 
   const selectDefaultPackage = (data: any) => {
-    console.log("pdata", data)
+    console.log("pdata", data);
     if (selectedPackagePrice === undefined) {
       bookingOptionsHome === data?.bookingOptions?.selfDrive?.name
         ? setPackagePrice(
@@ -145,8 +157,6 @@ const CardListingCards = ({ data }: any) => {
             data?.bookingOptions?.selfDrive?.packageType?.package1?.price
           )
         )
-
-
         : bookingOptionsHome === data?.bookingOptions?.subscription?.name
           ? setPackagePrice(
             data?.bookingOptions?.subscription?.packageType?.package1?.price
@@ -163,45 +173,52 @@ const CardListingCards = ({ data }: any) => {
                 data?.bookingOptions?.withDriver?.outstation?.packageType?.package1
                   ?.ratePerKm
               )
-
-              : (driverType === data?.bookingOptions?.withDriver?.oneway?.name || driverType == "One-way")
-                ? setPackagePrice(data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any) => item?.city === dropLocation).map((item: any) => item?.price || 0))
+              : driverType === data?.bookingOptions?.withDriver?.oneway?.name ||
+                driverType == "One-way"
+                ? setPackagePrice(
+                  data?.bookingOptions.withDriver.oneway.doorstepDelivery
+                    .filter((item: any) => item?.city === dropLocation)
+                    .map((item: any) => item?.price || 0)
+                )
                 : console.log("Something went wrong in package selection");
     }
 
     if (selectedPackageFreeKms === 1) {
       bookingOptionsHome === data?.bookingOptions?.selfDrive?.name
-        ? setSelectedPackageFreeKms(Number((
-          data?.bookingOptions?.selfDrive?.packageType
-            ?.package1?.kmsLimit *
-          (((days as number) + hours / 24) as number)
-        ).toFixed(0)))
-
-
+        ? setSelectedPackageFreeKms(
+          Number(
+            (
+              data?.bookingOptions?.selfDrive?.packageType?.package1
+                ?.kmsLimit * (((days as number) + hours / 24) as number)
+            ).toFixed(0)
+          )
+        )
         : bookingOptionsHome === data?.bookingOptions?.subscription?.name
           ? setSelectedPackageFreeKms(
             data?.bookingOptions?.subscription?.packageType?.package1?.kmsLimit
           )
           : driverType === data?.bookingOptions?.withDriver?.local?.name
-            ? setSelectedPackageFreeKms(data?.bookingOptions?.withDriver?.local?.packageType?.package1
-              ?.kmsLimit)
+            ? setSelectedPackageFreeKms(
+              data?.bookingOptions?.withDriver?.local?.packageType?.package1
+                ?.kmsLimit
+            )
             : driverType === data?.bookingOptions?.withDriver?.outstation?.name
-              ?
-              setSelectedPackageFreeKms(data?.bookingOptions.withDriver.outstation.packageType.package1.ratePerKm || 0)
+              ? setSelectedPackageFreeKms(
+                data?.bookingOptions.withDriver.outstation.packageType.package1
+                  .ratePerKm || 0
+              )
               : console.log("Something went wrong in package selection");
-    }
-    else {
+    } else {
       console.log("done");
     }
   };
-  console.log(driverType, "driverType")
+  console.log(driverType, "driverType");
   console.log(selectedPackagePrice, "selected pack");
 
   console.log("hours", days, hours, minutes);
 
-
-  console.log(selectedPackagePrice, "selectedPackagePrice")
-
+  console.log(selectedPackagePrice, "selectedPackagePrice");
+  console.log(selectedPackageFreeKms, selectedPackagePrice, "setSelectedPackageFreeKms");
 
   // console.log("days")
   return (
@@ -278,17 +295,16 @@ const CardListingCards = ({ data }: any) => {
 
         {/* --------------------------------- */}
 
-
         <div
           className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px] mb-[40px]"
           style={{ backgroundSize: "100% 100%" }}
         >
           <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
-
             {/* ---------------------------------------- */}
-            {(bookingOptionsHome === data?.bookingOptions?.selfDrive?.name) ?
-              (
-                <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+            {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
+              <>
+                {" "}
+                <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                   <Image
                     src="/png/red-design.png"
                     width={133}
@@ -300,106 +316,120 @@ const CardListingCards = ({ data }: any) => {
                     {data?.brandName}
                   </span>
                 </div>
-                  <div className="sm:flex hidden flex-col items-center jusitfy-center lg:w-[486px] w-[260px] h-full ">
-                    <div className="flex flex-row justify-center m-auto mt-16">
-                      <h1 className="m-auto font-bold text-[24px]">
-                        {data?.carName}
-                      </h1>
-                    </div>
-                    <Image
-                      onClick={() => setShowImg(!showImg)}
-                      src={data?.featuredImage?.image}
-                      width={386}
-                      objectFit={"contain"}
-                      height={212}
-                      alt={data?.featuredImage?.alt}
-                      className="sm:w-[95%] object-contain mb-2 cursor-pointer"
-                    />
-                    <div
-                      onClick={() => setShowImg(!showImg)}
-                      className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
-                    >
-                      <Image
-                        src="/carListing/view.png"
-                        width={12}
-                        objectFit={"contain"}
-                        height={12}
-                        alt="Car Icon"
-                      />
-                      <span className="text-[#ff0000] text-sm font-semibold">
-                        View Real Car Images
-                      </span>
-                    </div>
+                <div className="sm:flex hidden flex-col items-center jusitfy-center lg:w-[486px] w-[260px] h-full ">
+                  <div className="flex flex-row justify-center m-auto mt-16">
+                    <h1 className="m-auto font-bold text-[24px]">
+                      {data?.carName}
+                    </h1>
                   </div>
-                  <div className="w-full">
-                    <div className="min-h-[500px] sm:min-h-[274px] sm:h-[274px]  max-w-[700px] relative">
-                      <div className="mt-5 flex flex-row sm:flex-row justify-center items-center mx-auto mb-6 lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 self-center">
-                        <div
-                          onClick={() => {
-                            setFreekms(Number((
+                  <Image
+                    onClick={() => setShowImg(!showImg)}
+                    src={data?.featuredImage?.image}
+                    width={386}
+                    objectFit={"contain"}
+                    height={212}
+                    alt={data?.featuredImage?.alt}
+                    className="sm:w-[95%] object-contain mb-2 cursor-pointer"
+                  />
+                  <div
+                    onClick={() => setShowImg(!showImg)}
+                    className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
+                  >
+                    <Image
+                      src="/carListing/view.png"
+                      width={12}
+                      objectFit={"contain"}
+                      height={12}
+                      alt="Car Icon"
+                    />
+                    <span className="text-[#ff0000] text-sm font-semibold">
+                      View Real Car Images
+                    </span>
+                  </div>
+                </div>
+                <div className="w-full">
+                  <div className="min-h-[500px] sm:min-h-[274px] sm:h-[274px]  max-w-[700px] relative">
+                    <div className="mt-5 flex flex-row sm:flex-row justify-center items-center mx-auto mb-6 lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 self-center">
+                      <div
+                        onClick={() => {
+                          if (Number(
+                            (
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit *
                               (((days as number) + hours / 24) as number)
-                            ).toFixed(0)))
-                            const calculatedPrice = calculateTotalPrice(
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package1?.price
+                            ).toFixed(0)
+                          ) == 0 && totalHours < 48) {
+                            alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
+                            return;
+                          }
+                          setFreekms(
+                            Number(
+                              (
+                                data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package1?.kmsLimit *
+                                (((days as number) + hours / 24) as number)
+                              ).toFixed(0)
+                            )
+                          );
+                          const calculatedPrice = calculateTotalPrice(
+                            data?.bookingOptions?.selfDrive?.packageType
+                              ?.package1?.price
+                          );
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(true);
+                            setClicked2(false);
+                            setClicked3(false);
+                          } else {
+                            console.error(
+                              "Failed to calculate the total price"
                             );
-                            if (calculatedPrice) {
-                              setPrice(Math.round(calculatedPrice));
-                              setClicked1(true);
-                              setClicked2(false);
-                              setClicked3(false);
-                            } else {
-                              console.error(
-                                "Failed to calculate the total price"
-                              );
-                            }
+                          }
 
-                          }}
-                          className={` sm:flex flex-row hover:scale-[1.05] duration-300 items-center !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg 
+                        }}
+                        className={` sm:flex flex-row hover:scale-[1.05] duration-300 items-center !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg 
                             lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked1
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
-                            }`}
-                        >
-                          <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
-                            ₹{" "}
-                            {(() => {
-                              const price = calculateTotalPrice(
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package1?.price
-                              )?.toFixed(0);
-                              const priceNumber = Number(price);
-                              return priceNumber.toString().length > 4
-                                ? priceNumber.toLocaleString("en-IN")
-                                : price;
-                            })()}
-                          </span>
-                          <span className="flex flex-col gap-0">
-                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
-                              {
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package1?.duration
-                              }
+                          }`}
+                      >
+                        <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                          ₹{" "}
+                          {(() => {
+                            const price = calculateTotalPrice(
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.price
+                            )?.toFixed(0);
+                            const priceNumber = Number(price);
+                            return priceNumber.toString().length > 4
+                              ? priceNumber.toLocaleString("en-IN")
+                              : price;
+                          })()}
+                        </span>
+                        <span className="flex flex-col gap-0">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.duration
+                            }
+                          </p>
+                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                          <span className="relative flex flex-row  group text-[#FF0000]">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap w-full overflow-hidden m-auto">
+                              {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package1?.kmsLimit == 0
+                                ? "Unlimited"
+                                : data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package1?.kmsLimit === null
+                                  ? "--"
+                                  : (
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.package1?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0) + " Free kms"}{" "}
                             </p>
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                            <span className="relative flex flex-row  group text-[#FF0000]">
-                              <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap w-full overflow-hidden m-auto">
-                                {data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package1?.kmsLimit == 0
-                                  ? "Unlimited"
-                                  : data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package1?.kmsLimit === null
-                                    ? "--"
-                                    : (
-                                      data?.bookingOptions?.selfDrive?.packageType
-                                        ?.package1?.kmsLimit *
-                                      (((days as number) + hours / 24) as number)
-                                    ).toFixed(0) + " Free kms"}{" "}
-                              </p>
-                              {/* <span className="sm:block hidden"> ...</span> */}
-                              {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {/* <span className="sm:block hidden"> ...</span> */}
+                            {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                               {data?.bookingOptions?.selfDrive?.packageType
                                 ?.package1?.kmsLimit
                                 ? data?.bookingOptions?.selfDrive?.packageType
@@ -407,74 +437,88 @@ const CardListingCards = ({ data }: any) => {
                                 : "0"}{" "}
                               Free kms
                             </div> */}
-                            </span>
                           </span>
-                        </div>
-                        <div
-                          onClick={() => {
-                            setFreekms(Number((
+                        </span>
+                      </div>
+                      <div
+                        onClick={() => {
+                          if (Number(
+                            (
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package2?.kmsLimit *
                               (((days as number) + hours / 24) as number)
-                            ).toFixed(0)))
-                            const calculatedPrice = calculateTotalPrice(
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package2?.price
+                            ).toFixed(0)
+                          ) == 0 && totalHours < 48) {
+                            alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
+                            return;
+                          }
+                          setFreekms(
+                            Number(
+                              (
+                                data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package2?.kmsLimit *
+                                (((days as number) + hours / 24) as number)
+                              ).toFixed(0)
+                            )
+                          );
+                          const calculatedPrice = calculateTotalPrice(
+                            data?.bookingOptions?.selfDrive?.packageType
+                              ?.package2?.price
+                          );
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(false);
+                            setClicked2(true);
+                            setClicked3(false);
+                          } else {
+                            console.error(
+                              "Failed to calculate the total price"
                             );
-                            if (calculatedPrice) {
-                              setPrice(Math.round(calculatedPrice));
-                              setClicked1(false);
-                              setClicked2(true);
-                              setClicked3(false);
-                            } else {
-                              console.error(
-                                "Failed to calculate the total price"
-                              );
-                            }
-                          }}
-                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked2
+                          }
+                        }}
+                        className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked2
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
-                            }`}
-                        >
-                          <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
-                            ₹{" "}
-                            {(() => {
-                              const price = calculateTotalPrice(
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package2?.price
-                              )?.toFixed(0);
-                              const priceNumber = Number(price);
-                              return priceNumber.toString().length > 4
-                                ? priceNumber.toLocaleString("en-IN")
-                                : price;
-                            })()}
-                          </span>
-                          <span className="relative flex flex-col gap-0 group">
-                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px]  text-[10px] text-center whitespace-nowrap">
-                              {
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package2?.duration
-                              }
+                          }`}
+                      >
+                        <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
+                          ₹{" "}
+                          {(() => {
+                            const price = calculateTotalPrice(
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.price
+                            )?.toFixed(0);
+                            const priceNumber = Number(price);
+                            return priceNumber.toString().length > 4
+                              ? priceNumber.toLocaleString("en-IN")
+                              : price;
+                          })()}
+                        </span>
+                        <span className="relative flex flex-col gap-0 group">
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px]  text-[10px] text-center whitespace-nowrap">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.duration
+                            }
+                          </p>
+                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                          <div className="text-[#FF0000] flex flex-row">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap overflow-hidden min-w-[70px] w-full m-auto">
+                              {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package2?.kmsLimit == 0
+                                ? "Unlimited"
+                                : data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package2?.kmsLimit === null
+                                  ? "--"
+                                  : (
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.package2?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0) + " Free kms"}{" "}
                             </p>
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                            <div className="text-[#FF0000] flex flex-row">
-                              <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap overflow-hidden min-w-[70px] w-full m-auto">
-                                {data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package2?.kmsLimit == 0
-                                  ? "Unlimited"
-                                  : data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package2?.kmsLimit === null
-                                    ? "--"
-                                    : (
-                                      data?.bookingOptions?.selfDrive?.packageType
-                                        ?.package2?.kmsLimit *
-                                      (((days as number) + hours / 24) as number)
-                                    ).toFixed(0) + " Free kms"}{" "}
-                              </p>
-                              {/* <span className="sm:block hidden">  ...</span> */}
-                            </div>
-                            {/* <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {/* <span className="sm:block hidden">  ...</span> */}
+                          </div>
+                          {/* <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType
                               ?.package2?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType
@@ -482,76 +526,89 @@ const CardListingCards = ({ data }: any) => {
                               : "0"}{" "}
                             Free kms
                           </div> */}
-                          </span>
-                        </div>
-                        <div
-                          onClick={() => {
-
-                            const calculatedPrice = calculateTotalPrice(
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package3?.price
-                            );
-                            setFreekms(Number((
+                        </span>
+                      </div>
+                      <div
+                        onClick={() => {
+                          if (Number(
+                            (
                               data?.bookingOptions?.selfDrive?.packageType
                                 ?.package3?.kmsLimit *
                               (((days as number) + hours / 24) as number)
-                            ).toFixed(0)))
-                            if (calculatedPrice) {
-                              setPrice(Math.round(calculatedPrice));
-                              setClicked1(false);
-                              setClicked2(false);
-                              setClicked3(true);
-                            } else {
-                              console.error(
-                                "Failed to calculate the total price"
-                              );
-                            }         
-                          }}
-                          className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked3
+                            ).toFixed(0)
+                          ) == 0 && totalHours < 48) {
+                            alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
+                            return;
+                          }
+                          const calculatedPrice = calculateTotalPrice(
+                            data?.bookingOptions?.selfDrive?.packageType
+                              ?.package3?.price
+                          );
+                          setFreekms(
+                            Number(
+                              (
+                                data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package3?.kmsLimit *
+                                (((days as number) + hours / 24) as number)
+                              ).toFixed(0)
+                            )
+                          );
+                          if (calculatedPrice) {
+                            setPrice(Math.round(calculatedPrice));
+                            setClicked1(false);
+                            setClicked2(false);
+                            setClicked3(true);
+                          } else {
+                            console.error(
+                              "Failed to calculate the total price"
+                            );
+                          }
+                        }}
+                        className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked3
                             ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
                             : ""
-                            }`}
-                        >
-                          <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
-                            ₹{" "}
-                            {(() => {
-                              const price = calculateTotalPrice(
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package3?.price
-                              )?.toFixed(0);
-                              const priceNumber = Number(price);
-                              return priceNumber.toString().length > 4
-                                ? priceNumber.toLocaleString("en-IN")
-                                : price;
-                            })()}
-                          </span>
-                          <span className="relative flex flex-col gap-0 group">
-                            {/* for desktop duration part */}
-                            <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center whitespace-nowrap">
-                              {
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package3?.duration
-                              }
+                          }`}
+                      >
+                        <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
+                          ₹{" "}
+                          {(() => {
+                            const price = calculateTotalPrice(
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.price
+                            )?.toFixed(0);
+                            const priceNumber = Number(price);
+                            return priceNumber.toString().length > 4
+                              ? priceNumber.toLocaleString("en-IN")
+                              : price;
+                          })()}
+                        </span>
+                        <span className="relative flex flex-col gap-0 group">
+                          {/* for desktop duration part */}
+                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center whitespace-nowrap">
+                            {
+                              data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.duration
+                            }
+                          </p>
+                          {/* desktop end */}
+                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                          <div className="flex flex-row text-[#FF0000]">
+                            <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap overflow-hidden w-full m-auto">
+                              {data?.bookingOptions?.selfDrive?.packageType
+                                ?.package3?.kmsLimit == 0
+                                ? "Unlimited"
+                                : data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package3?.kmsLimit === null
+                                  ? "--"
+                                  : (
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.package3?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0) + " Free kms"}{" "}
                             </p>
-                            {/* desktop end */}
-                            <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                            <div className="flex flex-row text-[#FF0000]">
-                              <p className="text-[#FF0000] text-center font-[500] lg:text-[13px] text-[12px] whitespace-nowrap overflow-hidden w-full m-auto">
-                                {data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package3?.kmsLimit == 0
-                                  ? "Unlimited"
-                                  : data?.bookingOptions?.selfDrive?.packageType
-                                    ?.package3?.kmsLimit === null
-                                    ? "--"
-                                    : (
-                                      data?.bookingOptions?.selfDrive?.packageType
-                                        ?.package3?.kmsLimit *
-                                      (((days as number) + hours / 24) as number)
-                                    ).toFixed(0) + " Free kms"}{" "}
-                              </p>
-                              {/* <span className="sm:block hidden">  ...</span> */}
-                            </div>
-                            {/* <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {/* <span className="sm:block hidden">  ...</span> */}
+                          </div>
+                          {/* <div className="tooltip absolute left-0 top-full mt-1 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
                             {data?.bookingOptions?.selfDrive?.packageType
                               ?.package3?.kmsLimit
                               ? data?.bookingOptions?.selfDrive?.packageType
@@ -559,498 +616,29 @@ const CardListingCards = ({ data }: any) => {
                               : "0"}{" "}
                             Free kms
                           </div> */}
-                          </span>
-                        </div>
-                      </div>
-                      {/*  */}
-                      {/* for mobile view */}
-                      <div className="flex sm:hidden flex-col items-center jusitfy-center">
-                        <div className="flex flex-row justify-center m-auto my-0 sm:my-2">
-                          <h1 className="mx-auto font-bold text-[24px]">
-                            {data?.carName}
-                          </h1>
-                        </div>
-                        <Image
-                          onClick={() => setShowImg(!showImg)}
-                          src={data?.featuredImage?.image}
-                          width={386}
-                          objectFit={"contain"}
-                          height={212}
-                          alt={data?.featuredImage?.alt}
-                          className="w-[70%] mb-2 cursor-pointer"
-                        />
-                        <div
-                          onClick={() => setShowImg(!showImg)}
-                          className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md cursor-pointer py-[3px]"
-                        >
-                          <Image
-                            src="/carListing/view.png"
-                            width={12}
-                            objectFit={"contain"}
-                            height={12}
-                            alt="Car Icon"
-                          />
-                          <span className="text-[#ff0000] text-sm font-semibold">
-                            View Real Car Images
-                          </span>
-                        </div>
-                      </div>
-
-
-
-                      {/*  */}
-
-                      <div className="sm:flex flex-row justify-between items-center sm:mr-5 relative sm:my-0 my-6 mb-2">
-                        <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center w-full gap-y-6 gap-x-2 sm:ml-8 sm:mb-0 mb-4 sm:px-0 px-4">
-                          {data?.carFeatures?.bluetooth === true && (
-                            <div className="flex flex-row items-center gap-2">
-                              <Image
-                                src="/carListing/bluetooth.png"
-                                width={18}
-                                objectFit={"contain"}
-                                height={20}
-                                alt="bluetooth"
-                              />
-                              <span className="lg:text-[15px] text-[10px]">
-                                Bluetooth
-                              </span>
-                            </div>
-                          )}
-
-                          <div className="flex flex-row items-center gap-2">
-                            <Image
-                              src="/carListing/manual.png"
-                              width={18}
-                              objectFit={"contain"}
-                              height={20}
-                              alt="bluetooth"
-                            />
-                            <span className="lg:text-[15px] text-[10px]">
-                              Manual
-                            </span>
-                          </div>
-                          {data?.carFeatures?.navigationSystem === true && (
-                            <div className="flex flex-row items-center gap-2 cursor-pointer">
-                              <Image
-                                src="/carListing/gps.png"
-                                width={18}
-                                objectFit={"contain"}
-                                height={20}
-                                alt="bluetooth"
-                              />
-                              <span className="lg:text-[15px] text-[10px]">
-                                GPS Navigation
-                              </span>
-
-                              {/* <Tooltip tooltipText="GPS Navigation">
-                              <span className="lg:text-[15px] text-[10px]">
-                                GPS Nav...
-                              </span>
-                            </Tooltip> */}
-                            </div>
-                          )}
-                          <div className="flex flex-row items-center gap-2">
-                            <Image
-                              src="/carListing/seats.png"
-                              width={18}
-                              objectFit={"contain"}
-                              height={20}
-                              alt="bluetooth"
-                            />
-                            <span className="lg:text-[15px] text-[10px]">
-                              {data?.seatingCapacity} Person
-                            </span>
-                          </div>
-                          <div className="flex flex-row items-center gap-2">
-                            <Image
-                              src="/carListing/gas.png"
-                              width={18}
-                              objectFit={"contain"}
-                              height={20}
-                              alt="bluetooth"
-                            />
-                            <span className="lg:text-[15px] text-[10px]">
-                              {data?.vehicleSpecifications?.fuelType}
-                            </span>
-                          </div>
-                          <div className="flex flex-row items-center gap-2">
-                            <Image
-                              src="/carListing/bootspace.png"
-                              width={18}
-                              objectFit={"contain"}
-                              height={20}
-                              alt="bluetooth"
-                            />
-                            <span className="lg:text-[15px] text-[10px]">
-                              Boot Space
-                            </span>
-                          </div>
-                        </div>
-                        <div className="m-0 flex flex-row items-center sm:px-0 px-4 mt-7 justify-between sm:justify-start">
-                        <div className="flex flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer  sm:hidden ">
-                        {
-                          selectedPackageFreeKms !== 0 ? <div className="sm:flex flex-row justify-end sm:mr-10  sm:my-5">
-                            {data?.bookingOptions?.selfDrive?.packageType
-                              ?.extraKmsCharge && (
-                                <span className="text-xs sm:text-[15px]">
-                                  Extra kms will be charged at{" "}
-                                  <span className="text-[#FF0000]">
-                                    ₹
-                                    {
-                                      data?.bookingOptions?.selfDrive?.packageType
-                                        ?.extraKmsCharge
-                                    }
-                                  </span>
-                                </span>
-                              )}
-                          </div> : 
-                          <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-
-                          </div>
-                        }
-                        <span
-                          className="text-[#ff0000] sm:text-[15px] text-sm flex items-center gap-2"
-                          onClick={() => setShowOptionsMobile(!showOptionsMobile)}
-                        >
-                          View Details{" "}
-                          <Image
-                            src="/carListing/arrow.png"
-                            width={10}
-                            objectFit={"contain"}
-                            height={10}
-                            className="object-contain"
-                            alt="bluetooth"
-                          />
-                        </span>
-
-                      </div>
-                          <ThemeButton
-                            onClick={() => {
-                              Navigation.push(`/car-details/${data._id}`);
-                              selectDefaultPackage(data);
-                            }}
-                            text="Book Now"
-                            className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
-                          />
-                        </div>
-                      </div>
-                      <div className=" flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-44 h-[295px] sm:h-[90px] absolute sm:-bottom-10 bottom-[0px] hidden sm:flex">
-                        {
-                          selectedPackageFreeKms !== 0 ? <div className="sm:flex flex-row justify-end sm:mr-10 mt-10  sm:my-5">
-                            {data?.bookingOptions?.selfDrive?.packageType
-                              ?.extraKmsCharge && (
-                                <span className="text-xs sm:text-[15px]">
-                                  Extra kms will be charged at{" "}
-                                  <span className="text-[#FF0000]">
-                                    ₹
-                                    {
-                                      data?.bookingOptions?.selfDrive?.packageType
-                                        ?.extraKmsCharge
-                                    }
-                                  </span>
-                                </span>
-                              )}
-                          </div> : 
-                          <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-
-                          </div>
-                        }
-                        <span
-                          className="text-[#ff0000] sm:text-[15px] text-sm flex items-center gap-2"
-                          onClick={() => setShowOptionsMobile(!showOptionsMobile)}
-                        >
-                          View Details{" "}
-                          <Image
-                            src="/carListing/arrow.png"
-                            width={10}
-                            objectFit={"contain"}
-                            height={10}
-                            className="object-contain"
-                            alt="bluetooth"
-                          />
-                        </span>
-
-                      </div>
-                    </div>
-                  </div>
-                </>
-              ) : bookingOptionsHome ===
-                data?.bookingOptions?.subscription?.name ? (
-                <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
-                  <Image
-                    src="/png/red-design.png"
-                    width={133}
-                    objectFit={"contain"}
-                    height={46}
-                    alt="Tag Icon"
-                  />
-                  <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
-                    {data?.brandName}
-                  </span>
-                </div>
-                  <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
-                    <div className="flex flex-row justify-center m-auto mt-16">
-                      <h1 className="m-auto font-bold text-[24px]">
-                        {data?.carName}
-                      </h1>
-                    </div>
-                    <Image
-                      src={data?.featuredImage?.image}
-                      width={386}
-                      objectFit={"contain"}
-                      height={212}
-                      alt={data?.featuredImage?.alt}
-                      className="sm:w-[250px] sm:h-[180px] sm:object-contain mb-2"
-                    />
-                    <div
-                      onClick={() => setShowImg(!showImg)}
-                      className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
-                    >
-                      <Image
-                        src="/carListing/view.png"
-                        width={12}
-                        objectFit={"contain"}
-                        height={12}
-                        alt="Car Icon"
-                      />
-                      <span className="text-[#ff0000] text-sm font-semibold">
-                        View Real Car Images
-                      </span>
-                    </div>
-                  </div>
-                  <div className="sm:h-[274px] relative px-4 max-w-[700px] w-full">
-                    <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5">
-                      <div
-                        onClick={() => {
-                          // const calculatedPrice = calculateTotalPrice(
-                          //   data?.bookingOptions?.subscription?.packageType
-                          //     ?.package1?.price
-                          // );
-                          // if (calculatedPrice) {
-                          //   setPrice(Math.round(calculatedPrice));
-
-                          // } else {
-                          //   console.error("Failed to calculate the total price");
-                          // }
-
-                          setPrice(
-                            data?.bookingOptions?.subscription?.packageType
-                              ?.package1?.price
-                          );
-                          setClicked1(true);
-                          setClicked2(false);
-                          setClicked3(false);
-                        }}
-                        className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${clicked1
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
-                          }`}
-                      >
-                        <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
-                          ₹{" "}
-                          {(() => {
-                            const price =
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package1?.price;
-                            const priceNumber = Number(price);
-                            return priceNumber.toString().length > 4
-                              ? priceNumber.toLocaleString("en-IN")
-                              : price;
-                          })()}
-                        </span>
-                        <span className="flex flex-col gap-0">
-                          {/* for desktop */}
-                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
-                            {
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package1?.duration
-                            }
-                          </p>
-                          {/* desktop end */}
-                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                          <span className="relative flex flex-row group text-[#FF0000]">
-                            <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[13px] whitespace-nowrap w-full overflow-hidden">
-                              {data?.bookingOptions?.subscription?.packageType
-                                ?.package1?.kmsLimit == 0
-                                ? "Unlimited"
-                                : data?.bookingOptions?.subscription?.packageType
-                                  ?.package1?.kmsLimit === null
-                                  ? "--"
-                                  : data?.bookingOptions?.subscription?.packageType
-                                    ?.package1?.kmsLimit + " Free kms"}{" "}
-                            </p>
-                            {/* <span className="sm:block hidden">  ...</span> */}
-                            {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                            {data?.bookingOptions?.subscription?.packageType
-                              ?.package1?.kmsLimit
-                              ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package1?.kmsLimit 
-                              : "0"}{" "}
-                            Free kms
-                          </div> */}
-                          </span>
-                        </span>
-                      </div>
-                      <div
-                        onClick={() => {
-                          // const calculatedPrice = calculateTotalPrice(
-                          //   data?.bookingOptions?.subscription?.packageType
-                          //     ?.package2?.price
-                          // );
-                          // if (calculatedPrice) {
-                          //   setPrice(Math.round(calculatedPrice));
-
-                          // } else {
-                          //   console.error("Failed to calculate the total price");
-                          // }
-                          setPrice(
-                            data?.bookingOptions?.subscription?.packageType
-                              ?.package2?.price
-                          );
-                          setClicked1(false);
-                          setClicked2(true);
-                          setClicked3(false);
-                        }}
-                        className={`sm:flex flex-row hover:scale-[1.05] duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
-                          }`}
-                      >
-                        <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                          ₹{" "}
-                          {(() => {
-                            const price =
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package2?.price;
-                            const priceNumber = Number(price);
-                            return priceNumber.toString().length > 4
-                              ? priceNumber.toLocaleString("en-IN")
-                              : price;
-                          })()}
-                        </span>
-                        <span className="flex flex-col gap-0">
-                          {/* for desktop */}
-                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
-                            {
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package2?.duration
-                            }
-                          </p>
-                          {/* desktop end */}
-                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                          <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                            <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] min-w-[70px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
-                              {data?.bookingOptions?.subscription?.packageType
-                                ?.package2?.kmsLimit == 0
-                                ? "Unlimited"
-                                : data?.bookingOptions?.subscription?.packageType
-                                  ?.package2?.kmsLimit === null
-                                  ? "--"
-                                  : data?.bookingOptions?.subscription?.packageType
-                                    ?.package2?.kmsLimit + " Free kms"}{" "}
-                            </p>
-                            {/* <span className="sm:block hidden">  ...</span> */}
-                            {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                            {data?.bookingOptions?.subscription?.packageType
-                              ?.package2?.kmsLimit
-                              ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package2?.kmsLimit 
-                              : "0"}{" "}
-                            Free kms
-                          </div> */}
-                          </span>
-                        </span>
-                      </div>
-                      <div
-                        onClick={() => {
-                          // const calculatedPrice = calculateTotalPrice(
-                          //   data?.bookingOptions?.subscription?.packageType
-                          //     ?.package3?.price
-                          // );
-                          // if (calculatedPrice) {
-                          //   setPrice(Math.round(calculatedPrice));
-
-                          // } else {
-                          //   console.error("Failed to calculate the total price");
-                          // }
-                          setPrice(
-                            data?.bookingOptions?.subscription?.packageType
-                              ?.package3?.price
-                          );
-                          setClicked1(false);
-                          setClicked2(false);
-                          setClicked3(true);
-                        }}
-                        className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
-                          }`}
-                      >
-                        <span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
-                          ₹{" "}
-                          {(() => {
-                            const price =
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package3?.price;
-                            const priceNumber = Number(price);
-                            return priceNumber.toString().length > 4
-                              ? priceNumber.toLocaleString("en-IN")
-                              : price;
-                          })()}
-                        </span>
-                        <span className="flex flex-col gap-0">
-                          {/* for desktop */}
-                          <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
-                            {
-                              data?.bookingOptions?.subscription?.packageType
-                                ?.package3?.duration
-                            }
-                          </p>
-                          {/* desktop end */}
-                          <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                          <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                            <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
-                              {data?.bookingOptions?.subscription?.packageType
-                                ?.package3?.kmsLimit == 0
-                                ? "Unlimited"
-                                : data?.bookingOptions?.subscription?.packageType
-                                  ?.package3?.kmsLimit === null
-                                  ? "--"
-                                  : data?.bookingOptions?.subscription?.packageType
-                                    ?.package3?.kmsLimit + " Free kms"}{" "}
-                            </p>
-                            {/* <span className="sm:block hidden"> ...</span> */}
-                            {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                            {data?.bookingOptions?.subscription?.packageType
-                              ?.package3?.kmsLimit
-                              ? data?.bookingOptions?.subscription?.packageType
-                                  ?.package3?.kmsLimit
-                              : "0"}{" "}
-                            Free kms
-                          </div> */}
-                          </span>
                         </span>
                       </div>
                     </div>
-
+                    {/*  */}
                     {/* for mobile view */}
-                    <div className="flex sm:hidden flex-col items-center jusitfy-center sm:w-[486px] h-full ">
-                      <div className="flex flex-row justify-center my-2">
-                        <h1 className="m-auto font-bold text-[24px]">
+                    <div className="flex sm:hidden flex-col items-center jusitfy-center">
+                      <div className="flex flex-row justify-center m-auto my-0 sm:my-2">
+                        <h1 className="mx-auto font-bold text-[24px]">
                           {data?.carName}
                         </h1>
                       </div>
                       <Image
+                        onClick={() => setShowImg(!showImg)}
                         src={data?.featuredImage?.image}
                         width={386}
                         objectFit={"contain"}
                         height={212}
                         alt={data?.featuredImage?.alt}
-                        className="w-[70%] mb-2"
+                        className="w-[70%] mb-2 cursor-pointer"
                       />
                       <div
                         onClick={() => setShowImg(!showImg)}
-                        className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
+                        className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md cursor-pointer py-[3px]"
                       >
                         <Image
                           src="/carListing/view.png"
@@ -1059,147 +647,626 @@ const CardListingCards = ({ data }: any) => {
                           height={12}
                           alt="Car Icon"
                         />
-                        <span className="text-[#ff0000] sm:text-[15px] text-xs font-semibold">
+                        <span className="text-[#ff0000] text-sm font-semibold">
                           View Real Car Images
                         </span>
                       </div>
                     </div>
 
                     {/*  */}
-                    <div className="sm:flex hidden flex-row justify-end mr-5 my-5">
-                      {data?.bookingOptions?.subscription?.packageType
-                        ?.extraKmsCharge && (
-                          <span>
-                            Extra kms will be charged at{" "}
-                            <span className="text-[#FF0000]">
-                              ₹
-                              {
-                                data?.bookingOptions?.subscription?.packageType
-                                  ?.extraKmsCharge
-                              }
-                            </span>
-                          </span>
-                        )}
-                    </div>
 
-                    {/*  */}
-
-                    <div className="sm:flex flex-row justify-between items-center sm:mr-5">
-                      <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-4 gap-2 sm:text-[15px] text-[13px] sm:mb-0 mb-4">
+                    <div className="sm:flex flex-row justify-between items-center sm:mr-5 relative sm:my-0 my-6 mb-2">
+                      <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center w-full gap-y-6 gap-x-2 sm:ml-8 sm:mb-0 mb-4 sm:px-0 px-4">
                         {data?.carFeatures?.bluetooth === true && (
                           <div className="flex flex-row items-center gap-2">
                             <Image
                               src="/carListing/bluetooth.png"
-                              width={20}
+                              width={18}
                               objectFit={"contain"}
                               height={20}
                               alt="bluetooth"
                             />
-                            <span>Bluetooth</span>
+                            <span className="lg:text-[15px] text-[10px]">
+                              Bluetooth
+                            </span>
                           </div>
                         )}
 
                         <div className="flex flex-row items-center gap-2">
                           <Image
                             src="/carListing/manual.png"
-                            width={20}
+                            width={18}
                             objectFit={"contain"}
                             height={20}
                             alt="bluetooth"
                           />
-                          <span>Manual</span>
+                          <span className="lg:text-[15px] text-[10px]">
+                            Manual
+                          </span>
                         </div>
                         {data?.carFeatures?.navigationSystem === true && (
-                          <div className="flex flex-row items-center gap-2">
+                          <div className="flex flex-row items-center gap-2 cursor-pointer">
                             <Image
                               src="/carListing/gps.png"
-                              width={20}
+                              width={18}
                               objectFit={"contain"}
                               height={20}
                               alt="bluetooth"
                             />
-                            <span>GPS Navigation</span>
+                            <span className="lg:text-[15px] text-[10px]">
+                              GPS Navigation
+                            </span>
+
+                            {/* <Tooltip tooltipText="GPS Navigation">
+                              <span className="lg:text-[15px] text-[10px]">
+                                GPS Nav...
+                              </span>
+                            </Tooltip> */}
                           </div>
                         )}
                         <div className="flex flex-row items-center gap-2">
                           <Image
                             src="/carListing/seats.png"
-                            width={20}
+                            width={18}
                             objectFit={"contain"}
                             height={20}
                             alt="bluetooth"
                           />
-                          <span>{data?.seatingCapacity} Person</span>
+                          <span className="lg:text-[15px] text-[10px]">
+                            {data?.seatingCapacity} Person
+                          </span>
                         </div>
-                        {data?.vehicleSpecifications?.fuelType && (
-                          <div className="flex flex-row items-center gap-2">
-                            <Image
-                              src="/carListing/gas.png"
-                              width={20}
-                              objectFit={"contain"}
-                              height={20}
-                              alt="bluetooth"
-                            />
-                            <span>{data?.vehicleSpecifications?.fuelType}</span>
-                          </div>
-                        )}
-
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/gas.png"
+                            width={18}
+                            objectFit={"contain"}
+                            height={20}
+                            alt="bluetooth"
+                          />
+                          <span className="lg:text-[15px] text-[10px]">
+                            {data?.vehicleSpecifications?.fuelType}
+                          </span>
+                        </div>
                         <div className="flex flex-row items-center gap-2">
                           <Image
                             src="/carListing/bootspace.png"
+                            width={18}
+                            objectFit={"contain"}
+                            height={20}
+                            alt="bluetooth"
+                          />
+                          <span className="lg:text-[15px] text-[10px]">
+                            Boot Space
+                          </span>
+                        </div>
+                      </div>
+                      <div className="m-0 flex flex-row items-center sm:px-0 px-4 mt-7 justify-between sm:justify-start">
+                        <div className="flex flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer  sm:hidden ">
+                          {selectedPackageFreeKms !== 0 ? (
+                            <div className="sm:flex flex-row justify-end sm:mr-10  sm:my-5">
+                              {data?.bookingOptions?.selfDrive?.packageType
+                                ?.extraKmsCharge && (
+                                  <span className="text-xs sm:text-[15px]">
+                                    Extra kms will be charged at{" "}
+                                    <span className="text-[#FF0000]">
+                                      ₹
+                                      {
+                                        data?.bookingOptions?.selfDrive
+                                          ?.packageType?.extraKmsCharge
+                                      }
+                                    </span>
+                                  </span>
+                                )}
+                            </div>
+                          ) : (
+                            <div className="sm:flex hidden flex-row justify-end mr-10 my-5"></div>
+                          )}
+                          <span
+                            className="text-[#ff0000] sm:text-[15px] text-sm flex items-center gap-2"
+                            onClick={() =>
+                              setShowOptionsMobile(!showOptionsMobile)
+                            }
+                          >
+                            View Details{" "}
+                            <Image
+                              src="/carListing/arrow.png"
+                              width={10}
+                              objectFit={"contain"}
+                              height={10}
+                              className="object-contain"
+                              alt="bluetooth"
+                            />
+                          </span>
+                        </div>
+                        <ThemeButton
+                          onClick={() => {
+                            if (Number(
+                              (
+                                data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package2?.kmsLimit *
+                                (((days as number) + hours / 24) as number)
+                              ).toFixed(0)
+                            ) == 0 && totalHours < 48) {
+                              alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
+                              return;
+                            }
+                            Navigation.push(`/car-details/${data._id}`);
+                            selectDefaultPackage(data);
+                          }}
+                          text="Book Now"
+                          className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
+                        />
+                      </div>
+                    </div>
+                    <div className=" flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-44 h-[295px] sm:h-[90px] absolute sm:-bottom-10 bottom-[0px] hidden sm:flex">
+                      {selectedPackageFreeKms !== 0 ? (
+                        <div className="sm:flex flex-row justify-end sm:mr-10 mt-10  sm:my-5">
+                          {data?.bookingOptions?.selfDrive?.packageType
+                            ?.extraKmsCharge && (
+                              <span className="text-xs sm:text-[15px]">
+                                Extra kms will be charged at{" "}
+                                <span className="text-[#FF0000]">
+                                  ₹
+                                  {
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.extraKmsCharge
+                                  }
+                                </span>
+                              </span>
+                            )}
+                        </div>
+                      ) : (
+                        <div className="sm:flex hidden flex-row justify-end mr-10 my-5"></div>
+                      )}
+                      <span
+                        className="text-[#ff0000] sm:text-[15px] text-sm flex items-center gap-2"
+                        onClick={() => setShowOptionsMobile(!showOptionsMobile)}
+                      >
+                        View Details{" "}
+                        <Image
+                          src="/carListing/arrow.png"
+                          width={10}
+                          objectFit={"contain"}
+                          height={10}
+                          className="object-contain"
+                          alt="bluetooth"
+                        />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : bookingOptionsHome ===
+              data?.bookingOptions?.subscription?.name ? (
+              <>
+                {" "}
+                <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+                  <Image
+                    src="/png/red-design.png"
+                    width={133}
+                    objectFit={"contain"}
+                    height={46}
+                    alt="Tag Icon"
+                  />
+                  <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+                    {data?.brandName}
+                  </span>
+                </div>
+                <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
+                  <div className="flex flex-row justify-center m-auto mt-16">
+                    <h1 className="m-auto font-bold text-[24px]">
+                      {data?.carName}
+                    </h1>
+                  </div>
+                  <Image
+                    src={data?.featuredImage?.image}
+                    width={386}
+                    objectFit={"contain"}
+                    height={212}
+                    alt={data?.featuredImage?.alt}
+                    className="sm:w-[250px] sm:h-[180px] sm:object-contain mb-2"
+                  />
+                  <div
+                    onClick={() => setShowImg(!showImg)}
+                    className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
+                  >
+                    <Image
+                      src="/carListing/view.png"
+                      width={12}
+                      objectFit={"contain"}
+                      height={12}
+                      alt="Car Icon"
+                    />
+                    <span className="text-[#ff0000] text-sm font-semibold">
+                      View Real Car Images
+                    </span>
+                  </div>
+                </div>
+                <div className="sm:h-[274px] relative px-4 max-w-[700px] w-full">
+                  <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5">
+                    <div
+                      onClick={() => {
+                        // const calculatedPrice = calculateTotalPrice(
+                        //   data?.bookingOptions?.subscription?.packageType
+                        //     ?.package1?.price
+                        // );
+                        // if (calculatedPrice) {
+                        //   setPrice(Math.round(calculatedPrice));
+
+                        // } else {
+                        //   console.error("Failed to calculate the total price");
+                        // }
+
+                        setPrice(
+                          data?.bookingOptions?.subscription?.packageType
+                            ?.package1?.price
+                        );
+                        setClicked1(true);
+                        setClicked2(false);
+                        setClicked3(false);
+                      }}
+                      className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${clicked1
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                          : ""
+                        }`}
+                    >
+                      <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
+                        ₹{" "}
+                        {(() => {
+                          const price =
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.price;
+                          const priceNumber = Number(price);
+                          return priceNumber.toString().length > 4
+                            ? priceNumber.toLocaleString("en-IN")
+                            : price;
+                        })()}
+                      </span>
+                      <span className="flex flex-col gap-0">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.duration
+                          }
+                        </p>
+                        {/* desktop end */}
+                        <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                        <span className="relative flex flex-row group text-[#FF0000]">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[13px] whitespace-nowrap w-full overflow-hidden">
+                            {data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.kmsLimit == 0
+                              ? "Unlimited"
+                              : data?.bookingOptions?.subscription?.packageType
+                                ?.package1?.kmsLimit === null
+                                ? "--"
+                                : data?.bookingOptions?.subscription?.packageType
+                                  ?.package1?.kmsLimit + " Free kms"}{" "}
+                          </p>
+                          {/* <span className="sm:block hidden">  ...</span> */}
+                          {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.subscription?.packageType
+                              ?.package1?.kmsLimit
+                              ? data?.bookingOptions?.subscription?.packageType
+                                  ?.package1?.kmsLimit 
+                              : "0"}{" "}
+                            Free kms
+                          </div> */}
+                        </span>
+                      </span>
+                    </div>
+                    <div
+                      onClick={() => {
+                        // const calculatedPrice = calculateTotalPrice(
+                        //   data?.bookingOptions?.subscription?.packageType
+                        //     ?.package2?.price
+                        // );
+                        // if (calculatedPrice) {
+                        //   setPrice(Math.round(calculatedPrice));
+
+                        // } else {
+                        //   console.error("Failed to calculate the total price");
+                        // }
+                        setPrice(
+                          data?.bookingOptions?.subscription?.packageType
+                            ?.package2?.price
+                        );
+                        setClicked1(false);
+                        setClicked2(true);
+                        setClicked3(false);
+                      }}
+                      className={`sm:flex flex-row hover:scale-[1.05] duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                          : ""
+                        }`}
+                    >
+                      <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                        ₹{" "}
+                        {(() => {
+                          const price =
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.price;
+                          const priceNumber = Number(price);
+                          return priceNumber.toString().length > 4
+                            ? priceNumber.toLocaleString("en-IN")
+                            : price;
+                        })()}
+                      </span>
+                      <span className="flex flex-col gap-0">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.duration
+                          }
+                        </p>
+                        {/* desktop end */}
+                        <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                        <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] min-w-[70px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
+                            {data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.kmsLimit == 0
+                              ? "Unlimited"
+                              : data?.bookingOptions?.subscription?.packageType
+                                ?.package2?.kmsLimit === null
+                                ? "--"
+                                : data?.bookingOptions?.subscription?.packageType
+                                  ?.package2?.kmsLimit + " Free kms"}{" "}
+                          </p>
+                          {/* <span className="sm:block hidden">  ...</span> */}
+                          {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.subscription?.packageType
+                              ?.package2?.kmsLimit
+                              ? data?.bookingOptions?.subscription?.packageType
+                                  ?.package2?.kmsLimit 
+                              : "0"}{" "}
+                            Free kms
+                          </div> */}
+                        </span>
+                      </span>
+                    </div>
+                    <div
+                      onClick={() => {
+                        // const calculatedPrice = calculateTotalPrice(
+                        //   data?.bookingOptions?.subscription?.packageType
+                        //     ?.package3?.price
+                        // );
+                        // if (calculatedPrice) {
+                        //   setPrice(Math.round(calculatedPrice));
+
+                        // } else {
+                        //   console.error("Failed to calculate the total price");
+                        // }
+                        setPrice(
+                          data?.bookingOptions?.subscription?.packageType
+                            ?.package3?.price
+                        );
+                        setClicked1(false);
+                        setClicked2(false);
+                        setClicked3(true);
+                      }}
+                      className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                          : ""
+                        }`}
+                    >
+                      <span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
+                        ₹{" "}
+                        {(() => {
+                          const price =
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.price;
+                          const priceNumber = Number(price);
+                          return priceNumber.toString().length > 4
+                            ? priceNumber.toLocaleString("en-IN")
+                            : price;
+                        })()}
+                      </span>
+                      <span className="flex flex-col gap-0">
+                        {/* for desktop */}
+                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
+                          {
+                            data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.duration
+                          }
+                        </p>
+                        {/* desktop end */}
+                        <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                        <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
+                            {data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.kmsLimit == 0
+                              ? "Unlimited"
+                              : data?.bookingOptions?.subscription?.packageType
+                                ?.package3?.kmsLimit === null
+                                ? "--"
+                                : data?.bookingOptions?.subscription?.packageType
+                                  ?.package3?.kmsLimit + " Free kms"}{" "}
+                          </p>
+                          {/* <span className="sm:block hidden"> ...</span> */}
+                          {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                            {data?.bookingOptions?.subscription?.packageType
+                              ?.package3?.kmsLimit
+                              ? data?.bookingOptions?.subscription?.packageType
+                                  ?.package3?.kmsLimit
+                              : "0"}{" "}
+                            Free kms
+                          </div> */}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* for mobile view */}
+                  <div className="flex sm:hidden flex-col items-center jusitfy-center sm:w-[486px] h-full ">
+                    <div className="flex flex-row justify-center my-2">
+                      <h1 className="m-auto font-bold text-[24px]">
+                        {data?.carName}
+                      </h1>
+                    </div>
+                    <Image
+                      src={data?.featuredImage?.image}
+                      width={386}
+                      objectFit={"contain"}
+                      height={212}
+                      alt={data?.featuredImage?.alt}
+                      className="w-[70%] mb-2"
+                    />
+                    <div
+                      onClick={() => setShowImg(!showImg)}
+                      className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
+                    >
+                      <Image
+                        src="/carListing/view.png"
+                        width={12}
+                        objectFit={"contain"}
+                        height={12}
+                        alt="Car Icon"
+                      />
+                      <span className="text-[#ff0000] sm:text-[15px] text-xs font-semibold">
+                        View Real Car Images
+                      </span>
+                    </div>
+                  </div>
+
+                  {/*  */}
+                  <div className="sm:flex hidden flex-row justify-end mr-5 my-5">
+                    {data?.bookingOptions?.subscription?.packageType
+                      ?.extraKmsCharge && (
+                        <span>
+                          Extra kms will be charged at{" "}
+                          <span className="text-[#FF0000]">
+                            ₹
+                            {
+                              data?.bookingOptions?.subscription?.packageType
+                                ?.extraKmsCharge
+                            }
+                          </span>
+                        </span>
+                      )}
+                  </div>
+
+                  {/*  */}
+
+                  <div className="sm:flex flex-row justify-between items-center sm:mr-5">
+                    <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-4 gap-2 sm:text-[15px] text-[13px] sm:mb-0 mb-4">
+                      {data?.carFeatures?.bluetooth === true && (
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/bluetooth.png"
                             width={20}
                             objectFit={"contain"}
                             height={20}
                             alt="bluetooth"
                           />
-                          <span>Boot Space</span>
+                          <span>Bluetooth</span>
                         </div>
-                      </div>
-                      <div className="m-0 sm:block flex justify-end sm:mr-0">
-                        <ThemeButton
-                          onClick={() => {
-                            Navigation.push(`/car-details/${data._id}`),
-                              selectDefaultPackage(data);
-                          }}
-                          text="Book Now"
-                          className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center shadow-lg flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
+                      )}
+
+                      <div className="flex flex-row items-center gap-2">
+                        <Image
+                          src="/carListing/manual.png"
+                          width={20}
+                          objectFit={"contain"}
+                          height={20}
+                          alt="bluetooth"
                         />
+                        <span>Manual</span>
+                      </div>
+                      {data?.carFeatures?.navigationSystem === true && (
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/gps.png"
+                            width={20}
+                            objectFit={"contain"}
+                            height={20}
+                            alt="bluetooth"
+                          />
+                          <span>GPS Navigation</span>
+                        </div>
+                      )}
+                      <div className="flex flex-row items-center gap-2">
+                        <Image
+                          src="/carListing/seats.png"
+                          width={20}
+                          objectFit={"contain"}
+                          height={20}
+                          alt="bluetooth"
+                        />
+                        <span>{data?.seatingCapacity} Person</span>
+                      </div>
+                      {data?.vehicleSpecifications?.fuelType && (
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/gas.png"
+                            width={20}
+                            objectFit={"contain"}
+                            height={20}
+                            alt="bluetooth"
+                          />
+                          <span>{data?.vehicleSpecifications?.fuelType}</span>
+                        </div>
+                      )}
+
+                      <div className="flex flex-row items-center gap-2">
+                        <Image
+                          src="/carListing/bootspace.png"
+                          width={20}
+                          objectFit={"contain"}
+                          height={20}
+                          alt="bluetooth"
+                        />
+                        <span>Boot Space</span>
                       </div>
                     </div>
-                    <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:right-[8px]">
-                      <span
-                        className="text-[#ff0000]"
-                        onClick={() => setShowOptionsMobile(!showOptionsMobile)}
-                      >
-                        View Details{" "}
-                      </span>
-                      <Image
-                        src="/carListing/arrow.png"
-                        width={10}
-                        objectFit={"contain"}
-                        height={10}
-                        alt="bluetooth"
+                    <div className="m-0 sm:block flex justify-end sm:mr-0">
+                      <ThemeButton
+                        onClick={() => {
+                          Navigation.push(`/car-details/${data._id}`),
+                            selectDefaultPackage(data);
+                        }}
+                        text="Book Now"
+                        className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center shadow-lg flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
                       />
                     </div>
                   </div>
-                </>
-              ) : bookingOptionsHome ===
-                data?.bookingOptions?.withDriver?.name ? (
-                <>
-                  {(radioToggle == data?.bookingOptions?.withDriver?.oneway?.name) && (
-                    <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
-                      <Image
-                        src="/png/red-design.png"
-                        width={133}
-                        objectFit={"contain"}
-                        height={46}
-                        alt="Tag Icon"
-                      />
-                      <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
-                        {data?.brandName}
-                        
-                      </span>
-                    </div>
+                  <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:right-[8px]">
+                    <span
+                      className="text-[#ff0000]"
+                      onClick={() => setShowOptionsMobile(!showOptionsMobile)}
+                    >
+                      View Details{" "}
+                    </span>
+                    <Image
+                      src="/carListing/arrow.png"
+                      width={10}
+                      objectFit={"contain"}
+                      height={10}
+                      alt="bluetooth"
+                    />
+                  </div>
+                </div>
+              </>
+            ) : bookingOptionsHome ===
+              data?.bookingOptions?.withDriver?.name ? (
+              <>
+                {radioToggle ==
+                  data?.bookingOptions?.withDriver?.oneway?.name && (
+                    <>
+                      {" "}
+                      <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+                        <Image
+                          src="/png/red-design.png"
+                          width={133}
+                          objectFit={"contain"}
+                          height={46}
+                          alt="Tag Icon"
+                        />
+                        <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
+                          {data?.brandName}
+                        </span>
+                      </div>
                       <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
                         <div className="flex flex-row justify-center m-auto mt-16">
                           <h1 className="m-auto font-bold text-[24px]">
@@ -1231,53 +1298,55 @@ const CardListingCards = ({ data }: any) => {
                         </div>
                       </div>
                       <div className="sm:h-[274px] relative max-w-[700px] w-full">
-                        <div className={`mt-5 sm:flex grid grid-cols-3 flex-row justify-start items-center sm:gap-4 gap-2 sm:mr-5 px-4 ${(bookingOptionsHome === 'Driver' && driverType === "One-way") && 'w-full grid-cols-1'}`}>
-                          {
-                            data?.bookingOptions.withDriver.oneway.doorstepDelivery.filter((item: any) => item.city === dropLocation).map((item: any, index: number) => {
-                              return <div
-                                key={index}
-                                onClick={() => {
-                                  const calculatedPrice = calculateTotalPrice(
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package1?.price
-                                  );
-                                  if (calculatedPrice) {
-                                    setPrice((item.price).toFixed(0));
-                                  } else {
-                                    console.error(
-                                      "Failed to calculate the total price"
+                        <div
+                          className={`mt-5 sm:flex grid grid-cols-3 flex-row justify-start items-center sm:gap-4 gap-2 sm:mr-5 px-4 ${bookingOptionsHome === "Driver" &&
+                            driverType === "One-way" &&
+                            "w-full grid-cols-1"
+                            }`}
+                        >
+                          {data?.bookingOptions.withDriver.oneway.doorstepDelivery
+                            .filter((item: any) => item.city === dropLocation)
+                            .map((item: any, index: number) => {
+                              return (
+                                <div
+                                  key={index}
+                                  onClick={() => {
+                                    const calculatedPrice = calculateTotalPrice(
+                                      data?.bookingOptions?.withDriver?.local
+                                        ?.packageType?.package1?.price
                                     );
-                                  }
-                                  setClicked1(true);
-                                  setClicked2(false);
-                                  setClicked3(false);
-                                }}
-                                className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
-                                  ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                  : ""
-                                  }  `}
-                              >
-
-
-                                <span className="flex flex-col  gap-0">
-                                  {/* for desktop */}
-                                  <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
-                                    {item.city}
-                                  </p>
-                                  {/* desktop end */}
-                                  <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                                  <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                                    <p className="text-[#FF0000] font-[500] sm:text-[20px] font-bold text-center xs:text-xs text-[13px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
-                                      ₹ {item.price}
+                                    if (calculatedPrice) {
+                                      setPrice(item.price.toFixed(0));
+                                    } else {
+                                      console.error(
+                                        "Failed to calculate the total price"
+                                      );
+                                    }
+                                    setClicked1(true);
+                                    setClicked2(false);
+                                    setClicked3(false);
+                                  }}
+                                  className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                                      ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                      : ""
+                                    }  `}
+                                >
+                                  <span className="flex flex-col  gap-0">
+                                    {/* for desktop */}
+                                    <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
+                                      {item.city}
                                     </p>
-
+                                    {/* desktop end */}
+                                    <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                                    <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                                      <p className="text-[#FF0000] font-[500] sm:text-[20px] font-bold text-center xs:text-xs text-[13px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
+                                        ₹ {item.price}
+                                      </p>
+                                    </span>
                                   </span>
-                                </span>
-                              </div>
-                            })
-                          }
-
-
+                                </div>
+                              );
+                            })}
                         </div>
                         {/* mobile view */}
                         <div className="flex sm:hidden flex-col items-center jusitfy-center h-full ">
@@ -1437,9 +1506,11 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </>
                   )}
-                  {driverType ===
-                    data?.bookingOptions?.withDriver?.local?.name && (
-                      <>  <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+                {driverType ===
+                  data?.bookingOptions?.withDriver?.local?.name && (
+                    <>
+                      {" "}
+                      <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                         <Image
                           src="/png/red-design.png"
                           width={133}
@@ -1450,10 +1521,289 @@ const CardListingCards = ({ data }: any) => {
                         <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
                           {data?.brandName}
                         </span>
-                        
                       </div>
-                        <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
-                          <div className="flex flex-row justify-center m-auto mt-16">
+                      <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
+                        <div className="flex flex-row justify-center m-auto mt-16">
+                          <h1 className="m-auto font-bold text-[24px]">
+                            {data?.carName}
+                          </h1>
+                        </div>
+                        <Image
+                          src={data?.featuredImage?.image}
+                          width={386}
+                          objectFit={"contain"}
+                          height={212}
+                          alt={data?.featuredImage?.alt}
+                          className="sm:w-[95%] mb-2"
+                        />
+                        <div
+                          onClick={() => setShowImg(!showImg)}
+                          className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
+                        >
+                          <Image
+                            src="/carListing/view.png"
+                            width={12}
+                            objectFit={"contain"}
+                            height={12}
+                            alt="Car Icon"
+                          />
+                          <span className="text-[#ff0000] text-sm font-semibold">
+                            View Real Car Images
+                          </span>
+                        </div>
+                      </div>
+                      <div className="sm:h-[274px] relative max-w-[700px] w-full">
+                        <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5 px-4">
+                          <div
+                            onClick={() => {
+                              const calculatedPrice = calculateTotalPrice(
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package1?.price
+                              );
+                              if (calculatedPrice) {
+                                setPrice(Math.round(calculatedPrice));
+                              } else {
+                                console.error(
+                                  "Failed to calculate the total price"
+                                );
+                              }
+                              setFreekms(
+                                Number(
+                                  (
+                                    data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package1?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0)
+                                )
+                              );
+                              setClicked1(true);
+                              setClicked2(false);
+                              setClicked3(false);
+                            }}
+                            className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
+                          >
+                            <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                              ₹{" "}
+                              {(() => {
+                                const price = calculateTotalPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package1?.price
+                                )?.toFixed(0);
+                                const priceNumber = Number(price);
+                                return priceNumber.toString().length > 4
+                                  ? priceNumber.toLocaleString("en-IN")
+                                  : price;
+                              })()}
+                            </span>
+                            <span className="flex flex-col gap-0">
+                              {/* for desktop */}
+                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
+                                {
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package1?.duration
+                                }
+                              </p>
+                              {/* desktop end */}
+                              <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                              <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
+                                  {data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package1?.kmsLimit == 0
+                                    ? "Unlimited"
+                                    : data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package1?.kmsLimit === null
+                                      ? "--"
+                                      : (
+                                        data?.bookingOptions?.withDriver?.local
+                                          ?.packageType?.package1?.kmsLimit *
+                                        (((days as number) +
+                                          hours / 24) as number)
+                                      ).toFixed(0) + " Free kms"}{" "}
+                                </p>
+                                {/* <span className="sm:block hidden">  ...</span> */}
+                                {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                                {data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package1?.kmsLimit
+                                  ? data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package1?.kmsLimit *
+                                    (days as number)
+                                  : "0"}{" "}
+                                Free kms
+                              </div> */}
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            onClick={() => {
+                              const calculatedPrice = calculateTotalPrice(
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.price
+                              );
+                              if (calculatedPrice) {
+                                setPrice(Math.round(calculatedPrice));
+                              } else {
+                                console.error(
+                                  "Failed to calculate the total price"
+                                );
+                              }
+                              setFreekms(
+                                Number(
+                                  (
+                                    data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package2?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0)
+                                )
+                              );
+                              setClicked1(false);
+                              setClicked2(true);
+                              setClicked3(false);
+                            }}
+                            className={`sm:flex flex-row hover:scale-[1.05] cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
+                                ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
+                          >
+                            <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                              ₹{" "}
+                              {(() => {
+                                const price = calculateTotalPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package2?.price
+                                )?.toFixed(0);
+                                const priceNumber = Number(price);
+                                return priceNumber.toString().length > 4
+                                  ? priceNumber.toLocaleString("en-IN")
+                                  : price;
+                              })()}
+                            </span>
+                            <span className="flex flex-col gap-0">
+                              {/* for desktop */}
+                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
+                                {
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package2?.duration
+                                }
+                              </p>
+                              {/* desktop end */}
+                              <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                              <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] min-w-[70px] whitespace-nowrap w-full overflow-hidden m-auto">
+                                  {data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package2?.kmsLimit == 0
+                                    ? "Unlimited"
+                                    : data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package2?.kmsLimit === null
+                                      ? "--"
+                                      : (
+                                        data?.bookingOptions?.withDriver?.local
+                                          ?.packageType?.package2?.kmsLimit *
+                                        (((days as number) +
+                                          hours / 24) as number)
+                                      ).toFixed(0) + " Free kms"}{" "}
+                                </p>
+                                {/* <span className="sm:block hidden">  ...</span> */}
+                                {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                                {data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package2?.kmsLimit
+                                  ? data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package2?.kmsLimit *
+                                    (days as number)
+                                  : "0"}{" "}
+                                Free kms
+                              </div> */}
+                              </span>
+                            </span>
+                          </div>
+                          <div
+                            onClick={() => {
+                              const calculatedPrice = calculateTotalPrice(
+                                data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.price
+                              );
+                              if (calculatedPrice) {
+                                setPrice(Math.round(calculatedPrice));
+                              } else {
+                                console.error(
+                                  "Failed to calculate the total price"
+                                );
+                              }
+                              setFreekms(
+                                Number(
+                                  (
+                                    data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package3?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0)
+                                )
+                              );
+                              setClicked1(false);
+                              setClicked2(false);
+                              setClicked3(true);
+                            }}
+                            className={`sm:flex hover:scale-[1.05] duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
+                              }`}
+                          >
+                            <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
+                              ₹{" "}
+                              {(() => {
+                                const price = calculateTotalPrice(
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package3?.price
+                                )?.toFixed(0);
+                                const priceNumber = Number(price);
+                                return priceNumber.toString().length > 4
+                                  ? priceNumber.toLocaleString("en-IN")
+                                  : price;
+                              })()}
+                            </span>
+                            <span className="flex flex-col gap-0">
+                              {/* for desktop */}
+                              <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
+                                {
+                                  data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package3?.duration
+                                }
+                              </p>
+                              {/* desktop end */}
+                              <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
+                              <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
+                                <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] whitespace-nowrap w-full overflow-hidden m-auto">
+                                  {data?.bookingOptions?.withDriver?.local
+                                    ?.packageType?.package3?.kmsLimit == 0
+                                    ? "Unlimited"
+                                    : data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package3?.kmsLimit === null
+                                      ? "--"
+                                      : (
+                                        data?.bookingOptions?.withDriver?.local
+                                          ?.packageType?.package3?.kmsLimit *
+                                        (((days as number) +
+                                          hours / 24) as number)
+                                      ).toFixed(0) + " Free kms"}{" "}
+                                </p>
+                                {/* <span className="sm:block hidden"> ...</span> */}
+                                {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
+                                {data?.bookingOptions?.withDriver?.local
+                                  ?.packageType?.package3?.kmsLimit
+                                  ? data?.bookingOptions?.withDriver?.local
+                                      ?.packageType?.package3?.kmsLimit *
+                                    (days as number)
+                                  : "0"}{" "}
+                                Free kms
+                              </div> */}
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        {/* mobile view */}
+                        <div className="flex sm:hidden flex-col items-center jusitfy-center h-full ">
+                          <div className="flex flex-row justify-center m-auto my-2">
                             <h1 className="m-auto font-bold text-[24px]">
                               {data?.carName}
                             </h1>
@@ -1464,11 +1814,11 @@ const CardListingCards = ({ data }: any) => {
                             objectFit={"contain"}
                             height={212}
                             alt={data?.featuredImage?.alt}
-                            className="sm:w-[95%] mb-2"
+                            className="w-[70%] mb-2"
                           />
                           <div
                             onClick={() => setShowImg(!showImg)}
-                            className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
+                            className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px] sm:mt-0 mt-2"
                           >
                             <Image
                               src="/carListing/view.png"
@@ -1477,285 +1827,14 @@ const CardListingCards = ({ data }: any) => {
                               height={12}
                               alt="Car Icon"
                             />
-                            <span className="text-[#ff0000] text-sm font-semibold">
+                            <span className="text-[#ff0000] sm:text-sm text-xs font-semibold">
                               View Real Car Images
                             </span>
                           </div>
                         </div>
-                        <div className="sm:h-[274px] relative max-w-[700px] w-full">
-                          <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5 px-4">
-                            <div
-                              onClick={() => {
-                                const calculatedPrice = calculateTotalPrice(
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package1?.price
-                                );
-                                if (calculatedPrice) {
-                                  setPrice(Math.round(calculatedPrice));
-                                } else {
-                                  console.error(
-                                    "Failed to calculate the total price"
-                                  );
-                                }
-                                setFreekms(Number((
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package1?.kmsLimit *
-                                  (((days as number) +
-                                    hours / 24) as number)
-                                ).toFixed(0)))
-                                setClicked1(true);
-                                setClicked2(false);
-                                setClicked3(false);
-                              }}
-                              className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
-                                }`}
-                            >
-                              <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                                ₹{" "}
-                                {(() => {
-                                  const price = calculateTotalPrice(
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package1?.price
-                                  )?.toFixed(0);
-                                  const priceNumber = Number(price);
-                                  return priceNumber.toString().length > 4
-                                    ? priceNumber.toLocaleString("en-IN")
-                                    : price;
-                                })()}
-                              </span>
-                              <span className="flex flex-col gap-0">
-                                {/* for desktop */}
-                                <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
-                                  {
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package1?.duration
-                                  }
-                                </p>
-                                {/* desktop end */}
-                                <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                                <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                                  <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] whitespace-nowrap w-full text-center overflow-hidden m-auto">
-                                    {data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package1?.kmsLimit == 0
-                                      ? "Unlimited"
-                                      : data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package1?.kmsLimit === null
-                                        ? "--"
-                                        : (
-                                          data?.bookingOptions?.withDriver?.local
-                                            ?.packageType?.package1?.kmsLimit *
-                                          (((days as number) +
-                                            hours / 24) as number)
-                                        ).toFixed(0) + " Free kms"}{" "}
-                                  </p>
-                                  {/* <span className="sm:block hidden">  ...</span> */}
-                                  {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package1?.kmsLimit
-                                  ? data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package1?.kmsLimit *
-                                    (days as number)
-                                  : "0"}{" "}
-                                Free kms
-                              </div> */}
-                                </span>
-                              </span>
-                            </div>
-                            <div
-                              onClick={() => {
-                                const calculatedPrice = calculateTotalPrice(
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package2?.price
-                                );
-                                if (calculatedPrice) {
-                                  setPrice(Math.round(calculatedPrice));
-                                } else {
-                                  console.error(
-                                    "Failed to calculate the total price"
-                                  );
-                                }
-                                setFreekms(Number((
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package2?.kmsLimit *
-                                  (((days as number) +
-                                    hours / 24) as number)
-                                ).toFixed(0)))
-                                setClicked1(false);
-                                setClicked2(true);
-                                setClicked3(false);
-                              }}
-                              className={`sm:flex flex-row hover:scale-[1.05] cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                                ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
-                                }`}
-                            >
-                              <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                                ₹{" "}
-                                {(() => {
-                                  const price = calculateTotalPrice(
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package2?.price
-                                  )?.toFixed(0);
-                                  const priceNumber = Number(price);
-                                  return priceNumber.toString().length > 4
-                                    ? priceNumber.toLocaleString("en-IN")
-                                    : price;
-                                })()}
-                              </span>
-                              <span className="flex flex-col gap-0">
-                                {/* for desktop */}
-                                <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
-                                  {
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package2?.duration
-                                  }
-                                </p>
-                                {/* desktop end */}
-                                <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                                <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                                  <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] min-w-[70px] whitespace-nowrap w-full overflow-hidden m-auto">
-                                    {data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package2?.kmsLimit == 0
-                                      ? "Unlimited"
-                                      : data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package2?.kmsLimit === null
-                                        ? "--"
-                                        : (
-                                          data?.bookingOptions?.withDriver?.local
-                                            ?.packageType?.package2?.kmsLimit *
-                                          (((days as number) +
-                                            hours / 24) as number)
-                                        ).toFixed(0) + " Free kms"}{" "}
-                                  </p>
-                                  {/* <span className="sm:block hidden">  ...</span> */}
-                                  {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package2?.kmsLimit
-                                  ? data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package2?.kmsLimit *
-                                    (days as number)
-                                  : "0"}{" "}
-                                Free kms
-                              </div> */}
-                                </span>
-                              </span>
-                            </div>
-                            <div
-                              onClick={() => {
-                                const calculatedPrice = calculateTotalPrice(
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package3?.price
-                                );
-                                if (calculatedPrice) {
-                                  setPrice(Math.round(calculatedPrice));
-                                } else {
-                                  console.error(
-                                    "Failed to calculate the total price"
-                                  );
-                                }
-                                setFreekms((Number((
-                                  data?.bookingOptions?.withDriver?.local
-                                    ?.packageType?.package3?.kmsLimit *
-                                  (((days as number) +
-                                    hours / 24) as number)
-                                ).toFixed(0))))
-                                setClicked1(false);
-                                setClicked2(false);
-                                setClicked3(true);
-                              }}
-                              className={`sm:flex hover:scale-[1.05] duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
-                                }`}
-                            >
-                              <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
-                                ₹{" "}
-                                {(() => {
-                                  const price = calculateTotalPrice(
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package3?.price
-                                  )?.toFixed(0);
-                                  const priceNumber = Number(price);
-                                  return priceNumber.toString().length > 4
-                                    ? priceNumber.toLocaleString("en-IN")
-                                    : price;
-                                })()}
-                              </span>
-                              <span className="flex flex-col gap-0">
-                                {/* for desktop */}
-                                <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] xs:text-xs text-[13px] text-center">
-                                  {
-                                    data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package3?.duration
-                                  }
-                                </p>
-                                {/* desktop end */}
-                                <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
-                                <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                                  <p className="text-[#FF0000] font-[500] sm:text-[13px] text-center xs:text-xs text-[13px] whitespace-nowrap w-full overflow-hidden m-auto">
-                                    {data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package3?.kmsLimit == 0
-                                      ? "Unlimited"
-                                      : data?.bookingOptions?.withDriver?.local
-                                        ?.packageType?.package3?.kmsLimit === null
-                                        ? "--"
-                                        : (
-                                          data?.bookingOptions?.withDriver?.local
-                                            ?.packageType?.package3?.kmsLimit *
-                                          (((days as number) +
-                                            hours / 24) as number)
-                                        ).toFixed(0) + " Free kms"}{" "}
-                                  </p>
-                                  {/* <span className="sm:block hidden"> ...</span> */}
-                                  {/* <div className="absolute left-0 bottom-full mb-2 hidden sm:group-hover:block bg-[#ff0000] text-white text-xs rounded py-1 px-2">
-                                {data?.bookingOptions?.withDriver?.local
-                                  ?.packageType?.package3?.kmsLimit
-                                  ? data?.bookingOptions?.withDriver?.local
-                                      ?.packageType?.package3?.kmsLimit *
-                                    (days as number)
-                                  : "0"}{" "}
-                                Free kms
-                              </div> */}
-                                </span>
-                              </span>
-                            </div>
-                          </div>
-                          {/* mobile view */}
-                          <div className="flex sm:hidden flex-col items-center jusitfy-center h-full ">
-                            <div className="flex flex-row justify-center m-auto my-2">
-                              <h1 className="m-auto font-bold text-[24px]">
-                                {data?.carName}
-                              </h1>
-                            </div>
-                            <Image
-                              src={data?.featuredImage?.image}
-                              width={386}
-                              objectFit={"contain"}
-                              height={212}
-                              alt={data?.featuredImage?.alt}
-                              className="w-[70%] mb-2"
-                            />
-                            <div
-                              onClick={() => setShowImg(!showImg)}
-                              className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px] sm:mt-0 mt-2"
-                            >
-                              <Image
-                                src="/carListing/view.png"
-                                width={12}
-                                objectFit={"contain"}
-                                height={12}
-                                alt="Car Icon"
-                              />
-                              <span className="text-[#ff0000] sm:text-sm text-xs font-semibold">
-                                View Real Car Images
-                              </span>
-                            </div>
-                          </div>
-                          {/*  */}
-                          <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
-                            {/* {data?.bookingOptions?.withDriver?.local?.packageType
+                        {/*  */}
+                        <div className="sm:flex hidden flex-row justify-end mr-10 my-5">
+                          {/* {data?.bookingOptions?.withDriver?.local?.packageType
                               ?.extraKmsCharge && (
                                 <span>
                                   Extra kms will be charged at{" "}
@@ -1773,117 +1852,116 @@ const CardListingCards = ({ data }: any) => {
                                   </span>
                                 </span>
                               )} */}
-                          </div>
+                        </div>
 
-                          {/*  */}
+                        {/*  */}
 
-                          <div className="sm:flex flex-row justify-between items-center sm:mr-10">
-                            <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-8 sm:px-0 px-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs gap-4">
-                              {data?.carFeatures?.bluetooth === true && (
-                                <div className="flex flex-row items-center gap-2">
-                                  <Image
-                                    src="/carListing/bluetooth.png"
-                                    width={20}
-                                    objectFit={"contain"}
-                                    height={20}
-                                    alt="bluetooth"
-                                  />
-                                  <span>Bluetooth</span>
-                                </div>
-                              )}
-
+                        <div className="sm:flex flex-row justify-between items-center sm:mr-10">
+                          <div className="grid grid-cols-3 gap-4 sm:mt-4 items-center sm:w-full gap-y-6 sm:ml-8 sm:px-0 px-4 sm:mb-0 mb-4 sm:text-[15px] xs:text-xs text-xs gap-4">
+                            {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
-                                  src="/carListing/manual.png"
+                                  src="/carListing/bluetooth.png"
                                   width={20}
                                   objectFit={"contain"}
                                   height={20}
                                   alt="bluetooth"
                                 />
-                                <span>Manual</span>
+                                <span>Bluetooth</span>
                               </div>
-                              {data?.carFeatures?.navigationSystem === true && (
-                                <div className="flex flex-row items-center gap-2">
-                                  <Image
-                                    src="/carListing/gps.png"
-                                    width={20}
-                                    objectFit={"contain"}
-                                    height={20}
-                                    alt="bluetooth"
-                                  />
-                                  <span>GPS Navigation</span>
-                                </div>
-                              )}
-                              <div className="flex flex-row items-center gap-2">
-                                <Image
-                                  src="/carListing/seats.png"
-                                  width={20}
-                                  objectFit={"contain"}
-                                  height={20}
-                                  alt="bluetooth"
-                                />
-                                <span>{data?.seatingCapacity} Person</span>
-                              </div>
-                              {data?.vehicleSpecifications?.fuelType && (
-                                <div className="flex flex-row items-center gap-2">
-                                  <Image
-                                    src="/carListing/gas.png"
-                                    width={20}
-                                    objectFit={"contain"}
-                                    height={20}
-                                    alt="bluetooth"
-                                  />
-                                  <span>
-                                    {data?.vehicleSpecifications?.fuelType}
-                                  </span>
-                                </div>
-                              )}
-                              <div className="flex flex-row items-center gap-2">
-                                <Image
-                                  src="/carListing/bootspace.png"
-                                  width={20}
-                                  objectFit={"contain"}
-                                  height={20}
-                                  alt="bluetooth"
-                                />
-                                <span>Boot Space</span>
-                              </div>
-                            </div>
-                            <div className="m-0 sm:block flex justify-end sm:pr-0 pr-4">
-                              <ThemeButton
-                                onClick={() => {
-                                  Navigation.push(`/car-details/${data._id}`),
-                                    selectDefaultPackage(data);
-                                }}
-                                text="Book Now"
-                                className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
+                            )}
+
+                            <div className="flex flex-row items-center gap-2">
+                              <Image
+                                src="/carListing/manual.png"
+                                width={20}
+                                objectFit={"contain"}
+                                height={20}
+                                alt="bluetooth"
                               />
+                              <span>Manual</span>
+                            </div>
+                            {data?.carFeatures?.navigationSystem === true && (
+                              <div className="flex flex-row items-center gap-2">
+                                <Image
+                                  src="/carListing/gps.png"
+                                  width={20}
+                                  objectFit={"contain"}
+                                  height={20}
+                                  alt="bluetooth"
+                                />
+                                <span>GPS Navigation</span>
+                              </div>
+                            )}
+                            <div className="flex flex-row items-center gap-2">
+                              <Image
+                                src="/carListing/seats.png"
+                                width={20}
+                                objectFit={"contain"}
+                                height={20}
+                                alt="bluetooth"
+                              />
+                              <span>{data?.seatingCapacity} Person</span>
+                            </div>
+                            {data?.vehicleSpecifications?.fuelType && (
+                              <div className="flex flex-row items-center gap-2">
+                                <Image
+                                  src="/carListing/gas.png"
+                                  width={20}
+                                  objectFit={"contain"}
+                                  height={20}
+                                  alt="bluetooth"
+                                />
+                                <span>
+                                  {data?.vehicleSpecifications?.fuelType}
+                                </span>
+                              </div>
+                            )}
+                            <div className="flex flex-row items-center gap-2">
+                              <Image
+                                src="/carListing/bootspace.png"
+                                width={20}
+                                objectFit={"contain"}
+                                height={20}
+                                alt="bluetooth"
+                              />
+                              <span>Boot Space</span>
                             </div>
                           </div>
-                          <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
-                            <span
-                              className="text-[#ff0000] sm:text-[15px] text-sm"
-                              onClick={() =>
-                                setShowOptionsMobile(!showOptionsMobile)
-                              }
-                            >
-                              View Details{" "}
-                            </span>
-                            <Image
-                              src="/carListing/arrow.png"
-                              width={10}
-                              objectFit={"contain"}
-                              height={10}
-                              alt="bluetooth"
+                          <div className="m-0 sm:block flex justify-end sm:pr-0 pr-4">
+                            <ThemeButton
+                              onClick={() => {
+                                Navigation.push(`/car-details/${data._id}`),
+                                  selectDefaultPackage(data);
+                              }}
+                              text="Book Now"
+                              className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
                             />
                           </div>
                         </div>
-                      </>
-                    )}
-                  {driverType === data?.bookingOptions.withDriver.outstation.name && (
-
+                        <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
+                          <span
+                            className="text-[#ff0000] sm:text-[15px] text-sm"
+                            onClick={() =>
+                              setShowOptionsMobile(!showOptionsMobile)
+                            }
+                          >
+                            View Details{" "}
+                          </span>
+                          <Image
+                            src="/carListing/arrow.png"
+                            width={10}
+                            objectFit={"contain"}
+                            height={10}
+                            alt="bluetooth"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                {driverType ===
+                  data?.bookingOptions.withDriver.outstation.name && (
                     <>
-                    
                       <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                         <Image
                           src="/png/red-design.png"
@@ -1897,7 +1975,6 @@ const CardListingCards = ({ data }: any) => {
                         </span>
                       </div>
                       <div className="sm:flex hidden flex-col items-center jusitfy-center w-[486px] h-full ">
-
                         <div className="flex flex-row justify-center m-auto mt-16">
                           <h1 className="m-auto font-bold text-[24px]">
                             {data?.carName}
@@ -1932,15 +2009,16 @@ const CardListingCards = ({ data }: any) => {
                           <div
                             onClick={() => {
                               setPrice(
-                                data?.bookingOptions?.withDriver?.outstation?.packageType?.package1?.ratePerKm
+                                data?.bookingOptions?.withDriver?.outstation
+                                  ?.packageType?.package1?.ratePerKm
                               );
                               setClicked1(true);
                               setClicked2(false);
                               setClicked3(false);
                             }}
                             className={`bg-white border-[1.5px] hover:scale-[1.05] duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
-                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                              : ""
+                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                : ""
                               }`}
                           >
                             <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
@@ -2004,7 +2082,10 @@ const CardListingCards = ({ data }: any) => {
                             </p>
                           </div> */}
                           <div>
-                            {data?.bookingOptions.withDriver.outstation?.description}
+                            {
+                              data?.bookingOptions.withDriver.outstation
+                                ?.description
+                            }
                           </div>
                         </div>
 
@@ -2157,10 +2238,10 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </>
                   )}
-                </>
-              ) : (
-                ""
-              )}
+              </>
+            ) : (
+              ""
+            )}
           </main>
 
           {showOptionsMobile && (
@@ -2170,8 +2251,8 @@ const CardListingCards = ({ data }: any) => {
                   <button
                     key={tab.name}
                     className={`sm:py-2 sm:px-4 rounded-t-xl mt-2 w-full text-xs px-2 py-[7px] ${activeTab === tab.name
-                      ? "bg-white text-primary font-bold"
-                      : "bg-black text-white"
+                        ? "bg-white text-primary font-bold"
+                        : "bg-black text-white"
                       }`}
                     onClick={() => setActiveTab(tab.name)}
                   >
