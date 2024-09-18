@@ -655,11 +655,16 @@ const Checkout = () => {
           ...prev,
           aadharFront: false,
         }));
-      } catch (error) {
+      } catch (error: any) {
         setLoadingRound((prev) => ({
           ...prev,
           aadharFront: false,
         }));
+        if(error?.response?.status == 500){
+          toast.error(
+            "image size should be less then 5mb"
+          );
+      }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -684,11 +689,16 @@ const Checkout = () => {
           ...prev,
           aadharBack: false,
         }));
-      } catch (error) {
+      } catch (error: any) {
         setLoadingRound((prev) => ({
           ...prev,
           aadharBack: false,
         }));
+        if(error?.response?.status == 500){
+          toast.error(
+            "image size should be less then 5mb"
+          );
+      }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -723,12 +733,19 @@ const Checkout = () => {
           ...prev,
           panFront: false,
         }));
-      } catch (error) {
+      } catch (error: any) {
         setLoadingRound((prev) => ({
           ...prev,
           panFront: false,
         }));
-        console.error("Error uploading Aadhar front image:", error);
+
+        // alert(error?.response?.data?.message)
+        if(error?.response?.status == 500){
+            toast.error(
+              "image size should be less then 5mb"
+            );
+        }
+        console.error("SizeError", error);
       }
     }
   };
@@ -758,11 +775,16 @@ const Checkout = () => {
           ...prev,
           dlFront: false,
         }));
-      } catch (error) {
+      } catch (error: any) {
         setLoadingRound((prev) => ({
           ...prev,
           dlFront: false,
         }));
+        if(error?.response?.status == 500){
+          toast.error(
+            "image size should be less then 5mb"
+          );
+      }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -786,11 +808,16 @@ const Checkout = () => {
           ...prev,
           dlBack: false,
         }));
-      } catch (error) {
+      } catch (error: any) {
         setLoadingRound((prev) => ({
           ...prev,
           dlBack: false,
         }));
+        if(error?.response?.status == 500){
+          toast.error(
+            "image size should be less then 5mb"
+          );
+      }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
