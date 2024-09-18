@@ -146,9 +146,16 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     console.log(pickupDate, pickupTime, "ddd");
 
+    console.log("dropoffDateTime",dropOffDate)
+
     if (tabValue == "Self-Driving") {
       localStorage.setItem("radioToggle", "");
 
+      if(!dropOffDate){
+        alert("Please Select Drop-Off Date")
+        return;
+      }
+      
     }
 
     if (tabValue == "Subscription") {
@@ -233,6 +240,10 @@ export default function Home() {
 
     if (tabValue == "Self-Driving") {
       localStorage.setItem("radioToggle", "");
+      if(!dropOffDate){
+        alert("Please Select Drop-Off Date")
+        return;
+      }
     }
 
     if (tabValue == "Subscription") {
