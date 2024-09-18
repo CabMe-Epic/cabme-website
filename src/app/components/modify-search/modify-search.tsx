@@ -201,7 +201,7 @@ const ModifySearch: React.FC = () => {
 
   return (
     <div
-      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr+1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 !pb-[45px] items-center rounded-md bg-[url('/png/search-bg.png')]"
+      className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr+1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 !pb-[45px] items-center rounded-md bg-[url('/png/search-bg.png')] "
       style={{ backgroundSize: "100% 100%" }}
     >
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-2 sm:mb-0">
@@ -332,15 +332,16 @@ const ModifySearch: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="sm:flex grid grid-cols-1 flex-col sm:mt-0 mt-0 items-start sm:items-center sm:flex-row gap-2">
+      <div className="sm:flex grid grid-cols-1 flex-col sm:mt-0 mt-0 items-start sm:items-center sm:flex-row gap-2 z-[999]">
         <div className="flex flex-col lg:flex-row items-start lg:items-center   sm:gap-2 max-w-[350px] sm:w-[400px]">
           <div className="whitespace-nowrap sm:text-[14px] text-xs">
             Pickup Date
           </div>
-          <div className="relative date-picker modify-search m-0 w-[100%] !z-[990] sm:min-[200px] max-w-[350px]  bg-white">
+          <div className="relative  modify-search m-0 w-[100%] sm:min-[200px] max-w-[350px]  bg-white ">
             <DatePicker
-              className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
               selected={startDate}
+              className=" cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
+
               onChange={handleStartDateTimeChange}
               showTimeSelect
               dateFormat="MMMM d, yyyy h:mm aa"
@@ -364,9 +365,9 @@ const ModifySearch: React.FC = () => {
               <div className="whitespace-nowrap sm:text-[14px] text-xs">
                 Return Date
               </div>
-              <div className="relative date-picker modify-search m-0  w-[100%] !z-[99] sm:min-[200px] max-w-[350px]  bg-white">
+              <div className="relative  modify-search m-0  w-[100%]  sm:min-[200px] max-w-[350px]  bg-white">
                 <DatePicker
-                  className="date-picker cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
+                  className=" cursor-pointer border border-[#FF0000] py-[5px] pl-2 bg-transparent pr-10"
                   selected={endDate}
                   onChange={handleEndDateTimeChange}
                   showTimeSelect

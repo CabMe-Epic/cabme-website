@@ -210,14 +210,14 @@ body{
   display: flex !important;
 }
 .react-datepicker{
-  z-index: 998 !important;
+  /* z-index: 998 !important; */
   
 }
 
 .datepickerinput {
   border: 0 !important;
   outline: 0;
-  z-index: 998 !important;
+  /* z-index: 998 !important; */
 }
 .react-datepicker-wrapper{
   width: 95% !important;
@@ -321,16 +321,25 @@ body{
   .react-datepicker {
     width: 138% !important;
     margin-left: 0 !important;
+    z-index: 9999 !important;
   }
 
   .react-datepicker__time-container {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 999 !important;
   }
 
   .react-datepicker__month-container {
     width: 70% !important;
+    z-index: 999 !important;
+  }
+  .react-datepicker-wrapper{
+    z-index: 9999 !important;
+  }
+  .react-datepicker{
+    z-index: 9999 !important;
   }
 }
 @media only screen and (max-width:500px){
@@ -394,4 +403,7 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 14px;
   line-height: 20px;
   color: #333;
+}
+.modify-search .react-datepicker{
+  z-index: 9999 !important;
 }
