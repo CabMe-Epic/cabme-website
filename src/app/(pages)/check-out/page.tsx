@@ -17,6 +17,7 @@ import { setSessionData } from "@/app/utils/sessionStorageUtil";
 import { useStore } from "@/app/zustand/store/store";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import ProgressBar from "@/app/components/Progress/progress";
+import moment from "moment";
 
 interface SelectedUser {
   firstName: string;
@@ -69,11 +70,13 @@ const Checkout = () => {
   const [data, setData] = useState<any>([]);
   const [loader, setLoader] = useState(false);
   const [selectedPromoCode, setSelectedPromoCode] = useState<any>([]);
-  const [packageFreeKms, setPackageFreeKms] = useState<any>();
+  const [packageFreeKms, setPackageFreeKms] = useState<any>(0);
   const [particalAmount, setParticalAmount] = useState<number>(0);
   const [toCity, setToCity] = useState<any>("");
   const [isFullpayment, setIsFullpayment] = useState<any>("");
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [tabValue, setTabsValue] = useState<any>();
+  const [radioToggle, setRadioToggle] = useState<any>();
   // const { data, setData } = useContextApi();
   React.useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
@@ -89,9 +92,15 @@ const Checkout = () => {
   useEffect(() => {
     const dropCity = localStorage.getItem("dropOffLocation");
     const isFullpayment = localStorage.getItem("isFullpayment");
+    const tabVal = localStorage.getItem("tabValue");
+    const radioTog = localStorage.getItem("radioToggle");
+    setTabsValue(tabVal);
+    setRadioToggle(radioTog);
     setToCity(dropCity);
     setIsFullpayment(isFullpayment);
   }, []);
+
+  console.log("tabValue", tabValue);
 
   console.log("particalAmount", { particalAmount });
 
@@ -124,6 +133,7 @@ const Checkout = () => {
 
   const [aadharGenerate, setAadharGenerate] = useState(false);
   const [one, setOne] = useState(true);
+  const [driverGo, setDriverGo] = useState(false);
   const [two, setTwo] = useState(true);
   const [three, setThree] = useState(true);
   const [four, setFour] = useState(true);
@@ -160,28 +170,32 @@ const Checkout = () => {
     //   setThree(true);
     //   setTwo(true);
     // }
-    console.log(dlPostBack, dlPost, dlFrontImage, dlBackImage, "dlImages")
+    console.log(dlPostBack, dlPost, dlFrontImage, dlBackImage, "dlImages");
     if (
-      userData?.aadharVerified && (dlPostBack && dlPost || (dlFrontImage && dlBackImage)) &&
-      (three === true || !four) &&
-      (userData?.panVerified || userData?.drivingLicenseVerified)
+      (userData?.aadharVerified &&
+        ((dlPostBack && dlPost) || (dlFrontImage && dlBackImage)) &&
+        (!three || (three === true && !four == true)) &&
+        (userData?.panVerified || userData?.drivingLicenseVerified)) ||
+      driverGo
     ) {
       setIsButtonDisabled(false);
     } else {
       setIsButtonDisabled(true);
+      if (tabValue == "Driver" && !two && !three) {
+        setIsButtonDisabled(false);
+      }
     }
     const vehicleId = sessionStorage.getItem("slug");
     if (vehicleId) {
       setCurrentVehicleId(vehicleId);
     }
-  }, [userData, three,dlPostBack,dlPost,dlFrontImage,dlBackImage]);
+  }, [userData, three, dlPostBack, dlPost, dlFrontImage, dlBackImage]);
 
   const [phone, setPhoneNumber] = useState("");
   console.log({ currentVehicleId });
 
   const [aadharFrontPost, setAadharFrontPost] = useState<string | null>(null);
   const [aadharBackPost, setAadharBackPost] = useState<string | null>(null);
-
 
   // console.log({ dlPostBack })
 
@@ -248,30 +262,35 @@ const Checkout = () => {
     option: bookingData.option,
     location: bookingData.location,
     pickUpDateTime: bookingData.pickUpDateTime,
-    dropOffDateTime: bookingData.dropOffDateTime,
+    dropOffDateTime:
+      (tabValue == "Driver" && radioToggle == "One-way") ||
+      tabValue == "Subscription"
+        ? moment(bookingData.pickUpDateTime).add(1, "days").toISOString()
+        : bookingData.dropOffDateTime,
     baseFare: Number(bookingData.baseFare),
     doorstepDelivery: bookingData?.doorstepDelivery as string,
     gstRate: Number(bookingData?.gstRate),
     gstAmount: Number(bookingData?.gstAmount),
     insuranceGST: bookingData?.insuranceGST,
     refundableDeposit: Number(bookingData?.refundableDeposit),
+    note: data?.note,
     toCity: toCity,
-    kmsLimit: packageFreeKms,
+    kmsLimit: Number(packageFreeKms),
     fuel: bookingData?.fuel,
     extraKmsCharge: Number(bookingData?.extraKmsCharge),
     tollsParking: "",
     promocode: {
-      code: selectedPromoCode?.code,
+      code: selectedPromoCode?.code || "",
       discountType: selectedPromoCode?.selectDiscount,
-      discountAmount: selectedPromoCode?.maximumDiscount,
+      discountAmount: Number(selectedPromoCode?.discountApplied || 0),
     },
 
     paymentMode:
       isFullpayment == "true"
         ? "fullPayment"
         : isFullpayment == "false"
-          ? "partialPayment"
-          : "partialPayment",
+        ? "partialPayment"
+        : "partialPayment",
 
     partialPayments: [
       {
@@ -279,8 +298,11 @@ const Checkout = () => {
         mode: "online",
       },
     ],
-    totalAmount: Number(totalAmount),
-    bookingDuration: bookingData.bookingDuration,
+    totalAmount: Number(totalAmount) <= 1500 ? 1500 : Number(totalAmount),
+    bookingDuration:
+      tabValue == "Driver" && radioToggle == "One-way"
+        ? "1 days, 0 hours, 0 minutes"
+        : bookingData.bookingDuration,
     bufferTime: 0,
     kilometers: 0,
     createdByUser: bookingData?.userData?._id,
@@ -315,7 +337,9 @@ const Checkout = () => {
       setLoader(false);
       console.error("data not posted", error);
     }
-  }, [booking_payload]);
+  }, [booking_payload, selectedPromoCode]);
+
+  console.log("selectedPromoCodePromo", selectedPromoCode);
 
   const handleSignUp = async () => {
     try {
@@ -338,21 +362,19 @@ const Checkout = () => {
         `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user-signup`,
         payload
       );
-      // console.log("Signup successful:", { response });
       if (response?.data?.success) {
         updateUserData(response?.data?.result?.user);
-        // setOne(false);
-        // setTwo(true);
-        // setThree(false);
         setTwo(false);
         setOne(false);
+        if (tabValue == "Driver") {
+          setDriverGo(true);
+        }
+
         toast.success(response?.data?.message);
         setLoader(false);
       }
     } catch (error: any) {
-      // console.error("Error signing up:", error);
       if (error.response) {
-        // console.log("Error response:", error.response);
         const errorMessage = error.response.data.message;
         toast.error(errorMessage);
         setLoader(false);
@@ -388,6 +410,7 @@ const Checkout = () => {
         setAadharGenerate(true);
         setErrorMessage(result?.message);
         setLoader(false);
+        toast.success(result.message);
       } else {
         setLoader(false);
         toast.error("Please enter your phone number to proceed.");
@@ -517,10 +540,99 @@ const Checkout = () => {
       if (response.status === 200) {
         const currentUser = result?.user;
         const token = result?.result?.token;
+
+        console.log(currentUser, "currentUser");
         updateUserData(currentUser);
-        if (currentUser?.phoneVerified) {
-          // window.location.reload();
+
+        if (currentUser == null) {
+          updateUserData({
+            aadharCardBackImageUrl: undefined,
+            aadharCardFrontImageUrl: undefined,
+            aadharNumber: undefined,
+            drivingLicenseVerified: false,
+            aadharVerified: true,
+            address: undefined,
+            city: undefined,
+            dob: undefined,
+            drivingLicenseBackImageUrl: undefined,
+            drivingLicenseFrontImageUrl: undefined,
+            drivingLicenseNumber: undefined,
+            email: undefined,
+            firstName: undefined,
+            fullName: undefined,
+            lastName: undefined,
+            panImageUrl: undefined,
+            panNumber: undefined,
+            panVerified: false,
+            phone: undefined,
+            phoneVerified: false,
+            role: undefined,
+            state: undefined,
+          });
         }
+        if (!currentUser?.aadharNumber) {
+          // window.location.reload();
+          updateUserData({
+            aadharNumber: undefined,
+          });
+        }
+        if (!currentUser?.aadharCardBackImageUrl) {
+          updateUserData({
+            aadharCardBackImageUrl: undefined,
+          });
+        }
+        if (!currentUser?.aadharCardFrontImageUrl) {
+          updateUserData({
+            aadharCardFrontImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.drivingLicenseNumber) {
+          updateUserData({
+            drivingLicenseNumber: undefined,
+          });
+        }
+
+        if (!currentUser?.drivingLicenseBackImageUrl) {
+          updateUserData({
+            drivingLicenseBackImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.drivingLicenseFrontImageUrl) {
+          updateUserData({
+            drivingLicenseFrontImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.panNumber) {
+          updateUserData({
+            panNumber: undefined,
+          });
+        }
+
+        if (!currentUser?.panImageUrl) {
+          updateUserData({
+            panImageUrl: undefined,
+          });
+        }
+
+        if (!currentUser?.aadharVerified) {
+          updateUserData({
+            aadharVerified: false,
+          });
+        }
+        if (!currentUser?.panVerified) {
+          updateUserData({
+            panVerified: false,
+          });
+        }
+        if (!currentUser?.drivingLicenseVerified) {
+          updateUserData({
+            drivingLicenseVerified: false,
+          });
+        }
+
         setOne(false);
         setTwo(false);
         toast.success(result?.message);
@@ -541,35 +653,6 @@ const Checkout = () => {
   const [trap, setTrap] = useState(false);
   const handleVerifiedPan = async () => {
     try {
-      // if (userData?.aadharVerified && userData?.drivingLicenseVerified) {
-      //   try {
-      //     if (!panCardPost) {
-      //       toast.error("Please upload your pan image to proceed.");
-      //       return;
-      //     }
-      //     const response = await axios.post(
-      //       `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/upload-pan-card`,
-      //       {
-      //         id: userData?._id,
-      //         url: panCardPost,
-      //       },
-      //       {
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //         },
-      //       }
-      //     );
-      //     console.log({ response })
-      //     if (response?.data?.success) {
-      //       toast.success(response?.data?.message)
-      //       return
-      //     }
-      //   } catch (apiError) {
-      //     console.error("Error uploading PAN card image:", apiError);
-      //     toast.error("An error occurred while uploading PAN card image. Please try again.");
-      //     return;
-      //   }
-      // }
       if (!panCard) {
         toast.error(
           "Pan number is required. Please provide your pan number to proceed."
@@ -623,8 +706,6 @@ const Checkout = () => {
     }
   };
 
-
-
   const [loadingRound, setLoadingRound] = useState({
     aadharFront: false,
     aadharBack: false,
@@ -660,11 +741,9 @@ const Checkout = () => {
           ...prev,
           aadharFront: false,
         }));
-        if(error?.response?.status == 500){
-          toast.error(
-            "image size should be less then 5mb"
-          );
-      }
+        if (error?.response?.status == 500) {
+          toast.error("image size should be less then 5mb");
+        }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -694,11 +773,9 @@ const Checkout = () => {
           ...prev,
           aadharBack: false,
         }));
-        if(error?.response?.status == 500){
-          toast.error(
-            "image size should be less then 5mb"
-          );
-      }
+        if (error?.response?.status == 500) {
+          toast.error("image size should be less then 5mb");
+        }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -738,14 +815,10 @@ const Checkout = () => {
           ...prev,
           panFront: false,
         }));
-
-        // alert(error?.response?.data?.message)
-        if(error?.response?.status == 500){
-            toast.error(
-              "image size should be less then 5mb"
-            );
+        if (error?.response?.status == 500) {
+          toast.error("image size should be less then 5mb");
         }
-        console.error("SizeError", error);
+        console.error("Error uploading Aadhar front image:", error);
       }
     }
   };
@@ -780,11 +853,9 @@ const Checkout = () => {
           ...prev,
           dlFront: false,
         }));
-        if(error?.response?.status == 500){
-          toast.error(
-            "image size should be less then 5mb"
-          );
-      }
+        if (error?.response?.status == 500) {
+          toast.error("image size should be less then 5mb");
+        }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -813,11 +884,9 @@ const Checkout = () => {
           ...prev,
           dlBack: false,
         }));
-        if(error?.response?.status == 500){
-          toast.error(
-            "image size should be less then 5mb"
-          );
-      }
+        if (error?.response?.status == 500) {
+          toast.error("image size should be less then 5mb");
+        }
         console.error("Error uploading Aadhar front image:", error);
       }
     }
@@ -888,7 +957,8 @@ const Checkout = () => {
         toast.error("Please upload your Driving licence images to proceed.");
         return;
       }
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/${userData?._id}`,
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/${userData?._id}`,
         {
           method: "put",
           headers: {
@@ -910,7 +980,9 @@ const Checkout = () => {
       if (data?.success) {
         const update = data?.user;
         updateUserData(update);
-        toast.success("The driving license images has been uploaded successfully.");
+        toast.success(
+          "The driving license images has been uploaded successfully."
+        );
         setThree(true);
         setFour(false);
       }
@@ -1033,7 +1105,7 @@ const Checkout = () => {
     }
   }, [userData]);
 
-  console.log(userData, "userData");
+  console.log(userData?.phone, phone, "userData");
 
   return (
     <>
@@ -1154,8 +1226,8 @@ const Checkout = () => {
                           {userData?.dob
                             ? userData?.dob
                             : selectedUser?.dob
-                              ? selectedUser?.dob
-                              : "Date of Birth"}
+                            ? selectedUser?.dob
+                            : "Date of Birth"}
                         </legend>
                         <InputField
                           name="dob"
@@ -1165,6 +1237,9 @@ const Checkout = () => {
                           className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                           onChange={handleInputChange}
                         />
+                        <span className="text-xs md:ml-2 m-auto !text-center md:text-left text-red-700">
+                          DOB as per your documents*
+                        </span>
                       </div>
 
                       <InputField
@@ -1246,264 +1321,55 @@ const Checkout = () => {
               </div>
               {/*-------------------------------------------------------- section two end */}
               {/*-------------------------------------------------------- section three start */}
-              <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-                <h2 className="sm:text-[20px] text-lg font-semibold">
-                  3. KYC Verification
-                </h2>
-                {!three ? (
-                  <div>
-                    <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                      Upload Aadhar Card{" "}
-                      {userData?.aadharVerified ? (
-                        <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                          <Image
-                            src="/greendone.svg"
-                            width={20}
-                            height={20}
-                            alt={"img"}
-                          />{" "}
-                          Verified Account
-                        </span>
-                      ) : (
-                        <Image
-                          src="/notVerified.svg"
-                          alt=""
-                          width={30}
-                          height={30}
-                        />
-                      )}
-                    </h4>
-                    <div className="mt-4 sm:flex grid gap-6 items-center">
-                      <InputField
-                        placeholder="Enter Aadhar card number*"
-                        onChange={(e: any) => setAadhar(e.target.value)}
-                        otp={userData?.aadharNumber}
-                        className="border-0 bg-white font-light placeholder:text-[#312D4E]"
-                      />
-                      <div className="flex justify-center space-x-4">
-                        <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative">
-                          {frontImage ? (
-                            <div className="relative">
-                              <span
-                                onClick={handleRemoveFrontAadhar}
-                                className="absolute w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
-                              >
-                                {" "}
-                                Remove
-                              </span>
-                              {loadingRound.aadharFront && <ProgressBar />}
-                              <Image
-                                src={frontImage}
-                                alt="Front"
-                                width={100}
-                                height={55}
-                                className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
-                              />
-                            </div>
-                          ) : (
-                            <div className="cursor-pointer flex flex-col items-center justify-center">
-                              <span className="text-sm cursor-pointer text-[14px]">
-                                Front image
-                              </span>
-                              <Image
-                                src="/upload.svg"
-                                className="aboslute left-0 top-10"
-                                width={20}
-                                height={20}
-                                alt="upload"
-                              />
-                              <input
-                                type="file"
-                                onChange={handleFrontImageChange}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                              />
-                            </div>
-                          )}
-                        </div>
-                        <div className="w-[130px] cursor-pointer h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative">
-                          {backImage ? (
-                            <div className="relative">
-                              <span
-                                onClick={handleRemoveBackAadhar}
-                                className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
-                              >
-                                {" "}
-                                Remove
-                              </span>
-                              {loadingRound.aadharBack && <ProgressBar />}
-                              <Image
-                                src={backImage}
-                                alt="Back"
-                                width={100}
-                                height={55}
-                                className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
-                              />
-                            </div>
-                          ) : (
-                            <div className="cursor-pointer  flex flex-col items-center justify-center">
-                              <span className="!cursor-pointer text-sm">
-                                Back image
-                              </span>
-                              <Image
-                                src="/upload.svg"
-                                className="aboslute left-0 top-10 cursor-pointer"
-                                width={20}
-                                height={20}
-                                alt="upload"
-                              />
-                              <input
-                                type="file"
-                                onChange={handleBackImageChange}
-                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    {!userData?.aadharVerified && (
-                      <button
-                        onClick={handleGenerateAadharOTP}
-                        disabled={loading === "generate"}
-                        className="w-[209px] mt-5 sm:h-[55px] h-[43px] flex justify-center items-center rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                      >
-                        {loading === "generate" ? (
-                          <Image
-                            src="/loaderRound.png"
-                            className="loader-rotate"
-                            width={30}
-                            height={30}
-                            alt="loader"
-                          />
-                        ) : (
-                          "Generate OTP"
-                        )}
-                      </button>
-                    )}
-
-                    {aadharGenerate && (
-                      <div className="mt-4 flex gap-4 items-center">
-                        <InputField
-                          type="number"
-                          placeholder="Enter OTP"
-                          onChange={(e: any) => setAadharOtp(e.target.value)}
-                          className="border-0 bg-white font-light placeholder:text-[#312D4E]"
-                        />
-                        <button
-                          onClick={handleVerifyAadharOTP}
-                          disabled={loading === "verify"}
-                          className="w-[209px] h-[55px] flex justify-center items-center rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
-                        >
-                          {loading === "verify" ? (
+              {tabValue !== "Driver" && (
+                <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
+                  <h2 className="sm:text-[20px] text-lg font-semibold">
+                    3. KYC Verification
+                  </h2>
+                  {!three ? (
+                    <div>
+                      <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                        Upload Aadhaar Card{" "}
+                        {userData?.aadharVerified ? (
+                          <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                             <Image
-                              src="/loaderRound.png"
-                              className="loader-rotate"
-                              width={30}
-                              height={30}
-                              alt="loader"
-                            />
-                          ) : (
-                            "Verify OTP"
-                          )}
-                        </button>
-                      </div>
-                    )}
-                    <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                      {" "}
-                      {userData?.drivingLicenseVerified && (
-                        <span className="flex items-center gap-2">
-                          Driving License
-                          <Image
-                            src="/greendone.svg"
-                            alt=""
-                            width={20}
-                            height={20}
-                          />
-                        </span>
-                      )}
-                      {userData?.panVerified && (
-                        <span className="flex items-center gap-2">
-                          PAN Card
-                          <Image
-                            src="/greendone.svg"
-                            alt=""
-                            width={20}
-                            height={20}
-                          />
-                        </span>
-                      )}
-                      {!userData?.drivingLicenseVerified &&
-                        !userData?.panVerified ? (
-                        <span className="flex items-center gap-2 text-[#000] sm:text-[15px] text-xs">
-                          Driving License/ Pan Card
+                              src="/greendone.svg"
+                              width={20}
+                              height={20}
+                              alt={"img"}
+                            />{" "}
+                            Verified Account
+                          </span>
+                        ) : (
                           <Image
                             src="/notVerified.svg"
-                            width={20}
-                            height={20}
-                            alt={"img"}
+                            alt=""
+                            width={30}
+                            height={30}
                           />
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </h4>
-
-                    <div>
-                      <select
-                        onChange={(e) => handleDocSelect(e)}
-                        name=""
-                        id=""
-                        className="border-0 bg-white font-light placeholder:text-[#312D4E] w-[100%] h-[55px] outline-0 mt-2 rounded-md cursor-pointer"
-                      >
-                        <option value="select">Select</option>
-                        <option value="DrivingLicense">Driving License</option>
-                        <option value="PanCard">PAN Card</option>
-                      </select>
-                    </div>
-
-                    {showDocSelect === "DrivingLicense" ? (
-                      <div>
-                        <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                          Driving License{" "}
-                          {userData?.drivingLicenseVerified ? (
-                            <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
-                              <Image
-                                src="/greendone.svg"
-                                width={20}
-                                height={20}
-                                alt={"img"}
-                              />{" "}
-                              Verified Account
-                            </span>
-                          ) : (
-                            <Image
-                              src="/notVerified.svg"
-                              alt=""
-                              width={30}
-                              height={30}
-                            />
-                          )}
-                        </h4>
-                        <div className="sm:flex items-center gap-4 ">
-                          <InputField
-                            placeholder="Driving License Number"
-                            otp={userData?.drivingLicenseNumber}
-                            className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
-                            onChange={(e: any) => setDL(e.target.value)}
-                          />
-                          <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                            {dlFrontImage ? (
-                              <div className="relative ">
+                        )}
+                      </h4>
+                      <div className="mt-4 sm:flex grid gap-6 items-center">
+                        <InputField
+                          placeholder="Enter Aadhaar card number*"
+                          onChange={(e: any) => setAadhar(e.target.value)}
+                          otp={userData?.aadharNumber}
+                          className="border-0 bg-white font-light placeholder:text-[#312D4E]"
+                        />
+                        <div className="flex justify-center space-x-4">
+                          <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative">
+                            {frontImage ? (
+                              <div className="relative">
                                 <span
-                                  onClick={handleRemoveDlFront}
-                                  className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                  onClick={handleRemoveFrontAadhar}
+                                  className="absolute w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
                                 >
                                   {" "}
                                   Remove
                                 </span>
-                                {loadingRound.dlFront && <ProgressBar />}
+                                {loadingRound.aadharFront && <ProgressBar />}
                                 <Image
-                                  src={dlFrontImage}
+                                  src={frontImage}
                                   alt="Front"
                                   width={100}
                                   height={55}
@@ -1522,93 +1388,162 @@ const Checkout = () => {
                                   height={20}
                                   alt="upload"
                                 />
-
                                 <input
                                   type="file"
-                                  onChange={handleDlFrontImageChange}
+                                  onChange={handleFrontImageChange}
                                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                 />
                               </div>
                             )}
                           </div>
-                          <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                            {dlBackImage ? (
-                              <div className="relative ">
+                          <div className="w-[130px] cursor-pointer h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative">
+                            {backImage ? (
+                              <div className="relative">
                                 <span
-                                  onClick={handleRemoveDlBack}
+                                  onClick={handleRemoveBackAadhar}
                                   className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
                                 >
                                   {" "}
                                   Remove
                                 </span>
-                                {loadingRound.dlBack && <ProgressBar />}
+                                {loadingRound.aadharBack && <ProgressBar />}
                                 <Image
-                                  src={dlBackImage}
-                                  alt="Front"
-                                  width={20}
+                                  src={backImage}
+                                  alt="Back"
+                                  width={100}
                                   height={55}
                                   className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                                 />
                               </div>
                             ) : (
-                              <div className="cursor-pointer flex flex-col items-center justify-center">
-                                <span className="text-sm cursor-pointer text-[14px]">
+                              <div className="cursor-pointer  flex flex-col items-center justify-center">
+                                <span className="!cursor-pointer text-sm">
                                   Back image
                                 </span>
                                 <Image
                                   src="/upload.svg"
-                                  className="aboslute left-0 top-10"
+                                  className="aboslute left-0 top-10 cursor-pointer"
                                   width={20}
                                   height={20}
                                   alt="upload"
                                 />
                                 <input
                                   type="file"
-                                  onChange={handleDlBackImageChange}
+                                  onChange={handleBackImageChange}
                                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                 />
                               </div>
                             )}
                           </div>
                         </div>
-
-                        <div className="flex items-center justify-between w-[73%] ">
-                          {!userData?.drivingLicenseVerified && (
-                            <button
-                              onClick={() => {
-                                handleVerifyDrivingLicence();
-                              }}
-                              className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                            >
-                              Continue
-                            </button>
+                      </div>
+                      {!userData?.aadharVerified && (
+                        <button
+                          onClick={handleGenerateAadharOTP}
+                          disabled={loading === "generate"}
+                          className="w-[209px] mt-5 sm:h-[55px] h-[43px] flex justify-center items-center rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                        >
+                          {loading === "generate" ? (
+                            <Image
+                              src="/loaderRound.png"
+                              className="loader-rotate"
+                              width={30}
+                              height={30}
+                              alt="loader"
+                            />
+                          ) : (
+                            "Generate OTP"
                           )}
+                        </button>
+                      )}
 
-                          {/* {userData?.drivingLicenseVerified &&
-                          userData?.panVerified && (
-                            <div
-                              className="mt-4 cursor-pointer"
-                              onClick={() => {
-                                setThree(true);
-                                setFour(false);
-                              }}
-                            >
+                      {aadharGenerate && (
+                        <div className="mt-4 flex gap-4 items-center">
+                          <InputField
+                            type="number"
+                            placeholder="Enter OTP"
+                            onChange={(e: any) => setAadharOtp(e.target.value)}
+                            className="border-0 bg-white font-light placeholder:text-[#312D4E]"
+                          />
+                          <button
+                            onClick={handleVerifyAadharOTP}
+                            disabled={loading === "verify"}
+                            className="w-[209px] h-[55px] flex justify-center items-center rounded-md text-white bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                          >
+                            {loading === "verify" ? (
                               <Image
-                                src="/arrow.svg"
-                                alt=""
+                                src="/loaderRound.png"
+                                className="loader-rotate"
                                 width={30}
                                 height={30}
+                                alt="loader"
                               />
-                            </div>
-                          )} */}
+                            ) : (
+                              "Verify OTP"
+                            )}
+                          </button>
                         </div>
+                      )}
+                      <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                        {" "}
+                        {userData?.drivingLicenseVerified && (
+                          <span className="flex items-center gap-2">
+                            Driving License
+                            <Image
+                              src="/greendone.svg"
+                              alt=""
+                              width={20}
+                              height={20}
+                            />
+                          </span>
+                        )}
+                        {userData?.panVerified && (
+                          <span className="flex items-center gap-2">
+                            PAN Card
+                            <Image
+                              src="/greendone.svg"
+                              alt=""
+                              width={20}
+                              height={20}
+                            />
+                          </span>
+                        )}
+                        {!userData?.drivingLicenseVerified &&
+                        !userData?.panVerified ? (
+                          <span className="flex items-center gap-2 text-[#000] sm:text-[15px] text-xs">
+                            Driving License/ Pan Card
+                            <Image
+                              src="/notVerified.svg"
+                              width={20}
+                              height={20}
+                              alt={"img"}
+                            />
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </h4>
+
+                      <div>
+                        <select
+                          onChange={(e) => handleDocSelect(e)}
+                          name=""
+                          id=""
+                          className="border-0 bg-white font-light placeholder:text-[#312D4E] w-[100%] h-[55px] outline-0 mt-2 rounded-md cursor-pointer"
+                        >
+                          <option value="select">Select</option>
+                          <option value="DrivingLicense">
+                            Driving License
+                          </option>
+                          <option value="PanCard">PAN Card</option>
+                        </select>
                       </div>
-                    ) : showDocSelect === "PanCard" ? (
-                      <>
+
+                      {showDocSelect === "DrivingLicense" ? (
                         <div>
                           <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
-                            PAN Card{" "}
-                            {userData?.panVerified ? (
+                            Driving License{" "}
+                            {userData?.drivingLicenseVerified ? (
                               <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
                                 <Image
                                   src="/greendone.svg"
@@ -1627,89 +1562,14 @@ const Checkout = () => {
                               />
                             )}
                           </h4>
-
                           <div className="sm:flex items-center gap-4 ">
                             <InputField
-                              placeholder="PAN Number"
-                              otp={userData?.panNumber}
-                              onChange={(e: any) => setPanCard(e.target.value)}
+                              placeholder="Driving License Number"
+                              otp={userData?.drivingLicenseNumber}
                               className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                              onChange={(e: any) => setDL(e.target.value)}
                             />
                             <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
-                              {panFrontImage ? (
-                                <div className="relative ">
-                                  <span
-                                    onClick={handleRemovePanFront}
-                                    className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
-                                  >
-                                    {" "}
-                                    Remove
-                                  </span>
-                                  {loadingRound.panFront && <ProgressBar />}
-                                  <Image
-                                    src={panFrontImage}
-                                    alt="Front"
-                                    width={100}
-                                    height={55}
-                                    className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
-                                  />
-                                </div>
-                              ) : (
-                                <div className="cursor-pointer flex flex-col items-center justify-center">
-                                  <span className="text-sm cursor-pointer text-[14px]">
-                                    Front image
-                                  </span>
-                                  <Image
-                                    src="/upload.svg"
-                                    className="aboslute left-0 top-10"
-                                    width={20}
-                                    height={20}
-                                    alt="upload"
-                                  />
-                                  <input
-                                    type="file"
-                                    onChange={handlePanFrontImageChange}
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-
-                          <div className="flex items-center justify-between w-[73%] ">
-                            {!userData?.panVerified && (
-                              <button
-                                onClick={handleVerifiedPan}
-                                className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                              >
-                                Verify Pan
-                              </button>
-                            )}
-
-                            {/* {userData?.drivingLicenseVerified &&
-                              userData?.panVerified && (
-                                <div
-                                  className="mt-4 cursor-pointer"
-                                  onClick={() => {
-                                    setThree(true);
-                                    setFour(false);
-                                  }}
-                                >
-                                  <Image
-                                    src="/arrow.svg"
-                                    alt=""
-                                    width={30}
-                                    height={30}
-                                  />
-                                </div>
-                              )} */}
-                          </div>
-                          <h1 className="mt-4 text-xs text-red-600">
-                            Driving Licence Images are Required*
-                          </h1>
-                          <div className="flex gap-2 items-center">
-                            <div className="w-[230px] cursor-pointer  h-[155px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
                               {dlFrontImage ? (
                                 <div className="relative ">
                                   <span
@@ -1723,9 +1583,9 @@ const Checkout = () => {
                                   <Image
                                     src={dlFrontImage}
                                     alt="Front"
-                                    width={200}
-                                    height={155}
-                                    className="w-[200px] !h-[155px] object-contain rounded-md cursor-pointer"
+                                    width={100}
+                                    height={55}
+                                    className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                                   />
                                 </div>
                               ) : (
@@ -1749,7 +1609,7 @@ const Checkout = () => {
                                 </div>
                               )}
                             </div>
-                            <div className="w-[230px] cursor-pointer  h-[155px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                            <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
                               {dlBackImage ? (
                                 <div className="relative ">
                                   <span
@@ -1763,9 +1623,9 @@ const Checkout = () => {
                                   <Image
                                     src={dlBackImage}
                                     alt="Front"
-                                    width={200}
-                                    height={155}
-                                    className="w-[200px] !h-[155px] object-contain rounded-md cursor-pointer"
+                                    width={20}
+                                    height={55}
+                                    className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
                                   />
                                 </div>
                               ) : (
@@ -1789,16 +1649,245 @@ const Checkout = () => {
                               )}
                             </div>
                           </div>
-                          <button
-                            onClick={() => {
-                              handleVerifyDrivingLicenceUpload();
-                            }}
-                            className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
-                          >
-                            Upload DL Images
-                          </button>
+
+                          <div className="flex items-center justify-between w-[73%] ">
+                            {!userData?.drivingLicenseVerified && (
+                              <button
+                                onClick={() => {
+                                  handleVerifyDrivingLicence();
+                                }}
+                                className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                              >
+                                Continue
+                              </button>
+                            )}
+
+                            {/* {userData?.drivingLicenseVerified &&
+                          userData?.panVerified && (
+                            <div
+                              className="mt-4 cursor-pointer"
+                              onClick={() => {
+                                setThree(true);
+                                setFour(false);
+                              }}
+                            >
+                              <Image
+                                src="/arrow.svg"
+                                alt=""
+                                width={30}
+                                height={30}
+                              />
+                            </div>
+                          )} */}
+                          </div>
                         </div>
-                        {/* {trap && (
+                      ) : showDocSelect === "PanCard" ? (
+                        <>
+                          <div>
+                            <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
+                              PAN Card{" "}
+                              {userData?.panVerified ? (
+                                <span className="flex items-center gap-2 text-[#01A601] sm:text-[15px] text-xs">
+                                  <Image
+                                    src="/greendone.svg"
+                                    width={20}
+                                    height={20}
+                                    alt={"img"}
+                                  />{" "}
+                                  Verified Account
+                                </span>
+                              ) : (
+                                <Image
+                                  src="/notVerified.svg"
+                                  alt=""
+                                  width={30}
+                                  height={30}
+                                />
+                              )}
+                            </h4>
+
+                            <div className="sm:flex items-center gap-4 ">
+                              <InputField
+                                placeholder="PAN Number"
+                                otp={userData?.panNumber}
+                                onChange={(e: any) =>
+                                  setPanCard(e.target.value)
+                                }
+                                className="border-0 bg-white sm:!w-[400px] font-light placeholder:text-[#312D4E] mt-5"
+                              />
+                              <div className="w-[130px] cursor-pointer  h-[55px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                                {panFrontImage ? (
+                                  <div className="relative ">
+                                    <span
+                                      onClick={handleRemovePanFront}
+                                      className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                    >
+                                      {" "}
+                                      Remove
+                                    </span>
+                                    {loadingRound.panFront && <ProgressBar />}
+                                    <Image
+                                      src={panFrontImage}
+                                      alt="Front"
+                                      width={100}
+                                      height={55}
+                                      className="w-[100px] !h-[55px] object-contain rounded-md cursor-pointer"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="cursor-pointer flex flex-col items-center justify-center">
+                                    <span className="text-sm cursor-pointer text-[14px]">
+                                      Front image
+                                    </span>
+                                    <Image
+                                      src="/upload.svg"
+                                      className="aboslute left-0 top-10"
+                                      width={20}
+                                      height={20}
+                                      alt="upload"
+                                    />
+                                    <input
+                                      type="file"
+                                      onChange={handlePanFrontImageChange}
+                                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center justify-between w-[73%] ">
+                              {!userData?.panVerified && (
+                                <button
+                                  onClick={handleVerifiedPan}
+                                  className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                                >
+                                  Verify Pan
+                                </button>
+                              )}
+
+                              {/* {userData?.drivingLicenseVerified &&
+                              userData?.panVerified && (
+                                <div
+                                  className="mt-4 cursor-pointer"
+                                  onClick={() => {
+                                    setThree(true);
+                                    setFour(false);
+                                  }}
+                                >
+                                  <Image
+                                    src="/arrow.svg"
+                                    alt=""
+                                    width={30}
+                                    height={30}
+                                  />
+                                </div>
+                              )} */}
+                            </div>
+                            {!dlPost && !dlPostBack && (
+                              <h1 className="mt-4 text-xs text-red-600">
+                                Driving Licence Images are Required*
+                              </h1>
+                            )}
+
+                            <div className="flex gap-2 items-center">
+                              <div className="w-[230px] cursor-pointer  h-[155px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                                {dlFrontImage ? (
+                                  <div className="relative ">
+                                    <span
+                                      onClick={handleRemoveDlFront}
+                                      className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                    >
+                                      {" "}
+                                      Remove
+                                    </span>
+                                    {loadingRound.dlFront && <ProgressBar />}
+                                    <Image
+                                      src={dlFrontImage}
+                                      alt="Front"
+                                      width={200}
+                                      height={155}
+                                      className="w-[200px] !h-[155px] object-contain rounded-md cursor-pointer"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="cursor-pointer flex flex-col items-center justify-center">
+                                    <span className="text-sm cursor-pointer text-[14px]">
+                                      Front image
+                                    </span>
+                                    <Image
+                                      src="/upload.svg"
+                                      className="aboslute left-0 top-10"
+                                      width={20}
+                                      height={20}
+                                      alt="upload"
+                                    />
+
+                                    <input
+                                      type="file"
+                                      onChange={handleDlFrontImageChange}
+                                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="w-[230px] cursor-pointer  h-[155px] rounded-md bg-white flex flex-col items-center justify-center relative mt-5">
+                                {dlBackImage ? (
+                                  <div className="relative ">
+                                    <span
+                                      onClick={handleRemoveDlBack}
+                                      className="absolute  w-[100%] flex justify-center items-center h-[100%] rounded-md hover:bg-[#0000009d] opacity-0 text-white hover:opacity-100 "
+                                    >
+                                      {" "}
+                                      Remove
+                                    </span>
+                                    {loadingRound.dlBack && <ProgressBar />}
+                                    <Image
+                                      src={dlBackImage}
+                                      alt="Front"
+                                      width={200}
+                                      height={155}
+                                      className="w-[200px] !h-[155px] object-contain rounded-md cursor-pointer"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="cursor-pointer flex flex-col items-center justify-center">
+                                    <span className="text-sm cursor-pointer text-[14px]">
+                                      Back image
+                                    </span>
+                                    <Image
+                                      src="/upload.svg"
+                                      className="aboslute left-0 top-10"
+                                      width={20}
+                                      height={20}
+                                      alt="upload"
+                                    />
+                                    <input
+                                      type="file"
+                                      onChange={handleDlBackImageChange}
+                                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            {dlPost && dlPostBack && (
+                              <h1 className="mt-4 text-xs text-red-600">
+                                Upload the Driving Licence images before
+                                continue*
+                              </h1>
+                            )}
+
+                            <button
+                              onClick={() => {
+                                handleVerifyDrivingLicenceUpload();
+                              }}
+                              className="w-[209px] mt-5 sm:h-[55px] h-[43px] rounded-md text-white bg-[#FF0000] font-semibold hover:bg-black hover:text-white transition-all"
+                            >
+                              Upload DL Images
+                            </button>
+                          </div>
+                          {/* {trap && (
                           <div>
                             <h4 className="text-[16px] mt-5 font-semibold flex items-center gap-2">
                               Driving License{" "}
@@ -1914,19 +2003,21 @@ const Checkout = () => {
                               >
                                 Continue
                               </button>
-                     
+                          
                             </div>
                           </div>
                         )} */}
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              )}
+
               {/*-------------------------------------------------------- section three end */}
             </div>
           )}
@@ -2061,7 +2152,8 @@ const Checkout = () => {
                         <Image
                           src={
                             userData?.drivingLicenseFrontImageUrl ||
-                            dlFrontImage || dlPost
+                            dlFrontImage ||
+                            dlPost
                           }
                           alt="user"
                           width={60}
@@ -2069,7 +2161,8 @@ const Checkout = () => {
                         />{" "}
                         <Image
                           src={
-                            userData?.drivingLicenseBackImageUrl || dlBackImage ||
+                            userData?.drivingLicenseBackImageUrl ||
+                            dlBackImage ||
                             dlPostBack
                           }
                           alt="user"
@@ -2108,7 +2201,8 @@ const Checkout = () => {
                         </span>{" "}
                         <Image
                           src={
-                            userData?.aadharCardFrontImageUrl || aadharFrontPost || 
+                            userData?.aadharCardFrontImageUrl ||
+                            aadharFrontPost ||
                             "/dlcard.svg"
                           }
                           alt="user"
@@ -2117,7 +2211,8 @@ const Checkout = () => {
                         />{" "}
                         <Image
                           src={
-                            userData?.aadharCardBackImageUrl || aadharBackPost || 
+                            userData?.aadharCardBackImageUrl ||
+                            aadharBackPost ||
                             "/aadharCard.svg"
                           }
                           alt="user"
@@ -2153,12 +2248,15 @@ const Checkout = () => {
           )}
 
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
-            <h2 className="text-[20px] font-bold">4. Payment</h2>
+            <h2 className="text-[20px] font-bold">
+              {tabValue == "Driver" ? "3" : "4"}. Payment
+            </h2>
             <button
-              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${!isButtonDisabled
-                ? "bg-[#FF0000] hover:bg-black hover:text-white"
-                : "bg-gray-400 cursor-not-allowed"
-                }`}
+              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${
+                !isButtonDisabled
+                  ? "bg-[#FF0000] hover:bg-black hover:text-white"
+                  : "bg-gray-400 cursor-not-allowed"
+              }`}
               //  className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) )
               //                 ? "bg-[#FF0000] hover:bg-black hover:text-white"
               //                 : "bg-gray-400 cursor-not-allowed"
@@ -2166,7 +2264,7 @@ const Checkout = () => {
 
               onClick={handleSubmit}
               disabled={isButtonDisabled}
-            // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
+              // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
             >
               Continue
             </button>
@@ -2174,8 +2272,19 @@ const Checkout = () => {
         </div>
         <div className="max-w-[450px] w-full mx-auto">
           <BookingSummery
+            location={toCity}
             roundPrice={roundPrice}
             onTotalAmountChange={handleBackBaseFareAmount}
+            totalAmount={totalAmount}
+            paymentMode={
+              isFullpayment == "true"
+                ? "fullPayment"
+                : isFullpayment == "false"
+                ? "partialPayment"
+                : "partialPayment"
+            }
+            userIdPromo={bookingData?.userData?._id}
+            vehicleId={bookingData?.vehicleId}
             particalAmount={particalAmount}
             packageFreeKmSecond={setPackageFreeKms}
             setSelectedPromoCodeSecond={setSelectedPromoCode}

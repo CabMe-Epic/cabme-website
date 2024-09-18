@@ -5,7 +5,7 @@ const ExtraCharges = ({ details }: any) => {
   console.log(details ,"details");
   return (
     <div className="px-4">
-      <div className=" mx-auto p-6 bg-white rounded-lg shadow-md max-w-[1250px] border">
+      <div className=" mx-auto p-6 bg-white rounded-lg shadow-md max-w-[1250px] m-auto border">
         <h2 className="sm:text-2xl text-xl font-semibold mb-4 border-b-[1px] pb-4 border-grey-100">
           Extra Services
         </h2>

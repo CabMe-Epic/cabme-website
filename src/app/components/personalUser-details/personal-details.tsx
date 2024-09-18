@@ -1,3 +1,4 @@
+
 const UserDetails = () =>{
     return(
         <div className="bg-[#FBFBFB] py-4 px-6">

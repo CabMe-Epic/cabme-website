@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body{
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
 :root {
   --primary-color: #ff0000;
   --gray-500: #FBFBFB;
@@ -36,6 +41,7 @@
 
 .react-datepicker-wrapper input {
   font-size: 11px !important;
+  padding-left: 2px;
 }
 
 .review-slider .swiper-slide {
@@ -204,14 +210,14 @@
   display: flex !important;
 }
 .react-datepicker{
-  z-index: 998 !important;
+  /* z-index: 998 !important; */
   
 }
 
 .datepickerinput {
   border: 0 !important;
   outline: 0;
-  z-index: 998 !important;
+  /* z-index: 998 !important; */
 }
 .react-datepicker-wrapper{
   width: 95% !important;
@@ -222,7 +228,7 @@
   color: #3c3c3c;
   background: #FCFBFB !important;
   ;
-  padding: 0;
+  padding: 4px;
   width: 100% !important;
   height: auto;
 }
@@ -295,23 +301,45 @@
     font-size: 20px;
   }
 .modify-search .react-datepicker-wrapper input{
-  font-size: 10px !important;
+  font-size: 15px !important;
   width: fit-content !important; border: 0;
   margin-right: 5px !important;
+  width: 300px !important;
+  /* border: 1px solid #cccccc77; */
+  background: #ffffff00 !important;
+  outline: 0 !important;
+  border: 0 !important;
 }
+
+@media (max-width: 600px) {
+  .modify-search .react-datepicker-wrapper input{
+    width: 315px !important;
+    font-size: 12px !important;
+  }
+}
+
   .react-datepicker {
     width: 138% !important;
     margin-left: 0 !important;
+    z-index: 9999 !important;
   }
 
   .react-datepicker__time-container {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 999 !important;
   }
 
   .react-datepicker__month-container {
     width: 70% !important;
+    z-index: 999 !important;
+  }
+  .react-datepicker-wrapper{
+    z-index: 9999 !important;
+  }
+  .react-datepicker{
+    z-index: 9999 !important;
   }
 }
 @media only screen and (max-width:500px){
@@ -375,4 +403,7 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 14px;
   line-height: 20px;
   color: #333;
+}
+.modify-search .react-datepicker{
+  z-index: 9999 !important;
 }
