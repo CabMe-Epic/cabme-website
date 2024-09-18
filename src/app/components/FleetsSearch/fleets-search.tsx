@@ -21,7 +21,6 @@ import BlinkerLoader from "../blinker-loader/blinkerLoader";
 import RadioButtonNew from "../radio-component-new/radio-component-new";
 
 export default function Home() {
-
   const [startDate, setStartDate] = useState<any>();
   const [loader, setLoader] = useState(false);
 
@@ -80,13 +79,17 @@ export default function Home() {
   console.log(dropOffDate, "213dropOff date");
 
   const saveLocationData = () => {
-    if (tabValue !== "Subscription" && (tabValue == 'driver' && radioToggle !== "One-way")) {
+    if (
+      tabValue !== "Subscription" &&
+      tabValue == "driver" &&
+      radioToggle !== "One-way"
+    ) {
       if (!pickupTime) {
         alert("Please select the Pickup Time");
         return;
       }
 
-      console.log(radioToggle, "radioToggle")
+      console.log(radioToggle, "radioToggle");
 
       if (!dropoffTime) {
         alert("Please select the Drop Off Time");
@@ -107,11 +110,11 @@ export default function Home() {
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
 
     if (isNaN(pickupDateTime.getTime())) {
-      alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+      alert(
+        "Invalid date or time. Please enter valid Pickup and Drop-off dates and times."
+      );
       return;
     }
-
-
 
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
@@ -119,12 +122,15 @@ export default function Home() {
     }
 
     if (tabValue === "Self-Driving") {
-      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime();
+      const timeDifference =
+        dropoffDateTime.getTime() - pickupDateTime.getTime();
 
       const hoursDifference = timeDifference / (1000 * 60 * 60);
 
       if (hoursDifference < 24) {
-        alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
+        alert(
+          "For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours."
+        );
         return;
       }
     }
@@ -134,7 +140,6 @@ export default function Home() {
     }
 
     console.log(pickupDateTime, dropoffDateTime, "tttime");
-
 
     localStorage.setItem("dropOffLocation", dropOffLocation || "");
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
@@ -146,26 +151,30 @@ export default function Home() {
     localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
     console.log(pickupDate, pickupTime, "ddd");
 
-    console.log("dropoffDateTime",dropOffDate)
+    console.log("dropoffDateTime", dropOffDate);
 
     if (tabValue == "Self-Driving") {
       localStorage.setItem("radioToggle", "");
 
-      if(!dropOffDate){
-        alert("Please Select Drop-Off Date")
+      if (!dropOffDate) {
+        alert("Please Select Drop-Off Date");
         return;
       }
-      
     }
 
     if (tabValue == "Subscription") {
       localStorage.setItem("radioToggle", "");
     }
 
-
-
-    if (tabValue == "Subscription" || (tabValue == 'Driver' && radioToggle == "One-way")) {
-      localStorage.setItem("dropOffDate", moment(pickupDate).add(1, 'days').format('YYYY-MM-DD') || moment(mobileStartDate).add(1, 'days').format('YYYY-MM-DD'));
+    if (
+      tabValue == "Subscription" ||
+      (tabValue == "Driver" && radioToggle == "One-way")
+    ) {
+      localStorage.setItem(
+        "dropOffDate",
+        moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
+          moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
+      );
       localStorage.setItem("dropoffTime", pickupTime || mobileStartTime);
     }
 
@@ -179,7 +188,11 @@ export default function Home() {
       alert("Please select the Pickup Time");
       return;
     }
-    if (tabValue !== "Subscription" && (tabValue == 'driver' && radioToggle !== "One-way")) {
+    if (
+      tabValue !== "Subscription" &&
+      tabValue == "driver" &&
+      radioToggle !== "One-way"
+    ) {
       if (!dropDate) {
         alert("Please select the Drop Off Time");
         return;
@@ -189,10 +202,7 @@ export default function Home() {
     // const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
     // const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
 
-
     // console.log(pickupDateTime, dropoffDateTime,"tttime")
-
-
 
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
@@ -203,7 +213,9 @@ export default function Home() {
     }
 
     if (isNaN(pickupDateTime.getTime())) {
-      alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+      alert(
+        "Invalid date or time. Please enter valid Pickup and Drop-off dates and times."
+      );
       return;
     }
 
@@ -213,19 +225,24 @@ export default function Home() {
     }
 
     if (tabValue === "Self-Driving") {
-      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime();
+      const timeDifference =
+        dropoffDateTime.getTime() - pickupDateTime.getTime();
 
       const hoursDifference = timeDifference / (1000 * 60 * 60);
 
       if (hoursDifference < 24) {
-        alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
+        alert(
+          "For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours."
+        );
         return;
       }
     }
 
-
     localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
-    localStorage.setItem("dropOffLocation", dropOffLocation || mobileEndCity || "");
+    localStorage.setItem(
+      "dropOffLocation",
+      dropOffLocation || mobileEndCity || ""
+    );
     localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
     localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
     localStorage.setItem("tabValue", tabValue);
@@ -240,8 +257,8 @@ export default function Home() {
 
     if (tabValue == "Self-Driving") {
       localStorage.setItem("radioToggle", "");
-      if(!dropOffDate){
-        alert("Please Select Drop-Off Date")
+      if (!dropOffDate) {
+        alert("Please Select Drop-Off Date");
         return;
       }
     }
@@ -446,27 +463,29 @@ export default function Home() {
 
       <div
         className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] 
-          ${(tabValue === "Driver" && radioToggle == "One-way")
-            ? "h-[380px]"
-            : (tabValue === "Driver" && radioToggle == "Out-station")
+          ${
+            tabValue === "Driver" && radioToggle == "One-way"
+              ? "h-[380px]"
+              : tabValue === "Driver" && radioToggle == "Out-station"
               ? "h-[340px]"
-              : (tabValue === "Driver" && radioToggle == "Local")
-                ? "h-[350px]"
-                : tabValue === "Subscription"
-                  ? "h-[200px]"
-                  : tabValue === "Self-Driving"
-                    ? "h-[320px]"
-                    : "h-[320px]"
+              : tabValue === "Driver" && radioToggle == "Local"
+              ? "h-[350px]"
+              : tabValue === "Subscription"
+              ? "h-[200px]"
+              : tabValue === "Self-Driving"
+              ? "h-[320px]"
+              : "h-[320px]"
           }`}
       >
         <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-30px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-[28px] text-lg ${value?.tabsValue === tabValue
-                  ? "bg-primary-color text-white font-bold"
-                  : "bg-[#EFF1FB]"
-                  }`}
+                className={`cursor-pointer w-full text-center py-[28px] text-lg ${
+                  value?.tabsValue === tabValue
+                    ? "bg-primary-color text-white font-bold"
+                    : "bg-[#EFF1FB]"
+                }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -483,27 +502,29 @@ export default function Home() {
                   <div
                     key={ind}
                     onClick={() => setRadioToggle(driver.content)}
-                    className={`w-fit p-2 rounded-md flex items-center gap-2 cursor-pointer transition ${driver.content === tabValue
-                      ? "bg-white shadow-md"
-                      : "bg-transparent"
-                      }`}
+                    className={`w-fit p-2 rounded-md flex items-center gap-2 cursor-pointer transition ${
+                      driver.content === tabValue
+                        ? "bg-white shadow-md"
+                        : "bg-transparent"
+                    }`}
                   >
                     <RadioButtonNew
                       content={driver?.content}
                       name={driver?.name}
                       id={driver?.id}
-                      className={`text-sm ${driver.content === radioToggle
-                        ? "font-bold text-black"
-                        : "text-black font-bold"
-                        }`}
+                      className={`text-sm ${
+                        driver.content === radioToggle
+                          ? "font-bold text-black"
+                          : "text-black font-bold"
+                      }`}
                       iconSrc={
                         driver.content === "One-way"
                           ? "/oneWay.svg"
                           : driver.content === "Out-station"
-                            ? "/roundTrip.svg"
-                            : driver.content === "Local"
-                              ? "/local.svg"
-                              : ""
+                          ? "/roundTrip.svg"
+                          : driver.content === "Local"
+                          ? "/local.svg"
+                          : ""
                       }
                       selected={driver.content === radioToggle}
                     />
@@ -517,8 +538,9 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                          }`}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                       >
                         <div className="mt-2 flex-none">
                           <Image
@@ -601,7 +623,6 @@ export default function Home() {
 
                           {item?.id === "date" && (
                             <div className="flex gap-2 p-2 px-4 w-[95%] bg-[#FCFBFB] react-datepicker1 mt-2">
-
                               <DatePicker
                                 className="cursor-pointer border-0 datepickerinput"
                                 selected={
@@ -623,8 +644,8 @@ export default function Home() {
                                   item?.heading === "Pick Up Date"
                                     ? new Date() // For pickup date, prevent selecting past dates
                                     : startDate
-                                      ? new Date(startDate)
-                                      : new Date() // For drop-off date, prevent selecting before pickup date
+                                    ? new Date(startDate)
+                                    : new Date() // For drop-off date, prevent selecting before pickup date
                                 }
                                 maxDate={
                                   item?.heading === "Pick Up Date"
@@ -679,8 +700,9 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                          }`}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                       >
                         <div className="mt-2 flex-none">
                           <Image
@@ -804,8 +826,8 @@ export default function Home() {
                                   item?.heading === "Pick Up Date"
                                     ? new Date() // For pickup date, start from today or any other logic
                                     : startDate
-                                      ? new Date(startDate)
-                                      : new Date() // For drop-off date, start from pickup date
+                                    ? new Date(startDate)
+                                    : new Date() // For drop-off date, start from pickup date
                                 }
                                 maxDate={
                                   item?.heading === "Pick Up Date"
@@ -856,15 +878,20 @@ export default function Home() {
               )}
               {radioToggle === "One-way" && (
                 <div className="grid z-50">
-                  <div className={`grid grid-cols-[1fr_1fr_1fr_1fr] mt-10 w-full ${dropOffLocation && "grid-cols-[1fr_1fr_1fr_1fr]"}`}>
+                  <div
+                    className={`grid grid-cols-[1fr_1fr_1fr_1fr] mt-10 w-full ${
+                      dropOffLocation && "grid-cols-[1fr_1fr_1fr_1fr]"
+                    }`}
+                  >
                     {outstation?.map((item, index) => {
                       return (
                         <>
                           {item?.id === "location" && (
                             <div
                               key={index}
-                              className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                                }`}
+                              className={`flex w-full gap-4 ${
+                                index < 3 ? "border-r-2 mr-6 border-black" : ""
+                              }`}
                             >
                               <div className="flex-none">
                                 <Image
@@ -879,71 +906,76 @@ export default function Home() {
                                   {item?.heading}
                                 </h3>
 
-                                {item?.id === "location" && showLocationPopup && (
-                                  <>
-                                    <input
-                                      className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
-                                      type="text"
-                                      placeholder="All City"
-                                      onClick={(e) => handleSelectPopupLocation(e)}
-                                      value={selectedCity}
-                                      readOnly
-                                    />
+                                {item?.id === "location" &&
+                                  showLocationPopup && (
+                                    <>
+                                      <input
+                                        className="bg-[#FCFBFB] mt-2 px-2 rounded-md border-0 outline-none py-1 cursor-pointer"
+                                        type="text"
+                                        placeholder="All City"
+                                        onClick={(e) =>
+                                          handleSelectPopupLocation(e)
+                                        }
+                                        value={selectedCity}
+                                        readOnly
+                                      />
 
-                                    <div className="flex flex-col justify-center items-center fixed inset-0 !z-[99999] bg-[#0000003c] bg-opacity-50">
-                                      <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
-                                        <Image
-                                          src={"/svg/close-red.svg"}
-                                          alt="nav"
-                                          width={26}
-                                          height={26}
-                                          className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
-                                          onClick={() =>
-                                            setShowLocationPopup(false)
-                                          }
-                                        />
-                                        <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
-                                          {cities?.map(
-                                            (city: any, index: number) => (
-                                              <div key={index}>
-                                                <City
-                                                  city={city}
-                                                  isSelected={
-                                                    selectedCity === city.name
-                                                  }
-                                                  onClick={() =>
-                                                    handleCityClick(city.name)
-                                                  }
-                                                />
-                                              </div>
-                                            )
-                                          )}
+                                      <div className="flex flex-col justify-center items-center fixed inset-0 !z-[99999] bg-[#0000003c] bg-opacity-50">
+                                        <div className="flex flex-col justify-start items-center bg-white py-3 px-10 rounded-3xl shadow-md relative">
+                                          <Image
+                                            src={"/svg/close-red.svg"}
+                                            alt="nav"
+                                            width={26}
+                                            height={26}
+                                            className="absolute top-2 right-2 border rounded-full p-.5 cursor-pointer"
+                                            onClick={() =>
+                                              setShowLocationPopup(false)
+                                            }
+                                          />
+                                          <div className="city-list max-w-[1095px] flex-col justify-start items-start m-auto  grid grid-cols-4">
+                                            {cities?.map(
+                                              (city: any, index: number) => (
+                                                <div key={index}>
+                                                  <City
+                                                    city={city}
+                                                    isSelected={
+                                                      selectedCity === city.name
+                                                    }
+                                                    onClick={() =>
+                                                      handleCityClick(city.name)
+                                                    }
+                                                  />
+                                                </div>
+                                              )
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
+                                    </>
+                                  )}
+
+                                {item?.id === "location" &&
+                                  !showLocationPopup && (
+                                    <div className="relative">
+                                      <input
+                                        className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
+                                        type="text"
+                                        placeholder="All City"
+                                        onClick={(e) =>
+                                          handleSelectPopupLocation(e)
+                                        }
+                                        value={selectedCity}
+                                        readOnly
+                                      />
+                                      <Image
+                                        src="/svg/arrow-down.svg"
+                                        alt="arrowDown"
+                                        width={12}
+                                        height={12}
+                                        className="absolute right-8 top-6"
+                                      />
                                     </div>
-                                  </>
-                                )}
-
-                                {item?.id === "location" && !showLocationPopup && (
-                                  <div className="relative">
-                                    <input
-                                      className="bg-[#FCFBFB] mt-2 p-2 rounded-md border-0 outline-none cursor-pointer w-[95%]"
-                                      type="text"
-                                      placeholder="All City"
-                                      onClick={(e) => handleSelectPopupLocation(e)}
-                                      value={selectedCity}
-                                      readOnly
-                                    />
-                                    <Image
-                                      src="/svg/arrow-down.svg"
-                                      alt="arrowDown"
-                                      width={12}
-                                      height={12}
-                                      className="absolute right-8 top-6"
-                                    />
-                                  </div>
-                                )}
-
+                                  )}
                               </div>
                             </div>
                           )}
@@ -971,14 +1003,13 @@ export default function Home() {
                         onKeyDown={(event) => event?.preventDefault()}
                         minDate={new Date()}
 
-                      // maxDate={
-                      //     item?.heading === "Pick Up Date"
-                      //         ? dropDate || null
-                      //         : null
-                      // }
+                        // maxDate={
+                        //     item?.heading === "Pick Up Date"
+                        //         ? dropDate || null
+                        //         : null
+                        // }
                       />
                     </div>
-
 
                     <div className="h-[75px] flex  w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-0 border-l-2 border-l-black pl-4 ">
                       <div className="grid mb-4">
@@ -997,8 +1028,7 @@ export default function Home() {
                           </label>
                         </div>
 
-                        {
-                          dropOffLocation &&
+                        {dropOffLocation && (
                           <input
                             type="text"
                             value={dropOffLocation}
@@ -1006,19 +1036,17 @@ export default function Home() {
                             className="bg-[#FCFBFB] cursor-pointer outline-none p-[8px] h-fit"
                             readOnly
                           />
-                        }
-                        {
-                          !dropOffLocation &&
+                        )}
+                        {!dropOffLocation && (
                           <div
                             onClick={(e) => handleDropSelectPopupLocation(e)}
                             className={`ml-4 text-[#000000] cursor-pointer`}
                           >
                             Select Drop Location
                           </div>
-                        }
+                        )}
                       </div>
                     </div>
-
 
                     <div className="flex justify-center h-fit">
                       <ThemeButton
@@ -1028,9 +1056,6 @@ export default function Home() {
                       />
                     </div>
                   </div>
-
-
-
 
                   {showDropLocationPopup && (
                     <>
@@ -1125,8 +1150,9 @@ export default function Home() {
                       {item?.id === "location" && (
                         <div
                           key={index}
-                          className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                            }`}
+                          className={`flex w-full gap-4 ${
+                            index < 3 ? "border-r-2 mr-6 border-black" : ""
+                          }`}
                         >
                           <div className="flex-none">
                             <Image
@@ -1267,11 +1293,11 @@ export default function Home() {
                     onKeyDown={(event) => event?.preventDefault()}
                     minDate={new Date()}
 
-                  // maxDate={
-                  //     item?.heading === "Pick Up Date"
-                  //         ? dropDate || null
-                  //         : null
-                  // }
+                    // maxDate={
+                    //     item?.heading === "Pick Up Date"
+                    //         ? dropDate || null
+                    //         : null
+                    // }
                   />
                 </div>
 
@@ -1367,8 +1393,9 @@ export default function Home() {
                 return (
                   <div
                     key={index}
-                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
-                      }`}
+                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${
+                      index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
+                    }`}
                   >
                     <div className=" flex-none">
                       <Image
@@ -1488,16 +1515,16 @@ export default function Home() {
                               item?.heading === "Pick Up Date" && !startDate
                                 ? "Enter Date & Time"
                                 : item?.heading !== "Pick Up Date" && !dropDate
-                                  ? "Enter Date & Time"
-                                  : ""
+                                ? "Enter Date & Time"
+                                : ""
                             }
                             onKeyDown={(event) => event?.preventDefault()}
                             minDate={
                               item?.heading === "Pick Up Date"
                                 ? new Date() // Or any other logic to set minDate for pickup
                                 : startDate
-                                  ? new Date(startDate)
-                                  : new Date() // Prevent selection before pickup date for drop-off
+                                ? new Date(startDate)
+                                : new Date() // Prevent selection before pickup date for drop-off
                             }
                             maxDate={
                               item?.heading === "Pick Up Date"
@@ -1549,8 +1576,9 @@ export default function Home() {
             </div>
             <div
               onClick={(e) => handleDropSelectPopupLocation(e)}
-              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${durationFormat ? "mt-2" : "mt-5"
-                }`}
+              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${
+                durationFormat ? "mt-2" : "mt-5"
+              }`}
             >
               Drop in different city?
             </div>
@@ -1605,12 +1633,13 @@ export default function Home() {
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
-              className={`${mobileTabValue === "Rentals" ||
+              className={`${
+                mobileTabValue === "Rentals" ||
                 tabValue === "Self-Driving" ||
                 tabValue === "Driver"
-                ? "bg-white text-black shadow-custom-shadow"
-                : "text-white"
-                } rounded-xl px-4 py-[8px] text-center text-sm`}
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : "text-white"
+              } rounded-xl px-4 py-[8px] text-center text-sm`}
               onClick={() => {
                 setMobileTabValue("Rentals"), setTabsValue("");
               }}
@@ -1618,10 +1647,11 @@ export default function Home() {
               Rentals
             </div>
             <div
-              className={`${tabValue === "Subscription"
-                ? "bg-white text-black shadow-custom-shadow"
-                : "text-white"
-                } rounded-xl px-4 py-[8px] text-center text-sm `}
+              className={`${
+                tabValue === "Subscription"
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : "text-white"
+              } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => {
                 setTabsValue("Subscription"), setMobileTabValue("");
               }}
@@ -1634,10 +1664,11 @@ export default function Home() {
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden sm:mt-0 mt-2">
             <div
-              className={`${tabValue === "Self-Driving" || tabValue !== "Driver"
-                ? "bg-black text-white"
-                : "text-black"
-                } p-2 rounded-l-full text-center px-4 flex items-center`}
+              className={`${
+                tabValue === "Self-Driving" || tabValue !== "Driver"
+                  ? "bg-black text-white"
+                  : "text-black"
+              } p-2 rounded-l-full text-center px-4 flex items-center`}
               onClick={() => setTabsValue("Self-Driving")}
             >
               <input
@@ -1652,8 +1683,9 @@ export default function Home() {
               </label>
             </div>
             <div
-              className={`p-2 text-center px-4 flex items-center justify-center ${tabValue === "Driver" ? "bg-black text-white" : "text-black"
-                }`}
+              className={`p-2 text-center px-4 flex items-center justify-center ${
+                tabValue === "Driver" ? "bg-black text-white" : "text-black"
+              }`}
               onClick={() => setTabsValue("Driver")}
             >
               <input
@@ -1676,27 +1708,29 @@ export default function Home() {
                   <div
                     key={ind}
                     onClick={() => setRadioToggle(driver.content)}
-                    className={`w-[100px] h-[60px] p-0 rounded-md flex items-center sm:gap-2 cursor-pointer transition ${driver.content === tabValue
-                      ? "bg-white shadow-md "
-                      : "bg-transparent"
-                      }`}
+                    className={`w-[100px] h-[60px] p-0 rounded-md flex items-center sm:gap-2 cursor-pointer transition ${
+                      driver.content === tabValue
+                        ? "bg-white shadow-md "
+                        : "bg-transparent"
+                    }`}
                   >
                     <RadioButtonNew
                       content={driver?.content}
                       name={driver?.name}
                       id={driver?.id}
-                      className={`text-sm ${driver.content === radioToggle
-                        ? "font-bold text-black text-xs "
-                        : "font-bold text-black text-xs "
-                        } `}
+                      className={`text-sm ${
+                        driver.content === radioToggle
+                          ? "font-bold text-black text-xs "
+                          : "font-bold text-black text-xs "
+                      } `}
                       iconSrc={
                         driver.content === "One-way"
                           ? "/oneWay.svg"
                           : driver.content === "Out-station"
-                            ? "/roundTrip.svg"
-                            : driver.content === "Local"
-                              ? "/local.svg"
-                              : ""
+                          ? "/roundTrip.svg"
+                          : driver.content === "Local"
+                          ? "/local.svg"
+                          : ""
                       }
                       selected={driver.content === radioToggle}
                     />
@@ -1739,8 +1773,8 @@ export default function Home() {
                     radioToggle === "Local"
                       ? "Select Your City"
                       : tabValue === "Self-Driving"
-                        ? "Select Your City"
-                        : "Select Your City"
+                      ? "Select Your City"
+                      : "Select Your City"
                   }
                   // onClick={(e) => handleSelectMobilePopupLocation(e)}
                   onClick={(e) => handleSelectPopupLocation(e)}
@@ -1850,44 +1884,49 @@ export default function Home() {
               )}
             </>
           )}
-          {
-            (dropOffLocation && tabValue === "Self-Driving" || (tabValue === "Driver" && radioToggle === "One-way")) && (
-              <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-                <div onClick={(e) => handleDropSelectPopupLocation(e)} className="grid ml-[14px] mt-2  ">
-                  <label htmlFor="dropoff" className="lg:text-xl text-md font-semibold">
-                    Drop-off location
-                  </label>
-                  <div className="flex border p-2 rounded-xl w-[72vw]">
-                    <Image
-                      src={"/svg/city-new.svg"}
-                      alt="location"
-                      width={16}
-                      height={18}
-                    />
-                    <input
-                      type="text"
-                      value={dropOffLocation ? dropOffLocation : "Select Drop City"}
-                      className="outline-none p-[8px] max-w-[280px] sm:text-md text-sm"
-                      readOnly
-                    />
-                  </div>
+          {((dropOffLocation && tabValue === "Self-Driving") ||
+            (tabValue === "Driver" && radioToggle === "One-way")) && (
+            <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+              <div
+                onClick={(e) => handleDropSelectPopupLocation(e)}
+                className="grid ml-[14px] mt-2  "
+              >
+                <label
+                  htmlFor="dropoff"
+                  className="lg:text-xl text-md font-semibold"
+                >
+                  Drop-off location
+                </label>
+                <div className="flex border p-2 rounded-xl w-[72vw]">
+                  <Image
+                    src={"/svg/city-new.svg"}
+                    alt="location"
+                    width={16}
+                    height={18}
+                  />
+                  <input
+                    type="text"
+                    value={
+                      dropOffLocation ? dropOffLocation : "Select Drop City"
+                    }
+                    className="outline-none p-[8px] max-w-[280px] sm:text-md text-sm"
+                    readOnly
+                  />
                 </div>
               </div>
-            )
-          }
-
+            </div>
+          )}
         </div>
         {tabValue !== "Subscription" && (
           <div className="flex sm:gap-4 flex-col items-center gap-1 w-fit py-2 sm:px-6 rounded-md m-auto sm:mt-4">
-            {
-              radioToggle === "One-way" && tabValue == "Driver" &&
+            {radioToggle === "One-way" && tabValue == "Driver" && (
               <strong
                 onClick={(e) => handleDropSelectPopupLocation(e)}
                 className="text-[#ff0000] cursor-pointer sm:text-md text-sm"
               >
                 {/* Drop in different city? */}
               </strong>
-            }
+            )}
             {durationFormat && (
               <div className="flex !text-[12px] sm:flex-row flex-row !items-center mt-4 gap-[5px] bg-[#FCFBFB] px-0 py-2 border-md">
                 <strong className="text-[]">Duration:</strong>{" "}
@@ -1930,23 +1969,22 @@ export default function Home() {
             )}
           </div>
         )}
-        {
-          tabValue !== "Driver" && tabValue !== "Subscription"
-          && <strong
+        {tabValue !== "Driver" && tabValue !== "Subscription" && (
+          <strong
             onClick={(e) => handleDropSelectPopupLocation(e)}
             className="text-[#ff0000] flex justify-center cursor-pointer text-center sm:text-md text-sm"
           >
             Drop in different city?
           </strong>
-        }
+        )}
 
         <div className="m-auto w-[80%] mt-4">
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
             onClick={() => saveLocationDataMobile()}
-          // rightArrowIcon
-          // image={"/svg/race.svg"}
+            // rightArrowIcon
+            // image={"/svg/race.svg"}
           />
         </div>
       </div>
@@ -2038,7 +2076,6 @@ const oneway = [
     heading: "Pick Up Date",
     desc: "Enter pickup date",
   },
-
 ];
 const localDriverArray = [
   {

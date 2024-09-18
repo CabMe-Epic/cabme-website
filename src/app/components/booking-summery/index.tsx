@@ -616,7 +616,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               </span>
             </div>
           )}
-          {selectedTabValue !== "Driver" && selectedTabValue !== "Subscription" && (
+          {selectedTabValue !== "Driver" && selectedTabValue !== "Subscription" && selfDropCities.length !== 0 && (
             <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
               <span className="sm:w-[220px] sm:ml-4">DropOff City Charges</span>
               <span className="sm:w-[220px] sm:ml-10">
@@ -624,6 +624,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               </span>
             </div>
           )}
+
 
           {/* DESKTOP ...  */}
           {currentPackage?.gst === "Excluded" && (

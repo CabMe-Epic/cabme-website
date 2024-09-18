@@ -821,12 +821,15 @@ const CarDetails = () => {
                     </div>
                   )}
 
-                  {selectedTabValue === "Self-Driving" && (
+                  
+
+                  {selectedTabValue === "Self-Driving" && selfDropCities.length !== 0 && (
                     <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                       <span>DropOff City Charges</span>
                       <span>₹ {selfDropCities}</span>
                     </div>
                   )}
+                  
 
                   {currentPackage?.gst === "Excluded" && (
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
