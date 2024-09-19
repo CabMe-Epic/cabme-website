@@ -1838,7 +1838,8 @@ export default function Home() {
                   width={16}
                   height={18}
                 />
-                <DatePicker
+               <div className="w-full">
+               <DatePicker
                   customInput={<CustomInput />}
                   className="cursor-pointer border-0 datepickerinput"
                   selected={startDate}
@@ -1849,7 +1850,9 @@ export default function Home() {
                   placeholderText="Pickup date"
                   onKeyDown={(event: any) => event?.preventDefault()}
                   minDate={new Date()}
-                />
+                />  
+               </div>
+               
               </div>
             </div>
           )}
@@ -1861,15 +1864,16 @@ export default function Home() {
                   {/* <label htmlFor="dropoffDate" className="font-semibold">
                 Dropoff date
               </label> */}
-                  <div className="border bg-[#FCFBFB] custom-picker rounded-xl p-2 flex items-center gap-2 sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
+                  <div className="border bg-[#FCFBFB] custom-picker rounded-xl p-2 flex items-center gap-2  sm:h-auto h-[50px] sm:mx-0 mx-[10px]">
                     <Image
                       src={"/svg/date-new.svg"}
                       alt="location"
                       width={16}
                       height={18}
                     />
+                    <div className="w-full">
                     <DatePicker
-                      className="cursor-pointer datepickerinput"
+                      className="cursor-pointer "
                       selected={dropDate}
                       onChange={(date) => hanldedropoffTime(date)}
                       showTimeSelect
@@ -1879,6 +1883,8 @@ export default function Home() {
                       onKeyDown={(event) => event?.preventDefault()}
                       minDate={pickupDateTime}
                     />
+                    </div>
+            
                   </div>
                 </div>
               )}
