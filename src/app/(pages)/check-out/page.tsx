@@ -78,6 +78,17 @@ const Checkout = () => {
   const [tabValue, setTabsValue] = useState<any>();
   const [radioToggle, setRadioToggle] = useState<any>();
   // const { data, setData } = useContextApi();
+
+  const [aboutDetails, setAboutDetails] = useState({
+    firstName: "",
+    lastName: "",
+    dob: "",
+    email: "",
+    address: "",
+    state: "",
+    city: "",
+  });
+
   React.useEffect(() => {
     const storedData = localStorage.getItem("bookingData");
     if (storedData) {
@@ -310,34 +321,78 @@ const Checkout = () => {
 
   console.log("bookingData_____83", { booking_payload });
 
-  const handleStepThree = React.useCallback(async () => {
-    console.log("bookingData ____188 new ", { booking_payload });
-
+  const handleBookingAndUpdateCustomer = React.useCallback(async () => {
     try {
       setLoader(true);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`,
-        booking_payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+  
+      // Handle booking logic
+      if (booking_payload) {
+        console.log("bookingData ____188 new ", { booking_payload });
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/booking`,
+          booking_payload,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("bookingData response", { res });
+  
+        if (res.data.success) {
+          const bookingId = res.data.response.bookingId;
+          setBookingId(bookingId);
+          setAadharGenerate(false);
+          setThree(false);
+          setTwo(true);
+          // Booking successful, now proceed to update customer if required
         }
-      );
-      console.log("bookingData response", { res });
-      if (res.data.success) {
-        const bookingId = res.data.response.bookingId;
-        setBookingId(bookingId);
-        setAadharGenerate(false);
-        setThree(false);
-        setTwo(true);
-        setLoader(false);
       }
-    } catch (error) {
+  
+      // Handle customer update logic
+      if (selectedUser && phone) {
+        const response = await axios.put(
+          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/${userData?._id}`,
+          selectedUser
+        );
+  
+        if (response?.data.success) {
+          updateUserData(response?.data?.result?.user);
+          setTwo(false);
+          setOne(false);
+          if (tabValue == "Driver") {
+            setDriverGo(true);
+          }
+          toast.success(response?.data?.message);
+  
+          // Customer update successful
+          setBookingId(response?.data.response?.bookingId || bookingId);
+          setAadharGenerate(false);
+          setThree(false);
+          setTwo(true);
+        }
+      } else {
+        setTwo(true);
+        setThree(false);
+        console.log("Skipping signup due to missing fields:", {
+          selectedUser,
+          phone,
+        });
+      }
+  
       setLoader(false);
-      console.error("data not posted", error);
+    } catch (error: any) {
+      setLoader(false);
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+        toast.error(errorMessage);
+      } else {
+        console.error("Network error occurred:", error.message);
+        toast.error("Network error occurred. Please try again.");
+      }
     }
-  }, [booking_payload, selectedPromoCode]);
+  }, [booking_payload, selectedUser, phone, selectedPromoCode, userData?._id]);
+  
 
   console.log("selectedPromoCodePromo", selectedPromoCode);
 
@@ -385,6 +440,8 @@ const Checkout = () => {
       }
     }
   };
+
+ 
 
   const handlePhoneChange = (event: any) => {
     setPhoneNumber(event.target.value);
@@ -543,6 +600,20 @@ const Checkout = () => {
 
         console.log(currentUser, "currentUser");
         updateUserData(currentUser);
+
+        if (currentUser) {
+          setSelectedUser((prev) => ({
+            ...prev,
+            firstName: currentUser.firstName,
+            lastName: currentUser?.lastName,
+            fullName: currentUser?.firstName + " " + currentUser?.lastName,
+            dob: currentUser?.dob,
+            email: currentUser?.email,
+            address: currentUser?.address,
+            state: currentUser?.state,
+            city: currentUser?.city,
+          }));
+        }
 
         if (currentUser == null) {
           updateUserData({
@@ -1106,12 +1177,14 @@ const Checkout = () => {
   }, [userData]);
 
   console.log(userData?.phone, phone, "userData");
+  console.log(selectedUser, "selectedUser");
 
   return (
     <>
       <div className="py-6 lg:flex items-start max-w-[1300px] gap-8 m-auto px-4">
-        <ToastContainer />
-
+        <div className="!z-[99999]">
+          <ToastContainer />
+        </div>
         <div className="max-w-[765px] w-full mx-auto">
           {one == false && two && three ? (
             ""
@@ -1207,14 +1280,14 @@ const Checkout = () => {
                         <InputField
                           name="firstName"
                           placeholder="First name*"
-                          otp={userData?.firstName}
+                          otp={selectedUser?.firstName}
                           className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                           onChange={handleInputChange}
                         />
                         <InputField
                           name="lastName"
                           placeholder="Last name*"
-                          otp={userData?.lastName}
+                          otp={selectedUser?.lastName}
                           className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                           onChange={handleInputChange}
                         />
@@ -1223,8 +1296,8 @@ const Checkout = () => {
                     <div className="my-5 flex  gap-2 w-full">
                       <div className="relative">
                         <legend className="absolute top-2 !text-[#312d4ec1] left-5 bg-white p-2">
-                          {userData?.dob
-                            ? userData?.dob
+                          {selectedUser?.dob
+                            ? selectedUser?.dob
                             : selectedUser?.dob
                             ? selectedUser?.dob
                             : "Date of Birth"}
@@ -1233,7 +1306,7 @@ const Checkout = () => {
                           name="dob"
                           placeholder="Date of Birth"
                           type="date"
-                          otp={userData?.dob}
+                          otp={selectedUser?.dob}
                           className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                           onChange={handleInputChange}
                         />
@@ -1245,7 +1318,7 @@ const Checkout = () => {
                       <InputField
                         name="email"
                         placeholder="Enter your email address*"
-                        otp={userData?.email}
+                        otp={selectedUser?.email}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                         onChange={handleInputChange}
                       />
@@ -1254,7 +1327,7 @@ const Checkout = () => {
                       <InputField
                         name="address"
                         placeholder="Enter your address*"
-                        otp={userData?.address}
+                        otp={selectedUser?.address}
                         className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                         onChange={handleInputChange}
                       />
@@ -1264,14 +1337,14 @@ const Checkout = () => {
                         <InputField
                           name="state"
                           placeholder="State*"
-                          otp={userData?.state}
+                          otp={selectedUser?.state}
                           className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                           onChange={handleInputChange}
                         />
                         <InputField
                           name="city"
                           placeholder="City*"
-                          otp={userData?.city}
+                          otp={selectedUser?.city}
                           className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                           onChange={handleInputChange}
                         />
@@ -1279,24 +1352,43 @@ const Checkout = () => {
                     </div>
                     <div className="mt-5 flex gap-10 items-center">
                       {userData?.phoneVerified ? (
-                        <button
-                          onClick={handleStepThree}
-                          className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
-                        >
-                          {loader ? (
-                            <Image
-                              src="/loaderRound.png"
-                              className="loader-rotate"
-                              width={30}
-                              height={30}
-                              alt="loader"
-                            />
-                          ) : (
-                            "Continue"
-                          )}
-                        </button>
+                        <div className="flex flex-col sm:flex-row items-center gap-2">
+                          {/* <button
+                            onClick={handleStepThree}
+                            className="w-[350px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                          >
+                            {loader ? (
+                              <Image
+                                src="/loaderRound.png"
+                                className="loader-rotate"
+                                width={30}
+                                height={30}
+                                alt="loader"
+                              />
+                            ) : (
+                              "Continue"
+                            )}
+                          </button> */}
+                          <button
+                            onClick={handleBookingAndUpdateCustomer}
+                            className="w-[350px] h-[55px] mt-4 sm:mt-0 flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                          >
+                            {loader ? (
+                              <Image
+                                src="/loaderRound.png"
+                                className="loader-rotate"
+                                width={30}
+                                height={30}
+                                alt="loader"
+                              />
+                            ) : (
+                              "Continue"
+                            )}
+                          </button>
+                        </div>
                       ) : (
                         <button
+                          type="submit"
                           onClick={handleSignUp}
                           className="w-[360px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                         >

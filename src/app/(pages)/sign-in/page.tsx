@@ -128,7 +128,8 @@ const SignIn = () => {
     <div>
       <main className="max-w-[1250px] m-auto">
         {/*  */}
-        <ToastContainer />
+        <div className="z-[99999]"><ToastContainer /></div>
+
         <div className="flex items-center justify-center mt-10">
           <div className="flex relative items-center justify-between sm:w-[1201px] space-x-4">
             {/* Step 1 */}
