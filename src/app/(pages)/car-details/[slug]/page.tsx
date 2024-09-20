@@ -10,7 +10,6 @@ import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  searchVehicle,
   searchVehicleNew,
 } from "../../../../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
@@ -352,22 +351,26 @@ const CarDetails = () => {
   }, [bookingOptions, dropoffLocation]);
 
   const getCarDetails = useCallback(async () => {
-    const getSearchCarData = await searchVehicleNew(locationData);
-    const carData = getSearchCarData?.data?.availableVehicles;
-    console.log(carData, "carDatadetail");
-    carData?.map((item: any) => {
-      return item?._id === slug ? setCarDetails(item) : "";
-    });
-    carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
-      ? setCurrentPackage(
-        carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
-      )
-      : setCurrentPackage(
-        carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find(
-          (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
+    if (locationData.city && locationData.pickUpDateTime) {
+      const getSearchCarData = await searchVehicleNew(locationData);
+      const carData = getSearchCarData?.data?.availableVehicles;
+
+
+      console.log(carData, "carDatadetail");
+      carData?.map((item: any) => {
+        return item?._id === slug ? setCarDetails(item) : "";
+      });
+      carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
+        ? setCurrentPackage(
+          carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
         )
-      );
-  }, [locationData, slug, dropoffLocation, bookingOpt]);
+        : setCurrentPackage(
+          carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find(
+            (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
+          )
+        );
+    }
+  }, [locationData, slug, dropoffLocation, bookingOpt, radioToggle]);
 
   console.log(dropoffLocation, "dropoffLocation");
 
@@ -465,12 +468,12 @@ const CarDetails = () => {
       (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
   const package2FreeKms =
-  Number(
+    Number(
       currentPackage?.package2?.kmsLimit *
       (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
   const package3FreeKms =
-  Number(
+    Number(
       currentPackage?.package3?.kmsLimit *
       (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
@@ -501,7 +504,7 @@ const CarDetails = () => {
       setFreeKms(package3FreeKms);
       localStorage.setItem("selectedPackageFreeKms", package3FreeKms.toString());
     }
-    console.log(package3FreeKms,"package3FreeKms")
+    console.log(package3FreeKms, "package3FreeKms")
   };
 
   // useEffect(() => {
@@ -644,7 +647,7 @@ const CarDetails = () => {
   return (
     <>
       <div className="py-6">
-      <div className="z-[99999]"><ToastContainer /></div>
+        <div className="z-[99999]"><ToastContainer /></div>
 
         <div className="sm:flex hidden px-16 text-[#5F5D5D]">
           <span className="cursor-pointer">Home</span>/
@@ -822,7 +825,7 @@ const CarDetails = () => {
                     </div>
                   )}
 
-                  
+
 
                   {selectedTabValue === "Self-Driving" && selfDropCities.length !== 0 && (
                     <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
@@ -830,7 +833,7 @@ const CarDetails = () => {
                       <span>₹ {selfDropCities}</span>
                     </div>
                   )}
-                  
+
 
                   {currentPackage?.gst === "Excluded" && (
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
