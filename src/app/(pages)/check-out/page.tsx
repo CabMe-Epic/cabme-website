@@ -2,7 +2,7 @@
 import BookingSummery from "@/app/components/booking-summery";
 import InputField from "@/app/components/input-field/input-field";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -78,6 +78,9 @@ const Checkout = () => {
   const [tabValue, setTabsValue] = useState<any>();
   const [radioToggle, setRadioToggle] = useState<any>();
   // const { data, setData } = useContextApi();
+  const dobref = useRef<any>(null);
+
+
 
   const [aboutDetails, setAboutDetails] = useState({
     firstName: "",
@@ -230,6 +233,11 @@ const Checkout = () => {
   const [loading, setLoading] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const handleDobRef = () => {
+    if (dobref.current) {
+      dobref.current.click();
+    }
+  }
   // useEffect(() => {
   //   const fetchUser = async () => {
   //     try {
@@ -275,7 +283,7 @@ const Checkout = () => {
     pickUpDateTime: bookingData.pickUpDateTime,
     dropOffDateTime:
       (tabValue == "Driver" && radioToggle == "One-way") ||
-      tabValue == "Subscription"
+        tabValue == "Subscription"
         ? moment(bookingData.pickUpDateTime).add(1, "days").toISOString()
         : bookingData.dropOffDateTime,
     baseFare: Number(bookingData.baseFare),
@@ -300,8 +308,8 @@ const Checkout = () => {
       isFullpayment == "true"
         ? "fullPayment"
         : isFullpayment == "false"
-        ? "partialPayment"
-        : "partialPayment",
+          ? "partialPayment"
+          : "partialPayment",
 
     partialPayments: [
       {
@@ -324,7 +332,7 @@ const Checkout = () => {
   const handleBookingAndUpdateCustomer = React.useCallback(async () => {
     try {
       setLoader(true);
-  
+
       // Handle booking logic
       if (booking_payload) {
         console.log("bookingData ____188 new ", { booking_payload });
@@ -338,7 +346,7 @@ const Checkout = () => {
           }
         );
         console.log("bookingData response", { res });
-  
+
         if (res.data.success) {
           const bookingId = res.data.response.bookingId;
           setBookingId(bookingId);
@@ -348,14 +356,14 @@ const Checkout = () => {
           // Booking successful, now proceed to update customer if required
         }
       }
-  
+
       // Handle customer update logic
       if (selectedUser && phone) {
         const response = await axios.put(
           `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/${userData?._id}`,
           selectedUser
         );
-  
+
         if (response?.data.success) {
           updateUserData(response?.data?.result?.user);
           setTwo(false);
@@ -364,7 +372,7 @@ const Checkout = () => {
             setDriverGo(true);
           }
           toast.success(response?.data?.message);
-  
+
           // Customer update successful
           setBookingId(response?.data.response?.bookingId || bookingId);
           setAadharGenerate(false);
@@ -379,7 +387,7 @@ const Checkout = () => {
           phone,
         });
       }
-  
+
       setLoader(false);
     } catch (error: any) {
       setLoader(false);
@@ -392,7 +400,7 @@ const Checkout = () => {
       }
     }
   }, [booking_payload, selectedUser, phone, selectedPromoCode, userData?._id]);
-  
+
 
   console.log("selectedPromoCodePromo", selectedPromoCode);
 
@@ -441,7 +449,7 @@ const Checkout = () => {
     }
   };
 
- 
+
 
   const handlePhoneChange = (event: any) => {
     setPhoneNumber(event.target.value);
@@ -1293,23 +1301,32 @@ const Checkout = () => {
                         />
                       </div>
                     </div>
-                    <div className="my-5 flex  gap-2 w-full">
+                    <div className="my-5 flex  gap-2 flex-col sm:flex-row w-full">
                       <div className="relative">
-                        <legend className="absolute top-2 !text-[#312d4ec1] left-5 bg-white p-2">
+                        {/* <label onClick={handleDobRef} className=" !text-[#312d4ec1] w-full h-full  bg-white p-2 cursor-pointer absolute left-0 top-0">
                           {selectedUser?.dob
                             ? selectedUser?.dob
                             : selectedUser?.dob
-                            ? selectedUser?.dob
-                            : "Date of Birth"}
-                        </legend>
-                        <InputField
+                              ? selectedUser?.dob
+                              : "Date of Birth"}
+
+                        </label> */}
+                        {/* <InputField
                           name="dob"
                           placeholder="Date of Birth"
                           type="date"
+                          inputRef={dobref}
                           otp={selectedUser?.dob}
                           className="border-0 bg-white font-light placeholder:text-[#312D4E]"
                           onChange={handleInputChange}
-                        />
+                        /> */}
+
+                        <input name="dob" type="date"
+                         value={selectedUser?.dob}
+                          // ref={dobref} 
+                          className="border-0 w-full sm:w-[200px] px-4 h-[58px] outline-none rounded-md bg-white font-light placeholder:text-[#312D4E]"
+                           onChange={handleInputChange} /> <br />
+
                         <span className="text-xs md:ml-2 m-auto !text-center md:text-left text-red-700">
                           DOB as per your documents*
                         </span>
@@ -1352,7 +1369,7 @@ const Checkout = () => {
                     </div>
                     <div className="mt-5 flex gap-10 items-center">
                       {userData?.phoneVerified ? (
-                        <div className="flex flex-col sm:flex-row items-center gap-2">
+                        <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
                           {/* <button
                             onClick={handleStepThree}
                             className="w-[350px] h-[55px] flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
@@ -1371,7 +1388,7 @@ const Checkout = () => {
                           </button> */}
                           <button
                             onClick={handleBookingAndUpdateCustomer}
-                            className="w-[350px] h-[55px] mt-4 sm:mt-0 flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
+                            className=" w-[250px] sm:w-[350px] h-[55px] mt-4 sm:mt-0 flex justify-center items-center rounded-md text-white font-semibold bg-[#FF0000] hover:bg-black hover:text-white transition-all"
                           >
                             {loader ? (
                               <Image
@@ -1601,7 +1618,7 @@ const Checkout = () => {
                           </span>
                         )}
                         {!userData?.drivingLicenseVerified &&
-                        !userData?.panVerified ? (
+                          !userData?.panVerified ? (
                           <span className="flex items-center gap-2 text-[#000] sm:text-[15px] text-xs">
                             Driving License/ Pan Card
                             <Image
@@ -2344,11 +2361,10 @@ const Checkout = () => {
               {tabValue == "Driver" ? "3" : "4"}. Payment
             </h2>
             <button
-              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${
-                !isButtonDisabled
+              className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${!isButtonDisabled
                   ? "bg-[#FF0000] hover:bg-black hover:text-white"
                   : "bg-gray-400 cursor-not-allowed"
-              }`}
+                }`}
               //  className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) )
               //                 ? "bg-[#FF0000] hover:bg-black hover:text-white"
               //                 : "bg-gray-400 cursor-not-allowed"
@@ -2356,7 +2372,7 @@ const Checkout = () => {
 
               onClick={handleSubmit}
               disabled={isButtonDisabled}
-              // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
+            // disabled={(!three && (userData?.aadharVerified && userData?.panVerified || userData?.aadharVerified && userData?.drivingLicenseVerified ) ) ? false : true}
             >
               Continue
             </button>
@@ -2372,8 +2388,8 @@ const Checkout = () => {
               isFullpayment == "true"
                 ? "fullPayment"
                 : isFullpayment == "false"
-                ? "partialPayment"
-                : "partialPayment"
+                  ? "partialPayment"
+                  : "partialPayment"
             }
             userIdPromo={bookingData?.userData?._id}
             vehicleId={bookingData?.vehicleId}
