@@ -225,7 +225,7 @@ const CardListingCards = ({ data }: any) => {
   return (
     <>
       {showImg ? (
-        <div className="sm:w-screen h-screen fixed !top-0 !left-0 backdrop-blur-md z-[999] flex justify-center w-screen sm:h-screen items-center overflow-hidden">
+        <div className="sm:w-screen h-screen fixed !top-0 !left-0 backdrop-blur-md z-[999999] flex justify-center w-screen sm:h-screen items-center overflow-hidden">
           <div
             onClick={() => setShowImg(!showImg)}
             className="absolute top-4 sm:right-4 right-0 transform -translate-x-1/2 cursor-pointer"
