@@ -1285,7 +1285,7 @@ const Checkout = () => {
                   <div>
                     <div className="mt-4 flex gap-10 items-center">
                       <div className="flex gap-2 w-full">
-                        <InputField
+                        <InputField 
                           name="firstName"
                           placeholder="First name*"
                           otp={selectedUser?.firstName}
