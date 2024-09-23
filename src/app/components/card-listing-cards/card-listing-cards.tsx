@@ -296,19 +296,21 @@ const CardListingCards = ({ data }: any) => {
 
         {/* --------------------------------- */}
 
-   
-        {
-           data.vehicleStatus === "Sold Out" &&
-           <div className={` absolute top-0 left-0 w-[100%] h-full z-30 rounded-lg`}>
-           {/* Background overlay with blur effect */}
-           <div className="absolute top-0 left-0 w-full h-full  backdrop-blur-[3px] rounded-lg z-40">
-            
-            <div className="flex items-center h-full w-full text-[40px] justify-center font-bold text-[#ff0000]">
-            Booked
-            </div>
-           </div>
 
-         </div>
+        {
+          (data.vehicleStatus === "Sold Out" || data.vehicleStatus === "Not Available") &&
+          <div className={` absolute top-0 left-0 w-[100%] h-full z-10 rounded-lg`}>
+            {/* Background overlay with blur effect */}
+            <div className="absolute top-0 left-0 w-full h-full  backdrop-blur-[3px] rounded-lg z-40">
+
+              <div className="flex items-center h-full w-full text-[40px] justify-center font-bold text-[#ff0000]">
+                {
+                  data.vehicleStatus === "Sold Out" ? "Booked" : data.vehicleStatus === "Not Available" ? "Not Available" : ""
+                }
+              </div>
+            </div>
+
+          </div>
         }
 
         <div
@@ -322,7 +324,7 @@ const CardListingCards = ({ data }: any) => {
             {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
               <>
                 {" "}
-                <div className={`absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit ${data.vehicleStatus === "Sold Out" && "blur-[3px]"}`}>
+                <div className={`absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit ${(data.vehicleStatus === "Sold Out" || data.vehicleStatus === "Not Available") && "blur-[3px]"}`}>
                   <Image
                     src="/png/red-design.png"
                     width={133}
@@ -333,7 +335,7 @@ const CardListingCards = ({ data }: any) => {
                   <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
                     {data?.brandName}
                   </span>
-                </div>  
+                </div>
                 <div className="sm:flex hidden flex-col items-center jusitfy-center lg:w-[486px] w-[260px] h-full ">
                   <div className="flex flex-row justify-center m-auto mt-16">
                     <h1 className="m-auto font-bold text-[24px]">

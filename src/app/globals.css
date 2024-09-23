@@ -342,6 +342,9 @@ body{
   .react-datepicker{
     z-index: 9999 !important;
   }
+  .react-datepicker__navigation--next{
+    z-index: 9999999;
+  }
 }
 @media only screen and (max-width:500px){
   .product-slider .swiper-initialized{
