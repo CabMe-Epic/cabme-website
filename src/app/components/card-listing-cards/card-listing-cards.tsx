@@ -49,7 +49,7 @@ const CardListingCards = ({ data }: any) => {
   }, [showImg]);
 
   console.log(days, hours, minutes, "duration for self");
-  
+
 
   // Convert the time into total hours
   let totalHours = (days * 24) + hours + (minutes / 60);
@@ -296,16 +296,33 @@ const CardListingCards = ({ data }: any) => {
 
         {/* --------------------------------- */}
 
+   
+        {
+           data.vehicleStatus === "Sold Out" &&
+           <div className={` absolute top-0 left-0 w-[100%] h-full z-30 rounded-lg`}>
+           {/* Background overlay with blur effect */}
+           <div className="absolute top-0 left-0 w-full h-full  backdrop-blur-[3px] rounded-lg z-40">
+            
+            <div className="flex items-center h-full w-full text-[40px] justify-center font-bold text-[#ff0000]">
+            Booked
+            </div>
+           </div>
+
+         </div>
+        }
+
         <div
-          className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px] mb-[40px]"
+          className={`bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px] mb-[40px] `}
           style={{ backgroundSize: "100% 100%" }}
         >
-          <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
+
+
+          <main className={`sm:max-w-[1028px] pb-4 rounded-[12px] flex flex-row items-center justify-center bg-no-repeat `}>
             {/* ---------------------------------------- */}
             {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
               <>
                 {" "}
-                <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+                <div className={`absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit ${data.vehicleStatus === "Sold Out" && "blur-[3px]"}`}>
                   <Image
                     src="/png/red-design.png"
                     width={133}
@@ -316,7 +333,7 @@ const CardListingCards = ({ data }: any) => {
                   <span className="text-white absolute z-[9] top-[5px] text-sm left-0 right-0 m-auto w-fit">
                     {data?.brandName}
                   </span>
-                </div>
+                </div>  
                 <div className="sm:flex hidden flex-col items-center jusitfy-center lg:w-[486px] w-[260px] h-full ">
                   <div className="flex flex-row justify-center m-auto mt-16">
                     <h1 className="m-auto font-bold text-[24px]">
@@ -478,8 +495,8 @@ const CardListingCards = ({ data }: any) => {
                           }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked2
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
                           }`}
                       >
                         <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
@@ -566,8 +583,8 @@ const CardListingCards = ({ data }: any) => {
                           }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked3
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
                           }`}
                       >
                         <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
@@ -908,8 +925,8 @@ const CardListingCards = ({ data }: any) => {
                         setClicked3(false);
                       }}
                       className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${clicked1
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
                         }`}
                     >
                       <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
@@ -978,8 +995,8 @@ const CardListingCards = ({ data }: any) => {
                         setClicked3(false);
                       }}
                       className={`sm:flex flex-row hover:scale-[1.05] duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
                         }`}
                     >
                       <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -1048,8 +1065,8 @@ const CardListingCards = ({ data }: any) => {
                         setClicked3(true);
                       }}
                       className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
                         }`}
                     >
                       <span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
@@ -1328,8 +1345,8 @@ const CardListingCards = ({ data }: any) => {
                                     setClicked3(false);
                                   }}
                                   className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
-                                      ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                      : ""
+                                    ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                    : ""
                                     }  `}
                                 >
                                   <span className="flex flex-col  gap-0">
@@ -1582,8 +1599,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(false);
                             }}
                             className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -1664,8 +1681,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(false);
                             }}
                             className={`sm:flex flex-row hover:scale-[1.05] cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                                ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -1746,8 +1763,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(true);
                             }}
                             className={`sm:flex hover:scale-[1.05] duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -2018,8 +2035,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(false);
                             }}
                             className={`bg-white border-[1.5px] hover:scale-[1.05] duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
@@ -2252,8 +2269,8 @@ const CardListingCards = ({ data }: any) => {
                   <button
                     key={tab.name}
                     className={`sm:py-2 sm:px-4 rounded-t-xl mt-2 w-full text-xs px-2 py-[7px] ${activeTab === tab.name
-                        ? "bg-white text-primary font-bold"
-                        : "bg-black text-white"
+                      ? "bg-white text-primary font-bold"
+                      : "bg-black text-white"
                       }`}
                     onClick={() => setActiveTab(tab.name)}
                   >

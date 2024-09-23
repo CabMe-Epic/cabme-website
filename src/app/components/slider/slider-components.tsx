@@ -86,7 +86,7 @@ const FleetsSlider = ({
           {vehicle?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
-                <div className="lg:m-auto bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl max-w-[400px]">
+                <div className="lg:m-auto m-auto bg-[#FAFAFA] shadow-custom-shadow w-full border p-4 rounded-xl max-w-[400px]">
                   <div className="flex justify-between">
                     <span className="bg-[#403D3D] text-white px-4 py-1 text-xs rounded-md">
                       {item?.brandName}

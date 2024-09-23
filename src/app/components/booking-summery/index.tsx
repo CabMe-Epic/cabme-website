@@ -251,7 +251,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicleNew(locationData);
-    const carData = getSearchCarData?.data?.availableVehicles;
+    const carData = getSearchCarData?.data?.
+    vehiclesWithStatus
+    ;
     carData?.forEach((item: any) => {
       if (item?._id === sessionSlug) {
         setCarDetails(item);
