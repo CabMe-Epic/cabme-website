@@ -133,7 +133,7 @@ const Checkout = () => {
 
   console.log("bookingData by data", { bookingData });
   console.log(selectedPromoCode, "selectedPromoCode");
-  const [bookingId, setBookingId] = useState(null);
+  const [bookingId, setBookingId] = useState<any>(null);
   const [dlPost, setDLPost] = useState<string | null>(null);
   const [dlPostBack, setDLPostBack] = useState<string | null>(null);
   const [frontImage, setFrontImage] = useState<any>(null);
@@ -349,6 +349,7 @@ const Checkout = () => {
 
         if (res.data.success) {
           const bookingId = res.data.response.bookingId;
+          console.log(bookingId,"helloid")
           setBookingId(bookingId);
           setAadharGenerate(false);
           setThree(false);
@@ -374,7 +375,8 @@ const Checkout = () => {
           toast.success(response?.data?.message);
 
           // Customer update successful
-          setBookingId(response?.data.response?.bookingId || bookingId);
+          // setBookingId(response?.data.response?.bookingId || bookingId);
+          console.log(response?.data.response?.bookingId, bookingId, "helloId")
           setAadharGenerate(false);
           setThree(false);
           setTwo(true);
@@ -399,7 +401,7 @@ const Checkout = () => {
         toast.error("Network error occurred. Please try again.");
       }
     }
-  }, [booking_payload, selectedUser, phone, selectedPromoCode, userData?._id]);
+  }, [booking_payload, selectedUser, phone, selectedPromoCode, userData?._id,bookingId]);
 
 
   console.log("selectedPromoCodePromo", selectedPromoCode);
@@ -1108,6 +1110,8 @@ const Checkout = () => {
     vehicleId: currentVehicleId as string,
   };
 
+  console.log(paymentPayload,'paymentPayloadpaymentPayload')
+
   const handleSubmit = async (e: React.FormEvent) => {
     try {
       const response = await axios.post(
@@ -1139,7 +1143,7 @@ const Checkout = () => {
         hash: data?.hashValue,
       };
 
-      console.log({ result });
+      console.log({ result },"resultresult");
 
       const form = document.createElement("form");
       form.setAttribute("method", "POST");
