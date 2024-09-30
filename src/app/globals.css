@@ -76,6 +76,7 @@ body{
 
 .swiper {
   padding-bottom: 30px !important;
+  margin: auto;
 }
 
 .review-slider .swiper {
@@ -341,6 +342,9 @@ body{
   .react-datepicker{
     z-index: 9999 !important;
   }
+  .react-datepicker__navigation--next{
+    z-index: 9999999;
+  }
 }
 @media only screen and (max-width:500px){
   .product-slider .swiper-initialized{
@@ -407,3 +411,4 @@ input[type="number"]::-webkit-outer-spin-button {
 .modify-search .react-datepicker{
   z-index: 9999 !important;
 }
+

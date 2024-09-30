@@ -322,16 +322,18 @@ const CarListing = () => {
       try {
         if (bookingOptions === "Self-Driving") {
           if (
-            locationData.pickUpDateTime &&  locationData.dropOffDateTime && 
+            locationData.pickUpDateTime && locationData.dropOffDateTime &&
             (locationData.toCity || locationData.toCity === "")
           ) {
             console.log("locationData", locationData);
             setLoader(true);
-            
+
             try {
               const getSearchCarData = await searchVehicleNew(locationData);
               console.log(getSearchCarData, "Car search API response");
-              setCarData(getSearchCarData?.data?.availableVehicles);
+              setCarData(getSearchCarData?.data?.
+                vehiclesWithStatus
+              );
             } catch (error) {
               console.error("Error fetching car data", error);
             } finally {
@@ -341,9 +343,9 @@ const CarListing = () => {
             console.error("Missing required location data or booking options", locationData);
           }
         }
-        
+
         if (
-       
+
           (bookingOptions === "Driver" &&
             (driverType === "One-way")) && locationData.toCity
         ) {
@@ -356,27 +358,35 @@ const CarListing = () => {
             setLoader(true);
             const getSearchCarData = await searchVehicleNew(locationData);
             console.log(getSearchCarData, "Car search API response");
-            setCarData(getSearchCarData?.data?.availableVehicles);
+            setCarData(getSearchCarData?.data?.
+              vehiclesWithStatus
+            );
           } else {
             console.error("Missing required location data or booking options", locationData);
           }
         }
 
-        if (bookingOptions === "Driver" && (driverType === "Out-station")  && locationData.dropOffDateTime && locationData.driverType) {
+        if (bookingOptions === "Driver" && (driverType === "Out-station") && locationData.dropOffDateTime && locationData.driverType) {
           const getSearchCarData = await searchVehicleNew(locationData);
           console.log(getSearchCarData, "Car search API response");
-          setCarData(getSearchCarData?.data?.availableVehicles);
+          setCarData(getSearchCarData?.data?.
+            vehiclesWithStatus
+          );
         }
         if (bookingOptions === "Driver" && (driverType === "Local") && locationData.dropOffDateTime && locationData.driverType) {
           const getSearchCarData = await searchVehicleNew(locationData);
           console.log(getSearchCarData, "Car search API response");
-          setCarData(getSearchCarData?.data?.availableVehicles);
+          setCarData(getSearchCarData?.data?.
+            vehiclesWithStatus
+          );
         }
 
-        if(bookingOptions === "Subscription" &&  locationData.dropOffDateTime && locationData.bookingType){
+        if (bookingOptions === "Subscription" && locationData.dropOffDateTime && locationData.bookingType) {
           const getSearchCarData = await searchVehicleNew(locationData);
           console.log(getSearchCarData, "Car search API response");
-          setCarData(getSearchCarData?.data?.availableVehicles);
+          setCarData(getSearchCarData?.data?.
+            vehiclesWithStatus
+          );
         }
 
         else {
@@ -390,8 +400,8 @@ const CarListing = () => {
     };
 
 
-      getCarDetails();
-    
+    getCarDetails();
+
   }, [locationData, bookingOptions, driverType]);
 
 

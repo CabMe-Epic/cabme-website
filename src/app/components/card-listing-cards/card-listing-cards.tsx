@@ -49,10 +49,9 @@ const CardListingCards = ({ data }: any) => {
   }, [showImg]);
 
   console.log(days, hours, minutes, "duration for self");
-  
 
   // Convert the time into total hours
-  let totalHours = (days * 24) + hours + (minutes / 60);
+  let totalHours = days * 24 + hours + minutes / 60;
 
   // Check if total duration is less than 48 hours
   if (totalHours < 48) {
@@ -219,13 +218,17 @@ const CardListingCards = ({ data }: any) => {
   console.log("hours", days, hours, minutes);
 
   console.log(selectedPackagePrice, "selectedPackagePrice");
-  console.log(selectedPackageFreeKms, selectedPackagePrice, "setSelectedPackageFreeKms");
+  console.log(
+    selectedPackageFreeKms,
+    selectedPackagePrice,
+    "setSelectedPackageFreeKms"
+  );
 
   // console.log("days")
   return (
     <>
       {showImg ? (
-        <div className="sm:w-screen h-screen fixed !top-0 !left-0 backdrop-blur-md z-[999] flex justify-center w-screen sm:h-screen items-center overflow-hidden">
+        <div className="sm:w-screen h-screen fixed !top-0 !left-0 backdrop-blur-md z-[999999] flex justify-center w-screen sm:h-screen items-center overflow-hidden">
           <div
             onClick={() => setShowImg(!showImg)}
             className="absolute top-4 sm:right-4 right-0 transform -translate-x-1/2 cursor-pointer"
@@ -296,16 +299,40 @@ const CardListingCards = ({ data }: any) => {
 
         {/* --------------------------------- */}
 
+        {/* {(data.vehicleStatus === "Sold Out" ||
+          data.vehicleStatus === "Not Available") && (
+          <div
+            className={` absolute top-0 left-0 w-[100%] h-full z-10 rounded-lg`}
+          >
+            <div className="absolute top-0 left-0 w-full h-full  backdrop-blur-[3px] rounded-lg z-40">
+              <div className="flex items-center h-full w-full text-[40px] justify-center font-bold text-[#ff0000]">
+                {data.vehicleStatus === "Sold Out"
+                  ? "Booked"
+                  : data.vehicleStatus === "Not Available"
+                  ? "Not Available"
+                  : ""}
+              </div>
+            </div>
+          </div>
+        )} */}
+
         <div
-          className="bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px] mb-[40px]"
+          className={`bg-[url('/png/listing-bg.png')] sm:pt-0 pt-[40px] mb-[40px] `}
           style={{ backgroundSize: "100% 100%" }}
         >
-          <main className=" sm:max-w-[1028px] pb-4 items-baseline rounded-[12px] flex flex-row items-center justify-center bg-no-repeat">
+          <main
+            className={`sm:max-w-[1028px] pb-4 rounded-[12px] flex flex-row items-center justify-center bg-no-repeat `}
+          >
             {/* ---------------------------------------- */}
             {bookingOptionsHome === data?.bookingOptions?.selfDrive?.name ? (
               <>
                 {" "}
-                <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
+                <div
+                  className={`absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit ${(data.vehicleStatus === "Sold Out" ||
+                      data.vehicleStatus === "Not Available") &&
+                    ""
+                    }`}
+                >
                   <Image
                     src="/png/red-design.png"
                     width={133}
@@ -353,14 +380,19 @@ const CardListingCards = ({ data }: any) => {
                     <div className="mt-5 flex flex-row sm:flex-row justify-center items-center mx-auto mb-6 lg:gap-4 gap-2 sm:mr-5 pl-1 sm:pr-0 pr-1 self-center">
                       <div
                         onClick={() => {
-                          if (Number(
-                            (
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package1?.kmsLimit *
-                              (((days as number) + hours / 24) as number)
-                            ).toFixed(0)
-                          ) == 0 && totalHours < 48) {
-                            alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
+                          if (
+                            Number(
+                              (
+                                data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package1?.kmsLimit *
+                                (((days as number) + hours / 24) as number)
+                              ).toFixed(0)
+                            ) == 0 &&
+                            totalHours < 48
+                          ) {
+                            alert(
+                              "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                            );
                             return;
                           }
                           setFreekms(
@@ -386,7 +418,6 @@ const CardListingCards = ({ data }: any) => {
                               "Failed to calculate the total price"
                             );
                           }
-
                         }}
                         className={` sm:flex flex-row hover:scale-[1.05] duration-300 items-center !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg 
                             lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked1
@@ -443,14 +474,19 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
-                          if (Number(
-                            (
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package2?.kmsLimit *
-                              (((days as number) + hours / 24) as number)
-                            ).toFixed(0)
-                          ) == 0 && totalHours < 48) {
-                            alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
+                          if (
+                            Number(
+                              (
+                                data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package2?.kmsLimit *
+                                (((days as number) + hours / 24) as number)
+                              ).toFixed(0)
+                            ) == 0 &&
+                            totalHours < 48
+                          ) {
+                            alert(
+                              "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                            );
                             return;
                           }
                           setFreekms(
@@ -531,14 +567,19 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div
                         onClick={() => {
-                          if (Number(
-                            (
-                              data?.bookingOptions?.selfDrive?.packageType
-                                ?.package3?.kmsLimit *
-                              (((days as number) + hours / 24) as number)
-                            ).toFixed(0)
-                          ) == 0 && totalHours < 48) {
-                            alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
+                          if (
+                            Number(
+                              (
+                                data?.bookingOptions?.selfDrive?.packageType
+                                  ?.package3?.kmsLimit *
+                                (((days as number) + hours / 24) as number)
+                              ).toFixed(0)
+                            ) == 0 &&
+                            totalHours < 48
+                          ) {
+                            alert(
+                              "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                            );
                             return;
                           }
                           const calculatedPrice = calculateTotalPrice(
@@ -780,24 +821,44 @@ const CardListingCards = ({ data }: any) => {
                             />
                           </span>
                         </div>
-                        <ThemeButton
-                          onClick={() => {
-                            if (Number(
-                              (
-                                data?.bookingOptions?.selfDrive?.packageType
-                                  ?.package2?.kmsLimit *
-                                (((days as number) + hours / 24) as number)
-                              ).toFixed(0)
-                            ) == 0 && totalHours < 48) {
-                              alert("To select the unlimited package, the minimum booking duration must be at least 2 days.")
-                              return;
+
+                        {data.vehicleStatus === "Sold Out" ||
+                          data.vehicleStatus === "Not Available" ? (
+                          <ThemeButton
+                            text={
+                              data.vehicleStatus === "Sold Out"
+                                ? "Booked"
+                                : data.vehicleStatus === "Not Available"
+                                  ? "Sold Out"
+                                  : ""
                             }
-                            Navigation.push(`/car-details/${data._id}`);
-                            selectDefaultPackage(data);
-                          }}
-                          text="Book Now"
-                          className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
-                        />
+                            className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg opacity-50 cursor-not-allowed"
+                          />
+                        ) : (
+                          <ThemeButton
+                            onClick={() => {
+                              if (
+                                Number(
+                                  (
+                                    data?.bookingOptions?.selfDrive?.packageType
+                                      ?.package2?.kmsLimit *
+                                    (((days as number) + hours / 24) as number)
+                                  ).toFixed(0)
+                                ) == 0 &&
+                                totalHours < 48
+                              ) {
+                                alert(
+                                  "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                                );
+                                return;
+                              }
+                              Navigation.push(`/car-details/${data._id}`);
+                              selectDefaultPackage(data);
+                            }}
+                            text="Book Now"
+                            className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
+                          />
+                        )}
                       </div>
                     </div>
                     <div className=" flex-col sm:flex-row justify-end  sm:items-center sm:w-full sm:!pr-10 gap-2 cursor-pointer mt-2 left-4 top-44 h-[295px] sm:h-[90px] absolute sm:-bottom-10 bottom-[0px] hidden sm:flex">
@@ -1222,14 +1283,28 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                     </div>
                     <div className="m-0 sm:block flex justify-end sm:mr-0">
-                      <ThemeButton
-                        onClick={() => {
-                          Navigation.push(`/car-details/${data._id}`),
-                            selectDefaultPackage(data);
-                        }}
-                        text="Book Now"
-                        className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center shadow-lg flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
-                      />
+                      {data.vehicleStatus === "Sold Out" ||
+                        data.vehicleStatus === "Not Available" ? (
+                        <ThemeButton
+                          text={
+                            data.vehicleStatus === "Sold Out"
+                              ? "Booked"
+                              : data.vehicleStatus === "Not Available"
+                                ? "Sold Out"
+                                : ""
+                          }
+                          className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg opacity-50 cursor-not-allowed"
+                        />
+                      ) : (
+                        <ThemeButton
+                          onClick={() => {
+                            Navigation.push(`/car-details/${data._id}`),
+                              selectDefaultPackage(data);
+                          }}
+                          text="Book Now"
+                          className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center shadow-lg flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg"
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-row justify-end items-center sm:w-full sm:ml-0 sm:ml-4 sm:text-[15px] text-sm !pr-10 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px] sm:right-[8px]">
@@ -1477,14 +1552,28 @@ const CardListingCards = ({ data }: any) => {
                             </div>
                           </div>
                           <div className="m-0 sm:block flex justify-end sm:pr-0 pr-4">
-                            <ThemeButton
-                              onClick={() => {
-                                Navigation.push(`/car-details/${data._id}`),
-                                  selectDefaultPackage(data);
-                              }}
-                              text="Book Now"
-                              className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
-                            />
+                            {data.vehicleStatus === "Sold Out" ||
+                              data.vehicleStatus === "Not Available" ? (
+                              <ThemeButton
+                                text={
+                                  data.vehicleStatus === "Sold Out"
+                                    ? "Booked"
+                                    : data.vehicleStatus === "Not Available"
+                                      ? "Sold Out"
+                                      : ""
+                                }
+                                className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg opacity-50 cursor-not-allowed"
+                              />
+                            ) : (
+                              <ThemeButton
+                                onClick={() => {
+                                  Navigation.push(`/car-details/${data._id}`),
+                                    selectDefaultPackage(data);
+                                }}
+                                text="Book Now"
+                                className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
@@ -1930,14 +2019,28 @@ const CardListingCards = ({ data }: any) => {
                             </div>
                           </div>
                           <div className="m-0 sm:block flex justify-end sm:pr-0 pr-4">
-                            <ThemeButton
-                              onClick={() => {
-                                Navigation.push(`/car-details/${data._id}`),
-                                  selectDefaultPackage(data);
-                              }}
-                              text="Book Now"
-                              className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
-                            />
+                            {data.vehicleStatus === "Sold Out" ||
+                              data.vehicleStatus === "Not Available" ? (
+                              <ThemeButton
+                                text={
+                                  data.vehicleStatus === "Sold Out"
+                                    ? "Booked"
+                                    : data.vehicleStatus === "Not Available"
+                                      ? "Sold Out"
+                                      : ""
+                                }
+                                className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg opacity-50 cursor-not-allowed"
+                              />
+                            ) : (
+                              <ThemeButton
+                                onClick={() => {
+                                  Navigation.push(`/car-details/${data._id}`),
+                                    selectDefaultPackage(data);
+                                }}
+                                text="Book Now"
+                                className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-row justify-end items-center sm:w-full sm:!pr-10 sm:ml-0 ml-4 gap-2 cursor-pointer mt-2 absolute sm:bottom-0 bottom-[10px]">
@@ -2209,14 +2312,28 @@ const CardListingCards = ({ data }: any) => {
                             </div>
                           </div>
                           <div className="m-0 sm:block flex justify-end">
-                            <ThemeButton
-                              onClick={() => {
-                                Navigation.push(`/car-details/${data._id}`),
-                                  selectDefaultPackage(data);
-                              }}
-                              text="Book Now"
-                              className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
-                            />
+                            {data.vehicleStatus === "Sold Out" ||
+                              data.vehicleStatus === "Not Available" ? (
+                              <ThemeButton
+                                text={
+                                  data.vehicleStatus === "Sold Out"
+                                    ? "Booked"
+                                    : data.vehicleStatus === "Not Available"
+                                      ? "Sold Out"
+                                      : ""
+                                }
+                                className=" sm:px-6 !px-2 grad-button shadow-custom-shadow sm:text-md sm:w-[140px] sm:h-[50px] w-[120px] h-[42px] text-center flex flex-row justify-center sm:!font-bold !font-semibold sm:!text-[20px] !text-lg opacity-50 cursor-not-allowed"
+                              />
+                            ) : (
+                              <ThemeButton
+                                onClick={() => {
+                                  Navigation.push(`/car-details/${data._id}`),
+                                    selectDefaultPackage(data);
+                                }}
+                                text="Book Now"
+                                className=" sm:px-6 !px-2 sm:text-md text-xs sm:w-[140px] w-[120px] sm:h-[50px] h-[42px] text-center shadow-lg flex flex-row justify-center !font-bold sm:!text-[20px] !text-lg"
+                              />
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-row justify-end items-center sm:w-full !pr-10 gap-2 cursor-pointer mt-2 sm:right-0 absolute sm:bottom-0 bottom-[10px] sm:text-[15px] text-sm ml-4">

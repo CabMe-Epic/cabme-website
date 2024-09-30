@@ -6,7 +6,12 @@
   margin-left: 75px;
   z-index: 100;
 }
-
+.react-datepicker__navigation--next{
+  z-index: 9999;
+}
+.react-datepicker__navigation--previous{
+  z-index: 9999;
+}
 /* .react-datepicker__header {
   background-color: #007bff;
 }

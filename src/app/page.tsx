@@ -380,7 +380,7 @@ export default function Home() {
             <ul className="list-disc grid gap-2 mt-4 ml-4 sm:text-md text-xs">
               {
                 cms?.monthlySubscription.map((item: any, index: number) => {
-                  return <li className="text-white">
+                  return <li key={index} className="text-white">
                    { item.text}
                     <span className="text-primary"></span>
                   </li>

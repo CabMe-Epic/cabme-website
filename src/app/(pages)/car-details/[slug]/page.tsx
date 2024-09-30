@@ -353,7 +353,9 @@ const CarDetails = () => {
   const getCarDetails = useCallback(async () => {
     if (locationData.city && locationData.pickUpDateTime) {
       const getSearchCarData = await searchVehicleNew(locationData);
-      const carData = getSearchCarData?.data?.availableVehicles;
+      const carData = getSearchCarData?.data?.
+      vehiclesWithStatus
+      ;
 
 
       console.log(carData, "carDatadetail");

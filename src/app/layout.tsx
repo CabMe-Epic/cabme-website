@@ -27,7 +27,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
 
         {/* Google Tag Manager */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC6DFGZ5D2"></script>
+        {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-SC6DFGZ5D2"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -37,12 +37,37 @@ export default function RootLayout({
               gtag('config', 'G-SC6DFGZ5D2');
             `,
           }}
+        /> */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-11328482062"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-11328482062');
+            `,
+          }}
         />
-
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-SC6DFGZ5D2"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-SC6DFGZ5D2');`,
+          }}
+        ></script>
       </head>
       <body className={poppins.className}>
         <Header />
-       
 
         <div>{children}</div>
         <Footer />
