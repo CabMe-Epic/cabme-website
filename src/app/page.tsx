@@ -262,7 +262,7 @@ export default function Home() {
               <span>{cms?.discountWithBanner.heading}</span>
             </div>
             <h4 className="font-semibold text-sm sm:text-[28px]">
-              DISCOUNT CODE : <span className="text-primary">NEW5</span>
+              DISCOUNT CODE : <span className="text-primary">{cms?.discountWithBanner?.couponCode}</span>
             </h4>
           </div>
           <div className="flex justify-end">
