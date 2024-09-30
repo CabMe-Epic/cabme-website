@@ -6,11 +6,13 @@ import ReviewCard from "@/app/components/review-card/review-card";
 import ThemeButton from "@/app/components/theme-button/theme-button";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
+import axios from "axios";
 
 const AboutUs = () => {
   const [cities, setCities] = React.useState<[]>();
+  const [cms, setCms] = useState<any>();
 
   const getRecords = React.useCallback(async () => {
     const citiesResponse = await getAllCities();
@@ -21,6 +23,20 @@ const AboutUs = () => {
   React.useEffect(() => {
     getRecords();
   }, []);
+
+  useEffect(() => {
+    const getAboutUsCMS = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/aboutus`);
+        console.log(res, "AboutUsres");
+        setCms(res?.data);
+      } catch (error) {
+        console.error("Error fetching CMS data:", error);
+      }
+    };
+
+    getAboutUsCMS();
+  }, []);
   return (
     <div className="py-6">
       <div className="sm:flex hidden px-16 text-[#5F5D5D]">
@@ -29,15 +45,13 @@ const AboutUs = () => {
       </div>
       <div>
         <div className="text-center sm:text-4xl text-xl sm:mb-12 mb-6 px-4">
-          <p>We Are Proud Of Our Business. </p>
           <p>
-            {" "}
-            <span className="text-primary font-semibold"> Rent Car</span> Now!
+            {cms?.headingWithHeroBanner.heading}
           </p>
         </div>
         <Image
-          src={"/png/about-banner.png"}
-          alt="banner"
+          src={cms?.headingWithHeroBanner.image?.url}
+          alt={cms?.headingWithHeroBanner.image?.alt}
           width={850}
           height={650}
           className="h-auto w-[70%] m-auto"
@@ -46,23 +60,14 @@ const AboutUs = () => {
       <div className="max-w-[1250px] m-auto sm:grid grid-cols-2 gap-12 items-center sm:my-16 my-8 sm:px-4 px-8">
         <div>
           <h2 className="text-primary font-semibold sm:text-3xl text-2xl">
-            About Us
+            {cms?.aboutUs?.heading}
           </h2>
           <h3 className="sm:text-4xl text-2xl font-semibold leading-normal mt-2">
-            We Are Committed To Provide Safe Ride Solutions
+            {cms?.aboutUs?.subheading}
           </h3>
           <div className="text-[#7C7575] grid gap-4 mt-6">
             <p>
-              We are India&apos;s leading Car Rental Company with an innovative
-              way of servicing the requirements of the ever growing car rental
-              industry in India as compared to other such service providers.
-            </p>
-            <p>
-              The company was incorporated in year 2020 with a small fleet of 10
-              cars. Today with its strong determination and strong competition
-              edge over other car rentals companies, it has managed to grab a
-              large share in car rental industry. Over the years Cabme&apos;s
-              fleet has exponentially grown. 
+              {cms?.aboutUs?.content}
             </p>
             <div className="mt-6">
               <h4 className="text-primary font-bold sm:mb-0 mb-2">
@@ -303,10 +308,10 @@ const AboutUs = () => {
                   1800 121 6162{" "}
                 </Link>
               </div>
-              <Link 
-                  href={"https://wa.link/l86m7r"}
-              
-              className="flex gap-2">
+              <Link
+                href={"https://wa.link/l86m7r"}
+
+                className="flex gap-2">
                 <Image
                   src={"/svg/whatsapp.svg"}
                   alt="whatsapp"
@@ -315,7 +320,7 @@ const AboutUs = () => {
                 />
                 <span
                   className="font-semibold text-black sm:text-md text-sm"
-                  // href={"#"}
+                // href={"#"}
                 >
                   {" "}
                   +91-7240004072{" "}
@@ -357,7 +362,7 @@ const AboutUs = () => {
               <InputField placeholder="Phone number" className="h-[48px]" />
               <InputField placeholder="Email Id" className="h-[48px]" />
               <select name="city" id="city" className="outline-none w-full pl-4 rounded-lg outline-0 text-[#5C5555] border-[#D2CCCC] border bg-[#FCFBFB] h-[48px]">
-              <option value="Select Your City">Select Your City</option>
+                <option value="Select Your City">Select Your City</option>
                 {cities?.map((city: any, index: number) => (
                   <option key={index} value={city?.name}>
                     {city?.name}
@@ -377,19 +382,14 @@ const AboutUs = () => {
       <div className="bg-black py-8 px-4 relative my-24">
         <div className="max-w-[1250px] m-auto text-white sm:flex gap-8 items-center">
           <h3 className="text-6xl sm:text-left text-right sm:pr-0 pr-8">
-            15% <span className="sm:hidden block text-2xl">Off</span>{" "}
+           {cms?.stripBannerWithOffer.offer}<span className="sm:hidden block text-2xl">Off</span>{" "}
           </h3>
           <p className="text-xl sm:text-left text-center">
-            Get{" "}
-            <span className="text-primary font-semibold">
-              {" "}
-              MONTHLY SUBSCRIPTION
-            </span>{" "}
-            <br /> and enjoy a discount <br /> on next trips
+            {cms?.stripBannerWithOffer.heading}
           </p>
         </div>
         <Image
-          src={"/discount.png"}
+          src={cms?.stripBannerWithOffer.image?.url}
           alt="discount"
           width={400}
           height={265}

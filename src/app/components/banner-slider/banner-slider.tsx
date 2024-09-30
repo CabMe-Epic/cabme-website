@@ -15,7 +15,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-const BannerSlider = () => {
+const BannerSlider = ({banner}: any) => {
  
 
   return (
@@ -34,13 +34,13 @@ const BannerSlider = () => {
         // onSwiper={(swiper) => console.log(swiper)}
         // onSlideChange={() => console.log("slide change")}
       >
-        {bannerCollection?.map((item, index) => {
+        {banner?.map((item: any, index: number) => {
           return (
             <SwiperSlide key={index}>
               <div className="w-full">
                 <Image
-                  src={item?.imageUrl}
-                  alt="banner"
+                  src={item?.url}
+                  alt={item?.alt}
                   width={1650}
                   height={850}
                   className="w-full h-auto rounded-xl"

@@ -20,9 +20,11 @@ import "swiper/css/scrollbar";
 import ThemeButton from "@/app/components/theme-button/theme-button";
 import PickupDropOff from "@/app/components/pickup-dropoff/pickup-dropoff";
 import FaqSection from "@/app/components/faq/faq";
+import axios from "axios";
 
 const ContactUs = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [cms, setCms] = useState<any>();
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,6 +39,20 @@ const ContactUs = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    const getContactUsCMS = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/contactus`);
+        console.log(res, "contactusres");
+        setCms(res?.data);
+      } catch (error) {
+        console.error("Error fetching CMS data:", error);
+      }
+    };
+
+    getContactUsCMS();
   }, []);
   return (
     <div className="py-6">
@@ -111,24 +127,24 @@ const ContactUs = () => {
             disableOnInteraction: false,
           }}
         >
-          {placeCollection?.map((item, index) => {
+          {cms?.addressCard?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
                 <div className="flex items-center h-[200px] py-2 shadow-xl rounded-xl">
                   <div className="w-[450px] h-auto flex items-center">
                     <Image
-                      src={item?.imageUrl}
-                      alt="places"
+                      src={item?.image.url}
+                      alt={item?.image.alt}
                       width={550}
                       height={400}
-                      className="h-auto"
+                      className="h-auto w-[200px]"
                     />
                   </div>
                   <div className="text-center">
                     <h3 className="text-2xl font-semibold text-primary">
-                      {item?.place}
+                      {item?.heading}
                     </h3>
-                    <p className="mt-2">{item?.desc}</p>
+                    <p className="mt-2">{item?.address}</p>
                   </div>
                 </div>
               </SwiperSlide>

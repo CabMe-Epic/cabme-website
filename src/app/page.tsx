@@ -6,7 +6,7 @@ import ReviewCard from "./components/review-card/review-card";
 import FaqSection from "./components/faq/faq";
 import FleetsSlider from "./components/slider/slider-components";
 import OurBlogs from "./components/our-blogs/our-blogs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Datepicker.css";
 import BannerSlider from "./components/banner-slider/banner-slider";
@@ -16,6 +16,7 @@ import axios from "axios";
 
 export default function Home() {
   const [offer, setOffer] = useState("Daily Offers");
+  const [cms, setCms] = useState<any>();
 
   // const router = useRouter();
 
@@ -90,13 +91,31 @@ export default function Home() {
   //   }
   // }
 
+  useEffect(() => {
+    const getHomePageCMS = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/homepage`);
+        console.log(res, "homepageres");
+        setCms(res?.data);
+      } catch (error) {
+        console.error("Error fetching CMS data:", error);
+      }
+    };
+
+    getHomePageCMS();
+  }, []);
+
+
+  console.log(cms, "cmsData");
+
+
   return (
     <>
       <div
-        className="z-[-9] relative rounded-2xl sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
+        className="z-[-9] relative sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
         ref={topFleetForm}
       >
-        <BannerSlider />
+        <BannerSlider banner={cms?.heroBanner} />
       </div>
 
       {/* Only mobile section subsription */}
@@ -113,31 +132,30 @@ export default function Home() {
         </h2>
         <div className="w-fit flex justify-center m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6 mb-0">
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
-              offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
-            } text-white rounded-l-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+              } text-white rounded-l-full cursor-pointer`}
             onClick={() => setOffer("Daily Offers")}
           >
             Daily Offers
           </div>
           <div
-            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
-              offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
-            } text-white rounded-r-full cursor-pointer`}
+            className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+              } text-white rounded-r-full cursor-pointer`}
             onClick={() => setOffer("Monthly Offers")}
           >
             Monthly Offers
           </div>
         </div>
+        
         {offer === "Daily Offers" && (
           <div className="mx-4 sm:mt-0 mt-4 offerCards">
             {" "}
-            <OfferCards dailyOffer />{" "}
+            <OfferCards banners={cms?.trendingOffer} dailyOffer />{" "}
           </div>
         )}
         {offer === "Monthly Offers" && (
           <div className="mx-4 sm:mt-0 mt-4 offerCards">
-            <OfferCards monthlyOffer />
+            <OfferCards banners={cms?.trendingOffer} monthlyOffer />
           </div>
         )}
       </div>
@@ -192,9 +210,8 @@ export default function Home() {
             return (
               <div
                 key={index}
-                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${
-                  index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
-                } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
+                className={`sm:p-6 p-2 relative sm:w-[261px] w-[200px] sm:h-[261px] h-[200px] lg:m-0 m-auto ${index % 2 === 0 ? "shadow-bottom-shadow" : "shadow-top-shadow"
+                  } m-auto rounded-full sm:pb-0 pb-8 sm:px-0 px-8`}
               >
                 <span className="text-white mb-6 font-semibold bg-primary-color w-8 h-8 flex justify-center items-center rounded-full sm:ml-[15px]">
                   {item?.steps}
@@ -205,11 +222,10 @@ export default function Home() {
                     alt="image"
                     width={62}
                     height={62}
-                    className={`${
-                      item?.imageUrl === "/svg/car-vector.svg"
-                        ? "w-[130px]"
-                        : "w-auto"
-                    } sm:h-[62px] h-[40px] m-auto mb-4`}
+                    className={`${item?.imageUrl === "/svg/car-vector.svg"
+                      ? "w-[130px]"
+                      : "w-auto"
+                      } sm:h-[62px] h-[40px] m-auto mb-4`}
                   />
                   <div className="text-center">
                     <h3 className="font-semibold text-xl sm:leading-[26px] leading-none">
@@ -240,11 +256,10 @@ export default function Home() {
         <div className="grid grid-cols-2 justify-center w-full p-2">
           <div className="w-[450px] m-auto">
             <h3 className="font-bold lg:text-[62px] sm:text-[44px] text-[26px]">
-              5% <span className="font-normal">OFF</span>
+              {cms?.discountWithBanner.off} <span className="font-normal">OFF</span>
             </h3>
             <div className="border-b border-black lg:text-xl sm:text-lg text-[12px] sm:my-2 sm:pb-4 text-[#909090]">
-              <span>Car Rental Discount</span> <br />
-              <span>until August 21st 2024</span>
+              <span>{cms?.discountWithBanner.heading}</span>
             </div>
             <h4 className="font-semibold text-sm sm:text-[28px]">
               DISCOUNT CODE : <span className="text-primary">NEW5</span>
@@ -252,7 +267,7 @@ export default function Home() {
           </div>
           <div className="flex justify-end">
             <Image
-              src={"/png/thar-new-left.png"}
+              src={cms?.discountWithBanner.image?.url}
               alt="thar"
               width={543}
               height={280}
@@ -361,19 +376,19 @@ export default function Home() {
             MONTHLY SUBSCRIPTION
           </h3>
           <div className="red-marker">
+
             <ul className="list-disc grid gap-2 mt-4 ml-4 sm:text-md text-xs">
-              <li className="text-white">
-                Only ₹5,000{" "}
-                <span className="text-primary">refundable deposit</span>
-              </li>
-              <li className="text-white">
-                No loan liability,{" "}
-                <span className="text-primary">zero down payment</span>
-              </li>
-              <li className="text-white">
-                Insurance & maintained{" "}
-                <span className="text-primary">included</span>
-              </li>
+              {
+                cms?.monthlySubscription.map((item: any, index: number) => {
+                  return <li className="text-white">
+                   { item.text}
+                    <span className="text-primary"></span>
+                  </li>
+
+                })
+              }
+
+         
             </ul>
           </div>
           <Image
@@ -417,8 +432,8 @@ export default function Home() {
           />
         </div>
         <div>
-          {faqCollection?.map((item, index) => {
-            return <FaqSection key={index} ques={item?.ques} ans={item?.ans} />;
+          {cms?.faq?.map((item: any, index: number) => {
+            return <FaqSection key={index} ques={item?.question} ans={item?.answer} />;
           })}
         </div>
       </div>
