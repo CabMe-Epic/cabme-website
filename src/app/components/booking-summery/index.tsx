@@ -573,7 +573,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               ₹ {packagePrice}
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-14  justify-center">
+          {
+            (localStorage.getItem("tabValue") == "Self-Driving") &&
+            <div className="grid grid-cols-2 gap-14  justify-center">
             <span className="w-[220px] sm:ml-4 sm:text-[16px] text-sm">
              Free Kms
             </span>
@@ -581,6 +583,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                {freekm !== 0 ? freekm : "Unlimited "} Kms
             </span>
           </div>
+          }
+         
           { (selectedTabValue !== "Driver" && selectedTabValue !== "Subscription") && (
             <div className="grid grid-cols-2 gap-14  justify-center">
               <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
