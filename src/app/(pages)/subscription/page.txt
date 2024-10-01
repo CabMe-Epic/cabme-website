@@ -9,6 +9,7 @@ import ExtraCharges from "@/app/components/extra-charges/extra-charges";
 import DescCar from "@/app/components/desc-car/desc-car";
 import Video from "@/app/components/video/video";
 import FleetsSlider from "@/app/components/slider/slider-components";
+import React from "react";
 
 const Subscription = () => {
   const [selectedOption, setSelectedOption] = useState("Monthly");

@@ -201,6 +201,9 @@ const Checkout = () => {
       if((tabValue== "Self-Driving") && (one == false) && (two == true) ){
         setIsButtonDisabled(false);
       }
+      if((tabValue== "Subscription") && (one == false) && (two == true) ){
+        setIsButtonDisabled(false);
+      }
     }
     const vehicleId = sessionStorage.getItem("slug");
     if (vehicleId) {
@@ -2366,7 +2369,7 @@ const Checkout = () => {
 
           <div className="max-w-[765px] w-full h-auto bg-[#FAFAFA] sm:p-8 p-4 mt-6 rounded-md">
             <h2 className="text-[20px] font-bold">
-              {(tabValue == "Driver" || tabValue == "Self-Driving") ? "3" : "4"}. Payment
+              {(tabValue == "Driver" || tabValue == "Self-Driving" || tabValue == "Subscription") ? "3" : "4"}. Payment
             </h2>
             <button
               className={`w-[230px] font-semibold mt-4 h-[42px] rounded-md text-white transition-all ${!isButtonDisabled
