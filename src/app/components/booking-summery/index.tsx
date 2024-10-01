@@ -194,10 +194,14 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     createdByUser: userId,
   };
 
+  const [freekm, setFreekms] = useState<any>();
   useEffect(() => {
     // Retrieve the price from localStorage when the component mounts
     const storedPrice = localStorage.getItem("doorStepPriceCharge");
+    const getFreekm = localStorage.getItem("checkFreeKm");
+    setFreekms(getFreekm)
     if (storedPrice) {
+
       setDoorStepPrice(JSON.parse(storedPrice));
     }
   }, []);
@@ -567,6 +571,14 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </span>
             <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
               ₹ {packagePrice}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-14  justify-center">
+            <span className="w-[220px] sm:ml-4 sm:text-[16px] text-sm">
+             Free Kms
+            </span>
+            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
+               {freekm !== 0 ? freekm : "Unlimited "} Kms
             </span>
           </div>
           { (selectedTabValue !== "Driver" && selectedTabValue !== "Subscription") && (

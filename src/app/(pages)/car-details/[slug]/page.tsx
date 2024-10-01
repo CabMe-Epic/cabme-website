@@ -550,6 +550,8 @@ const CarDetails = () => {
     //  }
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    
+    localStorage.setItem("checkFreeKm", freeKms);
 
     let paymentAmount;
 
@@ -602,6 +604,7 @@ const CarDetails = () => {
     const val = "true";
 
     localStorage.setItem("isFullpayment", val);
+    localStorage.setItem("checkFreeKm", freeKms);
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
