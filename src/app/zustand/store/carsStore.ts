@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
+
 interface CarsStore {
     package1Price: number | null;
     package2Price: number | null;
