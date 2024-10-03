@@ -55,7 +55,7 @@ const Success = () => {
             Thank you for your order, {data?.booking?.userId?.fullName}
           </h1>
           <p className="sm:text-left">
-            A confirmation email will be sent to you at
+            A confirmation email will be sent to you at {" "}
             {data?.booking?.userId?.email} with your complete order details.
           </p>
           <span className="bg-[#B5E6EA] px-4 py-2 rounded-3xl font-bold">
