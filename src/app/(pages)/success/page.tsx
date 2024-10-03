@@ -2,24 +2,34 @@
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import axios from "axios";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
+
+import { useSearchParams } from 'next/navigation';
 
 const Success = () => {
   const [loading, setLoading] = useState<any>(false);
   React.useEffect(() => {
     window.history.pushState(null, "", window.location.href);
   }, []);
-
-  const { slug } = useParams() || {};
+  const searchParams = useSearchParams();
   const [data, setData] = useState<any>();
 
+ 
+  const [bookingId, setBookingId] = useState('');
+
   useEffect(() => {
+    const bookingid = searchParams.get('bookingid');
+    if (bookingid) {
+      setBookingId(bookingid);
+    }
+
+
     const getBooking = async () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/booking/${slug}`
+          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/booking/${bookingid}`
         );
 
         console.log(res?.data, "resres");
@@ -31,11 +41,15 @@ const Success = () => {
       }
     };
 
-    if (slug) {
+    if (searchParams) {
       setLoading(true);
       getBooking();
     }
-  }, [slug]);
+  }, [searchParams]);
+
+
+
+
 
   return (
     <div className="flex flex-col m-5 sm:m-10 h-auto bg-white text-center">
@@ -59,7 +73,7 @@ const Success = () => {
             {data?.booking?.userId?.email} with your complete order details.
           </p>
           <span className="bg-[#B5E6EA] px-4 py-2 rounded-3xl font-bold">
-            Booking ID: {slug}
+            Booking ID: {bookingId}
           </span>
 
           <div className="flex flex-col sm:flex-row gap-7  w-[100%]">
