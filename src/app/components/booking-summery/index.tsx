@@ -131,8 +131,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   // const [discountedPercentage,setDiscountPercentage]= React.useState<number | any>();
 
-
-  console.log(discountApplied,"discountApplied")
+  console.log(discountApplied, "discountApplied");
 
   const priceAfterDiscountNew =
     selectedPromoCode?.selectDiscount === "Percentage"
@@ -146,12 +145,15 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     useReservationDateTime();
 
   const total =
-    Number(packagePrice) + doorStepPrice + currentPackage?.refundableDeposit - (discountApplied || 0);
+    Number(packagePrice) +
+    doorStepPrice +
+    currentPackage?.refundableDeposit -
+    (discountApplied || 0);
 
-    // const totalNew =
-    // Number(packagePrice) + doorStepPrice + currentPackage?.refundableDeposit ;
+  // const totalNew =
+  // Number(packagePrice) + doorStepPrice + currentPackage?.refundableDeposit ;
 
-    // console.log(totalNew,total,"totalNew")
+  // console.log(totalNew,total,"totalNew")
 
   const pickupDateTimeString = pickupTime
     ? `${pickupDate}T${pickupTime}:00.000Z`
@@ -181,7 +183,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     tollsParking: "",
     promocode: {
       code: selectedPromoCode?.code,
-      discountType:  "",
+      discountType: "",
       discountAmount: Number(selectedPromoCode?.discountApplied).toFixed(2),
     },
     totalAmount:
@@ -195,13 +197,19 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   };
 
   const [freekm, setFreekms] = useState<any>();
+  const [tabValue, setTabValue] = useState<any>();
   useEffect(() => {
     // Retrieve the price from localStorage when the component mounts
     const storedPrice = localStorage.getItem("doorStepPriceCharge");
     const getFreekm = localStorage.getItem("checkFreeKm");
-    setFreekms(getFreekm)
-    if (storedPrice) {
+    const tabval = localStorage.getItem("tabValue");
 
+    setFreekms(getFreekm);
+
+    if (tabval) {
+      setTabValue(tabval);
+    }
+    if (storedPrice) {
       setDoorStepPrice(JSON.parse(storedPrice));
     }
   }, []);
@@ -255,9 +263,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const getCarDetails = useCallback(async () => {
     const getSearchCarData = await searchVehicleNew(locationData);
-    const carData = getSearchCarData?.data?.
-    vehiclesWithStatus
-    ;
+    const carData = getSearchCarData?.data?.vehiclesWithStatus;
     carData?.forEach((item: any) => {
       if (item?._id === sessionSlug) {
         setCarDetails(item);
@@ -277,7 +283,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     }
   }, [carDetails, bookingOpt]);
 
-  console.log(bookingData, "bookingData")
+  console.log(bookingData, "bookingData");
 
   async function handleBooking() {
     try {
@@ -502,7 +508,10 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     onTotalAmountChange,
   ]);
 
-  console.log(selectedPromoCode?.discountApplied,"selectedPromoCode?.discountApplied")
+  console.log(
+    selectedPromoCode?.discountApplied,
+    "selectedPromoCode?.discountApplied"
+  );
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -573,32 +582,32 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               ₹ {packagePrice}
             </span>
           </div>
-          {
-            (localStorage.getItem("tabValue") == "Self-Driving") &&
+          {tabValue == "Self-Driving" && (
             <div className="grid grid-cols-2 gap-14  justify-center">
-            <span className="w-[220px] sm:ml-4 sm:text-[16px] text-sm">
-             Free Kms
-            </span>
-            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
-               {freekm !== 0 ? freekm : "Unlimited "} Kms
-            </span>
-          </div>
-          }
-         
-          { (selectedTabValue !== "Driver" && selectedTabValue !== "Subscription") && (
-            <div className="grid grid-cols-2 gap-14  justify-center">
-              <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
-                Doorstep delivery & pickup
+              <span className="w-[220px] sm:ml-4 sm:text-[16px] text-sm">
+                Free Kms
               </span>
-              <span className=" w-fit word-wrap sm:ml-10">
-                ₹ {doorStepPrice}
-                {/* {currentPackage?.DoorstepDeliveryPickup?.reduce(
-                  (acc: any, item: any) => acc + item?.price,
-                  0
-                )} */}
+              <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 w-fit">
+                {freekm !== 0 ? freekm : "Unlimited "} Kms
               </span>
             </div>
           )}
+
+          {selectedTabValue !== "Driver" &&
+            selectedTabValue !== "Subscription" && (
+              <div className="grid grid-cols-2 gap-14  justify-center">
+                <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
+                  Doorstep delivery & pickup
+                </span>
+                <span className=" w-fit word-wrap sm:ml-10">
+                  ₹ {doorStepPrice}
+                  {/* {currentPackage?.DoorstepDeliveryPickup?.reduce(
+                  (acc: any, item: any) => acc + item?.price,
+                  0
+                )} */}
+                </span>
+              </div>
+            )}
 
           {/* <div className="grid grid-cols-2 gap-14  justify-center">
             <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
@@ -618,8 +627,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </span>
           </div>
 
-          {
-            selectedTabValue !== "Driver"  && (
+          {selectedTabValue !== "Driver" && (
             <div className="grid grid-cols-2 gap-14  justify-center">
               <span className=" w-fit word-wrap sm:ml-4 sm:text-[16px] text-sm">
                 Refundable Deposit
@@ -634,15 +642,18 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               </span>
             </div>
           )}
-          {selectedTabValue !== "Driver" && selectedTabValue !== "Subscription" && selfDropCities.length !== 0 && (
-            <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
-              <span className="sm:w-[220px] sm:ml-4">DropOff City Charges</span>
-              <span className="sm:w-[220px] sm:ml-10">
-                ₹ {selfDropCities || 0}
-              </span>
-            </div>
-          )}
-
+          {selectedTabValue !== "Driver" &&
+            selectedTabValue !== "Subscription" &&
+            selfDropCities.length !== 0 && (
+              <div className="grid grid-cols-2 gap-14  justify-center text-[14px] sm:text-[16px]">
+                <span className="sm:w-[220px] sm:ml-4">
+                  DropOff City Charges
+                </span>
+                <span className="sm:w-[220px] sm:ml-10">
+                  ₹ {selfDropCities || 0}
+                </span>
+              </div>
+            )}
 
           {/* DESKTOP ...  */}
           {currentPackage?.gst === "Excluded" && (

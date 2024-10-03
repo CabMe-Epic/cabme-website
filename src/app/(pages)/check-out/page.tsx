@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-// import BookingSummery from "@/app/components/booking-summery";
+import BookingSummery from "@/app/components/booking-summery";
 import InputField from "@/app/components/input-field/input-field";
 import Image from "next/image";
 
@@ -20,7 +20,6 @@ import { useStore } from "@/app/zustand/store/store";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import ProgressBar from "@/app/components/Progress/progress";
 import moment from "moment";
-import BookingSummery from "@/app/components/booking-summery";
 
 interface SelectedUser {
   firstName: string;
