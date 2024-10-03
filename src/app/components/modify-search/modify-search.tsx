@@ -86,13 +86,25 @@ const ModifySearch: React.FC = () => {
         `${moment(endDate).format("YYYY-MM-DD")}T${endTime || "00:00"}`
       );
 
-      // Ensure both are valid Date objects
-      // if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
-      //   alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
-      //   return;
-      // }
+      
 
-      // Check if Drop-off time is later than Pickup time
+      if((tabValue == "Subscription") || (tabValue == 'Driver' && radioToggle== "One-way")){
+        localStorage.setItem(
+          "pickupDate",
+          moment(startDate).format("YYYY-MM-DD")
+        );
+
+        console.log(startTime,"innn")
+        localStorage.setItem(
+          "pickupTime",
+          startTime as any
+        );
+        window.location.reload();
+
+        localStorage.setItem("dropOffLocation", selectedDropCity || "");
+        localStorage.setItem("pickupLocation", selectedCity);
+        return
+      } 
       if (pickupDateTime >= dropoffDateTime) {
         alert(
           "Drop-off date and time should be later than Pickup date and time"

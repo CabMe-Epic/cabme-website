@@ -354,8 +354,8 @@ const CarDetails = () => {
     if (locationData.city && locationData.pickUpDateTime) {
       const getSearchCarData = await searchVehicleNew(locationData);
       const carData = getSearchCarData?.data?.
-      vehiclesWithStatus
-      ;
+        vehiclesWithStatus
+        ;
 
 
       console.log(carData, "carDatadetail");
@@ -550,7 +550,7 @@ const CarDetails = () => {
     //  }
 
     localStorage.setItem("bookingData", JSON.stringify(bookingData));
-    
+
     localStorage.setItem("checkFreeKm", freeKms);
 
     let paymentAmount;
@@ -884,7 +884,7 @@ const CarDetails = () => {
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" &&
-                    (radioToggle === "One-way" ||
+                    (
                       radioToggle === "Local"))) && (
                     <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
                       {currentPackage?.gst === "Excluded" && (
@@ -981,7 +981,6 @@ const CarDetails = () => {
                           Balance on Delivery
                         </span>
                       )}
-
                   </div>
                   <button
                     onClick={handleProceed}
