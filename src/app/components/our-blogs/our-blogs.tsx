@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import React from "react";
 
 const OurBlogs = () => {
   return (
@@ -54,7 +55,7 @@ const OurBlogs = () => {
           className="bg-[url('/png/blog-right.png')] bg-contain bg-no-repeat text-white lg:py-12 lg:px-12 py-8 px-2 flex justify-end"
           style={{ backgroundSize: "100% 100%" }}
         >
-          <div className="xl:max-w-[375px] max-w-[195px] relative right-[10%]">
+          <div className="xl:max-w-[375px] max-w-[195px] relative right-[10%] !text-right">
             <div className="lg:text-sm text-[10px]">
               <span>APRIL 25, 2020 </span>/<span> BY JOSEPH KANE</span>
             </div>
