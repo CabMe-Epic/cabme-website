@@ -2,59 +2,47 @@
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import axios from "axios";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { useRouter } from 'next/router';
-
-import { useSearchParams } from 'next/navigation';
+import React, { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const Success = () => {
-  const [loading, setLoading] = useState<any>(false);
-  React.useEffect(() => {
-    window.history.pushState(null, "", window.location.href);
-  }, []);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<any | null>(null);
+  const [bookingId, setBookingId] = useState("");
   const searchParams = useSearchParams();
-  const [data, setData] = useState<any>();
-
- 
-  const [bookingId, setBookingId] = useState('');
 
   useEffect(() => {
-    const bookingid = searchParams.get('bookingid');
+    const bookingid = searchParams.get("bookingid");
     if (bookingid) {
       setBookingId(bookingid);
     }
+  }, [searchParams]);
 
-
+  useEffect(() => {
     const getBooking = async () => {
+      if (!bookingId) return;
       setLoading(true);
       try {
         const res = await axios.get(
-          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/booking/${bookingid}`
+          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/user/booking/${bookingId}`
         );
-
-        console.log(res?.data, "resres");
-        setData(res?.data);
-        setLoading(false);
+        setData(res.data);
       } catch (err) {
-        console.log(err);
+        console.error("Error fetching booking:", err);
+      } finally {
         setLoading(false);
       }
     };
 
-    if (searchParams) {
-      setLoading(true);
-      getBooking();
-    }
-  }, [searchParams]);
+    getBooking();
+  }, [bookingId]);
 
+  if (loading) return <BlinkerLoader />;
 
+  function Search() {
+    const searchParams = useSearchParams()
 
-
-
-  return (
-    <div className="flex flex-col m-5 sm:m-10 h-auto bg-white text-center">
-      {loading && <BlinkerLoader />}
-
+    return <div className="flex flex-col m-5 sm:m-10 h-auto bg-white text-center">
       <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start mx-auto">
         <Image
           src="/true.svg"
@@ -66,11 +54,11 @@ const Success = () => {
 
         <div className="flex flex-col items-center sm:items-start gap-6 sm:!w-[90vw]">
           <h1 className="font-bold sm:text-left text-lg sm:text-2xl">
-            Thank you for your order, {data?.booking?.userId?.fullName}
+            Thank you for your order, {data?.booking?.userId?.fullName || "Customer"}
           </h1>
           <p className="sm:text-left">
-            A confirmation email will be sent to you at {" "}
-            {data?.booking?.userId?.email} with your complete order details.
+            A confirmation email will be sent to you at{" "}
+            {data?.booking?.userId?.email || "your email"} with your complete order details.
           </p>
           <span className="bg-[#B5E6EA] px-4 py-2 rounded-3xl font-bold">
             Booking ID: {bookingId}
@@ -82,45 +70,44 @@ const Success = () => {
                 <span className="text-xl text-left whitespace-nowrap">
                   Please login to complete your KYC
                 </span>
-
                 <a
                   className="bg-[#ff0000] ml-2 rounded-lg text-white px-4 w-1/3 py-2"
                   href="https://admin.cabme.in/auth/customer-login"
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  {" "}
-                  <button>Login</button>
+                  Login
                 </a>
               </div>
+
               <div className="flex justify-center mt-4 sm:mt-0 sm:justify-start mb-5">
                 <span className="text-xl">Booking Details</span>
               </div>
+
               {[
                 {
                   label: "Car Name",
                   value:
-                    data?.booking?.vehicleId?.carName +
-                    " " +
-                    data?.booking?.vehicleId?.brandName,
+                    `${data?.booking?.vehicleId?.carName || ""} ${data?.booking?.vehicleId?.brandName || ""}`,
                 },
                 {
                   label: "Booking Type",
                   value: data?.booking?.bookingStatus?.selfDrive
                     ? "Self Driving"
                     : data?.booking?.bookingStatus?.withDriver
-                    ? "With Driver"
-                    : data?.booking?.bookingStatus?.subscription
-                    ? "Subscription"
-                    : "",
+                      ? "With Driver"
+                      : data?.booking?.bookingStatus?.subscription
+                        ? "Subscription"
+                        : "",
                 },
-                { label: "Start City", value: data?.booking?.location },
+                { label: "Start City", value: data?.booking?.location || "N/A" },
                 {
                   label: "Destination City",
                   value: data?.booking?.toCity || "N/A",
                 },
                 {
                   label: "Booking Duration",
-                  value: data?.booking?.bookingDuration,
+                  value: data?.booking?.bookingDuration || "N/A",
                 },
               ].map((detail, index) => (
                 <div
@@ -139,30 +126,25 @@ const Success = () => {
               {[
                 {
                   label: "Total Booking Amount",
-                  value: "₹" + data?.booking?.totalAmount + "/-",
+                  value: `₹${data?.booking?.totalAmount || 0}/-`,
                   isBold: true,
                 },
                 {
                   label: "Total Amount Paid",
-                  value:
-                    "₹" +
-                      data?.booking?.partialPayments?.reduce(
-                        (acc: any, payment: any) => acc + payment.amount,
-                        0
-                      ) || 0 + "/-",
+                  value: `₹${data?.booking?.partialPayments?.reduce(
+                    (acc: any, payment: any) => acc + payment.amount,
+                    0
+                  ) || 0}/-`,
                   isBold: true,
                   textColor: "text-green-600",
                 },
                 {
                   label: "Pending Amount",
-                  value:
-                    "₹" +
-                    (data?.booking?.totalAmount -
-                      data?.booking?.partialPayments?.reduce(
-                        (acc: any, payment: any) => acc + payment.amount,
-                        0
-                      )) +
-                    "/-",
+                  value: `₹${(data?.booking?.totalAmount || 0) -
+                    (data?.booking?.partialPayments?.reduce(
+                      (acc: any, payment: any) => acc + payment.amount,
+                      0
+                    ) || 0)}/-`,
                   isBold: true,
                   textColor: "text-red-600",
                 },
@@ -182,6 +164,12 @@ const Success = () => {
         </div>
       </div>
     </div>
+  }
+
+  return (
+    <Suspense>
+      <Search />
+    </Suspense>
   );
 };
 
