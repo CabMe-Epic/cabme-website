@@ -42,7 +42,7 @@ const Success = () => {
   function Search() {
     const searchParams = useSearchParams()
 
-    return <div className="flex flex-col m-5 sm:m-10 h-auto bg-white text-center">
+    return <div className="flex flex-col  m-5 sm:m-10 h-auto text-center">
       <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start mx-auto">
         <Image
           src="/true.svg"
@@ -52,7 +52,7 @@ const Success = () => {
           height={100}
         />
 
-        <div className="flex flex-col items-center sm:items-start gap-6 sm:!w-[90vw]">
+        <div className="flex flex-col items-center sm:items-start gap-6 sm:!w-[150%]">
           <h1 className="font-bold sm:text-left text-lg sm:text-2xl">
             Thank you for your order, {data?.booking?.userId?.fullName || "Customer"}
           </h1>
