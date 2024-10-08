@@ -58,14 +58,14 @@ const OurBlogs = () => {
   return (
     <>
       {/* desktop view */}
-      <div className="grid grid-cols-2 relative sm:grid hidden">
+      <div className="grid grid-cols-2 relative sm:grid hidden pb-10">
         {/* Left Section (Left Post) */}
         <div
           className="bg-[url('/png/blog-left.png')] bg-contain bg-no-repeat text-white lg:py-12 lg:px-12 px-2 py-8"
           style={{ backgroundSize: "100% 100%" }}
         >
           <div>
-            <div className="xl:max-w-[375px] max-w-[195px] relative  left-[10%]">
+            <div className="xl:max-w-[375px] max-w-[195px] relative  left-[5%]">
               <div className="lg:text-sm text-[10px]">
                 <span>{moment(leftPost?.date).format("DD-MMM-YYYY")}</span> /
                 <span> BY JOSEPH KANE</span>
@@ -176,13 +176,13 @@ const OurBlogs = () => {
         </div>
 
         {/* Middle image */}
-        <div className="absolute top-0 left-0 right-0 m-auto flex justify-center -z-10">
+        <div className="absolute top-0 left-0 right-0 m-auto flex justify-center z-10 w-[500px] h-[410px]">
           <Image
             src={"/png/blog.png"}
             alt="blog"
             width={570}
             height={350}
-            className="w-[400px] h-[320px] object-contain xl:block hidden"
+            className="w-[500px] h-[410px] object-contain xl:block hidden"
           />
         </div>
 

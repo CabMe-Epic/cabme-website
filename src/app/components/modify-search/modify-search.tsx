@@ -86,15 +86,15 @@ const ModifySearch: React.FC = () => {
         `${moment(endDate).format("YYYY-MM-DD")}T${endTime || "00:00"}`
       );
 
-      
 
-      if((tabValue == "Subscription") || (tabValue == 'Driver' && radioToggle== "One-way")){
+
+      if ((tabValue == "Subscription") || (tabValue == 'Driver' && radioToggle == "One-way")) {
         localStorage.setItem(
           "pickupDate",
           moment(startDate).format("YYYY-MM-DD")
         );
 
-        console.log(startTime,"innn")
+        console.log(startTime, "innn")
         localStorage.setItem(
           "pickupTime",
           startTime as any
@@ -104,7 +104,7 @@ const ModifySearch: React.FC = () => {
         localStorage.setItem("dropOffLocation", selectedDropCity || "");
         localStorage.setItem("pickupLocation", selectedCity);
         return
-      } 
+      }
       if (pickupDateTime >= dropoffDateTime) {
         alert(
           "Drop-off date and time should be later than Pickup date and time"
@@ -211,6 +211,10 @@ const ModifySearch: React.FC = () => {
 
   console.log("startTime", startDate, startTime)
 
+  const handleRemoveDropLocation = () => {
+    setSelectedDropCity("");
+  }
+
   return (
     <div
       className="grid grid-cols-1 sm:grid-cols-[1fr_2fr_1fr+1fr] grid-flow-row-dense md:grid-cols-[1fr_2fr_1fr] justify-between sm:my-12 my-6 sm:px-4 px-4 sm:pt-4 sm:pb-4 pt-4 !pb-[45px] items-center rounded-md bg-[url('/png/search-bg.png')] "
@@ -285,6 +289,11 @@ const ModifySearch: React.FC = () => {
                   (tabValue == "Driver" && radioToggle == "One-way")) &&
                   <div className="flex flex-col items-start justify-start sm:hidden">
                     <legend className="text-xs ml-2">Dropoff Location</legend>
+                   <div className="flex flex-row-reverse items-center">
+                   {
+                      selectedDropCity !== "" &&
+                      <Image src="/out-remove.png" onClick={() => handleRemoveDropLocation()} alt="" width={100} height={100} className="w-[20px] object-contain" />
+                    }
                     <input
                       className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
                       style={{ backgroundColor: "rgb(252, 251, 251, 0%)" }}
@@ -294,6 +303,7 @@ const ModifySearch: React.FC = () => {
                       value={selectedDropCity}
                       readOnly // Prevent editing directly
                     />
+                   </div>
                     {showDropLocationPopup && (
                       <div className="flex flex-col justify-center items-center fixed inset-0  bg-[#0000003c] bg-opacity-50 w-full !z-[9999]">
                         <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">
@@ -404,15 +414,24 @@ const ModifySearch: React.FC = () => {
           (tabValue == "Driver" && radioToggle == "One-way")) &&
           <div className="flex-col items-start justify-start hidden sm:flex ">
             <legend className="text-xs ml-2">Dropoff Location</legend>
-            <input
-              className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
-              style={{ backgroundColor: "rgb(252, 251, 251, 0%)" }}
-              type="text"
-              placeholder="All City"
-              onClick={(e) => handleSelectPopupDropLocation(e)}
-              value={selectedDropCity}
-              readOnly // Prevent editing directly
-            />
+            <div className="flex flex-row">
+              {
+                selectedDropCity !== "" &&
+                <Image src="/out-remove.png" alt="" onClick={() => handleRemoveDropLocation()} width={20} className="object-contain cursor-pointer" height={20} />
+
+              }
+
+              <input
+                className="bg-[#FCFBFB] px-2 rounded-md border-0 outline-none py-1 cursor-pointer w-[130px]"
+                style={{ backgroundColor: "rgb(252, 251, 251, 0%)" }}
+                type="text"
+                placeholder="All City"
+                onClick={(e) => handleSelectPopupDropLocation(e)}
+                value={selectedDropCity}
+                readOnly // Prevent editing directly
+              />
+            </div>
+
             {showDropLocationPopup && (
               <div className="flex flex-col justify-center items-center fixed inset-0 !z-[9999] bg-[#0000003c] bg-opacity-50 w-full ">
                 <div className="flex flex-col justify-start items-center bg-white  rounded-xl shadow-md relative pb-6">

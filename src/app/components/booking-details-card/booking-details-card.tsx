@@ -1,4 +1,5 @@
 "use client"
+import moment from "moment";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -58,7 +59,7 @@ const BookingDetailsCard = ({ city }: any) => {
               </span>
               <span className="flex flex-row items-center gap-3">
                 <Image src="/png/time.png" width={20} height={20} alt="time" />
-                <span className="text-[#787070] text-sm">{pickupTime}</span>
+                <span className="text-[#787070] text-sm">{(moment(pickupTime, 'HH:mm').format('hh:mm A'))}</span>
               </span>
             </div>
 
@@ -93,21 +94,21 @@ const BookingDetailsCard = ({ city }: any) => {
                     height={20}
                     alt="calender"
                   />
-                  <span className="text-[#787070] text-sm">{dropoffTime}</span>
+                  <span className="text-[#787070] text-sm">{(moment(dropoffTime, 'HH:mm').format('hh:mm A'))}</span>
                 </span>
               </div>
             }
           </div>
-          
+
           {
-              localStorage.getItem('tabValue') !== 'Subscription' &&
-              <div className="my-8 text-center">
+            localStorage.getItem('tabValue') !== 'Subscription' &&
+            <div className="my-8 text-center">
               <span className="bg-[#F2F7F6] w-full block p-4 rounded-lg drop-shadow-lg m-auto sm:text-md text-sm">
                 <b> Duration: </b> {duration ? duration : ""}{" "}
               </span>
             </div>
-              }
-       
+          }
+
         </div>
       </main>
     </div>

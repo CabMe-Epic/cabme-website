@@ -149,13 +149,13 @@ const FleetsSlider = ({
                               {ind === 0
                                 ? item?.vehicleSpecifications["transmission"]
                                 : ind === 1
-                                ? item?.vehicleSpecifications["engine"]
+                                ? item?.vehicleSpecifications["mileage"]
                                 : ind === 2
                                 ? item?.vehicleSpecifications["fuelType"]
                                 : ind === 3
-                                ? item?.vehicleSpecifications["fuelType"]
-                                : ind === 4
                                 ? item?.vehicleSpecifications["make"]
+                                : ind === 4
+                                ? item?.vehicleSpecifications["engine"]
                                 : ind === 5
                                 ? (item?.seatingCapacity+" Person")
                                 : ""}
