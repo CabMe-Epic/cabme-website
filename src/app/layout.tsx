@@ -66,10 +66,10 @@ export default function RootLayout({
           }}
         ></script>
       </head>
-      <body className={poppins.className}>
+      <body className={poppins.className} >
         <Header />
 
-        <div>{children}</div>
+        <div className=" max-w-[1410px] m-auto">{children}</div>
         <Footer />
       </body>
     </html>

@@ -22,8 +22,8 @@ const Header = () => {
 
   console.log(url, "url");
   return (
-    <>
-      <div className="flex justify-between sm:py-4 py-4 sm:px-4 lg:px-8 px-4 items-center shadow-xl sticky top-0 z-[9999] bg-white">
+    <div className="bg-white shadow-xl">
+      <div className="flex justify-between sm:py-4 py-4 sm:px-4 lg:px-8 px-4 items-center  sticky top-0 z-[9999]  max-w-[1450px] m-auto">
         <div className="cursor-pointer sm:w-[12%] w-[30%]">
           <Image
             src={"/logo.svg"}
@@ -90,7 +90,7 @@ const Header = () => {
         }
        
       </div>
-    </>
+    </div>
   );
 };
 export default Header;

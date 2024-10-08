@@ -112,7 +112,7 @@ export default function Home() {
   return (
     <>
       <div
-        className="z-[-9] relative sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden"
+        className="z-[-9] relative sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden max-w-[1250px]"
         ref={topFleetForm}
       >
         <BannerSlider banner={cms?.heroBanner} />

@@ -45,7 +45,7 @@ const url = usePathname();
     ""
 
     : 
-      <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8">
+      <div className="sm:p-12 p-8 bg-[#FBFDFF] sm:grid grid-cols-[1fr_2fr] gap-8 max-w-[1500px] m-auto">
       <div className="max-w-[330px] m-auto sm:text-left text-center">
         <Image
           src={"/logo.svg"}
