@@ -146,7 +146,7 @@ export default function Home() {
             Monthly Offers
           </div>
         </div>
-        
+
         {offer === "Daily Offers" && (
           <div className="mx-4 sm:mt-0 mt-4  offerCards">
             {" "}
@@ -175,10 +175,10 @@ export default function Home() {
                     <Image
                       src={value?.imageUrl}
                       alt="image"
-                      width={100}
-                      height={100}
+                      width={500}
+                      height={500}
                       className="m-auto h-[93px] sm:w-auto w-[132px] object-contain"
-                      style={{objectFit:"contain"}}
+                      style={{ objectFit: "contain" }}
                     />
                   </div>
                   <div className="sm:px-4">
@@ -382,14 +382,14 @@ export default function Home() {
               {
                 cms?.monthlySubscription.map((item: any, index: number) => {
                   return <li key={index} className="text-white">
-                   { item.text}
+                    {item.text}
                     <span className="text-primary"></span>
                   </li>
 
                 })
               }
 
-         
+
             </ul>
           </div>
           <Image

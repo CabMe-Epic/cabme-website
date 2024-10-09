@@ -373,8 +373,8 @@ const CarDetails = () => {
     }
   }, [locationData, slug, dropoffLocation, bookingOpt, radioToggle]);
 
-  
-  console.log(currentPackage,"currentPackage")
+
+  console.log(currentPackage, "currentPackage")
 
   console.log(dropoffLocation, "dropoffLocation");
 
@@ -779,7 +779,7 @@ const CarDetails = () => {
                       >
                         {package3Duration}
                       </button>
-                      
+
                     </div>
                   </div>
                 )}
@@ -1033,6 +1033,32 @@ const CarDetails = () => {
                     </div>
                   )}
 
+                <div className="max-w-sm p-4 border-2 border-[#F1301E] mb-6 rounded-lg shadow-md text-center">
+                  {/* Availability Section */}
+                  <p className="text-sm font-semibold mb-2 text-[#F1301E]">
+                    Use coupon codes in the checkout page to get huge discounts after mobile number verification.
+                  </p>
+
+                  {/* Main Content */}
+                  <div className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white py-4 px-2 rounded-lg flex items-center justify-center space-x-4">
+                    <div className="w-20 h-20 flex items-center rounded-full overflow-hidden">
+                      <Image src={"/png/dispcount.png"} alt="discount" width={120} height={120} />
+                    </div>
+                    <p className="font-semibold">
+                      If you do not have a coupon code you can call us directly to get your best available offer.
+                    </p>
+                  </div>
+
+                  {/* Call to Action */}
+
+                  <a href="tel:18001216162" className="font-semibold text-[#F1301E]">
+                    <div className="mt-4 flex items-center justify-center space-x-2 text-red-700">
+                      <Image src={"/svg/phone-red.svg"} alt="phone" width={15} height={15} />
+                      <p className="font-semibold  text-[#F1301E]">Call us (180012 16162)</p>
+                    </div>
+                  </a>
+                </div>
+
                 <div
                   className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${tabValue === "Driver" &&
                     radioToggle === "Out-station" &&
@@ -1122,6 +1148,8 @@ const CarDetails = () => {
                     ></textarea>
                   </span>
                 </div>
+
+
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}

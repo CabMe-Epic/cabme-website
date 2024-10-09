@@ -200,10 +200,10 @@ const Checkout = () => {
       if ((tabValue == "Driver") && !two && !three) {
         setIsButtonDisabled(false);
       }
-      if((tabValue== "Self-Driving") && (one == false) && (two == true) ){
+      if ((tabValue == "Self-Driving") && (one == false) && (two == true)) {
         setIsButtonDisabled(false);
       }
-      if((tabValue== "Subscription") && (one == false) && (two == true) ){
+      if ((tabValue == "Subscription") && (one == false) && (two == true)) {
         setIsButtonDisabled(false);
       }
     }
