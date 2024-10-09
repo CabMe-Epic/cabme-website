@@ -713,6 +713,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </span>
           </div>
         </div>
+        
         <div className="w-full">
           {/* <span className="flex flex-row my-5 mt-10">
             <Image
@@ -858,6 +859,10 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                 <p>₹{roundPrice(priceAfterDiscountNew)}</p>
               </div>
             )}
+                 <div className="mt-6 w-full p-2 border-2 border-[#F1301E] mb-0 rounded-lg shadow-md text-center">
+        <p className="text-sm font-semibold mb-2 text-[#F1301E]">
+        Coupon code will be available after mobile number verification.        </p>
+      </div>
 
             {/* {payableAmount && (
               <div className="font-semibold flex justify-between mt-2">
@@ -921,10 +926,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </div>
           </div>
         </div>
-        <div className="mt-6 w-full p-2 border-2 border-[#F1301E] mb-0 rounded-lg shadow-md text-center">
-        <p className="text-sm font-semibold mb-2 text-[#F1301E]">
-        Coupon code will be available after mobile number verification.        </p>
-      </div>
+   
         {/* <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                     <span className="font-bold text-md">Pay ₹10,000 Now</span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
