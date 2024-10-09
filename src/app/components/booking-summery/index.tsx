@@ -864,7 +864,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
         Coupon code will be available after mobile number verification.        </p>
       </div>
 
-            {/* {payableAmount && (
+            {/* {payableAmount && ( 
               <div className="font-semibold flex justify-between mt-2">
                 <h3>Advance payment</h3>
                 <p>{Number(payableAmount)}</p>
