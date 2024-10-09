@@ -177,7 +177,8 @@ export default function Home() {
                       alt="image"
                       width={100}
                       height={100}
-                      className="m-auto h-[93px] sm:w-auto w-[132px]"
+                      className="m-auto h-[93px] sm:w-auto w-[132px] object-contain"
+                      style={{objectFit:"contain"}}
                     />
                   </div>
                   <div className="sm:px-4">

@@ -70,7 +70,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
                       <div className="text-[12px] font-normal h-fit">
                         {item?.termsCondition}
                       </div>
-                      <p className="text-[8px] line-clamp-2">{item?.description}</p>
+                      <p className="text-[8px] ">{item?.description}</p>
                     </div>
                     <div className="bg-primary-color text-white h-[30px] sm:mt-1 text-center flex justify-center items-center">
                       {item?.couponCode}
