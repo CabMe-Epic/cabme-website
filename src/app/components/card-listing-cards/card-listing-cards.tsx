@@ -211,6 +211,7 @@ const CardListingCards = ({ data }: any) => {
     } else {
       console.log("done");
     }
+
   };
   console.log(driverType, "driverType");
   console.log(selectedPackagePrice, "selected pack");
@@ -329,7 +330,7 @@ const CardListingCards = ({ data }: any) => {
                 {" "}
                 <div
                   className={`absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit ${(data.vehicleStatus === "Sold Out" ||
-                      data.vehicleStatus === "Not Available") &&
+                    data.vehicleStatus === "Not Available") &&
                     ""
                     }`}
                 >
@@ -514,8 +515,8 @@ const CardListingCards = ({ data }: any) => {
                           }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked2
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
                           }`}
                       >
                         <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-aut text-center leading-none sm:my-0 my-[3px]">
@@ -607,8 +608,8 @@ const CardListingCards = ({ data }: any) => {
                           }
                         }}
                         className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 !justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg lg:w-[230px]  w-[115px] sm:h-[71px] cursor-pointer ${clicked3
-                            ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                            : ""
+                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                          : ""
                           }`}
                       >
                         <span className="font-bold lg:text-[18px] text-[16px] whitespace-nowrap block m-auto text-center leading-none sm:my-0 my-[3px]">
@@ -941,11 +942,11 @@ const CardListingCards = ({ data }: any) => {
                       alt="Car Icon"
                     />
                     <span className="text-[#ff0000] text-sm font-semibold">
-                      View Real Car Images
+                      View Real Car Imagesd
                     </span>
                   </div>
                 </div>
-                <div className="sm:h-[274px] relative px-4 max-w-[700px] w-full">
+                <div className="sm:h-[274px] relative px-2 max-w-[700px] w-full">
                   <div className="mt-5 sm:flex grid grid-cols-3 flex-row items-center sm:gap-4 gap-2 sm:mr-5">
                     <div
                       onClick={() => {
@@ -968,9 +969,9 @@ const CardListingCards = ({ data }: any) => {
                         setClicked2(false);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:max-w-[210px] sm:w-full sm:h-[71px] cursor-pointer ${clicked1
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
+                      className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[240px] p-0 sm:h-[71px] cursor-pointer w-full ${clicked1
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
                         }`}
                     >
                       <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px] sm:block">
@@ -1038,9 +1039,9 @@ const CardListingCards = ({ data }: any) => {
                         setClicked2(true);
                         setClicked3(false);
                       }}
-                      className={`sm:flex flex-row hover:scale-[1.05] duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
+                      className={`sm:flex flex-row hover:scale-[1.05] duration-300 cursor-pointer items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[240px] sm:h-[71px] w-full ${clicked2
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
                         }`}
                     >
                       <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -1108,9 +1109,9 @@ const CardListingCards = ({ data }: any) => {
                         setClicked2(false);
                         setClicked3(true);
                       }}
-                      className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] cursor-pointer ${clicked3
-                          ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
-                          : ""
+                      className={`sm:flex flex-row items-center hover:scale-[1.05] duration-300 justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg w-[100%] sm:w-[240px] sm:h-[71px] cursor-pointer ${clicked3
+                        ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all to-[#fff]"
+                        : ""
                         }`}
                     >
                       <span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
@@ -1222,7 +1223,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span>Bluetooth</span>
+                          <span className="text-xs">Bluetooth</span>
                         </div>
                       )}
 
@@ -1234,20 +1235,9 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span>Manual</span>
+                        <span className="text-xs">Manual</span>
                       </div>
-                      {data?.carFeatures?.navigationSystem === true && (
-                        <div className="flex flex-row items-center gap-2">
-                          <Image
-                            src="/carListing/gps.png"
-                            width={20}
-                            objectFit={"contain"}
-                            height={20}
-                            alt="bluetooth"
-                          />
-                          <span>GPS Navigation</span>
-                        </div>
-                      )}
+
                       <div className="flex flex-row items-center gap-2">
                         <Image
                           src="/carListing/seats.png"
@@ -1256,7 +1246,9 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span>{data?.seatingCapacity} Person</span>
+                        <span className="text-xs">
+                          {data?.seatingCapacity} Person
+                        </span>
                       </div>
                       {data?.vehicleSpecifications?.fuelType && (
                         <div className="flex flex-row items-center gap-2">
@@ -1267,7 +1259,23 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span>{data?.vehicleSpecifications?.fuelType}</span>
+                          <span className="text-xs">
+                            {data?.vehicleSpecifications?.fuelType}
+                          </span>
+                        </div>
+                      )}
+                      {data?.carFeatures?.navigationSystem === true && (
+                        <div className="flex flex-row items-center gap-2">
+                          <Image
+                            src="/carListing/gps.png"
+                            width={20}
+                            objectFit={"contain"}
+                            height={20}
+                            alt="bluetooth"
+                          />
+                          <span className="whitespace-nowrap text-xs">
+                            GPS Navigation
+                          </span>
                         </div>
                       )}
 
@@ -1279,7 +1287,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span>Boot Space</span>
+                        <span className="text-xs">Boot Space</span>
                       </div>
                     </div>
                     <div className="m-0 sm:block flex justify-end sm:mr-0">
@@ -1403,8 +1411,8 @@ const CardListingCards = ({ data }: any) => {
                                     setClicked3(false);
                                   }}
                                   className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-center bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
-                                      ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                      : ""
+                                    ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                                    : ""
                                     }  `}
                                 >
                                   <span className="flex flex-col  gap-0">
@@ -1671,8 +1679,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(false);
                             }}
                             className={`sm:flex flex-row hover:scale-[1.05] duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked1
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -1753,8 +1761,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(false);
                             }}
                             className={`sm:flex flex-row hover:scale-[1.05] cursor-pointer duration-300 items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked2
-                                ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? " border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -1835,8 +1843,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(true);
                             }}
                             className={`sm:flex hover:scale-[1.05] duration-300 cursor-pointer flex-row items-center justify-between bg-white gap-3 border-[1.5px] border-[#FF0000] px-2 sm:py-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[71px] ${clicked3
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <span className="font-bold sm:text-[18px] text-[18px] block w-full text-center m-auto leading-none whitespace-nowrap sm:my-0 my-[3px]">
@@ -2121,8 +2129,8 @@ const CardListingCards = ({ data }: any) => {
                               setClicked3(false);
                             }}
                             className={`bg-white border-[1.5px] hover:scale-[1.05] duration-300 cursor-pointer border-[#FF0000] px-2 py-[12px] rounded-lg sm:w-[210px] sm:h-[60px] h-full ${clicked1
-                                ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
-                                : ""
+                              ? "border-black bg-gradient-to-r from-[#FFD7D7] transition-all  to-[#fff]"
+                              : ""
                               }`}
                           >
                             <p className="font-bold sm:text-[18px] text-[15px] text-center h-full flex items-center justify-center flex flex-wrap">
@@ -2369,8 +2377,8 @@ const CardListingCards = ({ data }: any) => {
                   <button
                     key={tab.name}
                     className={`sm:py-2 sm:px-4 rounded-t-xl mt-2 w-full text-xs px-2 py-[7px] ${activeTab === tab.name
-                        ? "bg-white text-primary font-bold"
-                        : "bg-black text-white"
+                      ? "bg-white text-primary font-bold"
+                      : "bg-black text-white"
                       }`}
                     onClick={() => setActiveTab(tab.name)}
                   >

@@ -153,7 +153,7 @@ const FleetsSlider = ({
                                 : ind === 2
                                 ? item?.vehicleSpecifications["fuelType"]
                                 : ind === 3
-                                ? item?.vehicleSpecifications["make"]
+                                ? item?.vehicleSpecifications.body
                                 : ind === 4
                                 ? item?.vehicleSpecifications["engine"]
                                 : ind === 5

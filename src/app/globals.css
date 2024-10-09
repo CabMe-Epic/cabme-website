@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 
-body{
-  font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -170,7 +170,8 @@ body{
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 125%; /* Position above the element */
+  bottom: 125%;
+  /* Position above the element */
   left: 50%;
   margin-left: -60px;
   opacity: 0;
@@ -197,7 +198,7 @@ body{
   width: 50px;
 }
 
-.backdrop-blur-md{
+.backdrop-blur-md {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -211,9 +212,10 @@ body{
   margin-left: -30px !important;
   display: flex !important;
 }
-.react-datepicker{
+
+.react-datepicker {
   /* z-index: 998 !important; */
-  
+
 }
 
 .datepickerinput {
@@ -221,7 +223,8 @@ body{
   outline: 0;
   /* z-index: 998 !important; */
 }
-.react-datepicker-wrapper{
+
+.react-datepicker-wrapper {
   width: 95% !important;
 }
 
@@ -236,8 +239,15 @@ body{
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 .animate-blink {
@@ -261,9 +271,11 @@ body{
     position: relative;
     left: -20px;
   }
-.custom-picker .react-datepicker-wrapper input{
-  font-size: 13px !important;
-}
+
+  .custom-picker .react-datepicker-wrapper input {
+    font-size: 13px !important;
+  }
+
   .review-slider .swiper-slide {
     opacity: 1;
   }
@@ -275,11 +287,32 @@ body{
   .swiper-initialized {
     padding-bottom: 10px !important;
   }
-.review-slider .swiper-initialized{
-  padding-bottom: 40px !important;
-}
+
+  .review-slider .swiper-initialized {
+    padding-bottom: 40px !important;
+  }
+
   .offerCards .swiper-initialized {
     height: 215px;
+
+
+  }
+
+  @media screen and (max-width: 600px) {
+    .offerCards .swiper-initialized {
+      height: 320px;
+
+
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .offerCards .swiper-initialized {
+      height: 320px;
+    }
+    .offerCards .swiper-initialized {
+      height: 320px;
+    }
   }
 
   /* .fleets .swiper-initialized {
@@ -302,23 +335,25 @@ body{
     /* z-index: 9999 !important; */
     font-size: 20px;
   }
-.modify-search .react-datepicker-wrapper input{
-  font-size: 15px !important;
-  width: fit-content !important; border: 0;
-  margin-right: 5px !important;
-  width: 300px !important;
-  /* border: 1px solid #cccccc77; */
-  background: #ffffff00 !important;
-  outline: 0 !important;
-  border: 0 !important;
-}
 
-@media (max-width: 600px) {
-  .modify-search .react-datepicker-wrapper input{
-    width: 315px !important;
-    font-size: 12px !important;
+  .modify-search .react-datepicker-wrapper input {
+    font-size: 15px !important;
+    width: fit-content !important;
+    border: 0;
+    margin-right: 5px !important;
+    width: 300px !important;
+    /* border: 1px solid #cccccc77; */
+    background: #ffffff00 !important;
+    outline: 0 !important;
+    border: 0 !important;
   }
-}
+
+  @media (max-width: 600px) {
+    .modify-search .react-datepicker-wrapper input {
+      width: 315px !important;
+      font-size: 12px !important;
+    }
+  }
 
   .react-datepicker {
     width: 138% !important;
@@ -337,31 +372,40 @@ body{
     width: 70% !important;
     z-index: 999 !important;
   }
-  .react-datepicker-wrapper{
+
+  .react-datepicker-wrapper {
     z-index: 9999 !important;
   }
-  .react-datepicker{
+
+  .react-datepicker {
     z-index: 9999 !important;
   }
-  .react-datepicker__navigation--next{
+
+  .react-datepicker__navigation--next {
     z-index: 9999999;
   }
 }
-@media only screen and (max-width:500px){
-  .product-slider .swiper-initialized{
+
+@media only screen and (max-width:500px) {
+  .product-slider .swiper-initialized {
     max-height: 320px !important;
   }
 }
+
 .no-scroll {
   overflow: hidden;
 }
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .loader-rotate {
@@ -372,6 +416,7 @@ body{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -409,7 +454,7 @@ input[type="number"]::-webkit-outer-spin-button {
   line-height: 20px;
   color: #333;
 }
-.modify-search .react-datepicker{
+
+.modify-search .react-datepicker {
   z-index: 9999 !important;
 }
-

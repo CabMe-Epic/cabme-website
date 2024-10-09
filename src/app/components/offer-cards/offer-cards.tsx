@@ -56,12 +56,12 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
       }}
     >
       {dailyOffer === true ? (
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-3 gap-6 h-full">
           {Array.isArray(banners) && (banners || offerCardsArray)?.filter((item: any) => item.daily == true)?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
-                <div className="sm:w-[400px] w-[340px] m-auto grid grid-cols-2 gap-1 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
-                  <div className="flex flex-col content-between bg-white">
+                <div className="sm:w-[400px] w-[340px] hover:bg-red-200  sm:h-[250px] h-[260px] m-auto grid grid-cols-2 justify-between gap-1 shadow-xl border rounded-xl p-4 bg-[#fff]">
+                  <div className="flex flex-col h-full justify-between bg-white">
                     <div className="sm:px-2 sm:py-2 px-2 py-[7px]">
                       <h3 className="font-bold sm:text-5xl text-3xl h-fit sm:mb-2 mb-0">
                         {item?.percent}{" "}
@@ -72,17 +72,17 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
                       </div>
                       <p className="text-[8px] line-clamp-2">{item?.description}</p>
                     </div>
-                    <div className="bg-primary-color text-white h-full sm:mt-1 text-center flex justify-center items-center">
+                    <div className="bg-primary-color text-white h-[30px] sm:mt-1 text-center flex justify-center items-center">
                       {item?.couponCode}
                     </div>
                   </div>
-                  <div className="w-full sm:h-[160px] h-full">
+                  <div className="w-full sm:h-full h-full flex justify-end">
                     <Image
                       src={item?.image?.url}
                       alt={item?.image?.alt}
-                      width={160}
+                      width={120}
                       height={121}
-                      className="w-full h-full object-cover"
+                      className="w-[140px] h-full object-cover"
                     />
                   </div>
                 </div>
@@ -97,7 +97,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
             {(banners || monthlyOfferCard)?.filter((item: any) => item.daily == false)?.map((item: any, index: number) => {
               return (
                 <SwiperSlide key={index}>
-                  <div className="sm:w-[400px] w-[340px] m-auto grid grid-cols-2 gap-1 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+                  <div className=" m-auto sm:w-[400px] w-[340px]  sm:h-[250px] h-[260px] grid grid-cols-2 gap-1 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
                     <div className="flex flex-col content-between bg-white relative">
                       <div className="p-2">
                         <h3 className="font-bold sm:text-2xl text-xl h-fit sm:mb-2">
@@ -113,13 +113,13 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
                         {item?.couponCode}
                       </div>
                     </div>
-                    <div className="w-full sm:h-[160px] h-[125px]">
+                    <div className="w-full sm:h-full h-full flex justify-end">
                       <Image
                         src={item?.image?.url}
                         alt={item?.image?.alt}
                         width={160}
                         height={121}
-                        className="w-full h-full"
+                         className="w-[140px] h-full object-cover"
                       />
                     </div>
                   </div>

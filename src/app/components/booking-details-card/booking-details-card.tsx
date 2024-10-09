@@ -39,13 +39,13 @@ const BookingDetailsCard = ({ city }: any) => {
       <main className="bg-[url('/png/details-bg.png')] bg-no-repeat bg-cover max-w-[511px] m-auto sm:px-2 rounded-xl flex bg-[#f7f7f7] flex-col items-center justify-center py-6 w-[90%]" style={{ backgroundSize: "100% 100%" }}>
         <div className="max-w-[376px]  sm:py-0 sm:px-0 px-4">
           <div className="sm:h-[50px] h-[43px] bg-black text-white font-bold text-[20px] flex justify-center items-center rounded-xl w-[80%] m-auto sm:w-[100%]">
-            <span className="text-center sm:text-md text-[18px]">Booking Details</span>
+            <span className="text-center sm:text-md text-[18px] whitespace-nowrap px-10">Booking Details</span>
           </div>
           <div className="font-bold flex justify-center my-5  text-[18px]">
             <span className="font-semibold">Location : </span>{" "}
             <span className="text-[#ff0000] ml-2"> {city}</span>
           </div>
-          <div className="flex flex-row justify-between items-center sm:gap-10 gap-2">
+          <div className="flex flex-row sm:justify-between text-center sm:text-left justify-center items-center sm:gap-10 gap-2">
             <div className="flex flex-col gap-2">
               <span className="font-semibold">Pick-up</span>
               <span className="flex flex-row items-center gap-3">

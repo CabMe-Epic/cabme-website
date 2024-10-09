@@ -109,7 +109,7 @@ const ReviewCard = () => {
                   <p className="text-center mt-4 font-semibold text-sm">
                     {item?.name}
                   </p>
-                  <p className="text-center text-sm">Delhi</p>
+                  <p className="text-center text-sm">{item?.city}</p>
                 </div>
               </div>
             </SwiperSlide>

@@ -9,9 +9,7 @@ import DescCar from "@/app/components/desc-car/desc-car";
 import { useParams } from "next/navigation";
 import useVehicleById from "../../../../../networkRequests/hooks/useVehicleById";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  searchVehicleNew,
-} from "../../../../../networkRequests/hooks/api";
+import { searchVehicleNew } from "../../../../../networkRequests/hooks/api";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -78,6 +76,7 @@ const CarDetails = () => {
   const handleShowDoorstepPopup = () => {
     setShowDoorStep(true);
   };
+
 
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
   const handleSelectItemDoorStep = (arr: any) => {
@@ -300,6 +299,10 @@ const CarDetails = () => {
     setSelectedPromocodeOption(e.target.value);
   };
 
+  const [red1, setRed1] = useState(false);
+  const [red2, setRed2] = useState(false);
+  const [red3, setRed3] = useState(false);
+
   const handleApplyPromoCode = () => {
     if (selectedPromocodeOption) {
       const selectedPromoCode = promoCodes.find(
@@ -353,11 +356,7 @@ const CarDetails = () => {
   const getCarDetails = useCallback(async () => {
     if (locationData.city && locationData.pickUpDateTime) {
       const getSearchCarData = await searchVehicleNew(locationData);
-      const carData = getSearchCarData?.data?.
-        vehiclesWithStatus
-        ;
-
-
+      const carData = getSearchCarData?.data?.vehiclesWithStatus;
       console.log(carData, "carDatadetail");
       carData?.map((item: any) => {
         return item?._id === slug ? setCarDetails(item) : "";
@@ -367,12 +366,15 @@ const CarDetails = () => {
           carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
         )
         : setCurrentPackage(
-          carDetails?.bookingOptions.withDriver.oneway.doorstepDelivery.find(
+          carDetails?.bookingOptions.withDriver?.oneway?.doorstepDelivery.find(
             (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
           )
         );
     }
   }, [locationData, slug, dropoffLocation, bookingOpt, radioToggle]);
+
+  
+  console.log(currentPackage,"currentPackage")
 
   console.log(dropoffLocation, "dropoffLocation");
 
@@ -381,12 +383,14 @@ const CarDetails = () => {
     const getDropoff = localStorage.getItem("dropOffDate");
     const storedPickupTime = localStorage.getItem("pickupTime");
     const storedDropoffTime = localStorage.getItem("dropoffTime");
-    const selectedPackagePrice: any = localStorage.getItem("selectedPackagePrice");
+    const selectedPackagePrice: any = localStorage.getItem(
+      "selectedPackagePrice"
+    );
     const dropLoc = localStorage.getItem("dropOffLocation");
     const freekms = localStorage.getItem("selectedPackageFreeKms");
 
     setPackagePrice(selectedPackagePrice);
-    setSelectedPackageAmount(selectedPackagePrice)
+    setSelectedPackageAmount(selectedPackagePrice);
     setFreeKms(freekms);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
@@ -406,7 +410,7 @@ const CarDetails = () => {
     const freeKmss = localStorage.getItem("selectedPackageFreeKms");
     setPackagePrice(selectedPackagePrice);
 
-    setFreeKms(freeKmss)
+    setFreeKms(freeKmss);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setDropoffTime(storedDropoffTime);
@@ -415,8 +419,6 @@ const CarDetails = () => {
 
     getCarDetails();
   }, [getCarDetails, slug]);
-
-
 
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
@@ -461,7 +463,6 @@ const CarDetails = () => {
     return <div>Error: {error.message}</div>;
   }
 
-
   console.log("duration", duration);
 
   const package1FreeKms =
@@ -480,7 +481,7 @@ const CarDetails = () => {
       (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
 
-  let totalHours = (days * 24) + hours + (minutes / 60);
+  let totalHours = days * 24 + hours + minutes / 60;
 
   if (totalHours < 48) {
     console.log("Duration is less than 48 hours.");
@@ -489,32 +490,49 @@ const CarDetails = () => {
   }
 
   const handlePriceChange = (updatedPrice: any, name: any) => {
-
     setSelectedPackageAmount(updatedPrice);
+
     localStorage.setItem("selectedPackagePrice", updatedPrice);
     setPackagePrice(updatedPrice);
     console.log(name, "packagename");
     if (name === "Package 1") {
       setFreeKms(package1FreeKms);
-      localStorage.setItem("selectedPackageFreeKms", package1FreeKms.toString());
+      localStorage.setItem(
+        "selectedPackageFreeKms",
+        package1FreeKms.toString()
+      );
+      setRed1(true);
+      setRed2(false);
+      setRed3(false);
     }
     if (name === "Package 2") {
       setFreeKms(package2FreeKms);
-      localStorage.setItem("selectedPackageFreeKms", package2FreeKms.toString());
+      localStorage.setItem(
+        "selectedPackageFreeKms",
+        package2FreeKms.toString()
+      );
+      setRed2(true)
+      setRed1(false);
+      setRed3(false);
     }
     if (name === "Package 3") {
       setFreeKms(package3FreeKms);
-      localStorage.setItem("selectedPackageFreeKms", package3FreeKms.toString());
+      localStorage.setItem(
+        "selectedPackageFreeKms",
+        package3FreeKms.toString()
+      );
+      setRed2(false)
+      setRed1(false);
+      setRed3(true);
     }
-    console.log(package3FreeKms, "package3FreeKms")
+    console.log(package3FreeKms, "package3FreeKms");
   };
 
   // useEffect(() => {
   //   const freekm = localStorage.getItem("")
   // },[])
 
-
-  console.log(package3FreeKms, 'package3FreeKms')
+  console.log(package3FreeKms, "package3FreeKms");
 
   const paymentExcludedTax =
     roundPrice(Number(ThirtyDiscountForExcludedTax)) >= 2000
@@ -538,8 +556,6 @@ const CarDetails = () => {
   // if advance_Payment is nan then don't return the advance_payment value
   const advancePayment = isNaN(advance_Payment) ? null : advance_Payment;
   console.log("advancePayment", { advancePayment });
-
-
 
   // console.log("paymentExcludedTax tas",{paymentExcludedTax})
 
@@ -620,6 +636,13 @@ const CarDetails = () => {
   const package3Price =
     calculateTotalPrice(currentPackage?.package3?.price) || 0;
 
+  const package1Duration =
+    calculateTotalPrice(currentPackage?.package1?.duration) || 0;
+  const package2Duration =
+    calculateTotalPrice(currentPackage?.package2?.duration) || 0;
+  const package3Duration =
+    calculateTotalPrice(currentPackage?.package3?.duration) || 0;
+
   const allPrices = [
     roundPrice(package1Price),
     roundPrice(package2Price),
@@ -652,7 +675,9 @@ const CarDetails = () => {
   return (
     <>
       <div className="py-6">
-        <div className="z-[99999]"><ToastContainer /></div>
+        <div className="z-[99999]">
+          <ToastContainer />
+        </div>
 
         <div className="sm:flex hidden px-16 text-[#5F5D5D]">
           <span className="cursor-pointer">Home</span>/
@@ -689,6 +714,77 @@ const CarDetails = () => {
                   <span className="text-center">Booking Summary</span>
                 </div>
 
+                {tabValue === "Subscription" && (
+                  <div className="my-5 flex justify-between items-center w-full text-[14px] sm:text-[16px]">
+                    <div className="flex gap-2 items-center flex-wrap">
+                      <button
+                        onClick={() => {
+                          let packageName = "Package 1";
+                          const selectedValue = roundPrice(package1Price).toString();
+
+                          if (bookingOptions == "Self-Driving" && package1FreeKms == 0 && totalHours < 48) {
+                            alert(
+                              "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                            );
+                            setSelectedPackageAmount(roundPrice(package1Price).toString());
+                            handlePriceChange(roundPrice(package1Price).toString(), packageName);
+                            return;
+                          }
+
+                          handlePriceChange(selectedValue, packageName);
+                        }}
+                        className={`bg-[#fff] click:bg-red-400 rounded-md p-2 cursor-pointer border border-[#fff0] hover:border-[#ccc] px-4 font-bold whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${red1 && "bg-red-600 text-[#fff]"}`}
+                      >
+                        {package1Duration}
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          let packageName = "Package 2";
+                          const selectedValue = roundPrice(package2Price).toString();
+
+                          if (bookingOptions == "Self-Driving" && package2FreeKms == 0 && totalHours < 48) {
+                            alert(
+                              "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                            );
+                            setSelectedPackageAmount(roundPrice(package1Price).toString());
+                            handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                            return;
+                          }
+
+                          handlePriceChange(selectedValue, packageName);
+                        }}
+                        className={`bg-[#fff] rounded-md p-2 cursor-pointer border border-[#fff0] font-bold  hover:border-[#ccc] px-4 whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${red2 && "bg-red-600 text-[#fff]"}`}
+                      >
+                        {package2Duration}
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          let packageName = "Package 3";
+                          const selectedValue = roundPrice(package3Price).toString();
+
+                          if (bookingOptions == "Self-Driving" && package3FreeKms == 0 && totalHours < 48) {
+                            alert(
+                              "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                            );
+                            setSelectedPackageAmount(roundPrice(package1Price).toString());
+                            handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                            return;
+                          }
+
+                          handlePriceChange(selectedValue, packageName);
+                        }}
+                        className={`bg-[#fff] font-bold  rounded-md p-2 cursor-pointer border border-[#fff0] hover:border-[#ccc] px-4 whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${red3 && "bg-red-600 text-[#fff]"}`}
+                      >
+                        {package3Duration}
+                      </button>
+                      
+                    </div>
+                  </div>
+                )}
+
+
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" && radioToggle === "Local")) && (
@@ -718,27 +814,57 @@ const CarDetails = () => {
                           }
 
                           if (bookingOptions == "Self-Driving") {
-                            if (packageName == "Package 1" && package1FreeKms == 0) {
+                            if (
+                              packageName == "Package 1" &&
+                              package1FreeKms == 0
+                            ) {
                               if (totalHours < 48) {
-                                alert("To select the unlimited package, the minimum booking duration must be at least 2 days.");
-                                setSelectedPackageAmount(roundPrice(package1Price).toString()); // Revert to Package 1
-                                handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                                alert(
+                                  "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                                );
+                                setSelectedPackageAmount(
+                                  roundPrice(package1Price).toString()
+                                ); // Revert to Package 1
+                                handlePriceChange(
+                                  roundPrice(package1Price).toString(),
+                                  "Package 1"
+                                );
                                 return;
                               }
                             }
-                            if (packageName == "Package 2" && package2FreeKms == 0) {
+                            if (
+                              packageName == "Package 2" &&
+                              package2FreeKms == 0
+                            ) {
                               if (totalHours < 48) {
-                                alert("To select the unlimited package, the minimum booking duration must be at least 2 days.");
-                                setSelectedPackageAmount(roundPrice(package1Price).toString()); // Revert to Package 1
-                                handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                                alert(
+                                  "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                                );
+                                setSelectedPackageAmount(
+                                  roundPrice(package1Price).toString()
+                                ); // Revert to Package 1
+                                handlePriceChange(
+                                  roundPrice(package1Price).toString(),
+                                  "Package 1"
+                                );
                                 return;
                               }
                             }
-                            if (packageName == "Package 3" && package3FreeKms == 0) {
+                            if (
+                              packageName == "Package 3" &&
+                              package3FreeKms == 0
+                            ) {
                               if (totalHours < 48) {
-                                alert("To select the unlimited package, the minimum booking duration must be at least 2 days.");
-                                setSelectedPackageAmount(roundPrice(package1Price).toString()); // Revert to Package 1
-                                handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                                alert(
+                                  "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                                );
+                                setSelectedPackageAmount(
+                                  roundPrice(package1Price).toString()
+                                ); // Revert to Package 1
+                                handlePriceChange(
+                                  roundPrice(package1Price).toString(),
+                                  "Package 1"
+                                );
                                 return;
                               }
                             }
@@ -758,20 +884,20 @@ const CarDetails = () => {
                           ₹{roundPrice(package3Price)}
                         </option>
                       </select>
-
                     </div>
                   )}
+
+
 
                 <div className="grid grid-cols-1 gap-4 mt-0 font-semibold text-[14px] sm:text-[18px]">
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                     <span>Package Amount</span>
                     <span>₹{roundPrice(packagePrice)}</span>
                   </div>
-                  {tabValue == "Self-Driving" && (
+                  {(tabValue == "Self-Driving" || tabValue == "Subscription") && (
                     <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                       <span>Free Kms</span>
                       <span>
-                        {" "}
                         {freeKms != 0 ? `${freeKms}km` : "Unlimited"}
                       </span>
                     </div>
@@ -830,15 +956,13 @@ const CarDetails = () => {
                     </div>
                   )}
 
-
-
-                  {selectedTabValue === "Self-Driving" && selfDropCities.length !== 0 && (
-                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
-                      <span>DropOff City Charges</span>
-                      <span>₹ {selfDropCities}</span>
-                    </div>
-                  )}
-
+                  {selectedTabValue === "Self-Driving" &&
+                    selfDropCities.length !== 0 && (
+                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                        <span>DropOff City Charges</span>
+                        <span>₹ {selfDropCities}</span>
+                      </div>
+                    )}
 
                   {currentPackage?.gst === "Excluded" && (
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
@@ -878,14 +1002,11 @@ const CarDetails = () => {
                     <span>Tolls, Parking & Inner-state taxes</span>
                     <span>{currentPackage?.tollsParkingTaxes}</span>
                   </div>
-
                 </div>
 
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
-                  (tabValue === "Driver" &&
-                    (
-                      radioToggle === "Local"))) && (
+                  (tabValue === "Driver" && radioToggle === "Local")) && (
                     <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
                       {currentPackage?.gst === "Excluded" && (
                         <div className="flex flex-col">
@@ -926,8 +1047,8 @@ const CarDetails = () => {
                           {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
                             2000
                             ? roundPrice(Number(ThirtyDiscountForInculdedTax))
-                            : roundPrice(totalIncludedGSTAmount)}
-                          {" "}Now
+                            : roundPrice(totalIncludedGSTAmount)}{" "}
+                          Now
                         </span>
                       )}
                     {currentPackage?.gst === "Excluded" &&
@@ -988,9 +1109,8 @@ const CarDetails = () => {
                   >
                     Proceed
                   </button>
-
                 </div>
-                <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px] w-full mt-6" >
+                <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px] w-full mt-6">
                   <span>Notes</span>
                   <span>
                     <textarea
@@ -1005,7 +1125,7 @@ const CarDetails = () => {
               </main>
             </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
-            <div className="p-6 sm:px-10 bg-white rounded-lg ">
+            <div className="p-6 sm:px-4 bg-white rounded-lg ">
               <div className="flex gap-4 items-start w-[350px] sm:w-[420px] text-justify">
                 <Image
                   src="/clock.png"

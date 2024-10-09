@@ -112,7 +112,7 @@ export default function Home() {
   return (
     <>
       <div
-        className="z-[-9] relative sm:py-0 sm:mx-20 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden max-w-[1250px]"
+        className="z-[-9] relative sm:py-0 sm:mx-0 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden max-w-[1400px]"
         ref={topFleetForm}
       >
         <BannerSlider banner={cms?.heroBanner} />
@@ -148,7 +148,7 @@ export default function Home() {
         </div>
         
         {offer === "Daily Offers" && (
-          <div className="mx-4 sm:mt-0 mt-4 offerCards">
+          <div className="mx-4 sm:mt-0 mt-4  offerCards">
             {" "}
             <OfferCards banners={cms?.trendingOffer} dailyOffer />{" "}
           </div>
@@ -175,8 +175,8 @@ export default function Home() {
                     <Image
                       src={value?.imageUrl}
                       alt="image"
-                      width={value?.width}
-                      height={value?.height}
+                      width={100}
+                      height={100}
                       className="m-auto h-[93px] sm:w-auto w-[132px]"
                     />
                   </div>
@@ -613,56 +613,56 @@ export default function Home() {
 // ];
 const chooseArray = [
   {
-    imageUrl: "/png/car01.svg",
+    imageUrl: "/png/car01new.png",
     width: 132,
     height: 93,
     title: "Safe and Sanitized Car",
     desc: "Your safety is our priority, with a car that's sanitized for purity.",
   },
   {
-    imageUrl: "/png/car02.svg",
+    imageUrl: "/png/car02new.png",
     width: 132,
     height: 93,
     title: "No Hidden Charges",
     desc: "What you see is what you get, no hidden charges to fret.",
   },
   {
-    imageUrl: "/png/car03.svg",
+    imageUrl: "/png/car03new.png",
     width: 132,
     height: 93,
     title: "Doorstep Delivery",
     desc: "Your new ride, right to your door, with service you'll adore.",
   },
   {
-    imageUrl: "/png/car04.svg",
+    imageUrl: "/png/car04new.png",
     width: 132,
     height: 93,
     title: "Insurance included",
     desc: "Drive hassle free with our completely insured vehicles.",
   },
   {
-    imageUrl: "/png/car05.svg",
+    imageUrl: "/png/car05new.png",
     width: 132,
     height: 93,
     title: "Brand New Fleets",
     desc: "Drive our latest car models with wide variety to choose from.",
   },
   {
-    imageUrl: "/png/car06.svg",
+    imageUrl: "/png/car06new.png",
     width: 132,
     height: 93,
     title: "Road Side Assistance",
     desc: "Support at time of vehicle breaks down or has a mechanical failure.",
   },
   {
-    imageUrl: "/png/car07.svg",
+    imageUrl: "/png/car07new.png",
     width: 32,
     height: 93,
     title: "Flexible Kms",
     desc: "Freedom to choose from Kms as per your travel plan.",
   },
   {
-    imageUrl: "/png/car08.svg",
+    imageUrl: "/png/car08new.png",
     width: 132,
     height: 93,
     title: "Vehicle Health Check",

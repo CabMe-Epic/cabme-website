@@ -164,6 +164,11 @@ export default function Home() {
 
     if (tabValue == "Subscription") {
       localStorage.setItem("radioToggle", "");
+      localStorage.setItem(
+        "dropOffDate",
+        moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
+        moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
+      );
     }
 
     if (
@@ -265,6 +270,7 @@ export default function Home() {
 
     if (tabValue == "Subscription") {
       localStorage.setItem("radioToggle", "");
+
     }
 
     router.push("/car-listing");
@@ -462,7 +468,7 @@ export default function Home() {
       )}
 
       <div
-        className={`max-w-[1250px]  sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative mt-[10px] 
+        className={`max-w-[1250px] mt-2 sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative  
           ${tabValue === "Driver" && radioToggle == "One-way"
             ? "h-[300px]"
             : tabValue === "Driver" && radioToggle == "Out-station"

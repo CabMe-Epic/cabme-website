@@ -363,12 +363,12 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-        ? setCurrentPackage(
+          ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-        ? setCurrentPackage("")
-        : "";
+          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+            ? setCurrentPackage("")
+            : "";
     }
   }, [carDetails]);
 
@@ -421,14 +421,14 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-        ? setCurrentPackage(
+          ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-        ? setCurrentPackage(
-            carDetails?.bookingOptions?.withDriver?.local?.packageType
-          )
-        : "";
+          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+            ? setCurrentPackage(
+              carDetails?.bookingOptions?.withDriver?.local?.packageType
+            )
+            : "";
     }
   }, [carDetails]);
 
@@ -529,8 +529,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     return particalAmount
       ? particalAmount
       : currentPackage?.gst === "Included" && roundPrice(totalIncludedGSTAmount)
-      ? roundPrice(totalIncludedGSTAmount)
-      : currentPackage?.gst === "Excluded" &&
+        ? roundPrice(totalIncludedGSTAmount)
+        : currentPackage?.gst === "Excluded" &&
         roundPrice(totalExcludedGSTAmount);
   }, [
     particalAmount,
@@ -582,7 +582,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               ₹ {packagePrice}
             </span>
           </div>
-          {tabValue == "Self-Driving" && (
+          {(tabValue == "Self-Driving" || tabValue == "Subscription") && (
             <div className="grid grid-cols-2 gap-14  justify-center">
               <span className="w-[220px] sm:ml-4 sm:text-[16px] text-sm">
                 Free Kms

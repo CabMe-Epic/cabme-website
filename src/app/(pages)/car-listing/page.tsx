@@ -248,7 +248,6 @@ const CarListing = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filter items based on isMatchingCriteria
   const matchingItems = filteredItems?.filter(
     (item: {
       bookingDate: string | number | Date;
@@ -381,7 +380,7 @@ const CarListing = () => {
           );
         }
 
-        if (bookingOptions === "Subscription" && locationData.dropOffDateTime && locationData.bookingType) {
+        if (bookingOptions === "Subscription" && locationData.bookingType) {
           const getSearchCarData = await searchVehicleNew(locationData);
           console.log(getSearchCarData, "Car search API response");
           setCarData(getSearchCarData?.data?.

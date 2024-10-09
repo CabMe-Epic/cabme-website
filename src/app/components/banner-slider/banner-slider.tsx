@@ -19,7 +19,7 @@ const BannerSlider = ({banner}: any) => {
  
 
   return (
-    <div className="banner-slider">
+    <div className="banner-slider w-[100%]">
       <Swiper
         modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
