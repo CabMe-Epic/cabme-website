@@ -26,6 +26,7 @@ import { useStore } from "@/app/zustand/store/store";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import { set } from "react-datepicker/dist/date_utils";
+import OfferCards from "@/app/components/offer-cards/offer-cards";
 
 interface PromoCode {
   code: string;
@@ -72,11 +73,24 @@ const CarDetails = () => {
   const [currentPackage, setCurrentPackage] = useState<any>(0);
   const [showDoorStep, setShowDoorStep] = useState(false);
   const [bookingNote, setBookingNote] = useState<any>("");
-
+  const [offer, setOffer] = useState("Daily Offers");
+  const [cms, setCms] = useState<any>();
   const handleShowDoorstepPopup = () => {
     setShowDoorStep(true);
   };
+  useEffect(() => {
+    const getHomePageCMS = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/homepage`);
+        console.log(res, "homepageres");
+        setCms(res?.data);
+      } catch (error) {
+        console.error("Error fetching CMS data:", error);
+      }
+    };
 
+    getHomePageCMS();
+  }, []);
 
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
   const handleSelectItemDoorStep = (arr: any) => {
@@ -699,8 +713,43 @@ const CarDetails = () => {
             </div>
             <div className="my-12">
               <CarFeatures carFeatures={carDetails?.carFeatures as any} />
+              <div className="max-w-[1250px] w-full m-auto mt-20 hidden sm:block">
+                <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
+                  Trending <span className="text-primary"> offers</span>
+                </h2>
+                <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6  mb-0">
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+                      } text-white rounded-l-full cursor-pointer`}
+                    onClick={() => setOffer("Daily Offers")}
+                  >
+                    Daily Offers
+                  </div>
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+                      } text-white rounded-r-full cursor-pointer`}
+                    onClick={() => setOffer("Monthly Offers")}
+                  >
+                    Monthly Offers
+                  </div>
+                </div>
+
+                {offer === "Daily Offers" && (
+                  <div className=" sm:mt-0 mt-4  offerCards">
+                    {" "}
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} dailyOffer />{" "}
+                  </div>
+                )}
+                {offer === "Monthly Offers" && (
+                  <div className=" sm:mt-0 mt-4 offerCards">
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} monthlyOffer />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+          {/*  */}
+
           {/*  */}
           <div>
             <div className="lg:block">
@@ -1040,7 +1089,7 @@ const CarDetails = () => {
                   </p>
 
                   {/* Main Content */}
-                  <div className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white py-4 px-2 rounded-lg flex items-center justify-center space-x-4">
+                  <div className="bg-gradient-to-r from-[#000] to-[#000000] text-white py-4 px-2 rounded-lg flex items-center justify-center space-x-4">
                     <div className="w-20 h-20 flex items-center rounded-full overflow-hidden">
                       <Image src={"/png/dispcount.png"} alt="discount" width={120} height={120} />
                     </div>
@@ -1054,7 +1103,7 @@ const CarDetails = () => {
                   <a href="tel:18001216162" className="font-semibold text-[#F1301E]">
                     <div className="mt-4 flex items-center justify-center space-x-2 text-red-700">
                       <Image src={"/svg/phone-red.svg"} alt="phone" width={15} height={15} />
-                      <p className="font-semibold  text-[#F1301E]">Call us (180012 16162)</p>
+                      <p className="font-semibold  text-[#F1301E]">24*7 Customer Support (Toll Free)</p>
                     </div>
                   </a>
                 </div>
@@ -1152,6 +1201,39 @@ const CarDetails = () => {
 
               </main>
             </div>
+            <div className="max-w-[1250px] w-full m-auto sm:mt-20 block sm:hidden">
+                <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
+                  Trending <span className="text-primary"> offers</span>
+                </h2>
+                <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6  mb-0">
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+                      } text-white rounded-l-full cursor-pointer`}
+                    onClick={() => setOffer("Daily Offers")}
+                  >
+                    Daily Offers
+                  </div>
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+                      } text-white rounded-r-full cursor-pointer`}
+                    onClick={() => setOffer("Monthly Offers")}
+                  >
+                    Monthly Offers
+                  </div>
+                </div>
+
+                {offer === "Daily Offers" && (
+                  <div className=" sm:mt-0 mt-4  offerCards">
+                    {" "}
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} dailyOffer />{" "}
+                  </div>
+                )}
+                {offer === "Monthly Offers" && (
+                  <div className=" sm:mt-0 mt-4 offerCards">
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} monthlyOffer />
+                  </div>
+                )}
+              </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
             <div className="p-6 sm:px-4 bg-white rounded-lg ">
               <div className="flex gap-4 items-start w-[350px] sm:w-[420px] text-justify">

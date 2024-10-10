@@ -20,9 +20,10 @@ interface offerProp {
   dailyOffer?: boolean;
   monthlyOffer?: boolean;
   banners?: any;
+  isDetails?: any
 }
 
-const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
+const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTab, setIsTab] = useState(false)
 
@@ -46,7 +47,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
     <Swiper
       modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
       spaceBetween={10}
-      slidesPerView={isMobile ? 1 : isTab ? 2 : 3}
+      slidesPerView={isMobile ? 1 : isTab ? 2 : isDetails ? 2 : 3}
       navigation
       pagination={{ clickable: true }}
       loop={true}
@@ -56,11 +57,11 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
       }}
     >
       {dailyOffer === true ? (
-        <div className="grid grid-cols-3 gap-6 h-full">
+        <div className={`grid grid-cols-3 gap-6 h-full ${isDetails && "!w-full"}`}>
           {Array.isArray(banners) && (banners || offerCardsArray)?.filter((item: any) => item.daily == true)?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
-                <div className="sm:w-[400px] w-[340px] hover:bg-red-200  sm:h-[250px] h-[260px] m-auto grid grid-cols-2 justify-between gap-1 shadow-xl border rounded-xl p-4 bg-[#fff]">
+                <div className={`sm:w-[400px] w-[340px] hover:bg-red-200  sm:h-[250px] h-[260px] m-auto grid grid-cols-2 justify-between gap-1 shadow-xl border rounded-xl p-4 bg-[#fff] ${isDetails && "!w-[320px] !gap-2"}`}>
                   <div className="flex flex-col h-full justify-between bg-white">
                     <div className="sm:px-2 sm:py-2 px-2 py-[7px]">
                       <h3 className="font-bold sm:text-5xl text-3xl h-fit sm:mb-2 mb-0">
@@ -97,7 +98,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
             {(banners || monthlyOfferCard)?.filter((item: any) => item.daily == false)?.map((item: any, index: number) => {
               return (
                 <SwiperSlide key={index}>
-                  <div className=" m-auto sm:w-[400px] w-[340px]  sm:h-[250px] h-[260px] grid grid-cols-2 gap-1 shadow-xl border rounded-xl p-4 bg-[#FAFAFA]">
+                  <div className={` m-auto sm:w-[400px] w-[340px]  sm:h-[250px] h-[260px] grid grid-cols-2 gap-1 shadow-xl border rounded-xl p-4 bg-[#FAFAFA] ${isDetails && "!w-[320px] !gap-2"}`}>
                     <div className="flex flex-col content-between bg-white relative">
                       <div className="p-2">
                         <h3 className="font-bold sm:text-2xl text-xl h-fit sm:mb-2">
@@ -119,7 +120,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners }: offerProp) => {
                         alt={item?.image?.alt}
                         width={160}
                         height={121}
-                         className="w-[140px] h-full object-cover"
+                        className="w-[140px] h-full object-cover"
                       />
                     </div>
                   </div>

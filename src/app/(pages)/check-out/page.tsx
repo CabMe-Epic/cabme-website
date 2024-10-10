@@ -20,6 +20,7 @@ import { useStore } from "@/app/zustand/store/store";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import ProgressBar from "@/app/components/Progress/progress";
 import moment from "moment";
+import OfferCards from "@/app/components/offer-cards/offer-cards";
 
 interface SelectedUser {
   firstName: string;
@@ -81,6 +82,22 @@ const Checkout = () => {
   const [radioToggle, setRadioToggle] = useState<any>();
   // const { data, setData } = useContextApi();
   const dobref = useRef<any>(null);
+  const [offer, setOffer] = useState("Daily Offers");
+  const [cms, setCms] = useState<any>();
+
+  useEffect(() => {
+    const getHomePageCMS = async () => {
+      try {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/homepage`);
+        console.log(res, "homepageres");
+        setCms(res?.data);
+      } catch (error) {
+        console.error("Error fetching CMS data:", error);
+      }
+    };
+
+    getHomePageCMS();
+  }, []);
 
 
 
@@ -2390,6 +2407,39 @@ const Checkout = () => {
               Continue
             </button>
           </div>
+          <div className="max-w-[1250px] w-full m-auto sm:mt-10 hidden sm:block">
+                {/* <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
+                  Trending <span className="text-primary"> offers</span>
+                </h2> */}
+                <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-0 sm:mb-0 mt-6  mb-0">
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+                      } text-white rounded-l-full cursor-pointer`}
+                    onClick={() => setOffer("Daily Offers")}
+                  >
+                    Daily Offers
+                  </div>
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+                      } text-white rounded-r-full cursor-pointer`}
+                    onClick={() => setOffer("Monthly Offers")}
+                  >
+                    Monthly Offers
+                  </div>
+                </div>
+
+                {offer === "Daily Offers" && (
+                  <div className=" sm:mt-0 mt-4  offerCards">
+                    {" "}
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} dailyOffer />{" "}
+                  </div>
+                )}
+                {offer === "Monthly Offers" && (
+                  <div className=" sm:mt-0 mt-4 offerCards">
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} monthlyOffer />
+                  </div>
+                )}
+              </div>
         </div>
         <div className="max-w-[450px] w-full mx-auto">
           <BookingSummery
@@ -2411,6 +2461,39 @@ const Checkout = () => {
             setSelectedPromoCodeSecond={setSelectedPromoCode}
           />
         </div>
+        <div className="max-w-[1250px] w-full m-auto sm:mt-10 block sm:hidden">
+                <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
+                  Trending <span className="text-primary"> offers</span>
+                </h2>
+                <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-0 sm:mb-0 mt-6  mb-0">
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+                      } text-white rounded-l-full cursor-pointer`}
+                    onClick={() => setOffer("Daily Offers")}
+                  >
+                    Daily Offers
+                  </div>
+                  <div
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+                      } text-white rounded-r-full cursor-pointer`}
+                    onClick={() => setOffer("Monthly Offers")}
+                  >
+                    Monthly Offers
+                  </div>
+                </div>
+
+                {offer === "Daily Offers" && (
+                  <div className=" sm:mt-0 mt-4  offerCards">
+                    {" "}
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} dailyOffer />{" "}
+                  </div>
+                )}
+                {offer === "Monthly Offers" && (
+                  <div className=" sm:mt-0 mt-4 offerCards">
+                    <OfferCards isDetails={true} banners={cms?.trendingOffer} monthlyOffer />
+                  </div>
+                )}
+              </div>
       </div>
       <div className="flex items-center gap-6 justify-center my-10">
         <Image
