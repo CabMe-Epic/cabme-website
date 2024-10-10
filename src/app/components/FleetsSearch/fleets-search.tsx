@@ -470,15 +470,15 @@ export default function Home() {
       <div
         className={`max-w-[1250px] mt-2 sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative  
           ${tabValue === "Driver" && radioToggle == "One-way"
-            ? "h-[300px]"
+            ? "h-[350px]"
             : tabValue === "Driver" && radioToggle == "Out-station"
-              ? "h-[300px]"
+              ? "h-[350px]"
               : tabValue === "Driver" && radioToggle == "Local"
-                ? "h-[300px]"
+                ? "h-[350px]"
                 : tabValue === "Subscription"
                   ? "h-[180px]"
                   : tabValue === "Self-Driving"
-                    ? "h-[230px]"
+                    ? "h-[270px]"
                     : "h-[320px]"
           }`}
       >
