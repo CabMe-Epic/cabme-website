@@ -128,6 +128,7 @@ const FleetsSlider = ({
                       alt={item?.featuredImage?.alt}
                       width={400}
                       height={185}
+                      
                       className="sm:h-[170px] w-auto h-[130px] w-auto m-auto mt-4"
                     />
                   </div>

@@ -83,6 +83,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp)
                       alt={item?.image?.alt}
                       width={120}
                       height={121}
+                      
                       className="w-[140px] h-full object-cover"
                     />
                   </div>
@@ -120,6 +121,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp)
                         alt={item?.image?.alt}
                         width={160}
                         height={121}
+                        
                         className="w-[140px] h-full object-cover"
                       />
                     </div>

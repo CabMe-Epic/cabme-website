@@ -17,7 +17,7 @@ import BannerSlider from "@/app/components/banner-slider/banner-slider";
 import SelectOption from "@/app/components/new-drop-down/new-drop-down";
 import City from "@/app/components/city-selection/city-selection";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
-import BlinkerLoader from "../blinker-loader/blinkerLoader";
+// import BlinkerLoader from "../blinker-loader/blinkerLoader";
 import RadioButtonNew from "../radio-component-new/radio-component-new";
 
 export default function Home() {
@@ -461,11 +461,11 @@ export default function Home() {
 
   return (
     <>
-      {loader && (
+      {/* {loader && (
         <div>
           <BlinkerLoader />
         </div>
-      )}
+      )} */}
 
       <div
         className={`max-w-[1250px] mt-2 sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative  

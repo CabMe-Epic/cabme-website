@@ -43,6 +43,7 @@ const BannerSlider = ({banner}: any) => {
                   alt={item?.alt}
                   width={1650}
                   height={850}
+                  
                   className="w-full h-auto rounded-xl"
                   priority
                 />

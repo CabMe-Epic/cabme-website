@@ -24,6 +24,7 @@ const City = ({ city, isSelected, onClick }: any) => {
                     src={city?.image}
                     alt={city.name}
                     width={100}
+                    
                     height={100}
                     className="w-12 h-12 p-.5 border rounded-md"
                 />

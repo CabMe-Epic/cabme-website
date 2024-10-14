@@ -239,6 +239,7 @@ const CardListingCards = ({ data }: any) => {
           <div className="relative flex flex-col items-center">
             <div className="relative">
               <Image
+                 
                 src={
                   data?.imageGallery?.[currentIndex]?.image ||
                   "/default-image.png"
@@ -255,6 +256,7 @@ const CardListingCards = ({ data }: any) => {
                 className="absolute sm:left-4 left-0 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 sm:w-[40px] w-[32px] sm:h-[40px] h-[32px] bg-transparent rounded-full shadow-md p-2"
               >
                 <Image
+                   
                   src="/png/left-arrow-red.png"
                   alt="Previous"
                   width={24}
@@ -267,6 +269,7 @@ const CardListingCards = ({ data }: any) => {
                 className="absolute sm:right-4 right-0 top-1/2 transform -translate-y-1/2 flex justify-center items-center z-10 sm:w-[40px] w-[32px] sm:h-[40px] h-[32px] bg-transparent rounded-full shadow-md p-2"
               >
                 <Image
+                   
                   src="/png/right-arrow-red.png"
                   alt="Next"
                   width={24}
@@ -935,6 +938,7 @@ const CardListingCards = ({ data }: any) => {
                     className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                   >
                     <Image
+                       
                       src="/carListing/view.png"
                       width={12}
                       objectFit={"contain"}
@@ -1169,6 +1173,7 @@ const CardListingCards = ({ data }: any) => {
                       </h1>
                     </div>
                     <Image
+                       
                       src={data?.featuredImage?.image}
                       width={386}
                       objectFit={"contain"}
@@ -1181,6 +1186,7 @@ const CardListingCards = ({ data }: any) => {
                       className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                     >
                       <Image
+                         
                         src="/carListing/view.png"
                         width={12}
                         objectFit={"contain"}
@@ -1217,6 +1223,7 @@ const CardListingCards = ({ data }: any) => {
                       {data?.carFeatures?.bluetooth === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
+                             
                             src="/carListing/bluetooth.png"
                             width={20}
                             objectFit={"contain"}
@@ -1229,6 +1236,7 @@ const CardListingCards = ({ data }: any) => {
 
                       <div className="flex flex-row items-center gap-2">
                         <Image
+                           
                           src="/carListing/manual.png"
                           width={20}
                           objectFit={"contain"}
@@ -1240,6 +1248,7 @@ const CardListingCards = ({ data }: any) => {
 
                       <div className="flex flex-row items-center gap-2">
                         <Image
+                           
                           src="/carListing/seats.png"
                           width={20}
                           objectFit={"contain"}
@@ -1253,6 +1262,7 @@ const CardListingCards = ({ data }: any) => {
                       {data?.vehicleSpecifications?.fuelType && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
+                             
                             src="/carListing/gas.png"
                             width={20}
                             objectFit={"contain"}
@@ -1267,6 +1277,7 @@ const CardListingCards = ({ data }: any) => {
                       {data?.carFeatures?.navigationSystem === true && (
                         <div className="flex flex-row items-center gap-2">
                           <Image
+                             
                             src="/carListing/gps.png"
                             width={20}
                             objectFit={"contain"}
@@ -1281,6 +1292,7 @@ const CardListingCards = ({ data }: any) => {
 
                       <div className="flex flex-row items-center gap-2">
                         <Image
+                           
                           src="/carListing/bootspace.png"
                           width={20}
                           objectFit={"contain"}
@@ -1323,6 +1335,7 @@ const CardListingCards = ({ data }: any) => {
                       View Details{" "}
                     </span>
                     <Image
+                       
                       src="/carListing/arrow.png"
                       width={10}
                       objectFit={"contain"}
@@ -1341,6 +1354,7 @@ const CardListingCards = ({ data }: any) => {
                       {" "}
                       <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                         <Image
+                           
                           src="/png/red-design.png"
                           width={133}
                           objectFit={"contain"}
@@ -1358,6 +1372,7 @@ const CardListingCards = ({ data }: any) => {
                           </h1>
                         </div>
                         <Image
+                           
                           src={data?.featuredImage?.image}
                           width={386}
                           objectFit={"contain"}
@@ -1370,6 +1385,7 @@ const CardListingCards = ({ data }: any) => {
                           className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                         >
                           <Image
+                             
                             src="/carListing/view.png"
                             width={12}
                             objectFit={"contain"}
@@ -1440,6 +1456,7 @@ const CardListingCards = ({ data }: any) => {
                             </h1>
                           </div>
                           <Image
+                             
                             src={data?.featuredImage?.image}
                             width={386}
                             objectFit={"contain"}
@@ -1452,6 +1469,7 @@ const CardListingCards = ({ data }: any) => {
                             className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px] sm:mt-0 mt-2"
                           >
                             <Image
+                               
                               src="/carListing/view.png"
                               width={12}
                               objectFit={"contain"}
@@ -1492,6 +1510,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/bluetooth.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -1504,6 +1523,7 @@ const CardListingCards = ({ data }: any) => {
 
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/manual.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -1515,6 +1535,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.carFeatures?.navigationSystem === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/gps.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -1526,6 +1547,7 @@ const CardListingCards = ({ data }: any) => {
                             )}
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/seats.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -1537,6 +1559,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.vehicleSpecifications?.fuelType && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/gas.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -1550,6 +1573,7 @@ const CardListingCards = ({ data }: any) => {
                             )}
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/bootspace.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -1594,6 +1618,7 @@ const CardListingCards = ({ data }: any) => {
                             View Details{" "}
                           </span>
                           <Image
+                             
                             src="/carListing/arrow.png"
                             width={10}
                             objectFit={"contain"}
@@ -1610,6 +1635,7 @@ const CardListingCards = ({ data }: any) => {
                       {" "}
                       <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                         <Image
+                           
                           src="/png/red-design.png"
                           width={133}
                           objectFit={"contain"}
@@ -1627,6 +1653,7 @@ const CardListingCards = ({ data }: any) => {
                           </h1>
                         </div>
                         <Image
+                           
                           src={data?.featuredImage?.image}
                           width={386}
                           objectFit={"contain"}
@@ -1639,6 +1666,7 @@ const CardListingCards = ({ data }: any) => {
                           className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                         >
                           <Image
+                             
                             src="/carListing/view.png"
                             width={12}
                             objectFit={"contain"}
@@ -1907,6 +1935,7 @@ const CardListingCards = ({ data }: any) => {
                             </h1>
                           </div>
                           <Image
+                             
                             src={data?.featuredImage?.image}
                             width={386}
                             objectFit={"contain"}
@@ -1919,6 +1948,7 @@ const CardListingCards = ({ data }: any) => {
                             className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px] sm:mt-0 mt-2"
                           >
                             <Image
+                               
                               src="/carListing/view.png"
                               width={12}
                               objectFit={"contain"}
@@ -1959,6 +1989,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/bluetooth.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -1971,6 +2002,7 @@ const CardListingCards = ({ data }: any) => {
 
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/manual.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -1982,6 +2014,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.carFeatures?.navigationSystem === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/gps.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -1993,6 +2026,7 @@ const CardListingCards = ({ data }: any) => {
                             )}
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/seats.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -2004,6 +2038,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.vehicleSpecifications?.fuelType && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/gas.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -2017,6 +2052,7 @@ const CardListingCards = ({ data }: any) => {
                             )}
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/bootspace.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -2061,6 +2097,7 @@ const CardListingCards = ({ data }: any) => {
                             View Details{" "}
                           </span>
                           <Image
+                             
                             src="/carListing/arrow.png"
                             width={10}
                             objectFit={"contain"}
@@ -2076,6 +2113,7 @@ const CardListingCards = ({ data }: any) => {
                     <>
                       <div className="absolute sm:block -left-2 sm:top-[20px] top-[15px] z-10 w-fit">
                         <Image
+                           
                           src="/png/red-design.png"
                           width={133}
                           objectFit={"contain"}
@@ -2093,6 +2131,7 @@ const CardListingCards = ({ data }: any) => {
                           </h1>
                         </div>
                         <Image
+                           
                           src={data?.featuredImage?.image}
                           width={386}
                           objectFit={"contain"}
@@ -2105,6 +2144,7 @@ const CardListingCards = ({ data }: any) => {
                           className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                         >
                           <Image
+                             
                             src="/carListing/view.png"
                             width={12}
                             objectFit={"contain"}
@@ -2209,6 +2249,7 @@ const CardListingCards = ({ data }: any) => {
                             </h1>
                           </div>
                           <Image
+                             
                             src={data?.featuredImage?.image}
                             width={386}
                             objectFit={"contain"}
@@ -2221,6 +2262,7 @@ const CardListingCards = ({ data }: any) => {
                             className="flex flex-row items-center gap-2 border-[1.2px] border-[#ff0000] px-1 rounded-md mb-4 cursor-pointer py-[3px]"
                           >
                             <Image
+                               
                               src="/carListing/view.png"
                               width={12}
                               objectFit={"contain"}
@@ -2250,6 +2292,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.carFeatures?.bluetooth === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/bluetooth.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -2262,6 +2305,7 @@ const CardListingCards = ({ data }: any) => {
 
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/manual.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -2273,6 +2317,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.carFeatures?.navigationSystem === true && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/gps.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -2285,6 +2330,7 @@ const CardListingCards = ({ data }: any) => {
                             {/* seating capacity */}
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/seats.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -2296,6 +2342,7 @@ const CardListingCards = ({ data }: any) => {
                             {data?.vehicleSpecifications?.fuelType && (
                               <div className="flex flex-row items-center gap-2">
                                 <Image
+                                   
                                   src="/carListing/gas.png"
                                   width={20}
                                   objectFit={"contain"}
@@ -2310,6 +2357,7 @@ const CardListingCards = ({ data }: any) => {
 
                             <div className="flex flex-row items-center gap-2">
                               <Image
+                                 
                                 src="/carListing/bootspace.png"
                                 width={20}
                                 objectFit={"contain"}
@@ -2354,6 +2402,7 @@ const CardListingCards = ({ data }: any) => {
                             View Details{" "}
                           </span>
                           <Image
+                             
                             src="/carListing/arrow.png"
                             width={10}
                             objectFit={"contain"}
@@ -2392,6 +2441,7 @@ const CardListingCards = ({ data }: any) => {
                     <div className="grid sm:grid-cols-4 gap-4 w-full">
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
+                           
                           src="/carListingBanner/baseCar.svg"
                           width={25}
                           height={25}
@@ -2402,6 +2452,7 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
+                           
                           src="/carListingBanner/trip.svg"
                           width={25}
                           height={25}
@@ -2414,6 +2465,7 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
+                           
                           src="/carListingBanner/gst.svg"
                           width={25}
                           height={10}
@@ -2424,6 +2476,7 @@ const CardListingCards = ({ data }: any) => {
                       </div>
                       <div className="flex flex-row gap-2 items-center bg-white px-4 py-2 rounded-md h-[42px] border border-[#FF0000] shadow-tabs-shadow">
                         <Image
+                           
                           src="/carListingBanner/deposit.svg"
                           width={25}
                           height={25}
