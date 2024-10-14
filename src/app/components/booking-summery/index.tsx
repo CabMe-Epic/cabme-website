@@ -49,6 +49,8 @@ interface ChildComponentProps {
   totalAmount: number;
   vehicleId: any;
   paymentMode: any;
+  fromDate: any,
+  toDate: any
 }
 
 interface VehicleSearchPayload {
@@ -68,6 +70,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   paymentMode,
   vehicleId,
   totalAmount,
+  fromDate,
+  toDate
 }: any) => {
   const router = useRouter();
   const { slug } = useParams();
@@ -713,7 +717,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </span>
           </div>
         </div>
-        
+
         <div className="w-full">
           {/* <span className="flex flex-row my-5 mt-10">
             <Image
@@ -813,7 +817,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           </div>
           {/* </div> */}
         </div>
-        
+
         <div className="w-full mt-10">
           <span className="flex flex-col my-5 mt-2">
             <div className="flex gap-2 ml-2 items-center">
@@ -859,10 +863,10 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                 <p>₹{roundPrice(priceAfterDiscountNew)}</p>
               </div>
             )}
-                 <div className="mt-6 w-full p-2 border-2 border-[#F1301E] mb-0 rounded-lg shadow-md text-center">
-        <p className="text-sm font-semibold mb-2 text-[#F1301E]">
-        You can apply coupon code after mobile number verification.        </p>
-      </div>
+            <div className="mt-6 w-full p-2 border-2 border-[#F1301E] mb-0 rounded-lg shadow-md text-center">
+              <p className="text-sm font-semibold mb-2 text-[#F1301E]">
+                You can apply coupon code after mobile number verification.        </p>
+            </div>
 
             {/* {payableAmount && ( 
               <div className="font-semibold flex justify-between mt-2">
@@ -926,7 +930,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </div>
           </div>
         </div>
-   
+
         {/* <div className="flex flex-col items-center border-[1.5px] max-w-[423px] w-full py-2 rounded-3xl border-[#ff0000] cursor-pointer">
                     <span className="font-bold text-md">Pay ₹10,000 Now</span>
                     <span className="text-[#ff0000] font-semibold text-[15px]">
@@ -934,7 +938,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                     </span>
                 </div> */}
       </main>
-      
+
       {applyCoupon === true && (
         <ApplyCoupon
           promoCodes={promoCodes}
@@ -945,13 +949,15 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           paymentMode={paymentMode}
           totalAmount={totalAmount}
           vehicleId={vehicleId}
+          fromDate={fromDate}
+          toDate={toDate}
           userIdPromo={userIdPromo}
           onClick={() => setApplyCoupon(false)}
           setSelectedPromoCode={setSelectedPromoCode}
         />
       )}
 
- 
+
     </div>
   );
 };

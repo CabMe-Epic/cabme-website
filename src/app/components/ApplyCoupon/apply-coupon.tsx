@@ -15,6 +15,8 @@ interface CouponProp {
   paymentMode: string;
   discountApplyAmount: any;
   appliedCode: any;
+  fromDate: any;
+  toDate: any;
   // discountType: any;
 }
 
@@ -29,13 +31,17 @@ const ApplyCoupon = ({
   paymentMode,
   discountApplyAmount,
   appliedCode,
+  fromDate,
+  toDate
   // discountType
 }: CouponProp) => {
   const [code, setCode] = useState<string>("");
   const [errMsg, setErrMsg] = useState<string>("");
   const [gotAmount, setGotAmount] = useState("");
 
-  console.log(paymentMode,"paymentMode")
+  console.log(paymentMode, "paymentMode")
+
+  // alert(`${toDate} ${fromDate}`)
 
   const payload = {
     couponCode: code,
@@ -43,7 +49,9 @@ const ApplyCoupon = ({
     totalAmount: totalAmount,
     vehicleId: vehicleId,
     paymentmode: paymentMode,
-    
+    toDate: toDate,
+    fromDate: fromDate
+
   };
 
   const handleApply = useCallback(async (e: any) => {
@@ -64,7 +72,7 @@ const ApplyCoupon = ({
       discountApplyAmount(res?.data.promocode.discountApplied);
       appliedCode(res?.data.promocode.code)
       setSelectedPromoCode(res?.data.promocode);
-     
+
       alert("Coupon applied successfully!");
 
       if (setHide) {
@@ -77,10 +85,10 @@ const ApplyCoupon = ({
     }
   }, [code, totalAmount, vehicleId, userIdPromo, paymentMode, setHide]);
 
-  console.log(gotAmount,"gotAmount")
+  console.log(gotAmount, "gotAmount")
 
   return (
-    <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center">
+    <div className="fixed w-screen h-screen top-0 backdrop-blur-md left-0 flex items-center justify-center z-[9]">
       <div className="bg-white border rounded-xl w-fit overflow-hidden  w-[350px] md:max-w-[500px] md:w-[500px] relative">
         <p className="py-2 px-4 bg-primary-color text-white font-semibold tracking-wide">
           Apply Coupon

@@ -2407,7 +2407,7 @@ const Checkout = () => {
               Continue
             </button>
           </div>
-          <div className="max-w-[1250px] w-full m-auto sm:mt-10 hidden sm:block">
+          <div className="max-w-[1250px] w-full m-auto sm:mt-10 hidden sm:block z-0">
             {/* <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
                   Trending <span className="text-primary"> offers</span>
                 </h2> */}
@@ -2459,6 +2459,8 @@ const Checkout = () => {
             particalAmount={particalAmount}
             packageFreeKmSecond={setPackageFreeKms}
             setSelectedPromoCodeSecond={setSelectedPromoCode}
+            fromDate={bookingData.pickUpDateTime}
+            toDate={bookingData.dropOffDateTime}
           />
         </div>
         <div className="max-w-[1250px] w-full m-auto sm:mt-10 block sm:hidden">

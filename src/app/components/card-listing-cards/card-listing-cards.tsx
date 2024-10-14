@@ -712,7 +712,7 @@ const CardListingCards = ({ data }: any) => {
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="lg:text-[15px] text-[10px]">
+                            <span className="lg:text-[15px] text-[8px]">
                               Bluetooth
                             </span>
                           </div>
@@ -726,7 +726,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="lg:text-[15px] text-[10px]">
+                          <span className="lg:text-[15px] text-[8px]">
                             Manual
                           </span>
                         </div>
@@ -739,12 +739,12 @@ const CardListingCards = ({ data }: any) => {
                               height={20}
                               alt="bluetooth"
                             />
-                            <span className="lg:text-[15px] text-[10px]">
+                            <span className="lg:text-[15px] text-[8px]">
                               GPS Navigation
                             </span>
 
                             {/* <Tooltip tooltipText="GPS Navigation">
-                              <span className="lg:text-[15px] text-[10px]">
+                              <span className="lg:text-[15px] text-[8px]">
                                 GPS Nav...
                               </span>
                             </Tooltip> */}
@@ -758,7 +758,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="lg:text-[15px] text-[10px]">
+                          <span className="lg:text-[15px] text-[8px]">
                             {data?.seatingCapacity} Person
                           </span>
                         </div>
@@ -770,7 +770,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="lg:text-[15px] text-[10px]">
+                          <span className="lg:text-[15px] text-[8px]">
                             {data?.vehicleSpecifications?.fuelType}
                           </span>
                         </div>
@@ -782,7 +782,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="lg:text-[15px] text-[10px]">
+                          <span className="lg:text-[15px] text-[8px]">
                             Boot Space
                           </span>
                         </div>
@@ -992,7 +992,7 @@ const CardListingCards = ({ data }: any) => {
                       </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
-                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
+                        <p className="text-[#565454] sm:block font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package1?.duration
@@ -1001,7 +1001,7 @@ const CardListingCards = ({ data }: any) => {
                         {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000]">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[13px] whitespace-nowrap w-full overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-center m-auto text-[10px] whitespace-nowrap w-full overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package1?.kmsLimit == 0
                               ? "Unlimited"
@@ -1062,7 +1062,7 @@ const CardListingCards = ({ data }: any) => {
                       </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
-                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
+                        <p className="text-[#565454] sm:block font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package2?.duration
@@ -1071,7 +1071,7 @@ const CardListingCards = ({ data }: any) => {
                         {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] min-w-[70px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] min-w-[70px] whitespace-nowrap w-full text-center m-auto overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package2?.kmsLimit == 0
                               ? "Unlimited"
@@ -1118,7 +1118,7 @@ const CardListingCards = ({ data }: any) => {
                         : ""
                         }`}
                     >
-                      <span className="font-bold sm:text-[18px] text-[18px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
+                      <span className="font-bold sm:text-[18px] text-[16px] leading-none block w-full text-center whitespace-nowrap sm:my-0 my-[3px]">
                         ₹{" "}
                         {(() => {
                           const price =
@@ -1132,7 +1132,7 @@ const CardListingCards = ({ data }: any) => {
                       </span>
                       <span className="flex flex-col gap-0">
                         {/* for desktop */}
-                        <p className="text-[#565454] sm:block hidden font-[500] sm:text-[14px] text-[13px] text-center">
+                        <p className="text-[#565454] sm:block font-[500] sm:text-[14px] text-[10px] text-center">
                           {
                             data?.bookingOptions?.subscription?.packageType
                               ?.package3?.duration
@@ -1141,7 +1141,7 @@ const CardListingCards = ({ data }: any) => {
                         {/* desktop end */}
                         <hr className="border-[#000000] border-[1.2px] sm:block hidden my-[3px]" />
                         <span className="relative flex flex-row group text-[#FF0000] cursor-pointer">
-                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[13px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
+                          <p className="text-[#FF0000] font-[500] sm:text-[14px] text-[10px] text-center m-auto whitespace-nowrap w-full overflow-hidden">
                             {data?.bookingOptions?.subscription?.packageType
                               ?.package3?.kmsLimit == 0
                               ? "Unlimited"
@@ -1230,7 +1230,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="text-xs">Bluetooth</span>
+                          <span className="lg:text-[15px] text-[10px]">Bluetooth</span>
                         </div>
                       )}
 
@@ -1243,7 +1243,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span className="text-xs">Manual</span>
+                        <span className="lg:text-[15px] text-[10px]">Manual</span>
                       </div>
 
                       <div className="flex flex-row items-center gap-2">
@@ -1255,7 +1255,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span className="text-xs">
+                        <span className="lg:text-[15px] text-[10px]">
                           {data?.seatingCapacity} Person
                         </span>
                       </div>
@@ -1269,7 +1269,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="text-xs">
+                          <span className="lg:text-[15px] text-[10px]">
                             {data?.vehicleSpecifications?.fuelType}
                           </span>
                         </div>
@@ -1284,7 +1284,7 @@ const CardListingCards = ({ data }: any) => {
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="whitespace-nowrap text-xs">
+                          <span className="whitespace-nowrap lg:text-[15px] text-[10px]">
                             GPS Navigation
                           </span>
                         </div>
@@ -1299,7 +1299,7 @@ const CardListingCards = ({ data }: any) => {
                           height={20}
                           alt="bluetooth"
                         />
-                        <span className="text-xs">Boot Space</span>
+                        <span className="lg:text-[15px] text-[10px]">Boot Space</span>
                       </div>
                     </div>
                     <div className="m-0 sm:block flex justify-end sm:mr-0">

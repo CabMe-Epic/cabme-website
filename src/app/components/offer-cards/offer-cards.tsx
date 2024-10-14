@@ -43,6 +43,18 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp)
     };
   }, []);
 
+  const copyToClipboard = (couponCode: any) => {
+    if (couponCode) {
+      navigator.clipboard.writeText(couponCode)
+        .then(() => {
+          alert('Coupon code copied to clipboard!');
+        })
+        .catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
+  };
+
   return (
     <Swiper
       modules={[Navigation, Autoplay, Pagination, Scrollbar, A11y]}
@@ -57,7 +69,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp)
       }}
     >
       {dailyOffer === true ? (
-        <div className={`grid grid-cols-3 gap-6 h-full ${isDetails && "!w-full"}`}>
+        <div className={`grid grid-cols-3 gap-6 h-full ${isDetails && "!w-full"} z-0`}>
           {Array.isArray(banners) && (banners || offerCardsArray)?.filter((item: any) => item.daily == true)?.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
@@ -73,8 +85,9 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp)
                       </div>
                       <p className="text-[8px] ">{item?.description}</p>
                     </div>
-                    <div className="bg-primary-color text-white h-[30px] sm:mt-1 text-center flex justify-center items-center">
+                    <div onClick={() => copyToClipboard(item?.couponCode)} className="bg-primary-color flex flex-row gap-2 items-center cursor-pointer text-white h-[30px] sm:mt-1 text-center flex justify-center items-center">
                       {item?.couponCode}
+                      <Image src="/copyPng.png" alt={""} width={20} height={20} />
                     </div>
                   </div>
                   <div className="w-full sm:h-full h-full flex justify-end">
@@ -95,7 +108,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp)
       )
         :
         monthlyOffer === true ?
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-6 z-0">
             {(banners || monthlyOfferCard)?.filter((item: any) => item.daily == false)?.map((item: any, index: number) => {
               return (
                 <SwiperSlide key={index}>
@@ -111,7 +124,7 @@ const OfferCards = ({ dailyOffer, monthlyOffer, banners, isDetails }: offerProp)
                         </div>
                         <p className="text-[8px]">{item?.description}</p>
                       </div>
-                      <div className="bg-primary-color text-white h-fit mt-1 text-center w-full absolute bottom-0">
+                      <div onClick={() => copyToClipboard(item?.couponCode)} className="cursor-pointer bg-primary-color text-white h-fit mt-1 text-center w-full absolute bottom-0">
                         {item?.couponCode}
                       </div>
                     </div>
