@@ -714,19 +714,20 @@ const CardListingCards = ({ data }: any) => {
                             </span>
                           </div>
                         )}
-
-                        <div className="flex flex-row items-center gap-2">
+                    
+                          <div className="flex flex-row items-center gap-2">
                           <Image
-                            src="/carListing/manual.png"
-                            width={18}
+                              src="/carListing/manual.png"
+                              width={18}
                             objectFit={"contain"}
                             height={20}
                             alt="bluetooth"
                           />
-                          <span className="lg:text-[15px] text-[10px]">
-                            Manual
-                          </span>
-                        </div>
+                            <span className="lg:text-[15px] text-[10px]">
+                             {data?.vehicleSpecifications?.transmission}
+                            </span>
+                          </div>
+                        
                         {data?.carFeatures?.navigationSystem === true && (
                           <div className="flex flex-row items-center gap-2 cursor-pointer">
                             <Image
