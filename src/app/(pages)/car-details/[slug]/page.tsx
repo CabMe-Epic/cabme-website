@@ -81,7 +81,9 @@ const CarDetails = () => {
   useEffect(() => {
     const getHomePageCMS = async () => {
       try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_URI_BASE}/cabme/homepage`);
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/homepage`
+        );
         console.log(res, "homepageres");
         setCms(res?.data);
       } catch (error) {
@@ -377,18 +379,17 @@ const CarDetails = () => {
       });
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(
-          carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
-        )
-        : setCurrentPackage(
-          carDetails?.bookingOptions.withDriver?.oneway?.doorstepDelivery.find(
-            (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
+            carDetails?.bookingOptions?.selfDrive?.packageType?.package1.price
           )
-        );
+        : setCurrentPackage(
+            carDetails?.bookingOptions.withDriver?.oneway?.doorstepDelivery.find(
+              (item: any) => (item?.city === dropoffLocation ? item?.price : 0)
+            )
+          );
     }
   }, [locationData, slug, dropoffLocation, bookingOpt, radioToggle]);
 
-
-  console.log(currentPackage, "currentPackage")
+  console.log(currentPackage, "currentPackage");
 
   console.log(dropoffLocation, "dropoffLocation");
 
@@ -455,14 +456,14 @@ const CarDetails = () => {
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage(
-              carDetails?.bookingOptions?.withDriver?.local?.packageType
-            )
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage(
+            carDetails?.bookingOptions?.withDriver?.local?.packageType
+          )
+        : "";
     }
   }, [carDetails]);
   if (loading) {
@@ -482,17 +483,17 @@ const CarDetails = () => {
   const package1FreeKms =
     Number(
       currentPackage?.package1?.kmsLimit *
-      (((days as number) + hours / 24) as number)
+        (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
   const package2FreeKms =
     Number(
       currentPackage?.package2?.kmsLimit *
-      (((days as number) + hours / 24) as number)
+        (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
   const package3FreeKms =
     Number(
       currentPackage?.package3?.kmsLimit *
-      (((days as number) + hours / 24) as number)
+        (((days as number) + hours / 24) as number)
     ).toFixed(0) || 0;
 
   let totalHours = days * 24 + hours + minutes / 60;
@@ -525,7 +526,7 @@ const CarDetails = () => {
         "selectedPackageFreeKms",
         package2FreeKms.toString()
       );
-      setRed2(true)
+      setRed2(true);
       setRed1(false);
       setRed3(false);
     }
@@ -535,7 +536,7 @@ const CarDetails = () => {
         "selectedPackageFreeKms",
         package3FreeKms.toString()
       );
-      setRed2(false)
+      setRed2(false);
       setRed1(false);
       setRed3(true);
     }
@@ -719,15 +720,17 @@ const CarDetails = () => {
                 </h2>
                 <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6  mb-0">
                   <div
-                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
-                      } text-white rounded-l-full cursor-pointer`}
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+                      offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+                    } text-white rounded-l-full cursor-pointer`}
                     onClick={() => setOffer("Daily Offers")}
                   >
                     Daily Offers
                   </div>
                   <div
-                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
-                      } text-white rounded-r-full cursor-pointer`}
+                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+                      offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+                    } text-white rounded-r-full cursor-pointer`}
                     onClick={() => setOffer("Monthly Offers")}
                   >
                     Monthly Offers
@@ -737,12 +740,20 @@ const CarDetails = () => {
                 {offer === "Daily Offers" && (
                   <div className=" sm:mt-0 mt-4  offerCards">
                     {" "}
-                    <OfferCards isDetails={true} banners={cms?.trendingOffer} dailyOffer />{" "}
+                    <OfferCards
+                      isDetails={true}
+                      banners={cms?.trendingOffer}
+                      dailyOffer
+                    />{" "}
                   </div>
                 )}
                 {offer === "Monthly Offers" && (
                   <div className=" sm:mt-0 mt-4 offerCards">
-                    <OfferCards isDetails={true} banners={cms?.trendingOffer} monthlyOffer />
+                    <OfferCards
+                      isDetails={true}
+                      banners={cms?.trendingOffer}
+                      monthlyOffer
+                    />
                   </div>
                 )}
               </div>
@@ -769,20 +780,32 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 1";
-                          const selectedValue = roundPrice(package1Price).toString();
+                          const selectedValue =
+                            roundPrice(package1Price).toString();
 
-                          if (bookingOptions == "Self-Driving" && package1FreeKms == 0 && totalHours < 48) {
+                          if (
+                            bookingOptions == "Self-Driving" &&
+                            package1FreeKms == 0 &&
+                            totalHours < 48
+                          ) {
                             alert(
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
-                            setSelectedPackageAmount(roundPrice(package1Price).toString());
-                            handlePriceChange(roundPrice(package1Price).toString(), packageName);
+                            setSelectedPackageAmount(
+                              roundPrice(package1Price).toString()
+                            );
+                            handlePriceChange(
+                              roundPrice(package1Price).toString(),
+                              packageName
+                            );
                             return;
                           }
 
                           handlePriceChange(selectedValue, packageName);
                         }}
-                        className={`bg-[#fff] click:bg-red-400 rounded-md p-2 cursor-pointer border border-[#fff0] hover:border-[#ccc] px-4 font-bold whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${red1 && "bg-red-600 text-[#fff]"}`}
+                        className={`bg-[#fff] click:bg-red-400 rounded-md p-2 cursor-pointer border border-[#fff0] hover:border-[#ccc] px-4 font-bold whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${
+                          red1 && "bg-red-600 text-[#fff]"
+                        }`}
                       >
                         {package1Duration}
                       </button>
@@ -790,20 +813,32 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 2";
-                          const selectedValue = roundPrice(package2Price).toString();
+                          const selectedValue =
+                            roundPrice(package2Price).toString();
 
-                          if (bookingOptions == "Self-Driving" && package2FreeKms == 0 && totalHours < 48) {
+                          if (
+                            bookingOptions == "Self-Driving" &&
+                            package2FreeKms == 0 &&
+                            totalHours < 48
+                          ) {
                             alert(
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
-                            setSelectedPackageAmount(roundPrice(package1Price).toString());
-                            handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                            setSelectedPackageAmount(
+                              roundPrice(package1Price).toString()
+                            );
+                            handlePriceChange(
+                              roundPrice(package1Price).toString(),
+                              "Package 1"
+                            );
                             return;
                           }
 
                           handlePriceChange(selectedValue, packageName);
                         }}
-                        className={`bg-[#fff] rounded-md p-2 cursor-pointer border border-[#fff0] font-bold  hover:border-[#ccc] px-4 whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${red2 && "bg-red-600 text-[#fff]"}`}
+                        className={`bg-[#fff] rounded-md p-2 cursor-pointer border border-[#fff0] font-bold  hover:border-[#ccc] px-4 whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${
+                          red2 && "bg-red-600 text-[#fff]"
+                        }`}
                       >
                         {package2Duration}
                       </button>
@@ -811,144 +846,151 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 3";
-                          const selectedValue = roundPrice(package3Price).toString();
+                          const selectedValue =
+                            roundPrice(package3Price).toString();
 
-                          if (bookingOptions == "Self-Driving" && package3FreeKms == 0 && totalHours < 48) {
+                          if (
+                            bookingOptions == "Self-Driving" &&
+                            package3FreeKms == 0 &&
+                            totalHours < 48
+                          ) {
                             alert(
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
-                            setSelectedPackageAmount(roundPrice(package1Price).toString());
-                            handlePriceChange(roundPrice(package1Price).toString(), "Package 1");
+                            setSelectedPackageAmount(
+                              roundPrice(package1Price).toString()
+                            );
+                            handlePriceChange(
+                              roundPrice(package1Price).toString(),
+                              "Package 1"
+                            );
                             return;
                           }
 
                           handlePriceChange(selectedValue, packageName);
                         }}
-                        className={`bg-[#fff] font-bold  rounded-md p-2 cursor-pointer border border-[#fff0] hover:border-[#ccc] px-4 whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${red3 && "bg-red-600 text-[#fff]"}`}
+                        className={`bg-[#fff] font-bold  rounded-md p-2 cursor-pointer border border-[#fff0] hover:border-[#ccc] px-4 whitespace-nowrap hover:bg-red-500 hover:text-[#fff] ${
+                          red3 && "bg-red-600 text-[#fff]"
+                        }`}
                       >
                         {package3Duration}
                       </button>
-
                     </div>
                   </div>
                 )}
 
-
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" && radioToggle === "Local")) && (
-                    <div className="my-5 flex justify-between items-center w-full text-[14px] sm:text-[16px]">
-                      <span className="font-semibold">Package Name</span>
-                      <select
-                        value={selectedPackageAmount}
-                        name="package"
-                        id="package"
-                        className="cursor-pointer w-[180px] sm:w-[w-350px] text-[14px] sm:text-[16px] p-2 rounded-md font-semibold outline-none"
-                        onChange={(event) => {
-                          const selectedValue = event.target.value;
-                          let packageName = "";
+                  <div className="my-5 flex justify-between items-center w-full text-[14px] sm:text-[16px]">
+                    <span className="font-semibold">Package Name</span>
+                    <select
+                      value={selectedPackageAmount}
+                      name="package"
+                      id="package"
+                      className="cursor-pointer w-[180px] sm:w-[w-350px] text-[14px] sm:text-[16px] p-2 rounded-md font-semibold outline-none"
+                      onChange={(event) => {
+                        const selectedValue = event.target.value;
+                        let packageName = "";
 
-                          switch (selectedValue) {
-                            case roundPrice(package1Price).toString():
-                              packageName = "Package 1";
-                              break;
-                            case roundPrice(package2Price).toString():
-                              packageName = "Package 2";
-                              break;
-                            case roundPrice(package3Price).toString():
-                              packageName = "Package 3";
-                              break;
-                            default:
-                              packageName = "Select Package";
-                          }
+                        switch (selectedValue) {
+                          case roundPrice(package1Price).toString():
+                            packageName = "Package 1";
+                            break;
+                          case roundPrice(package2Price).toString():
+                            packageName = "Package 2";
+                            break;
+                          case roundPrice(package3Price).toString():
+                            packageName = "Package 3";
+                            break;
+                          default:
+                            packageName = "Select Package";
+                        }
 
-                          if (bookingOptions == "Self-Driving") {
-                            if (
-                              packageName == "Package 1" &&
-                              package1FreeKms == 0
-                            ) {
-                              if (totalHours < 48) {
-                                alert(
-                                  "To select the unlimited package, the minimum booking duration must be at least 2 days."
-                                );
-                                setSelectedPackageAmount(
-                                  roundPrice(package1Price).toString()
-                                ); // Revert to Package 1
-                                handlePriceChange(
-                                  roundPrice(package1Price).toString(),
-                                  "Package 1"
-                                );
-                                return;
-                              }
-                            }
-                            if (
-                              packageName == "Package 2" &&
-                              package2FreeKms == 0
-                            ) {
-                              if (totalHours < 48) {
-                                alert(
-                                  "To select the unlimited package, the minimum booking duration must be at least 2 days."
-                                );
-                                setSelectedPackageAmount(
-                                  roundPrice(package1Price).toString()
-                                ); // Revert to Package 1
-                                handlePriceChange(
-                                  roundPrice(package1Price).toString(),
-                                  "Package 1"
-                                );
-                                return;
-                              }
-                            }
-                            if (
-                              packageName == "Package 3" &&
-                              package3FreeKms == 0
-                            ) {
-                              if (totalHours < 48) {
-                                alert(
-                                  "To select the unlimited package, the minimum booking duration must be at least 2 days."
-                                );
-                                setSelectedPackageAmount(
-                                  roundPrice(package1Price).toString()
-                                ); // Revert to Package 1
-                                handlePriceChange(
-                                  roundPrice(package1Price).toString(),
-                                  "Package 1"
-                                );
-                                return;
-                              }
+                        if (bookingOptions == "Self-Driving") {
+                          if (
+                            packageName == "Package 1" &&
+                            package1FreeKms == 0
+                          ) {
+                            if (totalHours < 48) {
+                              alert(
+                                "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                              );
+                              setSelectedPackageAmount(
+                                roundPrice(package1Price).toString()
+                              ); // Revert to Package 1
+                              handlePriceChange(
+                                roundPrice(package1Price).toString(),
+                                "Package 1"
+                              );
+                              return;
                             }
                           }
+                          if (
+                            packageName == "Package 2" &&
+                            package2FreeKms == 0
+                          ) {
+                            if (totalHours < 48) {
+                              alert(
+                                "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                              );
+                              setSelectedPackageAmount(
+                                roundPrice(package1Price).toString()
+                              ); // Revert to Package 1
+                              handlePriceChange(
+                                roundPrice(package1Price).toString(),
+                                "Package 1"
+                              );
+                              return;
+                            }
+                          }
+                          if (
+                            packageName == "Package 3" &&
+                            package3FreeKms == 0
+                          ) {
+                            if (totalHours < 48) {
+                              alert(
+                                "To select the unlimited package, the minimum booking duration must be at least 2 days."
+                              );
+                              setSelectedPackageAmount(
+                                roundPrice(package1Price).toString()
+                              ); // Revert to Package 1
+                              handlePriceChange(
+                                roundPrice(package1Price).toString(),
+                                "Package 1"
+                              );
+                              return;
+                            }
+                          }
+                        }
 
-                          // Send the selected package name and price
-                          handlePriceChange(selectedValue, packageName);
-                        }}
-                      >
-                        <option value={roundPrice(package1Price)}>
-                          ₹{roundPrice(package1Price)}
-                        </option>
-                        <option value={roundPrice(package2Price)}>
-                          ₹{roundPrice(package2Price)}
-                        </option>
-                        <option value={roundPrice(package3Price)}>
-                          ₹{roundPrice(package3Price)}
-                        </option>
-                      </select>
-                    </div>
-                  )}
-
-
+                        // Send the selected package name and price
+                        handlePriceChange(selectedValue, packageName);
+                      }}
+                    >
+                      <option value={roundPrice(package1Price)}>
+                        ₹{roundPrice(package1Price)}
+                      </option>
+                      <option value={roundPrice(package2Price)}>
+                        ₹{roundPrice(package2Price)}
+                      </option>
+                      <option value={roundPrice(package3Price)}>
+                        ₹{roundPrice(package3Price)}
+                      </option>
+                    </select>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 gap-4 mt-0 font-semibold text-[14px] sm:text-[18px]">
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                     <span>Package Amount</span>
                     <span>₹{roundPrice(packagePrice)}</span>
                   </div>
-                  {(tabValue == "Self-Driving" || tabValue == "Subscription") && (
+                  {(tabValue == "Self-Driving" ||
+                    tabValue == "Subscription") && (
                     <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                       <span>Free Kms</span>
-                      <span>
-                        {freeKms != 0 ? `${freeKms}km` : "Unlimited"}
-                      </span>
+                      <span>{freeKms != 0 ? `${freeKms}km` : "Unlimited"}</span>
                     </div>
                   )}
 
@@ -1033,19 +1075,19 @@ const CarDetails = () => {
 
                   {(tabValue === "Self-Driving" ||
                     tabValue === "Subscription") && (
-                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
-                        <span>Fuel</span>
-                        <span>{currentPackage?.fuel}</span>
-                      </div>
-                    )}
+                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                      <span>Fuel</span>
+                      <span>{currentPackage?.fuel}</span>
+                    </div>
+                  )}
 
                   {(tabValue === "Self-Driving" ||
                     tabValue === "Subscription") && (
-                      <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
-                        <span>Extra kms charge</span>
-                        <span>₹{currentPackage?.extraKmsCharge}</span>
-                      </div>
-                    )}
+                    <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                      <span>Extra kms charge</span>
+                      <span>₹{currentPackage?.extraKmsCharge}</span>
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
                     <span>Tolls, Parking & Inner-state taxes</span>
@@ -1056,63 +1098,81 @@ const CarDetails = () => {
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" && radioToggle === "Local")) && (
-                    <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
-                      {currentPackage?.gst === "Excluded" && (
-                        <div className="flex flex-col">
-                          <span className="text-sm md:text-md">Total Amount</span>
-                          <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                            ₹ {roundPrice(totalExcludedGSTAmount)}
-                          </span>
-                        </div>
-                      )}
-                      {currentPackage?.gst === "Included" && (
-                        <div className="flex flex-col">
-                          <span className="text-sm md:text-md">Total Amount</span>
-                          <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                            ₹ {roundPrice(totalIncludedGSTAmount)}
-                          </span>
-                        </div>
-                      )}
-                      <button
-                        onClick={handleProceedTotal}
-                        className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white font-semibold sm:text-2xl px-6 py-2 rounded-full drop-shadow-lg"
-                      >
-                        Proceed
-                      </button>
-                    </div>
-                  )}
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
+                    {currentPackage?.gst === "Excluded" && (
+                      <div className="flex flex-col">
+                        <span className="text-sm md:text-md">Total Amount</span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                          ₹ {roundPrice(totalExcludedGSTAmount)}
+                        </span>
+                      </div>
+                    )}
+                    {currentPackage?.gst === "Included" && (
+                      <div className="flex flex-col">
+                        <span className="text-sm md:text-md">Total Amount</span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                          ₹ {roundPrice(totalIncludedGSTAmount)}
+                        </span>
+                      </div>
+                    )}
+                    <button
+                      onClick={handleProceedTotal}
+                      className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white font-semibold sm:text-2xl px-6 py-2 rounded-full drop-shadow-lg"
+                    >
+                      Proceed
+                    </button>
+                  </div>
+                )}
 
                 <div className="max-w-sm p-4 border-2 border-[#F1301E] mb-6 rounded-lg shadow-md text-center">
                   {/* Availability Section */}
                   <p className="text-sm font-semibold mb-2 text-[#F1301E]">
-                    Use coupon codes in the checkout page to get huge discounts after mobile number verification.
+                    Use coupon codes in the checkout page to get huge discounts
+                    after mobile number verification.
                   </p>
 
                   {/* Main Content */}
                   <div className="bg-gradient-to-r from-[#000] to-[#000000] text-white py-4 px-2 rounded-lg flex items-center justify-center space-x-4">
                     <div className="w-20 h-20 flex items-center rounded-full overflow-hidden">
-                      <Image src={"/png/dispcount.png"} alt="discount" width={120} height={120} />
+                      <Image
+                        src={"/png/dispcount.png"}
+                        alt="discount"
+                        width={120}
+                        height={120}
+                      />
                     </div>
                     <p className="font-semibold">
-                      If you do not have a coupon code you can call us directly to get your best available offer.
+                      If you do not have a coupon code you can call us directly
+                      to get your best available offer.
                     </p>
                   </div>
 
                   {/* Call to Action */}
 
-                  <a href="tel:18001216162" className="font-semibold text-[#F1301E]">
+                  <a
+                    href="tel:18001216162"
+                    className="font-semibold text-[#F1301E]"
+                  >
                     <div className="mt-4 flex items-center justify-center space-x-2 text-red-700">
-                      <Image src={"/svg/phone-red.svg"} alt="phone" width={15} height={15} />
-                      <p className="font-semibold  text-[#F1301E]">24*7 Customer Support (Toll Free)</p>
+                      <Image
+                        src={"/svg/phone-red.svg"}
+                        alt="phone"
+                        width={15}
+                        height={15}
+                      />
+                      <p className="font-semibold  text-[#F1301E]">
+                        24*7 Customer Support (Toll Free)
+                      </p>
                     </div>
                   </a>
                 </div>
 
                 <div
-                  className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${tabValue === "Driver" &&
+                  className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
+                    tabValue === "Driver" &&
                     radioToggle === "Out-station" &&
                     "mt-4"
-                    }`}
+                  }`}
                 >
                   <div className="flex flex-col items-start">
                     {currentPackage?.gst === "Included" &&
@@ -1120,7 +1180,7 @@ const CarDetails = () => {
                         <span className="font-bold text-md">
                           Pay ₹
                           {roundPrice(Number(ThirtyDiscountForInculdedTax)) >=
-                            2000
+                          2000
                             ? roundPrice(Number(ThirtyDiscountForInculdedTax))
                             : roundPrice(totalIncludedGSTAmount)}{" "}
                           Now
@@ -1135,10 +1195,11 @@ const CarDetails = () => {
                     {currentPackage?.gst === "Excluded" &&
                       selectedTabValue === "Driver" && (
                         <span
-                          className={`font-bold text-md ${tabValue === "Driver" &&
+                          className={`font-bold text-md ${
+                            tabValue === "Driver" &&
                             radioToggle === "Out-station" &&
                             "text-2xl"
-                            }`}
+                          }`}
                         >
                           Pay ₹ {Driver15k}
                         </span>
@@ -1146,10 +1207,11 @@ const CarDetails = () => {
                     {currentPackage?.gst === "Included" &&
                       selectedTabValue === "Driver" && (
                         <span
-                          className={`font-bold text-md ${tabValue === "Driver" &&
+                          className={`font-bold text-md ${
+                            tabValue === "Driver" &&
                             radioToggle === "Out-station" &&
                             "text-2xl"
-                            }`}
+                          }`}
                         >
                           Pay ₹ {Driver15k}
                         </span>
@@ -1159,24 +1221,24 @@ const CarDetails = () => {
                       (tabValue === "Driver" &&
                         (radioToggle === "One-way" ||
                           radioToggle === "Local"))) && (
-                        <span className="text-[#ff0000] font-semibold text-[12px] sm:text-[15px]">
-                          ₹
-                          {currentPackage?.gst === "Excluded" &&
+                      <span className="text-[#ff0000] font-semibold text-[12px] sm:text-[15px]">
+                        ₹
+                        {currentPackage?.gst === "Excluded" &&
+                        selectedTabValue !== "Driver"
+                          ? balance_paymentExculded.toFixed(0)
+                          : currentPackage?.gst === "Included" &&
                             selectedTabValue !== "Driver"
-                            ? balance_paymentExculded.toFixed(0)
-                            : currentPackage?.gst === "Included" &&
-                              selectedTabValue !== "Driver"
-                              ? balance_paymentIncluded.toFixed(0)
-                              : currentPackage?.gst === "Excluded" &&
-                                selectedTabValue === "Driver"
-                                ? balance_driverExclude.toFixed(0)
-                                : currentPackage?.gst === "Included" &&
-                                  selectedTabValue === "Driver"
-                                  ? balance_driverInclude.toFixed(0)
-                                  : ""}{" "}
-                          Balance on Delivery
-                        </span>
-                      )}
+                          ? balance_paymentIncluded.toFixed(0)
+                          : currentPackage?.gst === "Excluded" &&
+                            selectedTabValue === "Driver"
+                          ? balance_driverExclude.toFixed(0)
+                          : currentPackage?.gst === "Included" &&
+                            selectedTabValue === "Driver"
+                          ? balance_driverInclude.toFixed(0)
+                          : ""}{" "}
+                        Balance on Delivery
+                      </span>
+                    )}
                   </div>
                   <button
                     onClick={handleProceed}
@@ -1197,43 +1259,51 @@ const CarDetails = () => {
                     ></textarea>
                   </span>
                 </div>
-
-
               </main>
             </div>
             <div className="max-w-[1250px] w-full m-auto sm:mt-20 block sm:hidden">
-                <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
-                  Trending <span className="text-primary"> offers</span>
-                </h2>
-                <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6  mb-0">
-                  <div
-                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
-                      } text-white rounded-l-full cursor-pointer`}
-                    onClick={() => setOffer("Daily Offers")}
-                  >
-                    Daily Offers
-                  </div>
-                  <div
-                    className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
-                      } text-white rounded-r-full cursor-pointer`}
-                    onClick={() => setOffer("Monthly Offers")}
-                  >
-                    Monthly Offers
-                  </div>
+              <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
+                Trending <span className="text-primary"> offers</span>
+              </h2>
+              <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-6 sm:mb-6 mt-6  mb-0">
+                <div
+                  className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+                    offer === "Daily Offers" ? "bg-primary-color" : "bg-black"
+                  } text-white rounded-l-full cursor-pointer`}
+                  onClick={() => setOffer("Daily Offers")}
+                >
+                  Daily Offers
                 </div>
-
-                {offer === "Daily Offers" && (
-                  <div className=" sm:mt-0 mt-4  offerCards">
-                    {" "}
-                    <OfferCards isDetails={true} banners={cms?.trendingOffer} dailyOffer />{" "}
-                  </div>
-                )}
-                {offer === "Monthly Offers" && (
-                  <div className=" sm:mt-0 mt-4 offerCards">
-                    <OfferCards isDetails={true} banners={cms?.trendingOffer} monthlyOffer />
-                  </div>
-                )}
+                <div
+                  className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${
+                    offer === "Daily Offers" ? "bg-black" : "bg-primary-color"
+                  } text-white rounded-r-full cursor-pointer`}
+                  onClick={() => setOffer("Monthly Offers")}
+                >
+                  Monthly Offers
+                </div>
               </div>
+
+              {offer === "Daily Offers" && (
+                <div className=" sm:mt-0 mt-4  offerCards">
+                  {" "}
+                  <OfferCards
+                    isDetails={true}
+                    banners={cms?.trendingOffer}
+                    dailyOffer
+                  />{" "}
+                </div>
+              )}
+              {offer === "Monthly Offers" && (
+                <div className=" sm:mt-0 mt-4 offerCards">
+                  <OfferCards
+                    isDetails={true}
+                    banners={cms?.trendingOffer}
+                    monthlyOffer
+                  />
+                </div>
+              )}
+            </div>
             {/* <h1 className="text-[#ff0000] font-semibold text-[15px]">{message}</h1> */}
             <div className="p-6 sm:px-4 bg-white rounded-lg ">
               <div className="flex gap-4 items-start w-[350px] sm:w-[420px] text-justify">
