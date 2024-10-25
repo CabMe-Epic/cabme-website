@@ -3,6 +3,7 @@ import { link } from "fs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import CityFooter from "./cityfooter";
 
 const Footer = () => {
   const router = useRouter();
@@ -261,6 +262,7 @@ const url = usePathname();
         />
       </div>
       </Link>
+      <CityFooter />  
     </>
   );
 };
