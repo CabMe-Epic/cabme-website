@@ -21,7 +21,22 @@
     flex-wrap: wrap; 
     justify-content: flex-start; 
     margin-top: 20px; 
-    /* gap: 120px; */
+   
+}
+
+@media (max-width: 768px) {
+    .footerLinks {
+        grid-template-columns: 1fr 1fr ; 
+        justify-content: center; 
+    }
+
+    .footerTitle {
+        font-size: 30px; 
+    }
+
+    .footerLink {
+        font-size: 14px; 
+    }
 }
 
 .footerItem {
