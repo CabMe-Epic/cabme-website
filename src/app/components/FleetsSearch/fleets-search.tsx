@@ -19,6 +19,19 @@ import City from "@/app/components/city-selection/city-selection";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
 // import BlinkerLoader from "../blinker-loader/blinkerLoader";
 import RadioButtonNew from "../radio-component-new/radio-component-new";
+import { useDispatch } from 'react-redux';
+import {
+  setPickupLocation,
+  setDropOffLocation,
+  setPickupDate,
+  setDropOffDate,
+  setPickupTime,
+  setDropoffTime,
+  setTabValue,
+  setRadioToggle,
+} from '../../../../redux/slices/locationSlice';
+
+
 
 export default function Home() {
   const [startDate, setStartDate] = useState<any>();
@@ -73,208 +86,85 @@ export default function Home() {
     setDropoffLocation(event);
   };
 
+  const dispatch = useDispatch();
+
   console.log(pickupLocation, "213 pickup location");
   console.log(dropOffLocation, "213 dropOff location");
   console.log(pickupDate, "213pickup date");
   console.log(dropOffDate, "213dropOff date");
 
+  const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+
   const saveLocationData = () => {
-    if (
-      tabValue !== "Subscription" &&
-      tabValue == "driver" &&
-      radioToggle !== "One-way"
-    ) {
+    if (tabValue !== "Subscription" && tabValue === "driver" && radioToggle !== "One-way") {
       if (!pickupTime) {
         alert("Please select the Pickup Time");
         return;
       }
-
-      console.log(radioToggle, "radioToggle");
-
+  
       if (!dropoffTime) {
         alert("Please select the Drop Off Time");
         return;
       }
-
+  
       if (!pickupDate) {
         alert("Please select the Pickup Date");
         return;
       }
-
+  
       if (!dropOffDate) {
         alert("Please select the Drop Off Date");
         return;
       }
     }
+  
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
-
+  
     if (isNaN(pickupDateTime.getTime())) {
-      alert(
-        "Invalid date or time. Please enter valid Pickup and Drop-off dates and times."
-      );
+      alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
       return;
     }
-
+  
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
       return;
     }
-
+  
     if (tabValue === "Self-Driving") {
-      const timeDifference =
-        dropoffDateTime.getTime() - pickupDateTime.getTime();
-
+      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime();
       const hoursDifference = timeDifference / (1000 * 60 * 60);
-
+  
       if (hoursDifference < 24) {
-        alert(
-          "For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours."
-        );
+        alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
         return;
       }
     }
-
-    if (tabValue === "Driver") {
-      localStorage.setItem("radioToggle", radioToggle);
-    }
-
-    console.log(pickupDateTime, dropoffDateTime, "tttime");
-
-    localStorage.setItem("dropOffLocation", dropOffLocation || "");
-    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
-    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
-
-    localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
-    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
-    localStorage.setItem("tabValue", tabValue);
-    localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
-    console.log(pickupDate, pickupTime, "ddd");
-
-    console.log("dropoffDateTime", dropOffDate);
-
-    if (tabValue == "Self-Driving") {
-      localStorage.setItem("radioToggle", "");
-
-      if (!dropOffDate) {
-        alert("Please Select Drop-Off Date");
-        return;
+  
+    // Dispatch Redux actions
+    try {
+      dispatch(setPickupLocation(pickupLocation || mobilestartCity));
+      dispatch(setDropOffLocation(dropOffLocation || ""));
+      dispatch(setPickupDate(pickupDate || mobileStartDate));
+      dispatch(setDropOffDate(dropOffDate || mobileEndDate));
+      dispatch(setTabValue(tabValue));
+      dispatch(setPickupTime(pickupTime || mobileStartTime));
+      dispatch(setDropoffTime(dropoffTime || mobileEndTime));
+  
+      if (tabValue === "Driver") {
+        dispatch(setRadioToggle(radioToggle));
+      } else {
+        dispatch(setRadioToggle(""));
       }
+      
+      // Navigate after dispatching actions
+      router.push("/car-listing");
+    } catch (error) {
+      console.error("Error dispatching actions:", error);
+      alert(error);
     }
-
-    if (tabValue == "Subscription") {
-      localStorage.setItem("radioToggle", "");
-      localStorage.setItem(
-        "dropOffDate",
-        moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
-        moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
-      );
-    }
-
-    if (
-      tabValue == "Subscription" ||
-      (tabValue == "Driver" && radioToggle == "One-way")
-    ) {
-      localStorage.setItem(
-        "dropOffDate",
-        moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
-        moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
-      );
-      localStorage.setItem("dropoffTime", pickupTime || mobileStartTime);
-    }
-
-    router.push("/car-listing");
   };
-
-  const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
-
-  const saveLocationDataMobile = () => {
-    if (!startDate) {
-      alert("Please select the Pickup Time");
-      return;
-    }
-    if (
-      tabValue !== "Subscription" &&
-      tabValue == "driver" &&
-      radioToggle !== "One-way"
-    ) {
-      if (!dropDate) {
-        alert("Please select the Drop Off Time");
-        return;
-      }
-    }
-
-    // const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
-    // const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
-
-    // console.log(pickupDateTime, dropoffDateTime,"tttime")
-
-    const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
-    const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
-
-    if (pickupDateTime >= dropoffDateTime) {
-      alert("Drop-off date and time should be later than Pickup date and time");
-      return;
-    }
-
-    if (isNaN(pickupDateTime.getTime())) {
-      alert(
-        "Invalid date or time. Please enter valid Pickup and Drop-off dates and times."
-      );
-      return;
-    }
-
-    if (pickupDateTime >= dropoffDateTime) {
-      alert("Drop-off date and time should be later than Pickup date and time");
-      return;
-    }
-
-    if (tabValue === "Self-Driving") {
-      const timeDifference =
-        dropoffDateTime.getTime() - pickupDateTime.getTime();
-
-      const hoursDifference = timeDifference / (1000 * 60 * 60);
-
-      if (hoursDifference < 24) {
-        alert(
-          "For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours."
-        );
-        return;
-      }
-    }
-
-    localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
-    localStorage.setItem(
-      "dropOffLocation",
-      dropOffLocation || mobileEndCity || ""
-    );
-    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
-    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
-    localStorage.setItem("tabValue", tabValue);
-    localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
-    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
-
-    console.log(pickupDate, pickupTime, "ddd");
-
-    if (tabValue === "Driver") {
-      localStorage.setItem("radioToggle", radioToggle);
-    }
-
-    if (tabValue == "Self-Driving") {
-      localStorage.setItem("radioToggle", "");
-      if (!dropOffDate) {
-        alert("Please Select Drop-Off Date");
-        return;
-      }
-    }
-
-    if (tabValue == "Subscription") {
-      localStorage.setItem("radioToggle", "");
-
-    }
-
-    router.push("/car-listing");
-  };
+  
 
   console.log(pickupTime, dropoffTime, "pickupTime");
 
@@ -1982,7 +1872,7 @@ export default function Home() {
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
-            onClick={() => saveLocationDataMobile()}
+            onClick={() => saveLocationData()}
           // rightArrowIcon
           // image={"/svg/race.svg"}
           />
