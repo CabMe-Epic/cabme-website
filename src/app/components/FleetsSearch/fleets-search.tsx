@@ -19,23 +19,24 @@ import City from "@/app/components/city-selection/city-selection";
 import { getAllCities } from "../../../../networkRequests/hooks/api";
 // import BlinkerLoader from "../blinker-loader/blinkerLoader";
 import RadioButtonNew from "../radio-component-new/radio-component-new";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import {
-  setPickupLocation,
-  setDropOffLocation,
-  setPickupDate,
-  setDropOffDate,
-  setPickupTime,
-  setDropoffTime,
-  setTabValue,
-  setRadioToggle,
-} from '../../../../redux/slices/locationSlice';
-
-
+  setPickupLocationRedux,
+  setDropOffLocationRedux,
+  setPickupDateRedux,
+  setDropOffDateRedux,
+  setPickupTimeRedux,
+  setDropoffTimeRedux,
+  setTabValueRedux,
+  setRadioToggleRedux,
+  setNonFormatedPickupDateRedux,
+  setNonFormatedDropoffDateRedux,
+} from "../../../../redux/slices/locationSlice";
 
 export default function Home() {
   const [startDate, setStartDate] = useState<any>();
   const [loader, setLoader] = useState(false);
+  const dispatch = useDispatch();
 
   console.log("startDate pick", { startDate });
   const [dropDate, setDropDate] = useState<any>();
@@ -86,85 +87,234 @@ export default function Home() {
     setDropoffLocation(event);
   };
 
-  const dispatch = useDispatch();
-
   console.log(pickupLocation, "213 pickup location");
   console.log(dropOffLocation, "213 dropOff location");
   console.log(pickupDate, "213pickup date");
   console.log(dropOffDate, "213dropOff date");
 
-  const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
-
   const saveLocationData = () => {
-    if (tabValue !== "Subscription" && tabValue === "driver" && radioToggle !== "One-way") {
+    if (
+      tabValue !== "Subscription" &&
+      tabValue == "driver" &&
+      radioToggle !== "One-way"
+    ) {
       if (!pickupTime) {
         alert("Please select the Pickup Time");
         return;
       }
-  
+
+      console.log(radioToggle, "radioToggle");
+
       if (!dropoffTime) {
         alert("Please select the Drop Off Time");
         return;
       }
-  
+
       if (!pickupDate) {
         alert("Please select the Pickup Date");
         return;
       }
-  
+
       if (!dropOffDate) {
         alert("Please select the Drop Off Date");
         return;
       }
     }
-  
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
-  
+
     if (isNaN(pickupDateTime.getTime())) {
-      alert("Invalid date or time. Please enter valid Pickup and Drop-off dates and times.");
+      alert(
+        "Invalid date or time. Please enter valid Pickup and Drop-off dates and times."
+      );
       return;
     }
-  
+
     if (pickupDateTime >= dropoffDateTime) {
       alert("Drop-off date and time should be later than Pickup date and time");
       return;
     }
-  
+
     if (tabValue === "Self-Driving") {
-      const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime();
+      const timeDifference =
+        dropoffDateTime.getTime() - pickupDateTime.getTime();
+
       const hoursDifference = timeDifference / (1000 * 60 * 60);
-  
+
       if (hoursDifference < 24) {
-        alert("For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours.");
+        alert(
+          "For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours."
+        );
         return;
       }
     }
-  
-    // Dispatch Redux actions
-    try {
-      dispatch(setPickupLocation(pickupLocation || mobilestartCity));
-      dispatch(setDropOffLocation(dropOffLocation || ""));
-      dispatch(setPickupDate(pickupDate || mobileStartDate));
-      dispatch(setDropOffDate(dropOffDate || mobileEndDate));
-      dispatch(setTabValue(tabValue));
-      dispatch(setPickupTime(pickupTime || mobileStartTime));
-      dispatch(setDropoffTime(dropoffTime || mobileEndTime));
-  
-      if (tabValue === "Driver") {
-        dispatch(setRadioToggle(radioToggle));
-      } else {
-        dispatch(setRadioToggle(""));
-      }
-      
-      // Navigate after dispatching actions
-      router.push("/car-listing");
-    } catch (error) {
-      console.error("Error dispatching actions:", error);
-      alert(error);
+
+    if (tabValue === "Driver") {
+      // localStorage.setItem("radioToggle", radioToggle);
+      dispatch(setRadioToggleRedux(radioToggle || ""));
     }
+
+    console.log(pickupDateTime, dropoffDateTime, "tttime");
+
+    // localStorage.setItem("dropOffLocation", dropOffLocation || "");
+
+    dispatch(setDropOffLocationRedux(dropOffLocation || ""));
+
+    // localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
+    dispatch(setDropOffDateRedux(dropOffDate || mobileEndDate));
+
+    // localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+    dispatch(setDropoffTimeRedux(dropoffTime || mobileEndTime));
+    // localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
+    dispatch(setPickupLocationRedux(pickupLocation || mobilestartCity));
+
+    // localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
+    dispatch(setPickupDateRedux(pickupDate || mobileStartDate));
+    // localStorage.setItem("tabValue", tabValue);
+    dispatch(setTabValueRedux(tabValue));
+
+    // localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
+    dispatch(setPickupTimeRedux(pickupTime || mobileStartTime));
+    console.log(pickupDate, pickupTime, "ddd");
+
+    console.log("dropoffDateTime", dropOffDate);
+
+    if (tabValue == "Self-Driving") {
+      // localStorage.setItem("radioToggle", "");
+      dispatch(setRadioToggleRedux(""));
+
+      if (!dropOffDate) {
+        alert("Please Select Drop-Off Date");
+        return;
+      }
+    }
+
+    if (tabValue == "Subscription") {
+      // localStorage.setItem("radioToggle", "");
+      dispatch(setRadioToggleRedux(""));
+
+      // localStorage.setItem(
+      //   "dropOffDate",
+      // moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
+      //   moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
+      // );
+      dispatch(
+        setDropOffDateRedux(
+          moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
+            moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
+        )
+      );
+    }
+
+    if (
+      tabValue == "Subscription" ||
+      (tabValue == "Driver" && radioToggle == "One-way")
+    ) {
+      // localStorage.setItem(
+      //   "dropOffDate",
+      //   moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
+      //     moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
+      // );
+
+      dispatch(
+        setDropOffDateRedux(
+          moment(pickupDate).add(1, "days").format("YYYY-MM-DD") ||
+            moment(mobileStartDate).add(1, "days").format("YYYY-MM-DD")
+        )
+      );
+
+      // localStorage.setItem("dropoffTime", pickupTime || mobileStartTime);
+
+      dispatch(setDropoffTimeRedux(pickupTime || mobileStartTime));
+    }
+
+    router.push("/car-listing");
   };
-  
+
+  const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+
+  const saveLocationDataMobile = () => {
+    if (!startDate) {
+      alert("Please select the Pickup Time");
+      return;
+    }
+    if (
+      tabValue !== "Subscription" &&
+      tabValue == "driver" &&
+      radioToggle !== "One-way"
+    ) {
+      if (!dropDate) {
+        alert("Please select the Drop Off Time");
+        return;
+      }
+    }
+
+    // const pickupDateTime = new Date(`${mobileStartDate}T${mobileStartTime}`);
+    // const dropoffDateTime = new Date(`${mobileEndDate}T${mobileEndTime}`);
+
+    // console.log(pickupDateTime, dropoffDateTime,"tttime")
+
+    const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
+    const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
+
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+
+    if (isNaN(pickupDateTime.getTime())) {
+      alert(
+        "Invalid date or time. Please enter valid Pickup and Drop-off dates and times."
+      );
+      return;
+    }
+
+    if (pickupDateTime >= dropoffDateTime) {
+      alert("Drop-off date and time should be later than Pickup date and time");
+      return;
+    }
+
+    if (tabValue === "Self-Driving") {
+      const timeDifference =
+        dropoffDateTime.getTime() - pickupDateTime.getTime();
+
+      const hoursDifference = timeDifference / (1000 * 60 * 60);
+
+      if (hoursDifference < 24) {
+        alert(
+          "For Self-Driving, the duration between Pickup and Drop-off should be at least 24 hours."
+        );
+        return;
+      }
+    }
+
+    localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
+    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
+    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
+    localStorage.setItem("tabValue", tabValue);
+    localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
+    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+
+    console.log(pickupDate, pickupTime, "ddd");
+
+    if (tabValue === "Driver") {
+      localStorage.setItem("radioToggle", radioToggle);
+    }
+
+    if (tabValue == "Self-Driving") {
+      localStorage.setItem("radioToggle", "");
+      if (!dropOffDate) {
+        alert("Please Select Drop-Off Date");
+        return;
+      }
+    }
+
+    if (tabValue == "Subscription") {
+      localStorage.setItem("radioToggle", "");
+    }
+
+    router.push("/car-listing");
+  };
 
   console.log(pickupTime, dropoffTime, "pickupTime");
 
@@ -214,10 +364,20 @@ export default function Home() {
     />
   );
   const hanldepickupTime = (event: any) => {
-    localStorage.setItem(
-      "nonFormatedPickupDate",
-      moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+    // localStorage.setItem(
+    //   "nonFormatedPickupDate",
+    //   moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+    // );
+
+    dispatch(
+      setPickupDateRedux(moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ"))
     );
+    dispatch(
+      setNonFormatedPickupDateRedux(
+        moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+      )
+    );
+
     setStartDate(event);
     const result = convert(event);
     setPickupDate(result);
@@ -229,9 +389,18 @@ export default function Home() {
 
   const hanldedropoffTime = async (event: any) => {
     console.log(event, "joo");
-    localStorage.setItem(
-      "nonFormatedDropoffDate",
-      moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+    // localStorage.setItem(
+    //   "nonFormatedDropoffDate",
+    //   moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+    // );
+
+    dispatch(
+      setDropOffDateRedux(moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ"))
+    );
+    dispatch(
+      setNonFormatedDropoffDateRedux(
+        moment(event).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+      )
     );
 
     const result = convert(event);
@@ -266,8 +435,10 @@ export default function Home() {
   // },[dateFormat , fropFormat ])
 
   if (typeof window !== "undefined") {
-    localStorage.setItem("pickupTime", pickupTime);
-    localStorage.setItem("dropoffTime", dropoffTime);
+    // localStorage.setItem("pickupTime", pickupTime);
+    dispatch(setPickupTimeRedux(pickupTime));
+    // localStorage.setItem("dropoffTime", dropoffTime);
+    dispatch(setDropoffTimeRedux(dropoffTime));
   }
 
   const [offer, setOffer] = useState("Daily Offers");
@@ -359,27 +530,29 @@ export default function Home() {
 
       <div
         className={`max-w-[1250px] mt-2 sm:grid w-full hidden m-auto mb-20 shadow-location-shadow rounded-xl px-6 py-12 relative  
-          ${tabValue === "Driver" && radioToggle == "One-way"
-            ? "h-[350px]"
-            : tabValue === "Driver" && radioToggle == "Out-station"
+          ${
+            tabValue === "Driver" && radioToggle == "One-way"
+              ? "h-[350px]"
+              : tabValue === "Driver" && radioToggle == "Out-station"
               ? "h-[350px]"
               : tabValue === "Driver" && radioToggle == "Local"
-                ? "h-[350px]"
-                : tabValue === "Subscription"
-                  ? "h-[180px]"
-                  : tabValue === "Self-Driving"
-                    ? "h-[270px]"
-                    : "h-[320px]"
+              ? "h-[350px]"
+              : tabValue === "Subscription"
+              ? "h-[180px]"
+              : tabValue === "Self-Driving"
+              ? "h-[270px]"
+              : "h-[320px]"
           }`}
       >
         <div className="max-w-[632px] z-[0] flex m-auto justify-between border shadow-custom-shadow rounded-2xl overflow-hidden absolute left-0 right-0 top-[-48px] w-full">
           {tabsArray?.map((value, ind) => {
             return (
               <div
-                className={`cursor-pointer w-full text-center py-[28px] text-lg ${value?.tabsValue === tabValue
-                  ? "bg-primary-color text-white font-bold"
-                  : "bg-[#EFF1FB]"
-                  }`}
+                className={`cursor-pointer w-full text-center py-[28px] text-lg ${
+                  value?.tabsValue === tabValue
+                    ? "bg-primary-color text-white font-bold"
+                    : "bg-[#EFF1FB]"
+                }`}
                 key={ind}
                 onClick={() => setTabsValue(value?.tabsValue)}
               >
@@ -396,27 +569,29 @@ export default function Home() {
                   <div
                     key={ind}
                     onClick={() => setRadioToggle(driver.content)}
-                    className={`w-fit p-2 rounded-md flex items-center gap-2 cursor-pointer transition ${driver.content === tabValue
-                      ? "bg-white shadow-md"
-                      : "bg-transparent"
-                      }`}
+                    className={`w-fit p-2 rounded-md flex items-center gap-2 cursor-pointer transition ${
+                      driver.content === tabValue
+                        ? "bg-white shadow-md"
+                        : "bg-transparent"
+                    }`}
                   >
                     <RadioButtonNew
                       content={driver?.content}
                       name={driver?.name}
                       id={driver?.id}
-                      className={`text-sm ${driver.content === radioToggle
-                        ? "font-bold text-black"
-                        : "text-black font-bold"
-                        }`}
+                      className={`text-sm ${
+                        driver.content === radioToggle
+                          ? "font-bold text-black"
+                          : "text-black font-bold"
+                      }`}
                       iconSrc={
                         driver.content === "One-way"
                           ? "/oneWay.svg"
                           : driver.content === "Out-station"
-                            ? "/roundTrip.svg"
-                            : driver.content === "Local"
-                              ? "/local.svg"
-                              : ""
+                          ? "/roundTrip.svg"
+                          : driver.content === "Local"
+                          ? "/local.svg"
+                          : ""
                       }
                       selected={driver.content === radioToggle}
                     />
@@ -430,8 +605,9 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                          }`}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                       >
                         <div className="mt-2 flex-none">
                           <Image
@@ -535,8 +711,8 @@ export default function Home() {
                                   item?.heading === "Pick Up Date"
                                     ? new Date() // For pickup date, prevent selecting past dates
                                     : startDate
-                                      ? new Date(startDate)
-                                      : new Date() // For drop-off date, prevent selecting before pickup date
+                                    ? new Date(startDate)
+                                    : new Date() // For drop-off date, prevent selecting before pickup date
                                 }
                                 maxDate={
                                   item?.heading === "Pick Up Date"
@@ -591,8 +767,9 @@ export default function Home() {
                     return (
                       <div
                         key={index}
-                        className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                          }`}
+                        className={`flex w-full gap-4 ${
+                          index < 3 ? "border-r-2 mr-6 border-black" : ""
+                        }`}
                       >
                         <div className="mt-2 flex-none">
                           <Image
@@ -716,8 +893,8 @@ export default function Home() {
                                   item?.heading === "Pick Up Date"
                                     ? new Date() // For pickup date, start from today or any other logic
                                     : startDate
-                                      ? new Date(startDate)
-                                      : new Date() // For drop-off date, start from pickup date
+                                    ? new Date(startDate)
+                                    : new Date() // For drop-off date, start from pickup date
                                 }
                                 maxDate={
                                   item?.heading === "Pick Up Date"
@@ -769,8 +946,9 @@ export default function Home() {
               {radioToggle === "One-way" && (
                 <div className="grid z-50">
                   <div
-                    className={`grid grid-cols-[1fr_1fr_1fr_1fr] mt-10 w-full ${dropOffLocation && "grid-cols-[1fr_1fr_1fr_1fr]"
-                      }`}
+                    className={`grid grid-cols-[1fr_1fr_1fr_1fr] mt-10 w-full ${
+                      dropOffLocation && "grid-cols-[1fr_1fr_1fr_1fr]"
+                    }`}
                   >
                     {outstation?.map((item, index) => {
                       return (
@@ -778,8 +956,9 @@ export default function Home() {
                           {item?.id === "location" && (
                             <div
                               key={index}
-                              className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                                }`}
+                              className={`flex w-full gap-4 ${
+                                index < 3 ? "border-r-2 mr-6 border-black" : ""
+                              }`}
                             >
                               <div className="flex-none">
                                 <Image
@@ -891,11 +1070,11 @@ export default function Home() {
                         onKeyDown={(event) => event?.preventDefault()}
                         minDate={new Date()}
 
-                      // maxDate={
-                      //     item?.heading === "Pick Up Date"
-                      //         ? dropDate || null
-                      //         : null
-                      // }
+                        // maxDate={
+                        //     item?.heading === "Pick Up Date"
+                        //         ? dropDate || null
+                        //         : null
+                        // }
                       />
                     </div>
 
@@ -1038,8 +1217,9 @@ export default function Home() {
                       {item?.id === "location" && (
                         <div
                           key={index}
-                          className={`flex w-full gap-4 ${index < 3 ? "border-r-2 mr-6 border-black" : ""
-                            }`}
+                          className={`flex w-full gap-4 ${
+                            index < 3 ? "border-r-2 mr-6 border-black" : ""
+                          }`}
                         >
                           <div className="flex-none">
                             <Image
@@ -1180,11 +1360,11 @@ export default function Home() {
                     onKeyDown={(event) => event?.preventDefault()}
                     minDate={new Date()}
 
-                  // maxDate={
-                  //     item?.heading === "Pick Up Date"
-                  //         ? dropDate || null
-                  //         : null
-                  // }
+                    // maxDate={
+                    //     item?.heading === "Pick Up Date"
+                    //         ? dropDate || null
+                    //         : null
+                    // }
                   />
                 </div>
 
@@ -1235,16 +1415,14 @@ export default function Home() {
 
               {durationFormat && (
                 <div className="w-fit m-auto">
-                  {
-                    tabValue !== 'Subscription' &&
+                  {tabValue !== "Subscription" && (
                     <div className="mt-4">
                       <h3 className="font-semibold text-lg p-2 rounded-md shadow-md">
                         Duration:{" "}
                         <span className="font-[400]"> {durationFormat} </span>
                       </h3>
                     </div>
-                  }
-
+                  )}
                 </div>
               )}
 
@@ -1285,8 +1463,9 @@ export default function Home() {
                 return (
                   <div
                     key={index}
-                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
-                      }`}
+                    className={`xl:h-fit h-full flex w-full lg:gap-4 gap-2 ${
+                      index < 3 ? "border-r-2 lg:mr-6 mr-2 border-black" : ""
+                    }`}
                   >
                     <div className=" flex-none">
                       <Image
@@ -1406,16 +1585,16 @@ export default function Home() {
                               item?.heading === "Pick Up Date" && !startDate
                                 ? "Enter Date & Time"
                                 : item?.heading !== "Pick Up Date" && !dropDate
-                                  ? "Enter Date & Time"
-                                  : ""
+                                ? "Enter Date & Time"
+                                : ""
                             }
                             onKeyDown={(event) => event?.preventDefault()}
                             minDate={
                               item?.heading === "Pick Up Date"
                                 ? new Date() // Or any other logic to set minDate for pickup
                                 : startDate
-                                  ? new Date(startDate)
-                                  : new Date() // Prevent selection before pickup date for drop-off
+                                ? new Date(startDate)
+                                : new Date() // Prevent selection before pickup date for drop-off
                             }
                             maxDate={
                               item?.heading === "Pick Up Date"
@@ -1467,8 +1646,9 @@ export default function Home() {
             </div>
             <div
               onClick={(e) => handleDropSelectPopupLocation(e)}
-              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${durationFormat ? "mt-2" : "mt-5"
-                }`}
+              className={`text-[#FF0000] hover:text-[#ff0000ac] m-auto mt-4 text-xl font-bold cursor-pointer ${
+                durationFormat ? "mt-2" : "mt-5"
+              }`}
             >
               Drop in different city?
             </div>
@@ -1523,12 +1703,13 @@ export default function Home() {
         <div className="absolute top-[-25px] left-0 right-0 m-auto w-[270px]">
           <div className="max-w-[350px] m-auto bg-primary-color rounded-xl grid grid-cols-2 font-bold p-2 shadow-custom-shadow">
             <div
-              className={`${mobileTabValue === "Rentals" ||
+              className={`${
+                mobileTabValue === "Rentals" ||
                 tabValue === "Self-Driving" ||
                 tabValue === "Driver"
-                ? "bg-white text-black shadow-custom-shadow"
-                : "text-white"
-                } rounded-xl px-4 py-[8px] text-center text-sm`}
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : "text-white"
+              } rounded-xl px-4 py-[8px] text-center text-sm`}
               onClick={() => {
                 setMobileTabValue("Rentals"), setTabsValue("");
               }}
@@ -1536,10 +1717,11 @@ export default function Home() {
               Rentals
             </div>
             <div
-              className={`${tabValue === "Subscription"
-                ? "bg-white text-black shadow-custom-shadow"
-                : "text-white"
-                } rounded-xl px-4 py-[8px] text-center text-sm `}
+              className={`${
+                tabValue === "Subscription"
+                  ? "bg-white text-black shadow-custom-shadow"
+                  : "text-white"
+              } rounded-xl px-4 py-[8px] text-center text-sm `}
               onClick={() => {
                 setTabsValue("Subscription"), setMobileTabValue("");
               }}
@@ -1552,10 +1734,11 @@ export default function Home() {
         {mobileTabValue === "Rentals" && (
           <div className="max-w-[230px] m-auto grid grid-cols-2 border rounded-full overflow-hidden sm:mt-0 mt-2">
             <div
-              className={`${tabValue === "Self-Driving" || tabValue !== "Driver"
-                ? "bg-black text-white"
-                : "text-black"
-                } p-2 rounded-l-full text-center px-4 flex items-center`}
+              className={`${
+                tabValue === "Self-Driving" || tabValue !== "Driver"
+                  ? "bg-black text-white"
+                  : "text-black"
+              } p-2 rounded-l-full text-center px-4 flex items-center`}
               onClick={() => setTabsValue("Self-Driving")}
             >
               <input
@@ -1570,8 +1753,9 @@ export default function Home() {
               </label>
             </div>
             <div
-              className={`p-2 text-center px-4 flex items-center justify-center ${tabValue === "Driver" ? "bg-black text-white" : "text-black"
-                }`}
+              className={`p-2 text-center px-4 flex items-center justify-center ${
+                tabValue === "Driver" ? "bg-black text-white" : "text-black"
+              }`}
               onClick={() => setTabsValue("Driver")}
             >
               <input
@@ -1594,27 +1778,29 @@ export default function Home() {
                   <div
                     key={ind}
                     onClick={() => setRadioToggle(driver.content)}
-                    className={`w-[100px] h-[60px] p-0 rounded-md flex items-center sm:gap-2 cursor-pointer transition ${driver.content === tabValue
-                      ? "bg-white shadow-md "
-                      : "bg-transparent"
-                      }`}
+                    className={`w-[100px] h-[60px] p-0 rounded-md flex items-center sm:gap-2 cursor-pointer transition ${
+                      driver.content === tabValue
+                        ? "bg-white shadow-md "
+                        : "bg-transparent"
+                    }`}
                   >
                     <RadioButtonNew
                       content={driver?.content}
                       name={driver?.name}
                       id={driver?.id}
-                      className={`text-sm ${driver.content === radioToggle
-                        ? "font-bold text-black text-xs "
-                        : "font-bold text-black text-xs "
-                        } `}
+                      className={`text-sm ${
+                        driver.content === radioToggle
+                          ? "font-bold text-black text-xs "
+                          : "font-bold text-black text-xs "
+                      } `}
                       iconSrc={
                         driver.content === "One-way"
                           ? "/oneWay.svg"
                           : driver.content === "Out-station"
-                            ? "/roundTrip.svg"
-                            : driver.content === "Local"
-                              ? "/local.svg"
-                              : ""
+                          ? "/roundTrip.svg"
+                          : driver.content === "Local"
+                          ? "/local.svg"
+                          : ""
                       }
                       selected={driver.content === radioToggle}
                     />
@@ -1657,8 +1843,8 @@ export default function Home() {
                     radioToggle === "Local"
                       ? "Select Your City"
                       : tabValue === "Self-Driving"
-                        ? "Select Your City"
-                        : "Select Your City"
+                      ? "Select Your City"
+                      : "Select Your City"
                   }
                   // onClick={(e) => handleSelectMobilePopupLocation(e)}
                   onClick={(e) => handleSelectPopupLocation(e)}
@@ -1736,7 +1922,6 @@ export default function Home() {
                     minDate={new Date()}
                   />
                 </div>
-
               </div>
             </div>
           )}
@@ -1768,7 +1953,6 @@ export default function Home() {
                         minDate={pickupDateTime}
                       />
                     </div>
-
                   </div>
                 </div>
               )}
@@ -1776,36 +1960,36 @@ export default function Home() {
           )}
           {((dropOffLocation && tabValue === "Self-Driving") ||
             (tabValue === "Driver" && radioToggle === "One-way")) && (
-              <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
-                <div
-                  onClick={(e) => handleDropSelectPopupLocation(e)}
-                  className="grid ml-[14px] mt-2  "
+            <div className="mt-2 h-[75px] flex w-full lg:gap-4 gap-2 lg:mr-6 mr-2 border-black">
+              <div
+                onClick={(e) => handleDropSelectPopupLocation(e)}
+                className="grid ml-[14px] mt-2  "
+              >
+                <label
+                  htmlFor="dropoff"
+                  className="lg:text-xl text-md font-semibold"
                 >
-                  <label
-                    htmlFor="dropoff"
-                    className="lg:text-xl text-md font-semibold"
-                  >
-                    Drop-off location
-                  </label>
-                  <div className="flex border p-2 rounded-xl w-[72vw]">
-                    <Image
-                      src={"/svg/city-new.svg"}
-                      alt="location"
-                      width={16}
-                      height={18}
-                    />
-                    <input
-                      type="text"
-                      value={
-                        dropOffLocation ? dropOffLocation : "Select Drop City"
-                      }
-                      className="outline-none p-[8px] max-w-[280px] sm:text-md text-sm"
-                      readOnly
-                    />
-                  </div>
+                  Drop-off location
+                </label>
+                <div className="flex border p-2 rounded-xl w-[72vw]">
+                  <Image
+                    src={"/svg/city-new.svg"}
+                    alt="location"
+                    width={16}
+                    height={18}
+                  />
+                  <input
+                    type="text"
+                    value={
+                      dropOffLocation ? dropOffLocation : "Select Drop City"
+                    }
+                    className="outline-none p-[8px] max-w-[280px] sm:text-md text-sm"
+                    readOnly
+                  />
                 </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
         {tabValue !== "Subscription" && (
           <div className="flex sm:gap-4 flex-col items-center gap-1 w-fit py-2 sm:px-6 rounded-md m-auto sm:mt-4">
@@ -1872,9 +2056,9 @@ export default function Home() {
           <ThemeButton
             className="font-semibold text-sm rounded-xl shadow-custom-shadow gap-2 !py-2 w-full !px-2 !py-[12px]"
             text="Start Your Journey"
-            onClick={() => saveLocationData()}
-          // rightArrowIcon
-          // image={"/svg/race.svg"}
+            onClick={() => saveLocationDataMobile()}
+            // rightArrowIcon
+            // image={"/svg/race.svg"}
           />
         </div>
       </div>

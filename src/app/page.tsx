@@ -57,17 +57,7 @@ export default function Home() {
   return (
  
       <div>
-     <div>
-      <p>Value: {value}</p>
-      <button className="bg-[#ff0000]" onClick={() => dispatch(increment())}>
-        Increment
-      </button>
-      <br />
-      <br />
-      <button className="bg-[#ff0000]" onClick={() => dispatch(decrement())}>
-        Decrement
-      </button>
-    </div>
+
         {loader ? (
           <div>
             <BlinkerLoader />

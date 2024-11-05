@@ -17,6 +17,20 @@ import ModifySearch from "@/app/components/modify-search/modify-search";
 import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import moment from "moment";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setPickupLocationRedux,
+  setDropOffLocationRedux,
+  setPickupDateRedux,
+  setDropOffDateRedux,
+  setPickupTimeRedux,
+  setDropoffTimeRedux,
+  setTabValueRedux,
+  setRadioToggleRedux,
+  setNonFormatedPickupDate,
+  setNonFormatedDropoffDate
+} from "../../../../redux/slices/locationSlice";
+
 interface VehicleSearchPayload {
   city: string | null;
   dropOffDateTime: string | null;
@@ -76,19 +90,29 @@ const CarListing = () => {
     driverType,
     "hurraayy"
   );
+
+  const pickupLocationRedux = useSelector((state) => state.location.pickupLocation);
+  const dropOffLocationRedux = useSelector((state) => state.location.dropOffLocation);
+  const pickupDateRedux = useSelector((state) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
+  const tabValueRedux = useSelector((state) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+
   React.useEffect(() => {
-    const pickupLocation = localStorage.getItem("pickupLocation");
-    const dropoffLocation = localStorage.getItem("dropOffLocation");
-    const pickUpDate = localStorage.getItem("pickupDate");
-    const dropOffDate = localStorage.getItem("dropOffDate");
-    const bookingOptions = localStorage.getItem("tabValue");
-    const driverType = localStorage.getItem("radioToggle");
-    setPickupLocation(pickupLocation);
-    setDropoffLocation(dropoffLocation);
-    setPickUpDate(pickUpDate);
-    setDropOffDate(dropOffDate);
-    setBookingOptions(bookingOptions);
-    setDriverType(driverType);
+    // const pickupLocation = localStorage.getItem("pickupLocation");
+    // const dropoffLocation = localStorage.getItem("dropOffLocation");
+    // const pickUpDate = localStorage.getItem("pickupDate");
+    // const dropOffDate = localStorage.getItem("dropOffDate");
+    // const bookingOptions = localStorage.getItem("tabValue");
+    // const driverType = localStorage.getItem("radioToggle");
+    setPickupLocation(pickupLocationRedux);
+    setDropoffLocation(dropOffLocationRedux);
+    setPickUpDate(pickupDateRedux);
+    setDropOffDate(dropOffDateRedux);
+    setBookingOptions(tabValueRedux);
+    setDriverType(radioToggleRedux);
   }, []);
   console.log(
     pickupLocation,
@@ -138,10 +162,23 @@ const CarListing = () => {
 
   //  console.log(pickupLocation,dropoffLocation,"locations");
 
+  const pickupLocationRed = useSelector(
+    (state) => state.location.pickupLocation
+  );
+  const pickupDateRed = useSelector((state) => state.location.nonFormatedPickupDate);
+
+  const dropOffDateRed = useSelector((state) => state.location.nonFormatedDropoffDate);
+  
+
+
   useEffect(() => {
-    const location = localStorage.getItem("pickupLocation");
-    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
-    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+    // const location = localStorage.getItem("pickupLocation");
+    const location = pickupLocationRed;
+    // const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+        const pickupDate = pickupDateRed;
+
+    // const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+    const dropDate = dropOffDateRed;
 
     console.log("Location:", location);
     console.log("Pickup Date:", pickupDate);
@@ -320,6 +357,7 @@ const CarListing = () => {
     const getCarDetails = async () => {
       try {
         if (bookingOptions === "Self-Driving") {
+          console.log(locationData,"surajlocationData")
           if (
             locationData.pickUpDateTime && locationData.dropOffDateTime &&
             (locationData.toCity || locationData.toCity === "")

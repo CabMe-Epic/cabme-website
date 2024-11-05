@@ -7,8 +7,23 @@ import { getAllCities } from "../../../../networkRequests/hooks/api";
 import moment from "moment";
 import City from "../city-selection-2/city-selection-2";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setPickupLocationRedux,
+  setDropOffLocationRedux,
+  setPickupDateRedux,
+  setDropOffDateRedux,
+  setPickupTimeRedux,
+  setDropoffTimeRedux,
+  setTabValueRedux,
+  setNonFormatedPickupDate,
+  setNonFormatedDropoffDate,
+  setRadioToggleRedux,
+} from "../../../../redux/slices/locationSlice";
 
 const ModifySearch: React.FC = () => {
+  const dispatch = useDispatch();
+
   const route = useRouter();
   const [cities, setCities] = useState<{ name: string }[] | undefined>([]);
   const [selectedCity, setSelectedCity] = useState<string>("");
@@ -36,10 +51,10 @@ const ModifySearch: React.FC = () => {
 
   const handleStartDateTimeChange = (date: Date | null) => {
     if (date) {
-      localStorage.setItem(
-        "nonFormatedPickupDate",
-        moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
-      );
+      // localStorage.setItem(
+      //   "nonFormatedPickupDate",
+      // );
+      dispatch(setNonFormatedPickupDate(moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")))
 
       setStartDate(date);
       setStartTime(moment(date).format("HH:mm"));
@@ -48,10 +63,12 @@ const ModifySearch: React.FC = () => {
 
   const handleEndDateTimeChange = (date: Date | null) => {
     if (date) {
-      localStorage.setItem(
-        "nonFormatedDropoffDate",
-        moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
-      );
+      // localStorage.setItem(
+      //   "nonFormatedDropoffDate",
+      //   moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+      // );
+
+      dispatch(setNonFormatedDropoffDate( moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")))
 
       setEndDate(date);
       setEndTime(moment(date).format("HH:mm"));
@@ -89,20 +106,25 @@ const ModifySearch: React.FC = () => {
 
 
       if ((tabValue == "Subscription") || (tabValue == 'Driver' && radioToggle == "One-way")) {
-        localStorage.setItem(
-          "pickupDate",
-          moment(startDate).format("YYYY-MM-DD")
-        );
+        // localStorage.setItem(
+        //   "pickupDate",
+        //   moment(startDate).format("YYYY-MM-DD")
+        // );
+
+        dispatch(setPickupDateRedux( moment(startDate).format("YYYY-MM-DD")))
 
         console.log(startTime, "innn")
-        localStorage.setItem(
-          "pickupTime",
-          startTime as any
-        );
+        // localStorage.setItem(
+        //   "pickupTime",
+        //   startTime as any
+        // );
+        dispatch(setPickupTimeRedux( startTime as any))
         window.location.reload();
 
-        localStorage.setItem("dropOffLocation", selectedDropCity || "");
-        localStorage.setItem("pickupLocation", selectedCity);
+        // localStorage.setItem("dropOffLocation", selectedDropCity || "");
+        dispatch(setDropOffLocationRedux( selectedDropCity || ""))
+        // localStorage.setItem("pickupLocation", selectedCity);
+        dispatch(setPickupLocationRedux( selectedCity))
         return
       }
       if (pickupDateTime >= dropoffDateTime) {
@@ -130,43 +152,64 @@ const ModifySearch: React.FC = () => {
       }
 
       // Save data to localStorage
-      localStorage.setItem("pickupLocation", selectedCity);
-      localStorage.setItem(
-        "pickupDate",
-        moment(startDate).format("YYYY-MM-DD")
-      );
-      localStorage.setItem("dropOffDate", moment(endDate).format("YYYY-MM-DD"));
-      localStorage.setItem("pickupTime", startTime || "");
-      localStorage.setItem("dropoffTime", endTime || "");
-      localStorage.setItem("dropOffLocation", selectedDropCity || "");
+      // localStorage.setItem("pickupLocation", selectedCity);
+      dispatch(setPickupLocationRedux( selectedCity))
+      // localStorage.setItem(
+      //   "pickupDate",
+      //   moment(startDate).format("YYYY-MM-DD")
+      // );
+      dispatch(setPickupDateRedux( moment(startDate).format("YYYY-MM-DD")))
+
+
+      // localStorage.setItem("dropOffDate", moment(endDate).format("YYYY-MM-DD"));
+
+      dispatch(setDropOffDateRedux(moment(endDate).format("YYYY-MM-DD")))
+
+      // localStorage.setItem("pickupTime", startTime || "");
+
+      dispatch(setPickupTimeRedux(startTime || ""))
+
+
+      // localStorage.setItem("dropoffTime", endTime || "");
+
+      dispatch(setDropoffTimeRedux(endTime || ""))
+
+      // localStorage.setItem("dropOffLocation", selectedDropCity || "");
+
+      dispatch(setDropOffLocationRedux(selectedDropCity || ""))
 
       window.location.reload();
     }
   };
 
+  const pickupLocationRedux = useSelector((state) => state.location.pickupLocation);
+  const dropOffLocationRedux = useSelector((state) => state.location.dropOffLocation);
+  const pickupDateRedux = useSelector((state) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
+  const tabValueRedux = useSelector((state) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+
+
   useEffect(() => {
     const getData = () => {
-      const initialLocation = localStorage.getItem("pickupLocation") || "";
-      const destinationLocation = localStorage.getItem("dropOffLocation") || "";
-      const pickupdate = localStorage.getItem("pickupDate");
-      const dropoffDate = localStorage.getItem("dropOffDate");
-      const pickUpTime = localStorage.getItem("pickupTime");
-      const dropOffTime = localStorage.getItem("dropoffTime");
-      const tabValue = localStorage.getItem("tabValue");
-      const radioToggle = localStorage.getItem("radioToggle");
-      setTabsValue(tabValue);
-      setRadioToggle(radioToggle);
-      setSelectedCity(initialLocation);
-      setSelectedDropCity(destinationLocation);
 
-      if (pickupdate && pickUpTime) {
-        const startDateTime = new Date(`${pickupdate}T${pickUpTime}`);
-        setStartDate(startDateTime);
+     
+
+      setTabsValue(tabValueRedux);
+      setRadioToggle(radioToggleRedux);
+      setSelectedCity(pickupLocationRedux);
+      setSelectedDropCity(dropOffLocationRedux);
+
+      if (pickupDateRedux && pickupTimeRedux) {
+        const startDateTime = new Date(`${pickupDateRedux}T${pickupTimeRedux}`);
+        setStartDate(pickupDateRedux);
         setStartTime(moment(startDateTime).format("HH:mm"));
       }
 
-      if (dropoffDate && dropOffTime) {
-        const endDateTime = new Date(`${dropoffDate}T${dropOffTime}`);
+      if (dropOffDateRedux && dropoffTimeRedux) {
+        const endDateTime = new Date(`${dropOffDateRedux}T${dropoffTimeRedux}`);
         setEndDate(endDateTime);
         setEndTime(moment(endDateTime).format("HH:mm"));
       }
@@ -174,6 +217,8 @@ const ModifySearch: React.FC = () => {
 
     getData();
   }, []);
+
+  console.log(radioToggleRedux,tabValueRedux,dropoffTimeRedux,pickupTimeRedux,dropOffDateRedux,pickupDateRedux,dropOffLocationRedux,pickupLocationRedux,"newVCal")
   const [showLocationPopup, setShowLocationPopup] = useState(false);
   const [showDropLocationPopup, setShowDropLocationPopup] = useState(false);
   const [pickupLocation, setPickupLocation] = useState<any>();

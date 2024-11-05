@@ -27,6 +27,22 @@ import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import { set } from "react-datepicker/dist/date_utils";
 import OfferCards from "@/app/components/offer-cards/offer-cards";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setPickupLocationRedux,
+  setDropOffLocationRedux,
+  setPickupDateRedux,
+  setDropOffDateRedux,
+  setPickupTimeRedux,
+  setDropoffTimeRedux,
+  setTabValueRedux,
+  setRadioToggleRedux,
+  setNonFormatedPickupDateRedux,
+  setNonFormatedDropoffDateRedux,
+  setSelectedPackagePriceRedux,
+  setSelectedPackageFreeKmsRedux,
+  setDoorStepPriceChargeRedux,
+} from "../../../../../redux/slices/locationSlice";
 
 interface PromoCode {
   code: string;
@@ -103,19 +119,29 @@ const CarDetails = () => {
   React.useEffect(() => {
     if (selectedDoorStepObject.length > 0) {
       const price = selectedDoorStepObject[0]?.price;
-      localStorage.setItem("doorStepPriceCharge", JSON.stringify(price));
+      // localStorage.setItem("doorStepPriceCharge", JSON.stringify(price));
+      dispatch(setDoorStepPriceChargeRedux(JSON.stringify(price)));
     }
     setTextareaHeight(textareaRef?.current?.scrollHeight + "px");
 
     console.log(selectedDoorStepObject, "selectedDoorStepObject");
   }, [selectedDoorStepObject]);
 
+  const tabValueRedux = useSelector((state) => state.location.tabValue);
+
+  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
   useEffect(() => {
-    const tabval = localStorage.getItem("tabValue");
-    const radioTog = localStorage.getItem("radioToggle");
+    // const tabval = localStorage.getItem("tabValue");
+    const tabval = tabValueRedux;
+
+    // const radioTog = localStorage.getItem("radioToggle");
+
+    const radioTog = radioToggleRedux;
+
     setTabValue(tabval);
     setRadioToggle(radioTog);
     localStorage.removeItem("doorStepPriceCharge");
+    dispatch(setDoorStepPriceChargeRedux(0));
   }, []);
 
   const [carDetails, setCarDetails] = useState<any>();
@@ -125,6 +151,7 @@ const CarDetails = () => {
   const [freeKms, setFreeKms] = useState<any>(0);
   const [bookingOpt, setBookingOpt] = useState<any>();
 
+  const dispatch = useDispatch();
   const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>(0);
   const [textareaHeight, setTextareaHeight] = useState("auto");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -205,12 +232,24 @@ const CarDetails = () => {
   const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100;
   // console.log(ThirtyDiscountForInculdedTax,"advance");
   // console.log(totalIncludedGSTAmount,"else");
-
+  // const tabValueRedux = useSelector((state) => state.location.tabValue);
+  const dropOffLocationRedux = useSelector((state) => state.location.dropOffLocation);
+  const pickupDateRedux = useSelector((state) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
+  const selectedPackagePriceRedux = useSelector((state) => state.location.selectedPackagePrice);
+const selectedPackageFreeKmsRedux = useSelector((state) => state.location.selectedPackageFreeKms)
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedPickupTime = localStorage.getItem("pickupTime");
-      const storedDropoffTime = localStorage.getItem("dropoffTime");
-      const storedTabValue = localStorage.getItem("tabValue");
+      // const storedPickupTime = localStorage.getItem("pickupTime");
+      // const storedDropoffTime = localStorage.getItem("dropoffTime");
+      // const storedTabValue = localStorage.getItem("tabValue");
+
+      const storedPickupTime = pickupTimeRedux;
+      const storedDropoffTime = dropoffTimeRedux;
+      const storedTabValue = tabValueRedux;
+
       setPickupTime(storedPickupTime);
       setDropoffTime(storedDropoffTime);
       setSelectedTabValue(storedTabValue);
@@ -351,10 +390,21 @@ const CarDetails = () => {
   };
 
   const { slug }: any = useParams();
+  const pickupLocationRedux = useSelector(
+    (state) => state.location.pickupLocation
+  );
+
+  const nonFormatedDropoffDate = useSelector((state) => state.location.nonFormatedDropoffDate)
+const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedPickupDate)
   useEffect(() => {
-    const location = localStorage.getItem("pickupLocation");
-    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
-    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+    // const location = localStorage.getItem("pickupLocation");
+
+    // const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    // const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+
+    const location = pickupLocationRedux;
+    const pickupDate = nonFormatedPickupDate;
+    const dropDate = nonFormatedDropoffDate;
 
     console.log("Location:", location);
     console.log("Pickup Date:", pickupDate);
@@ -394,15 +444,23 @@ const CarDetails = () => {
   console.log(dropoffLocation, "dropoffLocation");
 
   React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const storedPickupTime = localStorage.getItem("pickupTime");
-    const storedDropoffTime = localStorage.getItem("dropoffTime");
-    const selectedPackagePrice: any = localStorage.getItem(
-      "selectedPackagePrice"
-    );
-    const dropLoc = localStorage.getItem("dropOffLocation");
-    const freekms = localStorage.getItem("selectedPackageFreeKms");
+    // const getPickup = localStorage.getItem("pickupDate");
+    // const getDropoff = localStorage.getItem("dropOffDate");
+    // const storedPickupTime = localStorage.getItem("pickupTime");
+    // const storedDropoffTime = localStorage.getItem("dropoffTime");
+    // const selectedPackagePrice: any = localStorage.getItem(
+    //   "selectedPackagePrice"
+    // );
+    // const dropLoc = localStorage.getItem("dropOffLocation");
+    // const freekms = localStorage.getItem("selectedPackageFreeKms");
+
+    const getPickup = pickupDateRedux;
+    const getDropoff = dropOffDateRedux;
+    const storedPickupTime = pickupTimeRedux;
+    const storedDropoffTime = dropoffTimeRedux;
+    const selectedPackagePrice = selectedPackagePriceRedux;
+    const dropLoc = dropOffLocationRedux;
+    const freekms = selectedPackageFreeKmsRedux;
 
     setPackagePrice(selectedPackagePrice);
     setSelectedPackageAmount(selectedPackagePrice);
@@ -438,11 +496,16 @@ const CarDetails = () => {
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
   React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
-    const bookingOption = localStorage.getItem("tabValue");
-    const freekm = localStorage.getItem("selectedPackageFreeKms");
+    // const getPickup = localStorage.getItem("pickupDate");
+    // const getDropoff = localStorage.getItem("dropOffDate");
+    // const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    // const bookingOption = localStorage.getItem("tabValue");
+    // const freekm = localStorage.getItem("selectedPackageFreeKms");
+    const getPickup = pickupDateRedux;
+    const getDropoff = dropOffDateRedux;
+    const selectedPackagePrice = selectedPackagePriceRedux;
+    const bookingOption = tabValueRedux;
+    const freekm = selectedPackageFreeKmsRedux;
     setPackagePrice(selectedPackagePrice);
     setFreeKms(freekm);
     setPickupDate(getPickup);
@@ -507,35 +570,43 @@ const CarDetails = () => {
   const handlePriceChange = (updatedPrice: any, name: any) => {
     setSelectedPackageAmount(updatedPrice);
 
-    localStorage.setItem("selectedPackagePrice", updatedPrice);
+    // localStorage.setItem("selectedPackagePrice", updatedPrice);
+    dispatch(setSelectedPackagePriceRedux(updatedPrice))
     setPackagePrice(updatedPrice);
     console.log(name, "packagename");
     if (name === "Package 1") {
-      setFreeKms(package1FreeKms);
-      localStorage.setItem(
-        "selectedPackageFreeKms",
-        package1FreeKms.toString()
-      );
+      // setFreeKms(package1FreeKms);
+      // localStorage.setItem(
+      //   "selectedPackageFreeKms",
+      //   package1FreeKms.toString()
+      // );
+
+      dispatch(setSelectedPackageFreeKmsRedux(package1FreeKms.toString()))
+
       setRed1(true);
       setRed2(false);
       setRed3(false);
     }
     if (name === "Package 2") {
       setFreeKms(package2FreeKms);
-      localStorage.setItem(
-        "selectedPackageFreeKms",
-        package2FreeKms.toString()
-      );
+      // localStorage.setItem(
+      //   "selectedPackageFreeKms",
+      //   package2FreeKms.toString()
+      // );
+      dispatch(setSelectedPackageFreeKmsRedux(package2FreeKms.toString()))
+
       setRed2(true);
       setRed1(false);
       setRed3(false);
     }
     if (name === "Package 3") {
       setFreeKms(package3FreeKms);
-      localStorage.setItem(
-        "selectedPackageFreeKms",
-        package3FreeKms.toString()
-      );
+      // localStorage.setItem(
+      //   "selectedPackageFreeKms",
+      //   package3FreeKms.toString()
+      // );
+      dispatch(setSelectedPackageFreeKmsRedux(package3FreeKms.toString()))
+
       setRed2(false);
       setRed1(false);
       setRed3(true);
