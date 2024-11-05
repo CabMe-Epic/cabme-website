@@ -16,8 +16,8 @@ import {
   setPickupTimeRedux,
   setDropoffTimeRedux,
   setTabValueRedux,
-  setNonFormatedPickupDate,
-  setNonFormatedDropoffDate,
+  setNonFormatedPickupDateRedux,
+  setNonFormatedDropoffDateRedux,
   setRadioToggleRedux,
 } from "../../../../redux/slices/locationSlice";
 
@@ -54,7 +54,7 @@ const ModifySearch: React.FC = () => {
       // localStorage.setItem(
       //   "nonFormatedPickupDate",
       // );
-      dispatch(setNonFormatedPickupDate(moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")))
+      dispatch(setNonFormatedPickupDateRedux( moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")))
 
       setStartDate(date);
       setStartTime(moment(date).format("HH:mm"));
@@ -68,7 +68,7 @@ const ModifySearch: React.FC = () => {
       //   moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")
       // );
 
-      dispatch(setNonFormatedDropoffDate( moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")))
+      dispatch(setNonFormatedDropoffDateRedux( moment(date).format("YYYY-MM-DDTHH:mm:ss.SSSZ")))
 
       setEndDate(date);
       setEndTime(moment(date).format("HH:mm"));
