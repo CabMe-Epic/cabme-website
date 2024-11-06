@@ -21,6 +21,7 @@ import { calculateGST } from "@/app/utils/calculateGST";
 import { roundPrice } from "@/app/utils/roundPrice ";
 import BlinkerLoader from "../blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
+import { useSelector, useDispatch } from "react-redux";
 
 interface PromoCode {
   code: string;
@@ -49,8 +50,8 @@ interface ChildComponentProps {
   totalAmount: number;
   vehicleId: any;
   paymentMode: any;
-  fromDate: any,
-  toDate: any
+  fromDate: any;
+  toDate: any;
 }
 
 interface VehicleSearchPayload {
@@ -71,7 +72,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   vehicleId,
   totalAmount,
   fromDate,
-  toDate
+  toDate,
 }: any) => {
   const router = useRouter();
   const { slug } = useParams();
@@ -202,11 +203,22 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const [freekm, setFreekms] = useState<any>();
   const [tabValue, setTabValue] = useState<any>();
+
+  const storePriceRedux = useSelector(
+    (state) => state.location.doorStepPriceCharge
+  );
+  const checkFreeKmRedux = useSelector((state) => state.location.checkFreeKm);
+  const tabValueRedux = useSelector((state) => state.location.tabValue);
+
   useEffect(() => {
     // Retrieve the price from localStorage when the component mounts
-    const storedPrice = localStorage.getItem("doorStepPriceCharge");
-    const getFreekm = localStorage.getItem("checkFreeKm");
-    const tabval = localStorage.getItem("tabValue");
+    // const storedPrice = localStorage.getItem("doorStepPriceCharge");
+    // const getFreekm = localStorage.getItem("checkFreeKm");
+    // const tabval = localStorage.getItem("tabValue");
+
+    const storedPrice = storePriceRedux;
+    const getFreekm = checkFreeKmRedux;
+    const tabval = tabValueRedux;
 
     setFreekms(getFreekm);
 
@@ -249,10 +261,24 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     }
   };
 
+  const pickupLocationRedux = useSelector(
+    (state) => state.location.pickupLocation
+  );
+  const pickupDateRedux = useSelector(
+    (state) => state.location.nonFormatedPickupDate
+  );
+  const dropOffDateRedux = useSelector(
+    (state) => state.location.nonFormatedDropoffDate
+  );
+
   useEffect(() => {
-    const location = localStorage.getItem("pickupLocation");
-    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
-    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+    // const location = localStorage.getItem("pickupLocation");
+    // const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    // const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+
+    const location = pickupLocationRedux;
+    const pickupDate = pickupDateRedux;
+    const dropDate = dropOffDateRedux;
 
     console.log("Location:", location);
     console.log("Pickup Date:", pickupDate);
@@ -314,27 +340,60 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   }
 
   const handlePriceChange = (updatedPrice: any) => {
-    localStorage.setItem("selectedPackagePrice", updatedPrice);
+    // localStorage.setItem("selectedPackagePrice", updatedPrice);
+    dispatch(setSelectedPackagePriceRedux(updatedPrice));
     setPackagePrice(updatedPrice);
   };
 
+  const userIdRedux = useSelector((state) => state.location.userId);
+  const tokenRedux = useSelector((state) => state.location.token);
+
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUserId = localStorage.getItem("userId");
-      const storedToken = localStorage.getItem("token");
+      // const storedUserId = localStorage.getItem("userId");
+      // const storedToken = localStorage.getItem("token");
+
+      const storedUserId = userIdRedux;
+      const storedToken = tokenRedux;
+
       setUserId(storedUserId);
       setToken(storedToken);
     }
   }, []);
 
+  // const pickupLocationRedux = useSelector(
+  //   (state) => state.location.pickupLocation
+  // );
+  const dropOffLocationRedux = useSelector(
+    (state) => state.location.dropOffLocation
+  );
+  // const pickupDateRedux = useSelector((state) => state.location.pickupDate);
+  // const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
+  // const tabValueRedux = useSelector((state) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+  const selectedPackagePriceRedux = useSelector(
+    (state) => state.location.selectedPackagePrice
+  );
+  const selectedPackageFreeKmsRedux = useSelector(
+    (state) => state.location.selectedPackageFreeKms
+  );
+
   React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
-    const selectedPackageFreekms = localStorage.getItem(
-      "selectedPackageFreeKms"
-    );
-    const bookingOption = localStorage.getItem("tabValue");
+    // const getPickup = localStorage.getItem("pickupDate");
+    // const getDropoff = localStorage.getItem("dropOffDate");
+    // const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    // const selectedPackageFreekms = localStorage.getItem(
+    //   "selectedPackageFreeKms"
+    // );
+    // const bookingOption = localStorage.getItem("tabValue");
+
+    const getPickup = pickupDateRedux;
+    const getDropoff = dropOffDateRedux;
+    const selectedPackagePrice = selectedPackagePriceRedux;
+    const selectedPackageFreekms = selectedPackageFreeKmsRedux;
+    const bookingOption = tabValueRedux;
     setPackagePrice(selectedPackagePrice);
     setPackageFreekms(selectedPackageFreekms);
     packageFreeKmSecond(selectedPackageFreekms);
@@ -367,12 +426,12 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage("")
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage("")
+        : "";
     }
   }, [carDetails]);
 
@@ -401,17 +460,26 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const [radioToggle, setRadioToggle] = useState<any>();
 
   useEffect(() => {
-    const dropLoc = localStorage.getItem("dropOffLocation");
+    // const dropLoc = localStorage.getItem("dropOffLocation");
+    const dropLoc = dropOffLocationRedux;
+
     setDropoffLocation(dropLoc);
-    const radioTog = localStorage.getItem("radioToggle");
+    // const radioTog = localStorage.getItem("radioToggle");
+    const radioTog = radioToggleRedux;
+
     setRadioToggle(radioTog);
   }, []);
   // console.log(carDetails, "carDetails")
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedPickupTime = localStorage.getItem("pickupTime");
-      const storedDropoffTime = localStorage.getItem("dropoffTime");
-      const storedTabValue = localStorage.getItem("tabValue");
+      // const storedPickupTime = localStorage.getItem("pickupTime");
+      // const storedDropoffTime = localStorage.getItem("dropoffTime");
+      // const storedTabValue = localStorage.getItem("tabValue");
+
+      const storedPickupTime = pickupTimeRedux;
+      const storedDropoffTime = dropoffTimeRedux;
+      const storedTabValue = tabValueRedux;
+
       setPickupTime(storedPickupTime);
       setDropoffTime(storedDropoffTime);
       setSelectedTabValue(storedTabValue);
@@ -425,14 +493,14 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       carDetails?.bookingOptions?.selfDrive?.name === bookingOpt
         ? setCurrentPackage(carDetails?.bookingOptions?.selfDrive?.packageType)
         : carDetails?.bookingOptions?.subscription?.name === bookingOpt
-          ? setCurrentPackage(
+        ? setCurrentPackage(
             carDetails?.bookingOptions?.subscription?.packageType
           )
-          : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
-            ? setCurrentPackage(
-              carDetails?.bookingOptions?.withDriver?.local?.packageType
-            )
-            : "";
+        : carDetails?.bookingOptions?.withDriver?.name === bookingOpt
+        ? setCurrentPackage(
+            carDetails?.bookingOptions?.withDriver?.local?.packageType
+          )
+        : "";
     }
   }, [carDetails]);
 
@@ -533,8 +601,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     return particalAmount
       ? particalAmount
       : currentPackage?.gst === "Included" && roundPrice(totalIncludedGSTAmount)
-        ? roundPrice(totalIncludedGSTAmount)
-        : currentPackage?.gst === "Excluded" &&
+      ? roundPrice(totalIncludedGSTAmount)
+      : currentPackage?.gst === "Excluded" &&
         roundPrice(totalExcludedGSTAmount);
   }, [
     particalAmount,
@@ -865,7 +933,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             )}
             <div className="mt-6 w-full p-2 border-2 border-[#F1301E] mb-0 rounded-lg shadow-md text-center">
               <p className="text-sm font-semibold mb-2 text-[#F1301E]">
-                You can apply coupon code after mobile number verification.        </p>
+                You can apply coupon code after mobile number verification.{" "}
+              </p>
             </div>
 
             {/* {payableAmount && ( 
@@ -956,8 +1025,6 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           setSelectedPromoCode={setSelectedPromoCode}
         />
       )}
-
-
     </div>
   );
 };

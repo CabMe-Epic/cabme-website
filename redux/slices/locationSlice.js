@@ -13,13 +13,37 @@ const initialState = {
   nonFormatedDropoffDate:'',
   selectedPackagePrice:'',
   selectedPackageFreeKms: '',
-  doorStepPriceCharge:''
+  doorStepPriceCharge:'',
+  bookingData:{},
+  checkFreeKm: "",
+  advancePayment: 0,
+  isFullpayment: "",
+  userId:'',
+  token:''
 };
 
 const locationSlice = createSlice({
   name: 'location',
   initialState,
   reducers: {
+    setTokenRedux: (state, action) => {
+      state.token = action.payload;
+    },
+    setUserIdRedux: (state, action) => {
+      state.userId = action.payload;
+    },
+    setIsFullpaymentRedux: (state, action) => {
+      state.isFullpayment = action.payload;
+    },
+    setAdvancePaymentRedux: (state, action) => {
+      state.advancePayment = action.payload;
+    },
+    setCheckFreeKmRedux: (state, action) => {
+      state.checkFreeKm = action.payload;
+    },
+    setBookingDataRedux: (state, action) => {
+      state.bookingData = action.payload;
+    },
     setDoorStepPriceChargeRedux: (state, action) => {
       state.doorStepPriceCharge = action.payload;
     },
@@ -75,7 +99,13 @@ export const {
   setNonFormatedDropoffDateRedux,
   setSelectedPackagePriceRedux,
   setSelectedPackageFreeKmsRedux,
-  setDoorStepPriceChargeRedux
+  setDoorStepPriceChargeRedux,
+  setBookingDataRedux,
+  setCheckFreeKmRedux,
+  setAdvancePaymentRedux,
+  setIsFullpaymentRedux,
+  setUserIdRedux,
+  setTokenRedux
 } = locationSlice.actions;
 
 export default locationSlice.reducer;

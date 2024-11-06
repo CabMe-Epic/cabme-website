@@ -42,6 +42,10 @@ import {
   setSelectedPackagePriceRedux,
   setSelectedPackageFreeKmsRedux,
   setDoorStepPriceChargeRedux,
+  setBookingDataRedux,
+  setCheckFreeKmRedux,
+  setAdvancePaymentRedux,
+  setIsFullpaymentRedux,
 } from "../../../../../redux/slices/locationSlice";
 
 interface PromoCode {
@@ -140,7 +144,7 @@ const CarDetails = () => {
 
     setTabValue(tabval);
     setRadioToggle(radioTog);
-    localStorage.removeItem("doorStepPriceCharge");
+    // localStorage.removeItem("doorStepPriceCharge");
     dispatch(setDoorStepPriceChargeRedux(0));
   }, []);
 
@@ -233,13 +237,19 @@ const CarDetails = () => {
   // console.log(ThirtyDiscountForInculdedTax,"advance");
   // console.log(totalIncludedGSTAmount,"else");
   // const tabValueRedux = useSelector((state) => state.location.tabValue);
-  const dropOffLocationRedux = useSelector((state) => state.location.dropOffLocation);
+  const dropOffLocationRedux = useSelector(
+    (state) => state.location.dropOffLocation
+  );
   const pickupDateRedux = useSelector((state) => state.location.pickupDate);
   const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
   const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
   const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
-  const selectedPackagePriceRedux = useSelector((state) => state.location.selectedPackagePrice);
-const selectedPackageFreeKmsRedux = useSelector((state) => state.location.selectedPackageFreeKms)
+  const selectedPackagePriceRedux = useSelector(
+    (state) => state.location.selectedPackagePrice
+  );
+  const selectedPackageFreeKmsRedux = useSelector(
+    (state) => state.location.selectedPackageFreeKms
+  );
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       // const storedPickupTime = localStorage.getItem("pickupTime");
@@ -263,10 +273,17 @@ const selectedPackageFreeKmsRedux = useSelector((state) => state.location.select
     ? `${dropoffDate}T${dropoffTime}:00.000Z`
     : null;
 
+  const userIdRedux = useSelector((state) => state.location.userId);
+  const tokenRedux = useSelector((state) => state.location.token);
+
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUserId = localStorage.getItem("userId");
-      const storedToken = localStorage.getItem("token");
+      // const storedUserId = localStorage.getItem("userId");
+      // const storedToken = localStorage.getItem("token");
+
+      const storedUserId = userIdRedux;
+      const storedToken = tokenRedux;
+
       setUserId(storedUserId);
       setToken(storedToken);
     }
@@ -394,8 +411,12 @@ const selectedPackageFreeKmsRedux = useSelector((state) => state.location.select
     (state) => state.location.pickupLocation
   );
 
-  const nonFormatedDropoffDate = useSelector((state) => state.location.nonFormatedDropoffDate)
-const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedPickupDate)
+  const nonFormatedDropoffDate = useSelector(
+    (state) => state.location.nonFormatedDropoffDate
+  );
+  const nonFormatedPickupDate = useSelector(
+    (state) => state.location.nonFormatedPickupDate
+  );
   useEffect(() => {
     // const location = localStorage.getItem("pickupLocation");
 
@@ -474,16 +495,25 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
   }, [slug]);
 
   React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const storedPickupTime = localStorage.getItem("pickupTime");
-    const storedDropoffTime = localStorage.getItem("dropoffTime");
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
-    const bookingOptions = localStorage.getItem("tabValue");
-    const freeKmss = localStorage.getItem("selectedPackageFreeKms");
+    // const getPickup = localStorage.getItem("pickupDate");
+    // const getDropoff = localStorage.getItem("dropOffDate");
+    // const storedPickupTime = localStorage.getItem("pickupTime");
+    // const storedDropoffTime = localStorage.getItem("dropoffTime");
+    // const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    // const bookingOptions = localStorage.getItem("tabValue");
+    // const freeKmss = localStorage.getItem("selectedPackageFreeKms");
+
+    const getPickup = pickupDateRedux;
+    const getDropoff = dropOffDateRedux;
+    const storedPickupTime = pickupTimeRedux;
+    const storedDropoffTime = dropoffTimeRedux;
+    const selectedPackagePrice = selectedPackagePriceRedux;
+    const dropLoc = dropOffLocationRedux;
+    const freekms = selectedPackageFreeKmsRedux;
+
     setPackagePrice(selectedPackagePrice);
 
-    setFreeKms(freeKmss);
+    setFreeKms(freeKms);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setDropoffTime(storedDropoffTime);
@@ -571,7 +601,7 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
     setSelectedPackageAmount(updatedPrice);
 
     // localStorage.setItem("selectedPackagePrice", updatedPrice);
-    dispatch(setSelectedPackagePriceRedux(updatedPrice))
+    dispatch(setSelectedPackagePriceRedux(updatedPrice));
     setPackagePrice(updatedPrice);
     console.log(name, "packagename");
     if (name === "Package 1") {
@@ -581,7 +611,7 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
       //   package1FreeKms.toString()
       // );
 
-      dispatch(setSelectedPackageFreeKmsRedux(package1FreeKms.toString()))
+      dispatch(setSelectedPackageFreeKmsRedux(package1FreeKms.toString()));
 
       setRed1(true);
       setRed2(false);
@@ -593,7 +623,7 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
       //   "selectedPackageFreeKms",
       //   package2FreeKms.toString()
       // );
-      dispatch(setSelectedPackageFreeKmsRedux(package2FreeKms.toString()))
+      dispatch(setSelectedPackageFreeKmsRedux(package2FreeKms.toString()));
 
       setRed2(true);
       setRed1(false);
@@ -605,7 +635,7 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
       //   "selectedPackageFreeKms",
       //   package3FreeKms.toString()
       // );
-      dispatch(setSelectedPackageFreeKmsRedux(package3FreeKms.toString()))
+      dispatch(setSelectedPackageFreeKmsRedux(package3FreeKms.toString()));
 
       setRed2(false);
       setRed1(false);
@@ -651,9 +681,13 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
     //   setPayableAmount(paymentExcludedTax > advance_Payment ? paymentExcludedTax : advance_Payment);
     //  }
 
-    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    // localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
-    localStorage.setItem("checkFreeKm", freeKms);
+    dispatch(setBookingDataRedux(JSON.stringify(bookingData)));
+
+    // localStorage.setItem("checkFreeKm", freeKms);
+
+    dispatch(setCheckFreeKmRedux(freeKms));
 
     let paymentAmount;
 
@@ -683,11 +717,13 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
     }
 
     if (paymentAmount) {
-      localStorage.setItem("advancePayment", paymentAmount);
+      // localStorage.setItem("advancePayment", paymentAmount);
+      dispatch(setAdvancePaymentRedux(paymentAmount));
     }
     const val = "false";
 
-    localStorage.setItem("isFullpayment", val);
+    // localStorage.setItem("isFullpayment", val);
+    dispatch(setIsFullpaymentRedux(val));
 
     console.log(payableAmount, "xx");
     router.push("/check-out");
@@ -705,29 +741,38 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
     // setData(bookingData);
     const val = "true";
 
-    localStorage.setItem("isFullpayment", val);
-    localStorage.setItem("checkFreeKm", freeKms);
+    // localStorage.setItem("isFullpayment", val);
+    dispatch(setIsFullpaymentRedux(val));
 
-    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    // localStorage.setItem("checkFreeKm", freeKms);
 
-    localStorage.removeItem("advancePayment");
+    dispatch(setCheckFreeKmRedux(freeKms));
+
+    // localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    dispatch(setBookingDataRedux(JSON.stringify(bookingData)));
+
+    // localStorage.removeItem("advancePayment");
+
+    dispatch(setAdvancePaymentRedux(""));
 
     router.push("/check-out");
   };
 
   const package1Price =
-    calculateTotalPrice(currentPackage?.package1?.price) || 0;
+    calculateTotalPrice(pickupDateRedux, dropOffDateRedux, pickupTimeRedux,dropoffTimeRedux,currentPackage?.package1?.price) ;
   const package2Price =
-    calculateTotalPrice(currentPackage?.package2?.price) || 0;
+    calculateTotalPrice(pickupDateRedux, dropOffDateRedux, pickupTimeRedux,dropoffTimeRedux,currentPackage?.package2?.price) ;
   const package3Price =
-    calculateTotalPrice(currentPackage?.package3?.price) || 0;
+    calculateTotalPrice(pickupDateRedux, dropOffDateRedux, pickupTimeRedux,dropoffTimeRedux,currentPackage?.package3?.price) ;
+
+    // console.log(currentPackage?.package2?.price,"currentPackage")
 
   const package1Duration =
-    calculateTotalPrice(currentPackage?.package1?.duration) || 0;
+    calculateTotalPrice(currentPackage?.package1?.duration) ;
   const package2Duration =
-    calculateTotalPrice(currentPackage?.package2?.duration) || 0;
+    calculateTotalPrice(currentPackage?.package2?.duration) ;
   const package3Duration =
-    calculateTotalPrice(currentPackage?.package3?.duration) || 0;
+    calculateTotalPrice(currentPackage?.package3?.duration) ;
 
   const allPrices = [
     roundPrice(package1Price),
@@ -757,6 +802,8 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
     totalExcludedGSTAmount,
     "totalIncludedGSTAmount"
   );
+
+
 
   return (
     <>
@@ -1051,6 +1098,8 @@ const nonFormatedPickupDate = useSelector((state) => state.location.nonFormatedP
                     </select>
                   </div>
                 )}
+                                      {/* {console.log(package1Price,'surajprice')} */}
+
 
                 <div className="grid grid-cols-1 gap-4 mt-0 font-semibold text-[14px] sm:text-[18px]">
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">

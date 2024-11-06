@@ -21,6 +21,7 @@ import useCarsStore from "@/app/zustand/store/carsStore";
 import ProgressBar from "@/app/components/Progress/progress";
 import moment from "moment";
 import OfferCards from "@/app/components/offer-cards/offer-cards";
+import { useSelector } from "react-redux";
 
 interface SelectedUser {
   firstName: string;
@@ -111,22 +112,42 @@ const Checkout = () => {
     city: "",
   });
 
+  const bookingDataRedux = useSelector((state) => state.location.bookingData)
+  const advancePaymentRedux = useSelector((state) => state.location.advancePayment)
+
   React.useEffect(() => {
-    const storedData = localStorage.getItem("bookingData");
+    // const storedData = localStorage.getItem("bookingData");
+        const storedData = bookingDataRedux;
+
     if (storedData) {
+      
       setData(JSON.parse(storedData));
     }
-    const storedParticalAmount = localStorage.getItem("advancePayment");
+    // const storedParticalAmount = localStorage.getItem("advancePayment");
+        const storedParticalAmount = advancePaymentRedux;
+
     if (storedParticalAmount) {
+
       setParticalAmount(Number(storedParticalAmount));
     }
   }, [setData, setParticalAmount]);
 
+  const dropOffLocationRedux = useSelector((state) => state.location.dropOffLocation);
+  const tabValueRedux = useSelector((state) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+  const isFullpaymentRedux = useSelector((state) => state.location.isFullpayment)
+
   useEffect(() => {
-    const dropCity = localStorage.getItem("dropOffLocation");
-    const isFullpayment = localStorage.getItem("isFullpayment");
-    const tabVal = localStorage.getItem("tabValue");
-    const radioTog = localStorage.getItem("radioToggle");
+    // const dropCity = localStorage.getItem("dropOffLocation");
+    // const isFullpayment = localStorage.getItem("isFullpayment");
+    // const tabVal = localStorage.getItem("tabValue");
+    // const radioTog = localStorage.getItem("radioToggle");
+
+    const dropCity = dropOffLocationRedux;
+    const isFullpayment = isFullpaymentRedux;
+    const tabVal = tabValueRedux;
+    const radioTog = radioToggleRedux;
+
     setTabsValue(tabVal);
     setRadioToggle(radioTog);
     setToCity(dropCity);

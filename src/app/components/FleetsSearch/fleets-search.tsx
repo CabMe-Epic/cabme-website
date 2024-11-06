@@ -288,21 +288,32 @@ export default function Home() {
       }
     }
 
-    localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
-    localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
-    localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
-    localStorage.setItem("tabValue", tabValue);
-    localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
-    localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+    
+
+    // localStorage.setItem("pickupLocation", pickupLocation || mobilestartCity);
+    dispatch(setPickupLocationRedux(pickupLocation || mobilestartCity))
+    // localStorage.setItem("pickupDate", pickupDate || mobileStartDate);
+    dispatch(setPickupDateRedux(pickupDate || mobileStartDate))
+    // localStorage.setItem("dropOffDate", dropOffDate || mobileEndDate);
+    dispatch(setDropOffDateRedux(dropOffDate || mobileEndDate))
+    // localStorage.setItem("tabValue", tabValue);
+    dispatch(setTabValueRedux(tabValue))
+    // localStorage.setItem("pickupTime", pickupTime || mobileStartTime);
+    dispatch(setPickupTimeRedux(pickupTime || mobileStartTime))
+    // localStorage.setItem("dropoffTime", dropoffTime || mobileEndTime);
+    dispatch(setDropoffTimeRedux(dropoffTime || mobileEndTime))
 
     console.log(pickupDate, pickupTime, "ddd");
 
     if (tabValue === "Driver") {
-      localStorage.setItem("radioToggle", radioToggle);
+      // localStorage.setItem("radioToggle", radioToggle);
+      dispatch(setRadioToggleRedux(dropoffTime || mobileEndTime))
     }
 
     if (tabValue == "Self-Driving") {
-      localStorage.setItem("radioToggle", "");
+      // localStorage.setItem("radioToggle", "");
+      dispatch(setRadioToggleRedux(""))
+
       if (!dropOffDate) {
         alert("Please Select Drop-Off Date");
         return;
@@ -310,7 +321,9 @@ export default function Home() {
     }
 
     if (tabValue == "Subscription") {
-      localStorage.setItem("radioToggle", "");
+      // localStorage.setItem("radioToggle", "");
+      dispatch(setRadioToggleRedux(""))
+
     }
 
     router.push("/car-listing");
