@@ -23,6 +23,8 @@ import BlinkerLoader from "../blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import { useSelector, useDispatch } from "react-redux";
 
+import {setSelectedPackagePriceRedux} from '../../../../redux/slices/locationSlice';
+
 interface PromoCode {
   code: string;
   promocodeType: string;
@@ -105,6 +107,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const [selectedDiscountType, setSelectedDiscountType] = useState<
     string | any
   >();
+
+  const dispatch = useDispatch();
 
   const [selectedPromoCode, setSelectedPromoCode] = useState<any>(null);
 
@@ -205,10 +209,10 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const [tabValue, setTabValue] = useState<any>();
 
   const storePriceRedux = useSelector(
-    (state) => state.location.doorStepPriceCharge
+    (state: any) => state.location.doorStepPriceCharge
   );
-  const checkFreeKmRedux = useSelector((state) => state.location.checkFreeKm);
-  const tabValueRedux = useSelector((state) => state.location.tabValue);
+  const checkFreeKmRedux = useSelector((state: any) => state.location.checkFreeKm);
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
 
   useEffect(() => {
     // Retrieve the price from localStorage when the component mounts
@@ -262,13 +266,13 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   };
 
   const pickupLocationRedux = useSelector(
-    (state) => state.location.pickupLocation
+    (state: any) => state.location.pickupLocation
   );
   const pickupDateRedux = useSelector(
-    (state) => state.location.nonFormatedPickupDate
+    (state: any) => state.location.nonFormatedPickupDate
   );
   const dropOffDateRedux = useSelector(
-    (state) => state.location.nonFormatedDropoffDate
+    (state: any) => state.location.nonFormatedDropoffDate
   );
 
   useEffect(() => {
@@ -345,8 +349,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     setPackagePrice(updatedPrice);
   };
 
-  const userIdRedux = useSelector((state) => state.location.userId);
-  const tokenRedux = useSelector((state) => state.location.token);
+  const userIdRedux = useSelector((state: any) => state.location.userId);
+  const tokenRedux = useSelector((state: any) => state.location.token);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -362,22 +366,22 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   }, []);
 
   // const pickupLocationRedux = useSelector(
-  //   (state) => state.location.pickupLocation
+  //   (state: any) => state.location.pickupLocation
   // );
   const dropOffLocationRedux = useSelector(
-    (state) => state.location.dropOffLocation
+    (state: any) => state.location.dropOffLocation
   );
-  // const pickupDateRedux = useSelector((state) => state.location.pickupDate);
-  // const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
-  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
-  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
-  // const tabValueRedux = useSelector((state) => state.location.tabValue);
-  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+  // const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+  // const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
+  // const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
   const selectedPackagePriceRedux = useSelector(
-    (state) => state.location.selectedPackagePrice
+    (state: any) => state.location.selectedPackagePrice
   );
   const selectedPackageFreeKmsRedux = useSelector(
-    (state) => state.location.selectedPackageFreeKms
+    (state: any) => state.location.selectedPackageFreeKms
   );
 
   React.useEffect(() => {

@@ -55,10 +55,10 @@ const CardListingCards = ({ data }: any) => {
     };
   }, [showImg]);
   
-  // const pickupDateRedux = useSelector((state) => state.location.pickupDate);
-  // const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
-  // const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
-  // const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
+  // const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+  // const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+  // const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+  // const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
 
   console.log(days, hours, minutes, "duration for self");
 
@@ -113,14 +113,14 @@ const CardListingCards = ({ data }: any) => {
   const [driverType, setDriverType] = useState<any>();
 
   const dropOffLocationRedux = useSelector(
-    (state) => state.location.dropOffLocation
+    (state: any) => state.location.dropOffLocation
   );
-  const pickupDateRedux = useSelector((state) => state.location.pickupDate);
-  const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
-  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
-  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
-  const tabValueRedux = useSelector((state) => state.location.tabValue);
-  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+  const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
 
   React.useEffect(() => {
     // const bookingOptions = localStorage.getItem("tabValue");

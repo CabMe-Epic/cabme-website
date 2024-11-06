@@ -37,10 +37,10 @@ const getReservationData = () => {
 };
 
 export const calculateTotalPrice = (
-  pickupDateRedux,
-  dropOffDateRedux,
-  pickupTimeRedux,
-  dropoffTimeRedux,
+  pickupDateRedux: any,
+  dropOffDateRedux: any,
+  pickupTimeRedux: any,
+  dropoffTimeRedux: any,
   price: number
 ) => {
   const { pickupDate, dropoffDate, pickupTime, dropoffTime } =

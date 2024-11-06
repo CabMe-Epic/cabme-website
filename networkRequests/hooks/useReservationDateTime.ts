@@ -16,10 +16,10 @@ const useReservationDateTime = () => {
         dropoffTime: ''
     });
     const [duration, setDuration] = useState('');
-    const pickupDateRedux = useSelector((state) => state.location.pickupDate);
-    const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
-    const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
-    const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
+    const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+    const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+    const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+    const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
 
     useEffect(() => {
 

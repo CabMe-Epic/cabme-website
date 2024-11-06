@@ -78,7 +78,7 @@ const CarDetails = () => {
   const [dropoffLocation, setDropoffLocation] = useState<any>("");
   const { payableAmount, setPayableAmount } = useCarsStore();
 
-  const userData = useStore((state) => state);
+  const userData = useStore((state: any) => state);
   console.log("USER DATA", { userData });
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
@@ -131,9 +131,9 @@ const CarDetails = () => {
     console.log(selectedDoorStepObject, "selectedDoorStepObject");
   }, [selectedDoorStepObject]);
 
-  const tabValueRedux = useSelector((state) => state.location.tabValue);
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
 
-  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
   useEffect(() => {
     // const tabval = localStorage.getItem("tabValue");
     const tabval = tabValueRedux;
@@ -236,19 +236,19 @@ const CarDetails = () => {
   const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100;
   // console.log(ThirtyDiscountForInculdedTax,"advance");
   // console.log(totalIncludedGSTAmount,"else");
-  // const tabValueRedux = useSelector((state) => state.location.tabValue);
+  // const tabValueRedux = useSelector((state: any) => state.location.tabValue);
   const dropOffLocationRedux = useSelector(
-    (state) => state.location.dropOffLocation
+    (state: any) => state.location.dropOffLocation
   );
-  const pickupDateRedux = useSelector((state) => state.location.pickupDate);
-  const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
-  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
-  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
+  const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
   const selectedPackagePriceRedux = useSelector(
-    (state) => state.location.selectedPackagePrice
+    (state: any) => state.location.selectedPackagePrice
   );
   const selectedPackageFreeKmsRedux = useSelector(
-    (state) => state.location.selectedPackageFreeKms
+    (state: any) => state.location.selectedPackageFreeKms
   );
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -273,8 +273,8 @@ const CarDetails = () => {
     ? `${dropoffDate}T${dropoffTime}:00.000Z`
     : null;
 
-  const userIdRedux = useSelector((state) => state.location.userId);
-  const tokenRedux = useSelector((state) => state.location.token);
+  const userIdRedux = useSelector((state: any) => state.location.userId);
+  const tokenRedux = useSelector((state: any) => state.location.token);
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -408,14 +408,14 @@ const CarDetails = () => {
 
   const { slug }: any = useParams();
   const pickupLocationRedux = useSelector(
-    (state) => state.location.pickupLocation
+    (state: any) => state.location.pickupLocation
   );
 
   const nonFormatedDropoffDate = useSelector(
-    (state) => state.location.nonFormatedDropoffDate
+    (state: any) => state.location.nonFormatedDropoffDate
   );
   const nonFormatedPickupDate = useSelector(
-    (state) => state.location.nonFormatedPickupDate
+    (state: any) => state.location.nonFormatedPickupDate
   );
   useEffect(() => {
     // const location = localStorage.getItem("pickupLocation");
@@ -767,17 +767,14 @@ const CarDetails = () => {
 
     // console.log(currentPackage?.package2?.price,"currentPackage")
 
-  const package1Duration =
-    calculateTotalPrice(currentPackage?.package1?.duration) ;
-  const package2Duration =
-    calculateTotalPrice(currentPackage?.package2?.duration) ;
-  const package3Duration =
-    calculateTotalPrice(currentPackage?.package3?.duration) ;
+  const package1Duration =currentPackage?.package1?.duration;
+  const package2Duration =currentPackage?.package2?.duration;
+  const package3Duration =currentPackage?.package3?.duration;
 
   const allPrices = [
-    roundPrice(package1Price),
-    roundPrice(package2Price),
-    roundPrice(package3Price),
+    roundPrice(package1Price || 0 || 0),
+    roundPrice(package2Price || 0 || 0),
+    roundPrice(package3Price || 0),
   ];
   const roundedPrices = allPrices?.map(roundPrice);
 
@@ -899,7 +896,7 @@ const CarDetails = () => {
                         onClick={() => {
                           let packageName = "Package 1";
                           const selectedValue =
-                            roundPrice(package1Price).toString();
+                            roundPrice(package1Price || 0).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -910,10 +907,10 @@ const CarDetails = () => {
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
                             setSelectedPackageAmount(
-                              roundPrice(package1Price).toString()
+                              roundPrice(package1Price || 0).toString()
                             );
                             handlePriceChange(
-                              roundPrice(package1Price).toString(),
+                              roundPrice(package1Price || 0).toString(),
                               packageName
                             );
                             return;
@@ -932,7 +929,7 @@ const CarDetails = () => {
                         onClick={() => {
                           let packageName = "Package 2";
                           const selectedValue =
-                            roundPrice(package2Price).toString();
+                            roundPrice(package2Price || 0).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -943,10 +940,10 @@ const CarDetails = () => {
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
                             setSelectedPackageAmount(
-                              roundPrice(package1Price).toString()
+                              roundPrice(package1Price || 0).toString()
                             );
                             handlePriceChange(
-                              roundPrice(package1Price).toString(),
+                              roundPrice(package1Price || 0).toString(),
                               "Package 1"
                             );
                             return;
@@ -965,7 +962,7 @@ const CarDetails = () => {
                         onClick={() => {
                           let packageName = "Package 3";
                           const selectedValue =
-                            roundPrice(package3Price).toString();
+                            roundPrice(package3Price || 0).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -976,10 +973,10 @@ const CarDetails = () => {
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
                             setSelectedPackageAmount(
-                              roundPrice(package1Price).toString()
+                              roundPrice(package1Price || 0).toString()
                             );
                             handlePriceChange(
-                              roundPrice(package1Price).toString(),
+                              roundPrice(package1Price || 0).toString(),
                               "Package 1"
                             );
                             return;
@@ -1012,13 +1009,13 @@ const CarDetails = () => {
                         let packageName = "";
 
                         switch (selectedValue) {
-                          case roundPrice(package1Price).toString():
+                          case roundPrice(package1Price || 0).toString():
                             packageName = "Package 1";
                             break;
-                          case roundPrice(package2Price).toString():
+                          case roundPrice(package2Price || 0).toString():
                             packageName = "Package 2";
                             break;
-                          case roundPrice(package3Price).toString():
+                          case roundPrice(package3Price || 0).toString():
                             packageName = "Package 3";
                             break;
                           default:
@@ -1035,10 +1032,10 @@ const CarDetails = () => {
                                 "To select the unlimited package, the minimum booking duration must be at least 2 days."
                               );
                               setSelectedPackageAmount(
-                                roundPrice(package1Price).toString()
+                                roundPrice(package1Price || 0).toString()
                               ); // Revert to Package 1
                               handlePriceChange(
-                                roundPrice(package1Price).toString(),
+                                roundPrice(package1Price || 0).toString(),
                                 "Package 1"
                               );
                               return;
@@ -1053,10 +1050,10 @@ const CarDetails = () => {
                                 "To select the unlimited package, the minimum booking duration must be at least 2 days."
                               );
                               setSelectedPackageAmount(
-                                roundPrice(package1Price).toString()
+                                roundPrice(package1Price || 0).toString()
                               ); // Revert to Package 1
                               handlePriceChange(
-                                roundPrice(package1Price).toString(),
+                                roundPrice(package1Price || 0).toString(),
                                 "Package 1"
                               );
                               return;
@@ -1071,10 +1068,10 @@ const CarDetails = () => {
                                 "To select the unlimited package, the minimum booking duration must be at least 2 days."
                               );
                               setSelectedPackageAmount(
-                                roundPrice(package1Price).toString()
+                                roundPrice(package1Price || 0).toString()
                               ); // Revert to Package 1
                               handlePriceChange(
-                                roundPrice(package1Price).toString(),
+                                roundPrice(package1Price || 0).toString(),
                                 "Package 1"
                               );
                               return;
@@ -1086,14 +1083,14 @@ const CarDetails = () => {
                         handlePriceChange(selectedValue, packageName);
                       }}
                     >
-                      <option value={roundPrice(package1Price)}>
-                        ₹{roundPrice(package1Price)}
+                      <option value={roundPrice(package1Price || 0)}>
+                        ₹{roundPrice(package1Price || 0)}
                       </option>
-                      <option value={roundPrice(package2Price)}>
-                        ₹{roundPrice(package2Price)}
+                      <option value={roundPrice(package2Price || 0)}>
+                        ₹{roundPrice(package2Price || 0)}
                       </option>
-                      <option value={roundPrice(package3Price)}>
-                        ₹{roundPrice(package3Price)}
+                      <option value={roundPrice(package3Price || 0)}>
+                        ₹{roundPrice(package3Price || 0)}
                       </option>
                     </select>
                   </div>

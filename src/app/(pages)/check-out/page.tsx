@@ -70,7 +70,7 @@ interface PaymentPayload {
 }
 
 const Checkout = () => {
-  const updateUserData = useStore((state) => state.updateUserData);
+  const updateUserData = useStore((state: any) => state.updateUserData);
   const [data, setData] = useState<any>([]);
   const [loader, setLoader] = useState(false);
   const [selectedPromoCode, setSelectedPromoCode] = useState<any>([]);
@@ -112,8 +112,8 @@ const Checkout = () => {
     city: "",
   });
 
-  const bookingDataRedux = useSelector((state) => state.location.bookingData)
-  const advancePaymentRedux = useSelector((state) => state.location.advancePayment)
+  const bookingDataRedux = useSelector((state: any) => state.location.bookingData)
+  const advancePaymentRedux = useSelector((state: any) => state.location.advancePayment)
 
   React.useEffect(() => {
     // const storedData = localStorage.getItem("bookingData");
@@ -132,10 +132,10 @@ const Checkout = () => {
     }
   }, [setData, setParticalAmount]);
 
-  const dropOffLocationRedux = useSelector((state) => state.location.dropOffLocation);
-  const tabValueRedux = useSelector((state) => state.location.tabValue);
-  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
-  const isFullpaymentRedux = useSelector((state) => state.location.isFullpayment)
+  const dropOffLocationRedux = useSelector((state: any) => state.location.dropOffLocation);
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
+  const isFullpaymentRedux = useSelector((state: any) => state.location.isFullpayment)
 
   useEffect(() => {
     // const dropCity = localStorage.getItem("dropOffLocation");
@@ -161,7 +161,7 @@ const Checkout = () => {
   console.log("data by data", { data });
 
   console.log("user id", { updateUserData });
-  const userData = useStore((state) => state.userData);
+  const userData = useStore((state: any) => state.userData);
   const { payableAmount } = useCarsStore();
   console.log(payableAmount, "hello");
   console.log("USER DATA", { userData });

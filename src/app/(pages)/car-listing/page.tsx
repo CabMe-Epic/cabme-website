@@ -27,8 +27,8 @@ import {
   setDropoffTimeRedux,
   setTabValueRedux,
   setRadioToggleRedux,
-  setNonFormatedPickupDate,
-  setNonFormatedDropoffDate
+  setNonFormatedPickupDateRedux,
+  setNonFormatedDropoffDateRedux
 } from "../../../../redux/slices/locationSlice";
 
 interface VehicleSearchPayload {
@@ -91,14 +91,14 @@ const CarListing = () => {
     "hurraayy"
   );
 
-  const pickupLocationRedux = useSelector((state) => state.location.pickupLocation);
-  const dropOffLocationRedux = useSelector((state) => state.location.dropOffLocation);
-  const pickupDateRedux = useSelector((state) => state.location.pickupDate);
-  const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
-  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
-  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
-  const tabValueRedux = useSelector((state) => state.location.tabValue);
-  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+  const pickupLocationRedux = useSelector((state: any) => state.location.pickupLocation);
+  const dropOffLocationRedux = useSelector((state: any) => state.location.dropOffLocation);
+  const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
 
   React.useEffect(() => {
     // const pickupLocation = localStorage.getItem("pickupLocation");
@@ -163,11 +163,11 @@ const CarListing = () => {
   //  console.log(pickupLocation,dropoffLocation,"locations");
 
   const pickupLocationRed = useSelector(
-    (state) => state.location.pickupLocation
+    (state: any) => state.location.pickupLocation
   );
-  const pickupDateRed = useSelector((state) => state.location.nonFormatedPickupDate);
+  const pickupDateRed = useSelector((state: any) => state.location.nonFormatedPickupDate);
 
-  const dropOffDateRed = useSelector((state) => state.location.nonFormatedDropoffDate);
+  const dropOffDateRed = useSelector((state: any) => state.location.nonFormatedDropoffDate);
   
 
 

@@ -51,7 +51,7 @@ export default function Home() {
 
   console.log(cms, "cmsData");
 
-  const value = useSelector((state) => state.yourSlice.value);
+  const value = useSelector((state: any) => state.yourSlice.value);
   const dispatch = useDispatch();
 
   return (

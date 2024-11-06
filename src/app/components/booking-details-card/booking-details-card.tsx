@@ -12,12 +12,12 @@ const BookingDetailsCard = ({ city }: any) => {
   const [dropoffTime, setDropoffTime] = useState<any>()
   const [duration, setDuration] = useState('');
 
-  const pickupDateRedux = useSelector((state) => state.location.pickupDate);
-  const dropOffDateRedux = useSelector((state) => state.location.dropOffDate);
-  const pickupTimeRedux = useSelector((state) => state.location.pickupTime);
-  const dropoffTimeRedux = useSelector((state) => state.location.dropoffTime);
-  const tabValueRedux = useSelector((state) => state.location.tabValue);
-  const radioToggleRedux = useSelector((state) => state.location.radioToggle);
+  const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
 
 
   useEffect(() => {

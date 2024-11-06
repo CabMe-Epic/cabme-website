@@ -16,6 +16,7 @@ import {setUserIdRedux,setTokenRedux} from '../../../../redux/slices/locationSli
 
 const SignIn = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [showSignIn, setShowSignIn] = React.useState(true);
   const [otpSent, setOtpSent] = React.useState(false);
   const [otp, setOtp] = React.useState("");
