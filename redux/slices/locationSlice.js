@@ -19,7 +19,8 @@ const initialState = {
   advancePayment: 0,
   isFullpayment: "",
   userId:'',
-  token:''
+  token:'',
+  selectedPromoCode: {}
 };
 
 const locationSlice = createSlice({
@@ -83,6 +84,9 @@ const locationSlice = createSlice({
     setRadioToggleRedux: (state, action) => {
       state.radioToggle = action.payload;
     },
+    setSelectedPromoCodeRedux: (state, action) => {
+      state.selectedPromoCode = action.payload;
+    },  
   },
 });
 
@@ -105,7 +109,8 @@ export const {
   setAdvancePaymentRedux,
   setIsFullpaymentRedux,
   setUserIdRedux,
-  setTokenRedux
+  setTokenRedux,
+  setSelectedPromoCodeRedux
 } = locationSlice.actions;
 
 export default locationSlice.reducer;

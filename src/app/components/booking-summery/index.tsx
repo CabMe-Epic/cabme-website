@@ -125,9 +125,11 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   // };
 
+  const promo = useSelector((state: any) => state.location.selectedPromoCode);
+
   useEffect(() => {
-    setSelectedPromoCodeSecond(selectedPromoCode);
-  }, [selectedPromoCode]);
+    setSelectedPromoCodeSecond(promo);
+  }, [promo]);
 
   const handleHidePopUp = () => {
     setApplyCoupon(false);

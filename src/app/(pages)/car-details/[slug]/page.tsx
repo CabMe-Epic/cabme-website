@@ -47,6 +47,7 @@ import {
   setAdvancePaymentRedux,
   setIsFullpaymentRedux,
 } from "../../../../../redux/slices/locationSlice";
+import ApplyCoupon from "@/app/components/ApplyCoupon/apply-coupon";
 
 interface PromoCode {
   code: string;
@@ -77,6 +78,17 @@ const CarDetails = () => {
   const [bookingOptions, setBookingOptions] = useState<any>();
   const [dropoffLocation, setDropoffLocation] = useState<any>("");
   const { payableAmount, setPayableAmount } = useCarsStore();
+  const [showCoupon, setShowCoupon] = useState(false);
+  const [promoCodes, setPromoCodes] = useState([]);
+  const [appliedCode, setAppliedCode] = useState<any>();
+  const [discountApplied, setDiscountApplied] = useState<any>();
+  const [vehicleIdCoupon, setVehicleIdCoupon] = useState<any>();
+  const handleHidePopUp = () => {
+    setApplyCoupon(false);
+  };
+  const [applyCoupon, setApplyCoupon] = React.useState(false);
+  const [selectedPromoCode, setSelectedPromoCode] = useState<any>(null);
+  const [currentVehicleId, setCurrentVehicleId] = useState<string | null>();
 
   const userData = useStore((state: any) => state);
   console.log("USER DATA", { userData });
@@ -86,7 +98,9 @@ const CarDetails = () => {
   const [pickupTime, setPickupTime] = useState<string | null>(null);
   const [dropoffTime, setDropoffTime] = useState<string | null>(null);
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
-  const [promoCodes, setPromoCodes] = useState([]);
+  const [couponFromDate, setCouponFromDate] = useState<any>();
+  const [couponToDate, setCouponToDate] = useState<any>();
+  // const [promoCodes, setPromoCodes] = useState([]);
   const [message, setMessage] = useState<string | null>("");
   const [tabValue, setTabValue] = useState<any>();
   const [radioToggle, setRadioToggle] = useState<any>();
@@ -95,6 +109,7 @@ const CarDetails = () => {
   const [bookingNote, setBookingNote] = useState<any>("");
   const [offer, setOffer] = useState("Daily Offers");
   const [cms, setCms] = useState<any>();
+
   const handleShowDoorstepPopup = () => {
     setShowDoorStep(true);
   };
@@ -112,7 +127,23 @@ const CarDetails = () => {
     };
 
     getHomePageCMS();
+    const vehicleId = sessionStorage.getItem("slug");
+    if (vehicleId) {
+      setCurrentVehicleId(vehicleId);
+    }
+    // setCouponFromDate(fromDate);
+    // setCouponToDate(toDate);
   }, []);
+
+  if (showCoupon == true) {
+    document.body.style.overflow = "hidden";
+  }
+
+  const fromDate = useSelector((state: any) => state.location.pickupDate);
+  const toDate = useSelector((state: any) => state.location.dropOffDate);
+  const userIdPromo = useSelector((state: any) => state.location.userId);
+
+  console.log(currentVehicleId, "currentVehicleId");
 
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
   const handleSelectItemDoorStep = (arr: any) => {
@@ -133,7 +164,9 @@ const CarDetails = () => {
 
   const tabValueRedux = useSelector((state: any) => state.location.tabValue);
 
-  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
+  const radioToggleRedux = useSelector(
+    (state: any) => state.location.radioToggle
+  );
   useEffect(() => {
     // const tabval = localStorage.getItem("tabValue");
     const tabval = tabValueRedux;
@@ -146,7 +179,13 @@ const CarDetails = () => {
     setRadioToggle(radioTog);
     // localStorage.removeItem("doorStepPriceCharge");
     dispatch(setDoorStepPriceChargeRedux(0));
+    const x = sessionStorage.setItem("slug", slug);
+    if (x) {
+      setVehicleIdCoupon(x);
+    }
   }, []);
+
+  console.log(selectedPromoCode, "selectedPromoCode");
 
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
@@ -216,13 +255,13 @@ const CarDetails = () => {
     Number(result?.gstAmount) +
     Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
-    doorStepAmount;
+    doorStepAmount- Number(selectedPromoCode?.discountApplied || 0);
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
-    doorStepAmount;
+    doorStepAmount - Number(selectedPromoCode?.discountApplied || 0);
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice);
@@ -240,16 +279,26 @@ const CarDetails = () => {
   const dropOffLocationRedux = useSelector(
     (state: any) => state.location.dropOffLocation
   );
-  const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
-  const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
-  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
-  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
+  const pickupDateRedux = useSelector(
+    (state: any) => state.location.pickupDate
+  );
+  const dropOffDateRedux = useSelector(
+    (state: any) => state.location.dropOffDate
+  );
+  const pickupTimeRedux = useSelector(
+    (state: any) => state.location.pickupTime
+  );
+  const dropoffTimeRedux = useSelector(
+    (state: any) => state.location.dropoffTime
+  );
   const selectedPackagePriceRedux = useSelector(
     (state: any) => state.location.selectedPackagePrice
   );
   const selectedPackageFreeKmsRedux = useSelector(
     (state: any) => state.location.selectedPackageFreeKms
   );
+
+  const paymentMode = useSelector((state: any) => state.location.isFullpayment);
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       // const storedPickupTime = localStorage.getItem("pickupTime");
@@ -264,6 +313,8 @@ const CarDetails = () => {
       setDropoffTime(storedDropoffTime);
       setSelectedTabValue(storedTabValue);
     }
+
+    console.log(paymentMode == "", "paymentMode");
   }, []);
 
   const pickupDateTimeString = pickupTime
@@ -290,7 +341,7 @@ const CarDetails = () => {
   }, []);
 
   console.log("carDetails", { carDetails });
-  console.log("selectedTabValue", { selectedTabValue });
+  console.log("selectedTabValue", { selectedTabValue });  
 
   const bookingData = {
     // userId: userData?.userData?._id,
@@ -758,18 +809,33 @@ const CarDetails = () => {
     router.push("/check-out");
   };
 
-  const package1Price =
-    calculateTotalPrice(pickupDateRedux, dropOffDateRedux, pickupTimeRedux,dropoffTimeRedux,currentPackage?.package1?.price) ;
-  const package2Price =
-    calculateTotalPrice(pickupDateRedux, dropOffDateRedux, pickupTimeRedux,dropoffTimeRedux,currentPackage?.package2?.price) ;
-  const package3Price =
-    calculateTotalPrice(pickupDateRedux, dropOffDateRedux, pickupTimeRedux,dropoffTimeRedux,currentPackage?.package3?.price) ;
+  const package1Price = calculateTotalPrice(
+    pickupDateRedux,
+    dropOffDateRedux,
+    pickupTimeRedux,
+    dropoffTimeRedux,
+    currentPackage?.package1?.price
+  );
+  const package2Price = calculateTotalPrice(
+    pickupDateRedux,
+    dropOffDateRedux,
+    pickupTimeRedux,
+    dropoffTimeRedux,
+    currentPackage?.package2?.price
+  );
+  const package3Price = calculateTotalPrice(
+    pickupDateRedux,
+    dropOffDateRedux,
+    pickupTimeRedux,
+    dropoffTimeRedux,
+    currentPackage?.package3?.price
+  );
 
-    // console.log(currentPackage?.package2?.price,"currentPackage")
+  // console.log(currentPackage?.package2?.price,"currentPackage")
 
-  const package1Duration =currentPackage?.package1?.duration;
-  const package2Duration =currentPackage?.package2?.duration;
-  const package3Duration =currentPackage?.package3?.duration;
+  const package1Duration = currentPackage?.package1?.duration;
+  const package2Duration = currentPackage?.package2?.duration;
+  const package3Duration = currentPackage?.package3?.duration;
 
   const allPrices = [
     roundPrice(package1Price || 0 || 0),
@@ -800,13 +866,40 @@ const CarDetails = () => {
     "totalIncludedGSTAmount"
   );
 
-
+  // alert(vehicleIdCoupon)
 
   return (
     <>
       <div className="py-6">
         <div className="z-[99999]">
           <ToastContainer />
+        </div>
+
+        <div>
+          {showCoupon && (
+            <ApplyCoupon
+              promoCodes={promoCodes}
+              setHide={setShowCoupon}
+              appliedCode={setAppliedCode}
+              // discountType={setDiscountType}
+              discountApplyAmount={setDiscountApplied}
+              paymentMode={paymentMode}
+              totalAmount={
+                currentPackage?.gst === "Included"
+                  ? roundPrice(totalIncludedGSTAmount)
+                  : totalExcludedGSTAmount
+              }
+              vehicleId={vehicleIdCoupon}
+              fromDate={fromDate}
+              toDate={toDate}
+              userIdPromo={userIdPromo}
+              onClick={() => {
+                setShowCoupon(false);
+                document.body.style.overflow = "auto";
+              }}
+              setSelectedPromoCode={setSelectedPromoCode}
+            />
+          )}
         </div>
 
         <div className="sm:flex hidden px-16 text-[#5F5D5D]">
@@ -895,8 +988,9 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 1";
-                          const selectedValue =
-                            roundPrice(package1Price || 0).toString();
+                          const selectedValue = roundPrice(
+                            package1Price || 0
+                          ).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -928,8 +1022,9 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 2";
-                          const selectedValue =
-                            roundPrice(package2Price || 0).toString();
+                          const selectedValue = roundPrice(
+                            package2Price || 0
+                          ).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -961,8 +1056,9 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 3";
-                          const selectedValue =
-                            roundPrice(package3Price || 0).toString();
+                          const selectedValue = roundPrice(
+                            package3Price || 0
+                          ).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -1095,8 +1191,7 @@ const CarDetails = () => {
                     </select>
                   </div>
                 )}
-                                      {/* {console.log(package1Price,'surajprice')} */}
-
+                {/* {console.log(package1Price,'surajprice')} */}
 
                 <div className="grid grid-cols-1 gap-4 mt-0 font-semibold text-[14px] sm:text-[18px]">
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
@@ -1176,7 +1271,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
                       <span>TOTAL</span>
                       <span className="text-[#ff0000]">
-                        ₹ {roundPrice(totalExcludedGSTAmount)}
+                        ₹ {roundPrice(totalExcludedGSTAmount + Number(selectedPromoCode?.discountApplied || 0))}
                       </span>
                     </div>
                   )}
@@ -1185,7 +1280,7 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
                       <span>TOTAL</span>
                       <span className="text-[#ff0000]">
-                        ₹ {roundPrice(totalIncludedGSTAmount)}
+                        ₹ {roundPrice(totalIncludedGSTAmount + Number(selectedPromoCode?.discountApplied || 0))}
                       </span>
                     </div>
                   )}
@@ -1212,43 +1307,14 @@ const CarDetails = () => {
                   </div>
                 </div>
 
-                {(tabValue === "Self-Driving" ||
-                  tabValue === "Subscription" ||
-                  (tabValue === "Driver" && radioToggle === "Local")) && (
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
-                    {currentPackage?.gst === "Excluded" && (
-                      <div className="flex flex-col">
-                        <span className="text-sm md:text-md">Total Amount</span>
-                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹ {roundPrice(totalExcludedGSTAmount)}
-                        </span>
-                      </div>
-                    )}
-                    {currentPackage?.gst === "Included" && (
-                      <div className="flex flex-col">
-                        <span className="text-sm md:text-md">Total Amount</span>
-                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹ {roundPrice(totalIncludedGSTAmount)}
-                        </span>
-                      </div>
-                    )}
-                    <button
-                      onClick={handleProceedTotal}
-                      className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white font-semibold sm:text-2xl px-6 py-2 rounded-full drop-shadow-lg"
-                    >
-                      Proceed
-                    </button>
-                  </div>
-                )}
+              
 
-                <div className="max-w-sm p-4 border-2 border-[#F1301E] mb-6 rounded-lg shadow-md text-center">
-                  {/* Availability Section */}
+                {/* <div className="max-w-sm p-4 border-2 border-[#F1301E] mb-6 rounded-lg shadow-md text-center">
                   <p className="text-sm font-semibold mb-2 text-[#F1301E]">
                     Use coupon codes in the checkout page to get huge discounts
                     after mobile number verification.
                   </p>
 
-                  {/* Main Content */}
                   <div className="bg-gradient-to-r from-[#000] to-[#000000] text-white py-4 px-2 rounded-lg flex items-center justify-center space-x-4">
                     <div className="w-20 h-20 flex items-center rounded-full overflow-hidden">
                       <Image
@@ -1264,7 +1330,6 @@ const CarDetails = () => {
                     </p>
                   </div>
 
-                  {/* Call to Action */}
 
                   <a
                     href="tel:18001216162"
@@ -1282,7 +1347,79 @@ const CarDetails = () => {
                       </p>
                     </div>
                   </a>
+                </div> */}
+
+                <div className="mb-4 flex flex-row justify-start gap-1 items-center text-xs w-full">
+                  <Image
+                    src={"/tag.png"}
+                    alt="discount"
+                    width={50}
+                    height={50}
+                    className="bg-transparent"
+                  />
+                  {selectedPromoCode ? (
+                    <div className="flex flex-row  justify-between w-full mb-5">
+                        <span className="font-semibold text-sm flex flex-col ">
+                       <span className="mt-6">{selectedPromoCode.code}</span>
+                       <span className="text-[#39DA2B]">Success</span>
+                      </span>
+                      <span
+                        // onClick={() => setShowCoupon(!showCoupon)}
+                        className="text-[#ff0000]  cursor-pointer ml-2 mt-6 flex flex-col font-semibold text-sm"
+                      >
+                        <span className="text-[#000]">₹{selectedPromoCode.discountApplied}</span>
+                        <span className="text-[#C21515]" 
+                        onClick={() => 
+                          // e.stopPropagation();
+                        { setSelectedPromoCode(null)
+                          setShowCoupon(null)
+                        }}>Remove promocode</span>
+
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="font-semibold text-sm">
+                        Have a coupon?
+                      </span>
+                      <span
+                        onClick={() => setShowCoupon(!showCoupon)}
+                        className="text-[#ff0000] font-semibold cursor-pointer ml-2"
+                      >
+                        Click here to enter your code
+                      </span>
+                    </div>
+                  )}
                 </div>
+
+                {(tabValue === "Self-Driving" ||
+                  tabValue === "Subscription" ||
+                  (tabValue === "Driver" && radioToggle === "Local")) && (
+                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl -mt-5">
+                    {currentPackage?.gst === "Excluded" && (
+                      <div className="flex flex-col">
+                        <span className="text-sm md:text-md">Total Amount</span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                          ₹ {roundPrice(totalExcludedGSTAmount)}
+                        </span>
+                      </div>
+                    )}
+                    {currentPackage?.gst === "Included" && (
+                      <div className="flex flex-col">
+                        <span className="text-sm md:text-md">Total Amount</span>
+                        <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
+                          ₹ {roundPrice(totalIncludedGSTAmount )}
+                        </span>
+                      </div>
+                    )}
+                    <button
+                      onClick={handleProceedTotal}
+                      className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-white font-semibold sm:text-2xl px-6 py-2 rounded-full drop-shadow-lg"
+                    >
+                      Proceed
+                    </button>
+                  </div>
+                )}
 
                 <div
                   className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
