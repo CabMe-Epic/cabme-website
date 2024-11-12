@@ -155,6 +155,11 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const { reservationDateTime, setReservationDateTime, duration } =
     useReservationDateTime();
 
+  const couponDiscountAmount = useSelector((state: any) => state.location.selectedPromoCode?.discountApplied);
+
+  const couponDiscountCode = useSelector((state: any) => state.location.selectedPromoCode?.appliedCode);
+
+
   const total =
     Number(packagePrice) +
     doorStepPrice +
@@ -193,9 +198,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     extraKmsCharge: carDetails?.extraService?.extraKmCharges,
     tollsParking: "",
     promocode: {
-      code: selectedPromoCode?.code,
+      code: couponDiscountCode,
       discountType: "",
-      discountAmount: Number(selectedPromoCode?.discountApplied).toFixed(2),
+      discountAmount: Number(couponDiscountAmount).toFixed(2),
     },
     totalAmount:
       discountAmount > 0
@@ -558,7 +563,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
-    (selectedPromoCode?.discountApplied || 0) -
+    (couponDiscountAmount || 0) -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
 
   const totalIncludedGSTAmount =
@@ -568,8 +573,10 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
     ) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
     doorStepAmount -
-    (selectedPromoCode?.discountApplied || 0) -
+    (couponDiscountAmount || 0) -
     (priceAfterDiscountNew === undefined ? 0 : priceAfterDiscountNew);
+
+    console.log(couponDiscountAmount,"couponDiscountAmount")
 
   useEffect(() => {
     const amount =
@@ -893,8 +900,8 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
         </div>
 
         <div className="w-full mt-10">
-          <span className="flex flex-col my-5 mt-2">
-            <div className="flex gap-2 ml-2 items-center">
+          <span className="flex flex-col my-0 mt-0">
+            {/* <div className="flex gap-2 ml-2 items-center">
               <div>
                 <Image
                   src="/png/offer.png"
@@ -904,9 +911,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                 />
               </div>
 
-              {/* {
-                selectedPromocodeOption ? <span className="text-xs my-0 w-fit ml-2"> ({selectedPromocodeOption})</span> : <h3 className="font-semibold text-sm">Have a coupon?</h3>
-              } */}
+             
 
               {selectedPromoCode?.code ? (
                 <div className="text-xs my-0 w-fit ml-2">
@@ -930,38 +935,23 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                   &#10539;
                 </button>
               )}
-            </div>
+            </div> */}
             {priceAfterDiscountNew !== undefined && (
               <div className="flex justify-between px-4 font-semibold mt-2">
                 <h3 className="">Discounted amount</h3>
                 <p>₹{roundPrice(priceAfterDiscountNew)}</p>
               </div>
             )}
-            <div className="mt-6 w-full p-2 border-2 border-[#F1301E] mb-0 rounded-lg shadow-md text-center">
+            {/* <div className="mt-6 w-full p-2 border-2 border-[#F1301E] mb-0 rounded-lg shadow-md text-center">
               <p className="text-sm font-semibold mb-2 text-[#F1301E]">
                 You can apply coupon code after mobile number verification.{" "}
               </p>
-            </div>
+            </div> */}
 
-            {/* {payableAmount && ( 
-              <div className="font-semibold flex justify-between mt-2">
-                <h3>Advance payment</h3>
-                <p>{Number(payableAmount)}</p>
-              </div>
-            )} */}
+           
           </span>
 
-          {/* <div className="max-w-[418px]  h-[45px] flex flex-row justify-center border-[1.5px] border-[#ff0000] rounded item-center bg-white px-4">
-                        <input
-                            type="text"
-                            placeholder="DJF4D4F"
-                            className="w-full border-0 outline-none pr-4 text-[#888787]"
-                        />
-                        <button className="text-[#ff0000]">Apply</button>
-                    </div> */}
-          {/* <div className="text-[#ff0000] font-semibold text-[15px]">
-              ₹ Balance on Delivery
-            </div> */}
+          
           <div className="drop-shadow-lg  bg-[#E7E7E7]  px-4 py-5 rounded-3xl">
             <div className="flex flex-row items-center justify-between">
               <div className="flex justify-center flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
@@ -995,13 +985,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                   </div>
                 )}
 
-              {/* {particalAmount !== 0 &&
-                (currentPackage?.gst === "Excluded" ? (
-                  <>₹ {roundPrice(totalExcludedGSTAmount) - particalAmount}</>
-                ) : (
-                  <>₹ {roundPrice(totalIncludedGSTAmount) - particalAmount}</>
-                ))}{" "}
-              {""} */}
+          
             </div>
           </div>
         </div>

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setSelectedPromoCodeRedux } from "../../../../redux/slices/locationSlice";
 
 interface CouponProp {
-  setHide?: () => void;
+  setHide?: any;
   onClick?: () => void;
   promoCodes?: { code: string }[];
   setSelectedPromoCode?: (code: any) => void;
@@ -74,7 +74,8 @@ const ApplyCoupon: React.FC<CouponProp> = ({
 
       alert("Coupon applied successfully!");
       setCode("");
-      setHide(false);
+      setHide?.();
+      document.body.style.overflow = "auto";
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message || "Failed to apply coupon";
@@ -101,11 +102,11 @@ const ApplyCoupon: React.FC<CouponProp> = ({
   };
   
 
-  useEffect(() => {
-    if (code) {
-      handleApply();
-    }
-  }, [code]);
+  // useEffect(() => {
+  //   if (code) {
+  //     handleApply();
+  //   }
+  // }, [code]);
   
 
   useEffect(() => {
@@ -125,13 +126,13 @@ const ApplyCoupon: React.FC<CouponProp> = ({
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-brightness-50 left-0 flex items-center justify-center z-[9]">
       <div className="bg-white border rounded-xl min-w-fit overflow-hidden w-[350px] sm:w-[750px] sm:min-h-[500px] md:max-w-[800px] md:w-[750px] relative">
-        <div className="p-4">
-          <h3 className="text-lg mb-2 font-[600] tracking-wide">Coupons</h3>
-          <h5 className="text-[#7B7B7B] text-[16px] mb-3">
+        <div className="p-0">
+          <h3 className="text-lg mb-2 font-[600] tracking-wide pl-4 pt-4">Coupons</h3>
+          <h5 className="text-[#7B7B7B] text-[16px] mb-3 pl-4 ">
             Have a Coupon Code?
           </h5>
-          <div className="bg-[#F3F3F3] p-2 relative rounded-md">
-            <div className="flex flex-row items-center">
+          <div className="bg-[#F3F3F3] p-2 relative rounded-md w-[95%] ml-4">
+            <div className="flex flex-row items-center ">
               <input
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
@@ -154,7 +155,7 @@ const ApplyCoupon: React.FC<CouponProp> = ({
               </span>
             )}
           </div>
-          <div className="max-w-[850px] w-fit m-auto h-[450px] overflow-auto">
+          <div className="max-w-[900px] w-fit h-[450px] p-5 py-0 overflow-auto">
             {offer === "Daily Offers" && (
               <OfferCardsDetails
                 banners={cms?.trendingOffer}

@@ -78,8 +78,8 @@ const CarDetails = () => {
   const [bookingOptions, setBookingOptions] = useState<any>();
   const [dropoffLocation, setDropoffLocation] = useState<any>("");
   const { payableAmount, setPayableAmount } = useCarsStore();
-  const [showCoupon, setShowCoupon] = useState(false);
-  const [promoCodes, setPromoCodes] = useState([]);
+  const [showCoupon, setShowCoupon] = useState<any | void>();
+  const [promoCodes, setPromoCodes] = useState<any>([]);
   const [appliedCode, setAppliedCode] = useState<any>();
   const [discountApplied, setDiscountApplied] = useState<any>();
   const [vehicleIdCoupon, setVehicleIdCoupon] = useState<any>();
@@ -179,7 +179,7 @@ const CarDetails = () => {
     setRadioToggle(radioTog);
     // localStorage.removeItem("doorStepPriceCharge");
     dispatch(setDoorStepPriceChargeRedux(0));
-    const x = sessionStorage.setItem("slug", slug);
+    const x: any = sessionStorage.setItem("slug", slug);
     if (x) {
       setVehicleIdCoupon(x);
     }
@@ -1349,13 +1349,13 @@ const CarDetails = () => {
                   </a>
                 </div> */}
 
-                <div className="mb-4 flex flex-row justify-start gap-1 items-center text-xs w-full">
+                <div className="mb-4 flex flex-row justify-start gap-1 items-center py-5 text-xs w-full">
                   <Image
                     src={"/tag.png"}
                     alt="discount"
                     width={50}
                     height={50}
-                    className="bg-transparent"
+                    className="bg-transparent sm:w-[50px] sm:h-[50px] w-[40px] h-[40px]"
                   />
                   {selectedPromoCode ? (
                     <div className="flex flex-row  justify-between w-full mb-5">
@@ -1373,18 +1373,19 @@ const CarDetails = () => {
                           // e.stopPropagation();
                         { setSelectedPromoCode(null)
                           setShowCoupon(null)
+                          document.body.style.overflow = "auto";
                         }}>Remove promocode</span>
 
                       </span>
                     </div>
                   ) : (
-                    <div>
-                      <span className="font-semibold text-sm">
+                    <div className="flex flex-row justify-between items-center w-full sm:mb-1 mb-1">
+                      <span className="font-semibold text-sm whitespace-nowrap">
                         Have a coupon?
                       </span>
                       <span
                         onClick={() => setShowCoupon(!showCoupon)}
-                        className="text-[#ff0000] font-semibold cursor-pointer ml-2"
+                        className="text-[#ff0000] font-semibold cursor-pointer ml-1 whitespace-nowrap"
                       >
                         Click here to enter your code
                       </span>

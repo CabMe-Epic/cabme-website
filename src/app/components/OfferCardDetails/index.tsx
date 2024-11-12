@@ -8,6 +8,7 @@ interface offerProp {
   monthlyOffer?: boolean;
   banners?: any;
   isDetails?: boolean;
+  getCode?: any;
 }
 
 const OfferCardsDetails = ({
@@ -15,7 +16,7 @@ const OfferCardsDetails = ({
   monthlyOffer,
   banners,
   isDetails,
-  getCode
+  getCode,
 }: offerProp) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTab, setIsTab] = useState(false);
@@ -33,7 +34,6 @@ const OfferCardsDetails = ({
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-    
   }, []);
 
   const copyToClipboard = (couponCode: string) => {
@@ -50,20 +50,26 @@ const OfferCardsDetails = ({
     }
   };
 
+  const fetchData = async () => {
+    const res = await fetch(`https://api.cabme.in/api/cabme/promocodes`);
+    const data = await res.json();
+    console.log(data, "data");
+  };
+
   // const getDescriptionValue = (description: string) => {
   //   const result: { minAmount?: number, maxAmount?: number, minDays?: number, maxDays?: number, duration?: string } = {};
-  
+
   //   // Regex patterns for matching amounts and duration
   //   const amountRegex = /Rs\.(\d{1,3}(?:,\d{3})*)\s*(above|below|greater\s*than|less\s*than)?/g;
   //   const daysRegex = /(minimum|max|at\s*least|up\s*to)\s*(\d+)\s*(days?|duration?)/g;
-  
+
   //   const extractAmount = (amount: string) => {
   //     const matches = [...amount.matchAll(amountRegex)];
-  
+
   //     matches.forEach(match => {
   //       const value = parseInt(match[1].replace(/,/g, ''), 10);
   //       const condition = match[2]?.toLowerCase();
-  
+
   //       if (condition && condition.includes('above')) {
   //         result.minAmount = value;
   //       } else if (condition && condition.includes('below')) {
@@ -74,15 +80,15 @@ const OfferCardsDetails = ({
   //       }
   //     });
   //   };
-  
+
   //   // Function to extract days or duration
   //   const extractDays = (daysDescription: string) => {
   //     const matches = [...daysDescription.matchAll(daysRegex)];
-  
+
   //     matches.forEach(match => {
   //       const value = parseInt(match[2], 10);
   //       const condition = match[1]?.toLowerCase();
-  
+
   //       if (condition.includes('minimum') || condition.includes('at least')) {
   //         result.minDays = value;
   //       } else if (condition.includes('max') || condition.includes('up to')) {
@@ -90,28 +96,25 @@ const OfferCardsDetails = ({
   //       }
   //     });
   //   };
-  
+
   //   // Extract amounts
   //   extractAmount(description);
-  
+
   //   // Extract days/duration
   //   extractDays(description);
-  
+
   //   // If no amount or days are found, use a fallback message
   //   // return result;
   //   // console.log(result,'result')
   //   return description + " | " + JSON.stringify(result);
   // };
-  
-  
-  
 
   return (
     <div className="my-4">
       <div
-        className={`grid grid-cols-2 justify-start flex-row gap-6 w-full h-full ${
-          isDetails && "!w-full"
-        } z-0`}
+        className={`grid grid-cols-1 sm:grid-cols-2  justify-start flex-row gap-6 w-full h-full 
+
+ ${isDetails && "!w-full"} z-0`}
       >
         {Array.isArray(banners) &&
           (banners.length > 0 ? banners : offerCardsArray)
@@ -120,13 +123,9 @@ const OfferCardsDetails = ({
               return (
                 <div
                   key={index}
-                  className={`sm:w-[320px] w-[340px]  sm:h-[200px] h-[220px] m-auto grid grid-cols-2 justify-between gap-0 border rounded-md p-0 bg-[#fff] ${
+                  className={`sm:w-[320px] w-[340px]  sm:h-[200px] h-[170px] m-auto grid grid-cols-2 justify-between gap-0 border rounded-md p-0 bg-[#fff] transition-all cursor-pointer hover:shadow-[0_20px_50px_rgba(128,_128,_128,_0.7)] ${
                     isDetails ? "!w-[320px] !gap-2" : ""
-                  } ${
-                    index === 3
-                      ? "grayscale hover:bg-white select-none opacity-50 "
-                      : ""
-                  }`}
+                  } ${index === 3 ? "" : ""}`}
                 >
                   <div className="flex flex-col h-full justify-between bg-white rounded-md">
                     <div className="sm:px-2 sm:py-2 px-2 py-[7px]">
