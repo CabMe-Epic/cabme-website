@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
-import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
+import { fetchPromoCodes, fetchPromoCodesForWeb } from "../../../../../networkRequests/hooks/promocodes";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
 import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
@@ -80,6 +80,7 @@ const CarDetails = () => {
   const { payableAmount, setPayableAmount } = useCarsStore();
   const [showCoupon, setShowCoupon] = useState<any | void>();
   const [promoCodes, setPromoCodes] = useState<any>([]);
+
   const [appliedCode, setAppliedCode] = useState<any>();
   const [discountApplied, setDiscountApplied] = useState<any>();
   const [vehicleIdCoupon, setVehicleIdCoupon] = useState<any>();
@@ -414,9 +415,13 @@ const CarDetails = () => {
         console.log({ error });
       }
     };
-
+ 
     getPromoCodes();
+  
+    
   }, []);
+
+  // console.log(promoCodesWeb,"promoCodesWeb")
 
   const handleChangePromocodeOption = (e: any) => {
     setSelectedPromocodeOption(e.target.value);
@@ -1103,6 +1108,10 @@ const CarDetails = () => {
                       onChange={(event) => {
                         const selectedValue = event.target.value;
                         let packageName = "";
+                        { setSelectedPromoCode(null)
+                          setShowCoupon(null)
+                          document.body.style.overflow = "auto";
+                        }
 
                         switch (selectedValue) {
                           case roundPrice(package1Price || 0).toString():
@@ -1349,7 +1358,7 @@ const CarDetails = () => {
                   </a>
                 </div> */}
 
-                <div className="mb-4 flex flex-row justify-start gap-1 items-center py-5 text-xs w-full">
+                <div className="mb-4 flex flex-row justify-start gap-1 items-center py-2 text-xs w-full">
                   <Image
                     src={"/tag.png"}
                     alt="discount"
@@ -1379,15 +1388,15 @@ const CarDetails = () => {
                       </span>
                     </div>
                   ) : (
-                    <div className="flex flex-row justify-between items-center w-full sm:mb-1 mb-1">
+                    <div className="flex flex-row justify-start items-center w-full sm:mb-1 mb-1 ">
                       <span className="font-semibold text-sm whitespace-nowrap">
                         Have a coupon?
                       </span>
                       <span
                         onClick={() => setShowCoupon(!showCoupon)}
-                        className="text-[#ff0000] font-semibold cursor-pointer ml-1 whitespace-nowrap"
+                        className="text-[#ff0000] font-semibold cursor-pointer ml-2 whitespace-nowrap"
                       >
-                        Click here to enter your code
+                        Click here to enter your code 
                       </span>
                     </div>
                   )}
@@ -1396,7 +1405,7 @@ const CarDetails = () => {
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" && radioToggle === "Local")) && (
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl -mt-5">
+                  <div className="my-6 h-[70px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] !py-0  rounded-3xl -mt-5">
                     {currentPackage?.gst === "Excluded" && (
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">Total Amount</span>

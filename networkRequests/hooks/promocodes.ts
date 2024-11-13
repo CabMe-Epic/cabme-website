@@ -13,3 +13,13 @@ export const fetchPromoCodes = async () => {
         throw error;
     }
 };
+
+export const fetchPromoCodesForWeb = async () => {
+    try {
+        const response = await api.get('/user/allpromocodes');
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching promo codes:', error);
+        throw error;
+    }
+};

@@ -21,17 +21,7 @@ const BookingDetailsCard = ({ city }: any) => {
 
 
   useEffect(() => {
-    // const getPickup = localStorage.getItem("pickupDate");
-    // const getDropoff = localStorage.getItem("dropOffDate");
-    // const pickTime = localStorage.getItem("pickupTime")
-    // const dropTime = localStorage.getItem("dropoffTime")
-
-    // const getPickup = localStorage.getItem("pickupDate");
-    // const getDropoff = localStorage.getItem("dropOffDate");
-    // const pickTime = localStorage.getItem("pickupTime")
-    // const dropTime = localStorage.getItem("dropoffTime")
-
-    setPickupDate(pickupDateRedux);
+setPickupDate(pickupDateRedux);
     setDropoffDate(dropOffDateRedux);
     setPickupTime(pickupTimeRedux);
     setDropoffTime(dropoffTimeRedux);
