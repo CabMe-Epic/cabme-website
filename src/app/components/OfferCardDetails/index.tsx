@@ -28,9 +28,9 @@ const OfferCardsDetails = ({
   const [isTab, setIsTab] = useState(false);
   const [promoCodesWeb, setPromoCodesWeb] = useState<any>([]);
   const [bookingDays, setBookingDays] = useState<{
-    [key: string]: number | null;
+    [key: string]: number | any| null;
   }>({});
-  const [days, setDays] = useState();
+  const [days, setDays] = useState<any>(0);
 
   const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
   const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
@@ -53,7 +53,7 @@ const OfferCardsDetails = ({
     );
     const diffInMs = Math.abs(droppingDateTime - pickupDateTime);
     const diffInSeconds = Math.floor(diffInMs / 1000);
-    const days = Math.floor(diffInSeconds / (3600 * 24));
+    const days: any = Math.floor(diffInSeconds / (3600 * 24));
     const hours = Math.floor((diffInSeconds % (3600 * 24)) / 3600);
     const minutes = Math.floor((diffInSeconds % 3600) / 60);
     setDays(days);
@@ -104,10 +104,10 @@ const OfferCardsDetails = ({
       console.log(promoCodesWeb, "promoCodesWeb");
 
       const activePromoDays = banners
-        .filter((item) => item.daily === true)
-        .reduce((acc, item) => {
+        .filter((item: any) => item.daily === true)
+        .reduce((acc: any, item: any) => {
           const promo = promoCodesWeb.find(
-            (promo) => promo.code === item.couponCode
+            (promo: any) => promo.code === item.couponCode
           );
           if (promo && promo.bookingDays) {
             acc[item.couponCode] = promo.bookingDays;
@@ -127,7 +127,7 @@ const OfferCardsDetails = ({
         ${isDetails && "!w-full"} z-0`}
       >
         {Array.isArray(banners) &&
-          (banners.length > 0 ? banners : offerCardsArray)
+          (banners.length > 0 ? banners : (banners))
             .filter((item: any) => item.daily === true)
             .map((item: any, index: number) => {
               return (
@@ -167,10 +167,7 @@ const OfferCardsDetails = ({
                       />
                     </div>
                   </div>
-                  {console.log(
-                    bookingDays[item.couponCode],
-                    "bookingDays[item.couponCode]"
-                  )}
+             
                   {(bookingDays[item.couponCode] > days) && (
                     <span className="text-[#ff0000] text-sm font-[600] z-[99] whitespace-nowrap mt-2">
                       Book for {bookingDays[item.couponCode]} days to avail this
