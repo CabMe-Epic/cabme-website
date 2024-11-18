@@ -28,7 +28,8 @@ import {
   setTabValueRedux,
   setRadioToggleRedux,
   setNonFormatedPickupDateRedux,
-  setNonFormatedDropoffDateRedux
+  setNonFormatedDropoffDateRedux,
+  setSelectedPromoCodeRedux
 } from "../../../../redux/slices/locationSlice";
 
 interface VehicleSearchPayload {
@@ -440,6 +441,15 @@ const CarListing = () => {
     getCarDetails();
 
   }, [locationData, bookingOptions, driverType]);
+
+
+  // const promo = useSelector((state: any) => state.location.selectedPromoCode);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setSelectedPromoCodeRedux(null))
+  }, []);
 
 
   return (

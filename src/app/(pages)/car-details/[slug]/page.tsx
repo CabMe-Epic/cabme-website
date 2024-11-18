@@ -17,7 +17,10 @@ import "react-toastify/dist/ReactToastify.css";
 import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
-import { fetchPromoCodes, fetchPromoCodesForWeb } from "../../../../../networkRequests/hooks/promocodes";
+import {
+  fetchPromoCodes,
+  fetchPromoCodesForWeb,
+} from "../../../../../networkRequests/hooks/promocodes";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
 import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
@@ -46,6 +49,7 @@ import {
   setCheckFreeKmRedux,
   setAdvancePaymentRedux,
   setIsFullpaymentRedux,
+  setSelectedPromoCodeRedux,
 } from "../../../../../redux/slices/locationSlice";
 import ApplyCoupon from "@/app/components/ApplyCoupon/apply-coupon";
 
@@ -90,6 +94,13 @@ const CarDetails = () => {
   const [applyCoupon, setApplyCoupon] = React.useState(false);
   const [selectedPromoCode, setSelectedPromoCode] = useState<any>(null);
   const [currentVehicleId, setCurrentVehicleId] = useState<string | null>();
+  const [showToolTip, setShowToolTip] = useState<any>(false);
+
+  const promo = useSelector((state: any) => state.location.selectedPromoCode);
+
+  useEffect(() => {
+    setSelectedPromoCode(promo);
+  }, [promo]);
 
   const userData = useStore((state: any) => state);
   console.log("USER DATA", { userData });
@@ -256,13 +267,15 @@ const CarDetails = () => {
     Number(result?.gstAmount) +
     Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
-    doorStepAmount- Number(selectedPromoCode?.discountApplied || 0);
+    doorStepAmount -
+    Number(selectedPromoCode?.discountApplied || 0);
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
-    doorStepAmount - Number(selectedPromoCode?.discountApplied || 0);
+    doorStepAmount -
+    Number(selectedPromoCode?.discountApplied || 0);
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice);
@@ -342,7 +355,7 @@ const CarDetails = () => {
   }, []);
 
   console.log("carDetails", { carDetails });
-  console.log("selectedTabValue", { selectedTabValue });  
+  console.log("selectedTabValue", { selectedTabValue });
 
   const bookingData = {
     // userId: userData?.userData?._id,
@@ -415,10 +428,8 @@ const CarDetails = () => {
         console.log({ error });
       }
     };
- 
+
     getPromoCodes();
-  
-    
   }, []);
 
   // console.log(promoCodesWeb,"promoCodesWeb")
@@ -785,6 +796,14 @@ const CarDetails = () => {
     router.push("/check-out");
   };
 
+
+  const handleItoolTip = () => {
+      setShowToolTip(true);
+  }
+  const handleItoolTipRelease = () => {
+    setShowToolTip(false);
+}
+
   console.log(payableAmount, "advance payment");
 
   const handleProceedTotal = () => {
@@ -872,6 +891,8 @@ const CarDetails = () => {
   );
 
   // alert(vehicleIdCoupon)
+
+  console.log(promo, "promo");
 
   return (
     <>
@@ -1108,8 +1129,9 @@ const CarDetails = () => {
                       onChange={(event) => {
                         const selectedValue = event.target.value;
                         let packageName = "";
-                        { setSelectedPromoCode(null)
-                          setShowCoupon(null)
+                        {
+                          setSelectedPromoCode(null);
+                          setShowCoupon(null);
                           document.body.style.overflow = "auto";
                         }
 
@@ -1280,7 +1302,11 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
                       <span>TOTAL</span>
                       <span className="text-[#ff0000]">
-                        ₹ {roundPrice(totalExcludedGSTAmount + Number(selectedPromoCode?.discountApplied || 0))}
+                        ₹{" "}
+                        {roundPrice(
+                          totalExcludedGSTAmount +
+                            Number(selectedPromoCode?.discountApplied || 0)
+                        )}
                       </span>
                     </div>
                   )}
@@ -1289,7 +1315,11 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
                       <span>TOTAL</span>
                       <span className="text-[#ff0000]">
-                        ₹ {roundPrice(totalIncludedGSTAmount + Number(selectedPromoCode?.discountApplied || 0))}
+                        ₹{" "}
+                        {roundPrice(
+                          totalIncludedGSTAmount +
+                            Number(selectedPromoCode?.discountApplied || 0)
+                        )}
                       </span>
                     </div>
                   )}
@@ -1315,8 +1345,6 @@ const CarDetails = () => {
                     <span>{currentPackage?.tollsParkingTaxes}</span>
                   </div>
                 </div>
-
-              
 
                 {/* <div className="max-w-sm p-4 border-2 border-[#F1301E] mb-6 rounded-lg shadow-md text-center">
                   <p className="text-sm font-semibold mb-2 text-[#F1301E]">
@@ -1368,23 +1396,31 @@ const CarDetails = () => {
                   />
                   {selectedPromoCode ? (
                     <div className="flex flex-row  justify-between w-full mb-5">
-                        <span className="font-semibold text-sm flex flex-col ">
-                       <span className="mt-6">{selectedPromoCode.code}</span>
-                       <span className="text-[#39DA2B]">Success</span>
+                      <span className="font-semibold text-sm flex flex-col ">
+                        <span className="mt-6">{selectedPromoCode.code}</span>
+                        <span className="text-[#39DA2B]">Success</span>
                       </span>
                       <span
                         // onClick={() => setShowCoupon(!showCoupon)}
                         className="text-[#ff0000]  cursor-pointer ml-2 mt-6 flex flex-col font-semibold text-sm"
                       >
-                        <span className="text-[#000]">₹{selectedPromoCode.discountApplied}</span>
-                        <span className="text-[#C21515]" 
-                        onClick={() => 
-                          // e.stopPropagation();
-                        { setSelectedPromoCode(null)
-                          setShowCoupon(null)
-                          document.body.style.overflow = "auto";
-                        }}>Remove promocode</span>
-
+                        <span className="text-[#000]">
+                          ₹{selectedPromoCode.discountApplied}
+                        </span>
+                        <span
+                          className="text-[#C21515]"
+                          onClick={() =>
+                            // e.stopPropagation();
+                            {
+                              setSelectedPromoCode(null);
+                              setShowCoupon(null);
+                              dispatch(setSelectedPromoCodeRedux(null));
+                              document.body.style.overflow = "auto";
+                            }
+                          }
+                        >
+                          Remove promocode
+                        </span>
                       </span>
                     </div>
                   ) : (
@@ -1396,7 +1432,7 @@ const CarDetails = () => {
                         onClick={() => setShowCoupon(!showCoupon)}
                         className="text-[#ff0000] font-semibold cursor-pointer ml-2 whitespace-nowrap"
                       >
-                        Click here to enter your code 
+                        Click here to enter your code
                       </span>
                     </div>
                   )}
@@ -1418,7 +1454,7 @@ const CarDetails = () => {
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">Total Amount</span>
                         <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
-                          ₹ {roundPrice(totalIncludedGSTAmount )}
+                          ₹ {roundPrice(totalIncludedGSTAmount)}
                         </span>
                       </div>
                     )}
@@ -1432,7 +1468,7 @@ const CarDetails = () => {
                 )}
 
                 <div
-                  className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
+                  className={`flex flex-row relative items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
                     tabValue === "Driver" &&
                     radioToggle === "Out-station" &&
                     "mt-4"
@@ -1510,6 +1546,17 @@ const CarDetails = () => {
                   >
                     Proceed
                   </button>
+                  <span onMouseLeave={() => handleItoolTipRelease()} onMouseOver={() => handleItoolTip()} className="text-[black] border-[1.2px] text-[10px] w-[20px] h-[20px] flex flex-row items-center justify-center text-center rounded-full border-[#000]">
+                    i
+                  </span>
+
+                  {
+                    showToolTip && 
+                    <div className="absolute -top-10 right-0 bg-[#00000082] text-white rounded-md p-1 text-xs w-[160px] h-[50px]">
+                     This represents 30% of the overall total amount.
+                    </div>
+                  }
+
                 </div>
                 <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px] w-full mt-6">
                   <span>Notes</span>

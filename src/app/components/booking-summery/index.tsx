@@ -125,7 +125,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   // };
 
-  const promo = useSelector((state: any) => state.location.selectedPromoCode);
+  const promo = useSelector((state: any) => state.location?.selectedPromoCode);
 
   useEffect(() => {
     setSelectedPromoCodeSecond(promo);
@@ -134,6 +134,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   const handleHidePopUp = () => {
     setApplyCoupon(false);
   };
+
+
+
   const [sessionSlug, setFromSessionSlug] = useState("");
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
@@ -157,7 +160,9 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
   const couponDiscountAmount = useSelector((state: any) => state.location.selectedPromoCode?.discountApplied);
 
-  const couponDiscountCode = useSelector((state: any) => state.location.selectedPromoCode?.appliedCode);
+  const couponDiscountCode = useSelector((state: any) => state.location.selectedPromoCode?.code);
+
+  // console.log(couponDiscountCode,"couponDiscountCode")
 
 
   const total =
@@ -633,7 +638,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
   return (
     <div>
       {loader && <BlinkerLoader />}
-      <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-10 my-6 rounded-md">
+      <main className=" px-4 shadow-custom-shadow flex flex-col items-center bg-[#FAFAFA] py-6 my-6 rounded-md">
         <div className="max-w-[376px] w-full h-[50px] bg-black text-white font-semibold text-[20px] flex justify-center items-center rounded-xl">
           <span className="text-center tracking-wide sm:text-md text-[18px]">
             Booking Summary
@@ -742,7 +747,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
 
           {/* DESKTOP ...  */}
           {currentPackage?.gst === "Excluded" && (
-            <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+            <div className="grid grid-cols-2 rounded-xl w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                 ₹ {roundPrice(totalExcludedGSTAmount)}
@@ -750,7 +755,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
             </div>
           )}
           {currentPackage?.gst === "Included" && (
-            <div className="grid grid-cols-2 w-full gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
+            <div className="grid grid-cols-2 w-full rounded-xl gap-14 py-2 justify-center shadow-custom-inner font-bold text-xl text-[14px] sm:text-[18px]">
               <span className="sm:w-[220px] sm:ml-10">TOTAL</span>
               <span className="sm:w-[220px] sm:ml-10 text-[#ff0000]">
                 ₹ {roundPrice(totalIncludedGSTAmount)}
@@ -797,6 +802,18 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               {currentPackage?.tollsParkingTaxes}
             </span>
           </div>
+          {
+            couponDiscountCode &&
+            <div className="grid grid-cols-2 gap-14  justify-center">
+            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-4 text-[#ff0000]">
+              Applied Coupon
+            </span>
+            <span className="sm:text-[16px] text-sm w-fit word-wrap sm:ml-10 text-[#ff0000]">
+            ₹{couponDiscountAmount}({couponDiscountCode})
+            </span>
+          </div>
+          }
+         
         </div>
 
         <div className="w-full">
@@ -952,7 +969,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           </span>
 
           
-          <div className="drop-shadow-lg  bg-[#E7E7E7]  px-4 py-5 rounded-3xl">
+          <div className="drop-shadow-lg  bg-[#E7E7E7]  px-4 py-3 rounded-3xl">
             <div className="flex flex-row items-center justify-between">
               <div className="flex justify-center flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
                 <span className="sm:text-2xl font-bold">Total Amount :</span>
@@ -971,7 +988,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                   (selectedTabValue === "Driver" &&
                     (radioToggle === "One-way" ||
                       radioToggle === "Local"))) && (
-                  <div className="flex items-center flex-row justify-center text-md w-full gap-2">
+                  <div className="flex items-center flex-row justify-center text-md w-full gap-2 text-[20px]">
                     {currentPackage?.gst === "Excluded" ? (
                       <div>
                         ₹{roundPrice(totalExcludedGSTAmount) - particalAmount}
