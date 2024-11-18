@@ -974,7 +974,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
               <div className="flex justify-center flex-row items-center sm:gap-4 gap-2 w-full sm:px-4">
                 <span className="sm:text-2xl font-bold">Total Amount :</span>
 
-                <span className="text-[#ff0000] p-0 text-2xl font-bold">
+                <span className="text-[#ff0000] p-0 sm:text-2xl font-bold">
                   ₹{calculatonvalue}
                 </span>
               </div>
@@ -988,7 +988,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
                   (selectedTabValue === "Driver" &&
                     (radioToggle === "One-way" ||
                       radioToggle === "Local"))) && (
-                  <div className="flex items-center flex-row justify-center text-md w-full gap-2 text-[20px]">
+                  <div className="flex items-center flex-row justify-center text-md w-full gap-2 sm:text-[20px]">
                     {currentPackage?.gst === "Excluded" ? (
                       <div>
                         ₹{roundPrice(totalExcludedGSTAmount) - particalAmount}

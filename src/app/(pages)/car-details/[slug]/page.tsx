@@ -1424,13 +1424,13 @@ const CarDetails = () => {
                       </span>
                     </div>
                   ) : (
-                    <div className="flex flex-row justify-start items-center w-full sm:mb-1 mb-1 ">
-                      <span className="font-semibold text-sm whitespace-nowrap">
+                    <div className="flex flex-row justify-start items-center w-full sm:mb-1 mb-1 mr-10">
+                      <span className="font-semibold text-xs sm:text-sm whitespace-nowrap -ml-2">
                         Have a coupon?
                       </span>
                       <span
                         onClick={() => setShowCoupon(!showCoupon)}
-                        className="text-[#ff0000] font-semibold cursor-pointer ml-2 whitespace-nowrap"
+                        className="text-[#ff0000] text-xs sm:text-sm font-semibold cursor-pointer ml-1 sm:ml-2 whitespace-nowrap"
                       >
                         Click here to enter your code
                       </span>
