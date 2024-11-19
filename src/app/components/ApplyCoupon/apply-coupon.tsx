@@ -124,15 +124,15 @@ const ApplyCoupon: React.FC<CouponProp> = ({
   }, []);
 
   return (
-    <div className="fixed w-screen h-screen top-0 backdrop-brightness-50 left-0 flex items-center justify-center z-[9]">
-      <div className="bg-white border rounded-xl min-w-fit overflow-hidden w-[350px] sm:w-[750px] sm:min-h-[500px] md:max-w-[800px] md:w-[750px] relative">
+    <div className="fixed w-screen h-screen top-0 backdrop-brightness-50 left-0 flex items-center justify-center z-[9] ">
+      <div className="bg-white border rounded-xl min-w-fit overflow-hidden  sm:w-[750px] sm:min-h-[500px] md:max-w-[800px] md:w-[750px] relative m-auto">
         <div className="p-0">
           <h3 className="text-lg mb-2 font-[600] tracking-wide pl-4 pt-4">Coupons</h3>
           <h5 className="text-[#7B7B7B] text-[16px] mb-3 pl-4 ">
             Have a Coupon Code?
           </h5>
-          <div className="bg-[#F3F3F3] p-2 relative rounded-md w-[95%] ml-4">
-            <div className="flex flex-row items-center ">
+          <div className="bg-[#F3F3F3] p-2 relative rounded-md w-[90%] mx-auto">
+            <div className="flex flex-row items-center justify-center">
               <input
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
@@ -146,8 +146,11 @@ const ApplyCoupon: React.FC<CouponProp> = ({
                 className="text-xs tracking-wide !p-3 !px-8 !font-bold"
               />
             </div>
-            {errMsg && (
-              <span className="text-red-500 text-xs ml-2">
+           
+          </div>
+          <div className="!w-[350px] m-auto sm:ml-8">
+          {errMsg && (
+              <span className="text-red-500 text-xs ml-2  m-auto ">
                 {errMsg} Contact support at{" "}
                 <a className="underline" href="tel:1800 121 6162">
                   1800 121 6162
@@ -155,7 +158,8 @@ const ApplyCoupon: React.FC<CouponProp> = ({
               </span>
             )}
           </div>
-          <div className="max-w-[900px] w-fit h-[450px] p-5 py-0 overflow-auto">
+        
+          <div className="max-w-[900px] w-fit h-[450px] p-5 py-0 m-auto overflow-auto">
             {offer === "Daily Offers" && (
               <OfferCardsDetails
                 banners={cms?.trendingOffer}

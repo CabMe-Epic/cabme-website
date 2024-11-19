@@ -1542,7 +1542,7 @@ const CarDetails = () => {
                   </div>
                   <button
                     onClick={handleProceed}
-                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[118.31px] h-[40.08px] rounded-full drop-shadow-lg mr-1"
                   >
                     Proceed
                   </button>

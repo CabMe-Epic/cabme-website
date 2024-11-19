@@ -133,7 +133,7 @@ const OfferCardsDetails = ({
               return (
                 <div key={index}>
                   <div
-                    className={`sm:w-[320px] w-[340px] sm:h-[150px] h-[170px] m-auto grid grid-cols-2 justify-between gap-0 border rounded-md p-0 bg-[#fff] transition-all cursor-pointer hover:shadow-[0_20px_50px_rgba(128,_128,_128,_0.7)] ${
+                    className={`sm:w-[320px] w-[355px] sm:h-[150px] h-[170px] m-auto grid grid-cols-2 justify-between gap-0 border rounded-md p-0 bg-[#fff] transition-all cursor-pointer hover:shadow-[0_20px_50px_rgba(128,_128,_128,_0.7)] ${
                       isDetails ? "!w-[320px] !gap-2" : ""
                     } ${index === 3 ? "" : ""}   ${(bookingDays[item.couponCode] > days) && "brightness-50 hover:shadow-none"} `}
                   >

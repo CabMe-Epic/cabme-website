@@ -1016,6 +1016,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
       </main>
 
       {applyCoupon === true && (
+        <div className="m-auto w-full">
         <ApplyCoupon
           promoCodes={promoCodes}
           setHide={handleHidePopUp}
@@ -1031,6 +1032,7 @@ const BookingSummery: React.FC<ChildComponentProps> = ({
           onClick={() => setApplyCoupon(false)}
           setSelectedPromoCode={setSelectedPromoCode}
         />
+        </div>
       )}
     </div>
   );
