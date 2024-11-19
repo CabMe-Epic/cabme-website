@@ -61,7 +61,7 @@ const PersonalDetails = (props: any) => {
             console.error('Error fetching OTP:', error);
         }
     };
-    const userIdd = useSelector((state) => state.location.userId)
+    const userIdd = useSelector((state: any) => state.location.userId)
     const [userId, setUserId] = useState<string | null>(null);
 
     React.useEffect(() => {
