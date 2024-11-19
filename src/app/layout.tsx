@@ -3,6 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/header/header";
 import Footer from "./components/layout/footer/footer";
+import { Providers } from "../../redux/providers";
 
 // const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -66,11 +67,12 @@ export default function RootLayout({
           }}
         ></script>
       </head>
-      <body className={poppins.className} >
-        <Header />
-
-        <div className=" max-w-[1410px] m-auto">{children}</div>
-        <Footer />
+      <body className={poppins.className}>
+        <Providers>
+          <Header />
+          <div className=" max-w-[1410px] m-auto">{children}</div>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 interface ReservationDateTime {
     pickupDate: string;
@@ -15,12 +16,22 @@ const useReservationDateTime = () => {
         dropoffTime: ''
     });
     const [duration, setDuration] = useState('');
+    const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+    const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+    const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+    const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
 
     useEffect(() => {
-        const getPickup = localStorage.getItem("pickupDate") || '';
-        const getDropoff = localStorage.getItem("dropOffDate") || '';
-        const pickTime = localStorage.getItem("pickupTime") || '';
-        const dropTime = localStorage.getItem("dropoffTime") || '';
+
+        // const getPickup = localStorage.getItem("pickupDate") || '';
+        // const getDropoff = localStorage.getItem("dropOffDate") || '';
+        // const pickTime = localStorage.getItem("pickupTime") || '';
+        // const dropTime = localStorage.getItem("dropoffTime") || '';
+
+        const getPickup = pickupDateRedux || '';
+        const getDropoff = dropOffDateRedux || '';
+        const pickTime = pickupTimeRedux || '';
+        const dropTime = dropoffTimeRedux || '';
 
         setReservationDateTime({
             pickupDate: getPickup,

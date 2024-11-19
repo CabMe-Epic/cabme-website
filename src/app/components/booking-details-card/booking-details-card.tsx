@@ -2,6 +2,7 @@
 import moment from "moment";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const BookingDetailsCard = ({ city }: any) => {
 
@@ -11,16 +12,19 @@ const BookingDetailsCard = ({ city }: any) => {
   const [dropoffTime, setDropoffTime] = useState<any>()
   const [duration, setDuration] = useState('');
 
-  useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const pickTime = localStorage.getItem("pickupTime")
-    const dropTime = localStorage.getItem("dropoffTime")
+  const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
+  const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
+  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
+  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
 
-    setPickupDate(getPickup);
-    setDropoffDate(getDropoff);
-    setPickupTime(pickTime);
-    setDropoffTime(dropTime);
+
+  useEffect(() => {
+setPickupDate(pickupDateRedux);
+    setDropoffDate(dropOffDateRedux);
+    setPickupTime(pickupTimeRedux);
+    setDropoffTime(dropoffTimeRedux);
 
     const pickupDateTime: any = new Date(`${pickupDate?.split('-').join('-')}T${pickupTime}:00`);
     const droppingDateTime: any = new Date(`${dropoffDate?.split('-').join('-')}T${dropoffTime}:00`);
@@ -64,7 +68,7 @@ const BookingDetailsCard = ({ city }: any) => {
             </div>
 
             {
-              localStorage.getItem('tabValue') !== 'Subscription' &&
+              tabValueRedux !== 'Subscription' &&
               <div>
                 <span className="bg-[#ff0000] py-[14px] px-[14px] font-bold text-white rounded-full">
                   To
@@ -74,7 +78,7 @@ const BookingDetailsCard = ({ city }: any) => {
 
 
             {
-              localStorage.getItem('tabValue') !== 'Subscription' &&
+              tabValueRedux !== 'Subscription' &&
               <div className="flex flex-col gap-2">
                 {" "}
                 <span className="font-semibold">Drop-off</span>
@@ -101,7 +105,7 @@ const BookingDetailsCard = ({ city }: any) => {
           </div>
 
           {
-            localStorage.getItem('tabValue') !== 'Subscription' &&
+            tabValueRedux !== 'Subscription' &&
             <div className="my-8 text-center">
               <span className="bg-[#F2F7F6] w-full block p-4 rounded-lg drop-shadow-lg m-auto sm:text-md text-sm">
                 <b> Duration: </b> {duration ? duration : ""}{" "}

@@ -17,7 +17,10 @@ import "react-toastify/dist/ReactToastify.css";
 import useReservationDateTime from "../../../../../networkRequests/hooks/useReservationDateTime";
 import { extractDaysAndHours } from "@/app/utils/extractDaysAndHours";
 import { calculatePrice } from "@/app/utils/calculatePrice ";
-import { fetchPromoCodes } from "../../../../../networkRequests/hooks/promocodes";
+import {
+  fetchPromoCodes,
+  fetchPromoCodesForWeb,
+} from "../../../../../networkRequests/hooks/promocodes";
 import { calculateTotalPrice } from "@/app/utils/getTotalPrice";
 import { roundPrice } from "@/app/utils/roundPrice ";
 import DropLocation from "@/app/components/doorstep-popup/DoorstepPopup";
@@ -27,6 +30,28 @@ import BlinkerLoader from "@/app/components/blinker-loader/blinkerLoader";
 import useCarsStore from "@/app/zustand/store/carsStore";
 import { set } from "react-datepicker/dist/date_utils";
 import OfferCards from "@/app/components/offer-cards/offer-cards";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setPickupLocationRedux,
+  setDropOffLocationRedux,
+  setPickupDateRedux,
+  setDropOffDateRedux,
+  setPickupTimeRedux,
+  setDropoffTimeRedux,
+  setTabValueRedux,
+  setRadioToggleRedux,
+  setNonFormatedPickupDateRedux,
+  setNonFormatedDropoffDateRedux,
+  setSelectedPackagePriceRedux,
+  setSelectedPackageFreeKmsRedux,
+  setDoorStepPriceChargeRedux,
+  setBookingDataRedux,
+  setCheckFreeKmRedux,
+  setAdvancePaymentRedux,
+  setIsFullpaymentRedux,
+  setSelectedPromoCodeRedux,
+} from "../../../../../redux/slices/locationSlice";
+import ApplyCoupon from "@/app/components/ApplyCoupon/apply-coupon";
 
 interface PromoCode {
   code: string;
@@ -57,8 +82,27 @@ const CarDetails = () => {
   const [bookingOptions, setBookingOptions] = useState<any>();
   const [dropoffLocation, setDropoffLocation] = useState<any>("");
   const { payableAmount, setPayableAmount } = useCarsStore();
+  const [showCoupon, setShowCoupon] = useState<any | void>();
+  const [promoCodes, setPromoCodes] = useState<any>([]);
 
-  const userData = useStore((state) => state);
+  const [appliedCode, setAppliedCode] = useState<any>();
+  const [discountApplied, setDiscountApplied] = useState<any>();
+  const [vehicleIdCoupon, setVehicleIdCoupon] = useState<any>();
+  const handleHidePopUp = () => {
+    setApplyCoupon(false);
+  };
+  const [applyCoupon, setApplyCoupon] = React.useState(false);
+  const [selectedPromoCode, setSelectedPromoCode] = useState<any>(null);
+  const [currentVehicleId, setCurrentVehicleId] = useState<string | null>();
+  const [showToolTip, setShowToolTip] = useState<any>(false);
+
+  const promo = useSelector((state: any) => state.location.selectedPromoCode);
+
+  useEffect(() => {
+    setSelectedPromoCode(promo);
+  }, [promo]);
+
+  const userData = useStore((state: any) => state);
   console.log("USER DATA", { userData });
   const router = useRouter();
   const [userId, setUserId] = useState<string | null>(null);
@@ -66,7 +110,9 @@ const CarDetails = () => {
   const [pickupTime, setPickupTime] = useState<string | null>(null);
   const [dropoffTime, setDropoffTime] = useState<string | null>(null);
   const [selectedTabValue, setSelectedTabValue] = useState<string | null>(null);
-  const [promoCodes, setPromoCodes] = useState([]);
+  const [couponFromDate, setCouponFromDate] = useState<any>();
+  const [couponToDate, setCouponToDate] = useState<any>();
+  // const [promoCodes, setPromoCodes] = useState([]);
   const [message, setMessage] = useState<string | null>("");
   const [tabValue, setTabValue] = useState<any>();
   const [radioToggle, setRadioToggle] = useState<any>();
@@ -75,6 +121,7 @@ const CarDetails = () => {
   const [bookingNote, setBookingNote] = useState<any>("");
   const [offer, setOffer] = useState("Daily Offers");
   const [cms, setCms] = useState<any>();
+
   const handleShowDoorstepPopup = () => {
     setShowDoorStep(true);
   };
@@ -92,7 +139,23 @@ const CarDetails = () => {
     };
 
     getHomePageCMS();
+    const vehicleId = sessionStorage.getItem("slug");
+    if (vehicleId) {
+      setCurrentVehicleId(vehicleId);
+    }
+    // setCouponFromDate(fromDate);
+    // setCouponToDate(toDate);
   }, []);
+
+  if (showCoupon == true) {
+    document.body.style.overflow = "hidden";
+  }
+
+  const fromDate = useSelector((state: any) => state.location.pickupDate);
+  const toDate = useSelector((state: any) => state.location.dropOffDate);
+  const userIdPromo = useSelector((state: any) => state.location.userId);
+
+  console.log(currentVehicleId, "currentVehicleId");
 
   const [selectedDoorStepObject, setSelectedDoorStepObject] = useState<any>([]);
   const handleSelectItemDoorStep = (arr: any) => {
@@ -103,20 +166,38 @@ const CarDetails = () => {
   React.useEffect(() => {
     if (selectedDoorStepObject.length > 0) {
       const price = selectedDoorStepObject[0]?.price;
-      localStorage.setItem("doorStepPriceCharge", JSON.stringify(price));
+      // localStorage.setItem("doorStepPriceCharge", JSON.stringify(price));
+      dispatch(setDoorStepPriceChargeRedux(JSON.stringify(price)));
     }
     setTextareaHeight(textareaRef?.current?.scrollHeight + "px");
 
     console.log(selectedDoorStepObject, "selectedDoorStepObject");
   }, [selectedDoorStepObject]);
 
+  const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+
+  const radioToggleRedux = useSelector(
+    (state: any) => state.location.radioToggle
+  );
   useEffect(() => {
-    const tabval = localStorage.getItem("tabValue");
-    const radioTog = localStorage.getItem("radioToggle");
+    // const tabval = localStorage.getItem("tabValue");
+    const tabval = tabValueRedux;
+
+    // const radioTog = localStorage.getItem("radioToggle");
+
+    const radioTog = radioToggleRedux;
+
     setTabValue(tabval);
     setRadioToggle(radioTog);
-    localStorage.removeItem("doorStepPriceCharge");
+    // localStorage.removeItem("doorStepPriceCharge");
+    dispatch(setDoorStepPriceChargeRedux(0));
+    const x: any = sessionStorage.setItem("slug", slug);
+    if (x) {
+      setVehicleIdCoupon(x);
+    }
   }, []);
+
+  console.log(selectedPromoCode, "selectedPromoCode");
 
   const [carDetails, setCarDetails] = useState<any>();
   const [pickupDate, setPickupDate] = useState<any>();
@@ -125,6 +206,7 @@ const CarDetails = () => {
   const [freeKms, setFreeKms] = useState<any>(0);
   const [bookingOpt, setBookingOpt] = useState<any>();
 
+  const dispatch = useDispatch();
   const [selectedPackageAmount, setSelectedPackageAmount] = useState<number>(0);
   const [textareaHeight, setTextareaHeight] = useState("auto");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -185,13 +267,15 @@ const CarDetails = () => {
     Number(result?.gstAmount) +
     Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
-    doorStepAmount;
+    doorStepAmount -
+    Number(selectedPromoCode?.discountApplied || 0);
 
   const totalIncludedGSTAmount =
     Number(packagePrice) +
     Number(tabValue === "Driver" ? 0 : currentPackage?.refundableDeposit) +
     Number(selectedTabValue === "Self-Driving" ? selfDropCities : 0) +
-    doorStepAmount;
+    doorStepAmount -
+    Number(selectedPromoCode?.discountApplied || 0);
 
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Duration >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const total = Number(packagePrice);
@@ -205,16 +289,46 @@ const CarDetails = () => {
   const ThirtyDiscountForExcludedTax = (totalExcludedGSTAmount * 30) / 100;
   // console.log(ThirtyDiscountForInculdedTax,"advance");
   // console.log(totalIncludedGSTAmount,"else");
+  // const tabValueRedux = useSelector((state: any) => state.location.tabValue);
+  const dropOffLocationRedux = useSelector(
+    (state: any) => state.location.dropOffLocation
+  );
+  const pickupDateRedux = useSelector(
+    (state: any) => state.location.pickupDate
+  );
+  const dropOffDateRedux = useSelector(
+    (state: any) => state.location.dropOffDate
+  );
+  const pickupTimeRedux = useSelector(
+    (state: any) => state.location.pickupTime
+  );
+  const dropoffTimeRedux = useSelector(
+    (state: any) => state.location.dropoffTime
+  );
+  const selectedPackagePriceRedux = useSelector(
+    (state: any) => state.location.selectedPackagePrice
+  );
+  const selectedPackageFreeKmsRedux = useSelector(
+    (state: any) => state.location.selectedPackageFreeKms
+  );
 
+  const paymentMode = useSelector((state: any) => state.location.isFullpayment);
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedPickupTime = localStorage.getItem("pickupTime");
-      const storedDropoffTime = localStorage.getItem("dropoffTime");
-      const storedTabValue = localStorage.getItem("tabValue");
+      // const storedPickupTime = localStorage.getItem("pickupTime");
+      // const storedDropoffTime = localStorage.getItem("dropoffTime");
+      // const storedTabValue = localStorage.getItem("tabValue");
+
+      const storedPickupTime = pickupTimeRedux;
+      const storedDropoffTime = dropoffTimeRedux;
+      const storedTabValue = tabValueRedux;
+
       setPickupTime(storedPickupTime);
       setDropoffTime(storedDropoffTime);
       setSelectedTabValue(storedTabValue);
     }
+
+    console.log(paymentMode == "", "paymentMode");
   }, []);
 
   const pickupDateTimeString = pickupTime
@@ -224,10 +338,17 @@ const CarDetails = () => {
     ? `${dropoffDate}T${dropoffTime}:00.000Z`
     : null;
 
+  const userIdRedux = useSelector((state: any) => state.location.userId);
+  const tokenRedux = useSelector((state: any) => state.location.token);
+
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUserId = localStorage.getItem("userId");
-      const storedToken = localStorage.getItem("token");
+      // const storedUserId = localStorage.getItem("userId");
+      // const storedToken = localStorage.getItem("token");
+
+      const storedUserId = userIdRedux;
+      const storedToken = tokenRedux;
+
       setUserId(storedUserId);
       setToken(storedToken);
     }
@@ -311,6 +432,8 @@ const CarDetails = () => {
     getPromoCodes();
   }, []);
 
+  // console.log(promoCodesWeb,"promoCodesWeb")
+
   const handleChangePromocodeOption = (e: any) => {
     setSelectedPromocodeOption(e.target.value);
   };
@@ -351,10 +474,25 @@ const CarDetails = () => {
   };
 
   const { slug }: any = useParams();
+  const pickupLocationRedux = useSelector(
+    (state: any) => state.location.pickupLocation
+  );
+
+  const nonFormatedDropoffDate = useSelector(
+    (state: any) => state.location.nonFormatedDropoffDate
+  );
+  const nonFormatedPickupDate = useSelector(
+    (state: any) => state.location.nonFormatedPickupDate
+  );
   useEffect(() => {
-    const location = localStorage.getItem("pickupLocation");
-    const pickupDate = localStorage.getItem("nonFormatedPickupDate");
-    const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+    // const location = localStorage.getItem("pickupLocation");
+
+    // const pickupDate = localStorage.getItem("nonFormatedPickupDate");
+    // const dropDate = localStorage.getItem("nonFormatedDropoffDate");
+
+    const location = pickupLocationRedux;
+    const pickupDate = nonFormatedPickupDate;
+    const dropDate = nonFormatedDropoffDate;
 
     console.log("Location:", location);
     console.log("Pickup Date:", pickupDate);
@@ -394,15 +532,23 @@ const CarDetails = () => {
   console.log(dropoffLocation, "dropoffLocation");
 
   React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const storedPickupTime = localStorage.getItem("pickupTime");
-    const storedDropoffTime = localStorage.getItem("dropoffTime");
-    const selectedPackagePrice: any = localStorage.getItem(
-      "selectedPackagePrice"
-    );
-    const dropLoc = localStorage.getItem("dropOffLocation");
-    const freekms = localStorage.getItem("selectedPackageFreeKms");
+    // const getPickup = localStorage.getItem("pickupDate");
+    // const getDropoff = localStorage.getItem("dropOffDate");
+    // const storedPickupTime = localStorage.getItem("pickupTime");
+    // const storedDropoffTime = localStorage.getItem("dropoffTime");
+    // const selectedPackagePrice: any = localStorage.getItem(
+    //   "selectedPackagePrice"
+    // );
+    // const dropLoc = localStorage.getItem("dropOffLocation");
+    // const freekms = localStorage.getItem("selectedPackageFreeKms");
+
+    const getPickup = pickupDateRedux;
+    const getDropoff = dropOffDateRedux;
+    const storedPickupTime = pickupTimeRedux;
+    const storedDropoffTime = dropoffTimeRedux;
+    const selectedPackagePrice = selectedPackagePriceRedux;
+    const dropLoc = dropOffLocationRedux;
+    const freekms = selectedPackageFreeKmsRedux;
 
     setPackagePrice(selectedPackagePrice);
     setSelectedPackageAmount(selectedPackagePrice);
@@ -416,16 +562,25 @@ const CarDetails = () => {
   }, [slug]);
 
   React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const storedPickupTime = localStorage.getItem("pickupTime");
-    const storedDropoffTime = localStorage.getItem("dropoffTime");
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
-    const bookingOptions = localStorage.getItem("tabValue");
-    const freeKmss = localStorage.getItem("selectedPackageFreeKms");
+    // const getPickup = localStorage.getItem("pickupDate");
+    // const getDropoff = localStorage.getItem("dropOffDate");
+    // const storedPickupTime = localStorage.getItem("pickupTime");
+    // const storedDropoffTime = localStorage.getItem("dropoffTime");
+    // const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    // const bookingOptions = localStorage.getItem("tabValue");
+    // const freeKmss = localStorage.getItem("selectedPackageFreeKms");
+
+    const getPickup = pickupDateRedux;
+    const getDropoff = dropOffDateRedux;
+    const storedPickupTime = pickupTimeRedux;
+    const storedDropoffTime = dropoffTimeRedux;
+    const selectedPackagePrice = selectedPackagePriceRedux;
+    const dropLoc = dropOffLocationRedux;
+    const freekms = selectedPackageFreeKmsRedux;
+
     setPackagePrice(selectedPackagePrice);
 
-    setFreeKms(freeKmss);
+    setFreeKms(freeKms);
     setPickupDate(getPickup);
     setDropoffDate(getDropoff);
     setDropoffTime(storedDropoffTime);
@@ -438,11 +593,16 @@ const CarDetails = () => {
   const { vehicle, loading, error } = useVehicleById(slug as string);
 
   React.useEffect(() => {
-    const getPickup = localStorage.getItem("pickupDate");
-    const getDropoff = localStorage.getItem("dropOffDate");
-    const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
-    const bookingOption = localStorage.getItem("tabValue");
-    const freekm = localStorage.getItem("selectedPackageFreeKms");
+    // const getPickup = localStorage.getItem("pickupDate");
+    // const getDropoff = localStorage.getItem("dropOffDate");
+    // const selectedPackagePrice = localStorage.getItem("selectedPackagePrice");
+    // const bookingOption = localStorage.getItem("tabValue");
+    // const freekm = localStorage.getItem("selectedPackageFreeKms");
+    const getPickup = pickupDateRedux;
+    const getDropoff = dropOffDateRedux;
+    const selectedPackagePrice = selectedPackagePriceRedux;
+    const bookingOption = tabValueRedux;
+    const freekm = selectedPackageFreeKmsRedux;
     setPackagePrice(selectedPackagePrice);
     setFreeKms(freekm);
     setPickupDate(getPickup);
@@ -507,35 +667,43 @@ const CarDetails = () => {
   const handlePriceChange = (updatedPrice: any, name: any) => {
     setSelectedPackageAmount(updatedPrice);
 
-    localStorage.setItem("selectedPackagePrice", updatedPrice);
+    // localStorage.setItem("selectedPackagePrice", updatedPrice);
+    dispatch(setSelectedPackagePriceRedux(updatedPrice));
     setPackagePrice(updatedPrice);
     console.log(name, "packagename");
     if (name === "Package 1") {
-      setFreeKms(package1FreeKms);
-      localStorage.setItem(
-        "selectedPackageFreeKms",
-        package1FreeKms.toString()
-      );
+      // setFreeKms(package1FreeKms);
+      // localStorage.setItem(
+      //   "selectedPackageFreeKms",
+      //   package1FreeKms.toString()
+      // );
+
+      dispatch(setSelectedPackageFreeKmsRedux(package1FreeKms.toString()));
+
       setRed1(true);
       setRed2(false);
       setRed3(false);
     }
     if (name === "Package 2") {
       setFreeKms(package2FreeKms);
-      localStorage.setItem(
-        "selectedPackageFreeKms",
-        package2FreeKms.toString()
-      );
+      // localStorage.setItem(
+      //   "selectedPackageFreeKms",
+      //   package2FreeKms.toString()
+      // );
+      dispatch(setSelectedPackageFreeKmsRedux(package2FreeKms.toString()));
+
       setRed2(true);
       setRed1(false);
       setRed3(false);
     }
     if (name === "Package 3") {
       setFreeKms(package3FreeKms);
-      localStorage.setItem(
-        "selectedPackageFreeKms",
-        package3FreeKms.toString()
-      );
+      // localStorage.setItem(
+      //   "selectedPackageFreeKms",
+      //   package3FreeKms.toString()
+      // );
+      dispatch(setSelectedPackageFreeKmsRedux(package3FreeKms.toString()));
+
       setRed2(false);
       setRed1(false);
       setRed3(true);
@@ -580,9 +748,13 @@ const CarDetails = () => {
     //   setPayableAmount(paymentExcludedTax > advance_Payment ? paymentExcludedTax : advance_Payment);
     //  }
 
-    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    // localStorage.setItem("bookingData", JSON.stringify(bookingData));
 
-    localStorage.setItem("checkFreeKm", freeKms);
+    dispatch(setBookingDataRedux(JSON.stringify(bookingData)));
+
+    // localStorage.setItem("checkFreeKm", freeKms);
+
+    dispatch(setCheckFreeKmRedux(freeKms));
 
     let paymentAmount;
 
@@ -612,15 +784,25 @@ const CarDetails = () => {
     }
 
     if (paymentAmount) {
-      localStorage.setItem("advancePayment", paymentAmount);
+      // localStorage.setItem("advancePayment", paymentAmount);
+      dispatch(setAdvancePaymentRedux(paymentAmount));
     }
     const val = "false";
 
-    localStorage.setItem("isFullpayment", val);
+    // localStorage.setItem("isFullpayment", val);
+    dispatch(setIsFullpaymentRedux(val));
 
     console.log(payableAmount, "xx");
     router.push("/check-out");
   };
+
+
+  const handleItoolTip = () => {
+      setShowToolTip(true);
+  }
+  const handleItoolTipRelease = () => {
+    setShowToolTip(false);
+}
 
   console.log(payableAmount, "advance payment");
 
@@ -634,34 +816,55 @@ const CarDetails = () => {
     // setData(bookingData);
     const val = "true";
 
-    localStorage.setItem("isFullpayment", val);
-    localStorage.setItem("checkFreeKm", freeKms);
+    // localStorage.setItem("isFullpayment", val);
+    dispatch(setIsFullpaymentRedux(val));
 
-    localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    // localStorage.setItem("checkFreeKm", freeKms);
 
-    localStorage.removeItem("advancePayment");
+    dispatch(setCheckFreeKmRedux(freeKms));
+
+    // localStorage.setItem("bookingData", JSON.stringify(bookingData));
+    dispatch(setBookingDataRedux(JSON.stringify(bookingData)));
+
+    // localStorage.removeItem("advancePayment");
+
+    dispatch(setAdvancePaymentRedux(""));
 
     router.push("/check-out");
   };
 
-  const package1Price =
-    calculateTotalPrice(currentPackage?.package1?.price) || 0;
-  const package2Price =
-    calculateTotalPrice(currentPackage?.package2?.price) || 0;
-  const package3Price =
-    calculateTotalPrice(currentPackage?.package3?.price) || 0;
+  const package1Price = calculateTotalPrice(
+    pickupDateRedux,
+    dropOffDateRedux,
+    pickupTimeRedux,
+    dropoffTimeRedux,
+    currentPackage?.package1?.price
+  );
+  const package2Price = calculateTotalPrice(
+    pickupDateRedux,
+    dropOffDateRedux,
+    pickupTimeRedux,
+    dropoffTimeRedux,
+    currentPackage?.package2?.price
+  );
+  const package3Price = calculateTotalPrice(
+    pickupDateRedux,
+    dropOffDateRedux,
+    pickupTimeRedux,
+    dropoffTimeRedux,
+    currentPackage?.package3?.price
+  );
 
-  const package1Duration =
-    calculateTotalPrice(currentPackage?.package1?.duration) || 0;
-  const package2Duration =
-    calculateTotalPrice(currentPackage?.package2?.duration) || 0;
-  const package3Duration =
-    calculateTotalPrice(currentPackage?.package3?.duration) || 0;
+  // console.log(currentPackage?.package2?.price,"currentPackage")
+
+  const package1Duration = currentPackage?.package1?.duration;
+  const package2Duration = currentPackage?.package2?.duration;
+  const package3Duration = currentPackage?.package3?.duration;
 
   const allPrices = [
-    roundPrice(package1Price),
-    roundPrice(package2Price),
-    roundPrice(package3Price),
+    roundPrice(package1Price || 0 || 0),
+    roundPrice(package2Price || 0 || 0),
+    roundPrice(package3Price || 0),
   ];
   const roundedPrices = allPrices?.map(roundPrice);
 
@@ -687,11 +890,42 @@ const CarDetails = () => {
     "totalIncludedGSTAmount"
   );
 
+  // alert(vehicleIdCoupon)
+
+  console.log(promo, "promo");
+
   return (
     <>
       <div className="py-6">
         <div className="z-[99999]">
           <ToastContainer />
+        </div>
+
+        <div>
+          {showCoupon && (
+            <ApplyCoupon
+              promoCodes={promoCodes}
+              setHide={setShowCoupon}
+              appliedCode={setAppliedCode}
+              // discountType={setDiscountType}
+              discountApplyAmount={setDiscountApplied}
+              paymentMode={paymentMode}
+              totalAmount={
+                currentPackage?.gst === "Included"
+                  ? roundPrice(totalIncludedGSTAmount)
+                  : totalExcludedGSTAmount
+              }
+              vehicleId={vehicleIdCoupon}
+              fromDate={fromDate}
+              toDate={toDate}
+              userIdPromo={userIdPromo}
+              onClick={() => {
+                setShowCoupon(false);
+                document.body.style.overflow = "auto";
+              }}
+              setSelectedPromoCode={setSelectedPromoCode}
+            />
+          )}
         </div>
 
         <div className="sm:flex hidden px-16 text-[#5F5D5D]">
@@ -780,8 +1014,9 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 1";
-                          const selectedValue =
-                            roundPrice(package1Price).toString();
+                          const selectedValue = roundPrice(
+                            package1Price || 0
+                          ).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -792,10 +1027,10 @@ const CarDetails = () => {
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
                             setSelectedPackageAmount(
-                              roundPrice(package1Price).toString()
+                              roundPrice(package1Price || 0).toString()
                             );
                             handlePriceChange(
-                              roundPrice(package1Price).toString(),
+                              roundPrice(package1Price || 0).toString(),
                               packageName
                             );
                             return;
@@ -813,8 +1048,9 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 2";
-                          const selectedValue =
-                            roundPrice(package2Price).toString();
+                          const selectedValue = roundPrice(
+                            package2Price || 0
+                          ).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -825,10 +1061,10 @@ const CarDetails = () => {
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
                             setSelectedPackageAmount(
-                              roundPrice(package1Price).toString()
+                              roundPrice(package1Price || 0).toString()
                             );
                             handlePriceChange(
-                              roundPrice(package1Price).toString(),
+                              roundPrice(package1Price || 0).toString(),
                               "Package 1"
                             );
                             return;
@@ -846,8 +1082,9 @@ const CarDetails = () => {
                       <button
                         onClick={() => {
                           let packageName = "Package 3";
-                          const selectedValue =
-                            roundPrice(package3Price).toString();
+                          const selectedValue = roundPrice(
+                            package3Price || 0
+                          ).toString();
 
                           if (
                             bookingOptions == "Self-Driving" &&
@@ -858,10 +1095,10 @@ const CarDetails = () => {
                               "To select the unlimited package, the minimum booking duration must be at least 2 days."
                             );
                             setSelectedPackageAmount(
-                              roundPrice(package1Price).toString()
+                              roundPrice(package1Price || 0).toString()
                             );
                             handlePriceChange(
-                              roundPrice(package1Price).toString(),
+                              roundPrice(package1Price || 0).toString(),
                               "Package 1"
                             );
                             return;
@@ -892,15 +1129,20 @@ const CarDetails = () => {
                       onChange={(event) => {
                         const selectedValue = event.target.value;
                         let packageName = "";
+                        {
+                          setSelectedPromoCode(null);
+                          setShowCoupon(null);
+                          document.body.style.overflow = "auto";
+                        }
 
                         switch (selectedValue) {
-                          case roundPrice(package1Price).toString():
+                          case roundPrice(package1Price || 0).toString():
                             packageName = "Package 1";
                             break;
-                          case roundPrice(package2Price).toString():
+                          case roundPrice(package2Price || 0).toString():
                             packageName = "Package 2";
                             break;
-                          case roundPrice(package3Price).toString():
+                          case roundPrice(package3Price || 0).toString():
                             packageName = "Package 3";
                             break;
                           default:
@@ -917,10 +1159,10 @@ const CarDetails = () => {
                                 "To select the unlimited package, the minimum booking duration must be at least 2 days."
                               );
                               setSelectedPackageAmount(
-                                roundPrice(package1Price).toString()
+                                roundPrice(package1Price || 0).toString()
                               ); // Revert to Package 1
                               handlePriceChange(
-                                roundPrice(package1Price).toString(),
+                                roundPrice(package1Price || 0).toString(),
                                 "Package 1"
                               );
                               return;
@@ -935,10 +1177,10 @@ const CarDetails = () => {
                                 "To select the unlimited package, the minimum booking duration must be at least 2 days."
                               );
                               setSelectedPackageAmount(
-                                roundPrice(package1Price).toString()
+                                roundPrice(package1Price || 0).toString()
                               ); // Revert to Package 1
                               handlePriceChange(
-                                roundPrice(package1Price).toString(),
+                                roundPrice(package1Price || 0).toString(),
                                 "Package 1"
                               );
                               return;
@@ -953,10 +1195,10 @@ const CarDetails = () => {
                                 "To select the unlimited package, the minimum booking duration must be at least 2 days."
                               );
                               setSelectedPackageAmount(
-                                roundPrice(package1Price).toString()
+                                roundPrice(package1Price || 0).toString()
                               ); // Revert to Package 1
                               handlePriceChange(
-                                roundPrice(package1Price).toString(),
+                                roundPrice(package1Price || 0).toString(),
                                 "Package 1"
                               );
                               return;
@@ -968,18 +1210,19 @@ const CarDetails = () => {
                         handlePriceChange(selectedValue, packageName);
                       }}
                     >
-                      <option value={roundPrice(package1Price)}>
-                        ₹{roundPrice(package1Price)}
+                      <option value={roundPrice(package1Price || 0)}>
+                        ₹{roundPrice(package1Price || 0)}
                       </option>
-                      <option value={roundPrice(package2Price)}>
-                        ₹{roundPrice(package2Price)}
+                      <option value={roundPrice(package2Price || 0)}>
+                        ₹{roundPrice(package2Price || 0)}
                       </option>
-                      <option value={roundPrice(package3Price)}>
-                        ₹{roundPrice(package3Price)}
+                      <option value={roundPrice(package3Price || 0)}>
+                        ₹{roundPrice(package3Price || 0)}
                       </option>
                     </select>
                   </div>
                 )}
+                {/* {console.log(package1Price,'surajprice')} */}
 
                 <div className="grid grid-cols-1 gap-4 mt-0 font-semibold text-[14px] sm:text-[18px]">
                   <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
@@ -1059,7 +1302,11 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
                       <span>TOTAL</span>
                       <span className="text-[#ff0000]">
-                        ₹ {roundPrice(totalExcludedGSTAmount)}
+                        ₹{" "}
+                        {roundPrice(
+                          totalExcludedGSTAmount +
+                            Number(selectedPromoCode?.discountApplied || 0)
+                        )}
                       </span>
                     </div>
                   )}
@@ -1068,7 +1315,11 @@ const CarDetails = () => {
                     <div className="grid grid-cols-2 w-full gap-14 py-2 justify-between shadow-custom-inner font-bold text-xl">
                       <span>TOTAL</span>
                       <span className="text-[#ff0000]">
-                        ₹ {roundPrice(totalIncludedGSTAmount)}
+                        ₹{" "}
+                        {roundPrice(
+                          totalIncludedGSTAmount +
+                            Number(selectedPromoCode?.discountApplied || 0)
+                        )}
                       </span>
                     </div>
                   )}
@@ -1095,10 +1346,102 @@ const CarDetails = () => {
                   </div>
                 </div>
 
+                {/* <div className="max-w-sm p-4 border-2 border-[#F1301E] mb-6 rounded-lg shadow-md text-center">
+                  <p className="text-sm font-semibold mb-2 text-[#F1301E]">
+                    Use coupon codes in the checkout page to get huge discounts
+                    after mobile number verification.
+                  </p>
+
+                  <div className="bg-gradient-to-r from-[#000] to-[#000000] text-white py-4 px-2 rounded-lg flex items-center justify-center space-x-4">
+                    <div className="w-20 h-20 flex items-center rounded-full overflow-hidden">
+                      <Image
+                        src={"/png/dispcount.png"}
+                        alt="discount"
+                        width={120}
+                        height={120}
+                      />
+                    </div>
+                    <p className="font-semibold">
+                      If you do not have a coupon code you can call us directly
+                      to get your best available offer.
+                    </p>
+                  </div>
+
+
+                  <a
+                    href="tel:18001216162"
+                    className="font-semibold text-[#F1301E]"
+                  >
+                    <div className="mt-4 flex items-center justify-center space-x-2 text-red-700">
+                      <Image
+                        src={"/svg/phone-red.svg"}
+                        alt="phone"
+                        width={15}
+                        height={15}
+                      />
+                      <p className="font-semibold  text-[#F1301E]">
+                        24*7 Customer Support (Toll Free)
+                      </p>
+                    </div>
+                  </a>
+                </div> */}
+
+                <div className="mb-4 flex flex-row justify-start gap-1 items-center py-2 text-xs w-full">
+                  <Image
+                    src={"/tag.png"}
+                    alt="discount"
+                    width={50}
+                    height={50}
+                    className="bg-transparent sm:w-[50px] sm:h-[50px] w-[40px] h-[40px]"
+                  />
+                  {selectedPromoCode ? (
+                    <div className="flex flex-row  justify-between w-full mb-5">
+                      <span className="font-semibold text-sm flex flex-col ">
+                        <span className="mt-6">{selectedPromoCode.code}</span>
+                        <span className="text-[#39DA2B]">Success</span>
+                      </span>
+                      <span
+                        // onClick={() => setShowCoupon(!showCoupon)}
+                        className="text-[#ff0000]  cursor-pointer ml-2 mt-6 flex flex-col font-semibold text-sm"
+                      >
+                        <span className="text-[#000]">
+                          ₹{selectedPromoCode.discountApplied}
+                        </span>
+                        <span
+                          className="text-[#C21515]"
+                          onClick={() =>
+                            // e.stopPropagation();
+                            {
+                              setSelectedPromoCode(null);
+                              setShowCoupon(null);
+                              dispatch(setSelectedPromoCodeRedux(null));
+                              document.body.style.overflow = "auto";
+                            }
+                          }
+                        >
+                          Remove promocode
+                        </span>
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-row justify-start items-center w-full sm:mb-1 mb-1 mr-10">
+                      <span className="font-semibold text-xs sm:text-sm whitespace-nowrap -ml-2">
+                        Have a coupon?
+                      </span>
+                      <span
+                        onClick={() => setShowCoupon(!showCoupon)}
+                        className="text-[#ff0000] text-xs sm:text-sm font-semibold cursor-pointer ml-1 sm:ml-2 whitespace-nowrap"
+                      >
+                        Click here to enter your code
+                      </span>
+                    </div>
+                  )}
+                </div>
+
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" && radioToggle === "Local")) && (
-                  <div className="my-6 h-[79px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] py-5 rounded-3xl">
+                  <div className="my-6 h-[70px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] !py-0  rounded-3xl -mt-5">
                     {currentPackage?.gst === "Excluded" && (
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">Total Amount</span>
@@ -1124,51 +1467,8 @@ const CarDetails = () => {
                   </div>
                 )}
 
-                <div className="max-w-sm p-4 border-2 border-[#F1301E] mb-6 rounded-lg shadow-md text-center">
-                  {/* Availability Section */}
-                  <p className="text-sm font-semibold mb-2 text-[#F1301E]">
-                    Use coupon codes in the checkout page to get huge discounts
-                    after mobile number verification.
-                  </p>
-
-                  {/* Main Content */}
-                  <div className="bg-gradient-to-r from-[#000] to-[#000000] text-white py-4 px-2 rounded-lg flex items-center justify-center space-x-4">
-                    <div className="w-20 h-20 flex items-center rounded-full overflow-hidden">
-                      <Image
-                        src={"/png/dispcount.png"}
-                        alt="discount"
-                        width={120}
-                        height={120}
-                      />
-                    </div>
-                    <p className="font-semibold">
-                      If you do not have a coupon code you can call us directly
-                      to get your best available offer.
-                    </p>
-                  </div>
-
-                  {/* Call to Action */}
-
-                  <a
-                    href="tel:18001216162"
-                    className="font-semibold text-[#F1301E]"
-                  >
-                    <div className="mt-4 flex items-center justify-center space-x-2 text-red-700">
-                      <Image
-                        src={"/svg/phone-red.svg"}
-                        alt="phone"
-                        width={15}
-                        height={15}
-                      />
-                      <p className="font-semibold  text-[#F1301E]">
-                        24*7 Customer Support (Toll Free)
-                      </p>
-                    </div>
-                  </a>
-                </div>
-
                 <div
-                  className={`flex flex-row items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
+                  className={`flex flex-row relative items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
                     tabValue === "Driver" &&
                     radioToggle === "Out-station" &&
                     "mt-4"
@@ -1242,10 +1542,21 @@ const CarDetails = () => {
                   </div>
                   <button
                     onClick={handleProceed}
-                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[120.31px] h-[42.08px] rounded-full drop-shadow-lg"
+                    className="bg-gradient-to-r from-[#F1301E] to-[#FA4F2F] text-md font-semibold text-white w-[118.31px] h-[40.08px] rounded-full drop-shadow-lg mr-1"
                   >
                     Proceed
                   </button>
+                  <span onMouseLeave={() => handleItoolTipRelease()} onMouseOver={() => handleItoolTip()} className="text-[black] border-[1.2px] text-[10px] w-[20px] h-[20px] flex flex-row items-center justify-center text-center rounded-full border-[#000]">
+                    i
+                  </span>
+
+                  {
+                    showToolTip && 
+                    <div className="absolute -top-10 right-0 bg-[#00000082] text-white rounded-md p-1 text-xs w-[160px] h-[50px]">
+                     This represents 30% of the overall total amount.
+                    </div>
+                  }
+
                 </div>
                 <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px] w-full mt-6">
                   <span>Notes</span>

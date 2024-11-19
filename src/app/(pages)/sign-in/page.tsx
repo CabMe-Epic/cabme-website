@@ -11,9 +11,12 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import BookingSummery from "@/app/components/booking-summery";
+import { useDispatch } from "react-redux";
+import {setUserIdRedux,setTokenRedux} from '../../../../redux/slices/locationSlice';
 
 const SignIn = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [showSignIn, setShowSignIn] = React.useState(true);
   const [otpSent, setOtpSent] = React.useState(false);
   const [otp, setOtp] = React.useState("");
@@ -101,8 +104,10 @@ const SignIn = () => {
 
       if (response.status === 200) {
         const token = result.result.token;
-        localStorage.setItem("userId", result?.result?.user?.id);
-        localStorage.setItem("token", token);
+        // localStorage.setItem("userId", result?.result?.user?.id);
+        dispatch(setUserIdRedux(result?.result?.user?.id))
+        // localStorage.setItem("token", token);
+        dispatch(setTokenRedux(token))
         console.log({ token });
         setVerificationResult(result);
         toast.success("OTP verification successful. You are now logged in.");
