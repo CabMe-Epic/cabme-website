@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 import BookingSummery from '@/app/components/booking-summery';
+import { useSelector } from 'react-redux';
 
 
 const PersonalDetails = (props: any) => {
@@ -60,10 +61,12 @@ const PersonalDetails = (props: any) => {
             console.error('Error fetching OTP:', error);
         }
     };
+    const userIdd = useSelector((state) => state.location.userId)
     const [userId, setUserId] = useState<string | null>(null);
+
     React.useEffect(() => {
         if (typeof window !== 'undefined') {
-            const storedUserId = localStorage.getItem('userId');
+            const storedUserId = userIdd;
             setUserId(storedUserId);
         }
     }, []);

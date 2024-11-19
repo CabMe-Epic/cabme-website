@@ -16,6 +16,7 @@ import BlinkerLoader from "./components/blinker-loader/blinkerLoader";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import store from "../../redux/store";
 
+
 // import { increment, decrement } from "../../redux/slices/yourSlice";
 import { increment, decrement } from "../../redux/slices/yourSlice";
 
@@ -55,9 +56,8 @@ export default function Home() {
   const dispatch = useDispatch();
 
   return (
- 
+    <Provider store={store}>
       <div>
-
         {loader ? (
           <div>
             <BlinkerLoader />
@@ -68,7 +68,6 @@ export default function Home() {
               className="z-[-9] relative sm:py-0 sm:mx-0 sm:mt-4 mt-2 mx-2 rounded-xl overflow-hidden max-w-[1400px]"
               ref={topFleetForm}
             >
-             
               <BannerSlider banner={cms?.heroBanner} />
             </div>
 
@@ -454,6 +453,7 @@ export default function Home() {
           </>
         )}
       </div>
+    </Provider>
   );
 }
 

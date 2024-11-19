@@ -204,7 +204,7 @@ const ModifySearch: React.FC = () => {
 
       if (pickupDateRedux && pickupTimeRedux) {
         const startDateTime = new Date(`${pickupDateRedux}T${pickupTimeRedux}`);
-        setStartDate(pickupDateRedux);
+        setStartDate(startDateTime);
         setStartTime(moment(startDateTime).format("HH:mm"));
       }
 
