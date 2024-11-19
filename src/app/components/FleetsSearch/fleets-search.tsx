@@ -109,6 +109,8 @@ export default function Home() {
     const pickupDateTime = new Date(`${pickupDate}T${pickupTime}`);
     const dropoffDateTime = new Date(`${dropOffDate}T${dropoffTime}`);
 
+    console.log(pickupDateTime,dropoffDateTime,"pickupDateTime")
+
     if (isNaN(pickupDateTime.getTime())) {
       alert(
         "Invalid date or time. Please enter valid Pickup and Drop-off dates and times."
