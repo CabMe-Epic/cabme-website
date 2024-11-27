@@ -796,13 +796,12 @@ const CarDetails = () => {
     router.push("/check-out");
   };
 
-
   const handleItoolTip = () => {
-      setShowToolTip(true);
-  }
+    setShowToolTip(true);
+  };
   const handleItoolTipRelease = () => {
     setShowToolTip(false);
-}
+  };
 
   console.log(payableAmount, "advance payment");
 
@@ -1237,6 +1236,11 @@ const CarDetails = () => {
                     </div>
                   )}
 
+                  <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
+                    <span>GST ({currentPackage?.package1?.gstRate}%)</span>
+                    <span>₹{roundPrice(Number(result?.gstAmount))}</span>
+                  </div>
+
                   {selectedTabValue !== "Driver" &&
                     selectedTabValue !== "Subscription" && (
                       <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
@@ -1272,11 +1276,6 @@ const CarDetails = () => {
                         )}
                       </div>
                     )}
-
-                  <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
-                    <span>GST ({currentPackage?.package1?.gstRate}%)</span>
-                    <span>₹{roundPrice(Number(result?.gstAmount))}</span>
-                  </div>
 
                   {tabValue !== "Driver" && (
                     <div className="grid grid-cols-2 gap-14 justify-between text-[14px] sm:text-[16px]">
@@ -1386,62 +1385,78 @@ const CarDetails = () => {
                   </a>
                 </div> */}
 
-                <div className="mb-4 flex flex-row justify-start gap-1 items-center py-2 text-xs w-full">
+                <div
+                  className="mb-4 flex flex-row justify-start gap-1 items-center py-0 text-xs w-full bg-black my-2
+                bg-gradient-to-r from-[#ff5733] to-[#ffbd33] rounded-xl shadow-md"
+                >
                   <Image
-                    src={"/tag.png"}
+                    src={"/coupon3.png"}
                     alt="discount"
-                    width={50}
-                    height={50}
-                    className="bg-transparent sm:w-[50px] sm:h-[50px] w-[40px] h-[40px]"
+                    width={40}
+                    height={40}
+                    className="bg-transparent sm:w-[40px] sm:h-[40px] w-[30px] h-[30px] ml-4"
                   />
-                  {selectedPromoCode ? (
-                    <div className="flex flex-row  justify-between w-full mb-5">
-                      <span className="font-semibold text-sm flex flex-col ">
-                        <span className="mt-6">{selectedPromoCode.code}</span>
-                        <span className="text-[#39DA2B]">Success</span>
-                      </span>
-                      <span
-                        // onClick={() => setShowCoupon(!showCoupon)}
-                        className="text-[#ff0000]  cursor-pointer ml-2 mt-6 flex flex-col font-semibold text-sm"
-                      >
-                        <span className="text-[#000]">
-                          ₹{selectedPromoCode.discountApplied}
-                        </span>
-                        <span
-                          className="text-[#C21515]"
-                          onClick={() =>
-                            // e.stopPropagation();
-                            {
-                              setSelectedPromoCode(null);
-                              setShowCoupon(null);
-                              dispatch(setSelectedPromoCodeRedux(null));
-                              document.body.style.overflow = "auto";
-                            }
-                          }
-                        >
-                          Remove promocode
-                        </span>
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="flex flex-row justify-start items-center w-full sm:mb-1 mb-1 mr-10">
-                      <span className="font-semibold text-xs sm:text-sm whitespace-nowrap -ml-2">
-                        Have a coupon?
-                      </span>
-                      <span
-                        onClick={() => setShowCoupon(!showCoupon)}
-                        className="text-[#ff0000] text-xs sm:text-sm font-semibold cursor-pointer ml-1 sm:ml-2 whitespace-nowrap"
-                      >
-                        Click here to enter your code
-                      </span>
-                    </div>
-                  )}
+                  <div className="flex flex-row justify-between items-center w-full sm:mb-1 mb-1 mr-10 py-2">
+                    <span
+                      onClick={() => setShowCoupon(!showCoupon)}
+                      className="font-semibold text-sm sm:text-xl whitespace-nowrap ml-2 text-white pt-1 cursor-pointer"
+                    >
+                      {selectedPromoCode?.code
+                        ? `${selectedPromoCode?.code}`
+                        : "Promo Code"}
+                    </span>
+                    <span className="text-white text-sm sm:text-xl font-semibold cursor-pointer ml-1 mt-1 sm:ml-2 whitespace-nowrap">
+                      {selectedPromoCode?.discountApplied && <div> ₹{selectedPromoCode?.discountApplied}</div>
+                       }
+                    </span>
+                  </div>
                 </div>
+                {selectedPromoCode?.discountApplied && (
+                  <div className="flex flex-row  justify-between w-full mb-2">
+                    <span className="font-semibold text-sm flex flex-col ">
+                      <span className="text-[#39DA2B]">Success</span>
+                    </span>
+                    <span
+                      // onClick={() => setShowCoupon(!showCoupon)}
+                      className="text-[#ff0000]  cursor-pointer ml-2 mt-0 flex flex-col font-semibold text-sm"
+                    >
+                      <span
+                        className="text-[#C21515] "
+                        onClick={() =>
+                          // e.stopPropagation();
+                          {
+                            setSelectedPromoCode(null);
+                            setShowCoupon(null);
+                            dispatch(setSelectedPromoCodeRedux(null));
+                            document.body.style.overflow = "auto";
+                          }
+                        }
+                      >
+                        Remove promocode
+                      </span>
+                    </span>
+                  </div>
+                )}
+
+                {/* <div className="flex flex-row  justify-between w-full mb-5">
+                  <span className="font-semibold text-sm flex flex-col ">
+                    <span className="mt-6">{selectedPromoCode.code}</span>
+                  </span>
+                  <span
+                    // onClick={() => setShowCoupon(!showCoupon)}
+                    className="text-[#ff0000]  cursor-pointer ml-2 mt-6 flex flex-col font-semibold text-sm"
+                  >
+                    <span className="text-[#000]">
+                      ₹{selectedPromoCode.discountApplied}
+                    </span>
+                 
+                  </span>
+                </div> */}
 
                 {(tabValue === "Self-Driving" ||
                   tabValue === "Subscription" ||
                   (tabValue === "Driver" && radioToggle === "Local")) && (
-                  <div className="my-6 h-[70px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] !py-0  rounded-3xl -mt-5">
+                  <div className="my-6 h-[70px] gap-6 drop-shadow-lg bg-[#FAFAFA] flex flex-row items-center justify-between px-4 w-full max-w-[420px] !py-0  rounded-xl mt-2">
                     {currentPackage?.gst === "Excluded" && (
                       <div className="flex flex-col">
                         <span className="text-sm md:text-md">Total Amount</span>
@@ -1468,7 +1483,7 @@ const CarDetails = () => {
                 )}
 
                 <div
-                  className={`flex flex-row relative items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-3xl border-[#ff0000] cursor-pointer ${
+                  className={`flex flex-row relative items-center justify-between border-[1.5px] px-4 w-full max-w-[423px] py-2 rounded-xl border-[#ff0000] cursor-pointer ${
                     tabValue === "Driver" &&
                     radioToggle === "Out-station" &&
                     "mt-4"
@@ -1546,17 +1561,19 @@ const CarDetails = () => {
                   >
                     Proceed
                   </button>
-                  <span onMouseLeave={() => handleItoolTipRelease()} onMouseOver={() => handleItoolTip()} className="text-[black] border-[1.2px] text-[10px] w-[20px] h-[20px] flex flex-row items-center justify-center text-center rounded-full border-[#000]">
+                  <span
+                    onMouseLeave={() => handleItoolTipRelease()}
+                    onMouseOver={() => handleItoolTip()}
+                    className="text-[black] border-[1.2px] text-[10px] w-[20px] h-[20px] flex flex-row items-center justify-center text-center rounded-full border-[#000]"
+                  >
                     i
                   </span>
 
-                  {
-                    showToolTip && 
+                  {showToolTip && (
                     <div className="absolute -top-10 right-0 bg-[#00000082] text-white rounded-md p-1 text-xs w-[160px] h-[50px]">
-                     This represents 30% of the overall total amount.
+                      This represents 30% of the overall total amount.
                     </div>
-                  }
-
+                  )}
                 </div>
                 <div className="flex flex-col gap-2 justify-between text-[14px] sm:text-[16px] w-full mt-6">
                   <span>Notes</span>

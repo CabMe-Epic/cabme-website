@@ -97,17 +97,53 @@ const ApplyCoupon: React.FC<CouponProp> = ({
     setHide,
   ]);
 
-  const handleCopy = (couponCode: string) => {
+  const handleCopy = async (couponCode: string) => {
     setCode(couponCode);
+   
+    if (couponCode) {
+      
+        try {
+          const res = await axios.post(
+            `${process.env.NEXT_PUBLIC_URI_BASE}/cabme/apply-promocode`,
+            {
+              couponCode: couponCode,
+              totalAmount,
+              vehicleId,
+              paymentmode: paymentMode || "fullPayment",
+              toDate,
+              fromDate,
+            },
+            { headers: { "Content-Type": "application/json" } }
+          );
+    
+          const discountAmount = res.data.promocode.discountApplied;
+          setGotAmount(discountAmount);
+          discountApplyAmount(discountAmount);
+          appliedCode(res.data.promocode.code);
+    
+          setSelectedPromoCode?.(res.data.promocode);
+          dispatch(setSelectedPromoCodeRedux(res.data.promocode));
+    
+          alert("Coupon applied successfully!");
+          setCode("");
+          setHide?.();
+          document.body.style.overflow = "auto";
+        } catch (error: any) {
+          const errorMessage =
+            error?.response?.data?.message || "Failed to apply coupon";
+          setErrMsg(errorMessage);
+          setCode("");
+          console.error("Error applying coupon:", errorMessage);
+        }
+      }
+    
   };
-  
 
   // useEffect(() => {
   //   if (code) {
   //     handleApply();
   //   }
   // }, [code]);
-  
 
   useEffect(() => {
     const fetchCMSData = async () => {
@@ -125,9 +161,11 @@ const ApplyCoupon: React.FC<CouponProp> = ({
 
   return (
     <div className="fixed w-screen h-screen top-0 backdrop-brightness-50 left-0 flex items-center justify-center z-[9] ">
-      <div className="bg-white border rounded-xl min-w-fit overflow-hidden  sm:w-[750px] sm:min-h-[500px] md:max-w-[800px] md:w-[750px] relative m-auto">
+      <div className="bg-white border rounded-xl  w-[90%] overflow-hidden  sm:w-[750px] sm:min-h-[500px] md:max-w-[800px] !md:w-[750px] relative m-auto">
         <div className="p-0">
-          <h3 className="text-lg mb-2 font-[600] tracking-wide pl-4 pt-4">Coupons</h3>
+          <h3 className="text-lg mb-2 font-[600] tracking-wide pl-4 pt-4">
+            Coupons
+          </h3>
           <h5 className="text-[#7B7B7B] text-[16px] mb-3 pl-4 ">
             Have a Coupon Code?
           </h5>
@@ -146,10 +184,9 @@ const ApplyCoupon: React.FC<CouponProp> = ({
                 className="text-xs tracking-wide !p-3 !px-8 !font-bold"
               />
             </div>
-           
           </div>
           <div className="!w-[350px] m-auto sm:ml-8">
-          {errMsg && (
+            {errMsg && (
               <span className="text-red-500 text-xs ml-2  m-auto ">
                 {errMsg} Contact support at{" "}
                 <a className="underline" href="tel:1800 121 6162">
@@ -158,7 +195,7 @@ const ApplyCoupon: React.FC<CouponProp> = ({
               </span>
             )}
           </div>
-        
+
           <div className="max-w-[900px] w-fit h-[450px] p-5 py-0 m-auto overflow-auto">
             {offer === "Daily Offers" && (
               <OfferCardsDetails

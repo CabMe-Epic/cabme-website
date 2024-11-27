@@ -28,16 +28,26 @@ const OfferCardsDetails = ({
   const [isTab, setIsTab] = useState(false);
   const [promoCodesWeb, setPromoCodesWeb] = useState<any>([]);
   const [bookingDays, setBookingDays] = useState<{
-    [key: string]: number | any| null;
+    [key: string]: number | any | null;
   }>({});
   const [days, setDays] = useState<any>(0);
 
-  const pickupDateRedux = useSelector((state: any) => state.location.pickupDate);
-  const dropOffDateRedux = useSelector((state: any) => state.location.dropOffDate);
-  const pickupTimeRedux = useSelector((state: any) => state.location.pickupTime);
-  const dropoffTimeRedux = useSelector((state: any) => state.location.dropoffTime);
+  const pickupDateRedux = useSelector(
+    (state: any) => state.location.pickupDate
+  );
+  const dropOffDateRedux = useSelector(
+    (state: any) => state.location.dropOffDate
+  );
+  const pickupTimeRedux = useSelector(
+    (state: any) => state.location.pickupTime
+  );
+  const dropoffTimeRedux = useSelector(
+    (state: any) => state.location.dropoffTime
+  );
   const tabValueRedux = useSelector((state: any) => state.location.tabValue);
-  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
+  const radioToggleRedux = useSelector(
+    (state: any) => state.location.radioToggle
+  );
 
   useEffect(() => {
     setPickupDate(pickupDateRedux);
@@ -127,15 +137,18 @@ const OfferCardsDetails = ({
         ${isDetails && "!w-full"} z-0`}
       >
         {Array.isArray(banners) &&
-          (banners.length > 0 ? banners : (banners))
+          (banners.length > 0 ? banners : banners)
             .filter((item: any) => item.daily === true)
             .map((item: any, index: number) => {
               return (
                 <div key={index}>
                   <div
-                    className={`sm:w-[320px] w-[355px] sm:h-[150px] h-[170px] m-auto grid grid-cols-2 justify-between gap-0 border rounded-md p-0 bg-[#fff] transition-all cursor-pointer hover:shadow-[0_20px_50px_rgba(128,_128,_128,_0.7)] ${
+                    className={`sm:w-[320px] w-[305px] sm:h-[150px] h-[170px] m-auto grid grid-cols-2 justify-between gap-0 border rounded-md p-0 bg-[#fff] transition-all cursor-pointer hover:shadow-[0_20px_50px_rgba(128,_128,_128,_0.7)] ${
                       isDetails ? "!w-[320px] !gap-2" : ""
-                    } ${index === 3 ? "" : ""}   ${(bookingDays[item.couponCode] > days) && "brightness-50 hover:shadow-none"} `}
+                    } ${index === 3 ? "" : ""}   ${
+                      bookingDays[item.couponCode] > days &&
+                      "brightness-50 hover:shadow-none"
+                    } `}
                   >
                     <div className="flex flex-col h-full justify-between bg-white rounded-md">
                       <div className="sm:px-2 sm:py-0 px-2 py-[7px] pt-0">
@@ -167,8 +180,8 @@ const OfferCardsDetails = ({
                       />
                     </div>
                   </div>
-             
-                  {(bookingDays[item.couponCode] > days) && (
+
+                  {bookingDays[item.couponCode] > days && (
                     <span className="text-[#ff0000] text-sm font-[600] z-[99] whitespace-nowrap mt-2">
                       Book for {bookingDays[item.couponCode]} days to avail this
                       offer
