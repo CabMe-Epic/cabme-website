@@ -2439,7 +2439,7 @@ const Checkout = () => {
               Continue
             </button>
           </div>
-          {/* <div className="max-w-[1250px] w-full m-auto sm:mt-10 hidden sm:block z-0">
+          <div className="max-w-[1250px] w-full m-auto sm:mt-10 sm:block z-0 !hidden">
          
             <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-0 sm:mb-0 mt-6  mb-0">
               <div
@@ -2479,9 +2479,9 @@ const Checkout = () => {
                 />
               </div>
             )}
-          </div> */}
+          </div>
         </div>
-        {/* <div className="max-w-[450px] w-full mx-auto">
+        <div className="max-w-[450px] w-full mx-auto !hidden">
           <BookingSummery
             location={toCity}
             roundPrice={roundPrice}
@@ -2502,8 +2502,8 @@ const Checkout = () => {
             fromDate={bookingData.pickUpDateTime}
             toDate={bookingData.dropOffDateTime}
           />
-        </div> */}
-        {/* <div className="max-w-[1250px] w-full m-auto sm:mt-10 block sm:hidden">
+        </div>
+        <div className="max-w-[1250px] w-full m-auto sm:mt-10 !hidden">
           <h2 className="sm:text-4xl text-2xl sm:mt-0 mt-0 font-semibold text-center">
             Trending <span className="text-primary"> offers</span>
           </h2>
@@ -2545,9 +2545,9 @@ const Checkout = () => {
               />
             </div>
           )}
-        </div> */}
+        </div>
       </div>
-      <div className="flex items-center gap-6 justify-center my-10">
+      <div className=" items-center gap-6 justify-center my-10 !hidden">
         <Image
           src="/checkoutFooter/masterCard.svg"
           width={45}
