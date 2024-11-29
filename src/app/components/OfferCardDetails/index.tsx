@@ -141,7 +141,7 @@ const OfferCardsDetails = ({
             .filter((item: any) => item.daily === true)
             .map((item: any, index: number) => {
               return (
-                <div key={index}>
+                <div key={index}  onClick={() => copyToClipboard(item?.couponCode)}>
                   <div
                     className={`sm:w-[320px] w-[305px] sm:h-[150px] h-[170px] m-auto grid grid-cols-2 justify-between gap-0 border rounded-md p-0 bg-[#fff] transition-all cursor-pointer hover:shadow-[0_20px_50px_rgba(128,_128,_128,_0.7)] ${
                       isDetails ? "!w-[320px] !gap-2" : ""
@@ -164,7 +164,7 @@ const OfferCardsDetails = ({
                         <p className="text-[8px]">{item?.description}</p>
                       </div>
                       <div
-                        onClick={() => copyToClipboard(item?.couponCode)}
+                       
                         className="bg-primary-color flex-row gap-2 cursor-pointer text-white h-[30px] sm:mt-1 text-center flex justify-center items-center rounded-bl-md"
                       >
                         {item?.couponCode}

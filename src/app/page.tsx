@@ -16,7 +16,6 @@ import BlinkerLoader from "./components/blinker-loader/blinkerLoader";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import store from "../../redux/store";
 
-
 // import { increment, decrement } from "../../redux/slices/yourSlice";
 import { increment, decrement } from "../../redux/slices/yourSlice";
 
@@ -59,8 +58,10 @@ export default function Home() {
     <Provider store={store}>
       <div>
         {loader ? (
-          <div>
-            <BlinkerLoader />
+          <div className={`min-h-[500vh] m-auto`}>
+            <div className="!z-20">
+              <BlinkerLoader />
+            </div>
           </div>
         ) : (
           <>

@@ -8,7 +8,7 @@
 }
 
 .footerTitle {
-    font-size: 40px; 
+    font-size:30px; 
     font-weight: bold;
     margin-top: 30px; 
     text-align: center; 
@@ -23,11 +23,18 @@
     margin-top: 20px; 
    
 }
+.footerLink{
+    font-size: 13px !important;
+    text-align: 'left';
+}
 
 @media (max-width: 768px) {
     .footerLinks {
         grid-template-columns: 1fr 1fr ; 
         justify-content: center; 
+        align-items: start;
+        gap: 0 !important;
+
     }
 
     .footerTitle {

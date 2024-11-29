@@ -112,30 +112,38 @@ const Checkout = () => {
     city: "",
   });
 
-  const bookingDataRedux = useSelector((state: any) => state.location.bookingData)
-  const advancePaymentRedux = useSelector((state: any) => state.location.advancePayment)
+  const bookingDataRedux = useSelector(
+    (state: any) => state.location.bookingData
+  );
+  const advancePaymentRedux = useSelector(
+    (state: any) => state.location.advancePayment
+  );
 
   React.useEffect(() => {
     // const storedData = localStorage.getItem("bookingData");
-        const storedData = bookingDataRedux;
+    const storedData = bookingDataRedux;
 
     if (storedData) {
-      
       setData(JSON.parse(storedData));
     }
     // const storedParticalAmount = localStorage.getItem("advancePayment");
-        const storedParticalAmount = advancePaymentRedux;
+    const storedParticalAmount = advancePaymentRedux;
 
     if (storedParticalAmount) {
-
       setParticalAmount(Number(storedParticalAmount));
     }
   }, [setData, setParticalAmount]);
 
-  const dropOffLocationRedux = useSelector((state: any) => state.location.dropOffLocation);
+  const dropOffLocationRedux = useSelector(
+    (state: any) => state.location.dropOffLocation
+  );
   const tabValueRedux = useSelector((state: any) => state.location.tabValue);
-  const radioToggleRedux = useSelector((state: any) => state.location.radioToggle);
-  const isFullpaymentRedux = useSelector((state: any) => state.location.isFullpayment)
+  const radioToggleRedux = useSelector(
+    (state: any) => state.location.radioToggle
+  );
+  const isFullpaymentRedux = useSelector(
+    (state: any) => state.location.isFullpayment
+  );
 
   useEffect(() => {
     // const dropCity = localStorage.getItem("dropOffLocation");
@@ -2440,7 +2448,6 @@ const Checkout = () => {
             </button>
           </div>
           <div className="max-w-[1250px] w-full m-auto sm:mt-10 sm:block z-0 !hidden">
-         
             <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-0 sm:mb-0 mt-6  mb-0">
               <div
                 className={`sm:py-4 py-2 sm:px-8 px-4 sm:text-md text-xs ${

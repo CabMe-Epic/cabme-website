@@ -143,7 +143,7 @@ const url = usePathname();
                 {item?.links?.map((value: any, ind: number) => {
                   return (
                     <li
-                      className="text-sm mb-4 flex items-center gap-2 cursor-pointer"
+                      className="text-xs mb-4 flex items-center gap-2 cursor-pointer"
                       key={ind}
                       onClick={(e) => handleClick(value?.link, e)}
                     >

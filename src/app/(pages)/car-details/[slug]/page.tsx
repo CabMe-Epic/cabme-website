@@ -1386,8 +1386,9 @@ const CarDetails = () => {
                 </div> */}
 
                 <div
+                   onClick={() => setShowCoupon(!showCoupon)}
                   className="mb-4 flex flex-row justify-start gap-1 items-center py-0 text-xs w-full bg-black my-2
-                bg-gradient-to-r from-[#ff5733] to-[#ffbd33] rounded-xl shadow-md"
+                bg-gradient-to-r from-[#ff5733] to-[#ffbd33] rounded-xl shadow-md cursor-pointer"
                 >
                   <Image
                     src={"/coupon3.png"}
@@ -1398,7 +1399,7 @@ const CarDetails = () => {
                   />
                   <div className="flex flex-row justify-between items-center w-full sm:mb-1 mb-1 mr-10 py-2">
                     <span
-                      onClick={() => setShowCoupon(!showCoupon)}
+                   
                       className="font-semibold text-sm sm:text-xl whitespace-nowrap ml-2 text-white pt-1 cursor-pointer"
                     >
                       {selectedPromoCode?.code
