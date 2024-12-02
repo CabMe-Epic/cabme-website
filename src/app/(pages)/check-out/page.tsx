@@ -2447,12 +2447,12 @@ const Checkout = () => {
               Continue
             </button>
           </div>
-
+{/* 
           {!isButtonDisabled && (
             <div>
               <Image />
             </div>
-          )}
+          )} */}
 
           <div className="max-w-[1250px] w-full m-auto sm:mt-10 sm:block z-0 !hidden">
             <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-0 sm:mb-0 mt-6  mb-0">
