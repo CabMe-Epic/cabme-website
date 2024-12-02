@@ -2447,6 +2447,13 @@ const Checkout = () => {
               Continue
             </button>
           </div>
+
+          {!isButtonDisabled && (
+            <div>
+              <Image />
+            </div>
+          )}
+
           <div className="max-w-[1250px] w-full m-auto sm:mt-10 sm:block z-0 !hidden">
             <div className="w-fit flex justify-start m-auto text-md font-semibold sm:mt-0 sm:mb-0 mt-6  mb-0">
               <div
@@ -2554,7 +2561,7 @@ const Checkout = () => {
           )}
         </div>
       </div>
-      <div className=" items-center gap-6 justify-center my-10 !hidden">
+      <div className=" flex items-center gap-6 justify-center my-10">
         <Image
           src="/checkoutFooter/masterCard.svg"
           width={45}
@@ -2580,6 +2587,20 @@ const Checkout = () => {
           src="/checkoutFooter/upi.svg"
           width={45}
           height={45}
+          alt="upi"
+          priority
+        />
+        <Image
+          src="/payment/phonepe.png"
+          width={35}
+          height={35}
+          alt="upi"
+          priority
+        />
+        <Image
+          src="/payment/payu.png"
+          width={35}
+          height={35}
           alt="upi"
           priority
         />
