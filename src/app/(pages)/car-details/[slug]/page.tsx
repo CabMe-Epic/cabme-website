@@ -672,12 +672,7 @@ const CarDetails = () => {
     setPackagePrice(updatedPrice);
     console.log(name, "packagename");
     if (name === "Package 1") {
-      // setFreeKms(package1FreeKms);
-      // localStorage.setItem(
-      //   "selectedPackageFreeKms",
-      //   package1FreeKms.toString()
-      // );
-
+      setFreeKms(package1FreeKms);
       dispatch(setSelectedPackageFreeKmsRedux(package1FreeKms.toString()));
 
       setRed1(true);
@@ -686,10 +681,7 @@ const CarDetails = () => {
     }
     if (name === "Package 2") {
       setFreeKms(package2FreeKms);
-      // localStorage.setItem(
-      //   "selectedPackageFreeKms",
-      //   package2FreeKms.toString()
-      // );
+  
       dispatch(setSelectedPackageFreeKmsRedux(package2FreeKms.toString()));
 
       setRed2(true);
